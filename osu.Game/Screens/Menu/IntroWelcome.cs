@@ -11,7 +11,6 @@ using osu.Framework.Audio.Sample;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Game.Audio;
 using osu.Game.Online.API;
@@ -43,10 +42,7 @@ namespace osu.Game.Screens.Menu
         {
             if (MenuVoice.Value)
             {
-                if (api.LocalUser.Value.IsSupporter)
-                    AddInternal(skinnableWelcome = new SkinnableSound(new SampleInfo(@"Intro/Welcome/welcome")));
-                else
-                    welcome = audio.Samples.Get(@"Intro/Welcome/welcome");
+                AddInternal(skinnableWelcome = new SkinnableSound(new SampleInfo(@"Intro/Welcome/welcome")));
             }
 
             pianoReverb = audio.Samples.Get(@"Intro/Welcome/welcome_piano");
@@ -144,10 +140,7 @@ namespace osu.Game.Screens.Menu
                     },
                 };
 
-                if (api.LocalUser.Value.IsSupporter)
-                    scaleContainer.Add(welcomeText = new SkinnableSprite(@"Intro/Welcome/welcome_text"));
-                else
-                    scaleContainer.Add(welcomeText = new Sprite { Texture = textures.Get(@"Intro/Welcome/welcome_text") });
+                scaleContainer.Add(welcomeText = new SkinnableSprite(@"Intro/Welcome/welcome_text"));
 
                 welcomeText.Anchor = Anchor.Centre;
                 welcomeText.Origin = Anchor.Centre;

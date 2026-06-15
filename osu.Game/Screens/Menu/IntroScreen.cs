@@ -116,10 +116,7 @@ namespace osu.Game.Screens.Menu
             MenuVoice = config.GetBindable<bool>(OsuSetting.MenuVoice);
             MenuMusic = config.GetBindable<bool>(OsuSetting.MenuMusic);
 
-            if (api.LocalUser.Value.IsSupporter)
-                AddInternal(skinnableSeeya = new SkinnableSound(new SampleInfo(SeeyaSampleName)));
-            else
-                seeya = audio.Samples.Get(SeeyaSampleName);
+            AddInternal(skinnableSeeya = new SkinnableSound(new SampleInfo(SeeyaSampleName)));
 
             // if the user has requested not to play theme music, we should attempt to find a random beatmap from their collection.
             if (!MenuMusic.Value)

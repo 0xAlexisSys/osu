@@ -27,10 +27,7 @@ namespace osu.Game.Screens.Menu
 
         protected virtual void UpdateColour()
         {
-            if (user.Value?.IsSupporter ?? false)
-                Colour = skin.Value.GetConfig<GlobalSkinColours, Color4>(GlobalSkinColours.MenuGlow)?.Value ?? Color4.White;
-            else
-                Colour = Color4.White;
+            Colour = skin.Value.GetConfig<GlobalSkinColours, Color4>(GlobalSkinColours.MenuGlow)?.Value ?? Color4.White;
         }
     }
 }

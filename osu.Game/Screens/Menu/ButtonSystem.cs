@@ -79,7 +79,6 @@ namespace osu.Game.Screens.Menu
         private readonly MainMenuButton backButton;
 
         private readonly List<MainMenuButton> buttonsTopLevel = new List<MainMenuButton>();
-        private readonly List<MainMenuButton> buttonsPlay = new List<MainMenuButton>();
         private readonly List<MainMenuButton> buttonsEdit = new List<MainMenuButton>();
 
         private Sample? sampleBackToLogo;
@@ -107,20 +106,11 @@ namespace osu.Game.Screens.Menu
                 },
                 backButton = new MainMenuButton(ButtonSystemStrings.Back, @"back-to-top", OsuIcon.PrevCircle, new Color4(51, 58, 94, 255), (_, _) =>
                 {
-                    switch (State)
-                    {
-                        case ButtonSystemState.Multi:
-                            State = ButtonSystemState.Play;
-                            break;
-
-                        default:
-                            State = ButtonSystemState.TopLevel;
-                            break;
-                    }
+                    State = ButtonSystemState.TopLevel;
                 })
                 {
                     Padding = new MarginPadding { Right = WEDGE_WIDTH },
-                    VisibleStateMin = ButtonSystemState.Play,
+                    VisibleStateMin = ButtonSystemState.Edit,
                     VisibleStateMax = ButtonSystemState.Edit,
                 },
                 logoTrackingContainer.LogoFacade.With(d => d.Scale = new Vector2(0.74f))
@@ -141,13 +131,6 @@ namespace osu.Game.Screens.Menu
         [BackgroundDependencyLoader]
         private void load(AudioManager audio, IdleTracker? idleTracker, GameHost host)
         {
-            buttonsPlay.Add(new MainMenuButton(ButtonSystemStrings.Solo, @"button-default-select", OsuIcon.Player, new Color4(102, 68, 204, 255), (_, _) => OnPlay?.Invoke(), Key.P)
-            {
-                Padding = new MarginPadding { Left = WEDGE_WIDTH },
-            });
-            buttonsPlay.Add(new MainMenuButton(ButtonSystemStrings.Multi, @"button-default-select", OsuIcon.Online, new Color4(94, 63, 186, 255), (_, _) => State = ButtonSystemState.Multi, Key.M));
-            buttonsPlay.ForEach(b => b.VisibleState = ButtonSystemState.Play);
-
             buttonsEdit.Add(new MainMenuButton(EditorStrings.BeatmapEditor.ToLower(), @"button-default-select", OsuIcon.Beatmap, new Color4(238, 170, 0, 255), (_, _) => OnEditBeatmap?.Invoke(), Key.B,
                 Key.E)
             {
@@ -168,7 +151,6 @@ namespace osu.Game.Screens.Menu
             if (host.CanExit)
                 buttonsTopLevel.Add(new MainMenuButton(ButtonSystemStrings.Exit, string.Empty, OsuIcon.CrossCircle, new Color4(238, 51, 153, 255), (_, e) => OnExit?.Invoke(e), Key.Q));
 
-            buttonArea.AddRange(buttonsPlay);
             buttonArea.AddRange(buttonsEdit);
             buttonArea.AddRange(buttonsTopLevel);
 
@@ -290,8 +272,6 @@ namespace osu.Game.Screens.Menu
                     return true;
 
                 case ButtonSystemState.Edit:
-                case ButtonSystemState.Play:
-                case ButtonSystemState.Multi:
                     StopSamplePlayback();
                     backButton.TriggerClick();
                     return true;
@@ -303,7 +283,6 @@ namespace osu.Game.Screens.Menu
 
         public void StopSamplePlayback()
         {
-            buttonsPlay.ForEach(button => button.StopSamplePlayback());
             buttonsTopLevel.ForEach(button => button.StopSamplePlayback());
             logo?.StopSamplePlayback();
         }
@@ -321,10 +300,6 @@ namespace osu.Game.Screens.Menu
 
                 case ButtonSystemState.TopLevel:
                     buttonsTopLevel.First().TriggerClick();
-                    return false;
-
-                case ButtonSystemState.Play:
-                    buttonsPlay.First().TriggerClick();
                     return false;
 
                 case ButtonSystemState.Edit:
@@ -396,7 +371,6 @@ namespace osu.Game.Screens.Menu
                     break;
 
                 case ButtonSystemState.TopLevel:
-                case ButtonSystemState.Play:
                     switch (lastState)
                     {
                         case ButtonSystemState.TopLevel: // coming from toplevel to play
@@ -447,8 +421,6 @@ namespace osu.Game.Screens.Menu
         Exit,
         Initial,
         TopLevel,
-        Play,
-        Multi,
         Edit,
         EnteringMode,
     }

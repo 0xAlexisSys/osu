@@ -63,7 +63,6 @@ namespace osu.Game.Screens.Menu
                         break;
 
                     case ButtonSystemState.TopLevel:
-                    case ButtonSystemState.Play:
                         Show();
                         break;
                 }

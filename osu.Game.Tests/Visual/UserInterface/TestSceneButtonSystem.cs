@@ -53,7 +53,7 @@ namespace osu.Game.Tests.Visual.UserInterface
 
             AddStep("Return to menu", () =>
             {
-                buttons.State = ButtonSystemState.Play;
+                buttons.State = ButtonSystemState.TopLevel;
                 buttons.FadeIn(MainMenu.FADE_IN_DURATION, Easing.OutQuint);
                 buttons.MoveTo(new Vector2(0), MainMenu.FADE_IN_DURATION, Easing.OutQuint);
                 logo.FadeColour(Color4.White, 100, Easing.OutQuint);

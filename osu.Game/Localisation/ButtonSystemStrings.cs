@@ -10,21 +10,6 @@ namespace osu.Game.Localisation
         private const string prefix = @"osu.Game.Resources.Localisation.ButtonSystem";
 
         /// <summary>
-        /// "solo"
-        /// </summary>
-        public static LocalisableString Solo => new TranslatableString(getKey(@"solo"), @"solo");
-
-        /// <summary>
-        /// "multi"
-        /// </summary>
-        public static LocalisableString Multi => new TranslatableString(getKey(@"multi"), @"multi");
-
-        /// <summary>
-        /// "playlists"
-        /// </summary>
-        public static LocalisableString Playlists => new TranslatableString(getKey(@"playlists"), @"playlists");
-
-        /// <summary>
         /// "play"
         /// </summary>
         public static LocalisableString Play => new TranslatableString(getKey(@"play"), @"play");
@@ -58,16 +43,6 @@ namespace osu.Game.Localisation
         /// "daily challenge"
         /// </summary>
         public static LocalisableString DailyChallenge => new TranslatableString(getKey(@"daily_challenge"), @"daily challenge");
-
-        /// <summary>
-        /// "lounge"
-        /// </summary>
-        public static LocalisableString Lounge => new TranslatableString(getKey(@"lounge"), @"lounge");
-
-        /// <summary>
-        /// "quick play"
-        /// </summary>
-        public static LocalisableString QuickPlay => new TranslatableString(getKey(@"quick_play"), @"quick play");
 
         /// <summary>
         /// "ranked play"

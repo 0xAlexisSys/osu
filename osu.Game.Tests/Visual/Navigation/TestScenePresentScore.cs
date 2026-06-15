@@ -96,7 +96,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestFromSongSelectWithFilter([Values] ScorePresentType type)
         {
-            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnSolo?.Invoke());
+            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnPlay?.Invoke());
             AddUntilStep("song select is current", () => Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect && songSelect.CarouselItemsPresented);
 
             AddStep("filter to nothing", () => ((SoloSongSelect)Game.ScreenStack.CurrentScreen).ChildrenOfType<FilterControl>().Single().Search("fdsajkl;fgewq"));
@@ -109,7 +109,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestFromSongSelectWithConvertRulesetChange([Values] ScorePresentType type)
         {
-            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnSolo?.Invoke());
+            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnPlay?.Invoke());
             AddUntilStep("song select is current", () => Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect && songSelect.CarouselItemsPresented);
 
             AddStep("set convert to false", () => Game.LocalConfig.SetValue(OsuSetting.ShowConvertedBeatmaps, false));
@@ -121,7 +121,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestFromSongSelect([Values] ScorePresentType type)
         {
-            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnSolo?.Invoke());
+            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnPlay?.Invoke());
             AddUntilStep("song select is current", () => Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect && songSelect.CarouselItemsPresented);
 
             var firstImport = importScore(1);
@@ -134,7 +134,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestFromSongSelectDifferentRuleset([Values] ScorePresentType type)
         {
-            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnSolo?.Invoke());
+            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnPlay?.Invoke());
             AddUntilStep("song select is current", () => Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect && songSelect.CarouselItemsPresented);
 
             var firstImport = importScore(1);
@@ -147,7 +147,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestPresentTwoImportsWithSameOnlineIDButDifferentHashes([Values] ScorePresentType type)
         {
-            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnSolo?.Invoke());
+            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnPlay?.Invoke());
             AddUntilStep("song select is current", () => Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect && songSelect.CarouselItemsPresented);
 
             var firstImport = importScore(1);
@@ -160,7 +160,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestScoreRefetchIgnoresEmptyHash()
         {
-            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnSolo?.Invoke());
+            AddStep("enter song select", () => Game.ChildrenOfType<ButtonSystem>().Single().OnPlay?.Invoke());
             AddUntilStep("song select is current", () => Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect && songSelect.CarouselItemsPresented);
 
             importScore(-1, hash: string.Empty);

@@ -87,15 +87,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                 switch (keys.First())
                 {
                     case Key.P:
-                        buttons.OnSolo = action;
-                        break;
-
-                    case Key.M:
-                        buttons.OnMultiplayer = action;
-                        break;
-
-                    case Key.L:
-                        buttons.OnPlaylists = action;
+                        buttons.OnPlay = action;
                         break;
 
                     case Key.B:

@@ -45,7 +45,7 @@ namespace osu.Game.Screens
                 return new IntroChristmas(createMainMenu);
 
             if (introSequence == IntroSequence.Random)
-                introSequence = (IntroSequence)RNG.Next(0, (int)IntroSequence.Random);
+                introSequence = (IntroSequence)RNG.Next((int)IntroSequence.Circles, (int)IntroSequence.Random);
 
             switch (introSequence)
             {
@@ -55,8 +55,12 @@ namespace osu.Game.Screens
                 case IntroSequence.Welcome:
                     return new IntroWelcome(createMainMenu);
 
-                default:
+                case IntroSequence.Triangles:
                     return new IntroTriangles(createMainMenu);
+
+                case IntroSequence.Instant:
+                default:
+                    return new IntroInstant(createMainMenu);
             }
 
             MainMenu createMainMenu() => new MainMenu();

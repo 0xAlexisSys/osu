@@ -95,7 +95,6 @@ namespace osu.Game.Screens.Menu
         protected override bool PlayExitSound => false;
 
         private Bindable<double> holdDelay;
-        private Bindable<bool> loginDisplayed;
         private Bindable<bool> showMobileDisclaimer;
 
         private HoldToExitGameOverlay holdToExitGameOverlay;
@@ -317,25 +316,11 @@ namespace osu.Game.Screens.Menu
                     dialogOverlay.Push(new MobileDisclaimerDialog(() =>
                     {
                         showMobileDisclaimer.Value = false;
-                        displayLoginIfApplicable();
                     }));
                 }, 500);
             }
-            else
-                displayLoginIfApplicable();
 
             return originalAction.Invoke();
-        }
-
-        private void displayLoginIfApplicable()
-        {
-            if (loginDisplayed.Value) return;
-
-            if (!api.IsLoggedIn || api.State.Value == APIState.RequiresSecondFactorAuth)
-            {
-                Scheduler.AddDelayed(() => login?.Show(), 500);
-                loginDisplayed.Value = true;
-            }
         }
 
         protected override void LogoSuspending(OsuLogo logo)

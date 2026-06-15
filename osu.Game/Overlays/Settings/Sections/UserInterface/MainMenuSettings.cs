@@ -19,8 +19,6 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
 
         private IBindable<APIUser> user = null!;
 
-        private readonly Bindable<SettingsNote.Data?> backgroundSourceNote = new Bindable<SettingsNote.Data?>();
-
         [BackgroundDependencyLoader]
         private void load(OsuConfigManager config, IAPIProvider api)
         {
@@ -58,29 +56,13 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
                 {
                     Caption = UserInterfaceStrings.BackgroundSource,
                     Current = config.GetBindable<BackgroundSource>(OsuSetting.MenuBackgroundSource),
-                })
-                {
-                    Note = { BindTarget = backgroundSourceNote },
-                },
+                }),
                 new SettingsItemV2(new FormEnumDropdown<SeasonalBackgroundMode>
                 {
                     Caption = UserInterfaceStrings.SeasonalBackgrounds,
                     Current = config.GetBindable<SeasonalBackgroundMode>(OsuSetting.SeasonalBackgroundMode),
                 })
             };
-        }
-
-        protected override void LoadComplete()
-        {
-            base.LoadComplete();
-
-            user.BindValueChanged(u =>
-            {
-                if (u.NewValue?.IsSupporter != true)
-                    backgroundSourceNote.Value = new SettingsNote.Data(UserInterfaceStrings.NotSupporterNote, SettingsNote.Type.Informational);
-                else
-                    backgroundSourceNote.Value = null;
-            }, true);
         }
     }
 }

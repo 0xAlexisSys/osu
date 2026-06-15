@@ -9,7 +9,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
-using osu.Framework.Audio.Sample;
 using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions;
@@ -64,7 +63,6 @@ namespace osu.Game.Screens.Menu
         private const int exit_delay = 3000;
 
         private SkinnableSound skinnableSeeya;
-        private ISample seeya;
 
         protected virtual string SeeyaSampleName => "Intro/seeya";
 
@@ -256,8 +254,6 @@ namespace osu.Game.Screens.Menu
                     // schedule after children to ensure skinnable samples have processed skin changes before playing.
                     ScheduleAfterChildren(() => skinnableSeeya.Play());
                 }
-                else
-                    seeya.Play();
 
                 // if playing the outro voice, we have more time to have fun with the background track.
                 // initially fade to almost silent then ramp out over the remaining time.

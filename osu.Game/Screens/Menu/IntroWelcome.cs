@@ -27,7 +27,6 @@ namespace osu.Game.Screens.Menu
         private const double delay_step_two = 2142;
 
         private SkinnableSound skinnableWelcome;
-        private ISample welcome;
 
         private ISample pianoReverb;
         protected override string SeeyaSampleName => "Intro/Welcome/seeya";
@@ -65,10 +64,7 @@ namespace osu.Game.Screens.Menu
 
                     AddInternal(intro);
 
-                    if (skinnableWelcome != null)
-                        skinnableWelcome.Play();
-                    else
-                        welcome?.Play();
+                    skinnableWelcome?.Play();
 
                     var reverbChannel = pianoReverb?.Play();
                     if (reverbChannel != null)

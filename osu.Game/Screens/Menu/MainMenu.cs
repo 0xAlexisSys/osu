@@ -207,16 +207,7 @@ namespace osu.Game.Screens.Menu
             };
 
             Buttons.OnSettings = () => settings?.ToggleVisibility();
-            Buttons.OnBeatmapListing = () =>
-            {
-                using Process process = new Process();
-                process.StartInfo = new ProcessStartInfo
-                {
-                    FileName = @"https://beatconnect.io/",
-                    UseShellExecute = true,
-                };
-                process.Start();
-            };
+            Buttons.OnBeatmapListing = () => host.OpenUrlExternally(@"https://beatconnect.io/");
 
             reappearSampleSwoosh = audio.Samples.Get(@"Menu/reappear-swoosh");
         }

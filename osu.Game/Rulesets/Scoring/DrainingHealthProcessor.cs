@@ -47,6 +47,11 @@ namespace osu.Game.Rulesets.Scoring
         public double DrainRate { get; private set; }
 
         /// <summary>
+        /// An amount of lenience to apply to the drain rate.
+        /// </summary>
+        public double DrainLenience { get; set; }
+
+        /// <summary>
         /// The beatmap.
         /// </summary>
         protected IBeatmap Beatmap { get; private set; }
@@ -55,11 +60,6 @@ namespace osu.Game.Rulesets.Scoring
         /// The time at which health starts draining.
         /// </summary>
         protected readonly double DrainStartTime;
-
-        /// <summary>
-        /// An amount of lenience to apply to the drain rate.
-        /// </summary>
-        protected readonly double DrainLenience;
 
         private readonly List<HealthIncrease> healthIncreases = new List<HealthIncrease>();
 

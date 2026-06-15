@@ -31,6 +31,8 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             [new Mod[] { new OsuModNoFail() }, 0.5],
 
+            [new Mod[] { new OsuModNoDrainRate() }, 1.0],
+
             [new Mod[] { new OsuModHalfTime { SpeedChange = { Value = 0.50 } } }, 0.20],
             [new Mod[] { new OsuModHalfTime { SpeedChange = { Value = 0.55 } } }, 0.27],
             [new Mod[] { new OsuModHalfTime { SpeedChange = { Value = 0.60 } } }, 0.34],

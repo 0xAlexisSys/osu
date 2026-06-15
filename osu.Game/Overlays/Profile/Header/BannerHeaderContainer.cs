@@ -7,7 +7,6 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Overlays.Profile.Header.Components;
 
 namespace osu.Game.Overlays.Profile.Header
 {
@@ -39,27 +38,6 @@ namespace osu.Game.Overlays.Profile.Header
             cancellationTokenSource = new CancellationTokenSource();
 
             ClearInternal();
-
-            var banners = user?.TournamentBanners;
-
-            if (banners?.Length > 0)
-            {
-                Show();
-
-                for (int index = 0; index < banners.Length; index++)
-                {
-                    int displayIndex = index;
-                    LoadComponentAsync(new DrawableTournamentBanner(banners[index]), asyncBanner =>
-                    {
-                        // load in stable order regardless of async load order.
-                        Insert(displayIndex, asyncBanner);
-                    }, cancellationTokenSource.Token);
-                }
-            }
-            else
-            {
-                Hide();
-            }
         }
 
         protected override void Dispose(bool isDisposing)

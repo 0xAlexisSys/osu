@@ -63,58 +63,6 @@
             "console": "internalConsole"
         },
         {
-            "name": "Tournament (Debug)",
-            "type": "coreclr",
-            "request": "launch",
-            "program": "dotnet",
-            "args": [
-                "${workspaceRoot}/osu.Desktop/bin/Debug/net8.0/osu!.dll",
-                "--tournament"
-            ],
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": "Build osu! (Debug)",
-            "console": "internalConsole"
-        },
-        {
-            "name": "Tournament (Release)",
-            "type": "coreclr",
-            "request": "launch",
-            "program": "dotnet",
-            "args": [
-                "${workspaceRoot}/osu.Desktop/bin/Release/net8.0/osu!.dll",
-                "--tournament"
-            ],
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": "Build osu! (Release)",
-            "console": "internalConsole"
-        },
-        {
-            "name": "Tournament (Tests, Debug)",
-            "type": "coreclr",
-            "request": "launch",
-            "program": "dotnet",
-            "args": [
-                "${workspaceRoot}/osu.Game.Tournament.Tests/bin/Debug/net8.0/osu.Game.Tournament.Tests.dll",
-                "--tournament"
-            ],
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": "Build tournament tests (Debug)",
-            "console": "internalConsole"
-        },
-        {
-            "name": "Tournament (Tests, Release)",
-            "type": "coreclr",
-            "request": "launch",
-            "program": "dotnet",
-            "args": [
-                "${workspaceRoot}/osu.Game.Tournament.Tests/bin/Debug/net8.0/osu.Game.Tournament.Tests.dll",
-                "--tournament"
-            ],
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": "Build tournament tests (Release)",
-            "console": "internalConsole"
-        },
-        {
             "name": "Benchmark",
             "type": "coreclr",
             "request": "launch",

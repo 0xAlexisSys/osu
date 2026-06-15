@@ -62,35 +62,6 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "Build tournament tests (Debug)",
-            "type": "shell",
-            "command": "dotnet",
-            "args": [
-                "build",
-                "osu.Game.Tournament.Tests",
-                "-p:GenerateFullPaths=true",
-                "-m",
-                "-verbosity:m"
-            ],
-            "group": "build",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Build tournament tests (Release)",
-            "type": "shell",
-            "command": "dotnet",
-            "args": [
-                "build",
-                "osu.Game.Tournament.Tests",
-                "-p:Configuration=Release",
-                "-p:GenerateFullPaths=true",
-                "-m",
-                "-verbosity:m"
-            ],
-            "group": "build",
-            "problemMatcher": "$msCompile"
-        },
-        {
             "label": "Build benchmarks",
             "type": "shell",
             "command": "dotnet",

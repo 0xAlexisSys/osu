@@ -86,7 +86,6 @@ namespace osu.Game.Graphics
         public static IconUsage Storyboard => get(OsuIconMapping.Storyboard);
         public static IconUsage Team => get(OsuIconMapping.Team);
         public static IconUsage ThumbsUp => get(OsuIconMapping.ThumbsUp);
-        public static IconUsage Tournament => get(OsuIconMapping.Tournament);
         public static IconUsage Twitter => get(OsuIconMapping.Twitter);
         public static IconUsage UserInterface => get(OsuIconMapping.UserInterface);
         public static IconUsage Wiki => get(OsuIconMapping.Wiki);
@@ -400,9 +399,6 @@ namespace osu.Game.Graphics
 
             [Description(@"thumbs-up")]
             ThumbsUp,
-
-            [Description(@"tournament")]
-            Tournament,
 
             [Description(@"twitter")]
             Twitter,

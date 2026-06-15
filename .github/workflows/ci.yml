@@ -94,7 +94,6 @@ jobs:
           osu.Game.Rulesets.Taiko.Tests/bin/Debug/**/osu.Game.Rulesets.Taiko.Tests.dll
           osu.Game.Rulesets.Catch.Tests/bin/Debug/**/osu.Game.Rulesets.Catch.Tests.dll
           osu.Game.Rulesets.Mania.Tests/bin/Debug/**/osu.Game.Rulesets.Mania.Tests.dll
-          osu.Game.Tournament.Tests/bin/Debug/**/osu.Game.Tournament.Tests.dll
           Templates/**/*.Tests/bin/Debug/**/*.Tests.dll
           --logger "trx;LogFileName=TestResults-${{matrix.os.prettyname}}-${{matrix.threadingMode}}.trx"
           --

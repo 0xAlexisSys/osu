@@ -38,20 +38,20 @@ namespace osu.Game.Rulesets.Mods
         [SettingSource("HP Drain", "Override a beatmap's set HP.", FIRST_SETTING_ORDER, SettingControlType = typeof(DifficultyAdjustSettingsControl))]
         public DifficultyBindable DrainRate { get; } = new DifficultyBindable
         {
-            Precision = 0.1f,
-            MinValue = 0,
-            MaxValue = 10,
-            ExtendedMaxValue = 11,
+            Precision = 0.05f,
+            MinValue = 0.0f,
+            MaxValue = 10.0f,
+            ExtendedMaxValue = 20.0f,
             ReadCurrentFromDifficulty = diff => diff.DrainRate,
         };
 
         [SettingSource("Accuracy", "Override a beatmap's set OD.", LAST_SETTING_ORDER, SettingControlType = typeof(DifficultyAdjustSettingsControl))]
         public virtual DifficultyBindable OverallDifficulty { get; } = new DifficultyBindable
         {
-            Precision = 0.1f,
-            MinValue = 0,
-            MaxValue = 10,
-            ExtendedMaxValue = 11,
+            Precision = 0.05f,
+            MinValue = 0.0f,
+            MaxValue = 10.0f,
+            ExtendedMaxValue = 13.0f,
             ReadCurrentFromDifficulty = diff => diff.OverallDifficulty,
         };
 

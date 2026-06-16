@@ -46,7 +46,7 @@ namespace osu.Game.Screens.Select
         public required Func<FilterCriteria> GetCriteria { get; init; }
         public required Func<List<BeatmapCollection>> GetCollections { get; init; }
         public required Func<FilterCriteria, IReadOnlyDictionary<Guid, ScoreRank>> GetLocalUserTopRanks { get; init; }
-        public required Func<HashSet<int>> GetFavouriteBeatmapSets { get; init; }
+        public required Func<List<BeatmapSetInfo>> GetFavouriteBeatmapSets { get; init; }
 
         public async Task<List<CarouselItem>> Run(IEnumerable<CarouselItem> items, CancellationToken cancellationToken)
         {
@@ -484,9 +484,9 @@ namespace osu.Game.Screens.Select
             return new GroupDefinition(int.MaxValue, "Unplayed").Yield();
         }
 
-        private IEnumerable<GroupDefinition> defineGroupByFavourites(BeatmapInfo beatmap, HashSet<int> favouriteBeatmapSets)
+        private IEnumerable<GroupDefinition> defineGroupByFavourites(BeatmapInfo beatmap, List<BeatmapSetInfo> favouriteBeatmapSets)
         {
-            if (beatmap.BeatmapSet?.OnlineID > 0 && favouriteBeatmapSets.Contains(beatmap.BeatmapSet.OnlineID))
+            if (beatmap.BeatmapSet is not null && favouriteBeatmapSets.Any(beatmapSetInfo => beatmapSetInfo.ID.Equals(beatmap.BeatmapSet.ID)))
                 return new GroupDefinition(0, "Favourites").Yield();
 
             return [];

@@ -3,20 +3,19 @@
 
 #nullable disable
 
-using System.Diagnostics;
+using System;
+using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Localisation;
+using osu.Game.Beatmaps;
+using osu.Game.Database;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Overlays.Notifications;
 using osu.Game.Resources.Localisation.Web;
 using osuTK;
-using APIUser = osu.Game.Online.API.Requests.Responses.APIUser;
 
 namespace osu.Game.Overlays.BeatmapSet.Buttons
 {
@@ -26,10 +25,10 @@ namespace osu.Game.Overlays.BeatmapSet.Buttons
 
         private readonly BindableBool favourited = new BindableBool();
 
-        private PostBeatmapFavouriteRequest request;
         private LoadingLayer loading;
 
-        private readonly IBindable<APIUser> localUser = new Bindable<APIUser>();
+        [Resolved]
+        private RealmAccess realm { get; set; }
 
         public override LocalisableString TooltipText
         {
@@ -41,8 +40,10 @@ namespace osu.Game.Overlays.BeatmapSet.Buttons
             }
         }
 
+        private IDisposable realmSubscription;
+
         [BackgroundDependencyLoader(true)]
-        private void load(IAPIProvider api, INotificationOverlay notifications)
+        private void load()
         {
             SpriteIcon icon;
 
@@ -61,50 +62,58 @@ namespace osu.Game.Overlays.BeatmapSet.Buttons
 
             Action = () =>
             {
-                // guaranteed by disabled state above.
-                Debug.Assert(BeatmapSet.Value.OnlineID > 0);
+                if (BeatmapSet.Value == null)
+                    return;
 
                 loading.Show();
 
-                request?.Cancel();
-
-                request = new PostBeatmapFavouriteRequest(BeatmapSet.Value.OnlineID, favourited.Value ? BeatmapFavouriteAction.UnFavourite : BeatmapFavouriteAction.Favourite);
-
-                request.Success += () =>
+                realm.Write(r =>
                 {
-                    favourited.Toggle();
-                    loading.Hide();
-                    api.LocalUserState.UpdateFavouriteBeatmapSets();
-                };
+                    var set = r.All<BeatmapSetInfo>().FirstOrDefault(s => s.OnlineID == BeatmapSet.Value.OnlineID);
 
-                request.Failure += e =>
-                {
-                    notifications?.Post(new SimpleNotification
-                    {
-                        Text = e.Message,
-                        Icon = FontAwesome.Solid.Times,
-                    });
+                    if (set != null)
+                        set.HasFavourited = !set.HasFavourited;
+                });
 
-                    loading.Hide();
-                };
-
-                api.Queue(request);
+                loading.Hide();
             };
 
-            favourited.ValueChanged += favourited => icon.Icon = favourited.NewValue ? FontAwesome.Solid.Heart : FontAwesome.Regular.Heart;
-
-            localUser.BindTo(api.LocalUser);
-            localUser.BindValueChanged(_ => updateEnabled());
+            favourited.BindValueChanged(favourited => icon.Icon = favourited.NewValue ? FontAwesome.Solid.Heart : FontAwesome.Regular.Heart, true);
 
             // must be run after setting the Action to ensure correct enabled state (setting an Action forces a button to be enabled).
             BeatmapSet.BindValueChanged(setInfo =>
             {
+                realmSubscription?.Dispose();
+                realmSubscription = null;
+
+                if (setInfo.NewValue != null)
+                {
+                    realmSubscription = realm.RegisterForNotifications(r => r.All<BeatmapSetInfo>().Where(s => s.OnlineID == setInfo.NewValue.OnlineID), (sender, _) =>
+                    {
+                        var set = sender.FirstOrDefault();
+
+                        if (set != null)
+                            favourited.Value = set.HasFavourited;
+                    });
+
+                    favourited.Value = realm.Run(r => r.All<BeatmapSetInfo>().FirstOrDefault(s => s.OnlineID == setInfo.NewValue.OnlineID)?.HasFavourited ?? false);
+                }
+                else
+                {
+                    favourited.Value = false;
+                }
+
                 updateEnabled();
-                favourited.Value = setInfo.NewValue?.HasFavourited ?? false;
             }, true);
         }
 
-        private void updateEnabled() => Enabled.Value = !(localUser.Value is GuestUser) && BeatmapSet.Value?.OnlineID > 0;
+        protected override void Dispose(bool isDisposing)
+        {
+            base.Dispose(isDisposing);
+            realmSubscription?.Dispose();
+        }
+
+        private void updateEnabled() => Enabled.Value = BeatmapSet.Value != null;
 
         protected override void UpdateAfterChildren()
         {

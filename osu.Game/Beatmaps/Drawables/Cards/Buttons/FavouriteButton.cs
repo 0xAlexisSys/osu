@@ -1,15 +1,14 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
+using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
+using osu.Game.Database;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Overlays;
-using osu.Game.Overlays.Notifications;
 using osu.Game.Resources.Localisation.Web;
 
 namespace osu.Game.Beatmaps.Drawables.Cards.Buttons
@@ -26,19 +25,32 @@ namespace osu.Game.Beatmaps.Drawables.Cards.Buttons
 
         private readonly APIBeatmapSet beatmapSet;
 
-        private PostBeatmapFavouriteRequest? favouriteRequest;
-
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
-
-        [Resolved]
-        private INotificationOverlay? notifications { get; set; }
+        private RealmAccess realm { get; set; } = null!;
 
         public FavouriteButton(APIBeatmapSet beatmapSet)
         {
-            current = new BindableWithCurrent<BeatmapSetFavouriteState>(new BeatmapSetFavouriteState(beatmapSet.HasFavourited, beatmapSet.FavouriteCount));
+            current = new BindableWithCurrent<BeatmapSetFavouriteState>(new BeatmapSetFavouriteState(beatmapSet.HasFavourited, 0));
             this.beatmapSet = beatmapSet;
         }
+
+        [BackgroundDependencyLoader]
+        private void load()
+        {
+            realmSubscription = realm.RegisterForNotifications(
+                r => r.All<BeatmapSetInfo>().Where(s => s.OnlineID == beatmapSet.OnlineID),
+                (sender, _) =>
+                {
+                    var set = sender.FirstOrDefault();
+
+                    if (set != null)
+                        current.Value = new BeatmapSetFavouriteState(set.HasFavourited, 0);
+                });
+
+            current.Value = new BeatmapSetFavouriteState(realm.Run(r => r.All<BeatmapSetInfo>().FirstOrDefault(s => s.OnlineID == beatmapSet.OnlineID)?.HasFavourited ?? false), 0);
+        }
+
+        private IDisposable? realmSubscription;
 
         protected override void LoadComplete()
         {
@@ -50,34 +62,19 @@ namespace osu.Game.Beatmaps.Drawables.Cards.Buttons
 
         private void toggleFavouriteStatus()
         {
-            var actionType = current.Value.Favourited ? BeatmapFavouriteAction.UnFavourite : BeatmapFavouriteAction.Favourite;
-
-            favouriteRequest?.Cancel();
-            favouriteRequest = new PostBeatmapFavouriteRequest(beatmapSet.OnlineID, actionType);
-
-            SetLoading(true);
-
-            favouriteRequest.Success += () =>
+            realm.Write(r =>
             {
-                bool favourited = actionType == BeatmapFavouriteAction.Favourite;
+                var set = r.All<BeatmapSetInfo>().FirstOrDefault(s => s.OnlineID == beatmapSet.OnlineID);
 
-                current.Value = new BeatmapSetFavouriteState(favourited, current.Value.FavouriteCount + (favourited ? 1 : -1));
+                if (set != null)
+                    set.HasFavourited = !set.HasFavourited;
+            });
+        }
 
-                SetLoading(false);
-                api.LocalUserState.UpdateFavouriteBeatmapSets();
-            };
-            favouriteRequest.Failure += e =>
-            {
-                notifications?.Post(new SimpleNotification
-                {
-                    Text = e.Message,
-                    Icon = FontAwesome.Solid.Times,
-                });
-
-                SetLoading(false);
-            };
-
-            api.Queue(favouriteRequest);
+        protected override void Dispose(bool isDisposing)
+        {
+            base.Dispose(isDisposing);
+            realmSubscription?.Dispose();
         }
 
         private void updateState()

@@ -64,7 +64,7 @@ namespace osu.Game.Screens.Play
 
         protected override bool PlayExitSound => !isRestarting;
 
-        protected override UserActivity InitialActivity => new UserActivity.InSoloGame(Beatmap.Value.BeatmapInfo, Ruleset.Value);
+        protected override UserActivity InitialActivity => new UserActivity.PlayingBeatmap(Beatmap.Value.BeatmapInfo, Ruleset.Value);
 
         public override float BackgroundParallaxAmount => 0.1f;
 

@@ -401,14 +401,6 @@ namespace osu.Game.Screens.OnlinePlay.Playlists
                                         }
                                     }
                                 },
-                                settingsOverlay = new PlaylistsRoomSettingsOverlay(room)
-                                {
-                                    EditPlaylist = () =>
-                                    {
-                                        if (this.IsCurrentScreen())
-                                            this.Push(new PlaylistsSongSelect(room));
-                                    }
-                                }
                             }
                         },
                         new Container
@@ -671,13 +663,6 @@ namespace osu.Game.Screens.OnlinePlay.Playlists
             PlaylistItem gameplayItem = item.With(ruleset: gameplayRuleset.OnlineID, beatmap: new Optional<IBeatmapInfo>(gameplayBeatmap));
 
             sampleStart?.Play();
-
-            // fallback is to allow this class to operate when there is no parent OnlineScreen (testing purposes).
-            var targetScreen = (Screen?)parentScreen ?? this;
-            targetScreen.Push(new PlayerLoader(() => new PlaylistsPlayer(room, gameplayItem)
-            {
-                Exited = () => leaderboard.RefetchScores()
-            }));
         }
 
         /// <summary>
@@ -698,12 +683,6 @@ namespace osu.Game.Screens.OnlinePlay.Playlists
         {
             if (!this.IsCurrentScreen() || SelectedItem.Value == null)
                 return;
-
-            this.Push(new PlaylistsRoomFreestyleSelect(SelectedItem.Value)
-            {
-                Beatmap = { BindTarget = UserBeatmap },
-                Ruleset = { BindTarget = UserRuleset }
-            });
         }
 
         /// <summary>

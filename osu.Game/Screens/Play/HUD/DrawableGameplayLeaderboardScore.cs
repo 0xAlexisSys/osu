@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
@@ -89,8 +88,6 @@ namespace osu.Game.Screens.Play.HUD
         private OsuSpriteText comboText = null!;
 
         private IBindable<ScoringMode> scoreDisplayMode = null!;
-
-        private bool isFriend;
 
         [Resolved]
         private OsuConfigManager config { get; set; } = null!;
@@ -303,8 +300,6 @@ namespace osu.Game.Screens.Play.HUD
         {
             base.LoadComplete();
 
-            isFriend = User != null && api.LocalUserState.Friends.Any(u => User.OnlineID == u.TargetID);
-
             scoreDisplayMode = config.GetBindable<ScoringMode>(OsuSetting.ScoreDisplayMode);
             scoreDisplayMode.BindValueChanged(_ => updateScore());
             TotalScore.BindValueChanged(_ => updateScore(), true);
@@ -358,11 +353,6 @@ namespace osu.Game.Screens.Play.HUD
             {
                 widthExtension = true;
                 setPanelColour(BackgroundColour ?? colours.Orange2);
-            }
-            else if (isFriend)
-            {
-                setPanelColour(BackgroundColour ?? colours.Pink1);
-                usernameColour = colours.Pink1;
             }
             else
                 setPanelColour(BackgroundColour ?? colours.Blue4);

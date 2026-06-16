@@ -9,9 +9,7 @@ using osu.Framework.Localisation;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Graphics.UserInterface;
 using osu.Game.Overlays;
-using osuTK;
 
 namespace osu.Game.Screens.Select
 {
@@ -21,49 +19,33 @@ namespace osu.Game.Screens.Select
         {
             private readonly OsuSpriteText labelText;
             private readonly OsuSpriteText contentText;
-            private readonly OsuSpriteText contentLinkText;
-            private readonly OsuHoverContainer contentLink;
-            private readonly DrawableDate contentDate;
+            private readonly OsuSpriteText contentClickableText;
+            private readonly OsuHoverContainer contentClickableTextAction;
             private readonly TagsLine contentTags;
-            private readonly LoadingSpinner contentLoading;
 
-            private (LocalisableString value, Action? linkAction)? data;
+            private (LocalisableString value, Action? action)? data;
 
-            public (LocalisableString value, Action? linkAction)? Data
+            public (LocalisableString value, Action? action)? Data
             {
-                get => data;
                 set
                 {
                     data = value;
 
-                    if (value?.linkAction != null)
-                        setLink(value.Value.value, value.Value.linkAction);
+                    if (value?.action != null)
+                        setClickableText(value.Value.value, value.Value.action);
                     else if (value.HasValue)
                         setText(value.Value.value);
-                    else
-                        setLoading();
                 }
             }
 
-            public DateTimeOffset? Date
+            public (string[] tags, Action<string>? action)? Tags
             {
                 set
                 {
-                    if (value != null)
-                        setDate(value.Value);
-                    else
-                        setText("-");
-                }
-            }
-
-            public (string[] tags, Action<string> searchAction)? Tags
-            {
-                set
-                {
-                    if (value != null)
-                        setTags(value.Value.tags, value.Value.searchAction);
-                    else
-                        setLoading();
+                    if (value?.action != null)
+                        setTags(value.Value.tags, value.Value.action);
+                    else if (value.HasValue)
+                        setText(@"N/A");
                 }
             }
 
@@ -92,24 +74,15 @@ namespace osu.Game.Screens.Select
                                 RelativeSizeAxes = Axes.X,
                                 Font = OsuFont.Style.Caption1,
                             },
-                            contentLink = new OsuHoverContainer
+                            contentClickableTextAction = new OsuHoverContainer
                             {
                                 AutoSizeAxes = Axes.Both,
-                                Child = contentLinkText = new TruncatingSpriteText
+                                Child = contentClickableText = new TruncatingSpriteText
                                 {
                                     Font = OsuFont.Style.Caption1,
                                 },
                             },
-                            contentDate = new DrawableDate(default, OsuFont.Style.Caption1.Size, false),
                             contentTags = new TagsLine(),
-                            contentLoading = new LoadingSpinner
-                            {
-                                Anchor = Anchor.TopLeft,
-                                Origin = Anchor.TopLeft,
-                                Size = new Vector2(10),
-                                Margin = new MarginPadding { Top = 3f },
-                                State = { Value = Visibility.Visible },
-                            }
                         },
                     },
                 };
@@ -120,22 +93,20 @@ namespace osu.Game.Screens.Select
             {
                 labelText.Colour = colourProvider.Content1;
                 contentText.Colour = colourProvider.Content2;
-                contentLink.IdleColour = colourProvider.Light2;
+                contentClickableTextAction.IdleColour = colourProvider.Light2;
             }
 
             protected override void Update()
             {
                 base.Update();
-                contentLinkText.MaxWidth = ChildSize.X;
+                contentClickableText.MaxWidth = ChildSize.X;
             }
 
             private void clear()
             {
                 contentText.Text = string.Empty;
-                contentLinkText.Text = string.Empty;
-                contentDate.Hide();
+                contentClickableText.Text = string.Empty;
                 contentTags.Tags = Array.Empty<string>();
-                contentLoading.Hide();
             }
 
             private void setText(LocalisableString text)
@@ -145,20 +116,12 @@ namespace osu.Game.Screens.Select
                 contentText.Text = text;
             }
 
-            private void setLink(LocalisableString text, Action action)
+            private void setClickableText(LocalisableString text, Action action)
             {
                 clear();
 
-                contentLinkText.Text = text;
-                contentLink.Action = action;
-            }
-
-            private void setDate(DateTimeOffset date)
-            {
-                clear();
-
-                contentDate.Show();
-                contentDate.Date = date;
+                contentClickableText.Text = text;
+                contentClickableTextAction.Action = action;
             }
 
             private void setTags(string[] tags, Action<string> searchAction)
@@ -167,13 +130,6 @@ namespace osu.Game.Screens.Select
 
                 contentTags.PerformSearch = searchAction;
                 contentTags.Tags = tags;
-            }
-
-            private void setLoading()
-            {
-                clear();
-
-                contentLoading.Show();
             }
         }
     }

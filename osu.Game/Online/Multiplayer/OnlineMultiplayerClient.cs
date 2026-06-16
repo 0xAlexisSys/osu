@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Game.Localisation;
 using osu.Game.Online.API;
 using osu.Game.Online.Matchmaking;
 using osu.Game.Online.Matchmaking.Requests;
@@ -18,7 +17,6 @@ using osu.Game.Online.Matchmaking.Responses;
 using osu.Game.Online.Multiplayer.MatchTypes.RankedPlay;
 using osu.Game.Online.RankedPlay;
 using osu.Game.Online.Rooms;
-using osu.Game.Overlays.Notifications;
 
 namespace osu.Game.Online.Multiplayer
 {
@@ -167,23 +165,7 @@ namespace osu.Game.Online.Multiplayer
 
             Debug.Assert(connection != null);
 
-            try
-            {
-                await connection.InvokeAsync(nameof(IMultiplayerServer.InvitePlayer), userId).ConfigureAwait(false);
-            }
-            catch (HubException exception)
-            {
-                switch (exception.GetHubExceptionMessage())
-                {
-                    case UserBlockedException.MESSAGE:
-                        PostNotification?.Invoke(new SimpleErrorNotification { Text = OnlinePlayStrings.InviteFailedUserBlocked });
-                        break;
-
-                    case UserBlocksPMsException.MESSAGE:
-                        PostNotification?.Invoke(new SimpleErrorNotification { Text = OnlinePlayStrings.InviteFailedUserOptOut });
-                        break;
-                }
-            }
+            await connection.InvokeAsync(nameof(IMultiplayerServer.InvitePlayer), userId).ConfigureAwait(false);
         }
 
         public override Task TransferHost(int userId)

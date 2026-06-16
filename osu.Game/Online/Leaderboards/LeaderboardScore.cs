@@ -53,8 +53,6 @@ namespace osu.Game.Online.Leaderboards
         protected Container RankContainer { get; private set; }
 
         private readonly int? rank;
-        private readonly bool isOnlineScope;
-        private readonly bool highlightFriend;
 
         private Box background;
         private Container content;
@@ -87,13 +85,11 @@ namespace osu.Game.Online.Leaderboards
         [Resolved]
         private ScoreManager scoreManager { get; set; } = null!;
 
-        public LeaderboardScore(ScoreInfo score, int? rank, bool isOnlineScope = true, bool highlightFriend = true)
+        public LeaderboardScore(ScoreInfo score, int? rank)
         {
             Score = score;
 
             this.rank = rank;
-            this.isOnlineScope = isOnlineScope;
-            this.highlightFriend = highlightFriend;
 
             RelativeSizeAxes = Axes.X;
             Height = HEIGHT;
@@ -103,7 +99,6 @@ namespace osu.Game.Online.Leaderboards
         private void load(IAPIProvider api, OsuColour colour)
         {
             var user = Score.User;
-            bool isUserFriend = api.LocalUserState.Friends.Any(friend => friend.TargetID == user.OnlineID);
 
             statisticsLabels = GetStatistics(Score).Select(s => new ScoreComponentLabel(s)).ToList();
 
@@ -132,7 +127,7 @@ namespace osu.Game.Online.Leaderboards
                                 background = new Box
                                 {
                                     RelativeSizeAxes = Axes.Both,
-                                    Colour = (highlightFriend && isUserFriend) ? colour.Yellow : (user.OnlineID == api.LocalUser.Value.Id && isOnlineScope ? colour.Green : Color4.Black),
+                                    Colour = Color4.Black,
                                     Alpha = background_alpha,
                                 },
                             },
@@ -194,18 +189,6 @@ namespace osu.Game.Online.Leaderboards
                                                     Masking = true,
                                                     Children = new Drawable[]
                                                     {
-                                                        new UpdateableFlag(user.CountryCode)
-                                                        {
-                                                            Anchor = Anchor.CentreLeft,
-                                                            Origin = Anchor.CentreLeft,
-                                                            Size = new Vector2(28, 20),
-                                                        },
-                                                        new UpdateableTeamFlag(user.Team)
-                                                        {
-                                                            Anchor = Anchor.CentreLeft,
-                                                            Origin = Anchor.CentreLeft,
-                                                            Size = new Vector2(40, 20),
-                                                        },
                                                         new DateLabel(Score.Date)
                                                         {
                                                             Anchor = Anchor.CentreLeft,

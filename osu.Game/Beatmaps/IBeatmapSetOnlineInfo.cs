@@ -1,8 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
-
 namespace osu.Game.Beatmaps
 {
     /// <summary>
@@ -10,26 +8,6 @@ namespace osu.Game.Beatmaps
     /// </summary>
     public interface IBeatmapSetOnlineInfo
     {
-        /// <summary>
-        /// The date this beatmap set was submitted to the online listing.
-        /// </summary>
-        DateTimeOffset Submitted { get; }
-
-        /// <summary>
-        /// The date this beatmap set was ranked.
-        /// </summary>
-        DateTimeOffset? Ranked { get; }
-
-        /// <summary>
-        /// The date this beatmap set was last updated.
-        /// </summary>
-        DateTimeOffset? LastUpdated { get; }
-
-        /// <summary>
-        /// The "ranked" status of this beatmap set.
-        /// </summary>
-        BeatmapOnlineStatus Status { get; }
-
         /// <summary>
         /// Whether or not this beatmap set has explicit content.
         /// </summary>
@@ -59,16 +37,6 @@ namespace osu.Game.Beatmaps
         /// The beats per minute of this beatmap set's song.
         /// </summary>
         double BPM { get; }
-
-        /// <summary>
-        /// The amount of plays this beatmap set has.
-        /// </summary>
-        int PlayCount { get; }
-
-        /// <summary>
-        /// The amount of people who have favourited this beatmap set.
-        /// </summary>
-        int FavouriteCount { get; }
 
         /// <summary>
         /// Whether this beatmap set has been favourited by the current user.

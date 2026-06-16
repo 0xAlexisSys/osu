@@ -78,9 +78,6 @@ namespace osu.Game.Screens.Menu
         private Storage storage { get; set; }
 
         [Resolved(canBeNull: true)]
-        private LoginOverlay login { get; set; }
-
-        [Resolved(canBeNull: true)]
         private IDialogOverlay dialogOverlay { get; set; }
 
         // used to stop kiai fountain samples when navigating to other screens
@@ -435,7 +432,7 @@ namespace osu.Game.Screens.Menu
         {
         }
 
-        private void loadSongSelect() => this.Push(new SoloSongSelect());
+        private void loadSongSelect() => this.Push(new SongSelect());
 
         private void loadQuickPlay() => this.Push(new OnlinePlay.Matchmaking.Intro.ScreenIntro(MatchmakingPoolType.QuickPlay));
 

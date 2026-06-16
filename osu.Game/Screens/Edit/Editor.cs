@@ -111,10 +111,6 @@ namespace osu.Game.Screens.Edit
         [Resolved(canBeNull: true)]
         private INotificationOverlay notifications { get; set; }
 
-        [Resolved(canBeNull: true)]
-        [CanBeNull]
-        private LoginOverlay loginOverlay { get; set; }
-
         [Resolved]
         private RealmAccess realm { get; set; }
 

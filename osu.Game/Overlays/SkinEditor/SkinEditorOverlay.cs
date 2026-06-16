@@ -195,7 +195,7 @@ namespace osu.Game.Overlays.SkinEditor
 
                 // the validity of the current game-wide beatmap + ruleset combination is enforced by song select.
                 // if we're anywhere else, the state is unknown and may not make sense, so forcibly set something that does.
-                if (screen is not SoloSongSelect)
+                if (screen is not SongSelect)
                     ruleset.Value = beatmap.Value.BeatmapInfo.Ruleset;
                 var replayGeneratingMod = ruleset.Value.CreateInstance().GetAutoplayMod();
 
@@ -209,7 +209,7 @@ namespace osu.Game.Overlays.SkinEditor
 
                 if (replayGeneratingMod != null)
                     screen.Push(new EndlessPlayer(replayGeneratingMod.CreateScoreFromReplayData));
-            }, new[] { typeof(Player), typeof(SoloSongSelect) });
+            }, new[] { typeof(Player), typeof(SongSelect) });
         }
 
         protected override void Update()

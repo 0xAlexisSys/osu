@@ -101,7 +101,7 @@ namespace osu.Game.Overlays.FirstRunSetup
             }
         }
 
-        private partial class NestedSongSelect : SoloSongSelect
+        private partial class NestedSongSelect : SongSelect
         {
             public override bool? ApplyModTrackAdjustments => false;
 

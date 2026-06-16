@@ -769,28 +769,7 @@ namespace osu.Game.Database
 
                     bool lookupSucceeded = localMetadataSource.TryLookup(beatmap, out var result);
 
-                    if (lookupSucceeded)
-                    {
-                        Debug.Assert(result != null);
-
-                        HashSet<string> userTags = result.UserTags.ToHashSet();
-
-                        if (!userTags.SetEquals(beatmap.Metadata.UserTags))
-                        {
-                            ++updatedCount;
-                            realmAccess.Write(r =>
-                            {
-                                beatmap = r.Find<BeatmapInfo>(id);
-
-                                if (beatmap == null)
-                                    return;
-
-                                beatmap.Metadata.UserTags.Clear();
-                                beatmap.Metadata.UserTags.AddRange(userTags);
-                            });
-                        }
-                    }
-                    else
+                    if (!lookupSucceeded)
                     {
                         Logger.Log(@$"Could not find {beatmap.GetDisplayString()} in local cache while backpopulating missing user tags");
                     }

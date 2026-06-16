@@ -5,15 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Extensions.LocalisationExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
 using osu.Game.Configuration;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
@@ -26,7 +23,7 @@ using osuTK.Graphics;
 
 namespace osu.Game.Overlays.Chat
 {
-    public partial class ChatLine : CompositeDrawable, IHasPopover
+    public partial class ChatLine : CompositeDrawable
     {
         private Message message = null!;
 
@@ -218,20 +215,7 @@ namespace osu.Game.Overlays.Chat
 
             updateMessageContent();
             FinishTransforms(true);
-
-            if (this.FindClosestParent<PopoverContainer>() != null)
-            {
-                // This guards against cases like in-game chat where there's no available popover container.
-                // There may be a future where a global one becomes available, at which point this code may be unnecessary.
-                //
-                // See:
-                // https://github.com/ppy/osu/pull/23698
-                // https://github.com/ppy/osu/pull/14554
-                drawableUsername.ReportRequested = this.ShowPopover;
-            }
         }
-
-        public Popover GetPopover() => new ReportChatPopover(message);
 
         /// <summary>
         /// Performs a highlight animation on this <see cref="ChatLine"/>.

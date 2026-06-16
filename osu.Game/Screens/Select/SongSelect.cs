@@ -5,16 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Audio.Sample;
 using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
 using osu.Framework.Development;
-using osu.Framework.Extensions;
 using osu.Framework.Extensions.Color4Extensions;
+using osu.Framework.Extensions.LocalisationExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
@@ -38,27 +36,29 @@ using osu.Game.Graphics.Cursor;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Mods;
+using osu.Game.Overlays.Notifications;
 using osu.Game.Overlays.Volume;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
+using osu.Game.Screens.Edit;
 using osu.Game.Screens.Footer;
 using osu.Game.Screens.Menu;
 using osu.Game.Screens.Play;
 using osu.Game.Screens.Ranking;
 using osu.Game.Skinning;
+using osu.Game.Users;
 using osu.Game.Utils;
 using osuTK;
 using osuTK.Graphics;
 using osuTK.Input;
+using WebCommonStrings = osu.Game.Resources.Localisation.Web.CommonStrings;
 
 namespace osu.Game.Screens.Select
 {
-    public abstract partial class SongSelect : ScreenWithBeatmapBackground, IKeyBindingHandler<GlobalAction>, ISongSelect, IHandlePresentBeatmap, IProvideCursor
+    public partial class SongSelect : ScreenWithBeatmapBackground, IKeyBindingHandler<GlobalAction>, ISongSelect, IHandlePresentBeatmap, IProvideCursor
     {
         /// <summary>
         /// A debounce that governs how long after a panel is selected before the rest of song select (and the game at large)
@@ -133,7 +133,12 @@ namespace osu.Game.Screens.Select
 
         public override bool ShowFooter => true;
 
+        protected override UserActivity InitialActivity => new UserActivity.ChoosingBeatmap();
+
         private Sample? errorSample;
+        private PlayerLoader? playerLoader;
+        private IReadOnlyList<Mod>? modsAtGameplayStart;
+        private Sample? sampleConfirmSelection { get; set; }
 
         [Resolved]
         private OsuGameBase? game { get; set; }
@@ -142,13 +147,10 @@ namespace osu.Game.Screens.Select
         private OsuLogo? logo { get; set; }
 
         [Resolved]
-        private BeatmapSetOverlay? beatmapOverlay { get; set; }
-
-        [Resolved]
         private BeatmapManager beatmaps { get; set; } = null!;
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private INotificationOverlay? notifications { get; set; }
 
         [Resolved]
         private ManageCollectionsDialog? collectionsDialog { get; set; }
@@ -164,8 +166,6 @@ namespace osu.Game.Screens.Select
 
         private InputManager inputManager = null!;
 
-        private readonly RealmPopulatingOnlineLookupSource onlineLookupSource = new RealmPopulatingOnlineLookupSource();
-
         private Bindable<bool> configBackgroundBlur = null!;
         private Bindable<bool> showConvertedBeatmaps = null!;
 
@@ -175,11 +175,13 @@ namespace osu.Game.Screens.Select
         private void load(AudioManager audio, OsuConfigManager config)
         {
             errorSample = audio.Samples.Get(@"UI/generic-error");
+            sampleConfirmSelection = audio.Samples.Get(@"SongSelect/confirm-selection");
+
+            AddInternal(new SongSelectTouchInputDetector());
 
             AddRangeInternal(new Drawable[]
             {
                 new GlobalScrollAdjustsVolume(),
-                onlineLookupSource,
                 mainContent = new Container
                 {
                     Anchor = Anchor.Centre,
@@ -344,7 +346,56 @@ namespace osu.Game.Screens.Select
         ///
         /// This is the default action which should be provided to <see cref="SelectAndRun"/>.
         /// </summary>
-        protected abstract void OnStart();
+        protected void OnStart()
+        {
+            if (playerLoader != null) return;
+
+            modsAtGameplayStart = Mods.Value.Select(m => m.DeepClone()).ToArray();
+
+            // Ctrl+Enter should start map with autoplay enabled.
+            if (GetContainingInputManager()?.CurrentState?.Keyboard.ControlPressed == true)
+            {
+                var autoInstance = getAutoplayMod();
+
+                if (autoInstance == null)
+                {
+                    notifications?.Post(new SimpleNotification
+                    {
+                        Text = NotificationsStrings.NoAutoplayMod
+                    });
+                    return;
+                }
+
+                var mods = Mods.Value.Append(autoInstance).ToArray();
+
+                if (!ModUtils.CheckCompatibleSet(mods, out var invalid))
+                    mods = mods.Except(invalid).Append(autoInstance).ToArray();
+
+                Mods.Value = mods;
+            }
+
+            sampleConfirmSelection?.Play();
+
+            this.Push(playerLoader = new PlayerLoader(createPlayer));
+
+            Player createPlayer()
+            {
+                Player player;
+
+                var replayGeneratingMod = Mods.Value.OfType<ICreateReplayData>().FirstOrDefault();
+
+                if (replayGeneratingMod != null)
+                {
+                    player = new ReplayPlayer(replayGeneratingMod.CreateScoreFromReplayData);
+                }
+                else
+                {
+                    player = new BeatmapPlayer();
+                }
+
+                return player;
+            }
+        }
 
         public override IReadOnlyList<ScreenFooterButton> CreateFooterButtons() => new ScreenFooterButton[]
         {
@@ -418,6 +469,38 @@ namespace osu.Game.Screens.Select
             if (this.IsCurrentScreen())
                 updateDebounce();
         }
+
+        #region Player/beatmap things
+
+        public void Edit(BeatmapInfo beatmap)
+        {
+            if (!this.IsCurrentScreen())
+                return;
+
+            SelectAndRun(beatmap, () => this.Push(new EditorLoader()));
+        }
+
+        private ModAutoplay? getAutoplayMod() => Ruleset.Value.CreateInstance().GetAutoplayMod();
+
+        private void revertMods()
+        {
+            if (playerLoader == null) return;
+
+            Mods.Value = modsAtGameplayStart;
+            playerLoader = null;
+        }
+
+        private partial class PlayerLoader : Play.PlayerLoader
+        {
+            public override bool ShowFooter => !QuickRestart;
+
+            public PlayerLoader(Func<Player> createPlayer)
+                : base(createPlayer)
+            {
+            }
+        }
+
+        #endregion
 
         #region Selection debounce
 
@@ -686,6 +769,8 @@ namespace osu.Game.Screens.Select
                 music.ResetTrackAdjustments();
                 music.Play(requestedByUser: true);
             }
+
+            revertMods();
         }
 
         public override void OnSuspending(ScreenTransitionEvent e)
@@ -703,7 +788,10 @@ namespace osu.Game.Screens.Select
             this.FadeOut(fade_duration, Easing.OutQuint);
             onLeavingScreen();
 
-            return base.OnExiting(e);
+            bool result = base.OnExiting(e);
+            if (!result)
+                revertMods();
+            return result;
         }
 
         private void onArrivingAtScreen()
@@ -747,7 +835,6 @@ namespace osu.Game.Screens.Select
             ensurePlayingSelected();
             updateBackgroundDim();
             updateWedgeVisibility();
-            fetchOnlineInfo(force: ReferenceEquals(e.OldValue, e.NewValue));
         }
 
         private void onLeavingScreen()
@@ -1084,75 +1171,6 @@ namespace osu.Game.Screens.Select
 
         #endregion
 
-        #region Online lookups
-
-        public enum BeatmapSetLookupStatus
-        {
-            InProgress,
-            Completed,
-        }
-
-        public class BeatmapSetLookupResult
-        {
-            public BeatmapSetLookupStatus Status { get; }
-            public APIBeatmapSet? Result { get; }
-
-            private BeatmapSetLookupResult(BeatmapSetLookupStatus status, APIBeatmapSet? result)
-            {
-                Status = status;
-                Result = result;
-            }
-
-            public static BeatmapSetLookupResult InProgress() => new BeatmapSetLookupResult(BeatmapSetLookupStatus.InProgress, null);
-            public static BeatmapSetLookupResult Completed(APIBeatmapSet? beatmapSet) => new BeatmapSetLookupResult(BeatmapSetLookupStatus.Completed, beatmapSet);
-        }
-
-        /// <summary>
-        /// Result of the latest online beatmap set lookup.
-        /// Note that this being <see langword="null"/> or <see cref="BeatmapSetLookupResult.InProgress"/> is different from
-        /// being a <see cref="BeatmapSetLookupResult.Completed"/> with a <see cref="BeatmapSetLookupResult.Result"/> of null.
-        /// The former indicates a lookup never occurring or being in progress, while the latter indicates a completed lookup with no result.
-        /// </summary>
-        [Cached(typeof(IBindable<BeatmapSetLookupResult?>))]
-        private readonly Bindable<BeatmapSetLookupResult?> lastLookupResult = new Bindable<BeatmapSetLookupResult?>();
-
-        private CancellationTokenSource? onlineLookupCancellation;
-        private Task<APIBeatmapSet?>? currentOnlineLookup;
-
-        private void fetchOnlineInfo(bool force = false)
-        {
-            var beatmapSetInfo = Beatmap.Value.BeatmapSetInfo;
-
-            if (lastLookupResult.Value?.Result?.OnlineID == beatmapSetInfo.OnlineID && !force)
-                return;
-
-            onlineLookupCancellation?.Cancel();
-            onlineLookupCancellation = null;
-
-            if (beatmapSetInfo.OnlineID < 0)
-            {
-                lastLookupResult.Value = BeatmapSetLookupResult.Completed(null);
-                return;
-            }
-
-            lastLookupResult.Value = BeatmapSetLookupResult.InProgress();
-            onlineLookupCancellation = new CancellationTokenSource();
-            currentOnlineLookup = onlineLookupSource.GetBeatmapSetAsync(beatmapSetInfo.OnlineID, onlineLookupCancellation.Token);
-            currentOnlineLookup.ContinueWith(t =>
-            {
-                if (t.IsCompletedSuccessfully)
-                    Schedule(() => lastLookupResult.Value = BeatmapSetLookupResult.Completed(t.GetResultSafely()));
-
-                if (t.Exception != null)
-                {
-                    Logger.Log($"Error when fetching online beatmap set: {t.Exception}", LoggingTarget.Network);
-                    Schedule(() => lastLookupResult.Value = BeatmapSetLookupResult.Completed(null));
-                }
-            });
-        }
-
-        #endregion
-
         #region Implementation of ISongSelect
 
         void ISongSelect.Search(string query) => FilterControl.Search(query);
@@ -1216,27 +1234,28 @@ namespace osu.Game.Screens.Select
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
 
-        public virtual IEnumerable<OsuMenuItem> GetForwardActions(BeatmapInfo beatmap)
+        public IEnumerable<OsuMenuItem> GetForwardActions(BeatmapInfo beatmap)
         {
-            yield return new OsuMenuItem(GlobalActionKeyBindingStrings.Select, MenuItemType.Highlighted, () => SelectAndRun(beatmap, OnStart))
-            {
-                Icon = FontAwesome.Solid.Check
-            };
-
-            yield return new OsuMenuItemSpacer();
-
-            if (beatmap.OnlineID > 0)
-            {
-                yield return new OsuMenuItem(CommonStrings.Details, MenuItemType.Standard, () => beatmapOverlay?.FetchAndShowBeatmap(beatmap.OnlineID));
-
-                if (beatmap.GetOnlineURL(api, Ruleset.Value) is string url)
-                    yield return new OsuMenuItem(CommonStrings.CopyLink, MenuItemType.Standard, () => (game as OsuGame)?.CopyToClipboard(url));
-            }
+            yield return new OsuMenuItem(ButtonSystemStrings.Play.ToSentence(), MenuItemType.Highlighted, () => SelectAndRun(beatmap, OnStart)) { Icon = FontAwesome.Solid.Check };
+            yield return new OsuMenuItem(ButtonSystemStrings.Edit.ToSentence(), MenuItemType.Standard, () => Edit(beatmap)) { Icon = FontAwesome.Solid.PencilAlt };
 
             yield return new OsuMenuItemSpacer();
 
             foreach (var i in CreateCollectionMenuActions(beatmap))
                 yield return i;
+
+            if (beatmap.LastPlayed == null)
+                yield return new OsuMenuItem(SongSelectStrings.MarkAsPlayed, MenuItemType.Standard, () => beatmaps.MarkPlayed(beatmap)) { Icon = FontAwesome.Solid.TimesCircle };
+            else
+                yield return new OsuMenuItem(SongSelectStrings.RemoveFromPlayed, MenuItemType.Standard, () => beatmaps.MarkNotPlayed(beatmap)) { Icon = FontAwesome.Solid.TimesCircle };
+
+            yield return new OsuMenuItem(SongSelectStrings.ClearAllScores, MenuItemType.Standard, () => dialogOverlay?.Push(new BeatmapClearScoresDialog(beatmap)))
+            {
+                Icon = FontAwesome.Solid.Eraser
+            };
+
+            if (beatmaps.CanHide(beatmap))
+                yield return new OsuMenuItem(WebCommonStrings.ButtonsHide.ToSentence(), MenuItemType.Destructive, () => beatmaps.Hide(beatmap));
         }
 
         protected IEnumerable<OsuMenuItem> CreateCollectionMenuActions(BeatmapInfo beatmap)

@@ -15,7 +15,6 @@ using osu.Framework.Graphics.Effects;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Localisation;
 using osu.Framework.Threading;
-using osu.Game.Beatmaps.Drawables.Cards;
 using osu.Game.Configuration;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests;
@@ -52,13 +51,6 @@ namespace osu.Game.Overlays.BeatmapListing
         /// The current page fetched of results (zero index).
         /// </summary>
         public int CurrentPage { get; private set; }
-
-        /// <summary>
-        /// The currently selected <see cref="BeatmapCardSize"/>.
-        /// </summary>
-        public IBindable<BeatmapCardSize> CardSize => cardSize;
-
-        private readonly Bindable<BeatmapCardSize> cardSize = new Bindable<BeatmapCardSize>();
 
         private readonly BeatmapListingSearchControl searchControl;
         private readonly BeatmapListingSortTabControl sortControl;
@@ -120,13 +112,6 @@ namespace osu.Game.Overlays.BeatmapListing
                                 Origin = Anchor.CentreLeft,
                                 Margin = new MarginPadding { Left = 20 }
                             },
-                            new BeatmapListingCardSizeTabControl
-                            {
-                                Anchor = Anchor.CentreRight,
-                                Origin = Anchor.CentreRight,
-                                Margin = new MarginPadding { Right = 20 },
-                                Current = { BindTarget = CardSize }
-                            }
                         }
                     }
                 }
@@ -154,8 +139,6 @@ namespace osu.Game.Overlays.BeatmapListing
         protected override void LoadComplete()
         {
             base.LoadComplete();
-
-            config.BindWith(OsuSetting.BeatmapListingCardSize, cardSize);
 
             searchControl.Query.BindValueChanged(_ =>
             {

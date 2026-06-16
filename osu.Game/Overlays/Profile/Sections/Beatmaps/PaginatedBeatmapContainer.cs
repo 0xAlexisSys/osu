@@ -6,7 +6,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Localisation;
-using osu.Game.Beatmaps.Drawables.Cards;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
@@ -67,12 +66,6 @@ namespace osu.Game.Overlays.Profile.Sections.Beatmaps
         protected override APIRequest<List<APIBeatmapSet>> CreateRequest(UserProfileData user, PaginationParameters pagination) =>
             new GetUserBeatmapsRequest(user.User.Id, type, pagination);
 
-        protected override Drawable? CreateDrawableItem(APIBeatmapSet model) => model.OnlineID > 0
-            ? new BeatmapCardNormal(model)
-            {
-                Anchor = Anchor.TopCentre,
-                Origin = Anchor.TopCentre
-            }
-            : null;
+        protected override Drawable? CreateDrawableItem(APIBeatmapSet model) => null;
     }
 }

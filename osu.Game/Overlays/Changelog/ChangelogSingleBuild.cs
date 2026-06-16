@@ -17,7 +17,6 @@ using osu.Game.Graphics.UserInterface;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Overlays.Comments;
 using osuTK;
 
 namespace osu.Game.Overlays.Changelog
@@ -61,8 +60,6 @@ namespace osu.Game.Overlays.Changelog
 
             if (onlineBuildDetails == null) return;
 
-            CommentsContainer comments;
-
             Children = new Drawable[]
             {
                 new ChangelogBuildWithNavigation(onlineBuildDetails) { SelectBuild = SelectBuild },
@@ -84,10 +81,7 @@ namespace osu.Game.Overlays.Changelog
                     Colour = colourProvider.Background6,
                     Alpha = api.LocalUser.Value.IsSupporter ? 0 : 1,
                 },
-                comments = new CommentsContainer()
             };
-
-            comments.ShowComments(CommentableType.Build, onlineBuildDetails.Id);
         }
 
         public partial class ChangelogBuildWithNavigation : ChangelogBuild

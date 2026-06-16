@@ -34,15 +34,6 @@ namespace osu.Game.Users.Drawables
                 Text = user!.Username,
                 Font = OsuFont.Torus.With(size: 16, weight: FontWeight.SemiBold),
             };
-
-            if (user.Id != APIUser.SYSTEM_USER_ID)
-                Action = openProfile;
-        }
-
-        private void openProfile()
-        {
-            if (user.Id > 1 || !string.IsNullOrEmpty(user.Username))
-                game?.ShowUser(user);
         }
     }
 }

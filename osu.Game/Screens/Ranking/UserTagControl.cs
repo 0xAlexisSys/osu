@@ -17,7 +17,6 @@ using osu.Framework.Input;
 using osu.Framework.Input.Events;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
-using osu.Game.Extensions;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
@@ -37,8 +36,6 @@ namespace osu.Game.Screens.Ranking
         private FillFlowContainer<DrawableUserTag> tagFlow = null!;
 
         private BindableList<UserTag> displayedTags { get; } = new BindableList<UserTag>();
-
-        private Bindable<APITag[]?> apiTags = null!;
         private BindableDictionary<long, UserTag> relevantTagsById { get; } = new BindableDictionary<long, UserTag>();
 
         private readonly Bindable<APIBeatmap?> apiBeatmap = new Bindable<APIBeatmap?>();
@@ -113,26 +110,12 @@ namespace osu.Game.Screens.Ranking
                     }
                 },
             };
-
-            apiTags = sessionStatics.GetBindable<APITag[]?>(Static.AllBeatmapTags);
-
-            if (apiTags.Value == null)
-            {
-                var listTagsRequest = new ListTagsRequest();
-                listTagsRequest.Success += tags => apiTags.Value = tags.Tags.ToArray();
-                api.Queue(listTagsRequest);
-            }
-
-            var getBeatmapSetRequest = new GetBeatmapSetRequest(beatmapInfo.BeatmapSet!.OnlineID);
-            getBeatmapSetRequest.Success += set => apiBeatmap.Value = set.Beatmaps.SingleOrDefault(b => b.MatchesOnlineID(beatmapInfo));
-            api.Queue(getBeatmapSetRequest);
         }
 
         protected override void LoadComplete()
         {
             base.LoadComplete();
 
-            apiTags.BindValueChanged(_ => updateTags());
             apiBeatmap.BindValueChanged(_ => updateTags());
             updateTags();
 
@@ -143,13 +126,8 @@ namespace osu.Game.Screens.Ranking
 
         private void updateTags()
         {
-            if (apiTags.Value == null || apiBeatmap.Value == null)
+            if (apiBeatmap.Value == null)
                 return;
-
-            relevantTagsById.Clear();
-            relevantTagsById.AddRange(apiTags.Value
-                                             .Where(t => t.RulesetId == null || t.RulesetId == beatmapInfo.Ruleset.OnlineID)
-                                             .Select(t => new KeyValuePair<long, UserTag>(t.Id, new UserTag(t))));
 
             foreach (var topTag in apiBeatmap.Value.TopTags ?? [])
             {

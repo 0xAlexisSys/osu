@@ -19,20 +19,11 @@ namespace osu.Game.Online.API.Requests.Responses
         [JsonProperty(@"id")]
         public int OnlineID { get; set; }
 
-        [JsonProperty(@"status")]
-        public BeatmapOnlineStatus Status { get; set; }
-
         [JsonProperty(@"preview_url")]
         public string Preview { get; set; } = string.Empty;
 
         [JsonProperty(@"has_favourited")]
         public bool HasFavourited { get; set; }
-
-        [JsonProperty(@"play_count")]
-        public int PlayCount { get; set; }
-
-        [JsonProperty(@"favourite_count")]
-        public int FavouriteCount { get; set; }
 
         [JsonProperty(@"bpm")]
         public double BPM { get; set; }
@@ -48,15 +39,6 @@ namespace osu.Game.Online.API.Requests.Responses
 
         [JsonProperty(@"storyboard")]
         public bool HasStoryboard { get; set; }
-
-        [JsonProperty(@"submitted_date")]
-        public DateTimeOffset Submitted { get; set; }
-
-        [JsonProperty(@"ranked_date")]
-        public DateTimeOffset? Ranked { get; set; }
-
-        [JsonProperty(@"last_updated")]
-        public DateTimeOffset? LastUpdated { get; set; }
 
         [JsonProperty("ratings")]
         public int[] Ratings { get; set; } = Array.Empty<int>();

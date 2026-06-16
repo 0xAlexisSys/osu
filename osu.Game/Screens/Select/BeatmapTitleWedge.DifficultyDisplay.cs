@@ -19,8 +19,6 @@ using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Localisation;
-using osu.Game.Online;
-using osu.Game.Online.Chat;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
@@ -231,7 +229,7 @@ namespace osu.Game.Screens.Select
             }
 
             [Resolved]
-            private ILinkHandler? linkHandler { get; set; }
+            private ISongSelect? songSelect { get; set; }
 
             private void updateDisplay()
             {
@@ -247,11 +245,12 @@ namespace osu.Game.Screens.Select
                 {
                     ratingAndNameContainer.FadeIn(300, Easing.OutQuint);
                     difficultyText.Text = beatmap.Value.BeatmapInfo.DifficultyName;
-                    mapperLink.Action = () => linkHandler?.HandleLink(new LinkDetails(LinkAction.OpenUserProfile, beatmap.Value.Metadata.Author));
+                    mapperLink.Action = () => songSelect?.Search(beatmap.Value.Metadata.Author.Username);
                     mapperText.Text = beatmap.Value.Metadata.Author.Username;
                 }
 
-                starRatingDisplay.Current = (Bindable<StarDifficulty>)difficultyCache.GetBindableDifficulty(beatmap.Value.BeatmapInfo, cancellationSource.Token, SongSelect.DIFFICULTY_CALCULATION_DEBOUNCE);
+                starRatingDisplay.Current =
+                    (Bindable<StarDifficulty>)difficultyCache.GetBindableDifficulty(beatmap.Value.BeatmapInfo, cancellationSource.Token, SongSelect.DIFFICULTY_CALCULATION_DEBOUNCE);
 
                 updateCountStatistics(cancellationSource.Token);
                 updateDifficultyStatistics();
@@ -306,7 +305,9 @@ namespace osu.Game.Screens.Select
                 difficultyText.MaxWidth = Math.Max(nameLine.DrawWidth - mappedByText.DrawWidth - mapperText.DrawWidth - 20, 0);
 
                 // Use difficulty colour until it gets too dark to be visible against dark backgrounds.
-                Color4 col = starRatingDisplay.DisplayedStars.Value >= OsuColour.STAR_DIFFICULTY_DEFINED_COLOUR_CUTOFF ? starRatingDisplay.DisplayedDifficultyTextColour : starRatingDisplay.DisplayedDifficultyColour;
+                Color4 col = starRatingDisplay.DisplayedStars.Value >= OsuColour.STAR_DIFFICULTY_DEFINED_COLOUR_CUTOFF
+                    ? starRatingDisplay.DisplayedDifficultyTextColour
+                    : starRatingDisplay.DisplayedDifficultyColour;
 
                 difficultyText.Colour = col;
                 mappedByText.Colour = col;

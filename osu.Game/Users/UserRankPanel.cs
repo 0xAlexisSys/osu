@@ -82,8 +82,6 @@ namespace osu.Game.Users
 
         protected override Drawable CreateLayout()
         {
-            FillFlowContainer details;
-
             var layout = new Container
             {
                 RelativeSizeAxes = Axes.X,
@@ -147,21 +145,6 @@ namespace osu.Game.Users
                                             {
                                                 new Drawable[]
                                                 {
-                                                    details = new FillFlowContainer
-                                                    {
-                                                        AutoSizeAxes = Axes.Both,
-                                                        Direction = FillDirection.Horizontal,
-                                                        Spacing = new Vector2(6),
-                                                        Children = new[]
-                                                        {
-                                                            CreateFlag(),
-                                                            CreateTeamLogo(),
-                                                            // supporter icon is being added later
-                                                        }
-                                                    }
-                                                },
-                                                new Drawable[]
-                                                {
                                                     CreateUsername().With(username =>
                                                     {
                                                         username.Anchor = Anchor.CentreLeft;
@@ -203,15 +186,6 @@ namespace osu.Game.Users
                     loadingLayer = new LoadingLayer(true),
                 }
             };
-
-            if (User.IsSupporter)
-            {
-                details.Add(new SupporterIcon
-                {
-                    Height = 26,
-                    SupportLevel = User.SupportLevel
-                });
-            }
 
             return layout;
         }

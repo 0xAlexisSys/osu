@@ -42,14 +42,8 @@ namespace osu.Game.Online
 
             // metadata
             (typeof(UserActivity.ChoosingBeatmap), typeof(UserActivity)),
-            (typeof(UserActivity.InSoloGame), typeof(UserActivity)),
+            (typeof(UserActivity.PlayingBeatmap), typeof(UserActivity)),
             (typeof(UserActivity.WatchingReplay), typeof(UserActivity)),
-            (typeof(UserActivity.SpectatingUser), typeof(UserActivity)),
-            (typeof(UserActivity.SearchingForLobby), typeof(UserActivity)),
-            (typeof(UserActivity.InLobby), typeof(UserActivity)),
-            (typeof(UserActivity.InMultiplayerGame), typeof(UserActivity)),
-            (typeof(UserActivity.SpectatingMultiplayerGame), typeof(UserActivity)),
-            (typeof(UserActivity.InPlaylistGame), typeof(UserActivity)),
             (typeof(UserActivity.EditingBeatmap), typeof(UserActivity)),
             (typeof(UserActivity.ModdingBeatmap), typeof(UserActivity)),
             (typeof(UserActivity.TestingBeatmap), typeof(UserActivity)),

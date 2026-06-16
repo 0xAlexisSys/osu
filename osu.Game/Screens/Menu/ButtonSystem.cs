@@ -23,8 +23,6 @@ using osu.Game.Graphics.Containers;
 using osu.Game.Input;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
-using osu.Game.Overlays;
 using osuTK;
 using osuTK.Graphics;
 using osuTK.Input;
@@ -120,13 +118,7 @@ namespace osu.Game.Screens.Menu
         }
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
-
-        [Resolved]
         private OsuGame? game { get; set; }
-
-        [Resolved]
-        private LoginOverlay? loginOverlay { get; set; }
 
         [BackgroundDependencyLoader]
         private void load(AudioManager audio, IdleTracker? idleTracker, GameHost host)

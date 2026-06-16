@@ -57,7 +57,6 @@ namespace osu.Game.Screens.Select
         public Func<Mod, bool> IsValidMod { get; set; } = _ => true;
 
         public int? Rank { get; init; }
-        public HighlightType? Highlight { get; init; }
         public Action<ScoreInfo>? ShowReplay { get; init; }
 
         [Resolved]
@@ -169,11 +168,11 @@ namespace osu.Game.Screens.Select
                             {
                                 RelativeSizeAxes = Axes.Both,
                                 Padding = new MarginPadding { Right = -10f },
-                                Alpha = Highlight != null ? 1 : 0,
-                                Colour = getHighlightColour(Highlight),
+                                Alpha = 0,
+                                Colour = Colour4.White,
                                 Child = new Box { RelativeSizeAxes = Axes.Both },
                             },
-                            new RankLabel(Rank, sheared, darkText: Highlight == HighlightType.Own)
+                            new RankLabel(Rank, sheared, false)
                             {
                                 RelativeSizeAxes = Axes.Both,
                             }
@@ -277,18 +276,6 @@ namespace osu.Game.Screens.Select
                                                         Masking = true,
                                                         Children = new Drawable[]
                                                         {
-                                                            new UpdateableFlag(Score.User.CountryCode)
-                                                            {
-                                                                Anchor = Anchor.CentreLeft,
-                                                                Origin = Anchor.CentreLeft,
-                                                                Size = new Vector2(20, 14),
-                                                            },
-                                                            new UpdateableTeamFlag(Score.User.Team)
-                                                            {
-                                                                Anchor = Anchor.CentreLeft,
-                                                                Origin = Anchor.CentreLeft,
-                                                                Size = new Vector2(30, 15),
-                                                            },
                                                             new DateLabel(Score.Date)
                                                             {
                                                                 Anchor = Anchor.CentreLeft,
@@ -465,21 +452,6 @@ namespace osu.Game.Screens.Select
             innerAvatar.OnLoadComplete += d => d.FadeInFromZero(200);
         }
 
-        private ColourInfo getHighlightColour(HighlightType? highlightType, float lightenAmount = 0)
-        {
-            switch (highlightType)
-            {
-                case HighlightType.Own:
-                    return ColourInfo.GradientHorizontal(personal_best_gradient_left.Lighten(lightenAmount), personal_best_gradient_right.Lighten(lightenAmount));
-
-                case HighlightType.Friend:
-                    return ColourInfo.GradientHorizontal(colours.Pink1.Lighten(lightenAmount), colours.Pink3.Lighten(lightenAmount));
-
-                default:
-                    return Colour4.White;
-            }
-        }
-
         protected override void LoadComplete()
         {
             base.LoadComplete();
@@ -541,7 +513,7 @@ namespace osu.Game.Screens.Select
             foreground.FadeColour(IsHovered ? foregroundColour.Lighten(0.2f) : foregroundColour, transition_duration, Easing.OutQuint);
             background.FadeColour(IsHovered ? backgroundColour.Lighten(0.2f) : backgroundColour, transition_duration, Easing.OutQuint);
             totalScoreBackground.FadeColour(IsHovered ? lightenedGradient : totalScoreBackgroundGradient, transition_duration, Easing.OutQuint);
-            highlightGradient.FadeColour(getHighlightColour(Highlight, IsHovered ? 0.2f : 0), transition_duration, Easing.OutQuint);
+            highlightGradient.FadeColour(Colour4.White, transition_duration, Easing.OutQuint);
 
             if (IsHovered && currentMode != DisplayMode.Full)
                 rankLabelOverlay.FadeIn(transition_duration, Easing.OutQuint);
@@ -737,12 +709,6 @@ namespace osu.Game.Screens.Select
             }
 
             public LocalisableString TooltipText { get; }
-        }
-
-        public enum HighlightType
-        {
-            Own,
-            Friend,
         }
     }
 }

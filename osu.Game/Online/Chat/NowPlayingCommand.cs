@@ -62,7 +62,7 @@ namespace osu.Game.Online.Chat
 
             switch (userActivity.Value)
             {
-                case UserActivity.InGame game:
+                case UserActivity.PlayingBeatmap game:
                     verb = "playing";
                     beatmapOnlineID = game.BeatmapID;
                     beatmapDisplayTitle = game.BeatmapDisplayTitle;
@@ -100,14 +100,14 @@ namespace osu.Game.Online.Chat
 
             string getRulesetPart()
             {
-                if (userActivity.Value is not UserActivity.InGame) return string.Empty;
+                if (userActivity.Value is not UserActivity.PlayingBeatmap) return string.Empty;
 
                 return $"<{currentRuleset.Value.Name}>";
             }
 
             string getModPart()
             {
-                if (userActivity.Value is not UserActivity.InGame) return string.Empty;
+                if (userActivity.Value is not UserActivity.PlayingBeatmap) return string.Empty;
 
                 if (selectedMods.Value.Count == 0)
                 {

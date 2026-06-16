@@ -76,9 +76,9 @@ namespace osu.Game.Tests.Visual
 
             AddUntilStep("Wait for main menu", () => Game.ScreenStack.CurrentScreen is MainMenu);
 
-            SoloSongSelect songSelect = null;
+            SongSelect songSelect = null;
 
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new SongSelect());
             AddUntilStep("wait for carousel load", () => songSelect.CarouselItemsPresented && !songSelect.IsFiltering);
 
             AddStep("Present same beatmap", () => Game.PresentBeatmap(Game.BeatmapManager.QueryBeatmapSet(set => set.ID == beatmapSetGuid)!.Value, beatmap => beatmap.ID == beatmapGuid));

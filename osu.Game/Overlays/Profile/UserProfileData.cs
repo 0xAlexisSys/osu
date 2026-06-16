@@ -7,7 +7,7 @@ using osu.Game.Rulesets;
 namespace osu.Game.Overlays.Profile
 {
     /// <summary>
-    /// Contains data about a profile presented on the <see cref="UserProfileOverlay"/>.
+    /// Contains data about a profile.
     /// </summary>
     public class UserProfileData
     {

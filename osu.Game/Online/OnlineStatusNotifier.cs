@@ -112,7 +112,7 @@ namespace osu.Game.Online
                 switch (getCurrentScreen())
                 {
                     case SpectatorPlayer: // obvious issues
-                    case SubmittingPlayer: // replay sending issues
+                    case BeatmapPlayer: // replay sending issues
                         notifyApiDisconnection();
                         break;
                 }

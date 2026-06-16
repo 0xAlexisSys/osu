@@ -9,7 +9,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Effects;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Events;
-using osu.Game.Beatmaps.Drawables.Cards;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Rooms;
@@ -63,7 +62,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match.BeatmapSelect
                         {
                             RelativeSizeAxes = Axes.Both,
                             Masking = true,
-                            CornerRadius = BeatmapCard.CORNER_RADIUS,
                             CornerExponent = 10,
                             Child = lighting = new Box
                             {
@@ -77,7 +75,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match.BeatmapSelect
                         {
                             Alpha = 0,
                             Masking = true,
-                            CornerRadius = BeatmapCard.CORNER_RADIUS,
                             CornerExponent = 10,
                             Blending = BlendingParameters.Additive,
                             RelativeSizeAxes = Axes.Both,

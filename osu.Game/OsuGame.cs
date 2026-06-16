@@ -129,10 +129,6 @@ namespace osu.Game
 
         private NewsOverlay news;
 
-        private UserProfileOverlay userProfile;
-
-        private BeatmapSetOverlay beatmapSetOverlay;
-
         private WikiOverlay wikiOverlay;
 
         private ChangelogOverlay changelogOverlay;
@@ -478,17 +474,6 @@ namespace osu.Game
 
             switch (link.Action)
             {
-                case LinkAction.OpenBeatmap:
-                    // TODO: proper query params handling
-                    if (int.TryParse(argString.Contains('?') ? argString.Split('?')[0] : argString, out int beatmapId))
-                        ShowBeatmap(beatmapId);
-                    break;
-
-                case LinkAction.OpenBeatmapSet:
-                    if (int.TryParse(argString, out int setId))
-                        ShowBeatmapSet(setId);
-                    break;
-
                 case LinkAction.OpenChannel:
                     ShowChannel(argString);
                     break;
@@ -523,10 +508,6 @@ namespace osu.Game
 
                 case LinkAction.External:
                     OpenUrlExternally(argString);
-                    break;
-
-                case LinkAction.OpenUserProfile:
-                    ShowUser((IUser)link.Argument);
                     break;
 
                 case LinkAction.OpenWiki:
@@ -577,24 +558,6 @@ namespace osu.Game
                 Logger.Log($"The requested channel \"{channel}\" does not exist");
             }
         });
-
-        /// <summary>
-        /// Show a beatmap set as an overlay.
-        /// </summary>
-        /// <param name="setId">The set to display.</param>
-        public void ShowBeatmapSet(int setId) => waitForReady(() => beatmapSetOverlay, _ => beatmapSetOverlay.FetchAndShowBeatmapSet(setId));
-
-        /// <summary>
-        /// Show a user's profile as an overlay.
-        /// </summary>
-        /// <param name="user">The user to display.</param>
-        public void ShowUser(IUser user) => waitForReady(() => userProfile, _ => userProfile.ShowUser(user));
-
-        /// <summary>
-        /// Show a beatmap's set as an overlay, displaying the given beatmap.
-        /// </summary>
-        /// <param name="beatmapId">The beatmap to show.</param>
-        public void ShowBeatmap(int beatmapId) => waitForReady(() => beatmapSetOverlay, _ => beatmapSetOverlay.FetchAndShowBeatmap(beatmapId));
 
         /// <summary>
         /// Shows the beatmap listing overlay, with the given <paramref name="query"/> in the search box.
@@ -956,7 +919,7 @@ namespace osu.Game
                     newTitle = Name;
                     break;
 
-                case UserActivity.InGame:
+                case UserActivity.PlayingBeatmap:
                 case UserActivity.TestingBeatmap:
                 case UserActivity.WatchingReplay:
                     newTitle = $"{Name} - {Beatmap.Value.BeatmapInfo.GetDisplayTitleRomanisable(true, false)}";
@@ -1209,22 +1172,13 @@ namespace osu.Game
             loadComponentSingleFile(new ManageCollectionsDialog(), overlayContent.Add, true);
             loadComponentSingleFile(beatmapListing = new BeatmapListingOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(news = new NewsOverlay(), overlayContent.Add, true);
-            var rankingsOverlay = loadComponentSingleFile(new RankingsOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(channelManager = new ChannelManager(API), Add, true);
             loadComponentSingleFile(chatOverlay = new ChatOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(new MessageNotifier(), Add, true);
             loadComponentSingleFile(Settings = new SettingsOverlay(), leftFloatingOverlayContent.Add, true);
             loadComponentSingleFile(changelogOverlay = new ChangelogOverlay(), overlayContent.Add, true);
-            loadComponentSingleFile(userProfile = new UserProfileOverlay(), overlayContent.Add, true);
-            loadComponentSingleFile(beatmapSetOverlay = new BeatmapSetOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(wikiOverlay = new WikiOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(skinEditor = new SkinEditorOverlay(ScreenContainer), overlayContent.Add, true);
-
-            loadComponentSingleFile(new LoginOverlay
-            {
-                Anchor = Anchor.TopRight,
-                Origin = Anchor.TopRight,
-            }, rightFloatingOverlayContent.Add, true);
 
             loadComponentSingleFile(new NowPlayingOverlay
             {
@@ -1243,8 +1197,6 @@ namespace osu.Game
             Add(externalLinkOpener = new ExternalLinkOpener());
             Add(new MusicKeyBindingHandler());
             Add(new OnlineStatusNotifier(() => ScreenStack.CurrentScreen));
-            Add(new FriendPresenceNotifier());
-
             // side overlays which cancel each other.
             var singleDisplaySideOverlays = new OverlayContainer[] { Settings, Notifications, FirstRunOverlay };
 
@@ -1258,28 +1210,13 @@ namespace osu.Game
                 };
             }
 
-            // eventually informational overlays should be displayed in a stack, but for now let's only allow one to stay open at a time.
-            var informationalOverlays = new OverlayContainer[] { beatmapSetOverlay, userProfile };
-
-            foreach (var overlay in informationalOverlays)
-            {
-                overlay.State.ValueChanged += state =>
-                {
-                    if (state.NewValue != Visibility.Hidden)
-                        showOverlayAboveOthers(overlay, informationalOverlays);
-                };
-            }
-
             // ensure only one of these overlays are open at once.
-            var singleDisplayOverlays = new OverlayContainer[] { chatOverlay, news, beatmapListing, changelogOverlay, rankingsOverlay, wikiOverlay };
+            var singleDisplayOverlays = new OverlayContainer[] { chatOverlay, news, beatmapListing, changelogOverlay, wikiOverlay };
 
             foreach (var overlay in singleDisplayOverlays)
             {
                 overlay.State.ValueChanged += state =>
                 {
-                    // informational overlays should be dismissed on a show or hide of a full overlay.
-                    informationalOverlays.ForEach(o => o.Hide());
-
                     if (state.NewValue != Visibility.Hidden)
                         showOverlayAboveOthers(overlay, singleDisplayOverlays);
                 };
@@ -1613,13 +1550,6 @@ namespace osu.Game
                 case GlobalAction.ToggleGameplayMouseButtons:
                     var mouseDisableButtons = LocalConfig.GetBindable<bool>(OsuSetting.MouseDisableButtons);
                     mouseDisableButtons.Value = !mouseDisableButtons.Value;
-                    return true;
-
-                case GlobalAction.ToggleProfile:
-                    if (userProfile.State.Value == Visibility.Visible)
-                        userProfile.Hide();
-                    else
-                        ShowUser(API.LocalUser.Value);
                     return true;
 
                 case GlobalAction.RandomSkin:

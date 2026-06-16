@@ -15,7 +15,6 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
-using osu.Framework.Screens;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
@@ -27,8 +26,6 @@ using osu.Game.Online.Chat;
 using osu.Game.Online.Multiplayer;
 using osu.Game.Resources.Localisation.Web;
 using osu.Game.Screens;
-using osu.Game.Screens.Play;
-using osu.Game.Users;
 using osuTK;
 using osuTK.Graphics;
 using ChatStrings = osu.Game.Localisation.ChatStrings;
@@ -87,9 +84,6 @@ namespace osu.Game.Overlays.Chat
         [Resolved(canBeNull: true)]
         private ChatOverlay? chatOverlay { get; set; }
 
-        [Resolved(canBeNull: true)]
-        private UserProfileOverlay? profileOverlay { get; set; }
-
         [Resolved]
         private Bindable<Channel?>? currentChannel { get; set; }
 
@@ -104,8 +98,6 @@ namespace osu.Game.Overlays.Chat
         public DrawableChatUsername(APIUser user)
         {
             this.user = user;
-
-            Action = openUserProfile;
 
             drawableText = new TruncatingSpriteText
             {
@@ -189,8 +181,6 @@ namespace osu.Game.Overlays.Chat
                     }));
                 }
 
-                items.Add(new OsuMenuItem(ContextMenuStrings.ViewProfile, MenuItemType.Highlighted, openUserProfile));
-
                 items.Add(new OsuMenuItem(UsersStrings.CardSendMessage, MenuItemType.Standard, openUserChannel));
 
                 // We should probably be checking against an online state here.
@@ -198,11 +188,6 @@ namespace osu.Game.Overlays.Chat
                 // This isn't really too bad – worst case scenario the client will open spectator view and show the user as "offline".
                 {
                     items.Add(new OsuMenuItemSpacer());
-
-                    items.Add(new OsuMenuItem(ContextMenuStrings.SpectatePlayer, MenuItemType.Standard, () =>
-                    {
-                        performer?.PerformFromScreen(s => s.Push(new SoloSpectatorScreen(user)));
-                    }));
 
                     if (multiplayerClient?.Room?.Users.All(u => u.UserID != user.Id) == true)
                     {
@@ -212,9 +197,6 @@ namespace osu.Game.Overlays.Chat
 
                 items.Add(new OsuMenuItemSpacer());
                 items.Add(new OsuMenuItem(UsersStrings.ReportButtonText, MenuItemType.Destructive, ReportRequested));
-                items.Add(api.LocalUserState.Blocks.Any(b => b.TargetID == user.OnlineID)
-                    ? new OsuMenuItem(UsersStrings.BlocksButtonUnblock, MenuItemType.Standard, () => dialogOverlay?.Push(ConfirmBlockActionDialog.Unblock(user)))
-                    : new OsuMenuItem(UsersStrings.BlocksButtonBlock, MenuItemType.Destructive, () => dialogOverlay?.Push(ConfirmBlockActionDialog.Block(user))));
 
                 return items.ToArray();
             }
@@ -224,11 +206,6 @@ namespace osu.Game.Overlays.Chat
         {
             chatManager?.OpenPrivateChannel(user);
             chatOverlay?.Show();
-        }
-
-        private void openUserProfile()
-        {
-            profileOverlay?.ShowUser(user);
         }
 
         protected override bool OnHover(HoverEvent e)

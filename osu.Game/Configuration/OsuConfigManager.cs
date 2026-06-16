@@ -10,7 +10,6 @@ using osu.Framework.Extensions;
 using osu.Framework.Extensions.LocalisationExtensions;
 using osu.Framework.Localisation;
 using osu.Framework.Platform;
-using osu.Game.Beatmaps.Drawables.Cards;
 using osu.Game.Input;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
@@ -56,9 +55,6 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.ModSelectTextSearchStartsActive, true);
 
             SetDefault(OsuSetting.ChatDisplayHeight, ChatOverlay.DEFAULT_HEIGHT, 0.2f, 1f, 0.01f);
-
-            SetDefault(OsuSetting.BeatmapListingCardSize, BeatmapCardSize.Normal);
-            SetDefault(OsuSetting.BeatmapListingFeaturedArtistFilter, true);
 
             SetDefault(OsuSetting.ProfileCoverExpanded, true);
 
@@ -375,7 +371,6 @@ namespace osu.Game.Configuration
         ModSelectHotkeyStyle,
         ShowFpsDisplay,
         ChatDisplayHeight,
-        BeatmapListingCardSize,
         SongSelectBackgroundBlur,
         Version,
         ShowFirstRunSetup,
@@ -442,7 +437,6 @@ namespace osu.Game.Configuration
         EditorAdjustExistingObjectsOnTimingChanges,
         AlwaysRequireHoldingForPause,
         MultiplayerShowInProgressFilter,
-        BeatmapListingFeaturedArtistFilter,
         ShowMobileDisclaimer,
         EditorShowStoryboard,
         EditorSubmissionNotifyOnDiscussionReplies,

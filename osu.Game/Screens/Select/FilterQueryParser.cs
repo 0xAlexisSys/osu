@@ -65,13 +65,7 @@ namespace osu.Game.Screens.Select
                 case "lastplayed":
                     return tryUpdateDateAgoRange(ref criteria.LastPlayed, op, value);
 
-                case "ranked":
-                    return tryUpdateRankedDateRange(ref criteria.DateRanked, op, value);
-
                 case "created":
-                case "submitted":
-                    return tryUpdateRankedDateRange(ref criteria.DateSubmitted, op, value);
-
                 case "played":
                     if (!tryParseBool(value, out bool played))
                         return false;
@@ -99,9 +93,6 @@ namespace osu.Game.Screens.Select
                 case "divisor":
                     return TryUpdateCriteriaRange(ref criteria.BeatDivisor, op, value, tryParseInt);
 
-                case "status":
-                    return TryUpdateCriteriaSet(ref criteria.OnlineStatus, op, value);
-
                 case "creator":
                 case "author":
                 case "mapper":
@@ -122,7 +113,6 @@ namespace osu.Game.Screens.Select
                 case "tag":
                     var tagFilter = new FilterCriteria.OptionalTextFilter();
                     TryUpdateCriteriaText(ref tagFilter, op, value);
-                    criteria.UserTags.Add(tagFilter);
                     return true;
 
                 default:

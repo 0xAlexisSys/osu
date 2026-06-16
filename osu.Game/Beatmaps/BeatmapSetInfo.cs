@@ -56,6 +56,8 @@ namespace osu.Game.Beatmaps
 
         public bool DeletePending { get; set; }
 
+        public bool HasFavourited { get; set; }
+
         public string Hash { get; set; } = string.Empty;
 
         /// <summary>

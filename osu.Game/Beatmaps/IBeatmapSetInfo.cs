@@ -23,6 +23,11 @@ namespace osu.Game.Beatmaps
         IBeatmapMetadataInfo Metadata { get; }
 
         /// <summary>
+        /// Whether this beatmap set has been favourited.
+        /// </summary>
+        bool HasFavourited { get; }
+
+        /// <summary>
         /// All beatmaps contained in this set.
         /// </summary>
         IEnumerable<IBeatmapInfo> Beatmaps { get; }

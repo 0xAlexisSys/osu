@@ -69,7 +69,6 @@ namespace osu.Game.Screens.Select
         private RealmAccess realm { get; set; } = null!;
 
         private IBindable<APIUser> localUser = null!;
-        private readonly IBindableList<int> localUserFavouriteBeatmapSets = new BindableList<int>();
 
         public LocalisableString StatusText
         {
@@ -214,7 +213,6 @@ namespace osu.Game.Screens.Select
             };
 
             localUser = api.LocalUser.GetBoundCopy();
-            localUserFavouriteBeatmapSets.BindTo(api.LocalUserState.FavouriteBeatmapSets);
         }
 
         protected override void LoadComplete()
@@ -277,7 +275,6 @@ namespace osu.Game.Screens.Select
             });
 
             localUser.BindValueChanged(_ => updateCriteria());
-            localUserFavouriteBeatmapSets.BindCollectionChanged((_, _) => updateCriteria());
             ScopedBeatmapSet.BindValueChanged(_ => updateCriteria(clearScopedSet: false));
 
             updateCriteria();

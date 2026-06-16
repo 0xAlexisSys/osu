@@ -231,7 +231,7 @@ namespace osu.Game.Screens.Ranking
             if (Score?.BeatmapInfo != null)
                 buttons.Add(new CollectionButton(Score.BeatmapInfo));
 
-            if (Score?.BeatmapInfo?.BeatmapSet != null && Score.BeatmapInfo.BeatmapSet.OnlineID > 0)
+            if (Score?.BeatmapInfo?.BeatmapSet != null)
                 buttons.Add(new FavouriteButton(Score.BeatmapInfo.BeatmapSet));
         }
 

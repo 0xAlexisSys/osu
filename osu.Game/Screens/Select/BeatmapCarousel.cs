@@ -452,7 +452,9 @@ namespace osu.Game.Screens.Select
                             // hidden changed, needs re-filter
                             oldBeatmap.Hidden == newBeatmap.Hidden &&
                             // might be used for grouping, returning from gameplay
-                            oldBeatmap.LastPlayed == newBeatmap.LastPlayed;
+                            oldBeatmap.LastPlayed == newBeatmap.LastPlayed &&
+                            // favourite status changed
+                            oldBeatmap.BeatmapSet?.HasFavourited == newBeatmap.BeatmapSet?.HasFavourited;
 
                         if (equalForDisplayPurposes)
                             return false;
@@ -852,12 +854,7 @@ namespace osu.Game.Screens.Select
             return topRankMapping;
         });
 
-        /// <remarks>
-        /// Note that calling <c>.ToHashSet()</c> below has two purposes:
-        /// one being performance of contain checks in filtering code,
-        /// another being slightly better thread safety (as <see cref="ILocalUserState.FavouriteBeatmapSets"/> could be mutated during async filtering).
-        /// </remarks>
-        protected HashSet<int> GetFavouriteBeatmapSets() => api.LocalUserState.FavouriteBeatmapSets.ToHashSet();
+        protected virtual List<BeatmapSetInfo> GetFavouriteBeatmapSets() => realm.Run(r => r.All<BeatmapSetInfo>().Where(s => s.HasFavourited).AsEnumerable().Detach());
 
         #endregion
 

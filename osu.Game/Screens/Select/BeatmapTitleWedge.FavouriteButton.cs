@@ -2,7 +2,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Diagnostics;
+using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
@@ -13,15 +13,11 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
+using osu.Game.Beatmaps;
+using osu.Game.Database;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
-using osu.Game.Graphics.Sprites;
-using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Overlays;
-using osu.Game.Overlays.Notifications;
 using osu.Game.Resources.Localisation.Web;
 using osuTK;
 using osuTK.Graphics;
@@ -35,13 +31,11 @@ namespace osu.Game.Screens.Select
             private readonly BindableBool isFavourite = new BindableBool();
 
             private Box background = null!;
-            private OsuSpriteText valueText = null!;
-            private LoadingSpinner loadingSpinner = null!;
             private Box hoverLayer = null!;
             private HeartIcon icon = null!;
 
-            private APIBeatmapSet? onlineBeatmapSet;
-            private PostBeatmapFavouriteRequest? favouriteRequest;
+            [Resolved]
+            private RealmAccess realm { get; set; } = null!;
 
             [Resolved]
             private OverlayColourProvider colourProvider { get; set; } = null!;
@@ -49,13 +43,8 @@ namespace osu.Game.Screens.Select
             [Resolved]
             private OsuColour colours { get; set; } = null!;
 
-            [Resolved]
-            private IAPIProvider api { get; set; } = null!;
-
-            [Resolved]
-            private INotificationOverlay? notifications { get; set; }
-
-            internal LocalisableString Text => valueText.Text;
+            private IDisposable? realmSubscription;
+            private BeatmapSetInfo? beatmapSet;
 
             public FavouriteButton()
             {
@@ -93,49 +82,6 @@ namespace osu.Game.Screens.Select
                                 Origin = Anchor.CentreLeft,
                                 Size = new Vector2(OsuFont.Style.Heading2.Size),
                             },
-                            new Container
-                            {
-                                Anchor = Anchor.CentreLeft,
-                                Origin = Anchor.CentreLeft,
-                                AutoSizeAxes = Axes.X,
-                                Height = 20,
-                                Children = new Drawable[]
-                                {
-                                    loadingSpinner = new LoadingSpinner
-                                    {
-                                        Anchor = Anchor.Centre,
-                                        Origin = Anchor.Centre,
-                                        Size = new Vector2(12f),
-                                        State = { Value = Visibility.Visible },
-                                    },
-                                    new GridContainer
-                                    {
-                                        Anchor = Anchor.CentreLeft,
-                                        Origin = Anchor.CentreLeft,
-                                        AutoSizeAxes = Axes.Both,
-                                        RowDimensions = new[] { new Dimension(GridSizeMode.AutoSize) },
-                                        ColumnDimensions = new[]
-                                        {
-                                            new Dimension(GridSizeMode.AutoSize, minSize: 25),
-                                        },
-                                        Content = new[]
-                                        {
-                                            new[]
-                                            {
-                                                valueText = new OsuSpriteText
-                                                {
-                                                    Anchor = Anchor.Centre,
-                                                    Origin = Anchor.Centre,
-                                                    Font = OsuFont.Style.Heading2,
-                                                    Colour = colourProvider.Content2,
-                                                    Margin = new MarginPadding { Bottom = 2f },
-                                                    AlwaysPresent = true,
-                                                },
-                                            }
-                                        }
-                                    },
-                                },
-                            },
                         },
                     },
                     hoverLayer = new Box
@@ -163,93 +109,56 @@ namespace osu.Game.Screens.Select
 
             public override LocalisableString TooltipText => isFavourite.Value ? BeatmapsetsStrings.ShowDetailsUnfavourite.ToSentence() : BeatmapsetsStrings.ShowDetailsFavourite.ToSentence();
 
-            // Note: `setLoading()` and `setBeatmapSet()` are called externally via their public counterparts by song select when the beatmap changes,
-            // as well as internally in order to display the progress and result of the (un)favourite operation when the button is clicked.
-            // In case of external calls, we want to cancel pending favourite requests, primarily to avoid a situation when a late success callback from an (un)favourite
-            // could show the favourite count from a prior beatmap.
-
-            public void SetLoading()
+            public void UpdateFavouriteState(BeatmapSetInfo? set, bool withAnimation = false)
             {
-                if (favouriteRequest?.CompletionState == APIRequestCompletionState.Waiting)
-                    favouriteRequest.Cancel();
-                setLoading();
+                beatmapSet = set;
+                realmSubscription?.Dispose();
+                realmSubscription = null;
+
+                Enabled.Value = set != null;
+
+                if (Enabled.Value)
+                {
+                    realmSubscription = realm.RegisterForNotifications(r => r.All<BeatmapSetInfo>().Where(s => s.ID == set!.ID), (sender, _) =>
+                    {
+                        if (sender.Count > 0)
+                        {
+                            isFavourite.Value = sender[0].HasFavourited;
+                            updateVisualState(withAnimation);
+                        }
+                    });
+
+                    isFavourite.Value = realm.Run(r => r.Find<BeatmapSetInfo>(set!.ID)?.HasFavourited ?? false);
+                }
+                else
+                {
+                    isFavourite.Value = false;
+                    updateVisualState(withAnimation);
+                }
             }
 
-            private void setLoading()
+            private void updateVisualState(bool withAnimation)
             {
-                loadingSpinner.State.Value = Visibility.Visible;
-                valueText.FadeOut(120, Easing.OutQuint);
-
-                onlineBeatmapSet = null;
-                updateFavouriteState();
-            }
-
-            public void SetBeatmapSet(APIBeatmapSet? beatmapSet)
-            {
-                if (favouriteRequest?.CompletionState == APIRequestCompletionState.Waiting)
-                    favouriteRequest.Cancel();
-                setBeatmapSet(beatmapSet);
-            }
-
-            private void setBeatmapSet(APIBeatmapSet? beatmapSet, bool withHeartAnimation = false)
-            {
-                loadingSpinner.State.Value = Visibility.Hidden;
-                valueText.FadeIn(120, Easing.OutQuint);
-
-                onlineBeatmapSet = beatmapSet;
-                updateFavouriteState(withHeartAnimation);
-            }
-
-            private void updateFavouriteState(bool withAnimation = false)
-            {
-                Enabled.Value = onlineBeatmapSet != null;
-
-                if (loadingSpinner.State.Value == Visibility.Hidden)
-                    valueText.Text = onlineBeatmapSet?.FavouriteCount.ToLocalisableString(@"N0") ?? "-";
-
-                isFavourite.Value = onlineBeatmapSet?.HasFavourited == true;
-
                 background.FadeColour(isFavourite.Value ? colours.Pink4.Darken(1f).Opacity(0.5f) : Color4.Black.Opacity(0.2f), 500, Easing.OutQuint);
-                valueText.FadeColour(isFavourite.Value ? colours.Pink1 : colourProvider.Content2, 500, Easing.OutQuint);
                 icon.SetActive(isFavourite.Value, withAnimation);
             }
 
             private void toggleFavourite()
             {
-                Debug.Assert(onlineBeatmapSet != null);
-
-                // having this copy locally is important to capture this particular beatmap set instance rather than the field in the request success callback,
-                // because if it was captured via the field / `this`, it could change value due to an external `setLoading()` or `setBeatmapSet()` call.
-                // there's also the part where we want to call `setLoading()` here to show the spinner, but that also sets `onlineBeatmapSet` to null.
-                var beatmapSet = onlineBeatmapSet;
-
-                favouriteRequest = new PostBeatmapFavouriteRequest(beatmapSet.OnlineID, isFavourite.Value ? BeatmapFavouriteAction.UnFavourite : BeatmapFavouriteAction.Favourite);
-                favouriteRequest.Success += () =>
+                realm.Write(r =>
                 {
-                    bool hasFavourited = favouriteRequest.Action == BeatmapFavouriteAction.Favourite;
-                    beatmapSet.HasFavourited = hasFavourited;
-                    beatmapSet.FavouriteCount += hasFavourited ? 1 : -1;
+                    var set = r.Find<BeatmapSetInfo>(beatmapSet?.ID);
+                    if (set != null)
+                        set.HasFavourited = !set.HasFavourited;
+                });
+            }
 
-                    // if the beatmap set reference changed under the callback, abort visual updates to avoid showing stale data
-                    if (onlineBeatmapSet == null || ReferenceEquals(beatmapSet, onlineBeatmapSet))
-                        setBeatmapSet(beatmapSet, withHeartAnimation: hasFavourited);
+            protected override void Dispose(bool isDisposing)
+            {
+                base.Dispose(isDisposing);
 
-                    api.LocalUserState.UpdateFavouriteBeatmapSets();
-                };
-                favouriteRequest.Failure += e =>
-                {
-                    notifications?.Post(new SimpleNotification
-                    {
-                        Text = e.Message,
-                        Icon = FontAwesome.Solid.Times,
-                    });
-
-                    // if the beatmap set reference changed under the callback, abort visual updates to avoid showing stale data
-                    if (onlineBeatmapSet == null || ReferenceEquals(beatmapSet, onlineBeatmapSet))
-                        setBeatmapSet(beatmapSet, withHeartAnimation: false);
-                };
-                api.Queue(favouriteRequest);
-                setLoading();
+                realmSubscription?.Dispose();
+                realmSubscription = null;
             }
         }
 

@@ -160,7 +160,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
                 bpmStatistic.Text = beatmap.BPM.ToLocalisableString();
 
                 playCount.Value = new BeatmapTitleWedge.StatisticPlayCount.Data(beatmap.PlayCount, beatmap.UserPlayCount);
-                favouriteButton.SetBeatmapSet(beatmap.BeatmapSet);
             }
         }
     }

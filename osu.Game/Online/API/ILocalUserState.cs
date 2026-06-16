@@ -11,10 +11,8 @@ namespace osu.Game.Online.API
         IBindable<APIUser> User { get; }
         IBindableList<APIRelation> Friends { get; }
         IBindableList<APIRelation> Blocks { get; }
-        IBindableList<int> FavouriteBeatmapSets { get; }
 
         void UpdateFriends();
         void UpdateBlocks();
-        void UpdateFavouriteBeatmapSets();
     }
 }

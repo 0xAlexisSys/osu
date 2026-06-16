@@ -14,12 +14,10 @@ using osu.Framework.Testing;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
-using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Screens.Ranking;
 using osu.Game.Tests.Resources;
 
@@ -78,7 +76,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to local", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Local, null)));
+            AddStep("set leaderboard to local", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
             AddStep("import some local scores", () =>
             {
                 for (int i = 0; i < 30; ++i)
@@ -106,7 +104,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to local", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Local, null)));
+            AddStep("set leaderboard to local", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
             AddStep("import some local scores", () =>
             {
                 for (int i = 0; i < 30; ++i)
@@ -137,28 +135,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () => dummyAPI.HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScoresRequest:
-                        var scores = new List<SoloScoreInfo>();
-
-                        for (int i = 0; i < 30; ++i)
-                        {
-                            var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                            score.TotalScore = 10_000 * (30 - i);
-                            score.Position = i + 1;
-                            scores.Add(SoloScoreInfo.ForSubmission(score));
-                        }
-
-                        getScoresRequest.TriggerSuccess(new APIScoresCollection { Scores = scores });
-                        return true;
-                }
-
-                return false;
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () =>
             {
@@ -177,39 +154,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () => dummyAPI.HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScoresRequest:
-                        var scores = new List<SoloScoreInfo>();
-
-                        for (int i = 0; i < 30; ++i)
-                        {
-                            var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                            score.TotalScore = 10_000 * (30 - i);
-                            score.Position = i + 1;
-                            scores.Add(SoloScoreInfo.ForSubmission(score));
-                        }
-
-                        scores[^1].ID = 123456;
-                        scores[^1].UserID = API.LocalUser.Value.OnlineID;
-
-                        getScoresRequest.TriggerSuccess(new APIScoresCollection
-                        {
-                            Scores = scores,
-                            UserScore = new APIScoreWithPosition
-                            {
-                                Score = scores[^1],
-                                Position = 30
-                            }
-                        });
-                        return true;
-                }
-
-                return false;
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () =>
             {
@@ -230,51 +175,7 @@ namespace osu.Game.Tests.Visual.Ranking
             var scores = new List<ScoreInfo>();
             var soloScores = new List<SoloScoreInfo>();
 
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () =>
-            {
-                for (int i = 0; i < 30; ++i)
-                {
-                    var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                    score.TotalScore = 10_000 * (30 - i);
-                    score.Position = i + 1;
-                    score.User = new APIUser { Id = i };
-                    score.BeatmapInfo = new BeatmapInfo
-                    {
-                        OnlineID = 123123,
-                        Status = BeatmapOnlineStatus.Ranked,
-                    };
-                    score.OnlineID = i;
-                    scores.Add(score);
-
-                    var soloScore = SoloScoreInfo.ForSubmission(score);
-                    soloScore.ID = (ulong)i;
-                    soloScores.Add(soloScore);
-                }
-
-                scores[^1].User = API.LocalUser.Value;
-                soloScores[^1].UserID = API.LocalUser.Value.OnlineID;
-
-                dummyAPI.HandleRequest = req =>
-                {
-                    switch (req)
-                    {
-                        case GetScoresRequest getScoresRequest:
-                            getScoresRequest.TriggerSuccess(new APIScoresCollection
-                            {
-                                Scores = soloScores,
-                                UserScore = new APIScoreWithPosition
-                                {
-                                    Score = soloScores[^1],
-                                    Position = 30
-                                }
-                            });
-                            return true;
-                    }
-
-                    return false;
-                };
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () => LoadScreen(new SoloResultsScreen(scores[0])));
             AddUntilStep("wait for loaded", () => ((Drawable)Stack.CurrentScreen).IsLoaded);
@@ -286,28 +187,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () => dummyAPI.HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScoresRequest:
-                        var scores = new List<SoloScoreInfo>();
-
-                        for (int i = 0; i < 30; ++i)
-                        {
-                            var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                            score.TotalScore = 300_000 + 10_000 * (30 - i);
-                            score.Position = i + 1;
-                            scores.Add(SoloScoreInfo.ForSubmission(score));
-                        }
-
-                        getScoresRequest.TriggerSuccess(new APIScoresCollection { Scores = scores });
-                        return true;
-                }
-
-                return false;
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () =>
             {
@@ -326,41 +206,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () => dummyAPI.HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScoresRequest:
-                        var scores = new List<SoloScoreInfo>();
-
-                        for (int i = 0; i < 50; ++i)
-                        {
-                            var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                            score.TotalScore = 500_000 + 10_000 * (50 - i);
-                            score.Position = i + 1;
-                            scores.Add(SoloScoreInfo.ForSubmission(score));
-                        }
-
-                        var userBest = SoloScoreInfo.ForSubmission(TestResources.CreateTestScoreInfo(importedBeatmap));
-                        userBest.TotalScore = 50_000;
-                        userBest.ID = 123456;
-
-                        getScoresRequest.TriggerSuccess(new APIScoresCollection
-                        {
-                            Scores = scores,
-                            UserScore = new APIScoreWithPosition
-                            {
-                                Score = userBest,
-                                Position = 133_337,
-                            },
-                            ScoresCount = 200_000,
-                        });
-                        return true;
-                }
-
-                return false;
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () =>
             {
@@ -380,42 +226,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () => dummyAPI.HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScoresRequest:
-                        var scores = new List<SoloScoreInfo>();
-
-                        for (int i = 0; i < 50; ++i)
-                        {
-                            var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                            score.TotalScore = 500_000 + 10_000 * (50 - i);
-                            score.Position = i + 1;
-                            scores.Add(SoloScoreInfo.ForSubmission(score));
-                        }
-
-                        var userBest = SoloScoreInfo.ForSubmission(TestResources.CreateTestScoreInfo(importedBeatmap));
-                        userBest.TotalScore = 50_000;
-                        userBest.ID = 123456;
-                        userBest.UserID = API.LocalUser.Value.OnlineID;
-
-                        getScoresRequest.TriggerSuccess(new APIScoresCollection
-                        {
-                            Scores = scores,
-                            UserScore = new APIScoreWithPosition
-                            {
-                                Score = userBest,
-                                Position = 133_337,
-                            },
-                            ScoresCount = 200_000,
-                        });
-                        return true;
-                }
-
-                return false;
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () =>
             {
@@ -435,41 +246,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             ScoreInfo localScore = null!;
 
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () => dummyAPI.HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScoresRequest:
-                        var scores = new List<SoloScoreInfo>();
-
-                        for (int i = 0; i < 50; ++i)
-                        {
-                            var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                            score.TotalScore = 500_000 + 10_000 * (50 - i);
-                            score.Position = i + 1;
-                            scores.Add(SoloScoreInfo.ForSubmission(score));
-                        }
-
-                        var userBest = SoloScoreInfo.ForSubmission(TestResources.CreateTestScoreInfo(importedBeatmap));
-                        userBest.TotalScore = 50_000;
-                        userBest.ID = 123456;
-                        userBest.UserID = API.LocalUser.Value.OnlineID;
-
-                        getScoresRequest.TriggerSuccess(new APIScoresCollection
-                        {
-                            Scores = scores,
-                            UserScore = new APIScoreWithPosition
-                            {
-                                Score = userBest,
-                                Position = 133_337,
-                            }
-                        });
-                        return true;
-                }
-
-                return false;
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () =>
             {
@@ -487,41 +264,7 @@ namespace osu.Game.Tests.Visual.Ranking
         [Test]
         public void TestOnlineLeaderboardDeduplication()
         {
-            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, BeatmapLeaderboardScope.Global, null)));
-            AddStep("set up request handling", () => dummyAPI.HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScoresRequest:
-                        var scores = new List<SoloScoreInfo>();
-
-                        for (int i = 0; i < 50; ++i)
-                        {
-                            var score = TestResources.CreateTestScoreInfo(importedBeatmap);
-                            score.TotalScore = 500_000 + 10_000 * (50 - i);
-                            score.Position = i + 1;
-                            scores.Add(SoloScoreInfo.ForSubmission(score));
-                        }
-
-                        var userBest = SoloScoreInfo.ForSubmission(TestResources.CreateTestScoreInfo(importedBeatmap));
-                        userBest.TotalScore = 151_000;
-                        userBest.ID = 12345;
-
-                        getScoresRequest.TriggerSuccess(new APIScoresCollection
-                        {
-                            Scores = scores,
-                            UserScore = new APIScoreWithPosition
-                            {
-                                Score = userBest,
-                                Position = 133_337,
-                            },
-                            ScoresCount = 200_000,
-                        });
-                        return true;
-                }
-
-                return false;
-            });
+            AddStep("set leaderboard to global", () => leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(importedBeatmap, importedBeatmap.Ruleset, null)));
 
             AddStep("show results", () =>
             {

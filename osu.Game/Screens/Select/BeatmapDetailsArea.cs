@@ -86,7 +86,6 @@ namespace osu.Game.Screens.Select
                 case Header.Selection.Ranking:
                     currentContent = new BeatmapLeaderboardWedge
                     {
-                        Scope = { BindTarget = header.Scope },
                         Sorting = { BindTarget = header.Sorting },
                         FilterBySelectedMods = { BindTarget = header.FilterBySelectedMods },
                     };

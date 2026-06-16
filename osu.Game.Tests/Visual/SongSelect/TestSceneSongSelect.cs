@@ -21,7 +21,6 @@ using osu.Game.Rulesets.Osu.Mods;
 using osu.Game.Scoring;
 using osu.Game.Screens.Menu;
 using osu.Game.Screens.Play;
-using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Screens.Ranking;
 using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Filter;
@@ -63,16 +62,6 @@ namespace osu.Game.Tests.Visual.SongSelect
             {
                 InputManager.MoveMouseTo(SongSelect.ChildrenOfType<BeatmapDetailsArea.WedgeSelector<BeatmapDetailsArea.Header.Selection>>().Last());
                 InputManager.Click(MouseButton.Left);
-            });
-
-            // probably should be done via dropdown menu instead of forcing this way?
-            AddStep("set local scope", () =>
-            {
-                var current = LeaderboardManager.CurrentCriteria!;
-                LeaderboardManager.FetchWithCriteria(current with
-                {
-                    Scope = BeatmapLeaderboardScope.Local,
-                });
             });
 
             AddUntilStep("wait for score panel", () => SongSelect.ChildrenOfType<BeatmapLeaderboardScore>().Any());

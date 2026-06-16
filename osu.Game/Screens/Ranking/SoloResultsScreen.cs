@@ -12,7 +12,6 @@ using osu.Game.Extensions;
 using osu.Game.Online.API;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Scoring;
-using osu.Game.Screens.Play.Leaderboards;
 
 namespace osu.Game.Screens.Ranking
 {
@@ -55,7 +54,6 @@ namespace osu.Game.Screens.Ranking
             var criteria = new LeaderboardCriteria(
                 Score.BeatmapInfo!,
                 Score.Ruleset,
-                leaderboardManager.CurrentCriteria?.Scope ?? BeatmapLeaderboardScope.Global,
                 leaderboardManager.CurrentCriteria?.ExactMods
             );
 
@@ -101,11 +99,10 @@ namespace osu.Game.Screens.Ranking
                 }
                 else
                 {
-                    bool isOnlineLeaderboard = criteria.Scope != BeatmapLeaderboardScope.Local;
                     bool presentingLocalUserScore = Score.UserID == api.LocalUser.Value.OnlineID;
                     bool presentedLocalUserScoreIsBetter = presentingLocalUserScore && clonedScore.UserID == api.LocalUser.Value.OnlineID && clonedScore.TotalScore < Score.TotalScore;
 
-                    if (isOnlineLeaderboard && presentedLocalUserScoreIsBetter)
+                    if (presentedLocalUserScoreIsBetter)
                         continue;
 
                     sortedScores.Add(clonedScore);

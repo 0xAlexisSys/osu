@@ -207,6 +207,9 @@ namespace osu.Game.Screens.Menu
             };
 
             Buttons.OnSettings = () => settings?.ToggleVisibility();
+
+            // [alexis] Original code uses the in-game browser and needs an online account.
+            //          This simply opens an alternate beatmap hosting site in an external browser.
             Buttons.OnBeatmapListing = () => host.OpenUrlExternally(@"https://beatconnect.io/");
 
             reappearSampleSwoosh = audio.Samples.Get(@"Menu/reappear-swoosh");

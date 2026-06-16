@@ -514,15 +514,6 @@ namespace osu.Game.Screens.Select
                 case LeaderboardState.NoScores:
                     return new MessagePlaceholder(LeaderboardStrings.NoRecordsYet);
 
-                case LeaderboardState.NotLoggedIn:
-                    return new LoginPlaceholder(LeaderboardStrings.PleaseSignInToViewOnlineLeaderboards);
-
-                case LeaderboardState.NotSupporter:
-                    return new MessagePlaceholder(LeaderboardStrings.PleaseInvestInAnOsuSupporterTagToViewThisLeaderboard);
-
-                case LeaderboardState.NoTeam:
-                    return new MessagePlaceholder(LeaderboardStrings.NoTeam);
-
                 case LeaderboardState.Retrieving:
                     return null;
 

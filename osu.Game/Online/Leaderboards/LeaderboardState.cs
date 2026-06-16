@@ -13,8 +13,5 @@ namespace osu.Game.Online.Leaderboards
         BeatmapUnavailable = LeaderboardFailState.BeatmapUnavailable,
         RulesetUnavailable = LeaderboardFailState.RulesetUnavailable,
         NoneSelected = LeaderboardFailState.NoneSelected,
-        NotLoggedIn = LeaderboardFailState.NotLoggedIn,
-        NotSupporter = LeaderboardFailState.NotSupporter,
-        NoTeam = LeaderboardFailState.NoTeam,
     }
 }

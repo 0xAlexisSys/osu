@@ -186,8 +186,5 @@ namespace osu.Game.Online.Leaderboards
         BeatmapUnavailable = -2,
         RulesetUnavailable = -3,
         NoneSelected = -4,
-        NotLoggedIn = -5,
-        NotSupporter = -6,
-        NoTeam = -7
     }
 }

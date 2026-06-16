@@ -219,8 +219,6 @@ namespace osu.Game.Screens.Select
 
         private bool initialFetchComplete;
 
-        private ScheduledDelegate? refetchOperation;
-
         public void RefetchScores()
         {
             SetScores(Array.Empty<ScoreInfo>());
@@ -232,8 +230,6 @@ namespace osu.Game.Screens.Select
             }
 
             SetState(LeaderboardState.Retrieving);
-
-            refetchOperation?.Cancel();
 
             var fetchBeatmapInfo = beatmap.Value.BeatmapInfo;
             var fetchRuleset = ruleset.Value ?? fetchBeatmapInfo.Ruleset;

@@ -25,9 +25,6 @@ namespace osu.Game.Tests.Visual.Metadata
         public override IBindableDictionary<int, UserPresence> FriendPresences => friendPresences;
         private readonly BindableDictionary<int, UserPresence> friendPresences = new BindableDictionary<int, UserPresence>();
 
-        public override Bindable<DailyChallengeInfo?> DailyChallengeInfo => dailyChallengeInfo;
-        private readonly Bindable<DailyChallengeInfo?> dailyChallengeInfo = new Bindable<DailyChallengeInfo?>();
-
         [Resolved]
         private IAPIProvider api { get; set; } = null!;
 
@@ -110,12 +107,6 @@ namespace osu.Game.Tests.Visual.Metadata
 
         public override Task BeatmapSetsUpdated(BeatmapUpdates updates) => Task.CompletedTask;
 
-        public override Task DailyChallengeUpdated(DailyChallengeInfo? info)
-        {
-            dailyChallengeInfo.Value = info;
-            return Task.CompletedTask;
-        }
-
         public override Task<MultiplayerPlaylistItemStats[]> BeginWatchingMultiplayerRoom(long id)
         {
             var stats = new MultiplayerPlaylistItemStats[MultiplayerPlaylistItemStats.TOTAL_SCORE_DISTRIBUTION_BINS];
@@ -133,7 +124,6 @@ namespace osu.Game.Tests.Visual.Metadata
         public void Disconnect()
         {
             isConnected.Value = false;
-            dailyChallengeInfo.Value = null;
         }
 
         public override Task Reconnect()

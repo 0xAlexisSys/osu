@@ -11,7 +11,7 @@ namespace osu.Game.Online.Metadata
     /// <list type="bullet">
     /// <item>beatmap updates via BSS,</item>
     /// <item>online user activity/status updates,</item>
-    /// <item>other real-time happenings, such as current "daily challenge" status.</item>
+    /// <item>other real-time happenings.</item>
     /// </list>
     /// </summary>
     public interface IMetadataServer

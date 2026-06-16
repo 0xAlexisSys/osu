@@ -83,10 +83,6 @@ namespace osu.Game.Overlays.Profile.Header.Components
                                         {
                                             User = { BindTarget = User }
                                         },
-                                        new DailyChallengeStatsDisplay
-                                        {
-                                            User = { BindTarget = User },
-                                        }
                                     }
                                 }
                             }

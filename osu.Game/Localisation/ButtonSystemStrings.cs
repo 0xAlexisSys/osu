@@ -40,11 +40,6 @@ namespace osu.Game.Localisation
         public static LocalisableString Exit => new TranslatableString(getKey(@"exit"), @"exit");
 
         /// <summary>
-        /// "daily challenge"
-        /// </summary>
-        public static LocalisableString DailyChallenge => new TranslatableString(getKey(@"daily_challenge"), @"daily challenge");
-
-        /// <summary>
         /// "ranked play"
         /// </summary>
         public static LocalisableString RankedPlay => new TranslatableString(getKey(@"ranked_play"), @"ranked play");

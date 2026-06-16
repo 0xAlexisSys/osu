@@ -79,9 +79,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Queue
         [Resolved]
         private MusicController music { get; set; } = null!;
 
-        [Resolved]
-        private DashboardOverlay? dashboardOverlay { get; set; }
-
         private readonly IBindable<MatchmakingScreenState> currentState = new Bindable<MatchmakingScreenState>();
 
         private readonly Bindable<MatchmakingPool[]?> availablePools = new Bindable<MatchmakingPool[]?>();
@@ -606,10 +603,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Queue
                             }
                         }
                     };
-
-                    duelHint.AddText("Open the ");
-                    duelHint.AddLink("dashboard", () => dashboardOverlay?.Show());
-                    duelHint.AddText(" to duel another player!");
 
                     break;
 

@@ -4,7 +4,6 @@
 using System;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Localisation;
@@ -13,7 +12,6 @@ using osu.Game.Graphics.UserInterface;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
 using osu.Game.Online.Leaderboards;
-using osu.Game.Screens.Play.Leaderboards;
 using osuTK;
 
 namespace osu.Game.Screens.Select
@@ -25,13 +23,10 @@ namespace osu.Game.Screens.Select
             private WedgeSelector<Selection> tabControl = null!;
             private FillFlowContainer leaderboardControls = null!;
 
-            private ShearedDropdown<BeatmapLeaderboardScope> scopeDropdown = null!;
             private ShearedDropdown<LeaderboardSortMode> sortDropdown = null!;
             private ShearedToggleButton selectedModsToggle = null!;
 
             public IBindable<Selection> Type => tabControl.Current;
-
-            public IBindable<BeatmapLeaderboardScope> Scope => scopeDropdown.Current;
 
             private readonly Bindable<BeatmapDetailTab> configDetailTab = new Bindable<BeatmapDetailTab>();
 
@@ -90,14 +85,6 @@ namespace osu.Game.Screens.Select
                                         Width = 0.4f,
                                         Items = Enum.GetValues<LeaderboardSortMode>(),
                                     },
-                                    scopeDropdown = new ScopeDropdown
-                                    {
-                                        Anchor = Anchor.TopRight,
-                                        Origin = Anchor.TopRight,
-                                        RelativeSizeAxes = Axes.X,
-                                        Width = 0.4f,
-                                        Current = { Value = BeatmapLeaderboardScope.Global },
-                                    },
                                 },
                             },
                         },
@@ -113,9 +100,6 @@ namespace osu.Game.Screens.Select
             {
                 base.LoadComplete();
 
-                scopeDropdown.Current.Value = tryMapDetailTabToLeaderboardScope(configDetailTab.Value) ?? scopeDropdown.Current.Value;
-                scopeDropdown.Current.BindValueChanged(_ => updateConfigDetailTab());
-
                 tabControl.Current.Value = configDetailTab.Value == BeatmapDetailTab.Details ? Selection.Details : Selection.Ranking;
                 tabControl.Current.BindValueChanged(v =>
                 {
@@ -123,22 +107,8 @@ namespace osu.Game.Screens.Select
                     updateConfigDetailTab();
                 }, true);
 
-                scopeDropdown.Current.BindValueChanged(scope =>
-                {
-                    sortDropdown.Current.Disabled = false;
-
-                    if (scope.NewValue == BeatmapLeaderboardScope.Local)
-                    {
-                        sortDropdown.Current.BindTo(configLeaderboardSortMode);
-                    }
-                    else
-                    {
-                        // future implementation when we have web-side support.
-                        sortDropdown.Current.UnbindFrom(configLeaderboardSortMode);
-                        sortDropdown.Current.Value = LeaderboardSortMode.Score;
-                        sortDropdown.Current.Disabled = true;
-                    }
-                }, true);
+                sortDropdown.Current.Disabled = false;
+                sortDropdown.Current.BindTo(configLeaderboardSortMode);
             }
 
             #region Reading / writing state from / to configuration
@@ -152,59 +122,11 @@ namespace osu.Game.Screens.Select
                         return;
 
                     case Selection.Ranking:
-                        configDetailTab.Value = mapLeaderboardScopeToDetailTab(scopeDropdown.Current.Value);
+                        configDetailTab.Value = BeatmapDetailTab.Ranking;
                         return;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(tabControl.Current.Value), tabControl.Current.Value, null);
-                }
-            }
-
-            private static BeatmapLeaderboardScope? tryMapDetailTabToLeaderboardScope(BeatmapDetailTab tab)
-            {
-                switch (tab)
-                {
-                    case BeatmapDetailTab.Local:
-                        return BeatmapLeaderboardScope.Local;
-
-                    case BeatmapDetailTab.Country:
-                        return BeatmapLeaderboardScope.Country;
-
-                    case BeatmapDetailTab.Global:
-                        return BeatmapLeaderboardScope.Global;
-
-                    case BeatmapDetailTab.Friends:
-                        return BeatmapLeaderboardScope.Friend;
-
-                    case BeatmapDetailTab.Team:
-                        return BeatmapLeaderboardScope.Team;
-
-                    default:
-                        return null;
-                }
-            }
-
-            private static BeatmapDetailTab mapLeaderboardScopeToDetailTab(BeatmapLeaderboardScope scope)
-            {
-                switch (scope)
-                {
-                    case BeatmapLeaderboardScope.Local:
-                        return BeatmapDetailTab.Local;
-
-                    case BeatmapLeaderboardScope.Country:
-                        return BeatmapDetailTab.Country;
-
-                    case BeatmapLeaderboardScope.Global:
-                        return BeatmapDetailTab.Global;
-
-                    case BeatmapLeaderboardScope.Friend:
-                        return BeatmapDetailTab.Friends;
-
-                    case BeatmapLeaderboardScope.Team:
-                        return BeatmapDetailTab.Team;
-
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(scope), scope, null);
                 }
             }
 
@@ -217,17 +139,6 @@ namespace osu.Game.Screens.Select
 
                 [LocalisableDescription(typeof(SongSelectStrings), nameof(SongSelectStrings.Ranking))]
                 Ranking,
-            }
-
-            private partial class ScopeDropdown : ShearedDropdown<BeatmapLeaderboardScope>
-            {
-                public ScopeDropdown()
-                    : base(BeatmapLeaderboardWedgeStrings.Scope)
-                {
-                    Items = Enum.GetValues<BeatmapLeaderboardScope>();
-                }
-
-                protected override LocalisableString GenerateItemText(BeatmapLeaderboardScope item) => item.GetLocalisableDescription();
             }
         }
     }

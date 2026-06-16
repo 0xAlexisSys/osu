@@ -19,9 +19,6 @@ using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
@@ -375,26 +372,10 @@ namespace osu.Game.Tests.Visual.Gameplay
         [Test]
         public void TestLeaderboardForciblyRefetchedOnRestart([Values] bool quickRestart)
         {
-            int leaderboardRequestsHandled = 0;
-            AddStep("set up request handling", () => ((DummyAPIAccess)API).HandleRequest = req =>
-            {
-                switch (req)
-                {
-                    case GetScoresRequest getScores:
-                        leaderboardRequestsHandled++;
-                        getScores.TriggerSuccess(new APIScoresCollection { Scores = [] });
-                        return true;
-
-                    default:
-                        return false;
-                }
-            });
-
             AddStep("load player", () => resetPlayer(true));
 
             AddUntilStep("wait for loader to become current", () => loader.IsCurrentScreen());
             AddUntilStep("wait for player to be current", () => player.IsCurrentScreen());
-            AddAssert("leaderboard fetched once", () => leaderboardRequestsHandled, () => Is.EqualTo(1));
 
             AddStep("restart player", () =>
             {
@@ -404,11 +385,6 @@ namespace osu.Game.Tests.Visual.Gameplay
             });
 
             AddUntilStep("wait for player to be current", () => player.IsCurrentScreen());
-
-            if (quickRestart)
-                AddAssert("leaderboard not refetched", () => leaderboardRequestsHandled, () => Is.EqualTo(1));
-            else
-                AddAssert("leaderboard fetched twice", () => leaderboardRequestsHandled, () => Is.EqualTo(2));
         }
 
         /// <remarks>

@@ -10,36 +10,6 @@ namespace osu.Game.Localisation
         private const string prefix = @"osu.Game.Resources.Localisation.BeatmapLeaderboardWedge";
 
         /// <summary>
-        /// "Scope"
-        /// </summary>
-        public static LocalisableString Scope => new TranslatableString(getKey(@"scope"), @"Scope");
-
-        /// <summary>
-        /// "Local"
-        /// </summary>
-        public static LocalisableString Local => new TranslatableString(getKey(@"local"), @"Local");
-
-        /// <summary>
-        /// "Global"
-        /// </summary>
-        public static LocalisableString Global => new TranslatableString(getKey(@"global"), @"Global");
-
-        /// <summary>
-        /// "Country"
-        /// </summary>
-        public static LocalisableString Country => new TranslatableString(getKey(@"country"), @"Country");
-
-        /// <summary>
-        /// "Friend"
-        /// </summary>
-        public static LocalisableString Friend => new TranslatableString(getKey(@"friend"), @"Friend");
-
-        /// <summary>
-        /// "Team"
-        /// </summary>
-        public static LocalisableString Team => new TranslatableString(getKey(@"team"), @"Team");
-
-        /// <summary>
         /// "Sort"
         /// </summary>
         public static LocalisableString Sort => new TranslatableString(getKey(@"sort"), @"Sort");

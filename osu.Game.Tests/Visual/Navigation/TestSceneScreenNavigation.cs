@@ -48,7 +48,6 @@ using osu.Game.Screens.OnlinePlay.Match.Components;
 using osu.Game.Screens.OnlinePlay.Playlists;
 using osu.Game.Screens.Play;
 using osu.Game.Screens.Play.HUD;
-using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Screens.Play.PlayerSettings;
 using osu.Game.Screens.Ranking;
 using osu.Game.Screens.Select;
@@ -640,9 +639,6 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddStep("press back button", () => Game.ChildrenOfType<BackButton>().First().Action!.Invoke());
 
-            AddStep("show local scores",
-                () => Game.ChildrenOfType<Dropdown<BeatmapLeaderboardScope>>().First().Current.Value = BeatmapLeaderboardScope.Local);
-
             AddUntilStep("wait for score displayed", () => (scorePanel = Game.ChildrenOfType<BeatmapLeaderboardScore>().FirstOrDefault(s => s.Score.Equals(score))) != null);
 
             AddStep("Clear all scores", () => Game.Dependencies.Get<ScoreManager>().Delete());
@@ -666,9 +662,6 @@ namespace osu.Game.Tests.Visual.Navigation
             AddAssert("ensure score is databased", () => Game.Realm.Run(r => r.Find<ScoreInfo>(score.ID)?.DeletePending == false));
 
             AddStep("press back button", () => Game.ChildrenOfType<BackButton>().First().Action!.Invoke());
-
-            AddStep("show local scores",
-                () => Game.ChildrenOfType<Dropdown<BeatmapLeaderboardScope>>().First().Current.Value = BeatmapLeaderboardScope.Local);
 
             AddUntilStep("wait for score displayed", () => (scorePanel = Game.ChildrenOfType<BeatmapLeaderboardScore>().FirstOrDefault(s => s.Score.Equals(score))) != null);
 

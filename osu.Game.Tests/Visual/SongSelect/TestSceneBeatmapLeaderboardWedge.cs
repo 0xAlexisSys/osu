@@ -7,7 +7,6 @@ using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
-using osu.Framework.Bindables;
 using osu.Framework.Extensions;
 using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
@@ -25,7 +24,6 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Osu.Mods;
 using osu.Game.Scoring;
-using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Screens.Select;
 using osu.Game.Tests.Resources;
 using osu.Game.Users;
@@ -115,8 +113,6 @@ namespace osu.Game.Tests.Visual.SongSelect
         [Test]
         public void TestGlobalScoresDisplay()
         {
-            setScope(BeatmapLeaderboardScope.Global);
-
             AddStep(@"New Scores", () => leaderboard.SetScores(GenerateSampleScores(new BeatmapInfo())));
             AddStep(@"New Scores with teams", () => leaderboard.SetScores(GenerateSampleScores(new BeatmapInfo()).Select(s =>
             {
@@ -186,8 +182,6 @@ namespace osu.Game.Tests.Visual.SongSelect
         {
             BeatmapInfo beatmapInfo = null!;
 
-            setScope(BeatmapLeaderboardScope.Local);
-
             AddStep(@"Set beatmap", () =>
             {
                 beatmapManager.Import(TestResources.GetQuickTestBeatmapForImport()).WaitSafely();
@@ -215,7 +209,6 @@ namespace osu.Game.Tests.Visual.SongSelect
             BeatmapInfo beatmapInfo = null!;
 
             AddStep("Log out", () => API.Logout());
-            setScope(BeatmapLeaderboardScope.Local);
 
             AddStep(@"Import beatmap", () =>
             {
@@ -235,8 +228,6 @@ namespace osu.Game.Tests.Visual.SongSelect
         {
             BeatmapInfo beatmapInfo = null!;
             string originalHash = string.Empty;
-
-            setScope(BeatmapLeaderboardScope.Local);
 
             AddStep(@"Import beatmap", () =>
             {
@@ -335,11 +326,6 @@ namespace osu.Game.Tests.Visual.SongSelect
                 },
                 Date = DateTimeOffset.Now,
             }, 1234567);
-        }
-
-        private void setScope(BeatmapLeaderboardScope scope)
-        {
-            AddStep(@"Set scope", () => ((Bindable<BeatmapLeaderboardScope>)leaderboard.Scope).Value = scope);
         }
 
         private void importMoreScores(Func<BeatmapInfo> beatmapInfo)

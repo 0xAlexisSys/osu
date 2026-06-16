@@ -33,7 +33,6 @@ using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
-using osu.Game.Screens.Play.Leaderboards;
 using osuTK;
 using osuTK.Graphics;
 
@@ -42,8 +41,6 @@ namespace osu.Game.Screens.Select
     public partial class BeatmapLeaderboardWedge : VisibilityContainer
     {
         public const float SPACING_BETWEEN_SCORES = 4;
-
-        public IBindable<BeatmapLeaderboardScope> Scope { get; } = new Bindable<BeatmapLeaderboardScope>();
 
         public IBindable<LeaderboardSortMode> Sorting { get; } = new Bindable<LeaderboardSortMode>();
 
@@ -195,7 +192,6 @@ namespace osu.Game.Screens.Select
         {
             base.LoadComplete();
 
-            Scope.BindValueChanged(_ => RefetchScores());
             Sorting.BindValueChanged(_ => RefetchScores());
             FilterBySelectedMods.BindValueChanged(_ => RefetchScores());
             beatmap.BindValueChanged(_ => RefetchScores());
@@ -237,31 +233,27 @@ namespace osu.Game.Screens.Select
 
             SetState(LeaderboardState.Retrieving);
 
-            var fetchScope = Scope.Value;
-
             refetchOperation?.Cancel();
-            refetchOperation = Scheduler.AddDelayed(() =>
+
+            var fetchBeatmapInfo = beatmap.Value.BeatmapInfo;
+            var fetchRuleset = ruleset.Value ?? fetchBeatmapInfo.Ruleset;
+            var fetchSorting = Sorting.Value;
+
+            // For now, we forcefully refresh to keep things simple.
+            // In the future, removing this requirement may be deemed useful, but will need ample testing of edge case scenarios
+            // (like returning from gameplay after setting a new score, returning to song select after main menu).
+            leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(fetchBeatmapInfo, fetchRuleset, FilterBySelectedMods.Value ? mods.Value.ToArray() : null, fetchSorting),
+                forceRefresh: true);
+
+            if (!initialFetchComplete)
             {
-                var fetchBeatmapInfo = beatmap.Value.BeatmapInfo;
-                var fetchRuleset = ruleset.Value ?? fetchBeatmapInfo.Ruleset;
-                var fetchSorting = fetchScope == BeatmapLeaderboardScope.Local ? Sorting.Value : LeaderboardSortMode.Score;
+                // only bind this after the first fetch to avoid reading stale scores.
+                fetchedScores.BindTo(leaderboardManager.Scores);
 
-                // For now, we forcefully refresh to keep things simple.
-                // In the future, removing this requirement may be deemed useful, but will need ample testing of edge case scenarios
-                // (like returning from gameplay after setting a new score, returning to song select after main menu).
-                leaderboardManager.FetchWithCriteria(new LeaderboardCriteria(fetchBeatmapInfo, fetchRuleset, fetchScope, FilterBySelectedMods.Value ? mods.Value.ToArray() : null, fetchSorting),
-                    forceRefresh: true);
-
-                if (!initialFetchComplete)
-                {
-                    // only bind this after the first fetch to avoid reading stale scores.
-                    fetchedScores.BindTo(leaderboardManager.Scores);
-
-                    // Schedule is important here to avoid handling changes after this drawable is disposed.
-                    fetchedScores.BindValueChanged(_ => Schedule(updateScores), true);
-                    initialFetchComplete = true;
-                }
-            }, initialFetchComplete && fetchScope != BeatmapLeaderboardScope.Local ? 300 : 0);
+                // Schedule is important here to avoid handling changes after this drawable is disposed.
+                fetchedScores.BindValueChanged(_ => Schedule(updateScores), true);
+                initialFetchComplete = true;
+            }
         }
 
         private void updateScores()
@@ -302,7 +294,7 @@ namespace osu.Game.Screens.Select
 
                 if (s.OnlineID == userScore?.OnlineID)
                     highlightType = BeatmapLeaderboardScore.HighlightType.Own;
-                else if (api.LocalUserState.Friends.Any(r => r.TargetID == s.UserID) && Scope.Value != BeatmapLeaderboardScope.Friend)
+                else if (api.LocalUserState.Friends.Any(r => r.TargetID == s.UserID))
                     highlightType = BeatmapLeaderboardScore.HighlightType.Friend;
 
                 return new BeatmapLeaderboardScore(s)

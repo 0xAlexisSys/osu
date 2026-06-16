@@ -9,16 +9,13 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Development;
 using osu.Framework.Graphics;
-using osu.Framework.Logging;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Extensions;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
-using osu.Game.Screens.Play.Leaderboards;
 using Realms;
 
 namespace osu.Game.Online.Leaderboards
@@ -35,7 +32,6 @@ namespace osu.Game.Online.Leaderboards
         public LeaderboardCriteria? CurrentCriteria { get; private set; }
 
         private IDisposable? localScoreSubscription;
-        private GetScoresRequest? inFlightOnlineRequest;
 
         [Resolved]
         private IAPIProvider api { get; set; } = null!;
@@ -60,7 +56,6 @@ namespace osu.Game.Online.Leaderboards
 
             CurrentCriteria = newCriteria;
             localScoreSubscription?.Dispose();
-            inFlightOnlineRequest?.Cancel();
             scores.Value = null;
 
             if (newCriteria.Beatmap == null || newCriteria.Ruleset == null)
@@ -69,99 +64,12 @@ namespace osu.Game.Online.Leaderboards
                 return;
             }
 
-            switch (newCriteria.Scope)
-            {
-                case BeatmapLeaderboardScope.Local:
-                {
-                    localScoreSubscription = realm.RegisterForNotifications(r =>
-                        r.All<ScoreInfo>().Filter($"{nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.ID)} == $0"
-                                                  + $" AND {nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.Hash)} == {nameof(ScoreInfo.BeatmapHash)}"
-                                                  + $" AND {nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $1"
-                                                  + $" AND {nameof(ScoreInfo.DeletePending)} == false"
-                            , newCriteria.Beatmap.ID, newCriteria.Ruleset.ShortName), localScoresChanged);
-                    return;
-                }
-
-                default:
-                {
-                    if (newCriteria.Sorting != LeaderboardSortMode.Score)
-                        throw new NotSupportedException($@"Requesting online scores with a {nameof(LeaderboardSortMode)} other than {nameof(LeaderboardSortMode.Score)} is not supported");
-
-                    if (!api.IsLoggedIn)
-                    {
-                        scores.Value = LeaderboardScores.Failure(LeaderboardFailState.NotLoggedIn);
-                        return;
-                    }
-
-                    if (!newCriteria.Ruleset.IsLegacyRuleset())
-                    {
-                        scores.Value = LeaderboardScores.Failure(LeaderboardFailState.RulesetUnavailable);
-                        return;
-                    }
-
-                    if (newCriteria.Beatmap.OnlineID <= 0 || newCriteria.Beatmap.Status <= BeatmapOnlineStatus.Pending)
-                    {
-                        scores.Value = LeaderboardScores.Failure(LeaderboardFailState.BeatmapUnavailable);
-                        return;
-                    }
-
-                    if ((newCriteria.Scope.RequiresSupporter(newCriteria.ExactMods != null)) && !api.LocalUser.Value.IsSupporter)
-                    {
-                        scores.Value = LeaderboardScores.Failure(LeaderboardFailState.NotSupporter);
-                        return;
-                    }
-
-                    if (newCriteria.Scope == BeatmapLeaderboardScope.Team && api.LocalUser.Value.Team == null)
-                    {
-                        scores.Value = LeaderboardScores.Failure(LeaderboardFailState.NoTeam);
-                        return;
-                    }
-
-                    IReadOnlyList<Mod>? requestMods = null;
-
-                    if (newCriteria.ExactMods != null)
-                    {
-                        if (!newCriteria.ExactMods.Any())
-                            // add nomod for the request
-                            requestMods = new Mod[] { new ModNoMod() };
-                        else
-                            requestMods = newCriteria.ExactMods;
-                    }
-
-                    var newRequest = new GetScoresRequest(newCriteria.Beatmap, newCriteria.Ruleset, newCriteria.Scope, requestMods);
-                    newRequest.Success += response =>
-                    {
-                        if (inFlightOnlineRequest != null && !newRequest.Equals(inFlightOnlineRequest))
-                            return;
-
-                        var result = LeaderboardScores.Success
-                        (
-                            response.Scores.Select(s => s.ToScoreInfo(rulesets, newCriteria.Beatmap))
-                                    .OrderByTotalScore()
-                                    .Select((s, idx) =>
-                                    {
-                                        s.Position = idx + 1;
-                                        return s;
-                                    })
-                                    .ToArray(),
-                            scoresRequested: newRequest.ScoresRequested,
-                            totalScores: response.ScoresCount,
-                            response.UserScore?.CreateScoreInfo(rulesets, newCriteria.Beatmap)
-                        );
-                        inFlightOnlineRequest = null;
-                        scores.Value = result;
-                    };
-                    newRequest.Failure += ex =>
-                    {
-                        Logger.Log($@"Failed to fetch leaderboards when displaying results: {ex}", LoggingTarget.Network);
-                        if (ex is not OperationCanceledException)
-                            scores.Value = LeaderboardScores.Failure(LeaderboardFailState.NetworkFailure);
-                    };
-
-                    api.Queue(inFlightOnlineRequest = newRequest);
-                    break;
-                }
-            }
+            localScoreSubscription = realm.RegisterForNotifications(r =>
+                r.All<ScoreInfo>().Filter($"{nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.ID)} == $0"
+                                          + $" AND {nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.Hash)} == {nameof(ScoreInfo.BeatmapHash)}"
+                                          + $" AND {nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $1"
+                                          + $" AND {nameof(ScoreInfo.DeletePending)} == false"
+                    , newCriteria.Beatmap.ID, newCriteria.Ruleset.ShortName), localScoresChanged);
         }
 
         private void localScoresChanged(IRealmCollection<ScoreInfo> sender, ChangeSet? changes)
@@ -209,7 +117,6 @@ namespace osu.Game.Online.Leaderboards
     public record LeaderboardCriteria(
         BeatmapInfo? Beatmap,
         RulesetInfo? Ruleset,
-        BeatmapLeaderboardScope Scope,
         Mod[]? ExactMods,
         LeaderboardSortMode Sorting = LeaderboardSortMode.Score
     );

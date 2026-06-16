@@ -12,14 +12,11 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Game.Beatmaps;
-using osu.Game.Extensions;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
-using osu.Game.Screens.Play.Leaderboards;
 using osuTK;
 using APIUser = osu.Game.Online.API.Requests.Responses.APIUser;
 
@@ -31,7 +28,6 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
 
         public readonly Bindable<APIBeatmap> Beatmap = new Bindable<APIBeatmap>();
         private readonly Bindable<IRulesetInfo> ruleset = new Bindable<IRulesetInfo>();
-        private readonly Bindable<BeatmapLeaderboardScope> scope = new Bindable<BeatmapLeaderboardScope>(BeatmapLeaderboardScope.Global);
         private readonly IBindable<APIUser> user = new Bindable<APIUser>();
 
         private readonly Box background;
@@ -40,16 +36,12 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
         private readonly LoadingLayer loading;
         private readonly LeaderboardModSelector modSelector;
         private readonly NoScoresPlaceholder noScoresPlaceholder;
-        private readonly NotSupporterPlaceholder notSupporterPlaceholder;
-        private readonly NoTeamPlaceholder noTeamPlaceholder;
 
         [Resolved]
         private IAPIProvider api { get; set; }
 
         [Resolved]
         private RulesetStore rulesets { get; set; }
-
-        private GetScoresRequest getScoresRequest;
 
         private CancellationTokenSource loadCancellationSource;
 
@@ -127,12 +119,6 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
                             Spacing = new Vector2(0, spacing),
                             Children = new Drawable[]
                             {
-                                new LeaderboardScopeSelector
-                                {
-                                    Anchor = Anchor.TopCentre,
-                                    Origin = Anchor.TopCentre,
-                                    Current = { BindTarget = scope }
-                                },
                                 modSelector = new LeaderboardModSelector
                                 {
                                     Anchor = Anchor.TopCentre,
@@ -155,20 +141,6 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
                                     Alpha = 0,
                                     AlwaysPresent = true,
                                     Margin = new MarginPadding { Vertical = 10 }
-                                },
-                                noTeamPlaceholder = new NoTeamPlaceholder
-                                {
-                                    Anchor = Anchor.TopCentre,
-                                    Origin = Anchor.TopCentre,
-                                    Margin = new MarginPadding { Vertical = 10 },
-                                    Alpha = 0,
-                                },
-                                notSupporterPlaceholder = new NotSupporterPlaceholder
-                                {
-                                    Anchor = Anchor.TopCentre,
-                                    Origin = Anchor.TopCentre,
-                                    Margin = new MarginPadding { Vertical = 10 },
-                                    Alpha = 0,
                                 },
                                 new FillFlowContainer
                                 {
@@ -211,7 +183,6 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
         protected override void LoadComplete()
         {
             base.LoadComplete();
-            scope.BindValueChanged(_ => getScores());
             ruleset.BindValueChanged(_ => getScores());
 
             modSelector.SelectedMods.CollectionChanged += (_, _) => getScores();
@@ -231,8 +202,6 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
             }
             else
                 ruleset.Value = beatmapRuleset;
-
-            scope.Value = BeatmapLeaderboardScope.Global;
         }
 
         private void onUserChanged(ValueChangedEvent<APIUser> user)
@@ -245,12 +214,7 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
 
         private void getScores()
         {
-            getScoresRequest?.Cancel();
-            getScoresRequest = null;
-
             noScoresPlaceholder.Hide();
-            noTeamPlaceholder.Hide();
-            notSupporterPlaceholder.Hide();
 
             if (Beatmap.Value == null || Beatmap.Value.OnlineID <= 0 || (Beatmap.Value.Status <= BeatmapOnlineStatus.Pending))
             {
@@ -259,33 +223,8 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
                 return;
             }
 
-            if ((scope.Value == BeatmapLeaderboardScope.Team) && user.Value.Team == null)
-            {
-                Scores = null;
-                noTeamPlaceholder.Show();
-                return;
-            }
-
-            if (scope.Value.RequiresSupporter(modSelector.SelectedMods.Count > 0) && !userIsSupporter)
-            {
-                Scores = null;
-                notSupporterPlaceholder.Show();
-                return;
-            }
-
             Show();
             loading.Show();
-
-            getScoresRequest = new GetScoresRequest(Beatmap.Value, Beatmap.Value.Ruleset, scope.Value, modSelector.SelectedMods);
-            getScoresRequest.Success += scores =>
-            {
-                Scores = scores;
-
-                if (!scores.Scores.Any())
-                    noScoresPlaceholder.ShowWithScope(scope.Value);
-            };
-
-            api.Queue(getScoresRequest);
         }
 
         private bool userIsSupporter => api.IsLoggedIn && api.LocalUser.Value.IsSupporter;

@@ -8,7 +8,6 @@ using osu.Game.IO;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
-using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Users;
 
 namespace osu.Game.Extensions
@@ -181,21 +180,6 @@ namespace osu.Game.Extensions
             foreach (char c in invalid_filename_chars)
                 filename = filename.Replace(c.ToString(), string.Empty);
             return filename;
-        }
-
-        public static bool RequiresSupporter(this BeatmapLeaderboardScope scope, bool filterMods)
-        {
-            switch (scope)
-            {
-                case BeatmapLeaderboardScope.Local:
-                    return false;
-
-                case BeatmapLeaderboardScope.Country:
-                case BeatmapLeaderboardScope.Friend:
-                    return true;
-            }
-
-            return filterMods;
         }
     }
 }

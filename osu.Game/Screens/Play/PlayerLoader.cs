@@ -35,7 +35,6 @@ using osu.Game.Performance;
 using osu.Game.Screens.Footer;
 using osu.Game.Screens.Menu;
 using osu.Game.Screens.Play.HUD;
-using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Screens.Play.PlayerSettings;
 using osu.Game.Skinning;
 using osu.Game.Users;
@@ -344,7 +343,6 @@ namespace osu.Game.Screens.Play
             leaderboardManager?.FetchWithCriteria(new LeaderboardCriteria(
                 Beatmap.Value.BeatmapInfo,
                 Ruleset.Value,
-                leaderboardManager?.CurrentCriteria?.Scope ?? BeatmapLeaderboardScope.Global,
                 leaderboardManager?.CurrentCriteria?.ExactMods), force);
         }
 

@@ -6,7 +6,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Resources.Localisation.Web;
-using osu.Game.Screens.Play.Leaderboards;
 
 namespace osu.Game.Overlays.BeatmapSet.Scores
 {
@@ -20,32 +19,12 @@ namespace osu.Game.Overlays.BeatmapSet.Scores
             Child = text = new OsuSpriteText();
         }
 
-        public override void Show() => this.FadeIn(200, Easing.OutQuint);
+        public override void Show()
+        {
+            this.FadeIn(200, Easing.OutQuint);
+            text.Text = BeatmapsetsStrings.ShowScoreboardNoScoresGlobal;
+        }
 
         public override void Hide() => this.FadeOut(200, Easing.OutQuint);
-
-        public void ShowWithScope(BeatmapLeaderboardScope scope)
-        {
-            Show();
-
-            switch (scope)
-            {
-                default:
-                    text.Text = BeatmapsetsStrings.ShowScoreboardNoScoresGlobal;
-                    break;
-
-                case BeatmapLeaderboardScope.Friend:
-                    text.Text = BeatmapsetsStrings.ShowScoreboardNoScoresFriend;
-                    break;
-
-                case BeatmapLeaderboardScope.Country:
-                    text.Text = BeatmapsetsStrings.ShowScoreboardNoScoresCountry;
-                    break;
-
-                case BeatmapLeaderboardScope.Team:
-                    text.Text = BeatmapsetsStrings.ShowScoreboardNoScoresTeam;
-                    break;
-            }
-        }
     }
 }

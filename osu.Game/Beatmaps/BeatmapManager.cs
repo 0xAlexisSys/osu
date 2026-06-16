@@ -61,18 +61,9 @@ namespace osu.Game.Beatmaps
         }
 
         public BeatmapManager(Storage storage, RealmAccess realm, IAPIProvider? api, AudioManager audioManager, IResourceStore<byte[]> gameResources, GameHost? host = null,
-                              WorkingBeatmap? defaultBeatmap = null, BeatmapDifficultyCache? difficultyCache = null, bool performOnlineLookups = false)
+                              WorkingBeatmap? defaultBeatmap = null, BeatmapDifficultyCache? difficultyCache = null)
             : base(storage, realm)
         {
-            if (performOnlineLookups)
-            {
-                if (api == null)
-                    throw new ArgumentNullException(nameof(api), "API must be provided if online lookups are required.");
-
-                if (difficultyCache == null)
-                    throw new ArgumentNullException(nameof(difficultyCache), "Difficulty cache must be provided if online lookups are required.");
-            }
-
             var userResources = new RealmFileStore(realm, storage).Store;
 
             BeatmapTrackStore = audioManager.GetTrackStore(userResources);

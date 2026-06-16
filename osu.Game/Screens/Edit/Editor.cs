@@ -32,7 +32,6 @@ using osu.Game.Beatmaps;
 using osu.Game.Beatmaps.ControlPoints;
 using osu.Game.Configuration;
 using osu.Game.Database;
-using osu.Game.Extensions;
 using osu.Game.Graphics.Cursor;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Input.Bindings;
@@ -53,7 +52,6 @@ using osu.Game.Screens.Edit.Compose.Components.Timeline;
 using osu.Game.Screens.Edit.Design;
 using osu.Game.Screens.Edit.GameplayTest;
 using osu.Game.Screens.Edit.Setup;
-using osu.Game.Screens.Edit.Submission;
 using osu.Game.Screens.Edit.Timing;
 using osu.Game.Screens.Edit.Verify;
 using osu.Game.Screens.OnlinePlay;
@@ -837,10 +835,6 @@ namespace osu.Game.Screens.Edit
                 case GlobalAction.EditorEditExternally:
                     editExternally();
                     return true;
-
-                case GlobalAction.EditorSubmitBeatmap:
-                    submitBeatmap();
-                    return true;
             }
 
             return false;
@@ -1300,20 +1294,6 @@ namespace osu.Game.Screens.Edit
                 yield return externalEdit;
             }
 
-            bool isSetMadeOfLegacyRulesetBeatmaps = (isNewBeatmap && Ruleset.Value.IsLegacyRuleset())
-                                                    || (!isNewBeatmap && Beatmap.Value.BeatmapSetInfo.Beatmaps.All(b => b.Ruleset.IsLegacyRuleset()));
-            bool submissionAvailable = api.Endpoints.BeatmapSubmissionServiceUrl != null;
-
-            if (isSetMadeOfLegacyRulesetBeatmaps && submissionAvailable)
-            {
-                var upload = new EditorMenuItem(EditorStrings.SubmitBeatmap, MenuItemType.Standard, submitBeatmap)
-                {
-                    Hotkey = new Hotkey(GlobalAction.EditorSubmitBeatmap)
-                };
-                saveRelatedMenuItems.Add(upload);
-                yield return upload;
-            }
-
             if (editorBeatmap.BeatmapInfo.OnlineID > 0)
             {
                 yield return new OsuMenuItemSpacer();
@@ -1362,42 +1342,6 @@ namespace osu.Game.Screens.Edit
             {
                 this.Push(new ExternalEditScreen());
             }
-        }
-
-        private void submitBeatmap()
-        {
-            if (api.State.Value != APIState.Online)
-            {
-                loginOverlay?.Show();
-                return;
-            }
-
-            if (!editorBeatmap.HitObjects.Any())
-            {
-                notifications?.Post(new SimpleNotification
-                {
-                    Text = BeatmapSubmissionStrings.EmptyBeatmapsCannotBeSubmitted,
-                });
-                return;
-            }
-
-            if (HasUnsavedChanges)
-            {
-                dialogOverlay.Push(new SaveRequiredPopupDialog(() => attemptMutationOperation(() =>
-                {
-                    if (!Save())
-                        return false;
-
-                    startSubmission();
-                    return true;
-                })));
-            }
-            else
-            {
-                startSubmission();
-            }
-
-            void startSubmission() => this.Push(new BeatmapSubmissionScreen());
         }
 
         private void runExport(Func<BeatmapManager, Task> exportAction)

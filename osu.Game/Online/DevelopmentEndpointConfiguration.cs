@@ -13,7 +13,6 @@ namespace osu.Game.Online
             SpectatorUrl = $@"{APIUrl}/signalr/spectator";
             MultiplayerUrl = $@"{APIUrl}/signalr/multiplayer";
             MetadataUrl = $@"{APIUrl}/signalr/metadata";
-            BeatmapSubmissionServiceUrl = $@"{APIUrl}/beatmap-submission";
         }
     }
 }

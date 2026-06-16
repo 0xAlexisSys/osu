@@ -13,7 +13,6 @@ namespace osu.Game.Online
             SpectatorUrl = "https://spectator.osu.ppy.sh/spectator";
             MultiplayerUrl = "https://spectator.osu.ppy.sh/multiplayer";
             MetadataUrl = "https://spectator.osu.ppy.sh/metadata";
-            BeatmapSubmissionServiceUrl = "https://bss.ppy.sh";
         }
     }
 }

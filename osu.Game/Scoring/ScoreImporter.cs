@@ -168,7 +168,6 @@ namespace osu.Game.Scoring
                     // in realm, this should be undone.
                     Id = user.Id,
                     Username = user.Username,
-                    CountryCode = user.CountryCode,
                 });
 
                 return cachedUser;
@@ -199,7 +198,6 @@ namespace osu.Game.Scoring
                     // in realm, this should be undone.
                     Id = user.Id,
                     Username = user.Username,
-                    CountryCode = user.CountryCode,
                 });
 
                 return cachedUser;

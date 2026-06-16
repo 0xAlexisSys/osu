@@ -64,9 +64,7 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Participants
         private UserCoverBackground userCover = null!;
         private FillFlowContainer userContent = null!;
         private UpdateableAvatar userAvatar = null!;
-        private UpdateableFlag userFlag = null!;
         private OsuSpriteText username = null!;
-        private Container teamFlagContainer = null!;
         private OsuSpriteText userRankText = null!;
         private StyleDisplayIcon userStyleDisplay = null!;
         private ModDisplay userModsDisplay = null!;
@@ -143,18 +141,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Participants
                                             Origin = Anchor.CentreLeft,
                                             RelativeSizeAxes = Axes.Both,
                                             FillMode = FillMode.Fit,
-                                        },
-                                        userFlag = new UpdateableFlag
-                                        {
-                                            Anchor = Anchor.CentreLeft,
-                                            Origin = Anchor.CentreLeft,
-                                            Size = new Vector2(28, 20),
-                                        },
-                                        teamFlagContainer = new Container
-                                        {
-                                            AutoSizeAxes = Axes.Both,
-                                            Anchor = Anchor.CentreLeft,
-                                            Origin = Anchor.CentreLeft,
                                         },
                                         username = new OsuSpriteText
                                         {
@@ -270,11 +256,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Participants
 
                 userCover.User = user;
                 userAvatar.User = user;
-                userFlag.CountryCode = user?.CountryCode ?? default;
-                teamFlagContainer.Child = new UpdateableTeamFlag(user?.Team)
-                {
-                    Size = new Vector2(40, 20),
-                };
                 username.Text = user?.Username ?? string.Empty;
             }
 

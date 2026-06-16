@@ -16,7 +16,6 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Game.Graphics.UserInterface;
 using osu.Framework.Graphics.Cursor;
 using osu.Framework.Localisation;
-using osu.Framework.Screens;
 using osu.Game.Graphics.Containers;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
@@ -25,11 +24,8 @@ using osu.Game.Resources.Localisation.Web;
 using osu.Game.Localisation;
 using osu.Game.Online.Metadata;
 using osu.Game.Online.Multiplayer;
-using osu.Game.Screens;
 using osu.Game.Screens.OnlinePlay.Matchmaking.Queue;
-using osu.Game.Screens.Play;
 using osu.Game.Users.Drawables;
-using osuTK;
 using osu.Game.Online.Rooms;
 
 namespace osu.Game.Users
@@ -57,9 +53,6 @@ namespace osu.Game.Users
         }
 
         [Resolved]
-        private UserProfileOverlay? profileOverlay { get; set; }
-
-        [Resolved]
         private IAPIProvider api { get; set; } = null!;
 
         [Resolved]
@@ -69,13 +62,7 @@ namespace osu.Game.Users
         private ChatOverlay? chatOverlay { get; set; }
 
         [Resolved]
-        private IDialogOverlay? dialogOverlay { get; set; }
-
-        [Resolved]
         protected OverlayColourProvider? ColourProvider { get; private set; }
-
-        [Resolved]
-        private IPerformFromScreenRunner? performer { get; set; }
 
         [Resolved]
         protected OsuColour Colours { get; private set; } = null!;
@@ -105,12 +92,6 @@ namespace osu.Game.Users
                 Add(background);
 
             Add(CreateLayout());
-
-            base.Action = ViewProfile = () =>
-            {
-                Action?.Invoke();
-                profileOverlay?.ShowUser(User);
-            };
         }
 
         // TODO: this whole api is messy. half these Create methods are expected to by the implementation and half are implictly called.
@@ -147,17 +128,6 @@ namespace osu.Game.Users
 
         protected UpdateableAvatar CreateAvatar() => new UpdateableAvatar(User, false);
 
-        protected UpdateableFlag CreateFlag() => new UpdateableFlag(User.CountryCode)
-        {
-            Size = new Vector2(36, 26),
-            Action = Action,
-        };
-
-        protected Drawable CreateTeamLogo() => new UpdateableTeamFlag(User.Team)
-        {
-            Size = new Vector2(52, 26),
-        };
-
         public MenuItem[] ContextMenuItems
         {
             get
@@ -176,18 +146,8 @@ namespace osu.Game.Users
                     chatOverlay?.Show();
                 }));
 
-                items.Add(!isUserBlocked()
-                    ? new OsuMenuItem(UsersStrings.BlocksButtonBlock, MenuItemType.Destructive, () => dialogOverlay?.Push(ConfirmBlockActionDialog.Block(User)))
-                    : new OsuMenuItem(UsersStrings.BlocksButtonUnblock, MenuItemType.Standard, () => dialogOverlay?.Push(ConfirmBlockActionDialog.Unblock(User))));
-
                 if (isUserOnline())
                 {
-                    items.Add(new OsuMenuItem(ContextMenuStrings.SpectatePlayer, MenuItemType.Standard, () =>
-                    {
-                        if (isUserOnline())
-                            performer?.PerformFromScreen(s => s.Push(new SoloSpectatorScreen(User)));
-                    }));
-
                     if (canInviteUser())
                     {
                         items.Add(new OsuMenuItem(ContextMenuStrings.InvitePlayer, MenuItemType.Standard, () =>
@@ -211,7 +171,6 @@ namespace osu.Game.Users
 
                 bool isUserOnline() => metadataClient?.GetPresence(User.OnlineID) != null;
                 bool canInviteUser() => isUserOnline() && multiplayerClient?.Room?.Users.All(u => u.UserID != User.Id) == true && multiplayerClient?.Room?.Settings.MatchType.IsMatchmakingType() != true;
-                bool isUserBlocked() => api.LocalUserState.Blocks.Any(b => b.TargetID == User.OnlineID);
                 bool canDuelUser() => isUserOnline() && queueController?.SelectedPool.Value != null && multiplayerClient?.Room?.Settings.MatchType.IsMatchmakingType() != true;
             }
         }

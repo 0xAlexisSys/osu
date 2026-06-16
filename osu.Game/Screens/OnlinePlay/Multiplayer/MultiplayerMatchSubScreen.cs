@@ -513,17 +513,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer
             if (client.Room == null)
                 return;
 
-            // Check if we need to make this the current screen as a result of the beatmap set changing while the user's selecting a style.
-            if (this.GetChildScreen() is MultiplayerMatchFreestyleSelect)
-            {
-                MultiplayerPlaylistItem item = client.Room.CurrentPlaylistItem;
-
-                var newBeatmap = beatmapManager.QueryOnlineBeatmapId(item.BeatmapID);
-
-                if (!Beatmap.Value.BeatmapSetInfo.Equals(newBeatmap?.BeatmapSet))
-                    this.MakeCurrent();
-            }
-
             Scheduler.AddOnce(updateGameplayState);
         }
 
@@ -597,8 +586,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer
                     break;
 
                 default:
-                    if (!client.IsReferee)
-                        targetScreen.Push(new MultiplayerPlayerLoader(() => new MultiplayerPlayer(room, new PlaylistItem(client.Room.CurrentPlaylistItem), users)));
                     break;
             }
         }
@@ -717,10 +704,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer
         /// <param name="itemToEdit">An optional playlist item to edit. If null, a new item will be added instead.</param>
         public void ShowSongSelect(PlaylistItem? itemToEdit = null)
         {
-            if (!this.IsCurrentScreen())
-                return;
-
-            this.Push(new MultiplayerMatchSongSelect(room, itemToEdit));
         }
 
         /// <summary>
@@ -743,7 +726,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer
                 return;
 
             MultiplayerPlaylistItem item = client.Room.CurrentPlaylistItem;
-            this.Push(new MultiplayerMatchFreestyleSelect(new PlaylistItem(item)));
         }
 
         /// <summary>

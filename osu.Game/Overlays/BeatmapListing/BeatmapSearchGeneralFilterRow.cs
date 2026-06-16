@@ -144,7 +144,6 @@ namespace osu.Game.Overlays.BeatmapListing
             {
                 base.LoadComplete();
 
-                config.BindWith(OsuSetting.BeatmapListingFeaturedArtistFilter, Active);
                 disclaimerShown = sessionStatics.GetBindable<bool>(Static.FeaturedArtistDisclaimerShownOnce);
 
                 // no need to show the disclaimer if the user already had it toggled off in config.

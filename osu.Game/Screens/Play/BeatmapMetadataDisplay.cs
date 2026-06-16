@@ -49,35 +49,6 @@ namespace osu.Game.Screens.Play
             }
         }
 
-        private bool userBlocked;
-
-        public bool UserBlocked
-        {
-            set
-            {
-                if (value == userBlocked)
-                    return;
-
-                userBlocked = value;
-
-                if (userBlocked)
-                {
-                    using (BeginDelayedSequence(500))
-                    {
-                        blockingLoadLayer
-                            // Slight delay to avoid this flashing briefly during multiplayer load and other scenarios where
-                            // load may be blocked for a short period.
-                            .FadeIn(300, Easing.Out)
-                            .Then()
-                            .FadeTo(0.6f, 1000, Easing.In)
-                            .Loop();
-                    }
-                }
-                else
-                    blockingLoadLayer.FadeOut(500, Easing.OutQuint);
-            }
-        }
-
         public BeatmapMetadataDisplay(IWorkingBeatmap beatmap, Bindable<IReadOnlyList<Mod>> mods, Drawable logoFacade)
         {
             this.beatmap = beatmap;

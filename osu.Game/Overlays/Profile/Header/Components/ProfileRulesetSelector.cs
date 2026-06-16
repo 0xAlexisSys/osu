@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System.Linq;
-using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics.UserInterface;
@@ -13,9 +12,6 @@ namespace osu.Game.Overlays.Profile.Header.Components
 {
     public partial class ProfileRulesetSelector : OverlayRulesetSelector
     {
-        [Resolved]
-        private UserProfileOverlay? profileOverlay { get; set; }
-
         public readonly Bindable<UserProfileData?> User = new Bindable<UserProfileData?>();
 
         protected override void LoadComplete()
@@ -23,11 +19,6 @@ namespace osu.Game.Overlays.Profile.Header.Components
             base.LoadComplete();
 
             User.BindValueChanged(user => updateState(user.NewValue), true);
-            Current.BindValueChanged(ruleset =>
-            {
-                if (User.Value != null && !ruleset.NewValue.Equals(User.Value.Ruleset))
-                    profileOverlay?.ShowUser(User.Value.User, ruleset.NewValue);
-            });
         }
 
         private void updateState(UserProfileData? user)

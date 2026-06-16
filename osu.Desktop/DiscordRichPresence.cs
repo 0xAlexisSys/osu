@@ -20,7 +20,6 @@ using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Multiplayer;
 using osu.Game.Online.Rooms;
-using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Users;
 using LogLevel = osu.Framework.Logging.LogLevel;
@@ -41,9 +40,6 @@ namespace osu.Desktop
 
         [Resolved]
         private OsuGame game { get; set; } = null!;
-
-        [Resolved]
-        private LoginOverlay? login { get; set; }
 
         [Resolved]
         private MultiplayerClient multiplayerClient { get; set; } = null!;
@@ -89,7 +85,6 @@ namespace osu.Desktop
             {
                 client.RegisterUriScheme();
                 client.Subscribe(EventType.Join);
-                client.OnJoin += onJoin;
             }
             catch (Exception ex)
             {
@@ -237,35 +232,6 @@ namespace osu.Desktop
             presence.Assets.SmallImageKey = ruleset.Value.IsLegacyRuleset() ? $"mode_{ruleset.Value.OnlineID}" : "mode_custom";
             presence.Assets.SmallImageText = ruleset.Value.Name;
         }
-
-        private void onJoin(object sender, JoinMessage args) => Scheduler.AddOnce(() =>
-        {
-            game.Window?.Raise();
-
-            if (!api.IsLoggedIn)
-            {
-                login?.Show();
-                return;
-            }
-
-            Logger.Log($"Received room secret from Discord RPC Client: \"{args.Secret}\"", LoggingTarget.Network, LogLevel.Debug);
-
-            // Stable and lazer share the same Discord client ID, meaning they can accept join requests from each other.
-            // Since they aren't compatible in multi, see if stable's format is being used and log to avoid confusion.
-            if (args.Secret[0] != '{' || !tryParseRoomSecret(args.Secret, out long roomId, out string? password))
-            {
-                Logger.Log("Could not join multiplayer room, invitation is invalid or incompatible.", LoggingTarget.Network, LogLevel.Important);
-                return;
-            }
-
-            var request = new GetRoomRequest(roomId);
-            request.Success += room => Schedule(() =>
-            {
-                game.PresentMultiplayerMatch(room, password);
-            });
-            request.Failure += _ => Logger.Log($"Could not join multiplayer room, room could not be found (room ID: {roomId}).", LoggingTarget.Network, LogLevel.Important);
-            api.Queue(request);
-        });
 
         private static readonly int ellipsis_length = Encoding.UTF8.GetByteCount(new[] { '…' });
 

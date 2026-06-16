@@ -2,11 +2,9 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using osu.Game.Models;
-using osu.Game.Screens.Select;
 using osu.Game.Users;
 using osu.Game.Utils;
 using Realms;
@@ -44,13 +42,6 @@ namespace osu.Game.Beatmaps
 
         [JsonProperty(@"tags")]
         public string Tags { get; set; } = string.Empty;
-
-        /// <summary>
-        /// The list of user-voted tags applicable to this beatmap.
-        /// This information is populated from online sources (<see cref="RealmPopulatingOnlineLookupSource"/>)
-        /// and can meaningfully differ between beatmaps of a single set.
-        /// </summary>
-        public IList<string> UserTags { get; } = null!;
 
         /// <summary>
         /// The time in milliseconds to begin playing the track for preview purposes.

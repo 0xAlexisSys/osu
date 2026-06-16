@@ -8,7 +8,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using osu.Framework.Utils;
 using osu.Game.Beatmaps;
-using osu.Game.Database;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
@@ -191,23 +190,6 @@ namespace osu.Game.Tests.Visual.OnlinePlay
                 case GetBeatmapsRequest getBeatmapsRequest:
                 {
                     getBeatmapsRequest.TriggerSuccess(new GetBeatmapsResponse { Beatmaps = createResponseBeatmaps(getBeatmapsRequest.BeatmapIds.ToArray()) });
-                    return true;
-                }
-
-                case GetBeatmapSetRequest getBeatmapSetRequest:
-                {
-                    var baseBeatmap = getBeatmapSetRequest.Type == BeatmapSetLookupType.BeatmapId
-                        ? beatmapManager.QueryBeatmap(b => b.OnlineID == getBeatmapSetRequest.ID)
-                        : beatmapManager.QueryBeatmapSet(s => s.OnlineID == getBeatmapSetRequest.ID)?.PerformRead(s => s.Beatmaps.First().Detach());
-
-                    if (baseBeatmap == null)
-                    {
-                        baseBeatmap = new TestBeatmap(new RulesetInfo { OnlineID = 0 }).BeatmapInfo;
-                        baseBeatmap.OnlineID = getBeatmapSetRequest.ID;
-                        baseBeatmap.BeatmapSet!.OnlineID = getBeatmapSetRequest.ID;
-                    }
-
-                    getBeatmapSetRequest.TriggerSuccess(OsuTestScene.CreateAPIBeatmapSet(baseBeatmap));
                     return true;
                 }
 

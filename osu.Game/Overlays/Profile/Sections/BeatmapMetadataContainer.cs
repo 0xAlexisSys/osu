@@ -24,13 +24,8 @@ namespace osu.Game.Overlays.Profile.Sections
         }
 
         [BackgroundDependencyLoader]
-        private void load(BeatmapSetOverlay? beatmapSetOverlay)
+        private void load()
         {
-            Action = () =>
-            {
-                beatmapSetOverlay?.FetchAndShowBeatmap(beatmapInfo.OnlineID);
-            };
-
             Child = new FillFlowContainer
             {
                 AutoSizeAxes = Axes.Both,

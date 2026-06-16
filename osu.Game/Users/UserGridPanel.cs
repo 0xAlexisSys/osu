@@ -5,7 +5,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Overlays.Profile.Header.Components;
 using osuTK;
 
 namespace osu.Game.Users
@@ -33,8 +32,6 @@ namespace osu.Game.Users
 
         protected override Drawable CreateLayout()
         {
-            FillFlowContainer details;
-
             var layout = new GridContainer
             {
                 RelativeSizeAxes = Axes.Both,
@@ -77,21 +74,6 @@ namespace osu.Game.Users
                             {
                                 new Drawable[]
                                 {
-                                    details = new FillFlowContainer
-                                    {
-                                        AutoSizeAxes = Axes.Both,
-                                        Direction = FillDirection.Horizontal,
-                                        Spacing = new Vector2(6),
-                                        Children = new[]
-                                        {
-                                            CreateFlag(),
-                                            CreateTeamLogo(),
-                                            // supporter icon is being added later
-                                        }
-                                    }
-                                },
-                                new Drawable[]
-                                {
                                     CreateUsername().With(username =>
                                     {
                                         username.Anchor = Anchor.CentreLeft;
@@ -117,17 +99,6 @@ namespace osu.Game.Users
                     }
                 }
             };
-
-            // TODO: add rank somewhere (needs design consideration).
-
-            if (User.IsSupporter)
-            {
-                details.Add(new SupporterIcon
-                {
-                    Height = 26,
-                    SupportLevel = User.SupportLevel
-                });
-            }
 
             return layout;
         }

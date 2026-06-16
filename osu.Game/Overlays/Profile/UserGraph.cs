@@ -19,7 +19,7 @@ using osuTK;
 namespace osu.Game.Overlays.Profile
 {
     /// <summary>
-    /// Graph which is used in <see cref="UserProfileOverlay"/> to present changes in user statistics over time.
+    /// Graph which is used to present changes in user statistics over time.
     /// </summary>
     /// <typeparam name="TKey">Type of data to be used for X-axis of the graph.</typeparam>
     /// <typeparam name="TValue">Type of data to be used for Y-axis of the graph.</typeparam>

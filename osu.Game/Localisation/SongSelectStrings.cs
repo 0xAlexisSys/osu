@@ -125,11 +125,6 @@ namespace osu.Game.Localisation
         public static LocalisableString ForSelectedDifficulty => new TranslatableString(getKey(@"for_selected_difficulty"), @"For selected difficulty");
 
         /// <summary>
-        /// "Update beatmap with online changes"
-        /// </summary>
-        public static LocalisableString UpdateBeatmapTooltip => new TranslatableString(getKey(@"update_beatmap_tooltip"), @"Update beatmap with online changes");
-
-        /// <summary>
         /// "Mark as played"
         /// </summary>
         public static LocalisableString MarkAsPlayed => new TranslatableString(getKey(@"mark_as_played"), @"Mark as played");
@@ -140,9 +135,9 @@ namespace osu.Game.Localisation
         public static LocalisableString RemoveFromPlayed => new TranslatableString(getKey(@"remove_from_played"), @"Remove from played");
 
         /// <summary>
-        /// "Clear all local scores"
+        /// "Clear all scores"
         /// </summary>
-        public static LocalisableString ClearAllLocalScores => new TranslatableString(getKey(@"clear_all_local_scores"), @"Clear all local scores");
+        public static LocalisableString ClearAllScores => new TranslatableString(getKey(@"clear_all_scores"), @"Clear all scores");
 
         /// <summary>
         /// "Restore all hidden"

@@ -34,9 +34,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
 
         public override LocalisableString StageHeading => "Gameplay";
 
-        [Cached(typeof(IBindable<SongSelect.BeatmapSetLookupResult?>))]
-        private readonly Bindable<SongSelect.BeatmapSetLookupResult?> lastLookupResult = new Bindable<SongSelect.BeatmapSetLookupResult?>();
-
         [Resolved]
         private BeatmapLookupCache beatmapLookupCache { get; set; } = null!;
 
@@ -73,7 +70,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
         private void load()
         {
             APIBeatmap beatmap = beatmapLookupCache.GetBeatmapAsync(Client.Room!.CurrentPlaylistItem.BeatmapID).GetResultSafely()!;
-            lastLookupResult.Value = SongSelect.BeatmapSetLookupResult.Completed(beatmap.BeatmapSet);
 
             var matchState = Client.Room?.MatchState as RankedPlayRoomState;
             Debug.Assert(matchState != null);

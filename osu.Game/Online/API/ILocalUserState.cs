@@ -9,10 +9,5 @@ namespace osu.Game.Online.API
     public interface ILocalUserState
     {
         IBindable<APIUser> User { get; }
-        IBindableList<APIRelation> Friends { get; }
-        IBindableList<APIRelation> Blocks { get; }
-
-        void UpdateFriends();
-        void UpdateBlocks();
     }
 }

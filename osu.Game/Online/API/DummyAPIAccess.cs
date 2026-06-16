@@ -185,14 +185,6 @@ namespace osu.Game.Online.API
             LocalUser.Value = new GuestUser();
         }
 
-        public void UpdateLocalFriends()
-        {
-        }
-
-        public void UpdateLocalBlocks()
-        {
-        }
-
         public IHubClientConnector? GetHubConnector(string clientName, string endpoint) => null;
 
         public IChatClient GetChatClient() => new TestChatClientConnector(this);
@@ -236,20 +228,7 @@ namespace osu.Game.Online.API
                 Id = DUMMY_USER_ID,
             });
 
-            public BindableList<APIRelation> Friends { get; } = new BindableList<APIRelation>();
-            public BindableList<APIRelation> Blocks { get; } = new BindableList<APIRelation>();
-
             IBindable<APIUser> ILocalUserState.User => User;
-            IBindableList<APIRelation> ILocalUserState.Friends => Friends;
-            IBindableList<APIRelation> ILocalUserState.Blocks => Blocks;
-
-            public void UpdateFriends()
-            {
-            }
-
-            public void UpdateBlocks()
-            {
-            }
         }
     }
 }

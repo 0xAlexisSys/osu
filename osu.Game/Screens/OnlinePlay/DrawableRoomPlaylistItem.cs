@@ -20,7 +20,6 @@ using osu.Framework.Localisation;
 using osu.Framework.Logging;
 using osu.Game.Beatmaps;
 using osu.Game.Beatmaps.Drawables;
-using osu.Game.Beatmaps.Drawables.Cards;
 using osu.Game.Collections;
 using osu.Game.Database;
 using osu.Game.Graphics;
@@ -29,8 +28,6 @@ using osu.Game.Graphics.UserInterface;
 using osu.Game.Online;
 using osu.Game.Online.Chat;
 using osu.Game.Online.Rooms;
-using osu.Game.Overlays;
-using osu.Game.Overlays.BeatmapSet;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Screens.Play.HUD;
@@ -86,7 +83,6 @@ namespace osu.Game.Screens.OnlinePlay
         private FillFlowContainer? difficultyIconContainer;
         private LinkFlowContainer? beatmapText;
         private LinkFlowContainer? authorText;
-        private ExplicitContentBeatmapBadge? explicitContent;
         private ModDisplay? modDisplay;
         private FillFlowContainer? buttonsFlow;
         private UpdateableAvatar? ownerAvatar;
@@ -95,7 +91,6 @@ namespace osu.Game.Screens.OnlinePlay
         private Drawable? removeButton;
         private PanelBackground? panelBackground;
         private FillFlowContainer? mainFillFlow;
-        private BeatmapCardThumbnail? thumbnail;
 
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
@@ -114,9 +109,6 @@ namespace osu.Game.Screens.OnlinePlay
 
         [Resolved]
         private BeatmapLookupCache beatmapLookupCache { get; set; } = null!;
-
-        [Resolved(CanBeNull = true)]
-        private BeatmapSetOverlay? beatmapOverlay { get; set; }
 
         [Resolved(CanBeNull = true)]
         private ManageCollectionsDialog? manageCollectionsDialog { get; set; }
@@ -292,35 +284,6 @@ namespace osu.Game.Screens.OnlinePlay
                 }
             }
 
-            if (difficultyIconContainer != null)
-            {
-                if (beatmap != null)
-                {
-                    difficultyIconContainer.Children = new Drawable[]
-                    {
-                        thumbnail = new BeatmapCardThumbnail(beatmap.BeatmapSet!, (IBeatmapSetOnlineInfo)beatmap.BeatmapSet!)
-                        {
-                            Anchor = Anchor.CentreLeft,
-                            Origin = Anchor.CentreLeft,
-                            Width = 60,
-                            Masking = true,
-                            CornerRadius = 10,
-                            RelativeSizeAxes = Axes.Y,
-                            Dimmed = { Value = IsHovered }
-                        },
-                        new DifficultyIcon(beatmap, ruleset, requiredMods)
-                        {
-                            Size = new Vector2(24),
-                            TooltipType = DifficultyIconTooltipType.Extended,
-                            Anchor = Anchor.CentreLeft,
-                            Origin = Anchor.CentreLeft,
-                        },
-                    };
-                }
-                else
-                    difficultyIconContainer.Clear();
-            }
-
             if (panelBackground != null)
                 panelBackground.Beatmap.Value = beatmap;
 
@@ -350,12 +313,6 @@ namespace osu.Game.Screens.OnlinePlay
                     authorText.AddText("mapped by ");
                     authorText.AddUserLink(beatmap.Metadata.Author);
                 }
-            }
-
-            if (explicitContent != null)
-            {
-                bool hasExplicitContent = (beatmap?.BeatmapSet as IBeatmapSetOnlineInfo)?.HasExplicitContent == true;
-                explicitContent.Alpha = hasExplicitContent ? 1 : 0;
             }
 
             if (modDisplay != null)
@@ -452,13 +409,6 @@ namespace osu.Game.Screens.OnlinePlay
                                                             Children = new Drawable[]
                                                             {
                                                                 authorText = new LinkFlowContainer(fontParameters) { AutoSizeAxes = Axes.Both },
-                                                                explicitContent = new ExplicitContentBeatmapBadge
-                                                                {
-                                                                    Alpha = 0f,
-                                                                    Anchor = Anchor.CentreLeft,
-                                                                    Origin = Anchor.CentreLeft,
-                                                                    Margin = new MarginPadding { Top = 3f },
-                                                                }
                                                             },
                                                         },
                                                         new Container
@@ -573,24 +523,6 @@ namespace osu.Game.Screens.OnlinePlay
             },
         };
 
-        protected override bool OnHover(HoverEvent e)
-        {
-            if (thumbnail != null)
-                thumbnail.Dimmed.Value = true;
-
-            panelBackground.FadeColour(OsuColour.Gray(0.7f), BeatmapCard.TRANSITION_DURATION, Easing.OutQuint);
-            return base.OnHover(e);
-        }
-
-        protected override void OnHoverLost(HoverLostEvent e)
-        {
-            if (thumbnail != null)
-                thumbnail.Dimmed.Value = false;
-
-            panelBackground.FadeColour(OsuColour.Gray(1f), BeatmapCard.TRANSITION_DURATION, Easing.OutQuint);
-            base.OnHoverLost(e);
-        }
-
         protected override bool OnClick(ClickEvent e)
         {
             if (AllowSelection && valid.Value)
@@ -603,9 +535,6 @@ namespace osu.Game.Screens.OnlinePlay
             get
             {
                 List<MenuItem> items = new List<MenuItem>();
-
-                if (beatmapOverlay != null)
-                    items.Add(new OsuMenuItem(CommonStrings.Details, MenuItemType.Standard, () => beatmapOverlay.FetchAndShowBeatmap(Item.Beatmap.OnlineID)));
 
                 if (beatmap != null)
                 {

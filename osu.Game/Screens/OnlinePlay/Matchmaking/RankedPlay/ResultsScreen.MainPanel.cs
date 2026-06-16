@@ -17,9 +17,7 @@ using osu.Framework.Utils;
 using osu.Game.Extensions;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Multiplayer.MatchTypes.RankedPlay;
-using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
 using osu.Game.Screens.OnlinePlay.Matchmaking.Match.BeatmapSelect;
 using osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay.Components;
@@ -36,9 +34,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
             public required ScoreInfo OpponentScore { get; init; }
             public required RankedPlayDamageInfo PlayerDamageInfo { get; init; }
             public required RankedPlayDamageInfo OpponentDamageInfo { get; init; }
-
-            public required APIBeatmap Beatmap { get; init; }
-            public required Mod[] Mods { get; init; }
 
             [Resolved]
             private RankedPlayMatchInfo matchInfo { get; set; } = null!;
@@ -114,7 +109,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
                         Margin = new MarginPadding { Bottom = 10 },
                         Scale = new Vector2(1.1f),
                         Size = new Vector2(MatchmakingSelectPanel.WIDTH, MatchmakingSelectPanel.HEIGHT),
-                        Child = new MatchmakingSelectPanel.CardContentBeatmap(Beatmap, Mods)
                     }
                 });
 

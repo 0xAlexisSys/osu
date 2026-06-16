@@ -24,14 +24,8 @@ namespace osu.Game.Users
     [Serializable]
     [MessagePackObject]
     [Union(11, typeof(ChoosingBeatmap))]
-    [Union(12, typeof(InSoloGame))]
+    [Union(12, typeof(PlayingBeatmap))]
     [Union(13, typeof(WatchingReplay))]
-    [Union(14, typeof(SpectatingUser))]
-    [Union(21, typeof(SearchingForLobby))]
-    [Union(22, typeof(InLobby))]
-    [Union(23, typeof(InMultiplayerGame))]
-    [Union(24, typeof(SpectatingMultiplayerGame))]
-    [Union(31, typeof(InPlaylistGame))]
     [Union(41, typeof(EditingBeatmap))]
     [Union(42, typeof(ModdingBeatmap))]
     [Union(43, typeof(TestingBeatmap))]
@@ -55,11 +49,8 @@ namespace osu.Game.Users
         }
 
         [MessagePackObject]
-        [Union(12, typeof(InSoloGame))]
-        [Union(23, typeof(InMultiplayerGame))]
-        [Union(24, typeof(SpectatingMultiplayerGame))]
-        [Union(31, typeof(InPlaylistGame))]
-        public abstract class InGame : UserActivity
+        [Union(12, typeof(PlayingBeatmap))]
+        public class PlayingBeatmap : UserActivity
         {
             [Key(0)]
             public int BeatmapID { get; set; }
@@ -73,7 +64,7 @@ namespace osu.Game.Users
             [Key(3)]
             public string RulesetPlayingVerb { get; set; } = string.Empty; // TODO: i'm going with this for now, but this is wasteful
 
-            protected InGame(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
+            public PlayingBeatmap(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
             {
                 BeatmapID = beatmapInfo.OnlineID;
                 BeatmapDisplayTitle = beatmapInfo.GetDisplayTitle();
@@ -83,51 +74,11 @@ namespace osu.Game.Users
             }
 
             [SerializationConstructor]
-            protected InGame() { }
+            public PlayingBeatmap() { }
 
             public override string GetStatus(bool hideIdentifiableInformation = false) => RulesetPlayingVerb;
             public override string GetDetails(bool hideIdentifiableInformation = false) => BeatmapDisplayTitle;
             public override int? GetBeatmapID(bool hideIdentifiableInformation = false) => BeatmapID;
-        }
-
-        [MessagePackObject]
-        public class InSoloGame : InGame
-        {
-            public InSoloGame(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
-                : base(beatmapInfo, ruleset)
-            {
-            }
-
-            [SerializationConstructor]
-            public InSoloGame() { }
-        }
-
-        [MessagePackObject]
-        public class InMultiplayerGame : InGame
-        {
-            public InMultiplayerGame(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
-                : base(beatmapInfo, ruleset)
-            {
-            }
-
-            [SerializationConstructor]
-            public InMultiplayerGame()
-            {
-            }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => $@"{base.GetStatus(hideIdentifiableInformation)} with others";
-        }
-
-        [MessagePackObject]
-        public class InPlaylistGame : InGame
-        {
-            public InPlaylistGame(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
-                : base(beatmapInfo, ruleset)
-            {
-            }
-
-            [SerializationConstructor]
-            public InPlaylistGame() { }
         }
 
         [MessagePackObject]
@@ -232,20 +183,6 @@ namespace osu.Game.Users
             public SpectatingUser() { }
 
             public override string GetStatus(bool hideIdentifiableInformation = false) => hideIdentifiableInformation ? @"Spectating a user" : $@"Spectating {PlayerName}";
-        }
-
-        [MessagePackObject]
-        public class SpectatingMultiplayerGame : InGame
-        {
-            public SpectatingMultiplayerGame(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
-                : base(beatmapInfo, ruleset)
-            {
-            }
-
-            [SerializationConstructor]
-            public SpectatingMultiplayerGame() { }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => @"Spectating a multiplayer game";
         }
 
         [MessagePackObject]

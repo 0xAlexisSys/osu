@@ -33,34 +33,6 @@ namespace osu.Game.Overlays.Profile.Header
                     RelativeSizeAxes = Axes.Both,
                     Colour = colourProvider.Background3
                 },
-                new FillFlowContainer
-                {
-                    AutoSizeAxes = Axes.X,
-                    RelativeSizeAxes = Axes.Y,
-                    Direction = FillDirection.Horizontal,
-                    Padding = new MarginPadding { Vertical = 10 },
-                    Margin = new MarginPadding { Left = WaveOverlayContainer.HORIZONTAL_PADDING },
-                    Spacing = new Vector2(10, 0),
-                    Children = new Drawable[]
-                    {
-                        new FollowersButton
-                        {
-                            User = { BindTarget = User }
-                        },
-                        new MappingSubscribersButton
-                        {
-                            User = { BindTarget = User }
-                        },
-                        new MessageUserButton
-                        {
-                            User = { BindTarget = User }
-                        },
-                        new UserActionsButton
-                        {
-                            User = { BindTarget = User }
-                        }
-                    }
-                },
                 new Container
                 {
                     Anchor = Anchor.CentreRight,

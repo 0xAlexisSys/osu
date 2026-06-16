@@ -64,7 +64,7 @@ namespace osu.Game.Screens.OnlinePlay.Match.Components
 
         protected override LeaderboardScore CreateDrawableScore(APIUserScoreAggregate model, int index) => new MatchLeaderboardScore(model, index);
 
-        protected override LeaderboardScore CreateDrawableTopScore(APIUserScoreAggregate model) => new MatchLeaderboardScore(model, model.Position, false);
+        protected override LeaderboardScore CreateDrawableTopScore(APIUserScoreAggregate model) => new MatchLeaderboardScore(model, model.Position);
 
         protected override void Dispose(bool isDisposing)
         {

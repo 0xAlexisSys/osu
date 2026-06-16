@@ -300,9 +300,6 @@ namespace osu.Game.Screens.Ranking.Expanded
                         }
                     }
                 };
-
-                if (beatmapId > 0)
-                    Action = () => game?.ShowBeatmap(beatmapId);
             }
         }
     }

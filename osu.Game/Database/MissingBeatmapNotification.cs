@@ -6,7 +6,6 @@ using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Game.Beatmaps;
-using osu.Game.Beatmaps.Drawables.Cards;
 using osu.Game.Configuration;
 using osu.Game.IO.Archives;
 using osu.Game.Localisation;
@@ -34,7 +33,6 @@ namespace osu.Game.Database
 
         private Bindable<bool> autoDownloadConfig = null!;
         private Bindable<bool> noVideoSetting = null!;
-        private BeatmapCardNano card = null!;
 
         private IDisposable? realmSubscription;
 
@@ -60,8 +58,6 @@ namespace osu.Game.Database
 
             autoDownloadConfig = config.GetBindable<bool>(OsuSetting.AutomaticallyDownloadMissingBeatmaps);
             noVideoSetting = config.GetBindable<bool>(OsuSetting.PreferNoVideo);
-
-            Content.Add(card = new BeatmapCardNano(beatmapSetInfo));
         }
 
         protected override void LoadComplete()
@@ -78,12 +74,6 @@ namespace osu.Game.Database
                 bool missingSetMatchesExistingOnlineId = realm.Run(r => r.All<BeatmapSetInfo>().Any(s => !s.DeletePending && s.OnlineID == beatmapSetInfo.OnlineID));
                 Text = missingSetMatchesExistingOnlineId ? NotificationsStrings.MismatchingBeatmapForReplay : NotificationsStrings.MissingBeatmapForReplay;
             }
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            card.Width = Content.DrawWidth;
         }
 
         private void beatmapsChanged(IRealmCollection<BeatmapSetInfo> sender, ChangeSet? changes)

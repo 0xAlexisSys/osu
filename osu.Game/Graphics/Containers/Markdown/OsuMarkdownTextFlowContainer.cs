@@ -16,9 +16,6 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Game.Graphics.Containers.Markdown.Footnotes;
 using osu.Game.Overlays;
-using osu.Game.Users;
-using osu.Game.Users.Drawables;
-using osuTK;
 
 namespace osu.Game.Graphics.Containers.Markdown
 {
@@ -67,11 +64,6 @@ namespace osu.Game.Graphics.Containers.Markdown
             }
 
             string flag = flagAttribute.Split('=').Last().Trim('"');
-
-            if (!Enum.TryParse<CountryCode>(flag, out var countryCode))
-                countryCode = CountryCode.Unknown;
-
-            AddDrawable(new DrawableFlag(countryCode) { Size = new Vector2(20, 15) });
         }
 
         private partial class OsuMarkdownInlineCode : Container

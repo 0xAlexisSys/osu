@@ -8,7 +8,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
 using osu.Game.Graphics.Cursor;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online;
 
 namespace osu.Game.Overlays
 {
@@ -27,9 +26,7 @@ namespace osu.Game.Overlays
         protected OnlineOverlay(OverlayColourScheme colourScheme, bool requiresSignIn = true)
             : base(colourScheme)
         {
-            var mainContent = requiresSignIn
-                ? new OnlineViewContainer($"Sign in to view the {Header.Title.Title}")
-                : new Container();
+            var mainContent = new Container();
 
             mainContent.RelativeSizeAxes = Axes.Both;
 

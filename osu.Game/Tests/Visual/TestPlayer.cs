@@ -3,14 +3,11 @@
 
 #nullable disable
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Screens;
-using osu.Game.Online.API;
-using osu.Game.Online.Rooms;
 using osu.Game.Online.Spectator;
 using osu.Game.Rulesets.Judgements;
 using osu.Game.Rulesets.Mods;
@@ -24,7 +21,7 @@ namespace osu.Game.Tests.Visual
     /// <summary>
     /// A player that exposes many components that would otherwise not be available, for testing purposes.
     /// </summary>
-    public partial class TestPlayer : SoloPlayer
+    public partial class TestPlayer : BeatmapPlayer
     {
         protected override bool PauseOnFocusLost { get; }
 
@@ -59,20 +56,6 @@ namespace osu.Game.Tests.Visual
             })
         {
             PauseOnFocusLost = pauseOnFocusLost;
-        }
-
-        protected override bool ShouldExitOnTokenRetrievalFailure(Exception exception) => false;
-
-        protected override APIRequest<APIScoreToken> CreateTokenRequest()
-        {
-            TokenCreationRequested = true;
-            return base.CreateTokenRequest();
-        }
-
-        protected override APIRequest<MultiplayerScore> CreateSubmissionRequest(Score score, long token)
-        {
-            SubmittedScore = score;
-            return base.CreateSubmissionRequest(score, token);
         }
 
         protected override void PrepareReplay()

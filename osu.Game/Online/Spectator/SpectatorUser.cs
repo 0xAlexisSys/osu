@@ -18,9 +18,6 @@ namespace osu.Game.Online.Spectator
         public string Username { get; set; } = string.Empty;
 
         [IgnoreMember]
-        public CountryCode CountryCode => CountryCode.Unknown;
-
-        [IgnoreMember]
         public bool IsBot => false;
 
         public bool Equals(SpectatorUser? other)

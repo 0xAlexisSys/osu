@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Humanizer;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
@@ -12,17 +11,13 @@ using osu.Framework.Audio.Sample;
 using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
-using osu.Framework.Screens;
 using osu.Framework.Utils;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Localisation;
 using osu.Game.Online;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
@@ -33,9 +28,7 @@ using osu.Game.Online.Multiplayer;
 using osu.Game.Online.Multiplayer.MatchTypes.Matchmaking;
 using osu.Game.Online.Rooms;
 using osu.Game.Overlays;
-using osu.Game.Resources.Localisation.Web;
 using osu.Game.Screens.OnlinePlay.Matchmaking.Match.Results;
-using osu.Game.Screens.Play;
 using osu.Game.Users;
 using osuTK;
 
@@ -45,7 +38,7 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match
     /// A panel used throughout matchmaking to represent a user, including local information like their
     /// rank and high level statistics in the matchmaking system.
     /// </summary>
-    public partial class PlayerPanel : OsuClickableContainer, IHasContextMenu
+    public partial class PlayerPanel : OsuClickableContainer
     {
         private static readonly Vector2 size_horizontal = new Vector2(300, 100);
         private static readonly Vector2 size_vertical = new Vector2(150, 200);
@@ -66,22 +59,13 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match
         private IAPIProvider api { get; set; } = null!;
 
         [Resolved]
-        private UserProfileOverlay? profileOverlay { get; set; }
-
-        [Resolved]
         private ChannelManager? channelManager { get; set; }
 
         [Resolved]
         private ChatOverlay? chatOverlay { get; set; }
 
         [Resolved]
-        private IDialogOverlay? dialogOverlay { get; set; }
-
-        [Resolved]
         private OverlayColourProvider? colourProvider { get; set; }
-
-        [Resolved]
-        private IPerformFromScreenRunner? performer { get; set; }
 
         [Resolved]
         private OsuColour colours { get; set; } = null!;
@@ -93,7 +77,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match
         private MetadataClient? metadataClient { get; set; }
 
         public readonly APIUser User;
-        private readonly Action viewProfile;
 
         private OsuSpriteText rankText = null!;
         private OsuSpriteText scoreText = null!;
@@ -136,12 +119,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match
 
             User = user.User;
             RoomUser = user;
-
-            base.Action = viewProfile = () =>
-            {
-                Action?.Invoke();
-                profileOverlay?.ShowUser(User);
-            };
         }
 
         [BackgroundDependencyLoader]
@@ -579,54 +556,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match
                 client.MatchRoomStateChanged -= onRoomStateChanged;
                 client.MatchEvent -= onMatchEvent;
                 client.BeatmapAvailabilityChanged -= onBeatmapAvailabilityChanged;
-            }
-        }
-
-        public MenuItem[] ContextMenuItems
-        {
-            get
-            {
-                List<MenuItem> items = new List<MenuItem>
-                {
-                    new OsuMenuItem(ContextMenuStrings.ViewProfile, MenuItemType.Highlighted, viewProfile)
-                };
-
-                if (User.Equals(api.LocalUser.Value))
-                    return items.ToArray();
-
-                items.Add(new OsuMenuItem(UsersStrings.CardSendMessage, MenuItemType.Standard, () =>
-                {
-                    channelManager?.OpenPrivateChannel(User);
-                    chatOverlay?.Show();
-                }));
-
-                items.Add(!isUserBlocked()
-                    ? new OsuMenuItem(UsersStrings.BlocksButtonBlock, MenuItemType.Destructive, () => dialogOverlay?.Push(ConfirmBlockActionDialog.Block(User)))
-                    : new OsuMenuItem(UsersStrings.BlocksButtonUnblock, MenuItemType.Standard, () => dialogOverlay?.Push(ConfirmBlockActionDialog.Unblock(User))));
-
-                if (isUserOnline())
-                {
-                    items.Add(new OsuMenuItem(ContextMenuStrings.SpectatePlayer, MenuItemType.Standard, () =>
-                    {
-                        if (isUserOnline())
-                            performer?.PerformFromScreen(s => s.Push(new SoloSpectatorScreen(User)));
-                    }));
-
-                    if (canInviteUser())
-                    {
-                        items.Add(new OsuMenuItem(ContextMenuStrings.InvitePlayer, MenuItemType.Standard, () =>
-                        {
-                            if (canInviteUser())
-                                multiplayerClient!.InvitePlayer(User.Id);
-                        }));
-                    }
-                }
-
-                return items.ToArray();
-
-                bool isUserOnline() => metadataClient?.GetPresence(User.OnlineID) != null;
-                bool canInviteUser() => isUserOnline() && multiplayerClient?.Room?.Users.All(u => u.UserID != User.Id) == true;
-                bool isUserBlocked() => api.LocalUserState.Blocks.Any(b => b.TargetID == User.OnlineID);
             }
         }
     }

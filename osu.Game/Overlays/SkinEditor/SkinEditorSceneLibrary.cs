@@ -78,7 +78,7 @@ namespace osu.Game.Overlays.SkinEditor
                                         if (screen is SongSelect)
                                             return;
 
-                                        screen.Push(new SoloSongSelect());
+                                        screen.Push(new SongSelect());
                                     }, new[] { typeof(SongSelect) })
                                 },
                                 new SceneButton

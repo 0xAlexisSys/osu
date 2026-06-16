@@ -48,15 +48,6 @@ namespace osu.Game.Online.API.Requests.Responses
             public DateTimeOffset UpdatedAt;
         }
 
-        [JsonProperty(@"country_code")]
-        private string countryCodeString;
-
-        public CountryCode CountryCode
-        {
-            get => Enum.TryParse(countryCodeString, out CountryCode result) ? result : CountryCode.Unknown;
-            set => countryCodeString = value.ToString();
-        }
-
         [JsonProperty(@"team")]
         [CanBeNull]
         public APITeam Team { get; set; }
@@ -120,9 +111,6 @@ namespace osu.Game.Online.API.Requests.Responses
         /// </summary>
         [JsonProperty(@"is_online")]
         public bool WasRecentlyOnline;
-
-        [JsonProperty(@"pm_friends_only")]
-        public bool PMFriendsOnly;
 
         [JsonProperty(@"interests")]
         public string Interests;
@@ -228,7 +216,7 @@ namespace osu.Game.Online.API.Requests.Responses
         private UserStatistics statistics;
 
         /// <summary>
-        /// User statistics for the requested ruleset (in the case of a <see cref="GetUserRequest"/> or <see cref="GetFriendsRequest"/> response).
+        /// User statistics for the requested ruleset (in the case of a <see cref="GetUserRequest"/>).
         /// </summary>
         /// <remarks>
         /// This returns null when accessed from <see cref="IAPIProvider.LocalUser"/>. Use <see cref="LocalUserStatisticsProvider"/> instead.

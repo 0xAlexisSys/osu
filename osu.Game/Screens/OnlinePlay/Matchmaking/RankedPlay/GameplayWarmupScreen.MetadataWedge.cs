@@ -229,9 +229,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
                 else
                     mapperTags.Tags = (Array.Empty<string>(), _ => { });
 
-                submitted.Date = beatmapSet.Submitted;
-                ranked.Date = beatmapSet.Ranked;
-
                 genre.Data = (beatmapSet.Genre.Name, null);
                 language.Data = (beatmapSet.Language.Name, null);
 

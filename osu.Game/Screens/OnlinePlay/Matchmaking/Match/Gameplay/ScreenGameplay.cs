@@ -6,14 +6,14 @@ using osu.Framework.Screens;
 using osu.Game.Online.Multiplayer;
 using osu.Game.Online.Rooms;
 using osu.Game.Scoring;
-using osu.Game.Screens.OnlinePlay.Multiplayer;
+using osu.Game.Screens.Play;
 
 namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match.Gameplay
 {
-    public partial class ScreenGameplay : MultiplayerPlayer
+    public partial class ScreenGameplay : BeatmapPlayer
     {
         public ScreenGameplay(Room room, PlaylistItem playlistItem, MultiplayerRoomUser[] users)
-            : base(room, playlistItem, users, showFailingOverlay: false)
+            : base(null)
         {
         }
 

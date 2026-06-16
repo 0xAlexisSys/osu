@@ -44,7 +44,7 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Spectate
 
         internal DrawableGameplayLeaderboard Leaderboard { get; private set; } = null!;
 
-        protected override UserActivity InitialActivity => new UserActivity.SpectatingMultiplayerGame(Beatmap.Value.BeatmapInfo, Ruleset.Value);
+        protected override UserActivity InitialActivity => new UserActivity.PlayingBeatmap(Beatmap.Value.BeatmapInfo, Ruleset.Value);
 
         [Resolved]
         private OsuColour colours { get; set; } = null!;

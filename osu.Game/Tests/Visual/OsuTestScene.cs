@@ -277,7 +277,6 @@ namespace osu.Game.Tests.Visual
                 Genre = new BeatmapSetOnlineGenre { Id = 15, Name = "Future genre" },
                 Language = new BeatmapSetOnlineLanguage { Id = 15, Name = "Future language" },
                 OnlineID = original.BeatmapSet.OnlineID,
-                Status = BeatmapOnlineStatus.Ranked,
                 Covers = new BeatmapSetOnlineCovers
                 {
                     Cover = "https://assets.ppy.sh/beatmaps/163112/covers/cover.jpg",
@@ -297,10 +296,6 @@ namespace osu.Game.Tests.Visual
                 Tags = original.Metadata.Tags,
                 BPM = original.BPM,
                 HasFavourited = false,
-                PlayCount = 123,
-                FavouriteCount = 456,
-                Submitted = DateTime.Now,
-                Ranked = DateTime.Now,
                 Ratings = Enumerable.Range(0, 11).ToArray(),
                 RelatedTags =
                 [

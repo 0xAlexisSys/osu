@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using osu.Framework.Platform;
-using osu.Game.Extensions;
 using osu.Game.Online.API;
 
 namespace osu.Game.Beatmaps
@@ -77,8 +76,6 @@ namespace osu.Game.Beatmaps
                 {
                     beatmapInfo.Status = res.BeatmapStatus;
                     beatmapInfo.Metadata.Author.OnlineID = res.AuthorID;
-                    beatmapInfo.Metadata.UserTags.Clear();
-                    beatmapInfo.Metadata.UserTags.AddRange(res.UserTags);
                 }
             }
 

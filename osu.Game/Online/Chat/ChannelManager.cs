@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -95,7 +94,6 @@ namespace osu.Game.Online.Chat
 
         private readonly IBindable<APIUser> localUser = new Bindable<APIUser>();
         private readonly IBindable<APIState> apiState = new Bindable<APIState>();
-        private readonly IBindableList<APIRelation> localUserBlocks = new BindableList<APIRelation>();
         private ScheduledDelegate scheduledAck;
 
         private IChatClient chatClient = null!;
@@ -124,9 +122,6 @@ namespace osu.Game.Online.Chat
 
             apiState.BindTo(api.State);
             apiState.BindValueChanged(_ => SendAck(), true);
-
-            localUserBlocks.BindTo(api.LocalUserState.Blocks);
-            localUserBlocks.BindCollectionChanged((_, args) => Schedule(() => onBlocksChanged(args)));
         }
 
         private void userChanged(ValueChangedEvent<APIUser> userChange)
@@ -423,9 +418,8 @@ namespace osu.Game.Online.Chat
         private void addMessages(List<Message> messages)
         {
             var channels = JoinedChannels.ToList();
-            var blockedUserIds = localUserBlocks.Select(b => b.TargetID).ToList();
 
-            foreach (var group in messages.Where(m => !blockedUserIds.Contains(m.SenderId)).GroupBy(m => m.ChannelId))
+            foreach (var group in messages.GroupBy(m => m.ChannelId))
                 channels.Find(c => c.Id == group.Key)?.AddNewMessages(group.ToArray());
 
             lastSilenceMessageId ??= messages.LastOrDefault()?.Id;
@@ -752,18 +746,6 @@ namespace osu.Game.Online.Chat
             req.Failure += e => Logger.Log($"Failed to mark channel {channel} up to '{message}' as read ({e.Message})", LoggingTarget.Network);
 
             api.Queue(req);
-        }
-
-        private void onBlocksChanged(NotifyCollectionChangedEventArgs args)
-        {
-            if (args.Action != NotifyCollectionChangedAction.Add)
-                return;
-
-            foreach (APIRelation newBlock in args.NewItems!)
-            {
-                foreach (var channel in joinedChannels)
-                    channel.RemoveMessagesFromUser(newBlock.TargetID);
-            }
         }
 
         [ItemCanBeNull]

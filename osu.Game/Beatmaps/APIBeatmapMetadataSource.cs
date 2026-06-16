@@ -59,9 +59,6 @@ namespace osu.Game.Beatmaps
                         BeatmapSetID = res.OnlineBeatmapSetID,
                         AuthorID = res.AuthorID,
                         BeatmapStatus = res.Status,
-                        BeatmapSetStatus = res.BeatmapSet?.Status,
-                        DateRanked = res.BeatmapSet?.Ranked,
-                        DateSubmitted = res.BeatmapSet?.Submitted,
                         MD5Hash = res.MD5Hash,
                         LastUpdated = res.LastUpdated,
                         // Tags are not populated because the response does not contain tag data.

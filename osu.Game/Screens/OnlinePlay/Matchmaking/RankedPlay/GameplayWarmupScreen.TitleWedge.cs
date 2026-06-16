@@ -7,7 +7,6 @@ using osu.Framework.Extensions.LocalisationExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Localisation;
-using osu.Game.Beatmaps.Drawables;
 using osu.Game.Extensions;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
@@ -29,12 +28,10 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
 
             private readonly APIBeatmap beatmap;
 
-            private BeatmapSetOnlineStatusPill statusPill = null!;
             private MarqueeContainer titleLabel = null!;
             private MarqueeContainer artistLabel = null!;
 
             private BeatmapTitleWedge.StatisticPlayCount playCount = null!;
-            private BeatmapTitleWedge.FavouriteButton favouriteButton = null!;
             private BeatmapTitleWedge.Statistic lengthStatistic = null!;
             private BeatmapTitleWedge.Statistic bpmStatistic = null!;
 
@@ -69,13 +66,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
                         Spacing = new Vector2(0f, 4f),
                         Children = new Drawable[]
                         {
-                            new ShearAligningWrapper(statusPill = new BeatmapSetOnlineStatusPill
-                            {
-                                Shear = -OsuGame.SHEAR,
-                                ShowUnknownStatus = true,
-                                TextSize = OsuFont.Style.Caption1.Size,
-                                TextPadding = new MarginPadding { Horizontal = 6, Vertical = 1 },
-                            }),
                             new ShearAligningWrapper(new Container
                             {
                                 Shear = -OsuGame.SHEAR,
@@ -111,7 +101,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
                                     {
                                         Margin = new MarginPadding { Left = -SongSelect.WEDGE_CONTENT_MARGIN },
                                     },
-                                    favouriteButton = new BeatmapTitleWedge.FavouriteButton(),
                                     lengthStatistic = new BeatmapTitleWedge.Statistic(OsuIcon.Clock),
                                     bpmStatistic = new BeatmapTitleWedge.Statistic(OsuIcon.Metronome)
                                     {
@@ -132,8 +121,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
                         },
                     }
                 };
-
-                statusPill.Status = beatmap.Status;
 
                 var titleText = new RomanisableString(beatmap.BeatmapSet!.TitleUnicode, beatmap.BeatmapSet.Title);
                 titleLabel.CreateContent = () => new OsuSpriteText

@@ -23,15 +23,12 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match.BeatmapSelect
             mods = item.Mods;
         }
 
-        private CardContent content = null!;
         private Sample? resultSample;
 
         [BackgroundDependencyLoader]
         private void load(AudioManager audio)
         {
             resultSample = audio.Samples.Get(@"Multiplayer/Matchmaking/Selection/roulette-result");
-
-            Add(content = new CardContentBeatmap(beatmap, mods));
         }
 
         public override void PresentAsChosenBeatmap(MatchmakingPlaylistItem playlistItem)
@@ -45,12 +42,10 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.Match.BeatmapSelect
 
         public override void AddUser(APIUser user)
         {
-            content.SelectionOverlay.AddUser(user);
         }
 
         public override void RemoveUser(APIUser user)
         {
-            content.SelectionOverlay.RemoveUser(user.Id);
         }
     }
 }

@@ -257,20 +257,6 @@ namespace osu.Game.Database
             using (ArchiveReader reader = task.GetReader())
                 import = await importFromArchive(reader, parameters, cancellationToken).ConfigureAwait(false);
 
-            // We may or may not want to delete the file depending on where it is stored.
-            //  e.g. reconstructing/repairing database with items from default storage.
-            // Also, not always a single file, i.e. for LegacyFilesystemReader
-            // TODO: Add a check to prevent files from storage to be deleted.
-            try
-            {
-                if (import != null && ShouldDeleteArchive(task.Path))
-                    task.DeleteFile();
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, $@"Could not delete original file after import ({task})");
-            }
-
             return import;
         }
 
@@ -608,13 +594,6 @@ namespace osu.Game.Database
             LogForModel(existing, $@"Existing {HumanisedModelName}'s deletion flag has been removed to allow for reuse.");
             existing.DeletePending = false;
         }
-
-        /// <summary>
-        /// Whether this specified path should be removed after successful import.
-        /// </summary>
-        /// <param name="path">The path for consideration. May be a file or a directory.</param>
-        /// <returns>Whether to perform deletion.</returns>
-        protected virtual bool ShouldDeleteArchive(string path) => false;
 
         private async Task pauseIfNecessaryAsync(ImportParameters importParameters, ProgressNotification notification, CancellationToken cancellationToken)
         {

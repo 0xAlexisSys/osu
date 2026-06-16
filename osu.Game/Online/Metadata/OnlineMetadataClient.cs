@@ -30,9 +30,6 @@ namespace osu.Game.Online.Metadata
         public override IBindableDictionary<int, UserPresence> FriendPresences => friendPresences;
         private readonly BindableDictionary<int, UserPresence> friendPresences = new BindableDictionary<int, UserPresence>();
 
-        public override IBindable<DailyChallengeInfo?> DailyChallengeInfo => dailyChallengeInfo;
-        private readonly Bindable<DailyChallengeInfo?> dailyChallengeInfo = new Bindable<DailyChallengeInfo?>();
-
         private readonly string endpoint;
 
         [Resolved]
@@ -67,7 +64,6 @@ namespace osu.Game.Online.Metadata
                     connection.On<BeatmapUpdates>(nameof(IMetadataClient.BeatmapSetsUpdated), ((IMetadataClient)this).BeatmapSetsUpdated);
                     connection.On<int, UserPresence?>(nameof(IMetadataClient.UserPresenceUpdated), ((IMetadataClient)this).UserPresenceUpdated);
                     connection.On<int, UserPresence?>(nameof(IMetadataClient.FriendPresenceUpdated), ((IMetadataClient)this).FriendPresenceUpdated);
-                    connection.On<DailyChallengeInfo?>(nameof(IMetadataClient.DailyChallengeUpdated), ((IMetadataClient)this).DailyChallengeUpdated);
                     connection.On<MultiplayerRoomScoreSetEvent>(nameof(IMetadataClient.MultiplayerRoomScoreSet), ((IMetadataClient)this).MultiplayerRoomScoreSet);
                     connection.On(nameof(IStatefulUserHubClient.DisconnectRequested), ((IStatefulUserHubClient)this).DisconnectRequested);
                     connection.On(nameof(IStatefulUserHubClient.ServerShuttingDown), ((IStatefulUserHubClient)this).ServerShuttingDown);
@@ -111,7 +107,6 @@ namespace osu.Game.Online.Metadata
                     userPresences.Clear();
                     friendPresences.Clear();
                     WatchedRooms.Clear();
-                    dailyChallengeInfo.Value = null;
                     localUserPresence = default;
                 });
 
@@ -260,12 +255,6 @@ namespace osu.Game.Online.Metadata
                     friendPresences.Remove(userId);
             });
 
-            return Task.CompletedTask;
-        }
-
-        public override Task DailyChallengeUpdated(DailyChallengeInfo? info)
-        {
-            Schedule(() => dailyChallengeInfo.Value = info);
             return Task.CompletedTask;
         }
 

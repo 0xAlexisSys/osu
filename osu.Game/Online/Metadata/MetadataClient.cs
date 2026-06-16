@@ -155,14 +155,6 @@ namespace osu.Game.Online.Metadata
 
         #endregion
 
-        #region Daily Challenge
-
-        public abstract IBindable<DailyChallengeInfo?> DailyChallengeInfo { get; }
-
-        public abstract Task DailyChallengeUpdated(DailyChallengeInfo? info);
-
-        #endregion
-
         #region Multiplayer room watching
 
         public abstract Task<MultiplayerPlaylistItemStats[]> BeginWatchingMultiplayerRoom(long id);

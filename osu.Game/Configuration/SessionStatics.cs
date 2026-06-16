@@ -98,12 +98,6 @@ namespace osu.Game.Configuration
         LastAppliedOffsetScore,
 
         /// <summary>
-        /// Whether the intro animation for the daily challenge screen has been played once.
-        /// This is reset when a new challenge is up.
-        /// </summary>
-        DailyChallengeIntroPlayed,
-
-        /// <summary>
         /// The activity for the current user to broadcast to other players.
         /// </summary>
         UserOnlineActivity,

@@ -25,9 +25,6 @@ namespace osu.Game.Online.API.Requests.Responses
         [JsonProperty("display_name")]
         public string DisplayName { get; set; }
 
-        [JsonProperty("latest_build")]
-        public APIChangelogBuild LatestBuild { get; set; }
-
         [JsonProperty("user_count")]
         public int UserCount { get; set; }
 

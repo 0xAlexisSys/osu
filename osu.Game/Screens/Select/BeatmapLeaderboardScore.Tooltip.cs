@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -309,20 +308,7 @@ namespace osu.Game.Screens.Select
                     int ppValue = (int)Math.Round(pp, MidpointRounding.AwayFromZero);
                     ValueText.Text = LocalisableString.Interpolate(@$"{ppValue:N0}pp");
 
-                    if (!scoreInfo.BeatmapInfo!.Status.GrantsPerformancePoints() || hasUnrankedMods(scoreInfo))
-                        Alpha = 0.5f;
-                    else
-                        Alpha = 1f;
-                }
-
-                private static bool hasUnrankedMods(ScoreInfo scoreInfo)
-                {
-                    IEnumerable<Mod> modsToCheck = scoreInfo.Mods;
-
-                    if (scoreInfo.IsLegacyScore)
-                        modsToCheck = modsToCheck.Where(m => m is not ModClassic);
-
-                    return modsToCheck.Any(m => !m.Ranked);
+                    Alpha = 1.0f;
                 }
             }
 

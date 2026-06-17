@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System.Collections.Generic;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
@@ -21,7 +20,6 @@ namespace osu.Game.Overlays.Mods
     {
         private readonly ModSelectOverlay overlay;
 
-        private RankingInformationDisplay? rankingInformationDisplay;
         private BeatmapAttributesDisplay? beatmapAttributesDisplay;
         private FillFlowContainer<ShearedButton> buttonFlow = null!;
         private FillFlowContainer contentFlow = null!;
@@ -76,11 +74,6 @@ namespace osu.Game.Overlays.Mods
                     Margin = new MarginPadding { Horizontal = 20 },
                     Children = new Drawable[]
                     {
-                        rankingInformationDisplay = new RankingInformationDisplay
-                        {
-                            Anchor = Anchor.BottomRight,
-                            Origin = Anchor.BottomRight
-                        },
                         beatmapAttributesDisplay = new BeatmapAttributesDisplay
                         {
                             Anchor = Anchor.BottomRight,
@@ -126,17 +119,18 @@ namespace osu.Game.Overlays.Mods
         {
             WorkingBeatmap? workingBeatmap = Beatmap.Value;
 
-            if (rankingInformationDisplay != null && workingBeatmap != null)
-            {
-                var scoreMultiplierCalculator = Ruleset.Value?.CreateInstance().CreateScoreMultiplierCalculator(new ScoreMultiplierContext(workingBeatmap.BeatmapInfo.Difficulty));
-                double multiplier = scoreMultiplierCalculator?.CalculateFor(ActiveMods.Value) ?? 1;
-
-                rankingInformationDisplay.ModMultiplier.Value = multiplier;
-                rankingInformationDisplay.Ranked.Value = ActiveMods.Value.All(m => m.Ranked);
-            }
-
             if (beatmapAttributesDisplay != null)
+            {
+                if (workingBeatmap != null)
+                {
+                    var scoreMultiplierCalculator = Ruleset.Value?.CreateInstance().CreateScoreMultiplierCalculator(new ScoreMultiplierContext(workingBeatmap.BeatmapInfo.Difficulty));
+                    double multiplier = scoreMultiplierCalculator?.CalculateFor(ActiveMods.Value) ?? 1;
+
+                    beatmapAttributesDisplay.ModMultiplier.Value = multiplier;
+                }
+
                 beatmapAttributesDisplay.Mods.Value = ActiveMods.Value;
+            }
         }
 
         protected override void Update()

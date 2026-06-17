@@ -217,41 +217,6 @@ namespace osu.Game.Overlays.Profile.Sections.Ranks
         {
             var font = OsuFont.GetFont(weight: FontWeight.Bold);
 
-            // cross-reference: https://github.com/ppy/osu-web/blob/a6afee076f4f68bb56dea0cb8f18db63651763a7/resources/js/profile-page/play-detail.tsx#L118-L133
-            if (Score.Beatmap?.Status.GrantsPerformancePoints() != true)
-            {
-                if (Score.Beatmap?.Status == BeatmapOnlineStatus.Loved)
-                {
-                    return new SpriteIconWithTooltip
-                    {
-                        Icon = FontAwesome.Solid.Heart,
-                        Size = new Vector2(font.Size),
-                        TooltipText = UsersStrings.ShowExtraTopRanksNotRanked,
-                        Colour = colourProvider.Highlight1
-                    };
-                }
-
-                return new SpriteTextWithTooltip
-                {
-                    Text = "-",
-                    Font = OsuFont.GetFont(weight: FontWeight.Bold),
-                    TooltipText = UsersStrings.ShowExtraTopRanksNotRanked,
-                    Colour = colourProvider.Highlight1
-                };
-            }
-
-            // cross-reference: https://github.com/ppy/osu-web/blob/a6afee076f4f68bb56dea0cb8f18db63651763a7/resources/js/scores/pp-value.tsx#L19-L39
-            if (!Score.Ranked || !Score.Preserve || (Score.PP == null && Score.Processed))
-            {
-                return new SpriteTextWithTooltip
-                {
-                    Text = "-",
-                    Font = OsuFont.GetFont(weight: FontWeight.Bold),
-                    TooltipText = ScoresStrings.StatusNoPp,
-                    Colour = colourProvider.Highlight1
-                };
-            }
-
             if (Score.PP == null)
             {
                 return new SpriteIconWithTooltip

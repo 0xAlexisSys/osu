@@ -34,8 +34,6 @@ namespace osu.Game.Rulesets.Mods
 
         public override bool RequiresConfiguration => false;
 
-        public override bool Ranked => true;
-
         public override IEnumerable<(LocalisableString setting, LocalisableString value)> SettingDescription
         {
             get

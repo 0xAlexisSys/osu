@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.LocalisationExtensions;
@@ -60,8 +59,6 @@ namespace osu.Game.Screens.Select
 
         private Container modDisplayBar = null!;
 
-        private Drawable unrankedBadge = null!;
-
         private ModDisplay modDisplay = null!;
 
         private OsuSpriteText multiplierText { get; set; } = null!;
@@ -98,7 +95,6 @@ namespace osu.Game.Screens.Select
 
             AddRange(new[]
             {
-                unrankedBadge = new UnrankedBadge(),
                 modDisplayBar = new InputBlockingContainer
                 {
                     Y = -5f,
@@ -220,31 +216,12 @@ namespace osu.Game.Screens.Select
                 modDisplay.FadeOut(duration, easing);
                 overflowModCountDisplay.FadeOut(duration, easing);
 
-                unrankedBadge.MoveToY(20, duration, easing);
-                unrankedBadge.FadeOut(duration, easing);
-
                 // add delay to let unranked indicator hide first before resizing the button back to its original width.
                 this.Delay(duration).ResizeWidthTo(BUTTON_WIDTH, duration, easing);
             }
             else
             {
-                if (Mods.Value.Any(m => !m.Ranked))
-                {
-                    unrankedBadge.MoveToX(0, duration, easing);
-                    unrankedBadge.FadeIn(duration, easing);
-
-                    this.ResizeWidthTo(BUTTON_WIDTH + 5 + unrankedBadge.DrawWidth, duration, easing);
-                }
-                else
-                {
-                    unrankedBadge.MoveToX(-unrankedBadge.DrawWidth, duration, easing);
-                    unrankedBadge.FadeOut(duration, easing);
-
-                    this.ResizeWidthTo(BUTTON_WIDTH, duration, easing);
-                }
-
                 modDisplayBar.MoveToY(-5, duration, Easing.OutQuint);
-                unrankedBadge.MoveToY(-5, duration, easing);
                 modDisplayBar.FadeIn(duration, easing);
                 modDisplay.FadeIn(duration, easing);
             }
@@ -385,51 +362,6 @@ namespace osu.Game.Screens.Select
 
                 protected override void PopIn() => this.FadeIn(240, Easing.OutQuint);
                 protected override void PopOut() => this.FadeOut(240, Easing.OutQuint);
-            }
-        }
-
-        internal partial class UnrankedBadge : InputBlockingContainer, IHasTooltip
-        {
-            public LocalisableString TooltipText { get; }
-
-            public UnrankedBadge()
-            {
-                Margin = new MarginPadding { Left = BUTTON_WIDTH + 5f };
-                Y = -5f;
-                Depth = float.MaxValue;
-                Origin = Anchor.BottomLeft;
-                Shear = OsuGame.SHEAR;
-                CornerRadius = CORNER_RADIUS;
-                AutoSizeAxes = Axes.X;
-                Height = BAR_HEIGHT;
-                Masking = true;
-                BorderColour = Color4.White;
-                BorderThickness = 2f;
-                TooltipText = ModSelectOverlayStrings.UnrankedExplanation;
-            }
-
-            [BackgroundDependencyLoader]
-            private void load(OsuColour colours)
-            {
-                InternalChildren = new Drawable[]
-                {
-                    new Box
-                    {
-                        Colour = colours.Orange2,
-                        RelativeSizeAxes = Axes.Both,
-                    },
-                    new OsuSpriteText
-                    {
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
-                        Shear = -OsuGame.SHEAR,
-                        Text = ModSelectOverlayStrings.Unranked.ToUpper(),
-                        Margin = new MarginPadding { Horizontal = 15 },
-                        UseFullGlyphHeight = false,
-                        Font = OsuFont.Torus.With(size: 14f, weight: FontWeight.Bold),
-                        Colour = Color4.Black,
-                    }
-                };
             }
         }
     }

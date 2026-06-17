@@ -2,8 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using osu.Framework.Allocation;
@@ -15,8 +13,6 @@ using osu.Game.Beatmaps;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Resources.Localisation.Web;
 using osu.Game.Scoring;
-using osu.Game.Localisation;
-using osu.Game.Rulesets.Mods;
 
 namespace osu.Game.Screens.Ranking.Expanded.Statistics
 {
@@ -68,38 +64,8 @@ namespace osu.Game.Screens.Ranking.Expanded.Statistics
             if (pp.HasValue)
             {
                 performance.Value = (int)Math.Round(pp.Value, MidpointRounding.AwayFromZero);
-
-                if (!scoreInfo.BeatmapInfo!.Status.GrantsPerformancePoints())
-                {
-                    Alpha = 0.5f;
-                    TooltipText = ResultsScreenStrings.NoPPForUnrankedBeatmaps;
-                }
-                else if (hasUnrankedMods(scoreInfo))
-                {
-                    Alpha = 0.5f;
-                    TooltipText = ResultsScreenStrings.NoPPForUnrankedMods;
-                }
-                else if (scoreInfo.Rank == ScoreRank.F)
-                {
-                    Alpha = 0.5f;
-                    TooltipText = ResultsScreenStrings.NoPPForFailedScores;
-                }
-                else
-                {
-                    Alpha = 1f;
-                    TooltipText = default;
-                }
+                Alpha = scoreInfo.Rank != ScoreRank.F ? 1.0f : 0.5f;
             }
-        }
-
-        private static bool hasUnrankedMods(ScoreInfo scoreInfo)
-        {
-            IEnumerable<Mod> modsToCheck = scoreInfo.Mods;
-
-            if (scoreInfo.IsLegacyScore)
-                modsToCheck = modsToCheck.Where(m => m is not ModClassic);
-
-            return modsToCheck.Any(m => !m.Ranked);
         }
 
         public override void Appear()

@@ -15,11 +15,6 @@ namespace osu.Game.Localisation
         public static LocalisableString BeatmapListingDescription => new TranslatableString(getKey(@"beatmap_listing_description"), @"browse for new beatmaps");
 
         /// <summary>
-        /// "track recent dev updates in the osu! ecosystem"
-        /// </summary>
-        public static LocalisableString ChangelogDescription => new TranslatableString(getKey(@"changelog_description"), @"track recent dev updates in the osu! ecosystem");
-
-        /// <summary>
         /// "view your friends and spectate other players"
         /// </summary>
         public static LocalisableString DashboardDescription => new TranslatableString(getKey(@"dashboard_description"), @"view your friends and spectate other players");

@@ -239,7 +239,7 @@ namespace osu.Game.Updater
         }
 
         [BackgroundDependencyLoader]
-        private void load(OsuColour colours, ChangelogOverlay changelog, INotificationOverlay notificationOverlay)
+        private void load(OsuColour colours, INotificationOverlay notificationOverlay)
         {
             Icon = FontAwesome.Solid.CheckSquare;
             IconContent.Colour = colours.BlueDark;
@@ -247,7 +247,6 @@ namespace osu.Game.Updater
             Activated = delegate
             {
                 notificationOverlay.Hide();
-                changelog.ShowBuild(version);
                 return true;
             };
         }

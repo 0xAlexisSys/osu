@@ -131,8 +131,6 @@ namespace osu.Game
 
         private WikiOverlay wikiOverlay;
 
-        private ChangelogOverlay changelogOverlay;
-
         private SkinEditorOverlay skinEditor;
 
         private Container overlayContent;
@@ -509,17 +507,6 @@ namespace osu.Game
                     ShowWiki(argString);
                     break;
 
-                case LinkAction.OpenChangelog:
-                    if (string.IsNullOrEmpty(argString))
-                        ShowChangelogListing();
-                    else
-                    {
-                        string[] changelogArgs = argString.Split("/");
-                        ShowChangelogBuild($"{changelogArgs[1]}-{changelogArgs[0]}");
-                    }
-
-                    break;
-
                 case LinkAction.JoinRoom:
                     if (long.TryParse(argString, out long roomId))
                         JoinRoom(roomId);
@@ -569,17 +556,6 @@ namespace osu.Game
         /// </summary>
         /// <param name="path">The wiki page to show</param>
         public void ShowWiki(string path) => waitForReady(() => wikiOverlay, _ => wikiOverlay.ShowPage(path));
-
-        /// <summary>
-        /// Show changelog listing overlay
-        /// </summary>
-        public void ShowChangelogListing() => waitForReady(() => changelogOverlay, _ => changelogOverlay.ShowListing());
-
-        /// <summary>
-        /// Show changelog's build as an overlay
-        /// </summary>
-        /// <param name="version">The build version, including stream suffix.</param>
-        public void ShowChangelogBuild(string version) => waitForReady(() => changelogOverlay, _ => changelogOverlay.ShowBuild(version));
 
         /// <summary>
         /// Joins a multiplayer or playlists room with the given <paramref name="id"/>.
@@ -1171,7 +1147,6 @@ namespace osu.Game
             loadComponentSingleFile(chatOverlay = new ChatOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(new MessageNotifier(), Add, true);
             loadComponentSingleFile(Settings = new SettingsOverlay(), leftFloatingOverlayContent.Add, true);
-            loadComponentSingleFile(changelogOverlay = new ChangelogOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(wikiOverlay = new WikiOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(skinEditor = new SkinEditorOverlay(ScreenContainer), overlayContent.Add, true);
 
@@ -1206,7 +1181,7 @@ namespace osu.Game
             }
 
             // ensure only one of these overlays are open at once.
-            var singleDisplayOverlays = new OverlayContainer[] { chatOverlay, news, beatmapListing, changelogOverlay, wikiOverlay };
+            var singleDisplayOverlays = new OverlayContainer[] { chatOverlay, news, beatmapListing, wikiOverlay };
 
             foreach (var overlay in singleDisplayOverlays)
             {

@@ -75,7 +75,12 @@ namespace osu.Game.Screens.Select
         /// </summary>
         public const int DIFFICULTY_CALCULATION_DEBOUNCE = 150;
 
-        private const float logo_scale = 0.4f;
+        private const float logo_show_scale = 0.4f;
+        private const double logo_show_fade_duration = 240.0d;
+        private const Easing logo_show_fade_easing = Easing.OutQuint;
+        private const float logo_hide_scale = 0.2f;
+        private const double logo_hide_fade_duration = 120.0d;
+        private const Easing logo_hide_fade_easing = Easing.Out;
         private const double fade_duration = 300;
 
         public const float WEDGE_CONTENT_MARGIN = CORNER_RADIUS_HIDE_OFFSET + OsuGame.SCREEN_EDGE_MARGIN;
@@ -93,11 +98,6 @@ namespace osu.Game.Screens.Select
         /// exposing other difficulties that are otherwise hidden by filter criteria.
         /// </summary>
         protected bool SupportScoping { init => scopedBeatmapSet.Disabled = !value; }
-
-        /// <summary>
-        /// Whether the osu! logo should be shown at the bottom-right of the screen.
-        /// </summary>
-        protected bool ShowOsuLogo { get; init; } = true;
 
         /// <summary>
         /// Additional padding to be added to the title wedge.
@@ -167,6 +167,7 @@ namespace osu.Game.Screens.Select
         private InputManager inputManager = null!;
 
         private Bindable<bool> configBackgroundBlur = null!;
+        private Bindable<bool> configShowLogo = null!;
         private Bindable<bool> showConvertedBeatmaps = null!;
 
         private IDisposable? modSelectOverlayRegistration;
@@ -325,6 +326,15 @@ namespace osu.Game.Screens.Select
                 updateBackgroundDim();
             });
 
+            configShowLogo = config.GetBindable<bool>(OsuSetting.SongSelectShowLogo);
+            configShowLogo.BindValueChanged(e =>
+            {
+                if (!this.IsCurrentScreen())
+                    return;
+
+                updateLogo(e.NewValue);
+            });
+
             showConvertedBeatmaps = config.GetBindable<bool>(OsuSetting.ShowConvertedBeatmaps);
         }
 
@@ -446,8 +456,8 @@ namespace osu.Game.Screens.Select
                 if (!this.IsCurrentScreen())
                     return;
 
-                if (ShowOsuLogo)
-                    logo?.FadeTo(v.NewValue == Visibility.Visible ? 0f : 1f, 200, Easing.OutQuint);
+                if (configShowLogo.Value)
+                    updateLogo(v.NewValue != Visibility.Visible);
             });
         }
 
@@ -856,20 +866,18 @@ namespace osu.Game.Screens.Select
         {
             base.LogoArriving(logo, resuming);
 
-            if (!ShowOsuLogo)
-                return;
-
             if (logo.Alpha > 0.8f && resuming)
-                Footer?.StartTrackingLogo(logo, 400, Easing.OutQuint);
+                Footer?.StartTrackingLogo(logo, 400, logo_show_fade_easing);
             else
             {
                 logo.Hide();
-                logo.ScaleTo(0.2f);
+                logo.ScaleTo(logo_hide_scale);
                 Footer?.StartTrackingLogo(logo);
             }
 
-            logo.FadeIn(240, Easing.OutQuint);
-            logo.ScaleTo(logo_scale, 240, Easing.OutQuint);
+            if (configShowLogo.Value)
+                logo.FadeIn(logo_show_fade_duration, logo_show_fade_easing);
+            logo.ScaleTo(logo_show_scale, logo_show_fade_duration, logo_show_fade_easing);
 
             logo.Action = () =>
             {
@@ -883,9 +891,6 @@ namespace osu.Game.Screens.Select
         {
             base.LogoSuspending(logo);
 
-            if (!ShowOsuLogo)
-                return;
-
             Footer?.StopTrackingLogo();
         }
 
@@ -893,13 +898,11 @@ namespace osu.Game.Screens.Select
         {
             base.LogoExiting(logo);
 
-            if (!ShowOsuLogo)
-                return;
-
             Footer?.StopTrackingLogo();
 
-            logo.ScaleTo(0.2f, 120, Easing.Out);
-            logo.FadeOut(120, Easing.Out);
+            logo.ScaleTo(logo_hide_scale, logo_hide_fade_duration, logo_hide_fade_easing);
+            if (configShowLogo.Value)
+                logo.FadeOut(logo_hide_fade_duration, logo_hide_fade_easing);
         }
 
         private void updateWedgeVisibility()
@@ -939,6 +942,8 @@ namespace osu.Game.Screens.Select
             bool backgroundRevealActive = revealBackgroundDelegate?.State == ScheduledDelegate.RunState.Running || revealBackgroundDelegate?.State == ScheduledDelegate.RunState.Complete;
             backgroundModeBeatmap.BlurAmount.Value = configBackgroundBlur.Value && !backgroundRevealActive ? 20 : 0f;
         });
+
+        private void updateLogo(bool value) => logo?.FadeTo(value ? 1f : 0f, 200, Easing.OutQuint);
 
         #endregion
 

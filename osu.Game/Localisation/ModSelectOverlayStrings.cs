@@ -61,26 +61,6 @@ namespace osu.Game.Localisation
         public static LocalisableString ScoreMultiplier => new TranslatableString(getKey(@"score_multiplier"), @"Score Multiplier");
 
         /// <summary>
-        /// "Ranked"
-        /// </summary>
-        public static LocalisableString Ranked => new TranslatableString(getKey(@"ranked"), @"Ranked");
-
-        /// <summary>
-        /// "Performance points can be granted for the active mods."
-        /// </summary>
-        public static LocalisableString RankedExplanation => new TranslatableString(getKey(@"ranked_explanation"), @"Performance points can be granted for the active mods.");
-
-        /// <summary>
-        /// "Unranked"
-        /// </summary>
-        public static LocalisableString Unranked => new TranslatableString(getKey(@"unranked"), @"Unranked");
-
-        /// <summary>
-        /// "Performance points will not be granted due to active mods."
-        /// </summary>
-        public static LocalisableString UnrankedExplanation => new TranslatableString(getKey(@"unranked_explanation"), @"Performance points will not be granted due to active mods.");
-
-        /// <summary>
         /// "Customise"
         /// </summary>
         public static LocalisableString CustomisationPanelHeader => new TranslatableString(getKey(@"customisation_panel_header"), @"Customise");

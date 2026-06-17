@@ -43,10 +43,4 @@ namespace osu.Game.Beatmaps
         [LocalisableDescription(typeof(BeatmapsetsStrings), nameof(BeatmapsetsStrings.ShowStatusLoved))]
         Loved = 4,
     }
-
-    public static class BeatmapSetOnlineStatusExtensions
-    {
-        public static bool GrantsPerformancePoints(this BeatmapOnlineStatus status)
-            => status == BeatmapOnlineStatus.Ranked || status == BeatmapOnlineStatus.Approved;
-    }
 }

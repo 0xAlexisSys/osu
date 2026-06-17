@@ -152,7 +152,7 @@ namespace osu.Game.Overlays.Mods
                         {
                             Padding = new MarginPadding
                             {
-                                Top = RankingInformationDisplay.HEIGHT + PADDING,
+                                Top = 42 + PADDING,
                                 Bottom = PADDING
                             },
                             RelativeSizeAxes = Axes.Both,

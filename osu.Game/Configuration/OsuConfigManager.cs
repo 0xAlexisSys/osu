@@ -59,6 +59,7 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.ProfileCoverExpanded, true);
 
             SetDefault(OsuSetting.SongSelectBackgroundBlur, false);
+            SetDefault(OsuSetting.SongSelectShowLogo, true);
 
             // Online settings
             SetDefault(OsuSetting.Username, string.Empty);
@@ -372,6 +373,7 @@ namespace osu.Game.Configuration
         ShowFpsDisplay,
         ChatDisplayHeight,
         SongSelectBackgroundBlur,
+        SongSelectShowLogo,
         Version,
         ShowFirstRunSetup,
         ShowConvertedBeatmaps,

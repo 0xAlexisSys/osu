@@ -125,6 +125,11 @@ namespace osu.Game.Localisation
         public static LocalisableString ModSelectTextSearchStartsActive => new TranslatableString(getKey(@"mod_select_text_search_starts_active"), @"Automatically focus search text box in mod select");
 
         /// <summary>
+        /// "Show logo"
+        /// </summary>
+        public static LocalisableString SongSelectShowLogo => new TranslatableString(getKey(@"song_select_show_logo"), @"Show logo");
+
+        /// <summary>
         /// "no limit"
         /// </summary>
         public static LocalisableString NoLimit => new TranslatableString(getKey(@"no_limit"), @"no limit");

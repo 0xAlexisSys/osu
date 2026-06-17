@@ -10,6 +10,9 @@ namespace osu.Game.Screens.Menu
 {
     public partial class IntroInstant : IntroScreen
     {
+        private const float transition_fade_time = 500.0f;
+        private const double transition_delay = 1000.0d;
+
         protected override string BeatmapHash => "64e00d7022195959bfa3109d09c2e2276c8f12f486b91fcf6175583e973b48f2";
         protected override string BeatmapFile => "welcome.osz";
 
@@ -25,7 +28,13 @@ namespace osu.Game.Screens.Menu
             if (!resuming)
             {
                 PrepareMenuLoad();
-                LoadMenu();
+
+                // [alexis] Main menu loading is delayed to avoid the background suddenly popping into existence.
+                Scheduler.AddDelayed(() =>
+                {
+                    FadeInBackground(transition_fade_time);
+                    LoadMenu();
+                }, transition_delay);
             }
         }
     }

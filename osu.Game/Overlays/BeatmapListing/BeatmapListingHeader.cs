@@ -5,7 +5,6 @@
 
 using osu.Framework.Graphics;
 using osu.Game.Graphics;
-using osu.Game.Localisation;
 using osu.Game.Resources.Localisation.Web;
 
 namespace osu.Game.Overlays.BeatmapListing
@@ -23,7 +22,6 @@ namespace osu.Game.Overlays.BeatmapListing
             public BeatmapListingTitle()
             {
                 Title = PageTitleStrings.MainBeatmapsetsControllerIndex;
-                Description = NamedOverlayComponentStrings.BeatmapListingDescription;
                 Icon = OsuIcon.Beatmap;
             }
         }

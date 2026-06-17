@@ -232,11 +232,6 @@ namespace osu.Game
 
         private readonly List<OverlayContainer> visibleBlockingOverlays = new List<OverlayContainer>();
 
-        /// <summary>
-        /// Whether the game should be limited to only display officially licensed content.
-        /// </summary>
-        public virtual bool HideUnlicensedContent => false;
-
         private bool tabletLogNotifyOnWarning = true;
         private bool tabletLogNotifyOnError = true;
         private int generalLogRecentCount;

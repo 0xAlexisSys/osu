@@ -24,8 +24,6 @@ namespace osu.iOS
 
         public override string Version => NSBundle.MainBundle.InfoDictionary["OsuVersion"].ToString();
 
-        public override bool HideUnlicensedContent => true;
-
         public override Vector2 ScalingContainerTargetDrawSize => new Vector2(1024, 1024 * DrawHeight / DrawWidth);
 
         public OsuGameIOS(AppDelegate appDelegate)

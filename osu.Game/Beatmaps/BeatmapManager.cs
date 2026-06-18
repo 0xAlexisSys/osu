@@ -194,8 +194,6 @@ namespace osu.Game.Beatmaps
                 $"{newBeatmapInfo.DifficultyName} (copy)");
             // clear the hash, as that's what is used to match .osu files with their corresponding realm beatmaps.
             newBeatmapInfo.Hash = string.Empty;
-            // clear online properties.
-            newBeatmapInfo.ResetOnlineInfo();
 
             return addDifficultyToSet(targetBeatmapSet, newBeatmap, referenceWorkingBeatmap.Skin);
         }
@@ -492,7 +490,6 @@ namespace osu.Game.Beatmaps
         private void updateHashAndMarkDirty(BeatmapSetInfo setInfo)
         {
             setInfo.Hash = beatmapImporter.ComputeHash(setInfo);
-            setInfo.Status = BeatmapOnlineStatus.LocallyModified;
         }
 
         private void save(BeatmapInfo beatmapInfo, IBeatmap beatmapContent, ISkin? beatmapSkin, Storyboard? storyboard, bool transferCollections)
@@ -512,8 +509,7 @@ namespace osu.Game.Beatmaps
             beatmapContent.BeatmapInfo = beatmapInfo;
 
             // Since now this is a locally-modified beatmap, we also set all relevant flags to indicate this.
-            beatmapInfo.LastLocalUpdate = DateTimeOffset.Now;
-            beatmapInfo.Status = BeatmapOnlineStatus.LocallyModified;
+            beatmapInfo.LastUpdate = DateTimeOffset.Now;
 
             Realm.Write(r =>
             {

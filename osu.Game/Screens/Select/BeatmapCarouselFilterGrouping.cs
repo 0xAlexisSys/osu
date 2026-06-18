@@ -184,9 +184,6 @@ namespace osu.Game.Screens.Select
                 case GroupMode.DateAdded:
                     return getGroupsBy(b => defineGroupByDate(b.BeatmapSet!.DateAdded), items);
 
-                case GroupMode.DateRanked:
-                    return getGroupsBy(b => defineGroupByRankedDate(b.BeatmapSet!.DateRanked), items);
-
                 case GroupMode.LastPlayed:
                     return getGroupsBy(b =>
                     {
@@ -197,9 +194,6 @@ namespace osu.Game.Screens.Select
 
                         return defineGroupByDate(date.Value);
                     }, items);
-
-                case GroupMode.RankedStatus:
-                    return getGroupsBy(b => defineGroupByStatus(b.BeatmapSet!.Status), items);
 
                 case GroupMode.BPM:
                     return getGroupsBy(b => defineGroupByBPM(FormatUtils.RoundBPM(b.BPM)), items);
@@ -318,40 +312,6 @@ namespace osu.Game.Screens.Select
                 return new GroupDefinition(0, "Unranked").Yield();
 
             return new GroupDefinition(-date.Value.Year, $"{date.Value.Year}").Yield();
-        }
-
-        private IEnumerable<GroupDefinition> defineGroupByStatus(BeatmapOnlineStatus status)
-        {
-            switch (status)
-            {
-                case BeatmapOnlineStatus.Ranked:
-                case BeatmapOnlineStatus.Approved:
-                    return new RankedStatusGroupDefinition(0, BeatmapOnlineStatus.Ranked).Yield();
-
-                case BeatmapOnlineStatus.Qualified:
-                    return new RankedStatusGroupDefinition(1, status).Yield();
-
-                case BeatmapOnlineStatus.WIP:
-                    return new RankedStatusGroupDefinition(2, status).Yield();
-
-                case BeatmapOnlineStatus.Pending:
-                    return new RankedStatusGroupDefinition(3, status).Yield();
-
-                case BeatmapOnlineStatus.Graveyard:
-                    return new RankedStatusGroupDefinition(4, status).Yield();
-
-                case BeatmapOnlineStatus.LocallyModified:
-                    return new RankedStatusGroupDefinition(5, status).Yield();
-
-                case BeatmapOnlineStatus.None:
-                    return new RankedStatusGroupDefinition(6, status).Yield();
-
-                case BeatmapOnlineStatus.Loved:
-                    return new RankedStatusGroupDefinition(7, status).Yield();
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
-            }
         }
 
         private IEnumerable<GroupDefinition> defineGroupByBPM(double bpm)

@@ -19,9 +19,6 @@ namespace osu.Game.Online.API.Requests.Responses
         [JsonProperty(@"beatmapset_id")]
         public int OnlineBeatmapSetID { get; set; }
 
-        [JsonProperty(@"status")]
-        public BeatmapOnlineStatus Status { get; set; }
-
         [JsonProperty("checksum")]
         public string Checksum { get; set; } = string.Empty;
 

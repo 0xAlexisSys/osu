@@ -22,7 +22,7 @@ namespace osu.Game.Rulesets.Mods
         /// The internal database ID of the preset.
         /// </summary>
         [PrimaryKey]
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; init; } = Guid.NewGuid();
 
         /// <summary>
         /// The ruleset that the preset is valid for.

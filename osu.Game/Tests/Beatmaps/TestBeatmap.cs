@@ -50,7 +50,6 @@ namespace osu.Game.Tests.Beatmaps
             BeatmapInfo.StarRating = 4.32;
             BeatmapInfo.OnlineInfo = new APIBeatmap();
             BeatmapInfo.OnlineID = Interlocked.Increment(ref onlineBeatmapID);
-            BeatmapInfo.Status = BeatmapOnlineStatus.Ranked;
 
             Debug.Assert(BeatmapInfo.BeatmapSet != null);
 

@@ -297,9 +297,7 @@ namespace osu.Game.Screens.Select
                 // Running these sorts will sort all items, including currently hidden items.
                 case SortMode.Artist:
                 case SortMode.Author:
-                case SortMode.DateSubmitted:
                 case SortMode.DateAdded:
-                case SortMode.DateRanked:
                 case SortMode.Source:
                 case SortMode.Title:
                     return false;

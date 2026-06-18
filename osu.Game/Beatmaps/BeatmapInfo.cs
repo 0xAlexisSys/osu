@@ -68,16 +68,6 @@ namespace osu.Game.Beatmaps
         [Ignored]
         public RealmNamedFileUsage? File => BeatmapSet?.Files.FirstOrDefault(f => f.File.Hash == Hash);
 
-        [Ignored]
-        public BeatmapOnlineStatus Status
-        {
-            get => (BeatmapOnlineStatus)StatusInt;
-            set => StatusInt = (int)value;
-        }
-
-        [MapTo(nameof(Status))]
-        public int StatusInt { get; set; } = (int)BeatmapOnlineStatus.None;
-
         [Indexed]
         public int OnlineID { get; set; } = -1;
 
@@ -99,20 +89,9 @@ namespace osu.Game.Beatmaps
         public string OnlineMD5Hash { get; set; } = string.Empty;
 
         /// <summary>
-        /// The last time of a local modification (via the editor).
+        /// The last time of a modification.
         /// </summary>
-        public DateTimeOffset? LastLocalUpdate { get; set; }
-
-        /// <summary>
-        /// The last time online metadata was applied to this beatmap.
-        /// </summary>
-        public DateTimeOffset? LastOnlineUpdate { get; set; }
-
-        /// <summary>
-        /// Whether this beatmap matches the online version, based on fetched online metadata.
-        /// Will return <c>true</c> if no online metadata is available.
-        /// </summary>
-        public bool MatchesOnlineVersion => LastOnlineUpdate == null || MD5Hash == OnlineMD5Hash;
+        public DateTimeOffset? LastUpdate { get; set; }
 
         [JsonIgnore]
         public bool Hidden { get; set; }
@@ -120,19 +99,6 @@ namespace osu.Game.Beatmaps
         public int EndTimeObjectCount { get; set; } = -1;
 
         public int TotalObjectCount { get; set; } = -1;
-
-        /// <summary>
-        /// Reset any fetched online linking information (and history).
-        /// </summary>
-        public void ResetOnlineInfo(bool resetOnlineId = true)
-        {
-            if (resetOnlineId)
-                OnlineID = -1;
-            LastOnlineUpdate = null;
-            OnlineMD5Hash = string.Empty;
-            if (Status != BeatmapOnlineStatus.LocallyModified)
-                Status = BeatmapOnlineStatus.None;
-        }
 
         /// <summary>
         /// The time at which this beatmap was last played by the local user.

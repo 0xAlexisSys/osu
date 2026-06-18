@@ -16,7 +16,7 @@ namespace osu.Game.Collections
     public class BeatmapCollection : RealmObject, IHasGuidPrimaryKey
     {
         [PrimaryKey]
-        public Guid ID { get; set; }
+        public Guid ID { get; init; }
 
         /// <summary>
         /// The collection's name.

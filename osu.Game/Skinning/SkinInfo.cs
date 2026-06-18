@@ -25,7 +25,7 @@ namespace osu.Game.Skinning
 
         [PrimaryKey]
         [JsonProperty]
-        public Guid ID { get; set; }
+        public Guid ID { get; init; }
 
         [JsonProperty]
         public string Name { get; set; } = null!;

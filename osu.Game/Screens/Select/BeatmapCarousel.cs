@@ -446,8 +446,6 @@ namespace osu.Game.Screens.Select
                             // sanity check
                             oldBeatmap.OnlineID == newBeatmap.OnlineID &&
                             // displayed on panel
-                            oldBeatmap.Status == newBeatmap.Status &&
-                            // displayed on panel
                             oldBeatmap.DifficultyName == newBeatmap.DifficultyName &&
                             // hidden changed, needs re-filter
                             oldBeatmap.Hidden == newBeatmap.Hidden &&
@@ -866,11 +864,9 @@ namespace osu.Game.Screens.Select
         private readonly DrawablePool<PanelGroup> groupPanelPool = new DrawablePool<PanelGroup>(100);
         private readonly DrawablePool<PanelGroupStarDifficulty> starsGroupPanelPool = new DrawablePool<PanelGroupStarDifficulty>(11);
         private readonly DrawablePool<PanelGroupRankDisplay> ranksGroupPanelPool = new DrawablePool<PanelGroupRankDisplay>(9);
-        private readonly DrawablePool<PanelGroupRankedStatus> statusGroupPanelPool = new DrawablePool<PanelGroupRankedStatus>(8);
 
         private void setupPools()
         {
-            AddInternal(statusGroupPanelPool);
             AddInternal(ranksGroupPanelPool);
             AddInternal(starsGroupPanelPool);
             AddInternal(groupPanelPool);
@@ -905,9 +901,6 @@ namespace osu.Game.Screens.Select
             if (x is RankDisplayGroupDefinition rankX && y is RankDisplayGroupDefinition rankY)
                 return rankX.Equals(rankY);
 
-            if (x is RankedStatusGroupDefinition statusX && y is RankedStatusGroupDefinition statusY)
-                return statusX.Equals(statusY);
-
             // NOTE: this branch must be AFTER all branches that compare `GroupDefinition` subtypes!
             // this is an optimisation measure. any subclass of `GroupDefinition` will pass the `is GroupDefinition` check,
             // and testing a subclass of `GroupDefinition` against any other `GroupDefinition` (or subclass thereof)
@@ -923,9 +916,6 @@ namespace osu.Game.Screens.Select
         {
             switch (item.Model)
             {
-                case RankedStatusGroupDefinition:
-                    return statusGroupPanelPool.Get();
-
                 case StarDifficultyGroupDefinition:
                     return starsGroupPanelPool.Get();
 
@@ -1203,11 +1193,6 @@ namespace osu.Game.Screens.Select
     /// Defines a grouping header for a set of carousel items grouped by achieved rank.
     /// </summary>
     public record RankDisplayGroupDefinition(ScoreRank Rank) : GroupDefinition(-(int)Rank, Rank.GetLocalisableDescription());
-
-    /// <summary>
-    /// Defines a grouping header for a set of carousel items grouped by ranked status.
-    /// </summary>
-    public record RankedStatusGroupDefinition(int Order, BeatmapOnlineStatus Status) : GroupDefinition(Order, Status.GetLocalisableDescription());
 
     /// <summary>
     /// Used to represent a portion of a <see cref="BeatmapSetInfo"/> under a <see cref="GroupDefinition"/>.

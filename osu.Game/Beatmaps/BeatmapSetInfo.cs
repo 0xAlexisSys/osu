@@ -27,32 +27,12 @@ namespace osu.Game.Beatmaps
 
         public DateTimeOffset DateAdded { get; set; }
 
-        /// <summary>
-        /// The date this beatmap set was first submitted.
-        /// </summary>
-        public DateTimeOffset? DateSubmitted { get; set; }
-
-        /// <summary>
-        /// The date this beatmap set was ranked.
-        /// </summary>
-        public DateTimeOffset? DateRanked { get; set; }
-
         [JsonIgnore]
         public IBeatmapMetadataInfo Metadata => Beatmaps.FirstOrDefault()?.Metadata ?? new BeatmapMetadata();
 
         public IList<BeatmapInfo> Beatmaps { get; } = null!;
 
         public IList<RealmNamedFileUsage> Files { get; } = null!;
-
-        [Ignored]
-        public BeatmapOnlineStatus Status
-        {
-            get => (BeatmapOnlineStatus)StatusInt;
-            set => StatusInt = (int)value;
-        }
-
-        [MapTo(nameof(Status))]
-        public int StatusInt { get; set; } = (int)BeatmapOnlineStatus.None;
 
         public bool DeletePending { get; set; }
 
@@ -105,7 +85,5 @@ namespace osu.Game.Beatmaps
         IEnumerable<IBeatmapInfo> IBeatmapSetInfo.Beatmaps => Beatmaps;
 
         IEnumerable<INamedFileUsage> IHasNamedFiles.Files => Files;
-
-        public bool AllBeatmapsUpToDate => Beatmaps.All(b => b.MatchesOnlineVersion);
     }
 }

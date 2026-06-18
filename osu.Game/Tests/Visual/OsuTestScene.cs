@@ -324,7 +324,6 @@ namespace osu.Game.Tests.Visual
                     {
                         OnlineID = original.OnlineID,
                         OnlineBeatmapSetID = original.BeatmapSet.OnlineID,
-                        Status = ((BeatmapInfo)original).Status,
                         Checksum = original.MD5Hash,
                         AuthorID = original.Metadata.Author.OnlineID,
                         RulesetID = original.Ruleset.OnlineID,

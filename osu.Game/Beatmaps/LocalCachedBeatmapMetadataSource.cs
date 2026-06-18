@@ -302,7 +302,7 @@ namespace osu.Game.Beatmaps
 
             cmd.CommandText =
                 """
-                SELECT `b`.`beatmapset_id`, `b`.`beatmap_id`, `b`.`approved`, `b`.`user_id`, `b`.`checksum`, `b`.`last_update`, `s`.`submit_date`, `s`.`approved_date`
+                SELECT `b`.`beatmapset_id`, `b`.`beatmap_id`, `b`.`user_id`, `b`.`checksum`, `b`.`last_update`
                 FROM `osu_beatmaps` AS `b`
                 JOIN `osu_beatmapsets` AS `s` ON `s`.`beatmapset_id` = `b`.`beatmapset_id`
                 WHERE (`b`.`checksum` = @MD5Hash OR `b`.`filename` = @Path)
@@ -325,13 +325,9 @@ namespace osu.Game.Beatmaps
                 {
                     BeatmapSetID = reader.GetInt32(0),
                     BeatmapID = reader.GetInt32(1),
-                    BeatmapStatus = (BeatmapOnlineStatus)reader.GetByte(2),
-                    BeatmapSetStatus = (BeatmapOnlineStatus)reader.GetByte(2),
                     AuthorID = reader.GetInt32(3),
                     MD5Hash = reader.GetString(4),
                     LastUpdated = reader.GetDateTimeOffset(5),
-                    DateSubmitted = reader.GetDateTimeOffset(6),
-                    DateRanked = reader.GetDateTimeOffset(7),
                 };
                 return true;
             }
@@ -348,7 +344,7 @@ namespace osu.Game.Beatmaps
             {
                 cmd.CommandText =
                     """
-                    SELECT `b`.`beatmapset_id`, `b`.`beatmap_id`, `b`.`approved`, `b`.`user_id`, `b`.`checksum`, `b`.`last_update`, `s`.`submit_date`, `s`.`approved_date`
+                    SELECT `b`.`beatmapset_id`, `b`.`beatmap_id`, `b`.`user_id`, `b`.`checksum`, `b`.`last_update`
                     FROM `osu_beatmaps` AS `b`
                     JOIN `osu_beatmapsets` AS `s` ON `s`.`beatmapset_id` = `b`.`beatmapset_id`
                     WHERE (`b`.`checksum` = @MD5Hash OR `b`.`filename` = @Path)
@@ -371,13 +367,9 @@ namespace osu.Game.Beatmaps
                     {
                         BeatmapSetID = reader.GetInt32(0),
                         BeatmapID = reader.GetInt32(1),
-                        BeatmapStatus = (BeatmapOnlineStatus)reader.GetByte(2),
-                        BeatmapSetStatus = (BeatmapOnlineStatus)reader.GetByte(2),
                         AuthorID = reader.GetInt32(3),
                         MD5Hash = reader.GetString(4),
                         LastUpdated = reader.GetDateTimeOffset(5),
-                        DateSubmitted = reader.GetDateTimeOffset(6),
-                        DateRanked = reader.GetDateTimeOffset(7),
                     };
                 }
             }

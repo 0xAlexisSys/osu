@@ -235,11 +235,6 @@ namespace osu.Game.Localisation
         public static LocalisableString RankAchieved => new TranslatableString(getKey(@"rank_achieved"), @"Rank Achieved");
 
         /// <summary>
-        /// "Ranked Status"
-        /// </summary>
-        public static LocalisableString RankedStatus => new TranslatableString(getKey(@"ranked_status"), @"Ranked Status");
-
-        /// <summary>
         /// "Source"
         /// </summary>
         public static LocalisableString Source => new TranslatableString(getKey(@"source"), @"Source");

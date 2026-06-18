@@ -30,26 +30,6 @@ namespace osu.Game.Beatmaps
         public int AuthorID { get; init; }
 
         /// <summary>
-        /// The online status of the beatmap.
-        /// </summary>
-        public BeatmapOnlineStatus BeatmapStatus { get; init; }
-
-        /// <summary>
-        /// The online status of the associated beatmap set.
-        /// </summary>
-        public BeatmapOnlineStatus? BeatmapSetStatus { get; init; }
-
-        /// <summary>
-        /// The rank date of the beatmap, if applicable and available.
-        /// </summary>
-        public DateTimeOffset? DateRanked { get; init; }
-
-        /// <summary>
-        /// The submission date of the beatmap, if available.
-        /// </summary>
-        public DateTimeOffset? DateSubmitted { get; init; }
-
-        /// <summary>
         /// The MD5 hash of the beatmap. Used to verify integrity.
         /// </summary>
         public string MD5Hash { get; init; } = string.Empty;

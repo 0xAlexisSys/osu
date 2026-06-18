@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using osu.Framework.Extensions;
-using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Game.Beatmaps.Formats;
@@ -112,13 +111,6 @@ namespace osu.Game.Beatmaps
                             realm.Remove(beatmap.Metadata);
                             realm.Remove(beatmap);
                         }
-                        else
-                        {
-                            // If the beatmap differs in the original, leave it in a soft-deleted state but reset online info.
-                            // This caters to the case where a user has made modifications they potentially want to restore,
-                            // but after restoring we want to ensure it can't be used to trigger an update of the beatmap.
-                            beatmap.ResetOnlineInfo();
-                        }
                     }
 
                     // If the original has no beatmaps left, delete the set as well.
@@ -178,47 +170,6 @@ namespace osu.Game.Beatmaps
                 if (!b.Ruleset.IsManaged)
                     b.Ruleset = realm.Find<RulesetInfo>(b.Ruleset.ShortName) ?? throw new ArgumentNullException(nameof(b.Ruleset));
             }
-
-            validateOnlineIds(beatmapSet, realm);
-
-            bool hadOnlineIDs = beatmapSet.Beatmaps.Any(b => b.OnlineID > 0);
-
-            // TODO: this may no longer be valid as we aren't doing an online population at this point.
-            // ensure at least one beatmap was able to retrieve or keep an online ID, else drop the set ID.
-            if (hadOnlineIDs && !beatmapSet.Beatmaps.Any(b => b.OnlineID > 0))
-            {
-                if (beatmapSet.OnlineID > 0)
-                {
-                    beatmapSet.OnlineID = -1;
-                    LogForModel(beatmapSet, "Disassociating beatmap set ID due to loss of all beatmap IDs");
-                }
-            }
-        }
-
-        protected override void PreImport(BeatmapSetInfo beatmapSet, Realm realm)
-        {
-            // We are about to import a new beatmap. Before doing so, ensure that no other set shares the online IDs used by the new one.
-            // Note that this means if the previous beatmap is restored by the user, it will no longer be linked to its online IDs.
-            // If this is ever an issue, we can consider marking as pending delete but not resetting the IDs (but care will be required for
-            // beatmaps, which don't have their own `DeletePending` state).
-
-            if (beatmapSet.OnlineID > 0)
-            {
-                // Required local for iOS. Will cause runtime crash if inlined.
-                int onlineId = beatmapSet.OnlineID;
-
-                // OnlineID should really be unique, but to avoid catastrophic failure let's iterate just to be sure.
-                foreach (var existingSetWithSameOnlineID in realm.All<BeatmapSetInfo>().Where(b => b.OnlineID == onlineId))
-                {
-                    existingSetWithSameOnlineID.DeletePending = true;
-                    existingSetWithSameOnlineID.OnlineID = -1;
-
-                    foreach (var b in existingSetWithSameOnlineID.Beatmaps)
-                        b.ResetOnlineInfo();
-
-                    LogForModel(beatmapSet, $"Found existing beatmap set with same OnlineID ({beatmapSet.OnlineID}). It will be disassociated and marked for deletion.");
-                }
-            }
         }
 
         protected override void PostImport(BeatmapSetInfo model, Realm realm, ImportParameters parameters)
@@ -233,41 +184,6 @@ namespace osu.Game.Beatmaps
             }
 
             ProcessBeatmap?.Invoke(model, parameters.Batch ? MetadataLookupScope.LocalCacheFirst : MetadataLookupScope.OnlineFirst);
-        }
-
-        private void validateOnlineIds(BeatmapSetInfo beatmapSet, Realm realm)
-        {
-            var beatmapIds = beatmapSet.Beatmaps.Where(b => b.OnlineID > 0).Select(b => b.OnlineID).ToList();
-
-            // ensure all IDs are unique
-            if (beatmapIds.GroupBy(b => b).Any(g => g.Count() > 1))
-            {
-                LogForModel(beatmapSet, "Found non-unique IDs, resetting...");
-                resetIds();
-                return;
-            }
-
-            // find any existing beatmaps in the database that have matching online ids
-            List<BeatmapInfo> existingBeatmaps = new List<BeatmapInfo>();
-
-            foreach (int id in beatmapIds)
-                existingBeatmaps.AddRange(realm.All<BeatmapInfo>().Where(b => b.OnlineID == id));
-
-            if (existingBeatmaps.Any())
-            {
-                // reset the import ids (to force a re-fetch) *unless* they match the candidate CheckForExisting set.
-                // we can ignore the case where the new ids are contained by the CheckForExisting set as it will either be used (import skipped) or deleted.
-
-                var existing = CheckForExisting(beatmapSet, realm);
-
-                if (existing == null || existingBeatmaps.Any(b => !existing.Beatmaps.Contains(b)))
-                {
-                    LogForModel(beatmapSet, "Found existing import with online IDs already, resetting...");
-                    resetIds();
-                }
-            }
-
-            void resetIds() => beatmapSet.Beatmaps.ForEach(b => b.ResetOnlineInfo());
         }
 
         protected override bool CanSkipImport(BeatmapSetInfo existing, BeatmapSetInfo import)

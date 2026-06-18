@@ -26,9 +26,6 @@ namespace osu.Game.Screens.Select.Filter
         [LocalisableDescription(typeof(SongSelectStrings), nameof(SongSelectStrings.DateAdded))]
         DateAdded,
 
-        [LocalisableDescription(typeof(SongSelectStrings), nameof(SongSelectStrings.DateRanked))]
-        DateRanked,
-
         [LocalisableDescription(typeof(SongSelectStrings), nameof(SongSelectStrings.Difficulty))]
         Difficulty,
 
@@ -46,9 +43,6 @@ namespace osu.Game.Screens.Select.Filter
 
         [LocalisableDescription(typeof(SongSelectStrings), nameof(SongSelectStrings.RankAchieved))]
         RankAchieved,
-
-        [LocalisableDescription(typeof(SongSelectStrings), nameof(SongSelectStrings.RankedStatus))]
-        RankedStatus,
 
         [LocalisableDescription(typeof(SongSelectStrings), nameof(SongSelectStrings.Source))]
         Source,

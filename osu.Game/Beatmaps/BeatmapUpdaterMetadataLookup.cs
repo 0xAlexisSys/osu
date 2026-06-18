@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using osu.Framework.Platform;
 using osu.Game.Online.API;
 
@@ -57,37 +55,11 @@ namespace osu.Game.Beatmaps
 
                 if (res == null)
                 {
-                    beatmapInfo.ResetOnlineInfo();
                     lookupResults.Add(null); // mark lookup failure
                     continue;
                 }
 
                 lookupResults.Add(res);
-
-                beatmapInfo.OnlineID = res.BeatmapID;
-                beatmapInfo.OnlineMD5Hash = res.MD5Hash;
-                beatmapInfo.LastOnlineUpdate = res.LastUpdated;
-
-                Debug.Assert(beatmapInfo.BeatmapSet != null);
-                beatmapInfo.BeatmapSet.OnlineID = res.BeatmapSetID;
-
-                // Some metadata should only be applied if there's no local changes.
-                if (beatmapInfo.MatchesOnlineVersion)
-                {
-                    beatmapInfo.Status = res.BeatmapStatus;
-                    beatmapInfo.Metadata.Author.OnlineID = res.AuthorID;
-                }
-            }
-
-            if (beatmapSet.Beatmaps.All(b => b.MatchesOnlineVersion)
-                && lookupResults.All(r => r != null)
-                && lookupResults.Select(r => r!.BeatmapSetID).Distinct().Count() == 1)
-            {
-                var representative = lookupResults.First()!;
-
-                beatmapSet.Status = representative.BeatmapSetStatus ?? BeatmapOnlineStatus.None;
-                beatmapSet.DateRanked = representative.DateRanked;
-                beatmapSet.DateSubmitted = representative.DateSubmitted;
             }
         }
 

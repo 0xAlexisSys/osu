@@ -1293,12 +1293,8 @@ namespace osu.Game.Database
                 }
 
                 case 48:
-                    const int qualified = (int)BeatmapOnlineStatus.Qualified;
-
-                    var beatmaps = migration.NewRealm.All<BeatmapInfo>().Where(b => b.StatusInt == qualified);
-
-                    foreach (var beatmap in beatmaps)
-                        beatmap.ResetOnlineInfo(resetOnlineId: false);
+                    // [alexis] This case was used to call ResetOnlineInfo on beatmaps.
+                    //          Seems like it's not needed anymore.
                     break;
 
                 case 49:

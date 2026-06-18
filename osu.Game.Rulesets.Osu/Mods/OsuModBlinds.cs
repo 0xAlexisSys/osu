@@ -31,7 +31,6 @@ namespace osu.Game.Rulesets.Osu.Mods
         public override ModType Type => ModType.DifficultyIncrease;
 
         public override Type[] IncompatibleMods => new[] { typeof(OsuModFlashlight) };
-        public override bool Ranked => true;
 
         private DrawableOsuBlinds blinds = null!;
 

@@ -40,6 +40,11 @@ namespace osu.Game.Localisation
         public static LocalisableString Scores => new TranslatableString(getKey(@"scores"), @"Are you sure you want to delete all scores? This cannot be undone!");
 
         /// <summary>
+        /// "Are you sure you want to reset all medals? This cannot be undone!"
+        /// </summary>
+        public static LocalisableString Medals => new TranslatableString(getKey(@"medals"), @"Are you sure you want to reset all medals? This cannot be undone!");
+
+        /// <summary>
         /// "Are you sure you want to delete all mod presets?"
         /// </summary>
         public static LocalisableString ModPresets => new TranslatableString(getKey(@"mod_presets"), @"Are you sure you want to delete all mod presets?");

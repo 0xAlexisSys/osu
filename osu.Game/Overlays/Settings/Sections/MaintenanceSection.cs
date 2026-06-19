@@ -28,7 +28,8 @@ namespace osu.Game.Overlays.Settings.Sections
                 new SkinSettings(),
                 new CollectionsSettings(),
                 new ScoreSettings(),
-                new ModPresetSettings()
+                new MedalSettings(),
+                new ModPresetSettings(),
             };
         }
     }

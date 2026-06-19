@@ -3,17 +3,13 @@
 
 using System.Collections.Generic;
 using osu.Framework.Allocation;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osu.Framework.Logging;
 using osu.Game.Graphics.Containers;
 using osu.Game.Input.Bindings;
-using osu.Game.Online.API;
-using osu.Game.Online.Notifications.WebSocket;
-using osu.Game.Online.Notifications.WebSocket.Events;
-using osu.Game.Users;
+using osu.Game.Medals;
 
 namespace osu.Game.Overlays
 {
@@ -31,7 +27,7 @@ namespace osu.Game.Overlays
         private readonly Queue<MedalAnimation> queuedMedals = new Queue<MedalAnimation>();
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private MedalEvaluator medalEvaluator { get; set; } = null!;
 
         private Container<Drawable> medalContainer = null!;
         private MedalAnimation? currentMedalDisplay;
@@ -41,7 +37,7 @@ namespace osu.Game.Overlays
         {
             RelativeSizeAxes = Axes.Both;
 
-            api.NotificationsClient.MessageReceived += handleMedalMessages;
+            medalEvaluator.MedalUnlocked += handleMedal;
 
             Add(medalContainer = new Container
             {
@@ -61,29 +57,11 @@ namespace osu.Game.Overlays
             // don't allow hiding the overlay via any method other than our own.
         }
 
-        private void handleMedalMessages(SocketMessage obj)
+        private void handleMedal(Medal medal)
         {
-            if (obj.Event != @"new")
-                return;
-
-            var data = obj.Data?.ToObject<NewPrivateNotificationEvent>();
-            if (data == null || data.Name != @"user_achievement_unlock")
-                return;
-
-            var details = data.Details?.ToObject<UserAchievementUnlock>();
-            if (details == null)
-                return;
-
-            var medal = new Medal
-            {
-                Name = details.Title,
-                InternalName = details.Slug,
-                Description = details.Description,
-            };
-
             var medalAnimation = new MedalAnimation(medal);
 
-            Logger.Log($"Queueing medal unlock for \"{medal.Name}\" ({queuedMedals.Count} to display)");
+            Logger.Log($"Queueing medal unlock for \"{medal.DisplayName}\" ({queuedMedals.Count} to display)");
 
             Schedule(() => LoadComponentAsync(medalAnimation, m =>
             {
@@ -131,7 +109,7 @@ namespace osu.Game.Overlays
 
             if (queuedMedals.TryDequeue(out currentMedalDisplay))
             {
-                Logger.Log($"Displaying \"{currentMedalDisplay.Medal.Name}\"");
+                Logger.Log($"Displaying \"{currentMedalDisplay.Medal.DisplayName}\"");
                 medalContainer.Add(currentMedalDisplay);
                 Show();
             }
@@ -144,10 +122,7 @@ namespace osu.Game.Overlays
 
         protected override void Dispose(bool isDisposing)
         {
-            // this event subscription fires async loads, which hard-fail if `CompositeDrawable.disposalCancellationSource` is canceled, which happens in the base call.
-            // therefore, unsubscribe from this event early to reduce the chances of a stray event firing at an inconvenient spot.
-            if (api.IsNotNull())
-                api.NotificationsClient.MessageReceived -= handleMedalMessages;
+            medalEvaluator.MedalUnlocked -= handleMedal;
 
             base.Dispose(isDisposing);
         }

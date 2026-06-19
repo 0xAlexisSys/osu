@@ -14,7 +14,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Logging;
 using osu.Game.Beatmaps;
 using osu.Game.Extensions;
-using osu.Game.Online.API;
+using osu.Game.Medals;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Performance;
@@ -60,7 +60,7 @@ namespace osu.Game.Database
         private INotificationOverlay? notificationOverlay { get; set; }
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private MedalEvaluator medalEvaluator { get; set; } = null!;
 
         protected virtual int TimeToSleepDuringGameplay => 30000;
 

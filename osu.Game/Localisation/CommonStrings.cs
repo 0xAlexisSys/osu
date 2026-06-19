@@ -90,6 +90,11 @@ namespace osu.Game.Localisation
         public static LocalisableString Beatmaps => new TranslatableString(getKey(@"beatmaps"), @"Beatmaps");
 
         /// <summary>
+        /// "Medals"
+        /// </summary>
+        public static LocalisableString Medals => new TranslatableString(getKey(@"medals"), @"Medals");
+
+        /// <summary>
         /// "Scores"
         /// </summary>
         public static LocalisableString Scores => new TranslatableString(getKey(@"scores"), @"Scores");

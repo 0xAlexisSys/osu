@@ -1,18 +1,17 @@
-﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
+// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
 using System.Linq;
 using Moq;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Testing;
-using osu.Game.Online.API;
-using osu.Game.Online.Notifications.WebSocket;
 using osu.Game.Online.Notifications.WebSocket.Events;
 using osu.Game.Overlays;
+using osu.Game.Medals;
+using osu.Game.Users;
 using osuTK.Input;
 
 namespace osu.Game.Tests.Visual.Gameplay
@@ -22,7 +21,7 @@ namespace osu.Game.Tests.Visual.Gameplay
     {
         private readonly Bindable<OverlayActivation> overlayActivationMode = new Bindable<OverlayActivation>(OverlayActivation.All);
 
-        private DummyAPIAccess dummyAPI => (DummyAPIAccess)API;
+        private Mock<IMedalEvaluator> medalEvaluatorMock = null!;
         private MedalOverlay overlay = null!;
 
         [SetUpSteps]
@@ -30,6 +29,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             var overlayManagerMock = new Mock<IOverlayManager>();
             overlayManagerMock.Setup(mock => mock.OverlayActivationMode).Returns(overlayActivationMode);
+            medalEvaluatorMock = new Mock<IMedalEvaluator>();
 
             AddStep("create overlay", () => Child = new DependencyProvidingContainer
             {
@@ -37,7 +37,8 @@ namespace osu.Game.Tests.Visual.Gameplay
                 RelativeSizeAxes = Axes.Both,
                 CachedDependencies =
                 [
-                    (typeof(IOverlayManager), overlayManagerMock.Object)
+                    (typeof(IOverlayManager), overlayManagerMock.Object),
+                    (typeof(IMedalEvaluator), medalEvaluatorMock.Object)
                 ]
             });
         }
@@ -96,14 +97,12 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddUntilStep("overlay shown", () => overlay.State.Value, () => Is.EqualTo(Visibility.Visible));
         }
 
-        private void awardMedal(UserAchievementUnlock unlock) => AddStep("award medal", () => dummyAPI.NotificationsClient.Receive(new SocketMessage
+        private void awardMedal(UserAchievementUnlock unlock) => AddStep("award medal", () => medalEvaluatorMock.Raise(m =>
+            m.MedalUnlocked += null, new Medal
         {
-            Event = @"new",
-            Data = JObject.FromObject(new NewPrivateNotificationEvent
-            {
-                Name = @"user_achievement_unlock",
-                Details = JObject.FromObject(unlock)
-            })
+            Name = unlock.Title,
+            InternalName = unlock.Slug,
+            Description = unlock.Description
         }));
     }
 }

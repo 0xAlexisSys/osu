@@ -30,6 +30,8 @@ using osu.Game.Online.API;
 using osu.Game.Online.Notifications.WebSocket;
 using osu.Game.Online.Notifications.WebSocket.Events;
 using osu.Game.Overlays;
+using osu.Game.Medals;
+using osu.Game.Users;
 using osu.Game.Overlays.BeatmapListing;
 using osu.Game.Overlays.Mods;
 using osu.Game.Overlays.Notifications;
@@ -599,19 +601,11 @@ namespace osu.Game.Tests.Visual.Navigation
         {
             playToResults();
 
-            AddStep("award medal", () => ((DummyAPIAccess)API).NotificationsClient.Receive(new SocketMessage
+            AddStep("award medal", () => Game.Dependencies.Get<IMedalEvaluator>().TriggerMedalUnlocked(new Medal
             {
-                Event = @"new",
-                Data = JObject.FromObject(new NewPrivateNotificationEvent
-                {
-                    Name = @"user_achievement_unlock",
-                    Details = JObject.FromObject(new UserAchievementUnlock
-                    {
-                        Title = "Time And A Half",
-                        Description = "Having a right ol' time. One and a half of them, almost.",
-                        Slug = @"all-intro-doubletime"
-                    })
-                })
+                Name = "Time And A Half",
+                InternalName = "all-intro-doubletime",
+                Description = "Having a right ol' time. One and a half of them, almost."
             }));
             AddUntilStep("medal overlay shown", () => Game.ChildrenOfType<MedalOverlay>().Single().State.Value, () => Is.EqualTo(Visibility.Visible));
         }

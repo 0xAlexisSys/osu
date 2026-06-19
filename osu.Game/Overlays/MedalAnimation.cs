@@ -8,7 +8,6 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Sprites;
-using osu.Game.Users;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Backgrounds;
 using osu.Game.Overlays.MedalSplash;
@@ -21,6 +20,7 @@ using System;
 using System.Diagnostics;
 using osu.Framework.Graphics.Effects;
 using osu.Framework.Utils;
+using osu.Game.Medals;
 
 namespace osu.Game.Overlays
 {

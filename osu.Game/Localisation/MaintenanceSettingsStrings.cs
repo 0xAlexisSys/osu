@@ -65,6 +65,16 @@ namespace osu.Game.Localisation
         public static LocalisableString DeleteAllScores => new TranslatableString(getKey(@"delete_all_scores"), @"Delete ALL scores");
 
         /// <summary>
+        /// "Reset ALL medals"
+        /// </summary>
+        public static LocalisableString ResetAllMedals => new TranslatableString(getKey(@"reset_all_medals"), @"Reset ALL medals");
+
+        /// <summary>
+        /// "Check all scores for eligible medals"
+        /// </summary>
+        public static LocalisableString CheckAllScoresForEligibleMedals => new TranslatableString(getKey(@"check_all_scores_for_eligible_medals"), @"Check all scores for eligible medals");
+
+        /// <summary>
         /// "Delete ALL skins"
         /// </summary>
         public static LocalisableString DeleteAllSkins => new TranslatableString(getKey(@"delete_all_skins"), @"Delete ALL skins");

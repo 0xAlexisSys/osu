@@ -48,6 +48,7 @@ using osu.Game.Input;
 using osu.Game.Input.Bindings;
 using osu.Game.IO;
 using osu.Game.Localisation;
+using osu.Game.Medals;
 using osu.Game.Online;
 using osu.Game.Online.API;
 using osu.Game.Online.Chat;
@@ -159,6 +160,8 @@ namespace osu.Game
         protected ScoreManager ScoreManager { get; private set; }
 
         protected ScoreModelDownloader ScoreDownloader { get; private set; }
+
+        protected MedalEvaluator MedalEvaluator { get; private set; }
 
         protected SkinManager SkinManager { get; private set; }
 
@@ -277,6 +280,7 @@ namespace osu.Game
             }
 
             Resources.AddStore(new DllResourceStore(OsuResources.ResourceAssembly));
+            Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(OsuGameBase).Assembly), @"Resources"));
 
             dependencies.Cache(realm = new RealmAccess(Storage, CLIENT_DATABASE_FILENAME, Host.UpdateThread));
 
@@ -333,6 +337,9 @@ namespace osu.Game
 
             // Add after all the above cache operations as it depends on them.
             base.Content.Add(difficultyCache);
+
+            dependencies.CacheAs(MedalEvaluator = new MedalEvaluator());
+            base.Content.Add(MedalEvaluator);
 
             // TODO: OsuGame or OsuGameBase?
             dependencies.CacheAs(beatmapUpdater = CreateBeatmapUpdater());

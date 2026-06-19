@@ -12,6 +12,7 @@ using osu.Framework.Screens;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Database;
+using osu.Game.Medals;
 using osu.Game.Online;
 using osu.Game.Scoring;
 using osu.Game.Screens.Play.Leaderboards;
@@ -33,6 +34,9 @@ namespace osu.Game.Screens.Play
         [Resolved(canBeNull: true)]
         [CanBeNull]
         private UserStatisticsWatcher userStatisticsWatcher { get; set; }
+
+        [Resolved]
+        private MedalEvaluator medalEvaluator { get; set; }
 
         public BeatmapPlayer(PlayerConfiguration configuration = null)
             : base(configuration)
@@ -130,10 +134,15 @@ namespace osu.Game.Screens.Play
             return exiting;
         }
 
-        protected override ResultsScreen CreateResults(ScoreInfo score) => new SoloResultsScreen(score)
+        protected override ResultsScreen CreateResults(ScoreInfo score)
         {
-            AllowRetry = true,
-            IsLocalPlay = true,
-        };
+            medalEvaluator.EvaluateScore(score);
+
+            return new SoloResultsScreen(score)
+            {
+                AllowRetry = true,
+                IsLocalPlay = true,
+            };
+        }
     }
 }

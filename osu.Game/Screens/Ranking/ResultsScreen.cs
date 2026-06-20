@@ -196,10 +196,14 @@ namespace osu.Game.Screens.Ranking
 
             if (AllowWatchingReplay)
             {
-                buttons.Add(new ReplayDownloadButton(SelectedScore.Value)
+                buttons.Add(new WatchReplayButton(SelectedScore.Value)
                 {
-                    Score = { BindTarget = SelectedScore },
-                    Width = 300
+                    Width = 300,
+                });
+
+                buttons.Add(new ExportReplayButton(SelectedScore.Value)
+                {
+                    Width = 300,
                 });
 
                 // for simplicity, only allow this when coming from a replay player where we know the replay is ready to be played.

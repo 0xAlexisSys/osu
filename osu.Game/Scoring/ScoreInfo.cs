@@ -112,9 +112,6 @@ namespace osu.Game.Scoring
 
         public double Accuracy { get; set; }
 
-        [Ignored]
-        public bool HasOnlineReplay { get; set; }
-
         public DateTimeOffset Date { get; set; }
 
         public double? PP { get; set; }

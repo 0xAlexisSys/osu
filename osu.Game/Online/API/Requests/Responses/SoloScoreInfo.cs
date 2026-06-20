@@ -228,7 +228,6 @@ namespace osu.Game.Online.API.Requests.Responses
                 Statistics = Statistics,
                 MaximumStatistics = MaximumStatistics,
                 Date = EndedAt,
-                HasOnlineReplay = HasReplay,
                 Mods = mods,
                 PP = PP,
                 Ranked = Ranked,

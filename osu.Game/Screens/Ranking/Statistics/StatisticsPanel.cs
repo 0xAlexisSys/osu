@@ -130,7 +130,7 @@ namespace osu.Game.Screens.Ranking.Statistics
                         Children = new Drawable[]
                         {
                             new MessagePlaceholder("Extended statistics are only available after watching a replay!"),
-                            new ReplayDownloadButton(newScore)
+                            new WatchReplayButton(newScore)
                             {
                                 Scale = new Vector2(1.5f),
                                 Anchor = Anchor.Centre,
@@ -191,7 +191,7 @@ namespace osu.Game.Screens.Ranking.Statistics
                             Children = new Drawable[]
                             {
                                 new MessagePlaceholder("More statistics available after watching a replay!"),
-                                new ReplayDownloadButton(newScore)
+                                new WatchReplayButton(newScore)
                                 {
                                     Scale = new Vector2(1.5f),
                                     Anchor = Anchor.Centre,

@@ -31,7 +31,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
                     dialogOverlay?.Push(new MassDeleteConfirmationDialog(() =>
                     {
                         resetMedalsButton.Enabled.Value = false;
-                        Task.Run(() => realm.Write(r => r.RemoveAll<MedalInfo>())).ContinueWith(_ => resetMedalsButton.Enabled.Value = true);
+                        Task.Run(() => realm.Write(r => r.RemoveAll<MedalInfo>())).ContinueWith(_ => Schedule(() => resetMedalsButton.Enabled.Value = true));
                     }, DeleteConfirmationContentStrings.Medals));
                 }
             });
@@ -42,7 +42,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
                 Action = () =>
                 {
                     checkAllScoresForEligibleMedalsButton.Enabled.Value = false;
-                    Task.Run(medalEvaluator.EvaluateAll).ContinueWith(_ => checkAllScoresForEligibleMedalsButton.Enabled.Value = true);
+                    Task.Run(medalEvaluator.EvaluateAll).ContinueWith(_ => Schedule(() => checkAllScoresForEligibleMedalsButton.Enabled.Value = true));
                 },
             });
         }

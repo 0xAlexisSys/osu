@@ -46,7 +46,6 @@ using osu.Game.Input.Bindings;
 using osu.Game.IO;
 using osu.Game.Localisation;
 using osu.Game.Online;
-using osu.Game.Online.API.Requests;
 using osu.Game.Online.Chat;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Online.Rooms;
@@ -764,14 +763,9 @@ namespace osu.Game
             {
                 databasedScore = ScoreManager.GetScore(score);
             }
-            catch (LegacyScoreDecoder.BeatmapNotFoundException notFound)
+            catch (LegacyScoreDecoder.BeatmapNotFoundException)
             {
                 Logger.Log("The replay cannot be played because the beatmap is missing.", LoggingTarget.Information);
-
-                var req = new GetBeatmapRequest(new BeatmapInfo { MD5Hash = notFound.Hash });
-                req.Success += res => Notifications.Post(new MissingBeatmapNotification(res, notFound.Hash, null));
-                API.Queue(req);
-
                 return;
             }
 
@@ -999,7 +993,6 @@ namespace osu.Game
             BeatmapManager.PresentImport = items => PresentBeatmap(items.First().Value);
 
             BeatmapDownloader.PostNotification = n => Notifications.Post(n);
-            ScoreDownloader.PostNotification = n => Notifications.Post(n);
 
             ScoreManager.PostNotification = n => Notifications.Post(n);
             ScoreManager.PresentImport = items => PresentScore(items.First().Value);

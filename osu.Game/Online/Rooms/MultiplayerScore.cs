@@ -104,7 +104,6 @@ namespace osu.Game.Online.Rooms
                 User = User,
                 Accuracy = Accuracy,
                 Date = EndedAt,
-                HasOnlineReplay = HasReplay,
                 Rank = Rank,
                 Mods = Mods?.Select(m => m.ToMod(rulesetInstance)).ToArray() ?? Array.Empty<Mod>(),
                 PP = PP,

@@ -159,8 +159,6 @@ namespace osu.Game
 
         protected ScoreManager ScoreManager { get; private set; }
 
-        protected ScoreModelDownloader ScoreDownloader { get; private set; }
-
         protected MedalEvaluator MedalEvaluator { get; private set; }
 
         protected SkinManager SkinManager { get; private set; }
@@ -333,7 +331,6 @@ namespace osu.Game
             dependencies.CacheAs<IWorkingBeatmapCache>(BeatmapManager);
 
             dependencies.Cache(BeatmapDownloader = new BeatmapModelDownloader(BeatmapManager, API));
-            dependencies.Cache(ScoreDownloader = new ScoreModelDownloader(ScoreManager, API));
 
             // Add after all the above cache operations as it depends on them.
             base.Content.Add(difficultyCache);

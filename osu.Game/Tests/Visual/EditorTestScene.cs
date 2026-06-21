@@ -13,7 +13,6 @@ using osu.Framework.Screens;
 using osu.Framework.Testing;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
-using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Dialog;
 using osu.Game.Rulesets;
@@ -54,7 +53,7 @@ namespace osu.Game.Tests.Visual
             Add(logo);
 
             if (IsolateSavingFromDatabase)
-                Dependencies.CacheAs<BeatmapManager>(testBeatmapManager = new TestBeatmapManager(LocalStorage, Realm, rulesets, null, audio, Resources, host, Beatmap.Default));
+                Dependencies.CacheAs<BeatmapManager>(testBeatmapManager = new TestBeatmapManager(LocalStorage, Realm, audio, Resources, host, Beatmap.Default));
         }
 
         public override void SetUpSteps()
@@ -143,8 +142,8 @@ namespace osu.Game.Tests.Visual
         {
             public WorkingBeatmap TestBeatmap;
 
-            public TestBeatmapManager(Storage storage, RealmAccess realm, RulesetStore rulesets, IAPIProvider api, [NotNull] AudioManager audioManager, IResourceStore<byte[]> resources, GameHost host, WorkingBeatmap defaultBeatmap)
-                : base(storage, realm, api, audioManager, resources, host, defaultBeatmap)
+            public TestBeatmapManager(Storage storage, RealmAccess realm, [NotNull] AudioManager audioManager, IResourceStore<byte[]> gameResources, GameHost host, WorkingBeatmap defaultBeatmap)
+                : base(storage, realm, audioManager, gameResources, host, defaultBeatmap)
             {
             }
 

@@ -8,11 +8,11 @@ using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
 
-namespace osu.Game.Overlays.Settings.Sections.Online
+namespace osu.Game.Overlays.Settings.Sections.General
 {
     public partial class IntegrationSettings : SettingsSubsection
     {
-        protected override LocalisableString Header => OnlineSettingsStrings.IntegrationsHeader;
+        protected override LocalisableString Header => GeneralSettingsStrings.IntegrationsHeader;
 
         [BackgroundDependencyLoader]
         private void load(OsuConfigManager config)
@@ -21,7 +21,7 @@ namespace osu.Game.Overlays.Settings.Sections.Online
             {
                 new SettingsItemV2(new FormEnumDropdown<DiscordRichPresenceMode>
                 {
-                    Caption = OnlineSettingsStrings.DiscordRichPresence,
+                    Caption = GeneralSettingsStrings.DiscordRichPresence,
                     Current = config.GetBindable<DiscordRichPresenceMode>(OsuSetting.DiscordRichPresence)
                 }),
             };

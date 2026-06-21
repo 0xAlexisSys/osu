@@ -22,7 +22,6 @@ using osu.Game.Extensions;
 using osu.Game.IO.Archives;
 using osu.Game.Localisation;
 using osu.Game.Models;
-using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Rulesets;
@@ -48,7 +47,7 @@ namespace osu.Game.Beatmaps
 
         private readonly LegacyBeatmapExporter legacyBeatmapExporter;
 
-        public ProcessBeatmapDelegate? ProcessBeatmap { private get; set; }
+        public Action<BeatmapSetInfo>? ProcessBeatmap { private get; set; }
 
         public override bool PauseImports
         {
@@ -60,8 +59,8 @@ namespace osu.Game.Beatmaps
             }
         }
 
-        public BeatmapManager(Storage storage, RealmAccess realm, IAPIProvider? api, AudioManager audioManager, IResourceStore<byte[]> gameResources, GameHost? host = null,
-                              WorkingBeatmap? defaultBeatmap = null, BeatmapDifficultyCache? difficultyCache = null)
+        public BeatmapManager(Storage storage, RealmAccess realm, AudioManager audioManager, IResourceStore<byte[]> gameResources, GameHost? host = null,
+                              WorkingBeatmap? defaultBeatmap = null)
             : base(storage, realm)
         {
             var userResources = new RealmFileStore(realm, storage).Store;
@@ -69,7 +68,7 @@ namespace osu.Game.Beatmaps
             BeatmapTrackStore = audioManager.GetTrackStore(userResources);
 
             beatmapImporter = CreateBeatmapImporter(storage, realm);
-            beatmapImporter.ProcessBeatmap = (beatmapSet, queueUpdate) => ProcessBeatmap?.Invoke(beatmapSet, queueUpdate);
+            beatmapImporter.ProcessBeatmap = beatmapSet => ProcessBeatmap?.Invoke(beatmapSet);
             beatmapImporter.PostNotification = obj => PostNotification?.Invoke(obj);
 
             workingBeatmapCache = CreateWorkingBeatmapCache(audioManager, gameResources, userResources, defaultBeatmap, host);
@@ -549,9 +548,7 @@ namespace osu.Game.Beatmaps
                 liveBeatmapSet.Beatmaps.Single(b => b.ID == beatmapInfo.ID)
                               .UpdateLocalScores(r);
 
-                // do not look up metadata.
-                // this is a locally-modified set now, so looking up metadata is busy work at best and harmful at worst.
-                ProcessBeatmap?.Invoke(liveBeatmapSet, false);
+                ProcessBeatmap?.Invoke(liveBeatmapSet);
             });
 
             Debug.Assert(beatmapInfo.BeatmapSet != null);
@@ -670,11 +667,4 @@ namespace osu.Game.Beatmaps
 
         public override string HumanisedModelName => "beatmap";
     }
-
-    /// <summary>
-    /// Delegate type for beatmap processing callbacks.
-    /// </summary>
-    /// <param name="beatmapSet">The beatmap set to be processed.</param>
-    /// <param name="queueUpdate">If <see langword="true"/>, the beatmap set is updated.</param>
-    public delegate void ProcessBeatmapDelegate(BeatmapSetInfo beatmapSet, bool queueUpdate);
 }

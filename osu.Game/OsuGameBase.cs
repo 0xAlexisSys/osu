@@ -324,7 +324,7 @@ namespace osu.Game
             // ordering is important here to ensure foreign keys rules are not broken in ModelStore.Cleanup()
             dependencies.Cache(ScoreManager = new ScoreManager(RulesetStore, () => BeatmapManager, Storage, realm, API, LocalConfig));
 
-            dependencies.Cache(BeatmapManager = new BeatmapManager(Storage, realm, API, Audio, Resources, Host, defaultBeatmap, difficultyCache));
+            dependencies.Cache(BeatmapManager = new BeatmapManager(Storage, realm, Audio, Resources, Host, defaultBeatmap));
             dependencies.CacheAs<IWorkingBeatmapCache>(BeatmapManager);
 
             dependencies.Cache(BeatmapDownloader = new BeatmapModelDownloader(BeatmapManager, API));
@@ -336,11 +336,11 @@ namespace osu.Game
             base.Content.Add(MedalEvaluator);
 
             // TODO: OsuGame or OsuGameBase?
-            dependencies.CacheAs(beatmapUpdater = new BeatmapUpdater(BeatmapManager, difficultyCache, Storage));
+            dependencies.CacheAs(beatmapUpdater = new BeatmapUpdater(BeatmapManager, difficultyCache));
             dependencies.CacheAs(MultiplayerClient = new OnlineMultiplayerClient(endpoints));
             dependencies.CacheAs(metadataClient = new OnlineMetadataClient(endpoints));
 
-            BeatmapManager.ProcessBeatmap = (beatmapSet, queueUpdate) => beatmapUpdater.Process(beatmapSet, queueUpdate);
+            BeatmapManager.ProcessBeatmap = beatmapSet => beatmapUpdater.Process(beatmapSet);
 
             dependencies.Cache(userCache = new UserLookupCache());
             base.Content.Add(userCache);
@@ -781,8 +781,6 @@ namespace osu.Game
 
             RulesetStore?.Dispose();
             LocalConfig?.Dispose();
-
-            beatmapUpdater?.Dispose();
 
             realm?.Dispose();
 

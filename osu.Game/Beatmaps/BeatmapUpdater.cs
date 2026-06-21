@@ -1,50 +1,33 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Linq;
-using osu.Framework.Extensions.ObjectExtensions;
-using osu.Framework.Platform;
-using osu.Framework.Threading;
 using osu.Game.Database;
 using osu.Game.Rulesets.Objects.Types;
 
 namespace osu.Game.Beatmaps
 {
-    public class BeatmapUpdater : IDisposable
+    public class BeatmapUpdater
     {
         private readonly IWorkingBeatmapCache workingBeatmapCache;
-
         private readonly BeatmapDifficultyCache difficultyCache;
 
-        private readonly BeatmapUpdaterMetadataLookup metadataLookup;
-
-        private const int update_queue_request_concurrency = 4;
-
-        private readonly ThreadedTaskScheduler updateScheduler = new ThreadedTaskScheduler(update_queue_request_concurrency, nameof(BeatmapUpdaterMetadataLookup));
-
-        public BeatmapUpdater(IWorkingBeatmapCache workingBeatmapCache, BeatmapDifficultyCache difficultyCache, Storage storage)
+        public BeatmapUpdater(IWorkingBeatmapCache workingBeatmapCache, BeatmapDifficultyCache difficultyCache)
         {
             this.workingBeatmapCache = workingBeatmapCache;
             this.difficultyCache = difficultyCache;
-
-            metadataLookup = new BeatmapUpdaterMetadataLookup(storage);
         }
 
         /// <summary>
         /// Run all processing on a beatmap immediately.
         /// </summary>
         /// <param name="beatmapSet">The managed beatmap set to update. A transaction will be opened to apply changes.</param>
-        /// <param name="queueUpdate">If <see langword="true"/>, the beatmap set is updated.</param>
-        public void Process(BeatmapSetInfo beatmapSet, bool queueUpdate)
+        public void Process(BeatmapSetInfo beatmapSet)
         {
             beatmapSet.Realm!.Write(_ =>
             {
                 // Before we use below, we want to invalidate.
                 workingBeatmapCache.Invalidate(beatmapSet);
-
-                if (queueUpdate)
-                    metadataLookup.Update(beatmapSet);
 
                 foreach (BeatmapInfo beatmap in beatmapSet.Beatmaps)
                 {
@@ -85,18 +68,5 @@ namespace osu.Game.Beatmaps
                 workingBeatmapCache.Invalidate(beatmapInfo);
             });
         }
-
-        #region Implementation of IDisposable
-
-        public void Dispose()
-        {
-            if (metadataLookup.IsNotNull())
-                metadataLookup.Dispose();
-
-            if (updateScheduler.IsNotNull())
-                updateScheduler.Dispose();
-        }
-
-        #endregion
     }
 }

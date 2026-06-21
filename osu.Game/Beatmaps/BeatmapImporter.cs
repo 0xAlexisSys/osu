@@ -33,7 +33,7 @@ namespace osu.Game.Beatmaps
 
         protected override string[] HashableFileTypes => new[] { ".osu" };
 
-        public ProcessBeatmapDelegate? ProcessBeatmap { private get; set; }
+        public Action<BeatmapSetInfo>? ProcessBeatmap { private get; set; }
 
         public BeatmapImporter(Storage storage, RealmAccess realm)
             : base(storage, realm)
@@ -64,7 +64,7 @@ namespace osu.Game.Beatmaps
                     s.DateAdded = originalDateAdded;
 
                     // Re-run processing even in this case. We might have outdated metadata.
-                    ProcessBeatmap?.Invoke(s, true);
+                    ProcessBeatmap?.Invoke(s);
                 });
                 return first;
             }
@@ -183,7 +183,7 @@ namespace osu.Game.Beatmaps
                 beatmap.UpdateLocalScores(realm);
             }
 
-            ProcessBeatmap?.Invoke(model, true);
+            ProcessBeatmap?.Invoke(model);
         }
 
         protected override bool CanSkipImport(BeatmapSetInfo existing, BeatmapSetInfo import)

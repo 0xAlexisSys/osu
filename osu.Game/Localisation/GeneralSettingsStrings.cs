@@ -30,6 +30,31 @@ namespace osu.Game.Localisation
         public static LocalisableString Prefer24HourTimeDisplay => new TranslatableString(getKey(@"prefer_24_hour_time_display"), @"Prefer 24-hour time display");
 
         /// <summary>
+        /// "Integrations"
+        /// </summary>
+        public static LocalisableString IntegrationsHeader => new TranslatableString(getKey(@"integrations_header"), @"Integrations");
+
+        /// <summary>
+        /// "Discord Rich Presence"
+        /// </summary>
+        public static LocalisableString DiscordRichPresence => new TranslatableString(getKey(@"discord_rich_presence"), @"Discord Rich Presence");
+
+        /// <summary>
+        /// "Hide identifiable information"
+        /// </summary>
+        public static LocalisableString HideIdentifiableInformation => new TranslatableString(getKey(@"hide_identifiable_information"), @"Hide identifiable information");
+
+        /// <summary>
+        /// "Full"
+        /// </summary>
+        public static LocalisableString DiscordPresenceFull => new TranslatableString(getKey(@"discord_presence_full"), @"Full");
+
+        /// <summary>
+        /// "Off"
+        /// </summary>
+        public static LocalisableString DiscordPresenceOff => new TranslatableString(getKey(@"discord_presence_off"), @"Off");
+
+        /// <summary>
         /// "Installation"
         /// </summary>
         public static LocalisableString InstallationHeader => new TranslatableString(getKey(@"installation_header"), @"Installation");

@@ -27,6 +27,7 @@ namespace osu.Game.Overlays.Settings.Sections
         {
             Add(new QuickActionSettings());
             Add(new LanguageSettings());
+            Add(new IntegrationSettings());
             if (updateManager?.CanCheckForUpdate == true)
                 Add(new UpdateSettings());
             if (RuntimeInfo.IsDesktop)

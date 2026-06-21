@@ -11,7 +11,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Input.Events;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.Containers;
@@ -60,7 +59,6 @@ namespace osu.Game.Overlays
 
         public void ShowWithSearch(string query)
         {
-            filterControl.Search(query);
             Show();
             ScrollFlow.ScrollToStart();
         }
@@ -68,25 +66,16 @@ namespace osu.Game.Overlays
         public void ShowWithGenreFilter(SearchGenre genre)
         {
             ShowWithSearch(string.Empty);
-            filterControl.FilterGenre(genre);
         }
 
         public void ShowWithLanguageFilter(SearchLanguage language)
         {
             ShowWithSearch(string.Empty);
-            filterControl.FilterLanguage(language);
         }
 
         protected override BeatmapListingHeader CreateHeader() => new BeatmapListingHeader();
 
         protected override Color4 BackgroundColour => ColourProvider.Background6;
-
-        protected override void OnFocus(FocusEvent e)
-        {
-            base.OnFocus(e);
-
-            filterControl.TakeFocus();
-        }
 
         public partial class NotFoundDrawable : CompositeDrawable
         {

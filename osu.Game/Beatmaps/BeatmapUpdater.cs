@@ -1,20 +1,17 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using osu.Framework.Extensions.ObjectExtensions;
-using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Framework.Threading;
 using osu.Game.Database;
-using osu.Game.Online.API;
 using osu.Game.Rulesets.Objects.Types;
 
 namespace osu.Game.Beatmaps
 {
-    public class BeatmapUpdater : IBeatmapUpdater
+    public class BeatmapUpdater : IDisposable
     {
         private readonly IWorkingBeatmapCache workingBeatmapCache;
 
@@ -26,30 +23,28 @@ namespace osu.Game.Beatmaps
 
         private readonly ThreadedTaskScheduler updateScheduler = new ThreadedTaskScheduler(update_queue_request_concurrency, nameof(BeatmapUpdaterMetadataLookup));
 
-        public BeatmapUpdater(IWorkingBeatmapCache workingBeatmapCache, BeatmapDifficultyCache difficultyCache, IAPIProvider api, Storage storage)
+        public BeatmapUpdater(IWorkingBeatmapCache workingBeatmapCache, BeatmapDifficultyCache difficultyCache, Storage storage)
         {
             this.workingBeatmapCache = workingBeatmapCache;
             this.difficultyCache = difficultyCache;
 
-            metadataLookup = new BeatmapUpdaterMetadataLookup(api, storage);
+            metadataLookup = new BeatmapUpdaterMetadataLookup(storage);
         }
 
-        public void Queue(Live<BeatmapSetInfo> beatmapSet, MetadataLookupScope lookupScope = MetadataLookupScope.LocalCacheFirst)
-        {
-            Logger.Log($"Queueing change for local beatmap {beatmapSet}");
-            Task.Factory.StartNew(() => beatmapSet.PerformRead(b => Process(b, lookupScope)), CancellationToken.None, TaskCreationOptions.HideScheduler | TaskCreationOptions.RunContinuationsAsynchronously,
-                updateScheduler);
-        }
-
-        public void Process(BeatmapSetInfo beatmapSet, MetadataLookupScope lookupScope = MetadataLookupScope.LocalCacheFirst)
+        /// <summary>
+        /// Run all processing on a beatmap immediately.
+        /// </summary>
+        /// <param name="beatmapSet">The managed beatmap set to update. A transaction will be opened to apply changes.</param>
+        /// <param name="queueUpdate">If <see langword="true"/>, the beatmap set is updated.</param>
+        public void Process(BeatmapSetInfo beatmapSet, bool queueUpdate)
         {
             beatmapSet.Realm!.Write(_ =>
             {
                 // Before we use below, we want to invalidate.
                 workingBeatmapCache.Invalidate(beatmapSet);
 
-                if (lookupScope != MetadataLookupScope.None)
-                    metadataLookup.Update(beatmapSet, lookupScope == MetadataLookupScope.OnlineFirst);
+                if (queueUpdate)
+                    metadataLookup.Update(beatmapSet);
 
                 foreach (BeatmapInfo beatmap in beatmapSet.Beatmaps)
                 {
@@ -69,7 +64,11 @@ namespace osu.Game.Beatmaps
             });
         }
 
-        public void ProcessObjectCounts(BeatmapInfo beatmapInfo, MetadataLookupScope lookupScope = MetadataLookupScope.LocalCacheFirst)
+        /// <summary>
+        /// Runs a subset of processing focused on updating any cached beatmap object counts.
+        /// </summary>
+        /// <param name="beatmapInfo">The managed beatmap to update. A transaction will be opened to apply changes.</param>
+        public void ProcessObjectCounts(BeatmapInfo beatmapInfo)
         {
             beatmapInfo.Realm!.Write(_ =>
             {

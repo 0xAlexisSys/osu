@@ -13,9 +13,6 @@ namespace osu.Game.Online.API.Requests.Responses
 {
     public class APIBeatmapSet : IBeatmapSetOnlineInfo, IBeatmapSetInfo
     {
-        [JsonProperty(@"covers")]
-        public BeatmapSetOnlineCovers Covers { get; set; }
-
         [JsonProperty(@"id")]
         public int OnlineID { get; set; }
 
@@ -45,12 +42,6 @@ namespace osu.Game.Online.API.Requests.Responses
 
         [JsonProperty(@"track_id")]
         public int? TrackId { get; set; }
-
-        [JsonProperty(@"hype")]
-        public BeatmapSetHypeStatus? HypeStatus { get; set; }
-
-        [JsonProperty(@"nominations_summary")]
-        public BeatmapSetNominationStatus? NominationStatus { get; set; }
 
         public string Title { get; set; } = string.Empty;
 
@@ -112,18 +103,6 @@ namespace osu.Game.Online.API.Requests.Responses
             get => Author.Username;
             set => Author.Username = value;
         }
-
-        [JsonProperty(@"availability")]
-        public BeatmapSetOnlineAvailability Availability { get; set; }
-
-        [JsonProperty(@"genre")]
-        public BeatmapSetOnlineGenre Genre { get; set; }
-
-        [JsonProperty(@"language")]
-        public BeatmapSetOnlineLanguage Language { get; set; }
-
-        [JsonProperty(@"current_nominations")]
-        public BeatmapSetOnlineNomination[]? CurrentNominations { get; set; }
 
         [JsonProperty(@"related_users")]
         public APIUser[]? RelatedUsers { get; set; }

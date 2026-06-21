@@ -45,7 +45,7 @@ namespace osu.Game.Database
         private RealmAccess realmAccess { get; set; } = null!;
 
         [Resolved]
-        private IBeatmapUpdater beatmapUpdater { get; set; } = null!;
+        private BeatmapUpdater beatmapUpdater { get; set; } = null!;
 
         [Resolved]
         private IBindable<WorkingBeatmap> gameBeatmap { get; set; } = null!;

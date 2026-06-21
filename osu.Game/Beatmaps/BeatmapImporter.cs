@@ -64,7 +64,7 @@ namespace osu.Game.Beatmaps
                     s.DateAdded = originalDateAdded;
 
                     // Re-run processing even in this case. We might have outdated metadata.
-                    ProcessBeatmap?.Invoke(s, MetadataLookupScope.OnlineFirst);
+                    ProcessBeatmap?.Invoke(s, true);
                 });
                 return first;
             }
@@ -183,7 +183,7 @@ namespace osu.Game.Beatmaps
                 beatmap.UpdateLocalScores(realm);
             }
 
-            ProcessBeatmap?.Invoke(model, parameters.Batch ? MetadataLookupScope.LocalCacheFirst : MetadataLookupScope.OnlineFirst);
+            ProcessBeatmap?.Invoke(model, true);
         }
 
         protected override bool CanSkipImport(BeatmapSetInfo existing, BeatmapSetInfo import)

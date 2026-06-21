@@ -274,15 +274,7 @@ namespace osu.Game.Tests.Visual
 
             var result = new APIBeatmapSet
             {
-                Genre = new BeatmapSetOnlineGenre { Id = 15, Name = "Future genre" },
-                Language = new BeatmapSetOnlineLanguage { Id = 15, Name = "Future language" },
                 OnlineID = original.BeatmapSet.OnlineID,
-                Covers = new BeatmapSetOnlineCovers
-                {
-                    Cover = "https://assets.ppy.sh/beatmaps/163112/covers/cover.jpg",
-                    Card = "https://assets.ppy.sh/beatmaps/163112/covers/card.jpg",
-                    List = "https://assets.ppy.sh/beatmaps/163112/covers/list.jpg"
-                },
                 Title = original.Metadata.Title,
                 TitleUnicode = original.Metadata.TitleUnicode,
                 Artist = original.Metadata.Artist,
@@ -340,17 +332,6 @@ namespace osu.Game.Tests.Visual
                         PlayCount = 222,
                         BPM = original.BPM,
                         PassCount = 21,
-                        FailTimes = new APIFailTimes
-                        {
-                            Fails = Enumerable.Range(1, 100).Select(i => i % 12 - 6).ToArray(),
-                            Retries = Enumerable.Range(-2, 100).Select(i => i % 12 - 6).ToArray(),
-                        },
-                        TopTags =
-                        [
-                            new APIBeatmapTag { TagId = 4, VoteCount = 1 },
-                            new APIBeatmapTag { TagId = 2, VoteCount = 1 },
-                            new APIBeatmapTag { TagId = 23, VoteCount = 5 },
-                        ],
                     }
                 }
             };

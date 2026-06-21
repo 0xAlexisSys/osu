@@ -24,11 +24,6 @@ namespace osu.Game.Beatmaps
         bool HasStoryboard { get; }
 
         /// <summary>
-        /// The different sizes of cover art for this beatmap set.
-        /// </summary>
-        BeatmapSetOnlineCovers Covers { get; }
-
-        /// <summary>
         /// A small sample clip of this beatmap set's song.
         /// </summary>
         string Preview { get; }
@@ -44,21 +39,6 @@ namespace osu.Game.Beatmaps
         bool HasFavourited { get; }
 
         /// <summary>
-        /// The availability of this beatmap set.
-        /// </summary>
-        BeatmapSetOnlineAvailability Availability { get; }
-
-        /// <summary>
-        /// The song genre of this beatmap set.
-        /// </summary>
-        BeatmapSetOnlineGenre Genre { get; }
-
-        /// <summary>
-        /// The song language of this beatmap set.
-        /// </summary>
-        BeatmapSetOnlineLanguage Language { get; }
-
-        /// <summary>
         /// The track ID of this beatmap set.
         /// Non-null only if the track is linked to a featured artist track entry.
         /// </summary>
@@ -68,19 +48,5 @@ namespace osu.Game.Beatmaps
         /// Total vote counts of user ratings on a scale of 0..10 where 0 is unused (probably will be fixed at API?).
         /// </summary>
         int[]? Ratings { get; }
-
-        /// <summary>
-        /// Contains the current hype status of the beatmap set.
-        /// Non-null only for <see cref="BeatmapOnlineStatus.WIP"/>, <see cref="BeatmapOnlineStatus.Pending"/>, and <see cref="BeatmapOnlineStatus.Qualified"/> sets.
-        /// </summary>
-        /// <remarks>
-        /// See: https://github.com/ppy/osu-web/blob/93930cd02cfbd49724929912597c727c9fbadcd1/app/Models/Beatmapset.php#L155
-        /// </remarks>
-        BeatmapSetHypeStatus? HypeStatus { get; }
-
-        /// <summary>
-        /// Contains the current nomination status of the beatmap set.
-        /// </summary>
-        BeatmapSetNominationStatus? NominationStatus { get; }
     }
 }

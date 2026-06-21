@@ -23,11 +23,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
                     new Drawable?[]
                     {
                         null,
-                        new MultiplayerSpectateButton
-                        {
-                            RelativeSizeAxes = Axes.Both,
-                        },
-                        null,
                         new MatchStartControl
                         {
                             RelativeSizeAxes = Axes.Both,

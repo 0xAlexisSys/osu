@@ -38,7 +38,7 @@ namespace osu.Game.Overlays.Settings.Sections.Online
                     Current = config.GetBindable<bool>(OsuSetting.AutomaticallyDownloadMissingBeatmaps),
                 })
                 {
-                    Keywords = new[] { "spectator", "replay" },
+                    Keywords = new[] { "replay" },
                 },
                 new SettingsItemV2(new FormCheckBox
                 {

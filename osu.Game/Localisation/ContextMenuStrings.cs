@@ -25,11 +25,6 @@ namespace osu.Game.Localisation
         public static LocalisableString InvitePlayer => new TranslatableString(getKey(@"invite_player"), @"Invite to room");
 
         /// <summary>
-        /// "Spectate"
-        /// </summary>
-        public static LocalisableString SpectatePlayer => new TranslatableString(getKey(@"spectate_player"), @"Spectate");
-
-        /// <summary>
         /// "Are you sure you want to block {0}?"
         /// </summary>
         public static LocalisableString ConfirmBlockUser(string username) => new TranslatableString(getKey(@"confirm_block_user"), @"Are you sure you want to block {0}?", username);

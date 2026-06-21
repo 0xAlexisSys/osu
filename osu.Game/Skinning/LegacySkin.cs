@@ -385,7 +385,6 @@ namespace osu.Game.Skinning
                                 return new DefaultSkinComponentsContainer(container =>
                                 {
                                     var combo = container.OfType<LegacyDefaultComboCounter>().FirstOrDefault();
-                                    var spectatorList = container.OfType<SpectatorList>().FirstOrDefault();
                                     var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
                                     Vector2 pos = new Vector2();
@@ -399,13 +398,6 @@ namespace osu.Game.Skinning
                                         pos += new Vector2(10, -(combo.DrawHeight * 1.56f + 20) * combo.Scale.X);
                                     }
 
-                                    if (spectatorList != null)
-                                    {
-                                        spectatorList.Anchor = Anchor.BottomLeft;
-                                        spectatorList.Origin = Anchor.BottomLeft;
-                                        spectatorList.Position = pos;
-                                    }
-
                                     if (leaderboard != null)
                                     {
                                         leaderboard.Anchor = Anchor.CentreLeft;
@@ -417,9 +409,11 @@ namespace osu.Game.Skinning
                                         d.UsesFixedAnchor = true;
                                 })
                                 {
-                                    new LegacyDefaultComboCounter(),
-                                    new SpectatorList(),
-                                    new DrawableGameplayLeaderboard(),
+                                    Children = new Drawable[]
+                                    {
+                                        new LegacyDefaultComboCounter(),
+                                        new DrawableGameplayLeaderboard(),
+                                    },
                                 };
                             }
 

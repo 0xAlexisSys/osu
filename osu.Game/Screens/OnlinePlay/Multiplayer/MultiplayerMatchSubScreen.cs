@@ -37,7 +37,6 @@ using osu.Game.Screens.OnlinePlay.Match.Components;
 using osu.Game.Screens.OnlinePlay.Multiplayer.Match;
 using osu.Game.Screens.OnlinePlay.Multiplayer.Match.Playlist;
 using osu.Game.Screens.OnlinePlay.Multiplayer.Participants;
-using osu.Game.Screens.OnlinePlay.Multiplayer.Spectate;
 using osu.Game.Screens.OnlinePlay.Playlists;
 using osu.Game.Users;
 using osu.Game.Utils;
@@ -578,16 +577,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer
 
             // fallback is to allow this class to operate when there is no parent OnlineScreen (testing purposes).
             var targetScreen = (Screen?)parentScreen ?? this;
-
-            switch (client.LocalUser.State)
-            {
-                case MultiplayerUserState.Spectating:
-                    targetScreen.Push(new MultiSpectatorScreen(room, users.Take(PlayerGrid.MAX_PLAYERS).ToArray()));
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         private void onMatchEvent(MatchServerEvent ev)
@@ -616,10 +605,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer
             {
                 case DownloadState.LocallyAvailable:
                     updateGameplayState();
-
-                    // Optimistically enter spectator if the match is in progress while spectating.
-                    if (client.LocalUser.State == MultiplayerUserState.Spectating && (client.Room.State == MultiplayerRoomState.WaitingForLoad || client.Room.State == MultiplayerRoomState.Playing))
-                        onLoadRequested();
                     break;
 
                 case DownloadState.NotDownloaded:

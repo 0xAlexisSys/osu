@@ -14,7 +14,6 @@ using osu.Game.Localisation;
 using osu.Game.Rulesets.Judgements;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Objects;
-using osu.Game.Rulesets.Replays;
 using osu.Game.Scoring;
 
 namespace osu.Game.Rulesets.Scoring
@@ -45,11 +44,6 @@ namespace osu.Game.Rulesets.Scoring
         /// Should only be disabled for special cases.
         /// When disabled, <see cref="JudgementProcessor.RevertResult"/> cannot be used.</remarks>
         internal bool TrackHitEvents = true;
-
-        /// <summary>
-        /// Invoked when this <see cref="ScoreProcessor"/> was reset from a replay frame.
-        /// </summary>
-        public event Action? OnResetFromReplayFrame;
 
         /// <summary>
         /// The current total score.
@@ -510,27 +504,6 @@ namespace osu.Game.Rulesets.Scoring
             rank.Value = ScoreRank.F;
 
             PopulateScore(score);
-        }
-
-        public override void ResetFromReplayFrame(ReplayFrame frame)
-        {
-            base.ResetFromReplayFrame(frame);
-
-            if (frame.Header == null)
-                return;
-
-            Combo.Value = frame.Header.Combo;
-            HighestCombo.Value = frame.Header.MaxCombo;
-            TotalScore.Value = frame.Header.TotalScore;
-
-            ScoreResultCounts.Clear();
-            ScoreResultCounts.AddRange(frame.Header.Statistics);
-
-            SetScoreProcessorStatistics(frame.Header.ScoreProcessorStatistics);
-
-            updateScore();
-
-            OnResetFromReplayFrame?.Invoke();
         }
 
         public ScoreProcessorStatistics GetScoreProcessorStatistics() => new ScoreProcessorStatistics

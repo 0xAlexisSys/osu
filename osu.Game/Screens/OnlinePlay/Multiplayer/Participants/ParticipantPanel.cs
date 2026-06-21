@@ -292,7 +292,7 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Participants
 
             userStateDisplay.UpdateStatus(current.Value);
 
-            if (!slot.IsEmpty && slot.User.BeatmapAvailability.State == DownloadState.LocallyAvailable && slot.User.State != MultiplayerUserState.Spectating)
+            if (!slot.IsEmpty && slot.User.BeatmapAvailability.State == DownloadState.LocallyAvailable)
             {
                 userModsDisplay.FadeIn(fade_time);
                 userStyleDisplay.FadeIn(fade_time);

@@ -113,21 +113,12 @@ namespace osu.Game.Skinning
                                 {
                                     var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
                                     var comboCounter = container.OfType<ArgonComboCounter>().FirstOrDefault();
-                                    var spectatorList = container.OfType<SpectatorList>().FirstOrDefault();
 
                                     if (leaderboard != null)
                                         leaderboard.Position = new Vector2(36, 115);
 
-                                    Vector2 pos = new Vector2(36, -66);
-
                                     if (comboCounter != null)
-                                    {
-                                        comboCounter.Position = pos;
-                                        pos -= new Vector2(0, comboCounter.DrawHeight * 1.4f + 20);
-                                    }
-
-                                    if (spectatorList != null)
-                                        spectatorList.Position = pos;
+                                        comboCounter.Position = new Vector2(36, -66);
 
                                     foreach (var d in container.OfType<ISerialisableDrawable>())
                                         d.UsesFixedAnchor = true;
@@ -143,12 +134,7 @@ namespace osu.Game.Skinning
                                             Origin = Anchor.BottomLeft,
                                             Scale = new Vector2(1.3f),
                                         },
-                                        new SpectatorList
-                                        {
-                                            Anchor = Anchor.BottomLeft,
-                                            Origin = Anchor.BottomLeft,
-                                        }
-                                    },
+                                    }
                                 };
                             }
 

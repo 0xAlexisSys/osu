@@ -8,7 +8,6 @@ namespace osu.Game.Online.Chat
         Public,
         Private,
         Multiplayer,
-        Spectator,
         Temporary,
         PM,
         Group,

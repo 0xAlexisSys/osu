@@ -223,10 +223,6 @@ namespace osu.Game.Online.Chat
                             linkType = LinkAction.OpenBeatmapSet;
                             break;
 
-                        case @"spectate":
-                            linkType = LinkAction.Spectate;
-                            break;
-
                         case @"u":
                             return getUserLink(args[2]);
 
@@ -338,7 +334,6 @@ namespace osu.Game.Online.Chat
         OpenChannel,
         OpenEditorTimestamp,
         JoinRoom,
-        Spectate,
         OpenUserProfile,
         SearchBeatmapSet,
         OpenWiki,

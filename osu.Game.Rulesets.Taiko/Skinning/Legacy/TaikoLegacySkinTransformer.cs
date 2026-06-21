@@ -50,7 +50,6 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                             return new DefaultSkinComponentsContainer(container =>
                             {
                                 var combo = container.OfType<LegacyDefaultComboCounter>().FirstOrDefault();
-                                var spectatorList = container.OfType<SpectatorList>().FirstOrDefault();
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
                                 Vector2 pos = new Vector2();
@@ -73,20 +72,15 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                                     pos += new Vector2(10 + leaderboard.Width, -leaderboard.Height);
                                 }
 
-                                if (spectatorList != null)
-                                {
-                                    spectatorList.Anchor = Anchor.BottomLeft;
-                                    spectatorList.Origin = Anchor.TopLeft;
-                                    spectatorList.Position = pos;
-                                }
-
                                 foreach (var d in container.OfType<ISerialisableDrawable>())
                                     d.UsesFixedAnchor = true;
                             })
                             {
-                                new LegacyDefaultComboCounter(),
-                                new SpectatorList(),
-                                new DrawableGameplayLeaderboard(),
+                                Children = new Drawable[]
+                                {
+                                    new LegacyDefaultComboCounter(),
+                                    new DrawableGameplayLeaderboard(),
+                                },
                             };
                     }
 

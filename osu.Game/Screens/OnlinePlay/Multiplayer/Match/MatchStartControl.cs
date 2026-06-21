@@ -135,7 +135,7 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
             else if (client.Room.State != MultiplayerRoomState.Closed)
                 toggleReady();
 
-            bool isReady() => client.LocalUser?.State == MultiplayerUserState.Ready || client.LocalUser?.State == MultiplayerUserState.Spectating;
+            bool isReady() => client.LocalUser?.State == MultiplayerUserState.Ready;
 
             void toggleReady() => client.ToggleReady().FireAndForget(
                 onSuccess: endOperation,
@@ -198,7 +198,7 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
             var localUser = client.LocalUser;
 
             int newCountReady = client.Room.Users.Count(u => u.Role == MultiplayerRoomUserRole.Player && u.State == MultiplayerUserState.Ready);
-            int newCountTotal = client.Room.Users.Count(u => u.Role == MultiplayerRoomUserRole.Player && u.State != MultiplayerUserState.Spectating);
+            int newCountTotal = client.Room.Users.Count(u => u.Role == MultiplayerRoomUserRole.Player && u.State != MultiplayerUserState.Ready);
 
             if ((!client.IsHost && !client.IsReferee) || client.Room.Settings.AutoStartEnabled || client.Room.State != MultiplayerRoomState.Open)
                 countdownButton.Hide();
@@ -211,7 +211,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
                         break;
 
                     case MultiplayerUserState.Idle:
-                    case MultiplayerUserState.Spectating:
                     case MultiplayerUserState.Ready:
                         countdownButton.Show();
                         break;
@@ -222,10 +221,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
                 client.Room.State != MultiplayerRoomState.Closed
                 && !client.Room.CurrentPlaylistItem.Expired
                 && !operationInProgress.Value;
-
-            // When the local user is the host and spectating the match, the ready button should be enabled only if any users are ready.
-            if (localUser?.State == MultiplayerUserState.Spectating)
-                readyButton.Enabled.Value &= (client.IsHost || client.IsReferee) && newCountReady > 0 && currentMatchStartCountdown == null;
 
             // When the local user is not the host or a referee, the button should only be enabled when no match is in progress.
             if (!client.IsHost && !client.IsReferee)

@@ -33,7 +33,6 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
                             {
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
                                 var comboCounter = container.OfType<ArgonComboCounter>().FirstOrDefault();
-                                var spectatorList = container.OfType<SpectatorList>().FirstOrDefault();
 
                                 if (leaderboard != null)
                                 {
@@ -44,13 +43,6 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
 
                                 if (comboCounter != null)
                                     comboCounter.Position = new Vector2(36, -66);
-
-                                if (spectatorList != null)
-                                {
-                                    spectatorList.Position = new Vector2(320, -280);
-                                    spectatorList.Anchor = Anchor.BottomLeft;
-                                    spectatorList.Origin = Anchor.TopLeft;
-                                }
 
                                 foreach (var d in container.OfType<ISerialisableDrawable>())
                                     d.UsesFixedAnchor = true;
@@ -66,11 +58,6 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
                                         Origin = Anchor.BottomLeft,
                                         Scale = new Vector2(1.3f),
                                     },
-                                    new SpectatorList
-                                    {
-                                        Anchor = Anchor.BottomLeft,
-                                        Origin = Anchor.BottomLeft,
-                                    }
                                 },
                             };
                     }

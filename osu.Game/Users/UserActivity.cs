@@ -172,20 +172,6 @@ namespace osu.Game.Users
         }
 
         [MessagePackObject]
-        public class SpectatingUser : WatchingReplay
-        {
-            public SpectatingUser(ScoreInfo score)
-                : base(score)
-            {
-            }
-
-            [SerializationConstructor]
-            public SpectatingUser() { }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => hideIdentifiableInformation ? @"Spectating a user" : $@"Spectating {PlayerName}";
-        }
-
-        [MessagePackObject]
         public class SearchingForLobby : UserActivity
         {
             public override string GetStatus(bool hideIdentifiableInformation = false) => @"Looking for a lobby";

@@ -490,14 +490,6 @@ namespace osu.Game
                     HandleTimestamp(argString);
                     break;
 
-                case LinkAction.Spectate:
-                    waitForReady(() => Notifications, _ => Notifications.Post(new SimpleNotification
-                    {
-                        Text = NotificationsStrings.LinkTypeNotSupported,
-                        Icon = FontAwesome.Solid.LifeRing,
-                    }));
-                    break;
-
                 case LinkAction.External:
                     OpenUrlExternally(argString);
                     break;
@@ -1097,7 +1089,6 @@ namespace osu.Game
 
             loadComponentSingleFile(statisticsProvider = new LocalUserStatisticsProvider(), Add, true);
             loadComponentSingleFile(difficultyRecommender = new DifficultyRecommender(statisticsProvider), Add, true);
-            loadComponentSingleFile(new UserStatisticsWatcher(statisticsProvider), Add, true);
             loadComponentSingleFile(Toolbar = new Toolbar
             {
                 OnHome = delegate

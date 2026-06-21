@@ -215,7 +215,6 @@ namespace osu.Game.Overlays
             switch (channel.Type)
             {
                 case ChannelType.Multiplayer:
-                case ChannelType.Spectator:
                 case ChannelType.Temporary:
                     return false;
 

@@ -32,7 +32,6 @@ namespace osu.Game.Screens.Backgrounds
         private Bindable<Skin> skin;
         private Bindable<BackgroundSource> source;
         private Bindable<IntroSequence> introSequence;
-        private readonly SeasonalBackgroundLoader seasonalBackgroundLoader = new SeasonalBackgroundLoader();
 
         [Resolved]
         private IBindable<WorkingBeatmap> beatmap { get; set; }
@@ -49,8 +48,6 @@ namespace osu.Game.Screens.Backgrounds
             skin = skinManager.CurrentSkin.GetBoundCopy();
             source = config.GetBindable<BackgroundSource>(OsuSetting.MenuBackgroundSource);
             introSequence = config.GetBindable<IntroSequence>(OsuSetting.IntroSequence);
-
-            AddInternal(seasonalBackgroundLoader);
         }
 
         protected override void LoadComplete()
@@ -62,7 +59,6 @@ namespace osu.Game.Screens.Backgrounds
             source.ValueChanged += _ => Scheduler.AddOnce(next);
             beatmap.ValueChanged += _ => Scheduler.AddOnce(next);
             introSequence.ValueChanged += _ => Scheduler.AddOnce(next);
-            seasonalBackgroundLoader.SeasonalBackgroundChanged += () => Scheduler.AddOnce(next);
 
             currentDisplay = RNG.Next(0, background_count);
             Next();
@@ -140,40 +136,36 @@ namespace osu.Game.Screens.Backgrounds
 
         private Background createBackground()
         {
-            // seasonal background loading gets highest priority.
-            Background newBackground = seasonalBackgroundLoader.LoadNextBackground();
+            Background newBackground = null;
 
-            if (newBackground == null)
+            switch (source.Value)
             {
-                switch (source.Value)
+                case BackgroundSource.Beatmap:
+                case BackgroundSource.BeatmapWithStoryboard:
                 {
-                    case BackgroundSource.Beatmap:
-                    case BackgroundSource.BeatmapWithStoryboard:
-                    {
-                        if (source.Value == BackgroundSource.BeatmapWithStoryboard && AllowStoryboardBackground)
-                            newBackground = new BeatmapBackgroundWithStoryboard(beatmap.Value, getBackgroundTextureName());
-                        newBackground ??= new BeatmapBackground(beatmap.Value, getBackgroundTextureName());
+                    if (source.Value == BackgroundSource.BeatmapWithStoryboard && AllowStoryboardBackground)
+                        newBackground = new BeatmapBackgroundWithStoryboard(beatmap.Value, getBackgroundTextureName());
+                    newBackground ??= new BeatmapBackground(beatmap.Value, getBackgroundTextureName());
 
-                        break;
+                    break;
+                }
+
+                case BackgroundSource.Skin:
+                    switch (skin.Value)
+                    {
+                        case TrianglesSkin:
+                        case ArgonSkin:
+                        case DefaultLegacySkin:
+                        case RetroSkin:
+                            // default skins should use the default background rotation, which won't be the case if a SkinBackground is created for them.
+                            break;
+
+                        default:
+                            newBackground = new SkinBackground(skin.Value, getBackgroundTextureName());
+                            break;
                     }
 
-                    case BackgroundSource.Skin:
-                        switch (skin.Value)
-                        {
-                            case TrianglesSkin:
-                            case ArgonSkin:
-                            case DefaultLegacySkin:
-                            case RetroSkin:
-                                // default skins should use the default background rotation, which won't be the case if a SkinBackground is created for them.
-                                break;
-
-                            default:
-                                newBackground = new SkinBackground(skin.Value, getBackgroundTextureName());
-                                break;
-                        }
-
-                        break;
-                }
+                    break;
             }
 
             // this method is called in many cases where the background might not necessarily need to change.

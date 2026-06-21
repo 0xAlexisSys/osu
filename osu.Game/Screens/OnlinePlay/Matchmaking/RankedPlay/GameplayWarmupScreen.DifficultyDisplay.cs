@@ -204,7 +204,7 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
 
                 difficultyText.Text = beatmap.DifficultyName;
                 mapperText.Text = beatmap.Metadata.Author.Username;
-                starRatingDisplay.Current.Value = new StarDifficulty(beatmap.StarRating, beatmap.MaxCombo ?? 0);
+                starRatingDisplay.Current.Value = new StarDifficulty(beatmap.StarRating);
 
                 countStatisticsDisplay.Statistics = playableBeatmap.GetStatistics()
                                                                    .Select(s => new BeatmapTitleWedge.StatisticDifficulty.Data(s.Name, s.BarDisplayLength ?? 0, s.BarDisplayLength ?? 0, 1, s.Content))

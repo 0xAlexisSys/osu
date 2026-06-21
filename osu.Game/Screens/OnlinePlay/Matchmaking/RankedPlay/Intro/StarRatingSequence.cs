@@ -138,7 +138,7 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay.Intro
 
                 if (i > 0 && i % 10 == 0)
                 {
-                    var starRatingDisplay = new StarRatingDisplay(new StarDifficulty(difficulty, 0), StarRatingDisplaySize.Small)
+                    var starRatingDisplay = new StarRatingDisplay(new StarDifficulty(difficulty), StarRatingDisplaySize.Small)
                     {
                         RelativePositionAxes = Axes.X,
                         X = difficulty / 10f,

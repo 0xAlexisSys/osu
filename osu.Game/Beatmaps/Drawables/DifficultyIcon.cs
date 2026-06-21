@@ -72,7 +72,7 @@ namespace osu.Game.Beatmaps.Drawables
             this.mods = mods;
             this.ruleset = ruleset ?? beatmap.Ruleset;
 
-            Current.Value = new StarDifficulty(beatmap.StarRating, 0);
+            Current.Value = new StarDifficulty(beatmap.StarRating);
 
             AutoSizeAxes = Axes.Both;
             InternalChild = iconContainer = new Container { Size = new Vector2(20f) };

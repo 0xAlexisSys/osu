@@ -110,8 +110,8 @@ namespace osu.Game.Screens.OnlinePlay.Components
             if (room.DifficultyRange != null && room.Playlist.Count == 0)
             {
                 // When Playlist is empty (in lounge) we take retrieved range
-                minDifficulty = new StarDifficulty(room.DifficultyRange.Min, 0);
-                maxDifficulty = new StarDifficulty(room.DifficultyRange.Max, 0);
+                minDifficulty = new StarDifficulty(room.DifficultyRange.Min);
+                maxDifficulty = new StarDifficulty(room.DifficultyRange.Max);
             }
             else
             {
@@ -125,8 +125,8 @@ namespace osu.Game.Screens.OnlinePlay.Components
                                                                .OrderBy(b => b.StarRating)
                                                                .ToArray();
 
-                minDifficulty = new StarDifficulty(orderedDifficulties.Length > 0 ? orderedDifficulties[0].StarRating : 0, 0);
-                maxDifficulty = new StarDifficulty(orderedDifficulties.Length > 0 ? orderedDifficulties[^1].StarRating : 0, 0);
+                minDifficulty = new StarDifficulty(orderedDifficulties.Length > 0 ? orderedDifficulties[0].StarRating : 0);
+                maxDifficulty = new StarDifficulty(orderedDifficulties.Length > 0 ? orderedDifficulties[^1].StarRating : 0);
             }
 
             minDisplay.Current.Value = minDifficulty;

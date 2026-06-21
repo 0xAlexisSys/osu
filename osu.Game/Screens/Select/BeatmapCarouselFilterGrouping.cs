@@ -332,7 +332,7 @@ namespace osu.Game.Screens.Select
         {
             // truncation is intentional - compare `FormatUtils.FormatStarRating()`
             int starInt = (int)stars;
-            var starDifficulty = new StarDifficulty(starInt, 0);
+            var starDifficulty = new StarDifficulty(starInt);
 
             if (starInt == 0)
                 return new StarDifficultyGroupDefinition(0, "Below 1 Star", starDifficulty).Yield();
@@ -343,7 +343,7 @@ namespace osu.Game.Screens.Select
             if (starInt < 15)
                 return new StarDifficultyGroupDefinition(starInt, $"{starInt} Stars", starDifficulty).Yield();
 
-            return new StarDifficultyGroupDefinition(15, "Over 15 Stars", new StarDifficulty(15, 0)).Yield();
+            return new StarDifficultyGroupDefinition(15, "Over 15 Stars", new StarDifficulty(15)).Yield();
         }
 
         private IEnumerable<GroupDefinition> defineGroupByLength(double length)

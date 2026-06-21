@@ -64,7 +64,7 @@ namespace osu.Game.Screens.Ranking.Expanded
             var metadata = beatmap.BeatmapSet?.Metadata ?? beatmap.Metadata;
             string creator = metadata.Author.Username;
 
-            StarDifficulty starDifficulty = new StarDifficulty(beatmap.StarRating, 0);
+            StarDifficulty starDifficulty = new StarDifficulty(beatmap.StarRating);
 
             // In some cases, the beatmap ferried through ScoreInfo actually represents an online beatmap.
             // If it isn't, we may be able to compute a more accurate difficulty from the ruleset and mods.

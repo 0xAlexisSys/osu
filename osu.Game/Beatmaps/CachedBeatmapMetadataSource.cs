@@ -306,7 +306,6 @@ namespace osu.Game.Beatmaps
                 FROM `osu_beatmaps` AS `b`
                 JOIN `osu_beatmapsets` AS `s` ON `s`.`beatmapset_id` = `b`.`beatmapset_id`
                 WHERE (`b`.`checksum` = @MD5Hash OR `b`.`filename` = @Path)
-                AND `b`.`approved` in (1, 2, 4)
                 """;
             // approved conditional can theoretically be removed as it was fixed in
             // https://github.com/ppy/osu-onlinedb-generator/commit/489ac000775c3ff63bc914efb83cad0f6fbde261

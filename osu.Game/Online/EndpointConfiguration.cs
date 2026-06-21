@@ -34,11 +34,6 @@ namespace osu.Game.Online
         public string? BeatmapSubmissionServiceUrl { get; set; }
 
         /// <summary>
-        /// The endpoint for the SignalR spectator server.
-        /// </summary>
-        public string SpectatorUrl { get; set; } = string.Empty;
-
-        /// <summary>
         /// The endpoint for the SignalR multiplayer server.
         /// </summary>
         public string MultiplayerUrl { get; set; } = string.Empty;

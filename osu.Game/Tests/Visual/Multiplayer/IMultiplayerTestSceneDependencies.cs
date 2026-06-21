@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using osu.Game.Tests.Visual.OnlinePlay;
-using osu.Game.Tests.Visual.Spectator;
 
 namespace osu.Game.Tests.Visual.Multiplayer
 {
@@ -15,10 +14,5 @@ namespace osu.Game.Tests.Visual.Multiplayer
         /// The cached <see cref="Online.Multiplayer.MultiplayerClient"/>.
         /// </summary>
         TestMultiplayerClient MultiplayerClient { get; }
-
-        /// <summary>
-        /// The cached <see cref="osu.Game.Online.Spectator.SpectatorClient"/>.
-        /// </summary>
-        TestSpectatorClient SpectatorClient { get; }
     }
 }

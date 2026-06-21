@@ -5,7 +5,6 @@
 
 using System;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Screens;
@@ -13,7 +12,6 @@ using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.Medals;
-using osu.Game.Online;
 using osu.Game.Scoring;
 using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Screens.Ranking;
@@ -30,10 +28,6 @@ namespace osu.Game.Screens.Play
 
         [Resolved]
         private SessionStatics statics { get; set; }
-
-        [Resolved(canBeNull: true)]
-        [CanBeNull]
-        private UserStatisticsWatcher userStatisticsWatcher { get; set; }
 
         [Resolved]
         private MedalEvaluator medalEvaluator { get; set; }
@@ -96,7 +90,6 @@ namespace osu.Game.Screens.Play
             //                mods not normally usable by the player are detected?
             await base.PrepareScoreForResultsAsync(score).ConfigureAwait(false);
             score.ScoreInfo.Date = DateTimeOffset.Now;
-            userStatisticsWatcher?.RegisterForStatisticsUpdateAfter(score.ScoreInfo);
         }
 
         [Resolved]

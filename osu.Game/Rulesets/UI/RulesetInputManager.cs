@@ -90,10 +90,6 @@ namespace osu.Game.Rulesets.UI
                         KeyBindingContainer.TriggerPressed(action);
                     break;
 
-                case ReplayStatisticsFrameEvent statisticsStateChangeEvent:
-                    scoreProcessor?.ResetFromReplayFrame(statisticsStateChangeEvent.Frame);
-                    break;
-
                 default:
                     base.HandleInputStateChange(inputStateChange);
                     break;

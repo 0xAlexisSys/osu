@@ -42,7 +42,6 @@ namespace osu.Game.Rulesets.Mania.Skinning.Argon
                             {
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
                                 var combo = container.ChildrenOfType<ArgonManiaComboCounter>().FirstOrDefault();
-                                var spectatorList = container.OfType<SpectatorList>().FirstOrDefault();
 
                                 if (leaderboard != null)
                                     leaderboard.Position = new Vector2(36, 115);
@@ -55,20 +54,15 @@ namespace osu.Game.Rulesets.Mania.Skinning.Argon
                                     combo.Y = 200;
                                 }
 
-                                if (spectatorList != null)
-                                    spectatorList.Position = new Vector2(36, -66);
-
                                 foreach (var d in container.OfType<ISerialisableDrawable>())
                                     d.UsesFixedAnchor = true;
                             })
                             {
-                                new DrawableGameplayLeaderboard(),
-                                new ArgonManiaComboCounter(),
-                                new SpectatorList
+                                Children = new Drawable[]
                                 {
-                                    Anchor = Anchor.BottomLeft,
-                                    Origin = Anchor.BottomLeft,
-                                }
+                                    new DrawableGameplayLeaderboard(),
+                                    new ArgonManiaComboCounter(),
+                                },
                             };
                     }
 

@@ -123,7 +123,7 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
             var localUser = multiplayerClient.LocalUser;
 
             int countReady = room.Users.Count(u => u.Role == MultiplayerRoomUserRole.Player && u.State == MultiplayerUserState.Ready);
-            int countTotal = room.Users.Count(u => u.Role == MultiplayerRoomUserRole.Player && u.State != MultiplayerUserState.Spectating);
+            int countTotal = room.Users.Count(u => u.Role == MultiplayerRoomUserRole.Player && u.State != MultiplayerUserState.Ready);
             string countText = $"({countReady} / {countTotal} ready)";
 
             string? countdownText = countdown != null ? $"Starting in {countdownTimeRemaining:mm\\:ss}" : null;
@@ -146,7 +146,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
                         Text = $"Ready ({countdownText.ToLowerInvariant()})";
                         break;
 
-                    case MultiplayerUserState.Spectating:
                     case MultiplayerUserState.Ready:
                         Text = $"{countdownText} {countText}";
                         break;
@@ -156,7 +155,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
             {
                 switch (localUser?.State)
                 {
-                    case MultiplayerUserState.Spectating:
                     case MultiplayerUserState.Ready:
                         Text = multiplayerClient.IsHost
                             ? $"Start match {countText}"
@@ -212,7 +210,6 @@ namespace osu.Game.Screens.OnlinePlay.Multiplayer.Match
                         setGreen();
                     break;
 
-                case MultiplayerUserState.Spectating:
                 case MultiplayerUserState.Ready:
                     if ((multiplayerClient.IsHost || multiplayerClient.IsReferee) && !room.ActiveCountdowns.Any(c => c is MatchStartCountdown))
                         setGreen();

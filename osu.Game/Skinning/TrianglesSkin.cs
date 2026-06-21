@@ -11,7 +11,6 @@ using osu.Framework.Graphics.Textures;
 using osu.Game.Audio;
 using osu.Game.Beatmaps.Formats;
 using osu.Game.Extensions;
-using osu.Game.Graphics;
 using osu.Game.IO;
 using osu.Game.Screens.Play.HUD;
 using osu.Game.Screens.Play.HUD.HitErrorMeters;
@@ -93,30 +92,16 @@ namespace osu.Game.Skinning
                                 return new DefaultSkinComponentsContainer(container =>
                                 {
                                     var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
-                                    var spectatorList = container.OfType<SpectatorList>().FirstOrDefault();
 
                                     if (leaderboard != null)
                                         leaderboard.Position = new Vector2(40, 60);
-
-                                    if (spectatorList != null)
-                                    {
-                                        spectatorList.HeaderFont.Value = Typeface.Venera;
-                                        spectatorList.HeaderColour.Value = new OsuColour().BlueLighter;
-                                        spectatorList.Anchor = Anchor.BottomLeft;
-                                        spectatorList.Origin = Anchor.BottomLeft;
-                                        spectatorList.Position = new Vector2(screen_edge_padding, -(song_progress_offset_height + screen_edge_padding));
-                                    }
 
                                     foreach (var d in container.OfType<ISerialisableDrawable>())
                                         d.UsesFixedAnchor = true;
                                 })
                                 {
                                     RelativeSizeAxes = Axes.Both,
-                                    Children = new Drawable[]
-                                    {
-                                        new DrawableGameplayLeaderboard(),
-                                        new SpectatorList(),
-                                    },
+                                    Child = new DrawableGameplayLeaderboard(),
                                 };
                             }
 

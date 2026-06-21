@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Screens;
-using osu.Game.Online.Spectator;
 using osu.Game.Rulesets.Judgements;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
@@ -44,9 +42,6 @@ namespace osu.Game.Tests.Visual
         public new bool PauseCooldownActive => base.PauseCooldownActive;
 
         public readonly List<JudgementResult> Results = new List<JudgementResult>();
-
-        [Resolved]
-        private SpectatorClient spectatorClient { get; set; }
 
         public TestPlayer(bool allowPause = true, bool showResults = true, bool pauseOnFocusLost = false)
             : base(new PlayerConfiguration
@@ -85,29 +80,6 @@ namespace osu.Game.Tests.Visual
                 return;
 
             ScoreProcessor.NewJudgement += r => Results.Add(r);
-        }
-
-        public override bool OnExiting(ScreenExitEvent e)
-        {
-            bool exiting = base.OnExiting(e);
-
-            // SubmittingPlayer performs EndPlaying on a fire-and-forget async task, which allows for the chance of BeginPlaying to be called before EndPlaying is called here.
-            // Until this is handled properly at game-side, ensure EndPlaying is called before exiting player.
-            // see: https://github.com/ppy/osu/issues/22220
-            if (LoadedBeatmapSuccessfully)
-                spectatorClient?.EndPlaying(GameplayState);
-
-            return exiting;
-        }
-
-        protected override void Dispose(bool isDisposing)
-        {
-            base.Dispose(isDisposing);
-
-            // Specific to tests, the player can be disposed without OnExiting() ever being called.
-            // We should make sure that the gameplay session has finished even in this case.
-            if (LoadedBeatmapSuccessfully)
-                spectatorClient?.EndPlaying(GameplayState);
         }
     }
 }

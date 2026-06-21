@@ -5,7 +5,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Game.Extensions;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Online;
 using osu.Game.Scoring;
@@ -30,7 +29,7 @@ namespace osu.Game.Screens.Ranking.Statistics.User
         }
 
         [BackgroundDependencyLoader]
-        private void load(UserStatisticsWatcher? userStatisticsWatcher)
+        private void load()
         {
             AutoSizeAxes = Axes.Y;
             AutoSizeEasing = Easing.OutQuint;
@@ -86,16 +85,6 @@ namespace osu.Game.Screens.Ranking.Statistics.User
                     }
                 }
             };
-
-            if (userStatisticsWatcher != null)
-            {
-                latestGlobalStatisticsUpdate.BindTo(userStatisticsWatcher.LatestUpdate);
-                latestGlobalStatisticsUpdate.BindValueChanged(update =>
-                {
-                    if (update.NewValue?.Score.MatchesOnlineID(scoreInfo) == true)
-                        DisplayedUpdate.Value = update.NewValue;
-                }, true);
-            }
         }
 
         protected override void LoadComplete()

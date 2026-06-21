@@ -5,7 +5,6 @@ using System;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Game.Online.Rooms;
-using osu.Game.Online.Spectator;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
 using osu.Game.Scoring.Legacy;
@@ -95,16 +94,6 @@ namespace osu.Game.Screens.Play.Leaderboards
             Tracked = tracked;
 
             var scoreProcessor = gameplayState.ScoreProcessor;
-            TotalScore.BindTarget = scoreProcessor.TotalScore;
-            Accuracy.BindTarget = scoreProcessor.Accuracy;
-            Combo.BindTarget = comboMode == ComboDisplayMode.Current ? scoreProcessor.Combo : scoreProcessor.HighestCombo;
-            GetDisplayScore = scoreProcessor.GetDisplayScore;
-        }
-
-        public GameplayLeaderboardScore(IUser user, SpectatorScoreProcessor scoreProcessor, bool tracked, ComboDisplayMode comboMode)
-        {
-            User = user;
-            Tracked = tracked;
             TotalScore.BindTarget = scoreProcessor.TotalScore;
             Accuracy.BindTarget = scoreProcessor.Accuracy;
             Combo.BindTarget = comboMode == ComboDisplayMode.Current ? scoreProcessor.Combo : scoreProcessor.HighestCombo;

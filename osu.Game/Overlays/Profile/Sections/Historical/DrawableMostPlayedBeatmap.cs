@@ -8,7 +8,6 @@ using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Localisation;
 using osu.Game.Beatmaps;
-using osu.Game.Beatmaps.Drawables;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
@@ -41,12 +40,6 @@ namespace osu.Game.Overlays.Profile.Sections.Historical
         {
             AddRangeInternal(new Drawable[]
             {
-                new UpdateableOnlineBeatmapSetCover(BeatmapSetCoverType.List)
-                {
-                    RelativeSizeAxes = Axes.Y,
-                    Width = cover_width,
-                    OnlineInfo = mostPlayed.BeatmapSet,
-                },
                 new Container
                 {
                     RelativeSizeAxes = Axes.Both,

@@ -11,7 +11,6 @@ using osu.Framework.Graphics.Rendering;
 using osu.Framework.Graphics.Rendering.Vertices;
 using osu.Framework.Graphics.Shaders;
 using osu.Framework.Utils;
-using osu.Game.Beatmaps;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Resources.Localisation.Web;
@@ -25,21 +24,6 @@ namespace osu.Game.Screens.Select
         {
             private readonly GraphDrawable retriesGraph;
             private readonly GraphDrawable failsGraph;
-
-            public APIFailTimes Data
-            {
-                set
-                {
-                    int[] retries = value.Retries ?? Array.Empty<int>();
-                    int[] fails = value.Fails ?? Array.Empty<int>();
-                    int[] total = retries.Zip(fails, (r, f) => r + f).ToArray();
-
-                    int maximum = total.DefaultIfEmpty(0).Max();
-
-                    retriesGraph.Data = total.Select(r => maximum == 0 ? 0 : (float)r / maximum).ToArray();
-                    failsGraph.Data = fails.Select(r => maximum == 0 ? 0 : (float)r / maximum).ToArray();
-                }
-            }
 
             public FailRetryDisplay()
             {

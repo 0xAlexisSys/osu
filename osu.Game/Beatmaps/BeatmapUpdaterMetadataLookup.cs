@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using osu.Framework.Platform;
-using osu.Game.Online.API;
 
 namespace osu.Game.Beatmaps
 {
@@ -13,18 +12,11 @@ namespace osu.Game.Beatmaps
     /// </summary>
     public class BeatmapUpdaterMetadataLookup : IDisposable
     {
-        private readonly IOnlineBeatmapMetadataSource apiMetadataSource;
-        private readonly IOnlineBeatmapMetadataSource localCachedMetadataSource;
+        private readonly IOnlineBeatmapMetadataSource cachedMetadataSource;
 
-        public BeatmapUpdaterMetadataLookup(IAPIProvider api, Storage storage)
-            : this(new APIBeatmapMetadataSource(api), new LocalCachedBeatmapMetadataSource(storage))
+        internal BeatmapUpdaterMetadataLookup(Storage storage)
         {
-        }
-
-        internal BeatmapUpdaterMetadataLookup(IOnlineBeatmapMetadataSource apiMetadataSource, IOnlineBeatmapMetadataSource localCachedMetadataSource)
-        {
-            this.apiMetadataSource = apiMetadataSource;
-            this.localCachedMetadataSource = localCachedMetadataSource;
+            cachedMetadataSource = new CachedBeatmapMetadataSource(storage);
         }
 
         /// <summary>
@@ -34,8 +26,7 @@ namespace osu.Game.Beatmaps
         /// This may happen during initial import, or at a later stage in response to a user action or server event.
         /// </remarks>
         /// <param name="beatmapSet">The beatmap set to update. Updates will be applied directly (so a transaction should be started if this instance is managed).</param>
-        /// <param name="preferOnlineFetch">Whether metadata from an online source should be preferred. If <c>true</c>, the local cache will be skipped to ensure the freshest data state possible.</param>
-        public void Update(BeatmapSetInfo beatmapSet, bool preferOnlineFetch)
+        public void Update(BeatmapSetInfo beatmapSet)
         {
             var lookupResults = new List<OnlineBeatmapMetadata?>();
 
@@ -50,7 +41,7 @@ namespace osu.Game.Beatmaps
                 //
                 // additionally note that the online ID stored to the map is EXPLICITLY NOT USED because some users in a silly attempt to "fix" things for themselves on stable
                 // would reuse online IDs of already submitted beatmaps, which means that information is pretty much expected to be bogus in a nonzero number of beatmapsets.
-                if (!tryLookup(beatmapInfo, preferOnlineFetch, out var res))
+                if (!tryLookup(beatmapInfo, out var res))
                     continue;
 
                 if (res == null)
@@ -67,7 +58,6 @@ namespace osu.Game.Beatmaps
         /// Attempts to retrieve the <see cref="OnlineBeatmapMetadata"/> for the given <paramref name="beatmapInfo"/>.
         /// </summary>
         /// <param name="beatmapInfo">The beatmap to perform the online lookup for.</param>
-        /// <param name="preferOnlineFetch">Whether online sources should be preferred for the lookup.</param>
         /// <param name="result">The result of the lookup. Can be <see langword="null"/> if no matching beatmap was found (or the lookup failed).</param>
         /// <returns>
         /// <see langword="true"/> if any of the metadata sources were available and returned a valid <paramref name="result"/>.
@@ -82,13 +72,9 @@ namespace osu.Game.Beatmaps
         /// In either case, the online ID read from the .osu file will be preserved, which may not necessarily be what we want.
         /// TODO: reconsider this if/when a better flow for queueing online retrieval is implemented.
         /// </remarks>
-        private bool tryLookup(BeatmapInfo beatmapInfo, bool preferOnlineFetch, out OnlineBeatmapMetadata? result)
+        private bool tryLookup(BeatmapInfo beatmapInfo, out OnlineBeatmapMetadata? result)
         {
-            bool useLocalCache = !apiMetadataSource.Available || !preferOnlineFetch;
-            if (useLocalCache && localCachedMetadataSource.TryLookup(beatmapInfo, out result))
-                return true;
-
-            if (apiMetadataSource.TryLookup(beatmapInfo, out result))
+            if (cachedMetadataSource.TryLookup(beatmapInfo, out result))
                 return true;
 
             result = null;
@@ -97,8 +83,7 @@ namespace osu.Game.Beatmaps
 
         public void Dispose()
         {
-            apiMetadataSource.Dispose();
-            localCachedMetadataSource.Dispose();
+            cachedMetadataSource.Dispose();
         }
     }
 }

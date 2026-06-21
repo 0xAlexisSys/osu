@@ -135,10 +135,6 @@ namespace osu.Game.Screens.OnlinePlay.Matchmaking.RankedPlay
                                         {
                                             Shear = -OsuGame.SHEAR,
                                         },
-                                        new ShearAligningWrapper(new MetadataWedge(beatmap))
-                                        {
-                                            Shear = -OsuGame.SHEAR,
-                                        },
                                     ]
                                 }
                             }

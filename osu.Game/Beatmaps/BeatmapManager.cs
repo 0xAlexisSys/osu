@@ -69,7 +69,7 @@ namespace osu.Game.Beatmaps
             BeatmapTrackStore = audioManager.GetTrackStore(userResources);
 
             beatmapImporter = CreateBeatmapImporter(storage, realm);
-            beatmapImporter.ProcessBeatmap = (beatmapSet, scope) => ProcessBeatmap?.Invoke(beatmapSet, scope);
+            beatmapImporter.ProcessBeatmap = (beatmapSet, queueUpdate) => ProcessBeatmap?.Invoke(beatmapSet, queueUpdate);
             beatmapImporter.PostNotification = obj => PostNotification?.Invoke(obj);
 
             workingBeatmapCache = CreateWorkingBeatmapCache(audioManager, gameResources, userResources, defaultBeatmap, host);
@@ -551,7 +551,7 @@ namespace osu.Game.Beatmaps
 
                 // do not look up metadata.
                 // this is a locally-modified set now, so looking up metadata is busy work at best and harmful at worst.
-                ProcessBeatmap?.Invoke(liveBeatmapSet, MetadataLookupScope.None);
+                ProcessBeatmap?.Invoke(liveBeatmapSet, false);
             });
 
             Debug.Assert(beatmapInfo.BeatmapSet != null);
@@ -675,6 +675,6 @@ namespace osu.Game.Beatmaps
     /// Delegate type for beatmap processing callbacks.
     /// </summary>
     /// <param name="beatmapSet">The beatmap set to be processed.</param>
-    /// <param name="lookupScope">The scope to use when looking up metadata.</param>
-    public delegate void ProcessBeatmapDelegate(BeatmapSetInfo beatmapSet, MetadataLookupScope lookupScope);
+    /// <param name="queueUpdate">If <see langword="true"/>, the beatmap set is updated.</param>
+    public delegate void ProcessBeatmapDelegate(BeatmapSetInfo beatmapSet, bool queueUpdate);
 }

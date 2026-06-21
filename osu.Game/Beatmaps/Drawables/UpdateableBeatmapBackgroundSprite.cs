@@ -29,14 +29,6 @@ namespace osu.Game.Beatmaps.Drawables
         [Resolved]
         private BeatmapManager beatmaps { get; set; } = null!;
 
-        private readonly BeatmapSetCoverType beatmapSetCoverType;
-
-        public UpdateableBeatmapBackgroundSprite(BeatmapSetCoverType beatmapSetCoverType = BeatmapSetCoverType.Cover)
-        {
-            Beatmap.BindValueChanged(b => Model = b.NewValue);
-            this.beatmapSetCoverType = beatmapSetCoverType;
-        }
-
         protected override double LoadDelay => BackgroundLoadDelay;
 
         protected virtual double UnloadDelay => BackgroundUnloadDelay;
@@ -61,10 +53,6 @@ namespace osu.Game.Beatmaps.Drawables
         {
             if (model == null)
                 return Empty();
-
-            // prefer online cover where available.
-            if (model.BeatmapSet is IBeatmapSetOnlineInfo online)
-                return new OnlineBeatmapSetCover(online, beatmapSetCoverType);
 
             if (model is BeatmapInfo localModel)
                 return new BeatmapBackgroundSprite(beatmaps.GetWorkingBeatmap(localModel));

@@ -22,7 +22,7 @@ namespace osu.Game.Beatmaps
     /// Performs online metadata lookups using a copy of a database containing metadata for a large subset of beatmaps (stored to <see cref="cache_database_name"/>).
     /// The database will be asynchronously downloaded - if not already present locally - when this component is constructed.
     /// </summary>
-    public class LocalCachedBeatmapMetadataSource : IOnlineBeatmapMetadataSource
+    public class CachedBeatmapMetadataSource : IOnlineBeatmapMetadataSource
     {
         private readonly Storage storage;
 
@@ -30,7 +30,7 @@ namespace osu.Game.Beatmaps
 
         private const string cache_database_name = @"online.db";
 
-        public LocalCachedBeatmapMetadataSource(Storage storage)
+        public CachedBeatmapMetadataSource(Storage storage)
         {
             try
             {
@@ -390,10 +390,10 @@ namespace osu.Game.Beatmaps
         }
 
         private static void log(string message)
-            => Logger.Log($@"[{nameof(LocalCachedBeatmapMetadataSource)}] {message}", LoggingTarget.Database);
+            => Logger.Log($@"[{nameof(CachedBeatmapMetadataSource)}] {message}", LoggingTarget.Database);
 
         private void logForModel(BeatmapSetInfo set, string message) =>
-            RealmArchiveModelImporter<BeatmapSetInfo>.LogForModel(set, $@"[{nameof(LocalCachedBeatmapMetadataSource)}] {message}");
+            RealmArchiveModelImporter<BeatmapSetInfo>.LogForModel(set, $@"[{nameof(CachedBeatmapMetadataSource)}] {message}");
 
         public void Dispose()
         {

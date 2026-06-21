@@ -57,11 +57,6 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
                     Caption = UserInterfaceStrings.BackgroundSource,
                     Current = config.GetBindable<BackgroundSource>(OsuSetting.MenuBackgroundSource),
                 }),
-                new SettingsItemV2(new FormEnumDropdown<SeasonalBackgroundMode>
-                {
-                    Caption = UserInterfaceStrings.SeasonalBackgrounds,
-                    Current = config.GetBindable<SeasonalBackgroundMode>(OsuSetting.SeasonalBackgroundMode),
-                })
             };
         }
     }

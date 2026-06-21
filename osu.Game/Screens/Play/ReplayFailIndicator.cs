@@ -7,6 +7,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
+using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -164,10 +165,18 @@ namespace osu.Game.Screens.Play
 
         protected override void Dispose(bool isDisposing)
         {
-            failSample.Stop();
-            failSample.Dispose();
-            track.RemoveAdjustment(AdjustableProperty.Frequency, trackFreq);
-            track.RemoveAdjustment(AdjustableProperty.Volume, volumeAdjustment);
+            if (failSample.IsNotNull())
+            {
+                failSample.Stop();
+                failSample.Dispose();
+            }
+
+            if (track.IsNotNull())
+            {
+                track.RemoveAdjustment(AdjustableProperty.Frequency, trackFreq);
+                track.RemoveAdjustment(AdjustableProperty.Volume, volumeAdjustment);
+            }
+
             base.Dispose(isDisposing);
         }
     }

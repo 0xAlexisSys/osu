@@ -4,7 +4,6 @@
 using System;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics.Colour;
-using osu.Game.Online.Rooms;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
@@ -169,45 +168,6 @@ namespace osu.Game.Graphics
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modType), modType, "Unknown mod type");
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the main accent colour for a <see cref="RoomCategory"/>.
-        /// </summary>
-        public Color4? ForRoomCategory(RoomCategory roomCategory)
-        {
-            switch (roomCategory)
-            {
-                case RoomCategory.Spotlight:
-                    return SpotlightColour;
-
-                case RoomCategory.FeaturedArtist:
-                    return FeaturedArtistColour;
-
-                default:
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the accent colour representing a <see cref="Room"/>'s current status.
-        /// </summary>
-        public Color4 ForRoomStatus(Room room)
-        {
-            if (room.HasEnded)
-                return YellowDarker;
-
-            switch (room.Status)
-            {
-                case RoomStatus.Playing:
-                    return Purple;
-
-                default:
-                    if (room.HasPassword)
-                        return GreenDark;
-
-                    return GreenLight;
             }
         }
 

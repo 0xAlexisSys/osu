@@ -53,8 +53,6 @@ using osu.Game.Online;
 using osu.Game.Online.API;
 using osu.Game.Online.Chat;
 using osu.Game.Online.Leaderboards;
-using osu.Game.Online.Metadata;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Settings;
 using osu.Game.Overlays.Settings.Sections;
@@ -216,10 +214,6 @@ namespace osu.Game
 
         private SessionAverageHitErrorTracker hitErrorTracker;
 
-        protected MultiplayerClient MultiplayerClient { get; private set; }
-
-        private MetadataClient metadataClient;
-
         private RealmAccess realm;
 
         protected SafeAreaContainer SafeAreaContainer { get; private set; }
@@ -315,7 +309,7 @@ namespace osu.Game
 
             CurrentLanguage.BindValueChanged(val => frameworkLocale.Value = val.NewValue.ToCultureCode());
 
-            dependencies.CacheAs(API ??= new APIAccess(this, LocalConfig, endpoints, VersionHash));
+            dependencies.CacheAs(API ??= new DummyAPIAccess());
 
             var defaultBeatmap = new DummyWorkingBeatmap(Audio, Textures);
 
@@ -337,8 +331,6 @@ namespace osu.Game
 
             // TODO: OsuGame or OsuGameBase?
             dependencies.CacheAs(beatmapUpdater = new BeatmapUpdater(BeatmapManager, difficultyCache));
-            dependencies.CacheAs(MultiplayerClient = new OnlineMultiplayerClient(endpoints));
-            dependencies.CacheAs(metadataClient = new OnlineMetadataClient(endpoints));
 
             BeatmapManager.ProcessBeatmap = beatmapSet => beatmapUpdater.Process(beatmapSet);
 
@@ -374,13 +366,6 @@ namespace osu.Game
 
             dependencies.Cache(LeaderboardManager = new LeaderboardManager());
             base.Content.Add(LeaderboardManager);
-
-            // add api components to hierarchy.
-            if (API is APIAccess apiAccess)
-                base.Content.Add(apiAccess);
-
-            base.Content.Add(MultiplayerClient);
-            base.Content.Add(metadataClient);
 
             base.Content.Add(rulesetConfigCache);
 

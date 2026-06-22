@@ -25,8 +25,6 @@ using osu.Game.Graphics.UserInterface;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
-using osu.Game.Online.Multiplayer;
-using osu.Game.Screens.OnlinePlay.Match.Components;
 using osu.Game.Skinning;
 using osuTK;
 using osuTK.Graphics;
@@ -146,12 +144,13 @@ namespace osu.Game.Overlays.SkinEditor
                         AutoSizeAxes = Axes.Y,
                         Text = EditorStrings.ExternalEditMountedExplanation,
                     },
-                    new PurpleRoundedButton
+                    new RoundedButton
                     {
                         Text = EditorStrings.OpenFolder,
                         Width = 350,
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
+                        BackgroundColour = RoundedButton.BACKGROUND_COLOUR_PURPLE,
                         Action = openDirectory,
                         Enabled = { Value = false }
                     },
@@ -161,7 +160,7 @@ namespace osu.Game.Overlays.SkinEditor
                         Width = 350,
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Action = () => finish().FireAndForget(),
+                        Action = () => _ = finish(),
                         Enabled = { Value = false }
                     }
                 };
@@ -187,7 +186,13 @@ namespace osu.Game.Overlays.SkinEditor
         private void tryFinishOnExit()
         {
             if (editOperation != null && !finishingEdit)
-                finish().FireAndForget(onSuccess: () => Schedule(() => finishingEdit = false));
+            {
+                Task.Run(finish).ContinueWith(t =>
+                {
+                    if (t.IsCompletedSuccessfully)
+                        Schedule(() => finishingEdit = false);
+                });
+            }
         }
 
         private async Task finish()
@@ -269,7 +274,7 @@ namespace osu.Game.Overlays.SkinEditor
                     if (editOperation == null)
                         return false;
 
-                    finish().FireAndForget();
+                    Task.Run(finish);
                     return true;
             }
 

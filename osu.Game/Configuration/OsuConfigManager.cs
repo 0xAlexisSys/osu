@@ -18,11 +18,9 @@ using osu.Game.Overlays;
 using osu.Game.Overlays.Mods.Input;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Screens.Edit.Compose.Components;
-using osu.Game.Screens.OnlinePlay.Lounge.Components;
 using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Filter;
 using osu.Game.Skinning;
-using osu.Game.Users;
 
 namespace osu.Game.Configuration
 {
@@ -202,13 +200,11 @@ namespace osu.Game.Configuration
 
             SetDefault(OsuSetting.HideCountryFlags, false);
 
-            SetDefault(OsuSetting.MultiplayerRoomFilter, RoomPermissionsFilter.All);
             SetDefault(OsuSetting.MultiplayerShowInProgressFilter, true);
 
             SetDefault(OsuSetting.LastProcessedMetadataId, -1);
 
             SetDefault(OsuSetting.ComboColourNormalisationAmount, 0.2f, 0f, 1f, 0.01f);
-            SetDefault(OsuSetting.UserOnlineStatus, UserStatus.Online);
 
             SetDefault(OsuSetting.EditorTimelineShowTimingChanges, true);
             SetDefault(OsuSetting.EditorTimelineShowBreaks, true);
@@ -222,8 +218,6 @@ namespace osu.Game.Configuration
 
             SetDefault(OsuSetting.EditorSubmissionNotifyOnDiscussionReplies, true);
             SetDefault(OsuSetting.EditorSubmissionLoadInBrowserAfterSubmission, true);
-
-            SetDefault(OsuSetting.WasSupporter, false);
 
             // intentionally uses `DateTime?` and not `DateTimeOffset?` because the latter fails due to `DateTimeOffset` not implementing `IConvertible`
             SetDefault(OsuSetting.LastOnlineTagsPopulation, (DateTime?)null);
@@ -441,12 +435,6 @@ namespace osu.Game.Configuration
         EditorShowStoryboard,
         EditorSubmissionNotifyOnDiscussionReplies,
         EditorSubmissionLoadInBrowserAfterSubmission,
-
-        /// <summary>
-        /// Cached state of whether local user is a supporter.
-        /// Used to allow early checks (ie for startup samples) to be in the correct state, even if the API authentication process has not completed.
-        /// </summary>
-        WasSupporter,
 
         LastOnlineTagsPopulation,
 

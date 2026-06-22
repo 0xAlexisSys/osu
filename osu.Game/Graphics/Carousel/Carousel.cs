@@ -25,7 +25,6 @@ using osu.Framework.Layout;
 using osu.Framework.Logging;
 using osu.Framework.Utils;
 using osu.Game.Input.Bindings;
-using osu.Game.Online.Multiplayer;
 using osuTK;
 using osuTK.Input;
 
@@ -218,7 +217,7 @@ namespace osu.Game.Graphics.Carousel
             filterAfterItemsChanged.Validate();
 
             filterTask = performFilter();
-            filterTask.FireAndForget();
+            // filterTask.FireAndForget();
             return filterTask;
         }
 

@@ -1,13 +1,11 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Cursor;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
 
 namespace osu.Game.Users.Drawables
@@ -18,14 +16,13 @@ namespace osu.Game.Users.Drawables
 
         public APIUser? TooltipContent { get; }
 
-        private readonly APIUser user;
-
-        [Resolved]
-        private OsuGame? game { get; set; }
-
         public ClickableUsername(APIUser? user)
         {
-            TooltipContent = this.user = user ?? new GuestUser();
+            TooltipContent = user ?? new APIUser()
+            {
+                Username = @"Guest",
+                Id = 0,
+            };
 
             AutoSizeAxes = Axes.Both;
 

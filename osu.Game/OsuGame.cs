@@ -47,7 +47,6 @@ using osu.Game.Localisation;
 using osu.Game.Online;
 using osu.Game.Online.Chat;
 using osu.Game.Online.Leaderboards;
-using osu.Game.Online.Rooms;
 using osu.Game.Overlays;
 using osu.Game.Overlays.BeatmapListing;
 using osu.Game.Overlays.Mods;
@@ -63,9 +62,6 @@ using osu.Game.Screens;
 using osu.Game.Screens.Edit;
 using osu.Game.Screens.Footer;
 using osu.Game.Screens.Menu;
-using osu.Game.Screens.OnlinePlay.Matchmaking.Queue;
-using osu.Game.Screens.OnlinePlay.Multiplayer;
-using osu.Game.Screens.OnlinePlay.Playlists;
 using osu.Game.Screens.Play;
 using osu.Game.Screens.Ranking;
 using osu.Game.Screens.Select;
@@ -76,7 +72,6 @@ using osu.Game.Utils;
 using osuTK;
 using osuTK.Graphics;
 using IntroScreen = osu.Game.Screens.Menu.IntroScreen;
-using MatchType = osu.Game.Online.Rooms.MatchType;
 
 namespace osu.Game
 {
@@ -482,11 +477,6 @@ namespace osu.Game
                     ShowWiki(argString);
                     break;
 
-                case LinkAction.JoinRoom:
-                    if (long.TryParse(argString, out long roomId))
-                        JoinRoom(roomId);
-                    break;
-
                 default:
                     throw new NotImplementedException($"This {nameof(LinkAction)} ({link.Action.ToString()}) is missing an associated action.");
             }
@@ -531,28 +521,6 @@ namespace osu.Game
         /// </summary>
         /// <param name="path">The wiki page to show</param>
         public void ShowWiki(string path) => waitForReady(() => wikiOverlay, _ => wikiOverlay.ShowPage(path));
-
-        /// <summary>
-        /// Joins a multiplayer or playlists room with the given <paramref name="id"/>.
-        /// </summary>
-        public void JoinRoom(long id)
-        {
-            var request = new GetRoomRequest(id);
-            request.Success += room =>
-            {
-                switch (room.Type)
-                {
-                    case MatchType.Playlists:
-                        PresentPlaylist(room);
-                        break;
-
-                    default:
-                        PresentMultiplayerMatch(room, string.Empty);
-                        break;
-                }
-            };
-            API.Queue(request);
-        }
 
         /// <summary>
         /// Seeks to the provided <paramref name="timestamp"/> if the editor is currently open.
@@ -672,57 +640,6 @@ namespace osu.Game
             {
                 typeof(SongSelect), typeof(IHandlePresentBeatmap)
             });
-        }
-
-        /// <summary>
-        /// Join a multiplayer match immediately.
-        /// </summary>
-        /// <param name="room">The room to join.</param>
-        /// <param name="password">The password to join the room, if any is given.</param>
-        public void PresentMultiplayerMatch(Room room, string password)
-        {
-            if (room.HasEnded)
-            {
-                // TODO: Eventually it should be possible to display ended multiplayer rooms in game too,
-                // but it generally will require turning off the entirety of communication with spectator server which is currently embedded into multiplayer screens.
-                Notifications.Post(new SimpleNotification
-                {
-                    Text = NotificationsStrings.MultiplayerRoomEnded,
-                    Activated = () =>
-                    {
-                        OpenUrlExternally($@"/multiplayer/rooms/{room.RoomID}");
-                        return true;
-                    }
-                });
-                return;
-            }
-
-            PerformFromScreen(screen =>
-            {
-                if (!(screen is Multiplayer multiplayer))
-                    screen.Push(multiplayer = new Multiplayer());
-
-                multiplayer.Join(room, password);
-            });
-            // TODO: We should really be able to use `validScreens: new[] { typeof(Multiplayer) }` here
-            // but `PerformFromScreen` doesn't understand nested stacks.
-        }
-
-        /// <summary>
-        /// Join a playlist immediately.
-        /// </summary>
-        /// <param name="room">The playlist to join.</param>
-        public void PresentPlaylist(Room room)
-        {
-            PerformFromScreen(screen =>
-            {
-                if (!(screen is Playlists playlists))
-                    screen.Push(playlists = new Playlists());
-
-                playlists.Join(room);
-            });
-            // TODO: We should really be able to use `validScreens: new[] { typeof(Playlists) }` here
-            // but `PerformFromScreen` doesn't understand nested stacks.
         }
 
         /// <summary>
@@ -971,9 +888,6 @@ namespace osu.Game
             ScoreManager.PostNotification = n => Notifications.Post(n);
             ScoreManager.PresentImport = items => PresentScore(items.First().Value);
 
-            MultiplayerClient.PostNotification = n => Notifications.Post(n);
-            MultiplayerClient.PresentMatch = PresentMultiplayerMatch;
-
             ScreenFooter.BackReceptor backReceptor;
 
             dependencies.CacheAs(idleTracker = new GameIdleTracker(6000));
@@ -1127,11 +1041,9 @@ namespace osu.Game
 
             loadComponentSingleFile(new BackgroundDataStoreProcessor(), Add);
             loadComponentSingleFile<BeatmapStore>(detachedBeatmapStore = new RealmDetachedBeatmapStore(), Add, true);
-            loadComponentSingleFile(new QueueController(), Add, true);
 
             Add(externalLinkOpener = new ExternalLinkOpener());
             Add(new MusicKeyBindingHandler());
-            Add(new OnlineStatusNotifier(() => ScreenStack.CurrentScreen));
             // side overlays which cancel each other.
             var singleDisplaySideOverlays = new OverlayContainer[] { Settings, Notifications, FirstRunOverlay };
 

@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Extensions.LocalisationExtensions;
 using osu.Framework.Graphics;
@@ -12,25 +11,17 @@ using osu.Framework.Graphics.Shapes;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Overlays;
-using osu.Framework.Graphics.UserInterface;
 using osu.Game.Graphics.UserInterface;
-using osu.Framework.Graphics.Cursor;
 using osu.Framework.Localisation;
 using osu.Game.Graphics.Containers;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Chat;
-using osu.Game.Resources.Localisation.Web;
-using osu.Game.Localisation;
-using osu.Game.Online.Metadata;
-using osu.Game.Online.Multiplayer;
-using osu.Game.Screens.OnlinePlay.Matchmaking.Queue;
 using osu.Game.Users.Drawables;
-using osu.Game.Online.Rooms;
 
 namespace osu.Game.Users
 {
-    public abstract partial class UserPanel : OsuClickableContainer, IHasContextMenu, IFilterable
+    public abstract partial class UserPanel : OsuClickableContainer, IFilterable
     {
         public readonly APIUser User;
 
@@ -66,15 +57,6 @@ namespace osu.Game.Users
 
         [Resolved]
         protected OsuColour Colours { get; private set; } = null!;
-
-        [Resolved]
-        private MultiplayerClient? multiplayerClient { get; set; }
-
-        [Resolved]
-        private MetadataClient? metadataClient { get; set; }
-
-        [Resolved]
-        private QueueController? queueController { get; set; }
 
         [BackgroundDependencyLoader]
         private void load()
@@ -127,53 +109,6 @@ namespace osu.Game.Users
         };
 
         protected UpdateableAvatar CreateAvatar() => new UpdateableAvatar(User, false);
-
-        public MenuItem[] ContextMenuItems
-        {
-            get
-            {
-                List<MenuItem> items = new List<MenuItem>
-                {
-                    new OsuMenuItem(ContextMenuStrings.ViewProfile, MenuItemType.Highlighted, ViewProfile)
-                };
-
-                if (User.Equals(api.LocalUser.Value))
-                    return items.ToArray();
-
-                items.Add(new OsuMenuItem(UsersStrings.CardSendMessage, MenuItemType.Standard, () =>
-                {
-                    channelManager?.OpenPrivateChannel(User);
-                    chatOverlay?.Show();
-                }));
-
-                if (isUserOnline())
-                {
-                    if (canInviteUser())
-                    {
-                        items.Add(new OsuMenuItem(ContextMenuStrings.InvitePlayer, MenuItemType.Standard, () =>
-                        {
-                            if (canInviteUser())
-                                multiplayerClient!.InvitePlayer(User.Id);
-                        }));
-                    }
-
-                    if (canDuelUser())
-                    {
-                        items.Add(new OsuMenuItem("Duel", MenuItemType.Standard, () =>
-                        {
-                            if (canDuelUser())
-                                queueController?.IssueDuel(queueController.SelectedPool.Value!, User.Id);
-                        }));
-                    }
-                }
-
-                return items.ToArray();
-
-                bool isUserOnline() => metadataClient?.GetPresence(User.OnlineID) != null;
-                bool canInviteUser() => isUserOnline() && multiplayerClient?.Room?.Users.All(u => u.UserID != User.Id) == true && multiplayerClient?.Room?.Settings.MatchType.IsMatchmakingType() != true;
-                bool canDuelUser() => isUserOnline() && queueController?.SelectedPool.Value != null && multiplayerClient?.Room?.Settings.MatchType.IsMatchmakingType() != true;
-            }
-        }
 
         public IEnumerable<LocalisableString> FilterTerms => [User.Username];
 

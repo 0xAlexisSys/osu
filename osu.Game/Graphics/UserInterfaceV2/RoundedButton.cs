@@ -20,6 +20,8 @@ namespace osu.Game.Graphics.UserInterfaceV2
 {
     public partial class RoundedButton : OsuButton, IFilterable, IHasTooltip
     {
+        public static readonly Color4 BACKGROUND_COLOUR_PURPLE = Color4Extensions.FromHex(@"593790");
+
         protected TrianglesV2? Triangles { get; private set; }
 
         protected override float HoverLayerFinalAlpha => 0;

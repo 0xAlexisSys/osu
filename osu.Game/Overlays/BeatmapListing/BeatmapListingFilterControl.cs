@@ -154,9 +154,6 @@ namespace osu.Game.Overlays.BeatmapListing
 
             resetSearch();
 
-            if (!api.IsLoggedIn)
-                return;
-
             queryChangedDebounce = Scheduler.AddDelayed(() =>
             {
                 resetSearch();

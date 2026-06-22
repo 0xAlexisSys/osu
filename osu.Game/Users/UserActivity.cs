@@ -5,9 +5,6 @@ using System;
 using MessagePack;
 using osu.Game.Beatmaps;
 using osu.Game.Graphics;
-using osu.Game.Online;
-using osu.Game.Online.Multiplayer;
-using osu.Game.Online.Rooms;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
 using osuTK.Graphics;
@@ -27,7 +24,6 @@ namespace osu.Game.Users
     [Union(12, typeof(PlayingBeatmap))]
     [Union(13, typeof(WatchingReplay))]
     [Union(41, typeof(EditingBeatmap))]
-    [Union(42, typeof(ModdingBeatmap))]
     [Union(43, typeof(TestingBeatmap))]
     public abstract class UserActivity
     {
@@ -127,21 +123,6 @@ namespace osu.Game.Users
         }
 
         [MessagePackObject]
-        public class ModdingBeatmap : EditingBeatmap
-        {
-            public ModdingBeatmap(IBeatmapInfo info)
-                : base(info)
-            {
-            }
-
-            [SerializationConstructor]
-            public ModdingBeatmap() { }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => "Modding a beatmap";
-            public override Color4 GetAppropriateColour(OsuColour colours) => colours.PurpleDark;
-        }
-
-        [MessagePackObject]
         public class WatchingReplay : UserActivity
         {
             [Key(0)]
@@ -169,58 +150,6 @@ namespace osu.Game.Users
 
             public override string GetStatus(bool hideIdentifiableInformation = false) => hideIdentifiableInformation ? @"Watching a replay" : $@"Watching {PlayerName}'s replay";
             public override string? GetDetails(bool hideIdentifiableInformation = false) => BeatmapDisplayTitle;
-        }
-
-        [MessagePackObject]
-        public class SearchingForLobby : UserActivity
-        {
-            public override string GetStatus(bool hideIdentifiableInformation = false) => @"Looking for a lobby";
-        }
-
-        [MessagePackObject]
-        public class InLobby : UserActivity
-        {
-            [Key(0)]
-            public long RoomID { get; set; }
-
-            [Key(1)]
-            public string RoomName { get; set; } = string.Empty;
-
-            public InLobby(Room room)
-            {
-                RoomID = room.RoomID ?? -1;
-                RoomName = room.Name;
-            }
-
-            public InLobby(MultiplayerRoom room)
-            {
-                switch (room.Settings.MatchType)
-                {
-                    case MatchType.Matchmaking:
-                        RoomID = -1;
-                        RoomName = "Quick Play";
-                        break;
-
-                    case MatchType.RankedPlay:
-                        RoomID = -1;
-                        RoomName = "Ranked Play";
-                        break;
-
-                    default:
-                        RoomID = room.RoomID;
-                        RoomName = room.Settings.Name;
-                        break;
-                }
-            }
-
-            [SerializationConstructor]
-            public InLobby() { }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => @"In a lobby";
-
-            public override string? GetDetails(bool hideIdentifiableInformation = false) => hideIdentifiableInformation
-                ? null
-                : RoomName;
         }
     }
 }

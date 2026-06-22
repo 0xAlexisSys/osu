@@ -4,7 +4,6 @@
 using System;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
-using osu.Game.Online.Rooms;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
 using osu.Game.Scoring.Legacy;
@@ -110,18 +109,6 @@ namespace osu.Game.Screens.Play.Leaderboards
             TotalScoreTiebreaker = scoreInfo.OnlineID > 0 ? scoreInfo.OnlineID : scoreInfo.Date.ToUnixTimeSeconds();
             GetDisplayScore = scoreInfo.GetDisplayScore;
             InitialPosition = scoreInfo.Position;
-        }
-
-        public GameplayLeaderboardScore(MultiplayerScore score, bool tracked, ComboDisplayMode comboMode)
-        {
-            User = score.User;
-            Tracked = tracked;
-            TotalScore.Value = score.TotalScore;
-            Accuracy.Value = score.Accuracy;
-            Combo.Value = comboMode == ComboDisplayMode.Highest ? score.MaxCombo : throw new NotSupportedException($"{comboMode} {nameof(comboMode)} is not supported.");
-            TotalScoreTiebreaker = score.ID;
-            GetDisplayScore = score.GetDisplayScore;
-            InitialPosition = score.Position;
         }
 
         /// <remarks>

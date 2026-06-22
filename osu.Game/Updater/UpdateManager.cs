@@ -15,7 +15,6 @@ using osu.Framework.Logging;
 using osu.Game.Configuration;
 using osu.Game.Graphics;
 using osu.Game.Localisation;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Utils;
@@ -84,7 +83,7 @@ namespace osu.Game.Updater
         /// </summary>
         public void CheckForUpdate()
         {
-            CheckForUpdateAsync().FireAndForget();
+            Task.Run(() => CheckForUpdateAsync());
         }
 
         /// <summary>

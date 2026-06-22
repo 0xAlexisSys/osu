@@ -39,7 +39,7 @@ namespace osu.Game.Screens.Menu
         public Action? OnEditBeatmap;
         public Action? OnEditSkin;
         public Action<UIEvent>? OnExit;
-        public Action? OnBeatmapListing;
+        public Action? OnOpenBeatmapSite;
         public Action? OnPlay;
         public Action? OnSettings;
 
@@ -137,7 +137,7 @@ namespace osu.Game.Screens.Menu
                 Padding = new MarginPadding { Left = WEDGE_WIDTH },
             });
             buttonsTopLevel.Add(new MainMenuButton(ButtonSystemStrings.Edit, @"button-play-select", OsuIcon.EditCircle, new Color4(238, 170, 0, 255), (_, _) => State = ButtonSystemState.Edit, Key.E));
-            buttonsTopLevel.Add(new MainMenuButton(ButtonSystemStrings.Browse, @"button-default-select", OsuIcon.Beatmap, new Color4(165, 204, 0, 255), (_, _) => OnBeatmapListing?.Invoke(), Key.B,
+            buttonsTopLevel.Add(new MainMenuButton(ButtonSystemStrings.GetBeatmaps, @"button-default-select", OsuIcon.Beatmap, new Color4(165, 204, 0, 255), (_, _) => OnOpenBeatmapSite?.Invoke(), Key.B,
                 Key.D));
 
             if (host.CanExit)

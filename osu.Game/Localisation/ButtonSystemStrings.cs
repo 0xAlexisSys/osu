@@ -20,9 +20,9 @@ namespace osu.Game.Localisation
         public static LocalisableString Edit => new TranslatableString(getKey(@"edit"), @"edit");
 
         /// <summary>
-        /// "browse"
+        /// "get beatmaps"
         /// </summary>
-        public static LocalisableString Browse => new TranslatableString(getKey(@"browse"), @"browse");
+        public static LocalisableString GetBeatmaps => new TranslatableString(getKey(@"get_beatmaps"), @"get beatmaps");
 
         /// <summary>
         /// "settings"

@@ -45,12 +45,12 @@ namespace osu.Game.Screens.Ranking.Contracted
         public ContractedPanelMiddleContent(ScoreInfo score)
         {
             this.score = score;
-            RelativeSizeAxes = Axes.Both;
         }
 
         [BackgroundDependencyLoader]
         private void load()
         {
+            RelativeSizeAxes = Axes.Both;
             InternalChild = new GridContainer
             {
                 RelativeSizeAxes = Axes.Both,
@@ -108,10 +108,12 @@ namespace osu.Game.Screens.Ranking.Contracted
                                                 Offset = new Vector2(0, 1),
                                             }
                                         },
-                                        new ClickableUsername(score.User)
+                                        new OsuSpriteText
                                         {
                                             Anchor = Anchor.TopCentre,
                                             Origin = Anchor.TopCentre,
+                                            Text = score.User.Username,
+                                            Font = OsuFont.Torus.With(size: 16, weight: FontWeight.SemiBold),
                                         },
                                         new FillFlowContainer
                                         {

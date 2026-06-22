@@ -43,29 +43,18 @@ namespace osu.Game.Users.Drawables
             set => base.EdgeEffect = value;
         }
 
-        public bool DelayedLoad = true;
+        protected override double LoadDelay => 200.0d;
 
-        protected override double LoadDelay => DelayedLoad ? 200 : 0;
-
-        private readonly bool isInteractive;
         private readonly bool showGuestOnNull;
-        private readonly bool showUserPanelOnHover;
 
         /// <summary>
         /// Construct a new UpdateableAvatar.
         /// </summary>
         /// <param name="user">The initial user to display.</param>
-        /// <param name="isInteractive">If set to true, hover/click sounds will play and clicking the avatar will open the user's profile.</param>
-        /// <param name="showUserPanelOnHover">
-        /// If set to true, the user status panel will be displayed in the tooltip.
-        /// Only has an effect if <see cref="isInteractive"/> is true.
-        /// </param>
         /// <param name="showGuestOnNull">Whether to show a default guest representation on null user (as opposed to nothing).</param>
-        public UpdateableAvatar(APIUser? user = null, bool isInteractive = true, bool showUserPanelOnHover = false, bool showGuestOnNull = true)
+        public UpdateableAvatar(APIUser? user = null, bool showGuestOnNull = true)
         {
-            this.isInteractive = isInteractive;
             this.showGuestOnNull = showGuestOnNull;
-            this.showUserPanelOnHover = showUserPanelOnHover;
 
             User = user;
         }
@@ -74,14 +63,6 @@ namespace osu.Game.Users.Drawables
         {
             if (user == null && !showGuestOnNull)
                 return null;
-
-            if (isInteractive)
-            {
-                return new ClickableAvatar(user, showUserPanelOnHover)
-                {
-                    RelativeSizeAxes = Axes.Both,
-                };
-            }
 
             return new DrawableAvatar(user)
             {

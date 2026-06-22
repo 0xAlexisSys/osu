@@ -102,7 +102,7 @@ namespace osu.Game.Screens.Select
         private Box background = null!;
         private Box foreground = null!;
 
-        private ClickableAvatar innerAvatar = null!;
+        private DrawableAvatar innerAvatar = null!;
 
         private Container centreContent = null!;
         private Container rightContent = null!;
@@ -224,14 +224,14 @@ namespace osu.Game.Screens.Select
                                                 Masking = true,
                                                 Children = new Drawable[]
                                                 {
-                                                    new DelayedLoadWrapper(innerAvatar = new ClickableAvatar(Score.User)
+                                                    new DelayedLoadWrapper(innerAvatar = new DrawableAvatar(Score.User)
                                                     {
                                                         Anchor = Anchor.Centre,
                                                         Origin = Anchor.Centre,
                                                         Scale = new Vector2(1.1f),
                                                         Shear = sheared ? -OsuGame.SHEAR : Vector2.Zero,
                                                         RelativeSizeAxes = Axes.Both,
-                                                    })
+                                                    }, 0.0d)
                                                     {
                                                         RelativeSizeAxes = Axes.None,
                                                         Size = new Vector2(HEIGHT)

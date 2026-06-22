@@ -87,7 +87,7 @@ namespace osu.Game.Overlays.Profile.Header
                                     RelativeSizeAxes = Axes.X,
                                     Children = new Drawable[]
                                     {
-                                        avatar = new UpdateableAvatar(isInteractive: false, showGuestOnNull: false)
+                                        avatar = new UpdateableAvatar(showGuestOnNull: false)
                                         {
                                             Anchor = Anchor.BottomLeft,
                                             Origin = Anchor.BottomLeft,

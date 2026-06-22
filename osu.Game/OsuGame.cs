@@ -18,7 +18,6 @@ using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Configuration;
 using osu.Framework.Extensions.IEnumerableExtensions;
-using osu.Framework.Extensions.TypeExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
@@ -76,7 +75,6 @@ using osu.Game.Users;
 using osu.Game.Utils;
 using osuTK;
 using osuTK.Graphics;
-using Sentry;
 using IntroScreen = osu.Game.Screens.Menu.IntroScreen;
 using MatchType = osu.Game.Online.Rooms.MatchType;
 
@@ -161,8 +159,6 @@ namespace osu.Game
 
         [Cached]
         private readonly ScreenshotManager screenshotManager = new ScreenshotManager();
-
-        private SentryLogger sentryLogger;
 
         public virtual StableStorage GetStorageForStableInstall() => null;
 
@@ -335,12 +331,6 @@ namespace osu.Game
         private readonly List<string> dragDropFiles = new List<string>();
         private ScheduledDelegate dragDropImportSchedule;
 
-        public override void SetupLogging(Storage gameStorage, Storage cacheStorage)
-        {
-            base.SetupLogging(gameStorage, cacheStorage);
-            sentryLogger = new SentryLogger(this, cacheStorage);
-        }
-
         public override void SetHost(GameHost host)
         {
             base.SetHost(host);
@@ -390,8 +380,6 @@ namespace osu.Game
         [BackgroundDependencyLoader]
         private void load()
         {
-            sentryLogger.AttachUser(API.LocalUser);
-
             dependencies.CacheAs(osuLogo = new OsuLogo { Alpha = 0 });
 
             // bind config int to database RulesetInfo
@@ -941,8 +929,6 @@ namespace osu.Game
 
             base.Dispose(isDisposing);
 
-            sentryLogger.Dispose();
-
             if (Host?.Window != null)
                 Host.Window.DragDrop -= onWindowDragDrop;
 
@@ -1305,9 +1291,6 @@ namespace osu.Game
         {
             if (entry.Level < LogLevel.Important || entry.Target > LoggingTarget.Database || entry.Target == null) return;
 
-            if (entry.Exception is SentryOnlyDiagnosticsException)
-                return;
-
             const int short_term_display_limit = 3;
 
             if (generalLogRecentCount < short_term_display_limit)
@@ -1608,17 +1591,6 @@ namespace osu.Game
 
         protected virtual void ScreenChanged([CanBeNull] IOsuScreen current, [CanBeNull] IOsuScreen newScreen)
         {
-            SentrySdk.ConfigureScope(scope =>
-            {
-                scope.Contexts[@"screen stack"] = new
-                {
-                    Current = newScreen?.GetType().ReadableName(),
-                    Previous = current?.GetType().ReadableName(),
-                };
-
-                scope.SetTag(@"screen", newScreen?.GetType().ReadableName() ?? @"none");
-            });
-
             switch (current)
             {
                 case Player player:

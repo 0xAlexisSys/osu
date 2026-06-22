@@ -3,13 +3,12 @@
 
 using System;
 using osu.Game.Beatmaps;
-using osu.Game.Database;
 using osu.Game.Rulesets;
 using osu.Game.Users;
 
 namespace osu.Game.Scoring
 {
-    public interface IScoreInfo : IHasOnlineID<long>
+    public interface IScoreInfo
     {
         IUser User { get; }
 
@@ -21,8 +20,6 @@ namespace osu.Game.Scoring
         int MaxCombo { get; }
 
         double Accuracy { get; }
-
-        long LegacyOnlineID { get; }
 
         DateTimeOffset Date { get; }
 

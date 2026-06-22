@@ -161,7 +161,6 @@ namespace osu.Game.Online.API.Requests.Responses
 
         IUser IScoreInfo.User => User!;
         DateTimeOffset IScoreInfo.Date => EndedAt;
-        long IScoreInfo.LegacyOnlineID => (long?)LegacyScoreId ?? -1;
         IBeatmapInfo IScoreInfo.Beatmap => Beatmap!;
         IRulesetInfo IScoreInfo.Ruleset => Beatmap!.Ruleset;
 
@@ -212,8 +211,6 @@ namespace osu.Game.Online.API.Requests.Responses
         {
             var score = new ScoreInfo
             {
-                OnlineID = OnlineID,
-                LegacyOnlineID = (long?)LegacyScoreId ?? -1,
                 IsLegacyScore = IsLegacyScore,
                 User = User ?? new APIUser { Id = UserID },
                 BeatmapInfo = new BeatmapInfo { OnlineID = BeatmapID },

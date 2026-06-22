@@ -97,12 +97,6 @@ namespace osu.Game.Scoring
                     databasedScoreInfo = Query(s => s.Hash == scoreInfo.Hash);
             }
 
-            if (originalScoreInfo.OnlineID > 0)
-                databasedScoreInfo ??= Query(s => s.OnlineID == originalScoreInfo.OnlineID);
-
-            if (originalScoreInfo.LegacyOnlineID > 0)
-                databasedScoreInfo ??= Query(s => s.LegacyOnlineID == originalScoreInfo.LegacyOnlineID);
-
             if (databasedScoreInfo == null)
             {
                 Logger.Log("The requested score could not be found locally.", LoggingTarget.Information);
@@ -192,12 +186,6 @@ namespace osu.Game.Scoring
         public Task Import(params string[] paths) => scoreImporter.Import(paths);
 
         public Task Import(ImportTask[] imports, ImportParameters parameters = default) => scoreImporter.Import(imports, parameters);
-
-        public override bool IsAvailableLocally(ScoreInfo model)
-            => Realm.Run(realm => realm.All<ScoreInfo>()
-                                       // this basically inlines `ModelExtension.MatchesOnlineID(IScoreInfo, IScoreInfo)`,
-                                       // because that method can't be used here, as realm can't translate it to its query language.
-                                       .Any(s => s.OnlineID == model.OnlineID || s.LegacyOnlineID == model.LegacyOnlineID));
 
         public IEnumerable<string> HandledExtensions => scoreImporter.HandledExtensions;
 

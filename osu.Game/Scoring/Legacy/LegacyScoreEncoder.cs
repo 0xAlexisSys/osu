@@ -110,7 +110,7 @@ namespace osu.Game.Scoring.Legacy
                 sw.Write(getHpGraphFormatted());
                 sw.Write(score.ScoreInfo.Date.DateTime);
                 sw.WriteByteArray(createReplayData());
-                sw.Write(score.ScoreInfo.LegacyOnlineID);
+                sw.Write((long)-1); // LegacyOnlineID
                 writeModSpecificData(score.ScoreInfo, sw);
                 sw.WriteByteArray(createScoreInfoData());
             }

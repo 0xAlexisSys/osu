@@ -28,7 +28,6 @@ using osu.Game.Graphics.Containers;
 using osu.Game.Input.Bindings;
 using osu.Game.IO;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Online.Matchmaking;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Dialog;
@@ -38,7 +37,6 @@ using osu.Game.Rulesets;
 using osu.Game.Screens.Backgrounds;
 using osu.Game.Screens.Edit;
 using osu.Game.Screens.Select;
-using osu.Game.Seasonal;
 using osuTK;
 using osuTK.Graphics;
 
@@ -70,9 +68,6 @@ namespace osu.Game.Screens.Menu
 
         [Resolved]
         private MusicController musicController { get; set; }
-
-        [Resolved]
-        private IAPIProvider api { get; set; }
 
         [Resolved]
         private Storage storage { get; set; }
@@ -130,7 +125,6 @@ namespace osu.Game.Screens.Menu
 
             AddRangeInternal(new[]
             {
-                SeasonalUIConfig.ENABLED ? new MainMenuSeasonalLighting() : Empty(),
                 new GlobalScrollAdjustsVolume(),
                 buttonsContainer = new ParallaxContainer
                 {
@@ -157,16 +151,15 @@ namespace osu.Game.Screens.Menu
                         }
                     }
                 },
-                logoTarget = new Container { RelativeSizeAxes = Axes.Both, },
-                sideFlashes = SeasonalUIConfig.ENABLED ? new SeasonalMenuSideFlashes() : new MenuSideFlashes(),
+                logoTarget = new Container { RelativeSizeAxes = Axes.Both },
+                sideFlashes = new MenuSideFlashes(),
                 songTicker = new SongTicker
                 {
                     Anchor = Anchor.TopRight,
                     Origin = Anchor.TopRight,
                     Margin = new MarginPadding { Right = 15, Top = 5 }
                 },
-                // For now, this is too much alongside the seasonal lighting.
-                SeasonalUIConfig.ENABLED ? Empty() : new KiaiMenuFountains(),
+                new KiaiMenuFountains(),
                 bottomElementsFlow = new FillFlowContainer
                 {
                     AutoSizeAxes = Axes.Both,
@@ -174,19 +167,16 @@ namespace osu.Game.Screens.Menu
                     Anchor = Anchor.BottomCentre,
                     Origin = Anchor.BottomCentre,
                     Spacing = new Vector2(5),
-                    Children = new Drawable[]
+                    Child = menuTipDisplay = new MenuTipDisplay
                     {
-                        menuTipDisplay = new MenuTipDisplay
-                        {
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.TopCentre,
-                        },
-                    }
+                        Anchor = Anchor.TopCentre,
+                        Origin = Anchor.TopCentre,
+                    },
                 },
                 holdToExitGameOverlay?.CreateProxy() ?? Empty()
             });
 
-            float baseDim = SeasonalUIConfig.ENABLED ? 0.84f : 1;
+            const float base_dim = 1.0f;
 
             Buttons.StateChanged += state =>
             {
@@ -194,11 +184,11 @@ namespace osu.Game.Screens.Menu
                 {
                     case ButtonSystemState.Initial:
                     case ButtonSystemState.Exit:
-                        ApplyToBackground(b => b.FadeColour(OsuColour.Gray(baseDim), 500, Easing.OutSine));
+                        ApplyToBackground(b => b.FadeColour(OsuColour.Gray(base_dim), 500, Easing.OutSine));
                         break;
 
                     default:
-                        ApplyToBackground(b => b.FadeColour(OsuColour.Gray(baseDim * 0.8f), 500, Easing.OutSine));
+                        ApplyToBackground(b => b.FadeColour(OsuColour.Gray(base_dim * 0.8f), 500, Easing.OutSine));
                         break;
                 }
             };

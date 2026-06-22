@@ -49,7 +49,7 @@ namespace osu.Game.Screens.Play.HUD
             {
                 Masking = true,
                 RelativeSizeAxes = Axes.Both,
-                Child = avatar = new UpdateableAvatar(isInteractive: false)
+                Child = avatar = new UpdateableAvatar()
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,

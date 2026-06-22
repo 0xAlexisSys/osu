@@ -11,7 +11,7 @@ using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
-using osu.Framework.Graphics.Effects;
+// using osu.Framework.Graphics.Effects;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
@@ -102,7 +102,7 @@ namespace osu.Game.Online.Leaderboards
 
             statisticsLabels = GetStatistics(Score).Select(s => new ScoreComponentLabel(s)).ToList();
 
-            ClickableAvatar innerAvatar;
+            DrawableAvatar innerAvatar;
 
             Children = new Drawable[]
             {
@@ -139,17 +139,17 @@ namespace osu.Game.Online.Leaderboards
                             Children = new[]
                             {
                                 avatar = new DelayedLoadWrapper(
-                                    innerAvatar = new ClickableAvatar(user)
+                                    innerAvatar = new DrawableAvatar(user)
                                     {
                                         RelativeSizeAxes = Axes.Both,
-                                        CornerRadius = corner_radius,
-                                        Masking = true,
-                                        EdgeEffect = new EdgeEffectParameters
-                                        {
-                                            Type = EdgeEffectType.Shadow,
-                                            Radius = 1,
-                                            Colour = Color4.Black.Opacity(0.2f),
-                                        },
+                                        // CornerRadius = corner_radius,
+                                        // Masking = true,
+                                        // EdgeEffect = new EdgeEffectParameters
+                                        // {
+                                        //     Type = EdgeEffectType.Shadow,
+                                        //     Radius = 1,
+                                        //     Colour = Color4.Black.Opacity(0.2f),
+                                        // },
                                     })
                                 {
                                     RelativeSizeAxes = Axes.None,

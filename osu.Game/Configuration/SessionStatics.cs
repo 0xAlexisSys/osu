@@ -31,7 +31,7 @@ namespace osu.Game.Configuration
             SetDefault(Static.TouchInputActive, RuntimeInfo.IsMobile);
             SetDefault<ScoreInfo?>(Static.LastLocalUserScore, null);
             SetDefault<ScoreInfo?>(Static.LastAppliedOffsetScore, null);
-            SetDefault<UserActivity?>(Static.UserOnlineActivity, null);
+            SetDefault<UserActivity?>(Static.UserDiscordRichPresenceActivity, null);
             SetDefault<APITag[]?>(Static.AllBeatmapTags, null);
         }
 
@@ -93,7 +93,7 @@ namespace osu.Game.Configuration
         /// <summary>
         /// The activity for the current user to broadcast to other players.
         /// </summary>
-        UserOnlineActivity,
+        UserDiscordRichPresenceActivity,
 
         AllBeatmapTags,
     }

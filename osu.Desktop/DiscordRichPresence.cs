@@ -58,7 +58,7 @@ namespace osu.Desktop
         private void load(OsuConfigManager config, SessionStatics session)
         {
             privacyMode = config.GetBindable<DiscordRichPresenceMode>(OsuSetting.DiscordRichPresence);
-            userActivity = session.GetBindable<UserActivity?>(Static.UserOnlineActivity);
+            userActivity = session.GetBindable<UserActivity?>(Static.UserDiscordRichPresenceActivity);
 
             client = new DiscordRpcClient(client_id)
             {

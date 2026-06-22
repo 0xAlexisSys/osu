@@ -396,7 +396,7 @@ namespace osu.Game
 
             Ruleset.ValueChanged += r => configRuleset.Value = r.NewValue.ShortName;
 
-            configUserActivity = SessionStatics.GetBindable<UserActivity>(Static.UserOnlineActivity);
+            configUserActivity = SessionStatics.GetBindable<UserActivity>(Static.UserDiscordRichPresenceActivity);
 
             configSkin = LocalConfig.GetBindable<string>(OsuSetting.Skin);
 

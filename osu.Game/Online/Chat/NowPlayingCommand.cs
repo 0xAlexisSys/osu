@@ -48,7 +48,7 @@ namespace osu.Game.Online.Chat
         [BackgroundDependencyLoader]
         private void load(SessionStatics session)
         {
-            userActivity = session.GetBindable<UserActivity?>(Static.UserOnlineActivity);
+            userActivity = session.GetBindable<UserActivity?>(Static.UserDiscordRichPresenceActivity);
         }
 
         protected override void LoadComplete()

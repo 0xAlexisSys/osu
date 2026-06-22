@@ -103,15 +103,6 @@ namespace osu.Game.Scoring.Legacy
                 scoreInfo.Date = sr.ReadDateTime();
 
                 byte[] compressedReplay = sr.ReadByteArray();
-
-                if (version >= 20140721)
-                    scoreInfo.LegacyOnlineID = sr.ReadInt64();
-                else if (version >= 20121008)
-                    scoreInfo.LegacyOnlineID = sr.ReadInt32();
-
-                if (scoreInfo.LegacyOnlineID == 0)
-                    scoreInfo.LegacyOnlineID = -1;
-
                 byte[] compressedScoreInfo = null;
 
                 if (version >= 30000001)
@@ -128,7 +119,6 @@ namespace osu.Game.Scoring.Legacy
 
                         Debug.Assert(readScore != null);
 
-                        score.ScoreInfo.OnlineID = readScore.OnlineID;
                         score.ScoreInfo.Statistics = readScore.Statistics;
                         score.ScoreInfo.MaximumStatistics = readScore.MaximumStatistics;
                         score.ScoreInfo.Mods = readScore.Mods.Select(m => m.ToMod(currentRuleset)).ToArray();

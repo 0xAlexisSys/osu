@@ -1141,24 +1141,6 @@ namespace osu.Game.Database
                     break;
                 }
 
-                case 36:
-                {
-                    foreach (var score in migration.NewRealm.All<ScoreInfo>())
-                    {
-                        if (score.OnlineID > 0)
-                        {
-                            score.LegacyOnlineID = score.OnlineID;
-                            score.OnlineID = -1;
-                        }
-                        else
-                        {
-                            score.LegacyOnlineID = score.OnlineID = -1;
-                        }
-                    }
-
-                    break;
-                }
-
                 case 39:
                     foreach (var b in migration.NewRealm.All<BeatmapInfo>())
                     {
@@ -1291,17 +1273,6 @@ namespace osu.Game.Database
 
                     break;
                 }
-
-                case 48:
-                    // [alexis] This case was used to call ResetOnlineInfo on beatmaps.
-                    //          Seems like it's not needed anymore.
-                    break;
-
-                case 49:
-                    foreach (var score in migration.NewRealm.All<ScoreInfo>().Where(s => s.LegacyOnlineID == 0))
-                        score.LegacyOnlineID = -1;
-
-                    break;
             }
 
             Logger.Log($"Migration completed in {stopwatch.ElapsedMilliseconds}ms");

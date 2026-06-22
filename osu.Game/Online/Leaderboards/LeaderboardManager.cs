@@ -11,8 +11,6 @@ using osu.Framework.Development;
 using osu.Framework.Graphics;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
-using osu.Game.Extensions;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
@@ -34,13 +32,7 @@ namespace osu.Game.Online.Leaderboards
         private IDisposable? localScoreSubscription;
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
-
-        [Resolved]
         private RealmAccess realm { get; set; } = null!;
-
-        [Resolved]
-        private RulesetStore rulesets { get; set; } = null!;
 
         /// <summary>
         /// Fetch leaderboard content with the new criteria specified in the background.
@@ -159,7 +151,7 @@ namespace osu.Game.Online.Leaderboards
                 foreach (var score in TopScores)
                     yield return score;
 
-                if (UserScore != null && TopScores.All(topScore => !topScore.Equals(UserScore) && !topScore.MatchesOnlineID(UserScore)))
+                if (UserScore != null && TopScores.All(topScore => !topScore.Equals(UserScore)))
                     yield return UserScore;
             }
         }

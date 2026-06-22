@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Logging;
-using osu.Game.Extensions;
 using osu.Game.Online.API;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Scoring;
@@ -86,7 +85,7 @@ namespace osu.Game.Screens.Ranking
                 // ensure that we do not double up on the score being presented here.
                 // additionally, ensure that the reference that ends up in `sortedScores` is the `Score` reference specifically.
                 // this simplifies handling later.
-                if (clonedScore.Equals(Score) || clonedScore.MatchesOnlineID(Score))
+                if (clonedScore.Equals(Score))
                 {
                     // this is a precautionary guard that prevents `Score` from appearing multiple times in the list.
                     // that can occur in rare cases wherein two local scores have the same online ID but different replay contents

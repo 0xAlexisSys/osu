@@ -139,9 +139,6 @@ namespace osu.Game.Scoring
                 return;
             }
 
-            if (model.OnlineID < 0 && model.LegacyOnlineID <= 0)
-                return;
-
             model.User = lookupUserByName(model.RealmUser.Username) ?? model.User;
         }
 

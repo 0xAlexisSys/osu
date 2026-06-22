@@ -25,7 +25,6 @@ using osu.Game.Database;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online;
 using osu.Game.Online.Chat;
 using osu.Game.Online.Rooms;
 using osu.Game.Rulesets;
@@ -483,17 +482,11 @@ namespace osu.Game.Screens.OnlinePlay
                 Origin = Anchor.Centre,
                 Visible = { BindTarget = completed }
             },
-            beatmap == null
-                ? Empty().With(d =>
-                {
-                    d.Anchor = Anchor.Centre;
-                    d.Origin = Anchor.Centre;
-                })
-                : new PlaylistDownloadButton(beatmap)
-                {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                },
+            Empty().With(d =>
+            {
+                d.Anchor = Anchor.Centre;
+                d.Origin = Anchor.Centre;
+            }),
             showResultsButton = new GrayButton(FontAwesome.Solid.ChartPie)
             {
                 Anchor = Anchor.Centre,
@@ -569,63 +562,6 @@ namespace osu.Game.Screens.OnlinePlay
             public PlaylistRemoveButton()
                 : base(FontAwesome.Solid.MinusSquare)
             {
-            }
-        }
-
-        private sealed partial class PlaylistDownloadButton : BeatmapDownloadButton
-        {
-            private readonly IBeatmapInfo beatmap;
-
-            [Resolved]
-            private BeatmapManager beatmapManager { get; set; } = null!;
-
-            // required for download tracking, as this button hides itself. can probably be removed with a bit of consideration.
-            public override bool IsPresent => true;
-
-            private const float width = 50;
-
-            public PlaylistDownloadButton(IBeatmapInfo beatmap)
-                : base(beatmap.BeatmapSet)
-            {
-                this.beatmap = beatmap;
-
-                Size = new Vector2(width, 30);
-                Alpha = 0;
-            }
-
-            protected override void LoadComplete()
-            {
-                State.BindValueChanged(stateChanged, true);
-
-                // base implementation calls FinishTransforms, so should be run after the above state update.
-                base.LoadComplete();
-            }
-
-            private void stateChanged(ValueChangedEvent<DownloadState> state)
-            {
-                switch (state.NewValue)
-                {
-                    case DownloadState.Unknown:
-                        // Ignore initial state to ensure the button doesn't briefly appear.
-                        break;
-
-                    case DownloadState.LocallyAvailable:
-                        // Perform a local query of the beatmap by beatmap checksum, and reset the state if not matching.
-                        if (beatmapManager.QueryBeatmap(b => b.MD5Hash == beatmap.MD5Hash) == null)
-                            State.Value = DownloadState.NotDownloaded;
-                        else
-                        {
-                            this.FadeTo(0, 500)
-                                .ResizeWidthTo(0, 500, Easing.OutQuint);
-                        }
-
-                        break;
-
-                    default:
-                        this.ResizeWidthTo(width, 500, Easing.OutQuint)
-                            .FadeTo(1, 500);
-                        break;
-                }
             }
         }
 

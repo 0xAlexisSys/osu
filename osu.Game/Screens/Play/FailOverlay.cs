@@ -7,10 +7,12 @@ using osu.Game.Scoring;
 using osu.Game.Graphics.UserInterface;
 using osuTK;
 using osu.Framework.Allocation;
+using osu.Framework.Extensions;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Localisation;
 using osu.Game.Localisation;
 
@@ -22,8 +24,10 @@ namespace osu.Game.Screens.Play
 
         public override LocalisableString Header => GameplayMenuOverlayStrings.FailedHeader;
 
+        private GrayButton saveReplayButton = null!;
+
         [BackgroundDependencyLoader]
-        private void load()
+        private void load(OsuGame game)
         {
             // from #10339 maybe this is a better visual effect
             Add(new Container
@@ -48,13 +52,21 @@ namespace osu.Game.Screens.Play
                         Spacing = new Vector2(5),
                         Padding = new MarginPadding(10),
                         Direction = FillDirection.Horizontal,
-                        Children = new Drawable[]
+                        Child = saveReplayButton = new GrayButton(FontAwesome.Solid.Save)
                         {
-                            new SaveFailedScoreButton(SaveReplay)
-                            {
-                                Width = 300
-                            },
-                        }
+                            Enabled = { Value = SaveReplay is not null },
+                            Width = 300.0f,
+                            Height = 30.0f,
+                            TooltipText = SaveReplay is not null ? @"save score" : @"replay unavailable",
+                            Action = SaveReplay is not null
+                                ? () =>
+                                {
+                                    saveReplayButton.Enabled.Value = false;
+                                    saveReplayButton.TooltipText = @"saving score";
+                                    Task.Run(SaveReplay).ContinueWith(t => Schedule(() => game.PresentScore(t.GetResultSafely())));
+                                }
+                                : null,
+                        },
                     }
                 }
             });

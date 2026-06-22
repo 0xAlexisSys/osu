@@ -9,7 +9,6 @@ using osu.Framework.Bindables;
 using osu.Framework.Extensions.ExceptionExtensions;
 using osu.Framework.Extensions.TypeExtensions;
 using osu.Framework.Logging;
-using osu.Game.Utils;
 
 namespace osu.Game.Online.Multiplayer
 {
@@ -24,11 +23,6 @@ namespace osu.Game.Online.Multiplayer
                     Exception exception = t.Exception.AsSingular();
 
                     onError?.Invoke(exception);
-
-                    // OnlineStatusNotifier is already letting users know about interruptions to connections.
-                    // Silence these because it gets very spammy otherwise.
-                    if (SentryLogger.IsLocalUserConnectivityException(exception))
-                        return;
 
                     if (exception.GetHubExceptionMessage() is string message)
                     {

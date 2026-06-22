@@ -37,7 +37,6 @@ using osu.Game.Graphics.UserInterface;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
 using osu.Game.Online.API;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Overlays.OSD;
@@ -54,7 +53,6 @@ using osu.Game.Screens.Edit.GameplayTest;
 using osu.Game.Screens.Edit.Setup;
 using osu.Game.Screens.Edit.Timing;
 using osu.Game.Screens.Edit.Verify;
-using osu.Game.Screens.OnlinePlay;
 using osu.Game.Users;
 using osuTK.Input;
 using WebCommonStrings = osu.Game.Resources.Localisation.Web.CommonStrings;
@@ -147,12 +145,6 @@ namespace osu.Game.Screens.Edit
         private bool canSave;
         private readonly List<MenuItem> saveRelatedMenuItems = new List<MenuItem>();
 
-        /// <summary>
-        /// Tracks ongoing mutually-exclusive operations related to changing the beatmap
-        /// (e.g. save, export).
-        /// </summary>
-        public OngoingOperationTracker MutationTracker { get; } = new OngoingOperationTracker();
-
         protected bool ExitConfirmed { get; private set; }
 
         private bool switchingDifficulty;
@@ -182,15 +174,7 @@ namespace osu.Game.Screens.Edit
 
         private bool isNewBeatmap;
 
-        protected override UserActivity InitialActivity => getCurrentUserActivity();
-
-        private UserActivity getCurrentUserActivity()
-        {
-            if (Beatmap.Value.Metadata.Author.OnlineID == api.LocalUser.Value.OnlineID)
-                return new UserActivity.EditingBeatmap(Beatmap.Value.BeatmapInfo);
-
-            return new UserActivity.ModdingBeatmap(Beatmap.Value.BeatmapInfo);
-        }
+        protected override UserActivity InitialActivity => new UserActivity.EditingBeatmap(Beatmap.Value.BeatmapInfo);
 
         protected override bool InitialBackButtonVisibility => false;
 
@@ -218,6 +202,8 @@ namespace osu.Game.Screens.Edit
         private Bindable<bool> editorTimelineShowBreaks;
         private Bindable<bool> editorTimelineShowTicks;
         private Bindable<bool> editorContractSidebars;
+
+        public Bindable<bool> SaveInProgress { get; } = new Bindable<bool>();
 
         /// <summary>
         /// This controls the opacity of components like the timelines, sidebars, etc.
@@ -460,7 +446,6 @@ namespace osu.Game.Screens.Edit
                         },
                     },
                     bottomBar = new BottomBar(),
-                    MutationTracker,
                 }
             });
 
@@ -481,10 +466,10 @@ namespace osu.Game.Screens.Edit
             Mode.Value = isNewBeatmap ? EditorScreenMode.SongSetup : EditorScreenMode.Compose;
             Mode.BindValueChanged(onModeChanged, true);
 
-            MutationTracker.InProgress.BindValueChanged(_ =>
+            SaveInProgress.BindValueChanged(e =>
             {
                 foreach (var item in saveRelatedMenuItems)
-                    item.Action.Disabled = MutationTracker.InProgress.Value;
+                    item.Action.Disabled = e.NewValue;
             }, true);
         }
 
@@ -529,13 +514,11 @@ namespace osu.Game.Screens.Edit
 
             if (HasUnsavedChanges)
             {
-                dialogOverlay.Push(new SaveRequiredPopupDialog(() => attemptMutationOperation(() =>
+                dialogOverlay.Push(new SaveRequiredPopupDialog(() =>
                 {
-                    if (!Save()) return false;
-
-                    pushEditorPlayer();
-                    return true;
-                })));
+                    if (Save())
+                        pushEditorPlayer();
+                }));
             }
             else
             {
@@ -543,26 +526,6 @@ namespace osu.Game.Screens.Edit
             }
 
             void pushEditorPlayer() => this.Push(new EditorPlayerLoader(this));
-        }
-
-        private bool attemptMutationOperation(Func<bool> mutationOperation)
-        {
-            if (MutationTracker.InProgress.Value)
-                return false;
-
-            using (MutationTracker.BeginOperation())
-                return mutationOperation.Invoke();
-        }
-
-        private bool attemptAsyncMutationOperation(Func<Task> mutationTask)
-        {
-            if (MutationTracker.InProgress.Value)
-                return false;
-
-            var operation = MutationTracker.BeginOperation();
-            var task = mutationTask.Invoke();
-            task.FireAndForget(operation.Dispose, _ => operation.Dispose());
-            return true;
         }
 
         [CanBeNull]
@@ -579,6 +542,8 @@ namespace osu.Game.Screens.Edit
                 notifications?.Post(new SimpleErrorNotification { Text = EditorStrings.RulesetNotSupportSaving });
                 return false;
             }
+
+            SaveInProgress.Value = true;
 
             try
             {
@@ -599,7 +564,9 @@ namespace osu.Game.Screens.Edit
             Saved?.Invoke();
 
             // This triggers an update to the window title post-save (ie if the difficulty name changed).
-            Activity.Value = getCurrentUserActivity();
+            Activity.Value = InitialActivity;
+
+            SaveInProgress.Value = false;
             return true;
         }
 
@@ -639,7 +606,8 @@ namespace osu.Game.Screens.Edit
                     if (e.Repeat)
                         return false;
 
-                    return attemptMutationOperation(Save);
+                    Save();
+                    return true;
             }
 
             return false;
@@ -921,11 +889,11 @@ namespace osu.Game.Screens.Edit
 
         private void confirmExitWithSave()
         {
-            if (!attemptMutationOperation(Save))
-                return;
-
-            ExitConfirmed = true;
-            this.Exit();
+            if (Save())
+            {
+                ExitConfirmed = true;
+                this.Exit();
+            }
         }
 
         private void confirmExit()
@@ -1267,7 +1235,7 @@ namespace osu.Game.Screens.Edit
             yield return new EditorMenuItem(EditorStrings.DeleteDifficulty, MenuItemType.Destructive, deleteDifficulty) { Action = { Disabled = Beatmap.Value.BeatmapSetInfo.Beatmaps.Count < 2 } };
             yield return new OsuMenuItemSpacer();
 
-            var save = new EditorMenuItem(WebCommonStrings.ButtonsSave, MenuItemType.Standard, () => attemptMutationOperation(Save)) { Hotkey = new Hotkey(PlatformAction.Save) };
+            var save = new EditorMenuItem(WebCommonStrings.ButtonsSave, MenuItemType.Standard, () => Save()) { Hotkey = new Hotkey(PlatformAction.Save) };
             saveRelatedMenuItems.Add(save);
             yield return save;
 
@@ -1290,16 +1258,6 @@ namespace osu.Game.Screens.Edit
                 yield return externalEdit;
             }
 
-            if (editorBeatmap.BeatmapInfo.OnlineID > 0)
-            {
-                yield return new OsuMenuItemSpacer();
-                yield return new EditorMenuItem(EditorStrings.OpenInfoPage, MenuItemType.Standard,
-                    () => (Game as OsuGame)?.OpenUrlExternally(editorBeatmap.BeatmapInfo.GetOnlineURL(api, editorBeatmap.BeatmapInfo.Ruleset)));
-                yield return new EditorMenuItem(EditorStrings.OpenDiscussionPage, MenuItemType.Standard,
-                    () => (Game as OsuGame)?.OpenUrlExternally(
-                        $@"{api.Endpoints.WebsiteUrl}/beatmapsets/{editorBeatmap.BeatmapInfo.BeatmapSet!.OnlineID}/discussion/{editorBeatmap.BeatmapInfo.OnlineID}"));
-            }
-
             yield return new OsuMenuItemSpacer();
             yield return new EditorMenuItem(CommonStrings.Exit, MenuItemType.Standard, this.Exit);
         }
@@ -1320,14 +1278,11 @@ namespace osu.Game.Screens.Edit
         {
             if (HasUnsavedChanges)
             {
-                dialogOverlay.Push(new SaveRequiredPopupDialog(() => attemptMutationOperation(() =>
+                dialogOverlay.Push(new SaveRequiredPopupDialog(() =>
                 {
-                    if (!Save())
-                        return false;
-
-                    startEdit();
-                    return true;
-                })));
+                    if (Save())
+                        startEdit();
+                }));
             }
             else
             {
@@ -1344,17 +1299,15 @@ namespace osu.Game.Screens.Edit
         {
             if (HasUnsavedChanges)
             {
-                dialogOverlay.Push(new SaveRequiredPopupDialog(() => attemptAsyncMutationOperation(() =>
+                dialogOverlay.Push(new SaveRequiredPopupDialog(() =>
                 {
-                    if (!Save())
-                        return Task.CompletedTask;
-
-                    return exportAction.Invoke(beatmapManager);
-                })));
+                    if (Save())
+                        exportAction.Invoke(beatmapManager);
+                }));
             }
             else
             {
-                attemptAsyncMutationOperation(() => exportAction(beatmapManager));
+                exportAction.Invoke(beatmapManager);
             }
         }
 
@@ -1414,14 +1367,11 @@ namespace osu.Game.Screens.Edit
         {
             if (isNewBeatmap)
             {
-                dialogOverlay.Push(new SaveRequiredPopupDialog(() => attemptMutationOperation(() =>
+                dialogOverlay.Push(new SaveRequiredPopupDialog(() =>
                 {
-                    if (!Save())
-                        return false;
-
-                    CreateNewDifficulty(rulesetInfo);
-                    return true;
-                })));
+                    if (Save())
+                        CreateNewDifficulty(rulesetInfo);
+                }));
 
                 return;
             }
@@ -1491,13 +1441,14 @@ namespace osu.Game.Screens.Edit
 
             void performReload()
             {
-                bool reloadedSuccessfully = attemptMutationOperation(() =>
-                {
-                    if (!Save()) return false;
+                bool reloadedSuccessfully = false;
 
+                if (Save())
+                {
                     SwitchToDifficulty(editorBeatmap.BeatmapInfo);
-                    return true;
-                });
+                    reloadedSuccessfully = true;
+                }
+
                 tcs.SetResult(reloadedSuccessfully);
             }
 

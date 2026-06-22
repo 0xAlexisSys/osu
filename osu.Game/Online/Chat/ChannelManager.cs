@@ -9,11 +9,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.SignalR;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
@@ -25,7 +23,6 @@ using osu.Game.Localisation;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Chat.Listing;
 using osu.Game.Overlays.Notifications;
@@ -82,10 +79,6 @@ namespace osu.Game.Online.Chat
 
         [Resolved(CanBeNull = true)]
         [CanBeNull]
-        private MultiplayerClient multiplayerClient { get; set; }
-
-        [Resolved(CanBeNull = true)]
-        [CanBeNull]
         private Storage storage { get; set; }
 
         [Resolved(CanBeNull = true)]
@@ -93,10 +86,8 @@ namespace osu.Game.Online.Chat
         private INotificationOverlay notifications { get; set; }
 
         private readonly IBindable<APIUser> localUser = new Bindable<APIUser>();
-        private readonly IBindable<APIState> apiState = new Bindable<APIState>();
         private ScheduledDelegate scheduledAck;
 
-        private IChatClient chatClient = null!;
         private long? lastSilenceMessageId;
         private uint? lastSilenceId;
 
@@ -110,18 +101,8 @@ namespace osu.Game.Online.Chat
         [BackgroundDependencyLoader]
         private void load()
         {
-            chatClient = api.GetChatClient();
-            chatClient.ChannelJoined += ch => Schedule(() => joinChannel(ch));
-            chatClient.ChannelParted += ch => Schedule(() => leaveChannel(getChannel(ch), false));
-            chatClient.NewMessages += msgs => Schedule(() => addMessages(msgs));
-            chatClient.PresenceReceived += () => Schedule(initializeChannels);
-            chatClient.RequestPresence();
-
             localUser.BindTo(api.LocalUser);
             localUser.BindValueChanged(userChanged);
-
-            apiState.BindTo(api.State);
-            apiState.BindValueChanged(_ => SendAck(), true);
         }
 
         private void userChanged(ValueChangedEvent<APIUser> userChange)
@@ -203,12 +184,6 @@ namespace osu.Game.Online.Chat
 
             postQueue.Enqueue(() =>
             {
-                if (!api.IsLoggedIn)
-                {
-                    target.AddNewMessages(new ErrorMessage("Please sign in to participate in chat!"));
-                    return;
-                }
-
                 var message = new LocalEchoMessage
                 {
                     Sender = api.LocalUser.Value,
@@ -341,34 +316,6 @@ namespace osu.Game.Online.Chat
                     api.Queue(request);
                     break;
 
-                case @"roll":
-                    if (target.Type != ChannelType.Multiplayer || multiplayerClient?.Room?.ChannelID != target.Id)
-                    {
-                        target.AddNewMessages(new ErrorMessage("Cannot roll when not in a multiplayer room."));
-                        break;
-                    }
-
-                    uint max = 100;
-
-                    if (!string.IsNullOrEmpty(content))
-                    {
-                        if (!uint.TryParse(content, out max) || max < 2 || max > 100)
-                        {
-                            target.AddNewMessages(new ErrorMessage("Usage: /roll [2-100]"));
-                            break;
-                        }
-                    }
-
-                    var rollRequest = new RollRequest { Max = max };
-                    multiplayerClient.SendMatchRequest(rollRequest).FireAndForget(onError: ex =>
-                    {
-                        string message = ex is HubException
-                            ? $"Failed to roll: {ex.Message}"
-                            : "Failed to roll.";
-                        target.AddNewMessages(new ErrorMessage(message));
-                    });
-                    break;
-
                 case @"savelog":
                     ProgressNotification notification = new ProgressNotification
                     {
@@ -427,11 +374,6 @@ namespace osu.Game.Online.Chat
 
         private void initializeChannels()
         {
-            // This request is self-retrying until it succeeds.
-            // To avoid requests piling up when not logged in (ie. API is unavailable) exit early.
-            if (!api.IsLoggedIn)
-                return;
-
             var req = new ListChannelsRequest();
 
             bool joinDefaults = JoinedChannels.Count == 0;
@@ -485,9 +427,6 @@ namespace osu.Game.Online.Chat
         /// </summary>
         public void SendAck()
         {
-            if (apiState.Value != APIState.Online)
-                return;
-
             var req = new ChatAckRequest
             {
                 SinceMessageId = lastSilenceMessageId,
@@ -766,14 +705,6 @@ namespace osu.Game.Online.Chat
             }
 
             return filename;
-        }
-
-        protected override void Dispose(bool isDisposing)
-        {
-            base.Dispose(isDisposing);
-
-            if (chatClient.IsNotNull())
-                chatClient.Dispose();
         }
     }
 

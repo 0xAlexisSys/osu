@@ -12,14 +12,11 @@ using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Logging;
 using osu.Framework.Threading;
-using osu.Game;
 using osu.Game.Configuration;
 using osu.Game.Extensions;
 using osu.Game.Online;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Online.Multiplayer;
-using osu.Game.Online.Rooms;
 using osu.Game.Rulesets;
 using osu.Game.Users;
 using LogLevel = osu.Framework.Logging.LogLevel;
@@ -39,16 +36,9 @@ namespace osu.Desktop
         private IAPIProvider api { get; set; } = null!;
 
         [Resolved]
-        private OsuGame game { get; set; } = null!;
-
-        [Resolved]
-        private MultiplayerClient multiplayerClient { get; set; } = null!;
-
-        [Resolved]
         private LocalUserStatisticsProvider statisticsProvider { get; set; } = null!;
 
         private IBindable<DiscordRichPresenceMode> privacyMode = null!;
-        private IBindable<UserStatus> userStatus = null!;
         private IBindable<UserActivity?> userActivity = null!;
 
         private readonly RichPresence presence = new RichPresence
@@ -68,7 +58,6 @@ namespace osu.Desktop
         private void load(OsuConfigManager config, SessionStatics session)
         {
             privacyMode = config.GetBindable<DiscordRichPresenceMode>(OsuSetting.DiscordRichPresence);
-            userStatus = config.GetBindable<UserStatus>(OsuSetting.UserOnlineStatus);
             userActivity = session.GetBindable<UserActivity?>(Static.UserOnlineActivity);
 
             client = new DiscordRpcClient(client_id)
@@ -105,11 +94,9 @@ namespace osu.Desktop
             user = api.LocalUser.GetBoundCopy();
 
             ruleset.BindValueChanged(_ => schedulePresenceUpdate());
-            userStatus.BindValueChanged(_ => schedulePresenceUpdate());
             userActivity.BindValueChanged(_ => schedulePresenceUpdate());
             privacyMode.BindValueChanged(_ => schedulePresenceUpdate());
 
-            multiplayerClient.RoomUpdated += onRoomUpdated;
             statisticsProvider.StatisticsUpdated += onStatisticsUpdated;
         }
 
@@ -138,13 +125,13 @@ namespace osu.Desktop
                 if (!client.IsInitialized)
                     return;
 
-                if (!api.IsLoggedIn || userStatus.Value == UserStatus.Offline || privacyMode.Value == DiscordRichPresenceMode.Off)
+                if (privacyMode.Value == DiscordRichPresenceMode.Off)
                 {
                     client.ClearPresence();
                     return;
                 }
 
-                bool hideIdentifiableInformation = privacyMode.Value == DiscordRichPresenceMode.Limited || userStatus.Value == UserStatus.DoNotDisturb;
+                bool hideIdentifiableInformation = privacyMode.Value == DiscordRichPresenceMode.Limited;
 
                 updatePresence(hideIdentifiableInformation);
                 client.SetPresence(presence);
@@ -182,40 +169,6 @@ namespace osu.Desktop
             {
                 presence.State = "Idle";
                 presence.Details = string.Empty;
-            }
-
-            // user party
-            if (!hideIdentifiableInformation && multiplayerClient.Room != null && !multiplayerClient.Room.Settings.MatchType.IsMatchmakingType())
-            {
-                MultiplayerRoom room = multiplayerClient.Room;
-
-                presence.Party = new Party
-                {
-                    Privacy = string.IsNullOrEmpty(room.Settings.Password) ? Party.PrivacySetting.Public : Party.PrivacySetting.Private,
-                    ID = room.RoomID.ToString(),
-                    // technically lobbies can have infinite users, but Discord needs this to be set to something.
-                    // to make party display sensible, assign a powers of two above participants count (8 at minimum).
-                    Max = (int)Math.Max(8, Math.Pow(2, Math.Ceiling(Math.Log2(room.Users.Count)))),
-                    Size = room.Users.Count,
-                };
-
-                RoomSecret roomSecret = new RoomSecret
-                {
-                    RoomID = room.RoomID,
-                    Password = room.Settings.Password,
-                };
-
-                if (client.HasRegisteredUriScheme)
-                    presence.Secrets.JoinSecret = JsonConvert.SerializeObject(roomSecret);
-
-                // discord cannot handle both secrets and buttons at the same time, so we need to choose something.
-                // the multiplayer room seems more important.
-                presence.Buttons = null;
-            }
-            else
-            {
-                presence.Party = null;
-                presence.Secrets.JoinSecret = null;
             }
 
             // game images:
@@ -293,9 +246,6 @@ namespace osu.Desktop
 
         protected override void Dispose(bool isDisposing)
         {
-            if (multiplayerClient.IsNotNull())
-                multiplayerClient.RoomUpdated -= onRoomUpdated;
-
             if (statisticsProvider.IsNotNull())
                 statisticsProvider.StatisticsUpdated -= onStatisticsUpdated;
 

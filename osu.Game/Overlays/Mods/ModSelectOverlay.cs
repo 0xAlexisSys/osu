@@ -13,7 +13,6 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
 using osu.Framework.Input;
-using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
 using osu.Framework.Utils;
@@ -36,7 +35,7 @@ using osuTK.Input;
 
 namespace osu.Game.Overlays.Mods
 {
-    public partial class ModSelectOverlay : ShearedOverlayContainer, ISamplePlaybackDisabler, IKeyBindingHandler<PlatformAction>
+    public partial class ModSelectOverlay : ShearedOverlayContainer, ISamplePlaybackDisabler
     {
         public const int BUTTON_WIDTH = 200;
 
@@ -116,8 +115,6 @@ namespace osu.Game.Overlays.Mods
 
         private Container aboveColumnsContent = null!;
         private ModCustomisationPanel customisationPanel = null!;
-
-        protected virtual SelectAllModsButton? SelectAllModsButton => null;
 
         private Sample? columnAppearSample;
 
@@ -640,21 +637,6 @@ namespace osu.Game.Overlays.Mods
                 else
                     Hide();
             }
-        }
-
-        /// <inheritdoc cref="IKeyBindingHandler{PlatformAction}"/>
-        /// <remarks>
-        /// This is handled locally here due to conflicts in input handling between the search text box and the select all mods button.
-        /// Attempting to handle this action locally in both places leads to a possible scenario
-        /// wherein activating the "select all" platform binding will both select all text in the search box and select all mods.
-        /// </remarks>
-        public bool OnPressed(KeyBindingPressEvent<PlatformAction> e)
-        {
-            if (e.Repeat || e.Action != PlatformAction.SelectAll || SelectAllModsButton == null)
-                return false;
-
-            SelectAllModsButton.TriggerClick();
-            return true;
         }
 
         public void OnReleased(KeyBindingReleaseEvent<PlatformAction> e)

@@ -21,7 +21,7 @@ namespace osu.Game.Screens.Edit
     {
         public TestGameplayButton TestGameplayButton { get; private set; } = null!;
 
-        private IBindable<bool> saveInProgress = null!;
+        private Bindable<bool> saveInProgress = null!;
         private Bindable<bool> composerFocusMode = null!;
 
         [BackgroundDependencyLoader]
@@ -72,7 +72,7 @@ namespace osu.Game.Screens.Edit
                 }
             };
 
-            saveInProgress = editor.MutationTracker.InProgress.GetBoundCopy();
+            saveInProgress = editor.SaveInProgress.GetBoundCopy();
             composerFocusMode = editor.ComposerFocusMode.GetBoundCopy();
         }
 

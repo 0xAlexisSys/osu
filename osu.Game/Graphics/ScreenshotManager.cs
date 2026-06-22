@@ -18,7 +18,6 @@ using osu.Framework.Threading;
 using osu.Game.Configuration;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using SixLabors.ImageSharp;
@@ -70,7 +69,7 @@ namespace osu.Game.Graphics
             {
                 case GlobalAction.TakeScreenshot:
                     shutter?.Play();
-                    TakeScreenshotAsync().FireAndForget();
+                    Task.Run(TakeScreenshotAsync);
                     return true;
             }
 

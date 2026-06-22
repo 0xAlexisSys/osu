@@ -23,9 +23,7 @@ using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays;
-using osu.Game.Screens.OnlinePlay.Match.Components;
 using osuTK;
 
 namespace osu.Game.Screens.Edit
@@ -110,7 +108,7 @@ namespace osu.Game.Screens.Edit
             // The finish() call will subsequently call Exit() when done.
             if (EditOperation != null && !operationFinishStarted)
             {
-                finish().FireAndForget();
+                Task.Run(finish);
                 return true;
             }
 
@@ -154,12 +152,13 @@ namespace osu.Game.Screens.Edit
                     AutoSizeAxes = Axes.Y,
                     Text = EditorStrings.ExternalEditMountedExplanation,
                 },
-                new PurpleRoundedButton
+                new RoundedButton
                 {
                     Text = EditorStrings.OpenFolder,
                     Width = 350,
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
+                    BackgroundColour = RoundedButton.BACKGROUND_COLOUR_PURPLE,
                     Action = openDirectory,
                     Enabled = { Value = false }
                 },
@@ -169,7 +168,7 @@ namespace osu.Game.Screens.Edit
                     Width = 350,
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
-                    Action = () => finish().FireAndForget(),
+                    Action = () => Task.Run(finish),
                     Enabled = { Value = false }
                 }
             };

@@ -9,7 +9,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using osu.Game.Extensions;
-using osu.Game.Online.Metadata;
 using osu.Game.Users;
 
 namespace osu.Game.Online.API.Requests.Responses

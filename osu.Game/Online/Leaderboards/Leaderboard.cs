@@ -65,8 +65,6 @@ namespace osu.Game.Online.Leaderboards
         [Resolved(CanBeNull = true)]
         private IAPIProvider? api { get; set; }
 
-        private readonly IBindable<APIState> apiState = new Bindable<APIState>();
-
         private TScope scope = default!;
 
         public TScope Scope
@@ -126,23 +124,6 @@ namespace osu.Game.Online.Leaderboards
         protected override void LoadComplete()
         {
             base.LoadComplete();
-
-            if (api != null)
-            {
-                apiState.BindTo(api.State);
-                apiState.BindValueChanged(state =>
-                {
-                    switch (state.NewValue)
-                    {
-                        case APIState.Online:
-                        case APIState.Offline:
-                            if (IsOnlineScope)
-                                RefetchScores();
-
-                            break;
-                    }
-                });
-            }
 
             RefetchScores();
         }

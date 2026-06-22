@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Game.Beatmaps;
-using osu.Game.Online.Multiplayer;
 using Realms;
 
 namespace osu.Game.Database
@@ -77,7 +76,7 @@ namespace osu.Game.Database
                     {
                         loaded.Set();
                     }
-                }, TaskCreationOptions.LongRunning).FireAndForget();
+                }, TaskCreationOptions.LongRunning);
 
                 return;
             }

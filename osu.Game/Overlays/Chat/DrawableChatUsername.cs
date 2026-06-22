@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
@@ -19,11 +18,9 @@ using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Localisation;
 using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Chat;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Resources.Localisation.Web;
 using osu.Game.Screens;
 using osuTK;
@@ -71,9 +68,6 @@ namespace osu.Game.Overlays.Chat
 
         [Resolved]
         private OsuColour colours { get; set; } = null!;
-
-        [Resolved]
-        private MultiplayerClient? multiplayerClient { get; set; }
 
         [Resolved]
         private IPerformFromScreenRunner? performer { get; set; }
@@ -182,19 +176,6 @@ namespace osu.Game.Overlays.Chat
                 }
 
                 items.Add(new OsuMenuItem(UsersStrings.CardSendMessage, MenuItemType.Standard, openUserChannel));
-
-                // We should probably be checking against an online state here.
-                // But we can't use MetadataClient.GetPresence because we may not be requesting/receiving presences.
-                // This isn't really too bad – worst case scenario the client will open spectator view and show the user as "offline".
-                {
-                    items.Add(new OsuMenuItemSpacer());
-
-                    if (multiplayerClient?.Room?.Users.All(u => u.UserID != user.Id) == true)
-                    {
-                        items.Add(new OsuMenuItem(ContextMenuStrings.InvitePlayer, MenuItemType.Standard, () => multiplayerClient.InvitePlayer(user.Id)));
-                    }
-                }
-
                 items.Add(new OsuMenuItemSpacer());
                 items.Add(new OsuMenuItem(UsersStrings.ReportButtonText, MenuItemType.Destructive, ReportRequested));
 

@@ -4,7 +4,6 @@
 #nullable disable
 
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Game.Online.API;
@@ -32,15 +31,6 @@ namespace osu.Game.Overlays
             AutoSizeAxes = Axes.Y;
         }
 
-        private readonly IBindable<APIState> apiState = new Bindable<APIState>();
-
-        [BackgroundDependencyLoader]
-        private void load()
-        {
-            apiState.BindTo(API.State);
-            apiState.BindValueChanged(onlineStateChanged, true);
-        }
-
         /// <summary>
         /// Create the API request for fetching data.
         /// </summary>
@@ -64,16 +54,6 @@ namespace osu.Game.Overlays
 
             API.Queue(request);
         }
-
-        private void onlineStateChanged(ValueChangedEvent<APIState> state) => Schedule(() =>
-        {
-            switch (state.NewValue)
-            {
-                case APIState.Online:
-                    PerformFetch();
-                    break;
-            }
-        });
 
         protected override void Dispose(bool isDisposing)
         {

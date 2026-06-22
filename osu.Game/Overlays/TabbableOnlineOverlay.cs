@@ -4,18 +4,13 @@
 #nullable disable
 
 using System.Threading;
-using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Containers;
-using osu.Game.Online.API;
 
 namespace osu.Game.Overlays
 {
     public abstract partial class TabbableOnlineOverlay<THeader, TEnum> : OnlineOverlay<THeader>
         where THeader : TabControlOverlayHeader<TEnum>
     {
-        private readonly IBindable<APIState> apiState = new Bindable<APIState>();
 
         private CancellationTokenSource cancellationToken;
         private bool displayUpdateRequired = true;
@@ -23,13 +18,6 @@ namespace osu.Game.Overlays
         protected TabbableOnlineOverlay(OverlayColourScheme colourScheme)
             : base(colourScheme)
         {
-        }
-
-        [BackgroundDependencyLoader]
-        private void load(IAPIProvider api)
-        {
-            apiState.BindTo(api.State);
-            apiState.BindValueChanged(onlineStateChanged, true);
         }
 
         protected override void LoadComplete()
@@ -74,24 +62,10 @@ namespace osu.Game.Overlays
             cancellationToken?.Cancel();
             Loading.Show();
 
-            if (!API.IsLoggedIn)
-            {
-                LoadDisplay(Empty());
-                return;
-            }
-
             CreateDisplayToLoad(tab);
         }
 
         protected abstract void CreateDisplayToLoad(TEnum tab);
-
-        private void onlineStateChanged(ValueChangedEvent<APIState> state) => Schedule(() =>
-        {
-            if (State.Value == Visibility.Hidden)
-                return;
-
-            Header.Current.TriggerChange();
-        });
 
         protected override void Dispose(bool isDisposing)
         {

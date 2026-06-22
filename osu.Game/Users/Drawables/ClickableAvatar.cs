@@ -10,7 +10,6 @@ using osu.Framework.Input.Events;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Cursor;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
 using osuTK;
 
@@ -38,7 +37,11 @@ namespace osu.Game.Users.Drawables
         {
             this.showCardOnHover = showCardOnHover;
 
-            TooltipContent = this.user = user ?? new GuestUser();
+            TooltipContent = this.user = user ?? new APIUser()
+            {
+                Username = @"Guest",
+                Id = 0,
+            };
         }
 
         [BackgroundDependencyLoader]
@@ -75,22 +78,6 @@ namespace osu.Game.Users.Drawables
                     return;
 
                 user = content;
-
-                if (user != null)
-                {
-                    LoadComponentAsync(new UserGridPanel(user)
-                    {
-                        Width = 300,
-                    }, panel => Child = panel);
-                }
-                else
-                {
-                    var tooltip = new OsuTooltipContainer.OsuTooltip();
-                    tooltip.SetContent(ContextMenuStrings.ViewProfile);
-                    tooltip.Show();
-
-                    Child = tooltip;
-                }
             }
         }
 

@@ -10,7 +10,6 @@ using osu.Framework.Localisation;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays.Dialog;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Updater;
@@ -74,7 +73,7 @@ namespace osu.Game.Overlays.Settings.Sections.General
             Add(checkForUpdatesButton = new SettingsButtonV2
             {
                 Text = GeneralSettingsStrings.CheckUpdate,
-                Action = () => checkForUpdates().FireAndForget()
+                Action = () => Task.Run(checkForUpdates),
             });
         }
 

@@ -179,19 +179,6 @@ namespace osu.Game.Online.Chat
                             case @"home":
                                 // handle link other than changelog as external for now
                                 return new LinkDetails(LinkAction.External, url);
-
-                            case @"multiplayer":
-                                if (mainArg != @"rooms")
-                                    return new LinkDetails(LinkAction.External, url);
-
-                                if (args.Length == 5)
-                                {
-                                    // https://osu.ppy.sh/multiplayer/rooms/{id}
-                                    // route used for both multiplayer and playlists
-                                    return new LinkDetails(LinkAction.JoinRoom, args[4]);
-                                }
-
-                                break;
                         }
                     }
 
@@ -225,10 +212,6 @@ namespace osu.Game.Online.Chat
 
                         case @"u":
                             return getUserLink(args[2]);
-
-                        case @"room":
-                            linkType = LinkAction.JoinRoom;
-                            break;
 
                         default:
                             return new LinkDetails(LinkAction.External, url);
@@ -333,7 +316,6 @@ namespace osu.Game.Online.Chat
         OpenBeatmapSet,
         OpenChannel,
         OpenEditorTimestamp,
-        JoinRoom,
         OpenUserProfile,
         SearchBeatmapSet,
         OpenWiki,

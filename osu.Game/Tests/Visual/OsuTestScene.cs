@@ -152,8 +152,8 @@ namespace osu.Game.Tests.Visual
 
             if (!UseOnlineAPI)
             {
-                dummyAPI = new DummyAPIAccess();
-                Dependencies.CacheAs<DummyAPIAccess>(dummyAPI);
+                dummyAPI = new DummyAPIAccess(string.Empty);
+                Dependencies.CacheAs(dummyAPI);
                 base.Content.Add(dummyAPI);
             }
 

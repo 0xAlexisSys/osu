@@ -20,6 +20,7 @@ using osu.Game.Screens.Edit.Compose.Components;
 using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Filter;
 using osu.Game.Skinning;
+using osu.Game.Users;
 
 namespace osu.Game.Configuration
 {
@@ -32,6 +33,8 @@ namespace osu.Game.Configuration
 
         protected override void InitialiseDefaults()
         {
+            SetDefault(OsuSetting.Username, User.DEFAULT_PERSONAL_USERNAME);
+
             // UI/selection defaults
             SetDefault(OsuSetting.Ruleset, string.Empty);
             SetDefault(OsuSetting.Skin, SkinInfo.ARGON_SKIN.ToString());
@@ -256,6 +259,7 @@ namespace osu.Game.Configuration
     // The naming of these keys should not be changed once they are deployed in a release, unless migration logic is also added.
     public enum OsuSetting
     {
+        Username,
         Ruleset,
         MenuCursorSize,
         GameplayCursorSize,

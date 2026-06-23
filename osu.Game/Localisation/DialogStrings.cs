@@ -55,16 +55,6 @@ namespace osu.Game.Localisation
         public static LocalisableString BeatmapClearScoresBodyText(string difficulty) => new TranslatableString(getKey(@"beatmap_clear_scores_body_text"), @"All local scores on {0}", difficulty);
 
         /// <summary>
-        /// "Are you sure you want to close the following playlist:"
-        /// </summary>
-        public static LocalisableString ClosePlaylistHeaderText => new TranslatableString(getKey(@"close_playlist_header_text"), @"Are you sure you want to close the following playlist:");
-
-        /// <summary>
-        /// "Are you sure you want to abort the match?"
-        /// </summary>
-        public static LocalisableString ConfirmAbortMatchHeaderText => new TranslatableString(getKey(@"confirm_abort_match_header_text"), @"Are you sure you want to abort the match?");
-
-        /// <summary>
         /// "Are you sure you want to exit osu!?"
         /// </summary>
         public static LocalisableString ConfirmExitHeaderText => new TranslatableString(getKey(@"confirm_exit_header_text"), @"Are you sure you want to exit osu!?");
@@ -120,30 +110,6 @@ and {1} other operation(s).", ongoingOperationsText, count);
         /// "No I didn't mean to"
         /// </summary>
         public static LocalisableString ConfirmDiscardChangesCancelButton => new TranslatableString(getKey(@"confirm_discard_changes_cancel_button"), @"No I didn't mean to");
-
-        /// <summary>
-        /// "Are you sure you want to open the following link in a web browser?
-        ///
-        /// {0}"
-        /// </summary>
-        public static LocalisableString ExternalLinkBodyText(string url) => new TranslatableString(getKey(@"external_link_body_text"), @"Are you sure you want to open the following link in a web browser?
-
-{0}", url);
-
-        /// <summary>
-        /// "Open in browser"
-        /// </summary>
-        public static LocalisableString ExternalLinkOkButton => new TranslatableString(getKey(@"external_link_ok_button"), @"Open in browser");
-
-        /// <summary>
-        /// "Do you really want to delete your comment?"
-        /// </summary>
-        public static LocalisableString DeleteCommentBodyText => new TranslatableString(getKey(@"delete_comment_body_text"), @"Do you really want to delete your comment?");
-
-        /// <summary>
-        /// "Are you sure you want to leave this multiplayer match?"
-        /// </summary>
-        public static LocalisableString ConfirmExitMultiplayerMatchBodyText => new TranslatableString(getKey(@"confirm_exit_multiplayer_match_body_text"), @"Are you sure you want to leave this multiplayer match?");
 
         private static string getKey(string key) => $@"{prefix}:{key}";
     }

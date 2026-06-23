@@ -15,7 +15,6 @@ using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Game.Online;
 using osu.Game.Users;
-using osu.Game.Localisation;
 
 namespace osu.Game.Graphics.Containers
 {
@@ -82,7 +81,7 @@ namespace osu.Game.Graphics.Containers
         }
 
         public void AddUserLink(User user, Action<SpriteText> creationParameters = null)
-            => createLink(CreateChunkFor(user.Username, true, CreateSpriteText, creationParameters), new LinkDetails(LinkAction.OpenUserProfile, user), ContextMenuStrings.ViewProfile);
+            => createLink(CreateChunkFor(user.Username, true, CreateSpriteText, creationParameters), new LinkDetails(LinkAction.OpenUserProfile, user), string.Empty);
 
         private void createLink(ITextPart textPart, LinkDetails link, LocalisableString tooltipText, Action action = null)
         {

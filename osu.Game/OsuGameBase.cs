@@ -60,6 +60,7 @@ using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
 using osu.Game.Skinning;
+using osu.Game.Users;
 using osu.Game.Utils;
 using RuntimeInfo = osu.Framework.RuntimeInfo;
 
@@ -296,7 +297,15 @@ namespace osu.Game
 
             CurrentLanguage.BindValueChanged(val => frameworkLocale.Value = val.NewValue.ToCultureCode());
 
-            dependencies.CacheAs(API ??= new DummyAPIAccess());
+            string username = LocalConfig.Get<string>(OsuSetting.Username);
+
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                username = User.DEFAULT_PERSONAL_USERNAME;
+                LocalConfig.SetValue(OsuSetting.Username, username);
+            }
+
+            dependencies.CacheAs(API ??= new DummyAPIAccess(username));
 
             var defaultBeatmap = new DummyWorkingBeatmap(Audio, Textures);
 

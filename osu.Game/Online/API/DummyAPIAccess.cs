@@ -9,11 +9,16 @@ namespace osu.Game.Online.API
 {
     public partial class DummyAPIAccess : Component
     {
-        public Bindable<User> User { get; } = new Bindable<User>(new User
+        public Bindable<User> User { get; }
+
+        public DummyAPIAccess(string username)
         {
-            Username = @"Guest",
-            ID = Users.User.PERSONAL_USER_ID,
-        });
+            User = new Bindable<User>(new User
+            {
+                Username = username,
+                ID = Users.User.PERSONAL_USER_ID,
+            });
+        }
 
         protected override void Dispose(bool isDisposing)
         {

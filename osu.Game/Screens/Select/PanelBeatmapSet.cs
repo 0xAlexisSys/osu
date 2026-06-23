@@ -231,6 +231,16 @@ namespace osu.Game.Screens.Select
 
                 items.Add(new OsuMenuItem(CommonStrings.Collections) { Items = collectionItems });
 
+                items.Add(new OsuMenuItem(!beatmapSet.HasFavourited ? SongSelectStrings.Favourite : SongSelectStrings.Unfavourite, MenuItemType.Standard, () =>
+                {
+                    realm.Write(r =>
+                    {
+                        var set = r.Find<BeatmapSetInfo>(beatmapSet.ID);
+                        if (set != null)
+                            set.HasFavourited = !set.HasFavourited;
+                    });
+                }));
+
                 if (beatmapSet.Beatmaps.Any(b => b.Hidden))
                     items.Add(new OsuMenuItem(SongSelectStrings.RestoreAllHidden, MenuItemType.Standard, () => songSelect?.RestoreAllHidden(beatmapSet)));
 

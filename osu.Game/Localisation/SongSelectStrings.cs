@@ -115,6 +115,16 @@ namespace osu.Game.Localisation
         public static LocalisableString ClearAllScores => new TranslatableString(getKey(@"clear_all_scores"), @"Clear all scores");
 
         /// <summary>
+        /// "Favourite"
+        /// </summary>
+        public static LocalisableString Favourite => new TranslatableString(getKey(@"favourite"), @"Favourite");
+
+        /// <summary>
+        /// "Unfavourite"
+        /// </summary>
+        public static LocalisableString Unfavourite => new TranslatableString(getKey(@"unfavourite"), @"Unfavourite");
+
+        /// <summary>
         /// "Restore all hidden"
         /// </summary>
         public static LocalisableString RestoreAllHidden => new TranslatableString(getKey(@"restore_all_hidden"), @"Restore all hidden");

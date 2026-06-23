@@ -9,12 +9,12 @@ namespace osu.Game.Rulesets.Mania.Mods
     {
         public override DifficultyBindable OverallDifficulty { get; } = new DifficultyBindable
         {
-            Precision = 0.1f,
-            MinValue = 0,
-            MaxValue = 10,
+            Precision = 0.05f,
+            MinValue = 0.0f,
+            MaxValue = 10.0f,
             // Use larger extended limits for mania to include OD values that occur with EZ or HR enabled
-            ExtendedMaxValue = 15,
-            ExtendedMinValue = -15,
+            ExtendedMaxValue = 20.0f,
+            ExtendedMinValue = -20.0f,
             ReadCurrentFromDifficulty = diff => diff.OverallDifficulty,
         };
     }

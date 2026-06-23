@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.Osu.Mods
             Precision = 0.05f,
             MinValue = 0.0f,
             MaxValue = 10.0f,
-            ExtendedMaxValue = 12.1f,
+            ExtendedMaxValue = 12.0f,
             ReadCurrentFromDifficulty = diff => diff.CircleSize,
         };
 
@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.Osu.Mods
             Precision = 0.05f,
             MinValue = 0.0f,
             MaxValue = 10.0f,
-            ExtendedMinValue = -12.5f,
+            ExtendedMinValue = -10.0f,
             ExtendedMaxValue = 12.5f,
             ReadCurrentFromDifficulty = diff => diff.ApproachRate,
         };

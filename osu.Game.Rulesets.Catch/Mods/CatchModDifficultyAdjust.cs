@@ -17,20 +17,21 @@ namespace osu.Game.Rulesets.Catch.Mods
         [SettingSource("Circle Size", "Override a beatmap's set CS.", FIRST_SETTING_ORDER - 1, SettingControlType = typeof(DifficultyAdjustSettingsControl))]
         public DifficultyBindable CircleSize { get; } = new DifficultyBindable
         {
-            Precision = 0.1f,
-            MinValue = 0,
-            MaxValue = 10,
-            ExtendedMaxValue = 11,
+            Precision = 0.05f,
+            MinValue = 0.0f,
+            MaxValue = 10.0f,
+            ExtendedMaxValue = 12.0f,
             ReadCurrentFromDifficulty = diff => diff.CircleSize,
         };
 
         [SettingSource("Approach Rate", "Override a beatmap's set AR.", LAST_SETTING_ORDER + 1, SettingControlType = typeof(DifficultyAdjustSettingsControl))]
         public DifficultyBindable ApproachRate { get; } = new DifficultyBindable
         {
-            Precision = 0.1f,
-            MinValue = 0,
-            MaxValue = 10,
-            ExtendedMaxValue = 11,
+            Precision = 0.05f,
+            MinValue = 0.0f,
+            MaxValue = 10.0f,
+            ExtendedMinValue = -10.0f,
+            ExtendedMaxValue = 12.5f,
             ReadCurrentFromDifficulty = diff => diff.ApproachRate,
         };
 

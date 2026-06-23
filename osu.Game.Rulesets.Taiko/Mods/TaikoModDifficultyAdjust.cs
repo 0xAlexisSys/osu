@@ -17,8 +17,10 @@ namespace osu.Game.Rulesets.Taiko.Mods
         {
             Precision = 0.05f,
             MinValue = 0.25f,
-            MaxValue = 4,
-            ReadCurrentFromDifficulty = _ => 1,
+            MaxValue = 4.0f,
+            ExtendedMinValue = 0.05f,
+            ExtendedMaxValue = 5.0f,
+            ReadCurrentFromDifficulty = _ => 1.0f,
         };
 
         public override string ExtendedIconInformation

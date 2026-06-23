@@ -15,6 +15,7 @@ using osu.Framework.Logging;
 using osu.Game.Beatmaps;
 using osu.Game.Extensions;
 using osu.Game.Medals;
+using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Performance;
@@ -62,6 +63,9 @@ namespace osu.Game.Database
         [Resolved]
         private MedalEvaluator medalEvaluator { get; set; } = null!;
 
+        [Resolved]
+        private DummyAPIAccess api { get; set; } = null!;
+
         protected virtual int TimeToSleepDuringGameplay => 30000;
 
         protected override void LoadComplete()
@@ -77,6 +81,7 @@ namespace osu.Game.Database
                 // Note that the previous method will also update these on a fresh run.
                 processBeatmapsWithMissingObjectCounts();
                 processScoresWithMissingStatistics();
+                syncPersonalScoreUsernames();
                 // ordering significant, `upgradeModMultipliers()` should run first as it will handle all scores
                 // (rather than only lazer scores, if it was called after `convertLegacyTotalScoreToStandardised()`)
                 upgradeModMultipliers();
@@ -332,6 +337,29 @@ namespace osu.Game.Database
             }
 
             completeNotification(notification, processedCount, scoreIds.Count, failedCount);
+        }
+
+        private void syncPersonalScoreUsernames()
+        {
+            Logger.Log(@"Syncing personal scores with a differing username...");
+
+            try
+            {
+                realmAccess.Write(r =>
+                {
+                    // [alexis] Need to use AsEnumerable here, or Realm will throw a NotSupportedException.
+                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == api.User.Value.ID && s.User.Username != api.User.Value.Username))
+                        score.User.Username = api.User.Value.Username;
+                });
+            }
+            catch (ObjectDisposedException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                Logger.Log(@$"Failed to sync username in personal scores: {e}");
+            }
         }
 
         private void upgradeModMultipliers()

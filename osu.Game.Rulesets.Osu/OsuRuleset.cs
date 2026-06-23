@@ -187,6 +187,7 @@ namespace osu.Game.Rulesets.Osu
                     {
                         new OsuModTargetPractice(),
                         new OsuModDifficultyAdjust(),
+                        new OsuModHealthAdjust(),
                         new OsuModClassic(),
                         new OsuModRandom(),
                         new OsuModMirror(),

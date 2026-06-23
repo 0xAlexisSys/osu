@@ -18,7 +18,6 @@ using osu.Game.Configuration;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Localisation;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
@@ -320,7 +319,6 @@ namespace osu.Game.Screens.Select
                 [BackgroundDependencyLoader]
                 private void load(OverlayColourProvider? overlayColourProvider, OsuColour colours)
                 {
-                    TooltipText = ContextMenuStrings.ViewProfile;
                     IdleColour = overlayColourProvider?.Light2 ?? colours.Blue;
                 }
             }

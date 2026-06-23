@@ -19,9 +19,9 @@ namespace osu.Desktop
     public static class Program
     {
 #if DEBUG
-        private const string base_game_name = @"osu-development";
+        private const string base_game_name = @"osu-sp-development";
 #else
-        private const string base_game_name = @"osu";
+        private const string base_game_name = @"osu-sp";
 #endif
 
         private static bool isFirstRun;
@@ -106,7 +106,7 @@ namespace osu.Desktop
                     // we want to allow multiple instances to be started when in debug.
                     if (!DebugUtils.IsDebugBuild)
                     {
-                        Logger.Log(@"osu! does not support multiple running instances.", LoggingTarget.Runtime, LogLevel.Error);
+                        Logger.Log(@"osu-sp does not support multiple running instances.", LoggingTarget.Runtime, LogLevel.Error);
                         return;
                     }
                 }

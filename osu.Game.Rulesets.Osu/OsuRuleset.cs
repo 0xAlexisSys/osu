@@ -166,7 +166,7 @@ namespace osu.Game.Rulesets.Osu
                     {
                         new OsuModEasy(),
                         new OsuModNoFail(),
-                        new OsuModNoDrainRate(),
+                        new OsuModLifeBandage(),
                         new MultiMod(new OsuModHalfTime(), new OsuModDaycore()),
                     };
 

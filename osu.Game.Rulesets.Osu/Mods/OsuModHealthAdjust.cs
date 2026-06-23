@@ -19,11 +19,12 @@ namespace osu.Game.Rulesets.Osu.Mods
         public override string Acronym => "HA";
         public override IconUsage? Icon => OsuIcon.Star;
         public override ModType Type => ModType.Conversion;
-        public override LocalisableString Description => "Adjust passive HP drain and the amount of health given per hit judgement.";
-        public override Type[] IncompatibleMods => new[] { typeof(OsuModNoDrainRate), typeof(OsuModClassic) };
+        public override LocalisableString Description => "Adjust the amount of health given on hit judgement.";
 
-        [SettingSource("Passive HP drain lenience", "The higher the value, the weaker passive HP drain is; 1.0 disables it entirely.")]
-        public BindableDouble DrainLenience { get; } = new BindableDouble { Precision = 0.005d, MinValue = 0.0d, MaxValue = 1.0d };
+        public override Type[] IncompatibleMods => new[]
+        {
+            typeof(OsuModClassic),
+        };
 
         [SettingSource("Health on Great")]
         public BindableDouble Great { get; } = createBindableHealthValue(0.05d);
@@ -55,7 +56,7 @@ namespace osu.Game.Rulesets.Osu.Mods
         [SettingSource("Health on SmallBonus (spinners)")]
         public BindableDouble SmallBonus { get; } = createBindableHealthValue(0.025d);
 
-        public HealthProcessor CreateHealthProcessor(double drainStartTime) => new OsuAdjustableHealthProcessor(drainStartTime, DrainLenience.Value)
+        public HealthProcessor CreateHealthProcessor(double drainStartTime) => new OsuAdjustableHealthProcessor(drainStartTime)
         {
             GreatValue = Great.Value,
             OkValue = Ok.Value,

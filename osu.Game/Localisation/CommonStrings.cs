@@ -60,21 +60,6 @@ namespace osu.Game.Localisation
         public static LocalisableString Height => new TranslatableString(getKey(@"height"), @"Height");
 
         /// <summary>
-        /// "Download"
-        /// </summary>
-        public static LocalisableString Download => new TranslatableString(getKey(@"download"), @"Download");
-
-        /// <summary>
-        /// "Downloading..."
-        /// </summary>
-        public static LocalisableString Downloading => new TranslatableString(getKey(@"downloading"), @"Downloading...");
-
-        /// <summary>
-        /// "Importing..."
-        /// </summary>
-        public static LocalisableString Importing => new TranslatableString(getKey(@"importing"), @"Importing...");
-
-        /// <summary>
         /// "Deselect All"
         /// </summary>
         public static LocalisableString DeselectAll => new TranslatableString(getKey(@"deselect_all"), @"Deselect All");
@@ -203,11 +188,6 @@ namespace osu.Game.Localisation
         /// "Manage..."
         /// </summary>
         public static LocalisableString Manage => new TranslatableString(getKey(@"manage"), @"Manage...");
-
-        /// <summary>
-        /// "Details..."
-        /// </summary>
-        public static LocalisableString Details => new TranslatableString(getKey(@"details"), @"Details...");
 
         /// <summary>
         /// "Mapper"

@@ -311,7 +311,6 @@ namespace osu.Game.Configuration
         RandomSelectAlgorithm,
         ModSelectHotkeyStyle,
         ShowFpsDisplay,
-        ChatDisplayHeight,
         SongSelectBackgroundBlur,
         SongSelectShowLogo,
         Version,

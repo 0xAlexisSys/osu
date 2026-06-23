@@ -67,36 +67,13 @@ namespace osu.Desktop
             // Back up the cwd before DesktopGameHost changes it
             string cwd = Environment.CurrentDirectory;
 
-            string gameName = base_game_name;
-
-            foreach (string arg in args)
-            {
-                string[] split = arg.Split('=');
-
-                string key = split[0];
-                string val = split.Length > 1 ? split[1] : string.Empty;
-
-                switch (key)
-                {
-                    case "--debug-client-id":
-                        if (!DebugUtils.IsDebugBuild)
-                            throw new InvalidOperationException("Cannot use this argument in a non-debug build.");
-
-                        if (!int.TryParse(val, out int clientID))
-                            throw new ArgumentException("Provided client ID must be an integer.");
-
-                        gameName = $"{base_game_name}-{clientID}";
-                        break;
-                }
-            }
-
             var hostOptions = new HostOptions
             {
                 IPCPipeName = OsuGame.IPC_PIPE_NAME,
                 FriendlyGameName = OsuGameBase.GAME_NAME,
             };
 
-            using (DesktopGameHost host = Host.GetSuitableDesktopHost(gameName, hostOptions))
+            using (DesktopGameHost host = Host.GetSuitableDesktopHost(base_game_name, hostOptions))
             {
                 if (!host.IsPrimaryInstance)
                 {

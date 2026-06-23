@@ -9,7 +9,7 @@ using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
+using osu.Game.Users;
 
 namespace osu.Game.Overlays.Settings.Sections.UserInterface
 {
@@ -17,12 +17,12 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
     {
         protected override LocalisableString Header => UserInterfaceStrings.MainMenuHeader;
 
-        private IBindable<APIUser> user = null!;
+        private Bindable<User> user = null!;
 
         [BackgroundDependencyLoader]
-        private void load(OsuConfigManager config, IAPIProvider api)
+        private void load(OsuConfigManager config, DummyAPIAccess api)
         {
-            user = api.LocalUser.GetBoundCopy();
+            user = api.User.GetBoundCopy();
 
             Children = new Drawable[]
             {

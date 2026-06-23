@@ -3,14 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
-using osu.Game.Extensions;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Users;
 
@@ -35,9 +31,9 @@ namespace osu.Game.Online
         private RulesetStore rulesets { get; set; } = null!;
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private DummyAPIAccess api { get; set; } = null!;
 
-        private readonly IBindable<APIUser> localUser = new Bindable<APIUser>();
+        private readonly IBindable<User> localUser = new Bindable<User>();
 
         private readonly Dictionary<string, UserStatistics> statisticsCache = new Dictionary<string, UserStatistics>();
 
@@ -52,7 +48,7 @@ namespace osu.Game.Online
         {
             base.LoadComplete();
 
-            localUser.BindTo(api.LocalUser);
+            localUser.BindTo(api.User);
             localUser.BindValueChanged(_ =>
             {
                 // queuing up requests directly on user change is unsafe, as the API status may have not been updated yet.
@@ -64,22 +60,6 @@ namespace osu.Game.Online
         private void initialiseStatistics()
         {
             statisticsCache.Clear();
-
-            if (api.LocalUser.Value == null || api.LocalUser.Value.Id <= 1)
-                return;
-
-            foreach (var ruleset in rulesets.AvailableRulesets.Where(r => r.IsLegacyRuleset()))
-                RefetchStatistics(ruleset);
-        }
-
-        public void RefetchStatistics(RulesetInfo ruleset, Action<UserStatisticsUpdate>? callback = null)
-        {
-            if (!ruleset.IsLegacyRuleset())
-                throw new InvalidOperationException($@"Retrieving statistics is not supported for ruleset {ruleset.ShortName}");
-
-            var request = new GetUserRequest(api.LocalUser.Value.Id, ruleset);
-            request.Success += u => UpdateStatistics(u.Statistics, ruleset, callback);
-            api.Queue(request);
         }
 
         protected void UpdateStatistics(UserStatistics newStatistics, RulesetInfo ruleset, Action<UserStatisticsUpdate>? callback = null)

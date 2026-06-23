@@ -68,7 +68,7 @@ namespace osu.Game.Screens.Play.HUD
 
         public Color4? BackgroundColour { get; }
 
-        public IUser? User { get; }
+        public User? User { get; }
 
         /// <summary>
         /// Whether this score is the local user or a replay player (and should be focused / always visible).
@@ -93,7 +93,7 @@ namespace osu.Game.Screens.Play.HUD
         private OsuConfigManager config { get; set; } = null!;
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private DummyAPIAccess api { get; set; } = null!;
 
         [Resolved]
         private OsuColour colours { get; set; } = null!;
@@ -400,11 +400,11 @@ namespace osu.Game.Screens.Play.HUD
 
         private partial class ScoreAvatar : CompositeDrawable
         {
-            private readonly IUser? user;
+            private readonly User? user;
 
             private Box placeholder = null!;
 
-            public ScoreAvatar(IUser? user)
+            public ScoreAvatar(User? user)
             {
                 this.user = user;
 

@@ -12,7 +12,6 @@ using osu.Framework.Statistics;
 using osu.Game.Graphics;
 using osu.Game.IO;
 using osu.Game.Localisation;
-using osu.Game.Online.Chat;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Utils;
 using SharpCompress.Archives.Zip;
@@ -25,6 +24,9 @@ namespace osu.Game.Overlays.Settings.Sections.General
     {
         [Resolved(CanBeNull = true)]
         private FirstRunSetupOverlay? firstRunSetupOverlay { get; set; }
+
+        [Resolved(CanBeNull = true)]
+        private GameHost? host { get; set; }
 
         [Resolved(CanBeNull = true)]
         private OsuGame? game { get; set; }
@@ -48,14 +50,14 @@ namespace osu.Game.Overlays.Settings.Sections.General
                     Text = GeneralSettingsStrings.LearnMoreAboutLazer,
                     TooltipText = GeneralSettingsStrings.LearnMoreAboutLazerTooltip,
                     BackgroundColour = colours.YellowDark,
-                    Action = () => game?.ShowWiki(@"Help_centre/Upgrading_to_lazer")
+                    Action = () => game?.ShowWiki(@"Help_centre/Upgrading_to_lazer"),
                 },
                 new SettingsButtonV2
                 {
                     Text = GeneralSettingsStrings.ReportIssue,
                     TooltipText = GeneralSettingsStrings.ReportIssueTooltip,
                     BackgroundColour = colours.YellowDarker,
-                    Action = () => game?.OpenUrlExternally(@"https://osu.ppy.sh/community/forums/topics/create?forum_id=5", LinkWarnMode.NeverWarn)
+                    Action = () => host?.OpenUrlExternally(@"https://osu.ppy.sh/community/forums/topics/create?forum_id=5"),
                 },
             });
 

@@ -10,7 +10,6 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using osu.Framework.Localisation;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Resources.Localisation.Web;
 using osu.Game.Scoring;
 using osu.Game.Utils;
@@ -20,7 +19,7 @@ namespace osu.Game.Users
     public class UserStatistics
     {
         [JsonProperty]
-        public APIUser User;
+        public User User;
 
         [JsonProperty(@"level")]
         public LevelInfo Level;
@@ -45,9 +44,6 @@ namespace osu.Game.Users
 
         [JsonProperty(@"country_rank")]
         public int? CountryRank;
-
-        // populated via User model, as that's where the data currently lives.
-        public APIRankHistory RankHistory;
 
         [JsonProperty(@"pp")]
         public decimal? PP;

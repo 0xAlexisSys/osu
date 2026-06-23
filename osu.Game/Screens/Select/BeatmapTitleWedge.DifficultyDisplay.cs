@@ -245,8 +245,8 @@ namespace osu.Game.Screens.Select
                 {
                     ratingAndNameContainer.FadeIn(300, Easing.OutQuint);
                     difficultyText.Text = beatmap.Value.BeatmapInfo.DifficultyName;
-                    mapperLink.Action = () => songSelect?.Search(beatmap.Value.Metadata.Author.Username);
-                    mapperText.Text = beatmap.Value.Metadata.Author.Username;
+                    mapperLink.Action = () => songSelect?.Search(beatmap.Value.Metadata.Author);
+                    mapperText.Text = beatmap.Value.Metadata.Author;
                 }
 
                 starRatingDisplay.Current =

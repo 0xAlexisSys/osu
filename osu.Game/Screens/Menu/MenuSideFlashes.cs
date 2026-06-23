@@ -16,8 +16,8 @@ using osu.Game.Beatmaps.ControlPoints;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Skinning;
+using osu.Game.Users;
 using osuTK.Graphics;
 
 namespace osu.Game.Screens.Menu
@@ -41,7 +41,7 @@ namespace osu.Game.Screens.Menu
         private const double box_fade_in_time = 65;
         private const int box_width = 200;
 
-        private IBindable<APIUser> user;
+        private IBindable<User> user;
         private Bindable<Skin> skin;
 
         [Resolved]
@@ -57,11 +57,11 @@ namespace osu.Game.Screens.Menu
         }
 
         [BackgroundDependencyLoader]
-        private void load(IBindable<WorkingBeatmap> beatmap, IAPIProvider api, SkinManager skinManager)
+        private void load(IBindable<WorkingBeatmap> beatmap, DummyAPIAccess api, SkinManager skinManager)
         {
             this.beatmap.BindTo(beatmap);
 
-            user = api.LocalUser.GetBoundCopy();
+            user = api.User.GetBoundCopy();
             skin = skinManager.CurrentSkin.GetBoundCopy();
 
             Children = new Drawable[]
@@ -120,15 +120,7 @@ namespace osu.Game.Screens.Menu
              .FadeOut(beatLength, Easing.In);
         }
 
-        protected virtual Color4 GetBaseColour()
-        {
-            Color4 baseColour = colours.Blue;
-
-            if (user.Value?.IsSupporter ?? false)
-                baseColour = skin.Value.GetConfig<GlobalSkinColours, Color4>(GlobalSkinColours.MenuGlow)?.Value ?? baseColour;
-
-            return baseColour;
-        }
+        protected virtual Color4 GetBaseColour() => skin.Value.GetConfig<GlobalSkinColours, Color4>(GlobalSkinColours.MenuGlow)?.Value ?? colours.Blue;
 
         private void updateColour()
         {

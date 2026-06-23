@@ -194,7 +194,7 @@ namespace osu.Game.Skinning.Components
                     return beatmap.Value.BeatmapInfo.DifficultyName;
 
                 case BeatmapAttribute.Creator:
-                    return beatmap.Value.BeatmapInfo.Metadata.Author.Username;
+                    return beatmap.Value.BeatmapInfo.Metadata.Author;
 
                 case BeatmapAttribute.Source:
                     return beatmap.Value.BeatmapInfo.Metadata.Source;

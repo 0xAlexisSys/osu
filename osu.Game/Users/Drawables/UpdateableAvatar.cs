@@ -4,16 +4,15 @@
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Effects;
-using osu.Game.Online.API.Requests.Responses;
 
 namespace osu.Game.Users.Drawables
 {
     /// <summary>
     /// An avatar which can update to a new user when needed.
     /// </summary>
-    public partial class UpdateableAvatar : ModelBackedDrawable<APIUser?>
+    public partial class UpdateableAvatar : ModelBackedDrawable<User?>
     {
-        public APIUser? User
+        public User? User
         {
             get => Model;
             set => Model = value;
@@ -52,14 +51,14 @@ namespace osu.Game.Users.Drawables
         /// </summary>
         /// <param name="user">The initial user to display.</param>
         /// <param name="showGuestOnNull">Whether to show a default guest representation on null user (as opposed to nothing).</param>
-        public UpdateableAvatar(APIUser? user = null, bool showGuestOnNull = true)
+        public UpdateableAvatar(User? user = null, bool showGuestOnNull = true)
         {
             this.showGuestOnNull = showGuestOnNull;
 
             User = user;
         }
 
-        protected override Drawable? CreateDrawable(APIUser? user)
+        protected override Drawable? CreateDrawable(User? user)
         {
             if (user == null && !showGuestOnNull)
                 return null;

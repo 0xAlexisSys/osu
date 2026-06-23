@@ -49,9 +49,7 @@ using osu.Game.Input.Bindings;
 using osu.Game.IO;
 using osu.Game.Localisation;
 using osu.Game.Medals;
-using osu.Game.Online;
 using osu.Game.Online.API;
-using osu.Game.Online.Chat;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Settings;
@@ -104,11 +102,6 @@ namespace osu.Game
 
         public virtual bool UseDevelopmentServer => DebugUtils.IsDebugBuild;
 
-        public virtual EndpointConfiguration CreateEndpoints() =>
-            UseDevelopmentServer ? new DevelopmentEndpointConfiguration() : new ProductionEndpointConfiguration();
-
-        protected override OnlineStore CreateOnlineStore() => new TrustedDomainOnlineStore();
-
         public virtual Version AssemblyVersion => Assembly.GetEntryAssembly()?.GetName().Version ?? new Version();
 
         /// <summary>
@@ -152,8 +145,6 @@ namespace osu.Game
 
         protected BeatmapManager BeatmapManager { get; private set; }
 
-        protected BeatmapModelDownloader BeatmapDownloader { get; private set; }
-
         protected ScoreManager ScoreManager { get; private set; }
 
         protected MedalEvaluator MedalEvaluator { get; private set; }
@@ -168,7 +159,7 @@ namespace osu.Game
 
         protected MusicController MusicController { get; private set; }
 
-        protected IAPIProvider API { get; set; }
+        protected DummyAPIAccess API { get; set; }
 
         protected Storage Storage { get; set; }
 
@@ -206,8 +197,8 @@ namespace osu.Game
         private BeatmapDifficultyCache difficultyCache;
         private BeatmapUpdater beatmapUpdater;
 
-        private UserLookupCache userCache;
-        private BeatmapLookupCache beatmapCache;
+        // private UserLookupCache userCache;
+        // private BeatmapLookupCache beatmapCache;
         protected LeaderboardManager LeaderboardManager { get; private set; }
 
         private RulesetConfigCache rulesetConfigCache;
@@ -296,10 +287,6 @@ namespace osu.Game
             dependencies.Cache(SkinManager = new SkinManager(Storage, realm, Host, Resources, Audio, Scheduler));
             dependencies.CacheAs<ISkinSource>(SkinManager);
 
-            EndpointConfiguration endpoints = CreateEndpoints();
-
-            MessageFormatter.WebsiteRootUrl = endpoints.WebsiteUrl;
-
             // Initialise localisation
             frameworkLocale = frameworkConfig.GetBindable<string>(FrameworkSetting.Locale);
             frameworkLocale.BindValueChanged(_ => updateLanguage());
@@ -321,8 +308,6 @@ namespace osu.Game
             dependencies.Cache(BeatmapManager = new BeatmapManager(Storage, realm, Audio, Resources, Host, defaultBeatmap));
             dependencies.CacheAs<IWorkingBeatmapCache>(BeatmapManager);
 
-            dependencies.Cache(BeatmapDownloader = new BeatmapModelDownloader(BeatmapManager, API));
-
             // Add after all the above cache operations as it depends on them.
             base.Content.Add(difficultyCache);
 
@@ -334,11 +319,11 @@ namespace osu.Game
 
             BeatmapManager.ProcessBeatmap = beatmapSet => beatmapUpdater.Process(beatmapSet);
 
-            dependencies.Cache(userCache = new UserLookupCache());
-            base.Content.Add(userCache);
-
-            dependencies.Cache(beatmapCache = new BeatmapLookupCache());
-            base.Content.Add(beatmapCache);
+            // dependencies.Cache(userCache = new UserLookupCache());
+            // base.Content.Add(userCache);
+            //
+            // dependencies.Cache(beatmapCache = new BeatmapLookupCache());
+            // base.Content.Add(beatmapCache);
 
             dependencies.CacheAs<IRulesetConfigCache>(rulesetConfigCache = new RulesetConfigCache(realm, RulesetStore));
 

@@ -4,9 +4,7 @@
 using System;
 using System.Collections.Generic;
 using osu.Framework.Allocation;
-using osu.Framework.Extensions.LocalisationExtensions;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
@@ -14,16 +12,13 @@ using osu.Game.Overlays;
 using osu.Game.Graphics.UserInterface;
 using osu.Framework.Localisation;
 using osu.Game.Graphics.Containers;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Online.Chat;
 using osu.Game.Users.Drawables;
 
 namespace osu.Game.Users
 {
-    public abstract partial class UserPanel : OsuClickableContainer, IFilterable
+    public abstract partial class UserPanel : OsuClickableContainer
     {
-        public readonly APIUser User;
+        public readonly User User;
 
         /// <summary>
         /// Perform an action in addition to showing the user's profile.
@@ -35,22 +30,13 @@ namespace osu.Game.Users
 
         protected Drawable Background { get; private set; } = null!;
 
-        protected UserPanel(APIUser user)
+        protected UserPanel(User user)
             : base(HoverSampleSet.Button)
         {
             ArgumentNullException.ThrowIfNull(user);
 
             User = user;
         }
-
-        [Resolved]
-        private IAPIProvider api { get; set; } = null!;
-
-        [Resolved]
-        private ChannelManager? channelManager { get; set; }
-
-        [Resolved]
-        private ChatOverlay? chatOverlay { get; set; }
 
         [Resolved]
         protected OverlayColourProvider? ColourProvider { get; private set; }
@@ -69,10 +55,6 @@ namespace osu.Game.Users
                 Colour = ColourProvider?.Background5 ?? Colours.Gray1
             });
 
-            var background = CreateBackground();
-            if (background != null)
-                Add(background);
-
             Add(CreateLayout());
         }
 
@@ -80,32 +62,11 @@ namespace osu.Game.Users
 
         protected abstract Drawable CreateLayout();
 
-        /// <summary>
-        /// Panel background container. Can be null if a panel doesn't want a background under it's layout
-        /// </summary>
-        protected virtual Drawable? CreateBackground() => Background = new UserCoverBackground
-        {
-            RelativeSizeAxes = Axes.Both,
-            Anchor = Anchor.Centre,
-            Origin = Anchor.Centre,
-            User = User
-        };
-
         protected OsuSpriteText CreateUsername() => new OsuSpriteText
         {
             Font = OsuFont.GetFont(size: 16, weight: FontWeight.Bold),
             Shadow = false,
             Text = User.Username,
-        };
-
-        protected OsuSpriteText CreateRank() => new OsuSpriteText
-        {
-            Font = OsuFont.GetFont(size: 16, weight: FontWeight.SemiBold),
-            Shadow = false,
-            // We can't colour the properly because we don't have the required percentile data.
-
-            Colour = Colours.BlueLighter,
-            Text = (User.Rank?.Rank ?? User.Statistics.GlobalRank)?.ToLocalisableString("\\##,##0") ?? string.Empty,
         };
 
         protected UpdateableAvatar CreateAvatar() => new UpdateableAvatar(User, false);
@@ -122,7 +83,5 @@ namespace osu.Game.Users
                     Hide();
             }
         }
-
-        public bool FilteringActive { get; set; }
     }
 }

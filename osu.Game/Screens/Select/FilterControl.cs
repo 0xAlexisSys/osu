@@ -23,10 +23,10 @@ using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Screens.Select.Filter;
+using osu.Game.Users;
 using osuTK;
 using osuTK.Input;
 
@@ -68,7 +68,7 @@ namespace osu.Game.Screens.Select
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
 
-        private IBindable<APIUser> localUser = null!;
+        private Bindable<User> user = null!;
 
         public LocalisableString StatusText
         {
@@ -83,7 +83,7 @@ namespace osu.Game.Screens.Select
         private IDisposable? collectionsSubscription;
 
         [BackgroundDependencyLoader]
-        private void load(IAPIProvider api)
+        private void load(DummyAPIAccess api)
         {
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;
@@ -212,7 +212,7 @@ namespace osu.Game.Screens.Select
                 },
             };
 
-            localUser = api.LocalUser.GetBoundCopy();
+            user = api.User.GetBoundCopy();
         }
 
         protected override void LoadComplete()
@@ -274,7 +274,7 @@ namespace osu.Game.Screens.Select
                     updateCriteria();
             });
 
-            localUser.BindValueChanged(_ => updateCriteria());
+            user.BindValueChanged(_ => updateCriteria());
             ScopedBeatmapSet.BindValueChanged(_ => updateCriteria(clearScopedSet: false));
 
             updateCriteria();
@@ -292,7 +292,6 @@ namespace osu.Game.Screens.Select
         public FilterCriteria CreateCriteria()
         {
             string query = searchTextBox.Current.Value;
-            bool isValidUser = localUser.Value.Id > 1;
 
             var criteria = new FilterCriteria
             {
@@ -303,8 +302,7 @@ namespace osu.Game.Screens.Select
                 Ruleset = ruleset.Value,
                 Mods = mods.Value,
                 Collection = collectionDropdown.Current.Value?.Collection,
-                LocalUserId = isValidUser ? localUser.Value.Id : null,
-                LocalUserUsername = isValidUser ? localUser.Value.Username : null,
+                UserId = user.Value.ID,
             };
 
             if (!difficultyRangeSlider.LowerBound.IsDefault)

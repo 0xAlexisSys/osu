@@ -17,7 +17,6 @@ using osu.Framework.Utils;
 using osu.Game.Scoring;
 using osu.Game.Screens.Ranking.Contracted;
 using osu.Game.Screens.Ranking.Expanded;
-using osu.Game.Users;
 using osuTK;
 using osuTK.Graphics;
 
@@ -140,7 +139,7 @@ namespace osu.Game.Screens.Ranking
                 {
                     topLayerContainer = new Container
                     {
-                        Name = "Top layer",
+                        Name = @"Top layer",
                         RelativeSizeAxes = Axes.X,
                         Alpha = 0,
                         Height = 120,
@@ -152,14 +151,14 @@ namespace osu.Game.Screens.Ranking
                                 CornerRadius = 20,
                                 CornerExponent = 2.5f,
                                 Masking = true,
-                                Child = topLayerBackground = new Box { RelativeSizeAxes = Axes.Both }
+                                Child = topLayerBackground = new Box { RelativeSizeAxes = Axes.Both },
                             },
-                            topLayerContentContainer = new Container { RelativeSizeAxes = Axes.Both }
+                            topLayerContentContainer = new Container { RelativeSizeAxes = Axes.Both },
                         }
                     },
                     middleLayerContainer = new Container
                     {
-                        Name = "Middle layer",
+                        Name = @"Middle layer",
                         RelativeSizeAxes = Axes.Both,
                         Children = new Drawable[]
                         {
@@ -169,18 +168,9 @@ namespace osu.Game.Screens.Ranking
                                 CornerRadius = 20,
                                 CornerExponent = 2.5f,
                                 Masking = true,
-                                Children = new[]
-                                {
-                                    middleLayerBackground = new Box { RelativeSizeAxes = Axes.Both },
-                                    new UserCoverBackground
-                                    {
-                                        RelativeSizeAxes = Axes.Both,
-                                        User = Score.User,
-                                        Colour = ColourInfo.GradientVertical(Color4.White.Opacity(0.5f), Color4Extensions.FromHex("#444").Opacity(0))
-                                    }
-                                }
+                                Child = middleLayerBackground = new Box { RelativeSizeAxes = Axes.Both },
                             },
-                            middleLayerContentContainer = new Container { RelativeSizeAxes = Axes.Both }
+                            middleLayerContentContainer = new Container { RelativeSizeAxes = Axes.Both },
                         }
                     },
                     samplePanelFocus = new DrawableSample(audio.Samples.Get(@"Results/score-panel-focus"))

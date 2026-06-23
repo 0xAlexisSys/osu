@@ -77,7 +77,7 @@ namespace osu.Game.Online.Leaderboards
         private OsuGame game { get; set; }
 
         [Resolved]
-        private IAPIProvider api { get; set; }
+        private DummyAPIAccess api { get; set; }
 
         public ITooltip<ScoreInfo> GetCustomTooltip() => new LeaderboardScoreTooltip();
         public virtual ScoreInfo TooltipContent => Score;
@@ -96,7 +96,7 @@ namespace osu.Game.Online.Leaderboards
         }
 
         [BackgroundDependencyLoader]
-        private void load(IAPIProvider api, OsuColour colour)
+        private void load(DummyAPIAccess api, OsuColour colour)
         {
             var user = Score.User;
 

@@ -17,8 +17,8 @@ using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Graphics.Backgrounds;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Skinning;
+using osu.Game.Users;
 
 namespace osu.Game.Screens.Backgrounds
 {
@@ -28,7 +28,7 @@ namespace osu.Game.Screens.Backgrounds
 
         private int currentDisplay;
         private const int background_count = 8;
-        private IBindable<APIUser> user;
+        private IBindable<User> user;
         private Bindable<Skin> skin;
         private Bindable<BackgroundSource> source;
         private Bindable<IntroSequence> introSequence;
@@ -42,9 +42,9 @@ namespace osu.Game.Screens.Backgrounds
         protected virtual bool AllowStoryboardBackground => true;
 
         [BackgroundDependencyLoader]
-        private void load(IAPIProvider api, SkinManager skinManager, OsuConfigManager config)
+        private void load(DummyAPIAccess api, SkinManager skinManager, OsuConfigManager config)
         {
-            user = api.LocalUser.GetBoundCopy();
+            user = api.User.GetBoundCopy();
             skin = skinManager.CurrentSkin.GetBoundCopy();
             source = config.GetBindable<BackgroundSource>(OsuSetting.MenuBackgroundSource);
             introSequence = config.GetBindable<IntroSequence>(OsuSetting.IntroSequence);

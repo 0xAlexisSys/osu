@@ -15,7 +15,7 @@ using osu.Game.Graphics.UserInterface;
 using osu.Game.Overlays;
 using osuTK;
 
-namespace osu.Game.Online.Chat
+namespace osu.Game.Online
 {
     /// <summary>
     /// An invisible drawable that brings multiple <see cref="Drawable"/> pieces together to form a consumable clickable link.

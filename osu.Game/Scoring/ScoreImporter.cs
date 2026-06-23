@@ -15,8 +15,7 @@ using osu.Game.IO.Archives;
 using osu.Game.Rulesets;
 using osu.Game.Scoring.Legacy;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests;
-using osu.Game.Online.API.Requests.Responses;
+using osu.Game.Users;
 using osu.Game.Utils;
 using Realms;
 
@@ -31,9 +30,9 @@ namespace osu.Game.Scoring
         private readonly RulesetStore rulesets;
         private readonly Func<BeatmapManager> beatmaps;
 
-        private readonly IAPIProvider api;
+        private readonly DummyAPIAccess api;
 
-        public ScoreImporter(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, IAPIProvider api)
+        public ScoreImporter(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, DummyAPIAccess api)
             : base(storage, realm)
         {
             this.rulesets = rulesets;
@@ -55,13 +54,13 @@ namespace osu.Game.Scoring
                 {
                     Logger.Log($@"Score '{archive.Name}' failed to import: no corresponding beatmap with the hash '{notFound.Hash}' could be found.", LoggingTarget.Database);
 
-                    if (!parameters.Batch)
-                    {
-                        // In the case of a missing beatmap, let's attempt to resolve it and show a prompt to the user to download the required beatmap.
-                        var req = new GetBeatmapRequest(new BeatmapInfo { MD5Hash = notFound.Hash });
-                        req.Success += res => PostNotification?.Invoke(new MissingBeatmapNotification(res, notFound.Hash, archive));
-                        api.Queue(req);
-                    }
+                    // if (!parameters.Batch)
+                    // {
+                    //     // In the case of a missing beatmap, let's attempt to resolve it and show a prompt to the user to download the required beatmap.
+                    //     var req = new GetBeatmapRequest(new BeatmapInfo { MD5Hash = notFound.Hash });
+                    //     req.Success += res => PostNotification?.Invoke(new MissingBeatmapNotification(res, notFound.Hash, archive));
+                    //     api.Queue(req);
+                    // }
 
                     return null;
                 }
@@ -109,8 +108,8 @@ namespace osu.Game.Scoring
         // The importer has two paths, one async and one sync; the async path runs the sync path in a task.
         // This means that sometimes `PostImport()` is called from a sync context, and sometimes from an async one, whilst itself being a sync method.
         // That in turn makes `.GetResultSafely()` not callable inside `PostImport()`, as it will throw when called from an async context,
-        private readonly Dictionary<int, APIUser> idLookupCache = new Dictionary<int, APIUser>();
-        private readonly Dictionary<string, APIUser> usernameLookupCache = new Dictionary<string, APIUser>();
+        private readonly Dictionary<int, User> idLookupCache = new Dictionary<int, User>();
+        private readonly Dictionary<string, User> usernameLookupCache = new Dictionary<string, User>();
 
         protected override void PostImport(ScoreInfo model, Realm realm, ImportParameters parameters)
         {
@@ -130,74 +129,71 @@ namespace osu.Game.Scoring
         /// </summary>
         private void populateUserDetails(ScoreInfo model)
         {
-            if (model.RealmUser.OnlineID == APIUser.SYSTEM_USER_ID)
-                return;
-
-            if (model.RealmUser.OnlineID > 1)
+            if (model.User.ID > 1)
             {
-                model.User = lookupUserById(model.RealmUser.OnlineID) ?? model.User;
+                model.User = lookupUserById(model.User.ID) ?? model.User;
                 return;
             }
 
-            model.User = lookupUserByName(model.RealmUser.Username) ?? model.User;
+            model.User = lookupUserByName(model.User.Username) ?? model.User;
         }
 
-        private APIUser? lookupUserById(int id)
+        private User? lookupUserById(int id)
         {
             if (idLookupCache.TryGetValue(id, out var existing))
             {
                 return existing;
             }
 
-            var userRequest = new GetUserRequest(id);
-
-            api.Perform(userRequest);
-
-            if (userRequest.Response is APIUser user)
-            {
-                APIUser cachedUser;
-
-                idLookupCache.TryAdd(id, cachedUser = new APIUser
-                {
-                    // Because this is a permanent cache, let's only store the pieces we're interested in,
-                    // rather than the full API response. If we start to store more than these three fields
-                    // in realm, this should be undone.
-                    Id = user.Id,
-                    Username = user.Username,
-                });
-
-                return cachedUser;
-            }
+            // var userRequest = new GetUserRequest(id);
+            //
+            // api.Perform(userRequest);
+            //
+            // if (userRequest.Response is User user)
+            // {
+            //     User cachedUser;
+            //
+            //     idLookupCache.TryAdd(id, cachedUser = new User
+            //     {
+            //         // Because this is a permanent cache, let's only store the pieces we're interested in,
+            //         // rather than the full API response. If we start to store more than these three fields
+            //         // in realm, this should be undone.
+            //         Id = user.Id,
+            //         Username = user.Username,
+            //     });
+            //
+            //     return cachedUser;
+            // }
 
             return null;
         }
 
-        private APIUser? lookupUserByName(string username)
+        private User? lookupUserByName(string username)
         {
             if (usernameLookupCache.TryGetValue(username, out var existing))
             {
                 return existing;
             }
 
-            var userRequest = new GetUserRequest(username);
-
-            api.Perform(userRequest);
-
-            if (userRequest.Response is APIUser user)
-            {
-                APIUser cachedUser;
-
-                usernameLookupCache.TryAdd(username, cachedUser = new APIUser
-                {
-                    // Because this is a permanent cache, let's only store the pieces we're interested in,
-                    // rather than the full API response. If we start to store more than these three fields
-                    // in realm, this should be undone.
-                    Id = user.Id,
-                    Username = user.Username,
-                });
-
-                return cachedUser;
-            }
+            // var userRequest = new GetUserRequest(username);
+            //
+            // api.Perform(userRequest);
+            //
+            // if (userRequest.Response is User user)
+            // {
+            //     User cachedUser;
+            //
+            //     usernameLookupCache.TryAdd(username, cachedUser = new User
+            //     {
+            //         // Because this is a permanent cache, let's only store the pieces we're interested in,
+            //         // rather than the full API response. If we start to store more than these three fields
+            //         // in realm, this should be undone.
+            //         Id = user.Id,
+            //         Username = user.Username,
+            //     });
+            //
+            //     return cachedUser;
+            // }
 
             return null;
         }

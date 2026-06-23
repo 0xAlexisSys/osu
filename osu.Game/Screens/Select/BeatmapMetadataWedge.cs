@@ -136,7 +136,7 @@ namespace osu.Game.Screens.Select
         {
             var metadata = beatmap.Value.Metadata;
 
-            creator.Data = (metadata.Author.Username, () => songSelect?.Search(metadata.Author.Username));
+            creator.Data = (metadata.Author, () => songSelect?.Search(metadata.Author));
 
             if (!string.IsNullOrEmpty(metadata.Source))
                 source.Data = (metadata.Source, () => songSelect?.Search(metadata.Source));

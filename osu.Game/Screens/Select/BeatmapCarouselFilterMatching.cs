@@ -91,7 +91,7 @@ namespace osu.Game.Screens.Select
 
             if (!match) return false;
 
-            match &= !criteria.Creator.HasFilter || criteria.Creator.Matches(beatmap.Metadata.Author.Username);
+            match &= !criteria.Creator.HasFilter || criteria.Creator.Matches(beatmap.Metadata.Author);
 
             if (criteria.Artist.HasFilter)
             {

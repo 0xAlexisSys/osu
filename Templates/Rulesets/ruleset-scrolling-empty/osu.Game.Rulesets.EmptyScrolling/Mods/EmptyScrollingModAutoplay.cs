@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.EmptyScrolling.Replays;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Users;
 
 namespace osu.Game.Rulesets.EmptyScrolling.Mods
 {
     public class EmptyScrollingModAutoplay : ModAutoplay
     {
         public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-            => new ModReplayData(new EmptyScrollingAutoGenerator(beatmap).Generate(), new ModCreatedUser { Username = "sample" });
+            => new ModReplayData(new EmptyScrollingAutoGenerator(beatmap).Generate(), new User { ID = User.BOT_USER_ID, Username = "sample" });
     }
 }

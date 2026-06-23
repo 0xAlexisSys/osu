@@ -21,7 +21,7 @@ namespace osu.Game.Screens.Ranking
         private TaskCompletionSource<LeaderboardScores>? requestTaskSource;
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private DummyAPIAccess api { get; set; } = null!;
 
         [Resolved]
         private LeaderboardManager leaderboardManager { get; set; } = null!;
@@ -98,10 +98,10 @@ namespace osu.Game.Screens.Ranking
                 }
                 else
                 {
-                    bool presentingLocalUserScore = Score.UserID == api.LocalUser.Value.OnlineID;
-                    bool presentedLocalUserScoreIsBetter = presentingLocalUserScore && clonedScore.UserID == api.LocalUser.Value.OnlineID && clonedScore.TotalScore < Score.TotalScore;
+                    bool presentingUserScore = Score.User.ID == api.User.Value.ID;
+                    bool presentedUserScoreIsBetter = presentingUserScore && clonedScore.User.ID == api.User.Value.ID && clonedScore.TotalScore < Score.TotalScore;
 
-                    if (presentedLocalUserScoreIsBetter)
+                    if (presentedUserScoreIsBetter)
                         continue;
 
                     sortedScores.Add(clonedScore);

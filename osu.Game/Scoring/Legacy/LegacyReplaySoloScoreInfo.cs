@@ -7,7 +7,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets.Scoring;
 
 namespace osu.Game.Scoring.Legacy
@@ -59,7 +58,7 @@ namespace osu.Game.Scoring.Legacy
             MaximumStatistics = score.MaximumStatistics.Where(kvp => kvp.Value != 0).ToDictionary(),
             ClientVersion = score.ClientVersion,
             Rank = score.Rank,
-            UserID = score.User.OnlineID,
+            UserID = score.User.ID,
             TotalScoreWithoutMods = score.TotalScoreWithoutMods > 0 ? score.TotalScoreWithoutMods : null,
             Pauses = score.Pauses.ToArray(),
         };

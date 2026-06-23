@@ -20,7 +20,7 @@ namespace osu.Game.Screens.Play.Leaderboards
         /// <summary>
         /// The user playing.
         /// </summary>
-        public IUser User { get; }
+        public User User { get; }
 
         /// <summary>
         /// Whether the score is being tracked.
@@ -114,7 +114,7 @@ namespace osu.Game.Screens.Play.Leaderboards
         /// <remarks>
         /// Used for testing.
         /// </remarks>
-        internal GameplayLeaderboardScore(IUser user, bool tracked, Bindable<long> displayScore)
+        internal GameplayLeaderboardScore(User user, bool tracked, Bindable<long> displayScore)
         {
             User = user;
             Tracked = tracked;

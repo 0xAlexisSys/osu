@@ -7,12 +7,13 @@ using osu.Game.Rulesets.Mania.Beatmaps;
 using osu.Game.Rulesets.Mania.Objects;
 using osu.Game.Rulesets.Mania.Replays;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Users;
 
 namespace osu.Game.Rulesets.Mania.Mods
 {
     public class ManiaModCinema : ModCinema<ManiaHitObject>
     {
         public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-            => new ModReplayData(new ManiaAutoGenerator((ManiaBeatmap)beatmap).Generate(), new ModCreatedUser { Username = "osu!topus" });
+            => new ModReplayData(new ManiaAutoGenerator((ManiaBeatmap)beatmap).Generate(), new User { ID = User.BOT_USER_ID, Username = "osu!topus" });
     }
 }

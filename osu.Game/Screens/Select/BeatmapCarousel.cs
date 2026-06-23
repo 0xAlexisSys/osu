@@ -818,7 +818,7 @@ namespace osu.Game.Screens.Select
         private RealmAccess realm { get; set; } = null!;
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private DummyAPIAccess api { get; set; } = null!;
 
         /// <remarks>
         /// FOOTGUN WARNING: this being sorted on the realm side before detaching is IMPORTANT.
@@ -834,7 +834,7 @@ namespace osu.Game.Screens.Select
         {
             var topRankMapping = new Dictionary<Guid, ScoreRank>();
 
-            var allLocalScores = r.GetAllLocalScoresForUser(criteria.LocalUserId)
+            var allLocalScores = r.GetAllLocalScoresForUser(criteria.UserId)
                                   .Filter($@"{nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $0", criteria.Ruleset?.ShortName)
                                   .OrderByDescending(s => s.TotalScore)
                                   .ThenBy(s => s.Date);

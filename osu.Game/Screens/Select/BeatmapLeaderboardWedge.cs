@@ -15,7 +15,6 @@ using osu.Framework.Extensions.PolygonExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Threading;
 using osu.Framework.Utils;
@@ -26,7 +25,6 @@ using osu.Game.Graphics.Cursor;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Online.Placeholders;
 using osu.Game.Overlays;
@@ -63,9 +61,6 @@ namespace osu.Game.Screens.Select
 
         [Resolved]
         private ISongSelect? songSelect { get; set; }
-
-        [Resolved]
-        private IAPIProvider api { get; set; } = null!;
 
         private Container<Placeholder> placeholderContainer = null!;
         private Placeholder? placeholder;
@@ -485,12 +480,6 @@ namespace osu.Game.Screens.Select
         {
             switch (state)
             {
-                case LeaderboardState.NetworkFailure:
-                    return new ClickablePlaceholder(LeaderboardStrings.CouldntFetchScores, FontAwesome.Solid.Sync)
-                    {
-                        Action = RefetchScores
-                    };
-
                 case LeaderboardState.NoneSelected:
                     return new MessagePlaceholder(LeaderboardStrings.PleaseSelectABeatmap);
 

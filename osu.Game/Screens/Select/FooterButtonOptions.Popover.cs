@@ -12,6 +12,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
 using osu.Game.Beatmaps;
+using osu.Game.Database;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
@@ -31,8 +32,10 @@ namespace osu.Game.Screens.Select
         {
             private FillFlowContainer buttonFlow = null!;
             private readonly FooterButtonOptions footerButton;
-
             private readonly BeatmapInfo beatmap;
+
+            [Resolved]
+            private RealmAccess realm { get; set; } = null!;
 
             // Can't use DI for these due to popover being initialised from a footer button which ends up being on the global
             // PopoverContainer.
@@ -57,8 +60,19 @@ namespace osu.Game.Screens.Select
                     Spacing = new Vector2(3),
                 };
 
+                bool hasFavourited = beatmap.BeatmapSet?.HasFavourited ?? false;
+
                 addHeader(CommonStrings.General);
                 addButton(CollectionsStrings.ManageCollections, FontAwesome.Solid.Book, () => SongSelect?.ManageCollections());
+                addButton(!hasFavourited ? SongSelectStrings.Favourite : SongSelectStrings.Unfavourite, !hasFavourited ? FontAwesome.Regular.Heart : FontAwesome.Solid.Heart, () =>
+                {
+                    realm.Write(r =>
+                    {
+                        var set = r.Find<BeatmapSetInfo>(beatmap.BeatmapSet?.ID);
+                        if (set != null)
+                            set.HasFavourited = !set.HasFavourited;
+                    });
+                });
 
                 Debug.Assert(beatmap.BeatmapSet != null);
                 addHeader(SongSelectStrings.ForAllDifficulties, beatmap.BeatmapSet.ToString());

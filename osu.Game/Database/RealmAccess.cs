@@ -800,7 +800,7 @@ namespace osu.Game.Database
         {
             // This is currently the only usage of temporary files at the osu! side.
             // If we use the temporary folder in more situations in the future, this should be moved to a higher level (helper method or OsuGameBase).
-            string tempPathLocation = Path.Combine(Path.GetTempPath(), @"lazer");
+            string tempPathLocation = Path.Combine(Path.GetTempPath(), @"osu-sp");
             if (!Directory.Exists(tempPathLocation))
                 Directory.CreateDirectory(tempPathLocation);
 

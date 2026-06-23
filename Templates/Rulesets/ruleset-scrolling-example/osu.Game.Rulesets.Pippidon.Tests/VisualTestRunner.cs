@@ -13,7 +13,7 @@ namespace osu.Game.Rulesets.Pippidon.Tests
         [STAThread]
         public static int Main(string[] args)
         {
-            using (DesktopGameHost host = Host.GetSuitableDesktopHost(@"osu"))
+            using (DesktopGameHost host = Host.GetSuitableDesktopHost(@"osu-sp"))
             {
                 host.Run(new OsuTestBrowser());
                 return 0;

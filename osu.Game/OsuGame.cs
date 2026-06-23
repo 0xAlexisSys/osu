@@ -45,10 +45,8 @@ using osu.Game.Input.Bindings;
 using osu.Game.IO;
 using osu.Game.Localisation;
 using osu.Game.Online;
-using osu.Game.Online.Chat;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Overlays;
-using osu.Game.Overlays.BeatmapListing;
 using osu.Game.Overlays.Mods;
 using osu.Game.Overlays.Music;
 using osu.Game.Overlays.Notifications;
@@ -109,18 +107,8 @@ namespace osu.Game
 
         public Toolbar Toolbar { get; private set; }
 
-        private ChatOverlay chatOverlay;
-
-        private ChannelManager channelManager;
-
         [NotNull]
         protected readonly NotificationOverlay Notifications = new NotificationOverlay();
-
-        private BeatmapListingOverlay beatmapListing;
-
-        private NewsOverlay news;
-
-        private WikiOverlay wikiOverlay;
 
         private SkinEditorOverlay skinEditor;
 
@@ -342,7 +330,7 @@ namespace osu.Game
             // on macOS/iOS, URL associations are handled via SDL_DROPFILE events.
             if (path.StartsWith(OSU_PROTOCOL, StringComparison.Ordinal))
             {
-                HandleLink(path);
+                // HandleLink(path);
                 return;
             }
 
@@ -425,8 +413,6 @@ namespace osu.Game
             applySafeAreaConsiderations.BindValueChanged(apply => SafeAreaContainer.SafeAreaOverrideEdges = apply.NewValue ? SafeAreaOverrideEdges : Edges.All, true);
         }
 
-        private ExternalLinkOpener externalLinkOpener;
-
         /// <summary>
         /// Handle an arbitrary URL. Displays via in-game overlays where possible.
         /// This can be called from a non-thread-safe non-game-loaded state.
@@ -445,32 +431,8 @@ namespace osu.Game
 
             switch (link.Action)
             {
-                case LinkAction.OpenChannel:
-                    ShowChannel(argString);
-                    break;
-
-                case LinkAction.SearchBeatmapSet:
-                    if (link.Argument is LocalisableString localisable)
-                        SearchBeatmapSet(Localisation.GetLocalisedString(localisable));
-                    else
-                        SearchBeatmapSet(argString);
-
-                    break;
-
-                case LinkAction.FilterBeatmapSetGenre:
-                    FilterBeatmapSetGenre((SearchGenre)link.Argument);
-                    break;
-
-                case LinkAction.FilterBeatmapSetLanguage:
-                    FilterBeatmapSetLanguage((SearchLanguage)link.Argument);
-                    break;
-
                 case LinkAction.OpenEditorTimestamp:
                     HandleTimestamp(argString);
-                    break;
-
-                case LinkAction.External:
-                    OpenUrlExternally(argString);
                     break;
 
                 case LinkAction.OpenWiki:
@@ -488,39 +450,11 @@ namespace osu.Game
             onScreenDisplay.Display(new CopiedToClipboardToast());
         });
 
-        public void OpenUrlExternally(string url, LinkWarnMode warnMode = LinkWarnMode.Default) => waitForReady(() => externalLinkOpener, _ => externalLinkOpener.OpenUrlExternally(url, warnMode));
-
-        /// <summary>
-        /// Open a specific channel in chat.
-        /// </summary>
-        /// <param name="channel">The channel to display.</param>
-        public void ShowChannel(string channel) => waitForReady(() => channelManager, _ =>
-        {
-            try
-            {
-                channelManager.OpenChannel(channel);
-            }
-            catch (ChannelNotFoundException)
-            {
-                Logger.Log($"The requested channel \"{channel}\" does not exist");
-            }
-        });
-
-        /// <summary>
-        /// Shows the beatmap listing overlay, with the given <paramref name="query"/> in the search box.
-        /// </summary>
-        /// <param name="query">The query to search for.</param>
-        public void SearchBeatmapSet(string query) => waitForReady(() => beatmapListing, _ => beatmapListing.ShowWithSearch(query));
-
-        public void FilterBeatmapSetGenre(SearchGenre genre) => waitForReady(() => beatmapListing, _ => beatmapListing.ShowWithGenreFilter(genre));
-
-        public void FilterBeatmapSetLanguage(SearchLanguage language) => waitForReady(() => beatmapListing, _ => beatmapListing.ShowWithLanguageFilter(language));
-
         /// <summary>
         /// Show a wiki's page as an overlay
         /// </summary>
         /// <param name="path">The wiki page to show</param>
-        public void ShowWiki(string path) => waitForReady(() => wikiOverlay, _ => wikiOverlay.ShowPage(path));
+        public void ShowWiki(string path) => Host.OpenUrlExternally(path);
 
         /// <summary>
         /// Seeks to the provided <paramref name="timestamp"/> if the editor is currently open.
@@ -646,7 +580,7 @@ namespace osu.Game
         /// Present a score's replay immediately.
         /// The user should have already requested this interactively.
         /// </summary>
-        public void PresentScore(IScoreInfo score, ScorePresentType presentType = ScorePresentType.Results)
+        public void PresentScore(ScoreInfo score, ScorePresentType presentType = ScorePresentType.Results)
         {
             Logger.Log($"Beginning {nameof(PresentScore)} with score {score}");
 
@@ -883,8 +817,6 @@ namespace osu.Game
             BeatmapManager.PostNotification = n => Notifications.Post(n);
             BeatmapManager.PresentImport = items => PresentBeatmap(items.First().Value);
 
-            BeatmapDownloader.PostNotification = n => Notifications.Post(n);
-
             ScoreManager.PostNotification = n => Notifications.Post(n);
             ScoreManager.PresentImport = items => PresentScore(items.First().Value);
 
@@ -1021,13 +953,7 @@ namespace osu.Game
             // overlay elements
             loadComponentSingleFile(FirstRunOverlay = new FirstRunSetupOverlay(), footerBasedOverlayContent.Add, true);
             loadComponentSingleFile(new ManageCollectionsDialog(), overlayContent.Add, true);
-            loadComponentSingleFile(beatmapListing = new BeatmapListingOverlay(), overlayContent.Add, true);
-            loadComponentSingleFile(news = new NewsOverlay(), overlayContent.Add, true);
-            loadComponentSingleFile(channelManager = new ChannelManager(API), Add, true);
-            loadComponentSingleFile(chatOverlay = new ChatOverlay(), overlayContent.Add, true);
-            loadComponentSingleFile(new MessageNotifier(), Add, true);
             loadComponentSingleFile(Settings = new SettingsOverlay(), leftFloatingOverlayContent.Add, true);
-            loadComponentSingleFile(wikiOverlay = new WikiOverlay(), overlayContent.Add, true);
             loadComponentSingleFile(skinEditor = new SkinEditorOverlay(ScreenContainer), overlayContent.Add, true);
 
             loadComponentSingleFile(new NowPlayingOverlay
@@ -1042,7 +968,6 @@ namespace osu.Game
             loadComponentSingleFile(new BackgroundDataStoreProcessor(), Add);
             loadComponentSingleFile<BeatmapStore>(detachedBeatmapStore = new RealmDetachedBeatmapStore(), Add, true);
 
-            Add(externalLinkOpener = new ExternalLinkOpener());
             Add(new MusicKeyBindingHandler());
             // side overlays which cancel each other.
             var singleDisplaySideOverlays = new OverlayContainer[] { Settings, Notifications, FirstRunOverlay };
@@ -1054,18 +979,6 @@ namespace osu.Game
                     if (state.NewValue == Visibility.Hidden) return;
 
                     singleDisplaySideOverlays.Where(o => o != overlay).ForEach(o => o.Hide());
-                };
-            }
-
-            // ensure only one of these overlays are open at once.
-            var singleDisplayOverlays = new OverlayContainer[] { chatOverlay, news, beatmapListing, wikiOverlay };
-
-            foreach (var overlay in singleDisplayOverlays)
-            {
-                overlay.State.ValueChanged += state =>
-                {
-                    if (state.NewValue != Visibility.Hidden)
-                        showOverlayAboveOthers(overlay, singleDisplayOverlays);
                 };
             }
 
@@ -1171,7 +1084,7 @@ namespace osu.Game
 
                     if (firstPath.StartsWith(OSU_PROTOCOL, StringComparison.Ordinal))
                     {
-                        HandleLink(firstPath);
+                        // HandleLink(firstPath);
                     }
                     else
                     {
@@ -1280,7 +1193,7 @@ namespace osu.Game
                     IconColour = Colours.YellowDark,
                     Activated = () =>
                     {
-                        OpenUrlExternally("https://opentabletdriver.net/Tablets", LinkWarnMode.NeverWarn);
+                        Host.OpenUrlExternally(@"https://opentabletdriver.net/Tablets");
                         return true;
                     }
                 }));

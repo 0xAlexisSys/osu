@@ -131,7 +131,7 @@ namespace osu.Game.Screens.Play
         private ScoreManager scoreManager { get; set; }
 
         [Resolved]
-        private IAPIProvider api { get; set; }
+        private DummyAPIAccess api { get; set; }
 
         [Resolved]
         private MusicController musicController { get; set; }
@@ -1230,7 +1230,7 @@ namespace osu.Game.Screens.Play
         {
             ScoreInfo = new ScoreInfo
             {
-                User = api.LocalUser.Value,
+                User = api.User.Value,
                 ClientVersion = game.Version,
             },
         };

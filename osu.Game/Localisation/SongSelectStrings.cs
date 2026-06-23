@@ -30,21 +30,6 @@ namespace osu.Game.Localisation
         public static LocalisableString Options => new TranslatableString(getKey(@"options"), @"Options");
 
         /// <summary>
-        /// "Local"
-        /// </summary>
-        public static LocalisableString LocallyModified => new TranslatableString(getKey(@"locally_modified"), @"Local");
-
-        /// <summary>
-        /// "Has been locally modified"
-        /// </summary>
-        public static LocalisableString LocallyModifiedTooltip => new TranslatableString(getKey(@"locally_modified_tooltip"), @"Has been locally modified");
-
-        /// <summary>
-        /// "Unknown"
-        /// </summary>
-        public static LocalisableString StatusUnknown => new TranslatableString(getKey(@"status_unknown"), @"Unknown");
-
-        /// <summary>
         /// "Total Plays"
         /// </summary>
         public static LocalisableString TotalPlays => new TranslatableString(getKey(@"total_plays"), @"Total Plays");
@@ -83,16 +68,6 @@ namespace osu.Game.Localisation
         /// "Scroll Speed"
         /// </summary>
         public static LocalisableString ScrollSpeed => new TranslatableString(getKey(@"scroll_speed"), @"Scroll Speed");
-
-        /// <summary>
-        /// "Submitted"
-        /// </summary>
-        public static LocalisableString Submitted => new TranslatableString(getKey(@"submitted"), @"Submitted");
-
-        /// <summary>
-        /// "Ranked"
-        /// </summary>
-        public static LocalisableString Ranked => new TranslatableString(getKey(@"ranked"), @"Ranked");
 
         /// <summary>
         /// "Details"
@@ -218,11 +193,6 @@ namespace osu.Game.Localisation
         /// "Favourites"
         /// </summary>
         public static LocalisableString Favourites => new TranslatableString(getKey(@"favourites"), @"Favourites");
-
-        /// <summary>
-        /// "My Maps"
-        /// </summary>
-        public static LocalisableString MyMaps => new TranslatableString(getKey(@"my_maps"), @"My Maps");
 
         /// <summary>
         /// "Collections"

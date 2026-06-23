@@ -23,7 +23,7 @@ namespace osu.Game.Beatmaps
 
         public static bool Match(IBeatmapMetadataInfo metadataInfo, FilterCriteria.OptionalTextFilter filter)
         {
-            if (filter.Matches(metadataInfo.Author.Username)) return true;
+            if (filter.Matches(metadataInfo.Author)) return true;
             if (filter.Matches(metadataInfo.Artist)) return true;
             if (filter.Matches(metadataInfo.ArtistUnicode)) return true;
             if (filter.Matches(metadataInfo.Title)) return true;
@@ -36,7 +36,7 @@ namespace osu.Game.Beatmaps
 
         internal static void CollectSearchableTerms(IBeatmapMetadataInfo metadataInfo, IList<string> termsList)
         {
-            addIfNotNull(metadataInfo.Author.Username);
+            addIfNotNull(metadataInfo.Author);
             addIfNotNull(metadataInfo.Artist);
             addIfNotNull(metadataInfo.ArtistUnicode);
             addIfNotNull(metadataInfo.Title);
@@ -56,7 +56,7 @@ namespace osu.Game.Beatmaps
         /// </summary>
         public static string GetDisplayTitle(this IBeatmapMetadataInfo metadataInfo)
         {
-            string author = string.IsNullOrEmpty(metadataInfo.Author.Username) ? string.Empty : $" ({metadataInfo.Author.Username})";
+            string author = string.IsNullOrEmpty(metadataInfo.Author) ? string.Empty : $" ({metadataInfo.Author})";
 
             string artist = string.IsNullOrEmpty(metadataInfo.Artist) ? "unknown artist" : metadataInfo.Artist;
             string title = string.IsNullOrEmpty(metadataInfo.Title) ? "unknown title" : metadataInfo.Title;
@@ -69,7 +69,7 @@ namespace osu.Game.Beatmaps
         /// </summary>
         public static RomanisableString GetDisplayTitleRomanisable(this IBeatmapMetadataInfo metadataInfo, bool includeCreator = true)
         {
-            string author = !includeCreator || string.IsNullOrEmpty(metadataInfo.Author.Username) ? string.Empty : $"({metadataInfo.Author.Username})";
+            string author = !includeCreator || string.IsNullOrEmpty(metadataInfo.Author) ? string.Empty : $"({metadataInfo.Author})";
             string artistUnicode = string.IsNullOrEmpty(metadataInfo.ArtistUnicode) ? metadataInfo.Artist : metadataInfo.ArtistUnicode;
             string titleUnicode = string.IsNullOrEmpty(metadataInfo.TitleUnicode) ? metadataInfo.Title : metadataInfo.TitleUnicode;
 

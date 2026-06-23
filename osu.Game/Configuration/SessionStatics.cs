@@ -4,7 +4,6 @@
 using osu.Framework;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Input;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Mods;
 using osu.Game.Scoring;
@@ -32,7 +31,6 @@ namespace osu.Game.Configuration
             SetDefault<ScoreInfo?>(Static.LastLocalUserScore, null);
             SetDefault<ScoreInfo?>(Static.LastAppliedOffsetScore, null);
             SetDefault<UserActivity?>(Static.UserDiscordRichPresenceActivity, null);
-            SetDefault<APITag[]?>(Static.AllBeatmapTags, null);
         }
 
         /// <summary>

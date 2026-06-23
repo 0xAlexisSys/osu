@@ -106,7 +106,7 @@ namespace osu.Game.Screens.Menu
         private BeatmapManager beatmaps { get; set; }
 
         [BackgroundDependencyLoader]
-        private void load(OsuConfigManager config, Framework.Game game, RealmAccess realm, IAPIProvider api)
+        private void load(OsuConfigManager config, Framework.Game game, RealmAccess realm, DummyAPIAccess api)
         {
             // prevent user from changing beatmap while the intro is still running.
             beatmap = Beatmap.BeginLease(false);

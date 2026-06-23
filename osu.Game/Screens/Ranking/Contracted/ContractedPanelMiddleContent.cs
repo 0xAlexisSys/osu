@@ -6,7 +6,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Extensions.LocalisationExtensions;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Effects;
 using osu.Framework.Graphics.Shapes;
@@ -20,7 +19,6 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Rulesets.UI;
 using osu.Game.Scoring;
-using osu.Game.Users;
 using osu.Game.Users.Drawables;
 using osu.Game.Utils;
 using osuTK;
@@ -77,12 +75,6 @@ namespace osu.Game.Screens.Ranking.Contracted
                                 {
                                     RelativeSizeAxes = Axes.Both,
                                     Colour = Color4Extensions.FromHex("444")
-                                },
-                                new UserCoverBackground
-                                {
-                                    RelativeSizeAxes = Axes.Both,
-                                    User = score.User,
-                                    Colour = ColourInfo.GradientVertical(Color4.White.Opacity(0.5f), Color4Extensions.FromHex("#444").Opacity(0))
                                 },
                                 new FillFlowContainer
                                 {

@@ -22,7 +22,6 @@ using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterfaceV2;
 using osuTK;
 using osu.Game.Localisation;
-using osu.Game.Online.Chat;
 
 namespace osu.Game.Overlays.Settings.Sections.Input
 {
@@ -419,9 +418,9 @@ namespace osu.Game.Overlays.Settings.Sections.Input
                     linkContainer.Clear();
                     linkContainer.NewLine();
 
-                    var formattedSource = MessageFormatter.FormatText(noTabletDetectedText.Value);
+                    // var formattedSource = MessageFormatter.FormatText(noTabletDetectedText.Value);
 
-                    linkContainer.AddLinks(formattedSource.Text, formattedSource.Links);
+                    // linkContainer.AddLinks(formattedSource.Text, formattedSource.Links);
                 }, true);
             }
         }

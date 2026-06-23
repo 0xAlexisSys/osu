@@ -7,12 +7,12 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using osu.Game.Beatmaps;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Replays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Replays;
 using osu.Game.Scoring;
+using osu.Game.Users;
 
 namespace osu.Game.Tests.Visual
 {
@@ -82,7 +82,7 @@ namespace osu.Game.Tests.Visual
                     DrawableRuleset?.SetReplayScore(new Score
                     {
                         Replay = new Replay { Frames = currentTestData.ReplayFrames },
-                        ScoreInfo = new ScoreInfo { User = new APIUser { Username = @"Test" } },
+                        ScoreInfo = new ScoreInfo { User = new User { ID = User.BOT_USER_ID, Username = @"Test" } },
                     });
                 }
 

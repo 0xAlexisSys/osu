@@ -8,6 +8,7 @@ using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu.Objects;
 using osu.Game.Rulesets.Osu.Replays;
+using osu.Game.Users;
 
 namespace osu.Game.Rulesets.Osu.Mods
 {
@@ -16,6 +17,6 @@ namespace osu.Game.Rulesets.Osu.Mods
         public override Type[] IncompatibleMods => base.IncompatibleMods.Concat(new[] { typeof(OsuModMagnetised), typeof(OsuModAutopilot), typeof(OsuModSpunOut), typeof(OsuModAlternate), typeof(OsuModSingleTap), typeof(OsuModRepel) }).ToArray();
 
         public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-            => new ModReplayData(new OsuAutoGenerator(beatmap, mods).Generate(), new ModCreatedUser { Username = "Autoplay" });
+            => new ModReplayData(new OsuAutoGenerator(beatmap, mods).Generate(), new User { ID = User.BOT_USER_ID, Username = "Autoplay" });
     }
 }

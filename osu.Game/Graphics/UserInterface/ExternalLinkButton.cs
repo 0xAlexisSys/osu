@@ -10,6 +10,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
+using osu.Framework.Platform;
 using osu.Game.Localisation;
 using osuTK;
 using osuTK.Graphics;
@@ -23,7 +24,10 @@ namespace osu.Game.Graphics.UserInterface
         private Color4 hoverColour;
 
         [Resolved]
-        private OsuGame? game { get; set; }
+        private GameHost host { get; set; } = null!;
+
+        [Resolved]
+        private OsuGame game { get; set; } = null!;
 
         private readonly SpriteIcon linkIcon;
 
@@ -63,7 +67,7 @@ namespace osu.Game.Graphics.UserInterface
         protected override bool OnClick(ClickEvent e)
         {
             if (Link != null)
-                game?.OpenUrlExternally(Link);
+                host.OpenUrlExternally(Link);
             return true;
         }
 
@@ -77,7 +81,7 @@ namespace osu.Game.Graphics.UserInterface
 
                 if (Link != null)
                 {
-                    items.Add(new OsuMenuItem("Open", MenuItemType.Highlighted, () => game?.OpenUrlExternally(Link)));
+                    items.Add(new OsuMenuItem("Open", MenuItemType.Highlighted, () => host.OpenUrlExternally(Link)));
                     items.Add(new OsuMenuItem(CommonStrings.CopyLink, MenuItemType.Standard, copyUrl));
                 }
 
@@ -89,7 +93,7 @@ namespace osu.Game.Graphics.UserInterface
         {
             if (Link == null) return;
 
-            game?.CopyToClipboard(Link);
+            game.CopyToClipboard(Link);
         }
     }
 }

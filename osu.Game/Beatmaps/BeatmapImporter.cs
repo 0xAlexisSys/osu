@@ -337,11 +337,7 @@ namespace osu.Game.Beatmaps
                         TitleUnicode = decoded.Metadata.TitleUnicode,
                         Artist = decoded.Metadata.Artist,
                         ArtistUnicode = decoded.Metadata.ArtistUnicode,
-                        Author =
-                        {
-                            OnlineID = decoded.Metadata.Author.OnlineID,
-                            Username = decoded.Metadata.Author.Username
-                        },
+                        Author = decoded.Metadata.Author,
                         Source = decoded.Metadata.Source,
                         Tags = decoded.Metadata.Tags,
                         PreviewTime = decoded.Metadata.PreviewTime,

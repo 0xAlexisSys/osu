@@ -16,10 +16,10 @@ using osu.Game.Configuration;
 using osu.Game.Extensions;
 using osu.Game.Online;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Users;
 using LogLevel = osu.Framework.Logging.LogLevel;
+using User = osu.Game.Users.User;
 
 namespace osu.Desktop
 {
@@ -33,7 +33,7 @@ namespace osu.Desktop
         private IBindable<RulesetInfo> ruleset { get; set; } = null!;
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private DummyAPIAccess api { get; set; } = null!;
 
         [Resolved]
         private LocalUserStatisticsProvider statisticsProvider { get; set; } = null!;
@@ -52,7 +52,7 @@ namespace osu.Desktop
             },
         };
 
-        private IBindable<APIUser>? user;
+        private IBindable<User>? user;
 
         [BackgroundDependencyLoader]
         private void load(OsuConfigManager config, SessionStatics session)
@@ -91,7 +91,7 @@ namespace osu.Desktop
         {
             base.LoadComplete();
 
-            user = api.LocalUser.GetBoundCopy();
+            user = api.User.GetBoundCopy();
 
             ruleset.BindValueChanged(_ => schedulePresenceUpdate());
             userActivity.BindValueChanged(_ => schedulePresenceUpdate());
@@ -148,22 +148,6 @@ namespace osu.Desktop
             {
                 presence.State = clampLength(userActivity.Value.GetStatus(hideIdentifiableInformation));
                 presence.Details = clampLength(userActivity.Value.GetDetails(hideIdentifiableInformation) ?? string.Empty);
-
-                if (userActivity.Value.GetBeatmapID(hideIdentifiableInformation) is int beatmapId && beatmapId > 0)
-                {
-                    presence.Buttons = new[]
-                    {
-                        new Button
-                        {
-                            Label = "View beatmap",
-                            Url = $@"{api.Endpoints.WebsiteUrl}/beatmaps/{beatmapId}?mode={ruleset.Value.ShortName}"
-                        }
-                    };
-                }
-                else
-                {
-                    presence.Buttons = null;
-                }
             }
             else
             {

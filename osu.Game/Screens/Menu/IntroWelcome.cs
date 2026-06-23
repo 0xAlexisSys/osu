@@ -37,7 +37,7 @@ namespace osu.Game.Screens.Menu
         }
 
         [BackgroundDependencyLoader]
-        private void load(AudioManager audio, IAPIProvider api)
+        private void load(AudioManager audio, DummyAPIAccess api)
         {
             if (MenuVoice.Value)
             {
@@ -103,7 +103,7 @@ namespace osu.Game.Screens.Menu
             public LogoVisualisation LogoVisualisation { get; private set; }
 
             [BackgroundDependencyLoader]
-            private void load(TextureStore textures, IAPIProvider api)
+            private void load(TextureStore textures, DummyAPIAccess api)
             {
                 Origin = Anchor.Centre;
                 Anchor = Anchor.Centre;

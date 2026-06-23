@@ -51,7 +51,7 @@ namespace osu.Game.Beatmaps
                 {
                     Artist = @"Unknown",
                     Title = @"Unknown",
-                    Author = { Username = @"Unknown Creator" },
+                    Author = @"Unknown Creator",
                 },
                 DifficultyName = @"Normal",
                 Difficulty = Difficulty,

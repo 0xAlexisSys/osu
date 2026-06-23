@@ -3,42 +3,38 @@
 
 #nullable disable
 
+using JetBrains.Annotations;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
-using osu.Game.Online.API.Requests.Responses;
 
 namespace osu.Game.Users.Drawables
 {
     [LongRunningLoad]
     public partial class DrawableAvatar : Sprite
     {
-        private readonly IUser user;
+        [CanBeNull]
+        private readonly User user;
 
         /// <summary>
         /// A simple, non-interactable avatar sprite for the specified user.
         /// </summary>
         /// <param name="user">The user. A null value will get a placeholder avatar.</param>
-        public DrawableAvatar(IUser user = null)
+        public DrawableAvatar(User user = null)
         {
-            this.user = user;
-
-            RelativeSizeAxes = Axes.Both;
-            FillMode = FillMode.Fit;
-            Anchor = Anchor.Centre;
-            Origin = Anchor.Centre;
+            if (user is not null)
+                this.user = user as User;
         }
 
         [BackgroundDependencyLoader]
         private void load(LargeTextureStore textures)
         {
-            if (user != null && user.OnlineID > 1)
-                // TODO: The fallback here should not need to exist. Users should be looked up and populated via UserLookupCache or otherwise
-                // in remaining cases where this is required (chat tabs, local leaderboard), at which point this should be removed.
-                Texture = textures.Get((user as APIUser)?.AvatarUrl ?? $@"https://a.ppy.sh/{user.OnlineID}");
-
-            Texture ??= textures.Get(@"Online/avatar-guest");
+            RelativeSizeAxes = Axes.Both;
+            FillMode = FillMode.Fit;
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
+            Texture = textures.Get(user is not null && user.ID == User.PERSONAL_USER_ID ? user.AvatarPath : @"Online/avatar-guest");
         }
 
         protected override void LoadComplete()

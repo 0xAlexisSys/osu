@@ -22,7 +22,6 @@ using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
-using osu.Game.Online.Chat;
 using osu.Game.Overlays.Settings;
 using osu.Game.Overlays.Settings.Sections.Maintenance;
 using osu.Game.Screens.Edit.Setup;
@@ -129,7 +128,7 @@ namespace osu.Game.Overlays.FirstRunSetup
             {
                 copyInformation.Text = FirstRunOverlayImportFromStableScreenStrings.DataMigrationNoExtraSpace;
                 copyInformation.AddText(@" "); // just to ensure correct spacing
-                copyInformation.AddLink(FirstRunOverlayImportFromStableScreenStrings.LearnAboutHardLinks, LinkAction.OpenWiki, @"Client/Release_stream/Lazer/File_storage#via-hard-links");
+                // copyInformation.AddLink(FirstRunOverlayImportFromStableScreenStrings.LearnAboutHardLinks, LinkAction.OpenWiki, @"Client/Release_stream/Lazer/File_storage#via-hard-links");
             }
             else if (!RuntimeInfo.IsDesktop)
                 copyInformation.Text = FirstRunOverlayImportFromStableScreenStrings.LightweightLinkingNotSupported;

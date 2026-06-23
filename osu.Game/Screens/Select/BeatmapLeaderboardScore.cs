@@ -32,7 +32,6 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Rulesets.UI;
 using osu.Game.Scoring;
-using osu.Game.Users;
 using osu.Game.Users.Drawables;
 using osu.Game.Utils;
 using osuTK;
@@ -78,7 +77,7 @@ namespace osu.Game.Screens.Select
         private OsuGame? game { get; set; }
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private DummyAPIAccess api { get; set; } = null!;
 
         private const float expanded_right_content_width = 200;
         private const float grade_width = 35;
@@ -194,15 +193,6 @@ namespace osu.Game.Screens.Select
                                     Alpha = 0.4f,
                                     RelativeSizeAxes = Axes.Both,
                                     Colour = foregroundColour
-                                },
-                                new UserCoverBackground
-                                {
-                                    RelativeSizeAxes = Axes.Both,
-                                    User = Score.User,
-                                    Shear = sheared ? -OsuGame.SHEAR : Vector2.Zero,
-                                    Anchor = Anchor.BottomLeft,
-                                    Origin = Anchor.BottomLeft,
-                                    Colour = ColourInfo.GradientHorizontal(Colour4.White.Opacity(0.5f), Colour4.FromHex(@"222A27").Opacity(1)),
                                 },
                                 new GridContainer
                                 {

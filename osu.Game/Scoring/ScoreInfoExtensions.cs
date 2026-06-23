@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using osu.Game.Beatmaps;
-using osu.Game.Models;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Rulesets.Scoring;
+using osu.Game.Users;
 using Realms;
 
 namespace osu.Game.Scoring
@@ -18,7 +17,7 @@ namespace osu.Game.Scoring
         /// <summary>
         /// A user-presentable display title representing this score.
         /// </summary>
-        public static string GetDisplayTitle(this IScoreInfo scoreInfo) => $"{scoreInfo.User.Username} playing {scoreInfo.Beatmap?.GetDisplayTitle() ?? "unknown"}";
+        public static string GetDisplayTitle(this ScoreInfo scoreInfo) => @$"{scoreInfo.User.Username} playing {scoreInfo.BeatmapInfo?.GetDisplayTitle() ?? @"unknown"}";
 
         /// <summary>
         /// Orders an array of <see cref="ScoreInfo"/>s by total score.
@@ -71,17 +70,17 @@ namespace osu.Game.Scoring
         /// <see langword="null"/> <paramref name="userId"/> (for guests) is supported.
         /// </summary>
         /// <remarks>
-        /// All guest scores (with user ID of <see cref="APIUser.SYSTEM_USER_ID"/>),
-        /// as well as scores of unknown provenance (with default user ID of 1, see <see cref="APIUser.OnlineID"/>),
+        /// All guest scores (with user ID of <see cref="User.SYSTEM_USER_ID"/>),
+        /// as well as scores of unknown provenance (with default user ID of 1, see <see cref="User.OnlineID"/>),
         /// will be treated as if they belong to the local user.
         /// This may not be necessarily considered fully correct in some circumstances, but in most cases it is the desired effect.
         /// </remarks>
         public static IQueryable<ScoreInfo> GetAllLocalScoresForUser(this Realm realm, int? userId)
         {
             return realm.All<ScoreInfo>()
-                        .Filter($@"({nameof(ScoreInfo.User)}.{nameof(RealmUser.OnlineID)} == $0 || {nameof(ScoreInfo.User)}.{nameof(RealmUser.OnlineID)} <= 1)"
+                        .Filter($@"({nameof(ScoreInfo.User)}.{nameof(User.ID)} == {User.PERSONAL_USER_ID}"
                                 + $@" && {nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.Hash)} == {nameof(ScoreInfo.BeatmapHash)}"
-                                + $@" && {nameof(ScoreInfo.DeletePending)} == false", userId);
+                                + $@" && {nameof(ScoreInfo.DeletePending)} == false)", userId);
         }
     }
 }

@@ -20,9 +20,6 @@ namespace osu.Game.Online.API.Requests.Responses
         [JsonProperty("checksum")]
         public string Checksum { get; set; } = string.Empty;
 
-        [JsonProperty(@"user_id")]
-        public int AuthorID { get; set; }
-
         [JsonProperty(@"beatmapset")]
         public APIBeatmapSet? BeatmapSet { get; set; }
 

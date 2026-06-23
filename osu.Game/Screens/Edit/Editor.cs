@@ -182,7 +182,7 @@ namespace osu.Game.Screens.Edit
             => dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
         [Resolved]
-        private IAPIProvider api { get; set; }
+        private DummyAPIAccess api { get; set; }
 
         [Cached]
         public readonly EditorClipboard Clipboard = new EditorClipboard();
@@ -233,7 +233,7 @@ namespace osu.Game.Screens.Edit
 
                 isNewBeatmap = true;
 
-                loadableBeatmap = beatmapManager.CreateNew(Ruleset.Value, api.LocalUser.Value);
+                loadableBeatmap = beatmapManager.CreateNew(Ruleset.Value, api.User.Value);
 
                 // required so we can get the track length in EditorClock.
                 // this is ONLY safe because the track being provided is a `TrackVirtual` which we don't really care about disposing.

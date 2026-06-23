@@ -15,13 +15,13 @@ using osu.Game.Beatmaps.Legacy;
 using osu.Game.Database;
 using osu.Game.Extensions;
 using osu.Game.IO.Legacy;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Replays;
 using osu.Game.Replays.Legacy;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Replays;
 using osu.Game.Rulesets.Scoring;
+using osu.Game.Users;
 using osuTK;
 using SharpCompress.Compressors.LZMA;
 
@@ -67,7 +67,7 @@ namespace osu.Game.Scoring.Legacy
                 if (workingBeatmap is DummyWorkingBeatmap)
                     throw new BeatmapNotFoundException(beatmapHash);
 
-                scoreInfo.User = new APIUser { Username = sr.ReadString() };
+                scoreInfo.User = new User { Username = sr.ReadString() };
 
                 // MD5Hash
                 sr.ReadString();
@@ -124,8 +124,7 @@ namespace osu.Game.Scoring.Legacy
                         score.ScoreInfo.Mods = readScore.Mods.Select(m => m.ToMod(currentRuleset)).ToArray();
                         score.ScoreInfo.ClientVersion = readScore.ClientVersion;
                         decodedRank = readScore.Rank;
-                        if (readScore.UserID > 1)
-                            score.ScoreInfo.RealmUser.OnlineID = readScore.UserID;
+                        score.ScoreInfo.User.ID = readScore.UserID;
 
                         if (readScore.TotalScoreWithoutMods is long totalScoreWithoutMods)
                             score.ScoreInfo.TotalScoreWithoutMods = totalScoreWithoutMods;
@@ -249,7 +248,7 @@ namespace osu.Game.Scoring.Legacy
             Debug.Assert(score.BeatmapInfo != null);
 
             var ruleset = score.Ruleset.CreateInstance();
-            var scoreMultiplierCalculator = ruleset.CreateScoreMultiplierCalculator(new ScoreMultiplierContext(score.BeatmapInfo.Difficulty, score));
+            var scoreMultiplierCalculator = ruleset.CreateScoreMultiplierCalculator(new ScoreMultiplierContext(score.BeatmapInfo!.Difficulty, score));
             double modMultiplier = scoreMultiplierCalculator.CalculateFor(score.Mods);
 
             score.TotalScoreWithoutMods = (long)Math.Round(score.TotalScore / modMultiplier);

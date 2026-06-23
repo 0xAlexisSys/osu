@@ -10,10 +10,10 @@ using osu.Framework.Graphics.Containers;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
+using osu.Game.Users;
 using osuTK;
 using Realms;
 
@@ -44,7 +44,7 @@ namespace osu.Game.Screens.Select
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
 
-        private readonly IBindable<APIUser> localUser = new Bindable<APIUser>();
+        private readonly IBindable<User> localUser = new Bindable<User>();
 
         private IDisposable? scoreSubscription;
 
@@ -66,9 +66,9 @@ namespace osu.Game.Screens.Select
         }
 
         [BackgroundDependencyLoader]
-        private void load(IAPIProvider api)
+        private void load(DummyAPIAccess api)
         {
-            localUser.BindTo(api.LocalUser);
+            localUser.BindTo(api.User);
         }
 
         protected override void LoadComplete()
@@ -99,7 +99,7 @@ namespace osu.Game.Screens.Select
 
             ScoreInfo? topScore = sender
                                   // doing these post realm filter is most efficient.
-                                  .Where(s => s.UserID == localUser.Value.Id || s.UserID <= 1)
+                                  .Where(s => s.UserID == localUser.Value.ID || s.UserID <= 1)
                                   .Where(s => ruleset.Value.Equals(s.Ruleset))
                                   .MaxBy(info => (info.TotalScore, -info.Date.UtcDateTime.Ticks));
 

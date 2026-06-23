@@ -28,7 +28,7 @@ namespace osu.Game.Overlays
         protected virtual Color4 BackgroundColour => ColourProvider.Background5;
 
         [Resolved]
-        protected IAPIProvider API { get; private set; } = null!;
+        protected DummyAPIAccess API { get; private set; } = null!;
 
         [Cached]
         protected readonly OverlayColourProvider ColourProvider;

@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Pippidon.Replays;
+using osu.Game.Users;
 
 namespace osu.Game.Rulesets.Pippidon.Mods
 {
     public class PippidonModAutoplay : ModAutoplay
     {
         public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-            => new ModReplayData(new PippidonAutoGenerator(beatmap).Generate(), new ModCreatedUser { Username = "sample" });
+            => new ModReplayData(new PippidonAutoGenerator(beatmap).Generate(), new User { ID = User.BOT_USER_ID, Username = "sample" });
     }
 }

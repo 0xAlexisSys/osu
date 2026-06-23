@@ -8,8 +8,8 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Screens.Play;
+using osu.Game.Users;
 
 namespace osu.Game.Skinning.Components
 {
@@ -22,9 +22,9 @@ namespace osu.Game.Skinning.Components
         private GameplayState? gameplayState { get; set; }
 
         [Resolved]
-        private IAPIProvider api { get; set; } = null!;
+        private DummyAPIAccess api { get; set; } = null!;
 
-        private IBindable<APIUser>? apiUser;
+        private IBindable<User>? apUser;
 
         public PlayerName()
         {
@@ -47,8 +47,8 @@ namespace osu.Game.Skinning.Components
                 text.Text = gameplayState.Score.ScoreInfo.User.Username;
             else
             {
-                apiUser = api.LocalUser.GetBoundCopy();
-                apiUser.BindValueChanged(u => text.Text = u.NewValue.Username, true);
+                apUser = api.User.GetBoundCopy();
+                apUser.BindValueChanged(u => text.Text = u.NewValue.Username, true);
             }
         }
 

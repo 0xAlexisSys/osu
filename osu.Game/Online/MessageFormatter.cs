@@ -6,10 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets.Edit;
 
-namespace osu.Game.Online.Chat
+namespace osu.Game.Online
 {
     public static class MessageFormatter
     {
@@ -168,17 +167,6 @@ namespace osu.Game.Online.Chat
 
                                 break;
                             }
-
-                            case @"u":
-                            case @"users":
-                                return getUserLink(mainArg);
-
-                            case @"wiki":
-                                return new LinkDetails(LinkAction.OpenWiki, string.Join('/', args.Skip(3)));
-
-                            case @"home":
-                                // handle link other than changelog as external for now
-                                return new LinkDetails(LinkAction.External, url);
                         }
                     }
 
@@ -210,8 +198,13 @@ namespace osu.Game.Online.Chat
                             linkType = LinkAction.OpenBeatmapSet;
                             break;
 
-                        case @"u":
-                            return getUserLink(args[2]);
+                        case @"spectate":
+                            linkType = LinkAction.Spectate;
+                            break;
+
+                        case @"room":
+                            linkType = LinkAction.JoinRoom;
+                            break;
 
                         default:
                             return new LinkDetails(LinkAction.External, url);
@@ -221,14 +214,6 @@ namespace osu.Game.Online.Chat
             }
 
             return new LinkDetails(LinkAction.External, url);
-        }
-
-        private static LinkDetails getUserLink(string argument)
-        {
-            if (int.TryParse(argument, out int userId))
-                return new LinkDetails(LinkAction.OpenUserProfile, new APIUser { Id = userId });
-
-            return new LinkDetails(LinkAction.OpenUserProfile, new APIUser { Username = argument });
         }
 
         private static MessageFormatterResult format(string toFormat, int startIndex = 0, int space = 3)
@@ -260,18 +245,6 @@ namespace osu.Game.Online.Chat
             result.Text = Regex.Replace(result.Text, emoji_regex.ToString(), "[emoji]");
 
             return result;
-        }
-
-        public static Message FormatMessage(Message inputMessage)
-        {
-            var result = format(inputMessage.Content);
-
-            inputMessage.DisplayContent = result.Text;
-
-            // Sometimes, regex matches are not in order
-            result.Links.Sort();
-            inputMessage.Links = result.Links;
-            return inputMessage;
         }
 
         public static MessageFormatterResult FormatText(string text)
@@ -316,10 +289,13 @@ namespace osu.Game.Online.Chat
         OpenBeatmapSet,
         OpenChannel,
         OpenEditorTimestamp,
+        JoinRoom,
+        Spectate,
         OpenUserProfile,
         SearchBeatmapSet,
         OpenWiki,
         Custom,
+        OpenChangelog,
         FilterBeatmapSetGenre,
         FilterBeatmapSetLanguage,
     }

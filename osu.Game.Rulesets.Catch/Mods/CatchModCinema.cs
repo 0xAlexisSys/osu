@@ -8,6 +8,7 @@ using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Catch.Objects;
 using osu.Game.Rulesets.Catch.Replays;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Users;
 
 namespace osu.Game.Rulesets.Catch.Mods
 {
@@ -16,6 +17,6 @@ namespace osu.Game.Rulesets.Catch.Mods
         public override Type[] IncompatibleMods => base.IncompatibleMods.Concat(new[] { typeof(CatchModMovingFast) }).ToArray();
 
         public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-            => new ModReplayData(new CatchAutoGenerator(beatmap).Generate(), new ModCreatedUser { Username = "osu!salad" });
+            => new ModReplayData(new CatchAutoGenerator(beatmap).Generate(), new User { ID = User.BOT_USER_ID, Username = "osu!salad" });
     }
 }

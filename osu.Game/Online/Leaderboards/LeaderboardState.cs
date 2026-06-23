@@ -9,7 +9,6 @@ namespace osu.Game.Online.Leaderboards
         Retrieving,
         NoScores,
 
-        NetworkFailure = LeaderboardFailState.NetworkFailure,
         BeatmapUnavailable = LeaderboardFailState.BeatmapUnavailable,
         RulesetUnavailable = LeaderboardFailState.RulesetUnavailable,
         NoneSelected = LeaderboardFailState.NoneSelected,

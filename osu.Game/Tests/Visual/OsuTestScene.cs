@@ -53,7 +53,7 @@ namespace osu.Game.Tests.Visual
 
         protected IResourceStore<byte[]> Resources;
 
-        protected IAPIProvider API
+        protected DummyAPIAccess API
         {
             get
             {
@@ -153,7 +153,7 @@ namespace osu.Game.Tests.Visual
             if (!UseOnlineAPI)
             {
                 dummyAPI = new DummyAPIAccess();
-                Dependencies.CacheAs<IAPIProvider>(dummyAPI);
+                Dependencies.CacheAs<DummyAPIAccess>(dummyAPI);
                 base.Content.Add(dummyAPI);
             }
 
@@ -279,37 +279,12 @@ namespace osu.Game.Tests.Visual
                 TitleUnicode = original.Metadata.TitleUnicode,
                 Artist = original.Metadata.Artist,
                 ArtistUnicode = original.Metadata.ArtistUnicode,
-                Author = new APIUser
-                {
-                    Username = original.Metadata.Author.Username,
-                    Id = original.Metadata.Author.OnlineID
-                },
+                Author = original.Metadata.Author,
                 Source = original.Metadata.Source,
                 Tags = original.Metadata.Tags,
                 BPM = original.BPM,
                 HasFavourited = false,
                 Ratings = Enumerable.Range(0, 11).ToArray(),
-                RelatedTags =
-                [
-                    new APITag
-                    {
-                        Id = 2,
-                        Name = "song representation/simple",
-                        Description = "Accessible and straightforward map design."
-                    },
-                    new APITag
-                    {
-                        Id = 4,
-                        Name = "style/clean",
-                        Description = "Visually uncluttered and organised patterns, often involving few overlaps and equal visual spacing between objects."
-                    },
-                    new APITag
-                    {
-                        Id = 23,
-                        Name = "aim/aim control",
-                        Description = "Patterns with velocity or direction changes which strongly go against a player's natural movement pattern."
-                    }
-                ],
                 Beatmaps = new[]
                 {
                     new APIBeatmap
@@ -317,7 +292,6 @@ namespace osu.Game.Tests.Visual
                         OnlineID = original.OnlineID,
                         OnlineBeatmapSetID = original.BeatmapSet.OnlineID,
                         Checksum = original.MD5Hash,
-                        AuthorID = original.Metadata.Author.OnlineID,
                         RulesetID = original.Ruleset.OnlineID,
                         StarRating = original.StarRating,
                         DifficultyName = original.DifficultyName,

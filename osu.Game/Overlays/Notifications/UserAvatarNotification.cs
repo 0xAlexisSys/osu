@@ -5,18 +5,18 @@ using System;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Localisation;
-using osu.Game.Online.API.Requests.Responses;
+using osu.Game.Users;
 using osu.Game.Users.Drawables;
 
 namespace osu.Game.Overlays.Notifications
 {
     public abstract partial class UserAvatarNotification : SimpleNotification
     {
-        protected readonly APIUser User;
+        protected readonly User User;
 
         protected DrawableAvatar Avatar { get; private set; } = null!;
 
-        protected UserAvatarNotification(APIUser user, LocalisableString text = default)
+        protected UserAvatarNotification(User user, LocalisableString text = default)
         {
             User = user;
             Icon = default;

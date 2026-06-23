@@ -40,7 +40,7 @@ namespace osu.Game.Scoring
             }
         }
 
-        public ScoreManager(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, IAPIProvider api,
+        public ScoreManager(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, DummyAPIAccess api,
                             OsuConfigManager? configManager = null)
             : base(storage, realm)
         {
@@ -59,15 +59,15 @@ namespace osu.Game.Scoring
         }
 
         /// <summary>
-        /// Retrieve a <see cref="Score"/> from a given <see cref="IScoreInfo"/>.
+        /// Retrieve a <see cref="Score"/> from a given <see cref="ScoreInfo"/>.
         /// </summary>
-        /// <param name="scoreInfo">The <see cref="IScoreInfo"/> to convert.</param>
+        /// <param name="scoreInfo">The <see cref="ScoreInfo"/> to convert.</param>
         /// <returns>The <see cref="Score"/>. Null if the score cannot be found in the database.</returns>
         /// <remarks>
-        /// The <see cref="IScoreInfo"/> is re-retrieved from the database to ensure all the required data
+        /// The <see cref="ScoreInfo"/> is re-retrieved from the database to ensure all the required data
         /// for retrieving a replay are present (may have missing properties if it was retrieved from online data).
         /// </remarks>
-        public Score? GetScore(IScoreInfo scoreInfo)
+        public Score? GetScore(ScoreInfo scoreInfo)
         {
             ScoreInfo? databasedScoreInfo = getDatabasedScoreInfo(scoreInfo);
 
@@ -84,7 +84,7 @@ namespace osu.Game.Scoring
             return Realm.Run(r => r.All<ScoreInfo>().FirstOrDefault(query)?.Detach());
         }
 
-        private ScoreInfo? getDatabasedScoreInfo(IScoreInfo originalScoreInfo)
+        private ScoreInfo? getDatabasedScoreInfo(ScoreInfo originalScoreInfo)
         {
             ScoreInfo? databasedScoreInfo = null;
 
@@ -192,12 +192,12 @@ namespace osu.Game.Scoring
         public Task<IEnumerable<Live<ScoreInfo>>> Import(ProgressNotification notification, ImportTask[] tasks, ImportParameters parameters = default) => scoreImporter.Import(notification, tasks);
 
         /// <summary>
-        /// Export a replay from a given <see cref="IScoreInfo"/>.
+        /// Export a replay from a given <see cref="ScoreInfo"/>.
         /// </summary>
-        /// <param name="scoreInfo">The <see cref="IScoreInfo"/> to export.</param>
+        /// <param name="scoreInfo">The <see cref="ScoreInfo"/> to export.</param>
         /// <returns>The <see cref="Task"/>. Return <see cref="Task.CompletedTask"/> if the score cannot be found in the database.</returns>
         /// <remarks>
-        /// The <see cref="IScoreInfo"/> is re-retrieved from the database to ensure all the required data
+        /// The <see cref="ScoreInfo"/> is re-retrieved from the database to ensure all the required data
         /// for exporting a replay are present (may have missing properties if it was retrieved from online data).
         /// </remarks>
         public Task Export(ScoreInfo scoreInfo)

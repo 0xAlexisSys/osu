@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Extensions;
-using osu.Game.Models;
+using osu.Game.Users;
 
 namespace osu.Game.Online.API.Requests.Responses
 {
@@ -61,51 +61,10 @@ namespace osu.Game.Online.API.Requests.Responses
         /// detailed user info is not included and the creator's ID and username are filled from the <see cref="AuthorID"/> and
         /// <see cref="AuthorString"/> properties. For other API endpoints, this property is set by the <see cref="author"/> setter.
         /// </remarks>
-        public APIUser Author = new APIUser();
-
-        /// <summary>
-        /// Helper property to deserialize the detailed user info to <see cref="Author"/>
-        /// </summary>
-        /// <remarks>
-        /// This setter implements special handling for deleted users. When received a user with ID 1, it indicates
-        /// the original user has been deleted. In such cases, the existing <see cref="Author"/> data
-        /// (filled from <see cref="AuthorID"/> and <see cref="AuthorString"/>) is preserved. For valid user,
-        /// the provided user info replaces the existing <see cref="Author"/>.
-        /// </remarks>
-        [JsonProperty(@"user")]
-        private APIUser author
-        {
-            set => Author = value.Id != 1 ? value : Author;
-        }
-
-        /// <summary>
-        /// The ID of the beatmap set's creator.
-        /// </summary>
-        /// <remarks>
-        /// Helper property to deserialize the ID to <see cref="Author"/>.
-        /// </remarks>
-        [JsonProperty(@"user_id")]
-        public int AuthorID
-        {
-            get => Author.Id;
-            set => Author.Id = value;
-        }
-
-        /// <summary>
-        /// The username of the beatmap set's creator.
-        /// </summary>
-        /// <remarks>
-        /// Helper property to deserialize the username to <see cref="Author"/>.
-        /// </remarks>
-        [JsonProperty(@"creator")]
-        public string AuthorString
-        {
-            get => Author.Username;
-            set => Author.Username = value;
-        }
+        public string Author { get; set; } = string.Empty;
 
         [JsonProperty(@"related_users")]
-        public APIUser[]? RelatedUsers { get; set; }
+        public User[]? RelatedUsers { get; set; }
 
         public string Source { get; set; } = string.Empty;
 
@@ -118,20 +77,13 @@ namespace osu.Game.Online.API.Requests.Responses
         [JsonProperty(@"converts")]
         public APIBeatmap[]? Converts { get; set; }
 
-        [JsonProperty(@"related_tags")]
-        public APITag[]? RelatedTags { get; set; }
-
         private BeatmapMetadata metadata => new BeatmapMetadata
         {
             Title = Title,
             TitleUnicode = TitleUnicode,
             Artist = Artist,
             ArtistUnicode = ArtistUnicode,
-            Author = new RealmUser
-            {
-                OnlineID = Author.OnlineID,
-                Username = Author.Username
-            },
+            Author = Author,
             Source = Source,
             Tags = Tags,
         };

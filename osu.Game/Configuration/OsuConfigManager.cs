@@ -14,7 +14,6 @@ using osu.Game.Input;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
 using osu.Game.Online.Leaderboards;
-using osu.Game.Overlays;
 using osu.Game.Overlays.Mods.Input;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Screens.Edit.Compose.Components;
@@ -52,44 +51,8 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.ModSelectHotkeyStyle, ModSelectHotkeyStyle.Sequential);
             SetDefault(OsuSetting.ModSelectTextSearchStartsActive, true);
 
-            SetDefault(OsuSetting.ChatDisplayHeight, ChatOverlay.DEFAULT_HEIGHT, 0.2f, 1f, 0.01f);
-
-            SetDefault(OsuSetting.ProfileCoverExpanded, true);
-
             SetDefault(OsuSetting.SongSelectBackgroundBlur, false);
             SetDefault(OsuSetting.SongSelectShowLogo, true);
-
-            // Online settings
-            SetDefault(OsuSetting.Username, string.Empty);
-            SetDefault(OsuSetting.Token, string.Empty);
-
-            SetDefault(OsuSetting.AutomaticallyDownloadMissingBeatmaps, true);
-
-            SetDefault(OsuSetting.SavePassword, true).ValueChanged += enabled =>
-            {
-                if (enabled.NewValue)
-                    SetValue(OsuSetting.SaveUsername, true);
-                else
-                    GetBindable<string>(OsuSetting.Token).SetDefault();
-            };
-
-            SetDefault(OsuSetting.SaveUsername, true).ValueChanged += enabled =>
-            {
-                if (!enabled.NewValue)
-                {
-                    GetBindable<string>(OsuSetting.Username).SetDefault();
-                    SetValue(OsuSetting.SavePassword, false);
-                }
-            };
-
-            SetDefault(OsuSetting.ExternalLinkWarning, true);
-            SetDefault(OsuSetting.PreferNoVideo, false);
-
-            SetDefault(OsuSetting.ShowOnlineExplicitContent, false);
-
-            SetDefault(OsuSetting.NotifyOnUsernameMentioned, true);
-            SetDefault(OsuSetting.NotifyOnPrivateMessage, true);
-            SetDefault(OsuSetting.NotifyOnFriendPresenceChange, true);
 
             // Audio
             SetDefault(OsuSetting.VolumeInactive, 0.25, 0, 1, 0.01);
@@ -198,8 +161,6 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.EditorRotationOrigin, EditorOrigin.GridCentre);
             SetDefault(OsuSetting.EditorAdjustExistingObjectsOnTimingChanges, true);
 
-            SetDefault(OsuSetting.HideCountryFlags, false);
-
             SetDefault(OsuSetting.MultiplayerShowInProgressFilter, true);
 
             SetDefault(OsuSetting.LastProcessedMetadataId, -1);
@@ -218,20 +179,6 @@ namespace osu.Game.Configuration
 
             SetDefault(OsuSetting.EditorSubmissionNotifyOnDiscussionReplies, true);
             SetDefault(OsuSetting.EditorSubmissionLoadInBrowserAfterSubmission, true);
-
-            // intentionally uses `DateTime?` and not `DateTimeOffset?` because the latter fails due to `DateTimeOffset` not implementing `IConvertible`
-            SetDefault(OsuSetting.LastOnlineTagsPopulation, (DateTime?)null);
-        }
-
-        protected override bool CheckLookupContainsPrivateInformation(OsuSetting lookup)
-        {
-            switch (lookup)
-            {
-                case OsuSetting.Token:
-                    return true;
-            }
-
-            return false;
         }
 
         public override TrackedSettings CreateTrackedSettings()
@@ -310,7 +257,6 @@ namespace osu.Game.Configuration
     public enum OsuSetting
     {
         Ruleset,
-        Token,
         MenuCursorSize,
         GameplayCursorSize,
         AutoCursorSize,
@@ -353,10 +299,7 @@ namespace osu.Game.Configuration
         BeatmapDetailTab,
         BeatmapLeaderboardSortMode,
         BeatmapDetailModsFilter,
-        Username,
         ReleaseStream,
-        SavePassword,
-        SaveUsername,
         DisplayStarsMinimum,
         DisplayStarsMaximum,
         SongSelectGroupMode,
@@ -378,8 +321,6 @@ namespace osu.Game.Configuration
         BeatmapHitsounds,
         IncreaseFirstObjectVisibility,
         ScoreDisplayMode,
-        ExternalLinkWarning,
-        PreferNoVideo,
         Scaling,
         ScalingPositionX,
         ScalingPositionY,
@@ -388,9 +329,6 @@ namespace osu.Game.Configuration
         ScalingBackgroundDim,
         UIScale,
         IntroSequence,
-        NotifyOnUsernameMentioned,
-        NotifyOnPrivateMessage,
-        NotifyOnFriendPresenceChange,
         UIHoldActivationDelay,
         HitLighting,
         StarFountains,
@@ -401,26 +339,16 @@ namespace osu.Game.Configuration
         EditorAutoSeekOnPlacement,
         DiscordRichPresence,
 
-        ShowOnlineExplicitContent,
         LastProcessedMetadataId,
         SafeAreaConsiderations,
         ComboColourNormalisationAmount,
-        ProfileCoverExpanded,
         EditorLimitedDistanceSnap,
         ReplaySettingsOverlay,
         ReplayPlaybackControlsExpanded,
-        AutomaticallyDownloadMissingBeatmaps,
         EditorShowSpeedChanges,
         TouchDisableGameplayTaps,
         ModSelectTextSearchStartsActive,
 
-        /// <summary>
-        /// The status for the current user to broadcast to other players.
-        /// </summary>
-        UserOnlineStatus,
-
-        MultiplayerRoomFilter,
-        HideCountryFlags,
         EditorTimelineShowTimingChanges,
         EditorTimelineShowTicks,
         AlwaysShowHoldForMenuButton,
@@ -435,8 +363,6 @@ namespace osu.Game.Configuration
         EditorShowStoryboard,
         EditorSubmissionNotifyOnDiscussionReplies,
         EditorSubmissionLoadInBrowserAfterSubmission,
-
-        LastOnlineTagsPopulation,
 
         AutomaticallyAdjustBeatmapOffset,
     }

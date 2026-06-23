@@ -32,6 +32,7 @@ using osu.Game.Screens.Play;
 using osu.Game.Screens.Ranking.Expanded.Accuracy;
 using osu.Game.Screens.Ranking.Statistics;
 using osu.Game.Skinning;
+using osu.Game.Users;
 using osuTK;
 
 namespace osu.Game.Screens.Ranking
@@ -182,7 +183,7 @@ namespace osu.Game.Screens.Ranking
             if (Score != null)
             {
                 // only show flair / animation when arriving after watching a play that isn't autoplay.
-                bool shouldFlair = player != null && !Score.User.IsBot;
+                bool shouldFlair = player != null && Score.User.ID != User.BOT_USER_ID;
 
                 ScorePanelList.AddScore(Score, shouldFlair);
 

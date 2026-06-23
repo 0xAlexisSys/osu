@@ -161,7 +161,7 @@ namespace osu.Game.Tests.Visual
 
             public new void PerformFromScreen(Action<IScreen> action, IEnumerable<Type> validScreens = null) => base.PerformFromScreen(action, validScreens);
 
-            public TestOsuGame(Storage storage, IAPIProvider api, string[] args = null)
+            public TestOsuGame(Storage storage, DummyAPIAccess api, string[] args = null)
                 : base(args)
             {
                 base.Storage = storage;

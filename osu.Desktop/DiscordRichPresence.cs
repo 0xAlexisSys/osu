@@ -8,18 +8,14 @@ using DiscordRPC.Message;
 using Newtonsoft.Json;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Logging;
 using osu.Framework.Threading;
 using osu.Game.Configuration;
 using osu.Game.Extensions;
-using osu.Game.Online;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Users;
 using LogLevel = osu.Framework.Logging.LogLevel;
-using User = osu.Game.Users.User;
 
 namespace osu.Desktop
 {
@@ -32,14 +28,8 @@ namespace osu.Desktop
         [Resolved]
         private IBindable<RulesetInfo> ruleset { get; set; } = null!;
 
-        [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
-
-        [Resolved]
-        private LocalUserStatisticsProvider statisticsProvider { get; set; } = null!;
-
-        private IBindable<DiscordRichPresenceMode> privacyMode = null!;
-        private IBindable<UserActivity?> userActivity = null!;
+        private Bindable<DiscordRichPresenceMode> privacyMode = null!;
+        private Bindable<UserActivity?> userActivity = null!;
 
         private readonly RichPresence presence = new RichPresence
         {
@@ -51,8 +41,6 @@ namespace osu.Desktop
                 SpectateSecret = null,
             },
         };
-
-        private IBindable<User>? user;
 
         [BackgroundDependencyLoader]
         private void load(OsuConfigManager config, SessionStatics session)
@@ -91,13 +79,9 @@ namespace osu.Desktop
         {
             base.LoadComplete();
 
-            user = api.User.GetBoundCopy();
-
             ruleset.BindValueChanged(_ => schedulePresenceUpdate());
             userActivity.BindValueChanged(_ => schedulePresenceUpdate());
             privacyMode.BindValueChanged(_ => schedulePresenceUpdate());
-
-            statisticsProvider.StatisticsUpdated += onStatisticsUpdated;
         }
 
         private void onReady(object _, ReadyMessage __)
@@ -112,8 +96,6 @@ namespace osu.Desktop
         }
 
         private void onRoomUpdated() => schedulePresenceUpdate();
-
-        private void onStatisticsUpdated(UserStatisticsUpdate _) => schedulePresenceUpdate();
 
         private ScheduledDelegate? presenceUpdateDelegate;
 
@@ -140,9 +122,6 @@ namespace osu.Desktop
 
         private void updatePresence(bool hideIdentifiableInformation)
         {
-            if (user == null)
-                return;
-
             // user activity
             if (userActivity.Value != null)
             {
@@ -153,16 +132,6 @@ namespace osu.Desktop
             {
                 presence.State = "Idle";
                 presence.Details = string.Empty;
-            }
-
-            // game images:
-            // large image tooltip
-            if (privacyMode.Value == DiscordRichPresenceMode.Limited)
-                presence.Assets.LargeImageText = string.Empty;
-            else
-            {
-                var statistics = statisticsProvider.GetStatisticsFor(ruleset.Value);
-                presence.Assets.LargeImageText = $"{user.Value.Username}" + (statistics?.GlobalRank > 0 ? $" (rank #{statistics.GlobalRank:N0})" : string.Empty);
             }
 
             // small image
@@ -230,9 +199,6 @@ namespace osu.Desktop
 
         protected override void Dispose(bool isDisposing)
         {
-            if (statisticsProvider.IsNotNull())
-                statisticsProvider.StatisticsUpdated -= onStatisticsUpdated;
-
             client.Dispose();
             base.Dispose(isDisposing);
         }

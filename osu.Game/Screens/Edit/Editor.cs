@@ -233,7 +233,7 @@ namespace osu.Game.Screens.Edit
 
                 isNewBeatmap = true;
 
-                loadableBeatmap = beatmapManager.CreateNew(Ruleset.Value, api.User.Value);
+                loadableBeatmap = beatmapManager.CreateNew(Ruleset.Value, api.User);
 
                 // required so we can get the track length in EditorClock.
                 // this is ONLY safe because the track being provided is a `TrackVirtual` which we don't really care about disposing.

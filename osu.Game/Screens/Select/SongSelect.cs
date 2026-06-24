@@ -153,9 +153,6 @@ namespace osu.Game.Screens.Select
         private ManageCollectionsDialog? collectionsDialog { get; set; }
 
         [Resolved]
-        private DifficultyRecommender? difficultyRecommender { get; set; }
-
-        [Resolved]
         private IDialogOverlay? dialogOverlay { get; set; }
 
         [Resolved]
@@ -342,11 +339,7 @@ namespace osu.Game.Screens.Select
             ShowPresets = true,
         };
 
-        private void requestRecommendedSelection(IEnumerable<GroupedBeatmap> groupedBeatmaps)
-        {
-            var recommendedBeatmap = difficultyRecommender?.GetRecommendedBeatmap(groupedBeatmaps.Select(gb => gb.Beatmap)) ?? groupedBeatmaps.First().Beatmap;
-            queueBeatmapSelection(groupedBeatmaps.First(bug => bug.Beatmap.Equals(recommendedBeatmap)));
-        }
+        private void requestRecommendedSelection(GroupedBeatmap[] groupedBeatmaps) => queueBeatmapSelection(groupedBeatmaps[0]);
 
         /// <summary>
         /// Called when a selection is made to progress away from the song select screen.
@@ -715,7 +708,7 @@ namespace osu.Game.Screens.Select
 
                 if (validBeatmaps.Any())
                 {
-                    var beatmap = difficultyRecommender?.GetRecommendedBeatmap(validBeatmaps) ?? validBeatmaps.First();
+                    var beatmap = validBeatmaps[0];
                     carousel.CurrentBeatmap = beatmap;
                     debounceQueueSelection(beatmap);
                     return true;

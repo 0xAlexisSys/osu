@@ -98,8 +98,8 @@ namespace osu.Game.Screens.Ranking
                 }
                 else
                 {
-                    bool presentingUserScore = Score.User.ID == api.User.Value.ID;
-                    bool presentedUserScoreIsBetter = presentingUserScore && clonedScore.User.ID == api.User.Value.ID && clonedScore.TotalScore < Score.TotalScore;
+                    bool presentingUserScore = Score.User.ID == api.User.ID;
+                    bool presentedUserScoreIsBetter = presentingUserScore && clonedScore.User.ID == api.User.ID && clonedScore.TotalScore < Score.TotalScore;
 
                     if (presentedUserScoreIsBetter)
                         continue;

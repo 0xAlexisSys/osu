@@ -3,25 +3,19 @@
 
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Game.Online.API;
 using osu.Game.Skinning;
-using osu.Game.Users;
 using osuTK.Graphics;
 
 namespace osu.Game.Screens.Menu
 {
     public partial class MenuLogoVisualisation : LogoVisualisation
     {
-        private IBindable<User> user = null!;
         private Bindable<Skin> skin = null!;
 
         [BackgroundDependencyLoader]
-        private void load(DummyAPIAccess api, SkinManager skinManager)
+        private void load(SkinManager skinManager)
         {
-            user = api.User.GetBoundCopy();
             skin = skinManager.CurrentSkin.GetBoundCopy();
-
-            user.ValueChanged += _ => UpdateColour();
             skin.BindValueChanged(_ => UpdateColour(), true);
         }
 

@@ -7,10 +7,8 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Game.Configuration;
 using osu.Game.Localisation.SkinComponents;
-using osu.Game.Online.API;
 using osu.Game.Overlays.Settings;
 using osu.Game.Skinning;
-using osu.Game.Users;
 using osu.Game.Users.Drawables;
 using osuTK;
 
@@ -34,11 +32,6 @@ namespace osu.Game.Screens.Play.HUD
         [Resolved]
         private GameplayState? gameplayState { get; set; }
 
-        [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
-
-        private IBindable<User>? apUser;
-
         private readonly Container cornerContainer;
 
         public PlayerAvatar()
@@ -49,7 +42,7 @@ namespace osu.Game.Screens.Play.HUD
             {
                 Masking = true,
                 RelativeSizeAxes = Axes.Both,
-                Child = avatar = new UpdateableAvatar()
+                Child = avatar = new UpdateableAvatar
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
@@ -64,11 +57,6 @@ namespace osu.Game.Screens.Play.HUD
         {
             if (gameplayState != null)
                 avatar.User = gameplayState.Score.ScoreInfo.User;
-            else
-            {
-                apUser = api.User.GetBoundCopy();
-                apUser.BindValueChanged(u => avatar.User = u.NewValue, true);
-            }
         }
 
         protected override void LoadComplete()

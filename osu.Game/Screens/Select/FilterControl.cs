@@ -26,7 +26,6 @@ using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Screens.Select.Filter;
-using osu.Game.Users;
 using osuTK;
 using osuTK.Input;
 
@@ -67,8 +66,6 @@ namespace osu.Game.Screens.Select
 
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
-
-        private Bindable<User> user = null!;
 
         public LocalisableString StatusText
         {
@@ -211,8 +208,6 @@ namespace osu.Game.Screens.Select
                     },
                 },
             };
-
-            user = api.User.GetBoundCopy();
         }
 
         protected override void LoadComplete()
@@ -274,7 +269,6 @@ namespace osu.Game.Screens.Select
                     updateCriteria();
             });
 
-            user.BindValueChanged(_ => updateCriteria());
             ScopedBeatmapSet.BindValueChanged(_ => updateCriteria(clearScopedSet: false));
 
             updateCriteria();
@@ -302,7 +296,6 @@ namespace osu.Game.Screens.Select
                 Ruleset = ruleset.Value,
                 Mods = mods.Value,
                 Collection = collectionDropdown.Current.Value?.Collection,
-                UserId = user.Value.ID,
             };
 
             if (!difficultyRangeSlider.LowerBound.IsDefault)

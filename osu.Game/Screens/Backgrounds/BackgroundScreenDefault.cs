@@ -18,7 +18,6 @@ using osu.Game.Configuration;
 using osu.Game.Graphics.Backgrounds;
 using osu.Game.Online.API;
 using osu.Game.Skinning;
-using osu.Game.Users;
 
 namespace osu.Game.Screens.Backgrounds
 {
@@ -28,7 +27,6 @@ namespace osu.Game.Screens.Backgrounds
 
         private int currentDisplay;
         private const int background_count = 8;
-        private IBindable<User> user;
         private Bindable<Skin> skin;
         private Bindable<BackgroundSource> source;
         private Bindable<IntroSequence> introSequence;
@@ -44,7 +42,6 @@ namespace osu.Game.Screens.Backgrounds
         [BackgroundDependencyLoader]
         private void load(DummyAPIAccess api, SkinManager skinManager, OsuConfigManager config)
         {
-            user = api.User.GetBoundCopy();
             skin = skinManager.CurrentSkin.GetBoundCopy();
             source = config.GetBindable<BackgroundSource>(OsuSetting.MenuBackgroundSource);
             introSequence = config.GetBindable<IntroSequence>(OsuSetting.IntroSequence);
@@ -54,7 +51,6 @@ namespace osu.Game.Screens.Backgrounds
         {
             base.LoadComplete();
 
-            user.ValueChanged += _ => Scheduler.AddOnce(next);
             skin.ValueChanged += _ => Scheduler.AddOnce(next);
             source.ValueChanged += _ => Scheduler.AddOnce(next);
             beatmap.ValueChanged += _ => Scheduler.AddOnce(next);

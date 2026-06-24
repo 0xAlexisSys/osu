@@ -2,14 +2,12 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Localisation;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
 using osu.Game.Online.API;
-using osu.Game.Users;
 
 namespace osu.Game.Overlays.Settings.Sections.UserInterface
 {
@@ -17,13 +15,9 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
     {
         protected override LocalisableString Header => UserInterfaceStrings.MainMenuHeader;
 
-        private Bindable<User> user = null!;
-
         [BackgroundDependencyLoader]
         private void load(OsuConfigManager config, DummyAPIAccess api)
         {
-            user = api.User.GetBoundCopy();
-
             Children = new Drawable[]
             {
                 new SettingsItemV2(new FormCheckBox

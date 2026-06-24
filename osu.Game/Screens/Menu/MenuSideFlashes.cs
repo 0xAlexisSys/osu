@@ -17,7 +17,6 @@ using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Online.API;
 using osu.Game.Skinning;
-using osu.Game.Users;
 using osuTK.Graphics;
 
 namespace osu.Game.Screens.Menu
@@ -37,11 +36,9 @@ namespace osu.Game.Screens.Menu
         private const float alpha_multiplier = (1 - amplitude_dead_zone) / 0.55f;
         private const float kiai_multiplier = (1 - amplitude_dead_zone * 0.95f) / 0.8f;
 
-        private const int box_max_alpha = 200;
         private const double box_fade_in_time = 65;
         private const int box_width = 200;
 
-        private IBindable<User> user;
         private Bindable<Skin> skin;
 
         [Resolved]
@@ -61,7 +58,6 @@ namespace osu.Game.Screens.Menu
         {
             this.beatmap.BindTo(beatmap);
 
-            user = api.User.GetBoundCopy();
             skin = skinManager.CurrentSkin.GetBoundCopy();
 
             Children = new Drawable[]
@@ -92,10 +88,7 @@ namespace osu.Game.Screens.Menu
             };
 
             if (!RefreshColoursEveryFlash)
-            {
-                user.ValueChanged += _ => updateColour();
                 skin.BindValueChanged(_ => updateColour(), true);
-            }
         }
 
         protected override void OnNewBeat(int beatIndex, TimingControlPoint timingPoint, EffectControlPoint effectPoint, ChannelAmplitudes amplitudes)

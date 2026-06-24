@@ -28,7 +28,6 @@ using osu.Game.Database;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Carousel;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
 using Realms;
@@ -43,7 +42,7 @@ namespace osu.Game.Screens.Select
         /// <summary>
         /// From the provided beatmaps, select the most appropriate one for the user's skill.
         /// </summary>
-        public required Action<IEnumerable<GroupedBeatmap>> RequestRecommendedSelection { private get; init; }
+        public required Action<GroupedBeatmap[]> RequestRecommendedSelection { private get; init; }
 
         /// <summary>
         /// Selection requested for the provided beatmap.
@@ -511,7 +510,7 @@ namespace osu.Game.Screens.Select
             // Selecting a set isn't valid – let's re-select the first visible difficulty.
             if (grouping.SetItems.TryGetValue(set, out var items))
             {
-                var beatmaps = items.Select(i => i.Model).OfType<GroupedBeatmap>();
+                var beatmaps = items.Select(i => i.Model).OfType<GroupedBeatmap>().ToArray();
                 RequestRecommendedSelection(beatmaps);
             }
         }
@@ -545,7 +544,7 @@ namespace osu.Game.Screens.Select
                 }
             }
 
-            var beatmaps = items.Select(i => i.Model).OfType<GroupedBeatmap>();
+            var beatmaps = items.Select(i => i.Model).OfType<GroupedBeatmap>().ToArray();
 
             // do not request recommended selection if the user already had selected a difficulty within the single filtered beatmap set,
             // as it could change the difficulty that will be selected
@@ -817,9 +816,6 @@ namespace osu.Game.Screens.Select
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
 
-        [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
-
         /// <remarks>
         /// FOOTGUN WARNING: this being sorted on the realm side before detaching is IMPORTANT.
         /// realm supports sorting as an internal operation, and realm's implementation of string sorting does NOT match dotnet's
@@ -834,12 +830,12 @@ namespace osu.Game.Screens.Select
         {
             var topRankMapping = new Dictionary<Guid, ScoreRank>();
 
-            var allLocalScores = r.GetAllLocalScoresForUser(criteria.UserId)
-                                  .Filter($@"{nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $0", criteria.Ruleset?.ShortName)
-                                  .OrderByDescending(s => s.TotalScore)
-                                  .ThenBy(s => s.Date);
+            var allPersonalScores = r.GetAllScoresForPersonalUser()
+                                     .Filter($@"{nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $0", criteria.Ruleset?.ShortName)
+                                     .OrderByDescending(s => s.TotalScore)
+                                     .ThenBy(s => s.Date);
 
-            foreach (var score in allLocalScores)
+            foreach (var score in allPersonalScores)
             {
                 Debug.Assert(score.BeatmapInfo != null);
 

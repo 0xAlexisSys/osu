@@ -348,8 +348,8 @@ namespace osu.Game.Database
                 realmAccess.Write(r =>
                 {
                     // [alexis] Need to use AsEnumerable here, or Realm will throw a NotSupportedException.
-                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == api.User.Value.ID && s.User.Username != api.User.Value.Username))
-                        score.User.Username = api.User.Value.Username;
+                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == api.User.ID && s.User.Username != api.User.Username))
+                        score.User.Username = api.User.Username;
                 });
             }
             catch (ObjectDisposedException)

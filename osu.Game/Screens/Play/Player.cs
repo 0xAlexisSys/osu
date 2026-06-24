@@ -1230,7 +1230,7 @@ namespace osu.Game.Screens.Play
         {
             ScoreInfo = new ScoreInfo
             {
-                User = api.User.Value,
+                User = api.User,
                 ClientVersion = game.Version,
             },
         };

@@ -3,13 +3,10 @@
 
 using JetBrains.Annotations;
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Online.API;
 using osu.Game.Screens.Play;
-using osu.Game.Users;
 
 namespace osu.Game.Skinning.Components
 {
@@ -20,11 +17,6 @@ namespace osu.Game.Skinning.Components
 
         [Resolved]
         private GameplayState? gameplayState { get; set; }
-
-        [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
-
-        private IBindable<User>? apUser;
 
         public PlayerName()
         {
@@ -45,11 +37,6 @@ namespace osu.Game.Skinning.Components
         {
             if (gameplayState != null)
                 text.Text = gameplayState.Score.ScoreInfo.User.Username;
-            else
-            {
-                apUser = api.User.GetBoundCopy();
-                apUser.BindValueChanged(u => text.Text = u.NewValue.Username, true);
-            }
         }
 
         protected override void SetFont(FontUsage font) => text.Font = font.With(size: 40);

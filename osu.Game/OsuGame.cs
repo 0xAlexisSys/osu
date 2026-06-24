@@ -135,8 +135,6 @@ namespace osu.Game
         [Resolved]
         private FrameworkConfigManager frameworkConfig { get; set; }
 
-        private DifficultyRecommender difficultyRecommender;
-
         [Cached]
         private readonly LegacyImportManager legacyImportManager = new LegacyImportManager();
 
@@ -533,17 +531,8 @@ namespace osu.Game
 
             PerformFromScreen(screen =>
             {
-                // Find beatmaps that match our predicate.
-                var beatmaps = detachedSet.Beatmaps.Where(b => difficultyCriteria?.Invoke(b) ?? true).ToList();
-
-                // Use all beatmaps if predicate matched nothing
-                if (beatmaps.Count == 0)
-                    beatmaps = detachedSet.Beatmaps.ToList();
-
-                // Prefer recommended beatmap if recommendations are available, else fallback to a sane selection.
-                var selection = difficultyRecommender.GetRecommendedBeatmap(beatmaps)
-                                ?? beatmaps.FirstOrDefault(b => b.Ruleset.Equals(Ruleset.Value))
-                                ?? beatmaps.First();
+                var beatmaps = detachedSet.Beatmaps.ToArray();
+                var selection = beatmaps.FirstOrDefault(b => b.Ruleset.Equals(Ruleset.Value)) ?? beatmaps[0];
 
                 if (screen is IHandlePresentBeatmap presentableScreen)
                 {
@@ -913,10 +902,6 @@ namespace osu.Game
                 ScreenStack.Push(CreateLoader().With(l => l.RelativeSizeAxes = Axes.Both));
             });
 
-            LocalUserStatisticsProvider statisticsProvider;
-
-            loadComponentSingleFile(statisticsProvider = new LocalUserStatisticsProvider(), Add, true);
-            loadComponentSingleFile(difficultyRecommender = new DifficultyRecommender(statisticsProvider), Add, true);
             loadComponentSingleFile(Toolbar = new Toolbar
             {
                 OnHome = delegate

@@ -12,9 +12,9 @@ namespace osu.Game.Users
     public class User : EmbeddedObject
     {
         public const string DEFAULT_PERSONAL_USERNAME = @"Player";
-        public const int PERSONAL_USER_ID = 1;
-        public const int OTHER_USER_ID = 2;
-        public const int BOT_USER_ID = 0;
+        public const int PERSONAL_USER_ID = 0;
+        public const int OTHER_USER_ID = 1;
+        public const int BOT_USER_ID = -1;
 
         public int ID { get; set; } = OTHER_USER_ID;
         public string Username { get; set; } = @"???";

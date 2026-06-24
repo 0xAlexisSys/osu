@@ -103,6 +103,19 @@ namespace osu.Game.Scoring.Legacy
                 scoreInfo.Date = sr.ReadDateTime();
 
                 byte[] compressedReplay = sr.ReadByteArray();
+
+                // [alexis] Still need to read LegacyOnlineID, so replay data doesn't become glitched.
+                switch (version)
+                {
+                    case >= 20140721:
+                        sr.ReadInt64();
+                        break;
+
+                    case >= 20121008:
+                        sr.ReadInt32();
+                        break;
+                }
+
                 byte[] compressedScoreInfo = null;
 
                 if (version >= 30000001)

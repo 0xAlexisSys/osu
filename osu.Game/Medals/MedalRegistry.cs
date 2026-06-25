@@ -79,7 +79,7 @@ namespace osu.Game.Medals
                 @"complete a beatmap with the Half Time mod enabled",
                 @"HT"),
             new ModIntroAcronymMedal(
-                @"PassWithHD",
+                @"PassWithSO",
                 @"Burned Out",
                 @"One cannot always spin to win.",
                 @"complete a beatmap with the Spun Out mod enabled",

@@ -78,7 +78,7 @@ namespace osu.Game.Screens.Play.Leaderboards
             {
                 var score = orderedByScore[i];
 
-                // see `SoloResultsScreen.FetchScores()` for another place that does the same thing with slight deviations
+                // see `ResultsScreen.FetchScores()` for another place that does the same thing with slight deviations
                 // if this code is changed, that code should probably be changed as well
 
                 score.DisplayOrder.Value = i + 1;

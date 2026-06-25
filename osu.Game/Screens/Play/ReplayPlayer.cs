@@ -135,7 +135,7 @@ namespace osu.Game.Screens.Play
                             return;
 
                         ValidForResume = false;
-                        this.Push(new SoloResultsScreen(Score.ScoreInfo));
+                        this.Push(new ResultsScreen(Score.ScoreInfo));
                     }
                 }
             });
@@ -155,7 +155,7 @@ namespace osu.Game.Screens.Play
         // Don't re-import replay scores as they're already present in the database.
         protected override Task ImportScore(Score score) => Task.CompletedTask;
 
-        protected override ResultsScreen CreateResults(ScoreInfo score) => new SoloResultsScreen(score)
+        protected override ResultsScreen CreateResults(ScoreInfo score) => new ResultsScreen(score)
         {
             // Only show the relevant button otherwise things look silly.
             AllowWatchingReplay = !isAutoplayPlayback,

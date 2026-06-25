@@ -17,6 +17,7 @@ using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osu.Game.Audio;
 using osu.Game.Graphics;
@@ -24,6 +25,8 @@ using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
+using osu.Game.Online.API;
+using osu.Game.Online.Leaderboards;
 using osu.Game.Online.Placeholders;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Volume;
@@ -38,36 +41,16 @@ using osuTK;
 namespace osu.Game.Screens.Ranking
 {
     [Cached]
-    public abstract partial class ResultsScreen : ScreenWithBeatmapBackground, IKeyBindingHandler<GlobalAction>
+    public partial class ResultsScreen : ScreenWithBeatmapBackground, IKeyBindingHandler<GlobalAction>
     {
         protected const float BACKGROUND_BLUR = 10;
+
         private static readonly float screen_height = 768 - TwoLayerButton.SIZE_EXTENDED.Y;
 
         public override bool DisallowExternalBeatmapRulesetChanges => true;
-
         public override bool? AllowGlobalTrackControl => true;
 
         protected override OverlayActivation InitialOverlayActivationMode => OverlayActivation.UserTriggered;
-
-        public readonly Bindable<ScoreInfo?> SelectedScore = new Bindable<ScoreInfo?>();
-
-        public readonly ScoreInfo? Score;
-
-        protected ScorePanelList ScorePanelList { get; private set; } = null!;
-
-        protected VerticalScrollContainer VerticalScrollContent { get; private set; } = null!;
-
-        [Resolved]
-        private Player? player { get; set; }
-
-        private bool skipExitTransition;
-
-        protected StatisticsPanel StatisticsPanel { get; private set; } = null!;
-
-        private Drawable bottomPanel = null!;
-        private Container<ScorePanel> detachedPanelContainer = null!;
-
-        private Task lastFetchTask = Task.CompletedTask;
 
         /// <summary>
         /// Whether the user can retry the beatmap from the results screen.
@@ -79,21 +62,36 @@ namespace osu.Game.Screens.Ranking
         /// </summary>
         public bool AllowWatchingReplay { get; init; } = true;
 
-        /// <summary>
-        /// Whether the provided score is for a local user's play.
-        /// This will trigger elements like the user's ranking to display.
-        /// </summary>
-        public bool IsLocalPlay { get; init; }
+        public readonly Bindable<ScoreInfo?> SelectedScore = new Bindable<ScoreInfo?>();
+        public readonly ScoreInfo Score;
 
+        protected ScorePanelList ScorePanelList { get; private set; } = null!;
+        protected VerticalScrollContainer VerticalScrollContent { get; private set; } = null!;
+        protected StatisticsPanel StatisticsPanel { get; private set; } = null!;
+
+        private bool skipExitTransition;
+        private Drawable bottomPanel = null!;
+        private Container<ScorePanel> detachedPanelContainer = null!;
         private Sample? popInSample;
+        private readonly IBindable<LeaderboardScores?> globalScores = new Bindable<LeaderboardScores?>();
+        private Task lastFetchTask = Task.CompletedTask;
+        private TaskCompletionSource<LeaderboardScores>? requestTaskSource;
+
+        [Resolved]
+        private DummyAPIAccess api { get; set; } = null!;
+
+        [Resolved]
+        private Player? player { get; set; }
+
+        [Resolved]
+        private LeaderboardManager leaderboardManager { get; set; } = null!;
 
         [Cached]
         private OverlayColourProvider colourProvider = new OverlayColourProvider(OverlayColourScheme.Aquamarine);
 
-        protected ResultsScreen(ScoreInfo? score)
+        public ResultsScreen(ScoreInfo score)
         {
             Score = score;
-
             SelectedScore.Value = score;
         }
 
@@ -128,7 +126,7 @@ namespace osu.Game.Screens.Ranking
                                         {
                                             RelativeSizeAxes = Axes.Both,
                                             Score = { BindTarget = SelectedScore },
-                                            AchievedScore = IsLocalPlay && Score != null ? Score : null,
+                                            AchievedScore = Score,
                                         },
                                         ScorePanelList = new ScorePanelList
                                         {
@@ -180,18 +178,15 @@ namespace osu.Game.Screens.Ranking
                 }
             };
 
-            if (Score != null)
-            {
-                // only show flair / animation when arriving after watching a play that isn't autoplay.
-                bool shouldFlair = player != null && Score.User.ID != User.BOT_USER_ID;
+            // only show flair / animation when arriving after watching a play that isn't autoplay.
+            bool shouldFlair = player != null && Score.User.ID != User.BOT_USER_ID;
 
-                ScorePanelList.AddScore(Score, shouldFlair);
+            ScorePanelList.AddScore(Score, shouldFlair);
 
-                // this is mostly for medal display.
-                // we don't want the medal animation to trample on the results screen animation, so we (ab)use `OverlayActivationMode`
-                // to give the results screen enough time to play the animation out before the medals can be shown.
-                Scheduler.AddDelayed(() => OverlayActivationMode.Value = OverlayActivation.All, shouldFlair ? AccuracyCircle.TOTAL_DURATION + 1000 : 0);
-            }
+            // this is mostly for medal display.
+            // we don't want the medal animation to trample on the results screen animation, so we (ab)use `OverlayActivationMode`
+            // to give the results screen enough time to play the animation out before the medals can be shown.
+            Scheduler.AddDelayed(() => OverlayActivationMode.Value = OverlayActivation.All, shouldFlair ? AccuracyCircle.TOTAL_DURATION + 1000 : 0);
 
             bool allowHotkeyRetry = false;
 
@@ -234,10 +229,10 @@ namespace osu.Game.Screens.Ranking
                 });
             }
 
-            if (Score?.BeatmapInfo != null)
+            if (Score.BeatmapInfo != null)
                 buttons.Add(new CollectionButton(Score.BeatmapInfo));
 
-            if (Score?.BeatmapInfo?.BeatmapSet != null)
+            if (Score.BeatmapInfo?.BeatmapSet != null)
                 buttons.Add(new FavouriteButton(Score.BeatmapInfo.BeatmapSet));
         }
 
@@ -246,18 +241,16 @@ namespace osu.Game.Screens.Ranking
             base.LoadComplete();
 
             StatisticsPanel.State.BindValueChanged(onStatisticsStateChanged, true);
-
-            fetchScores(null);
+            fetchScores();
+            globalScores.BindTo(leaderboardManager.Scores);
         }
 
-        protected override void Update()
+        protected override void Dispose(bool isDisposing)
         {
-            base.Update();
+            base.Dispose(isDisposing);
 
-            if (ScorePanelList.IsScrolledToStart)
-                fetchScores(-1);
-            else if (ScorePanelList.IsScrolledToEnd)
-                fetchScores(1);
+            if (requestTaskSource?.Task.IsCompleted == false)
+                requestTaskSource.SetCanceled();
         }
 
         #region Applause
@@ -277,7 +270,7 @@ namespace osu.Game.Screens.Ranking
 
             if (rank >= ScoreRank.B)
                 // when rank is B or higher, play legacy applause sample on legacy skins.
-                applauseSamples.Insert(0, @"applause");
+                applauseSamples.Add(@"applause");
 
             switch (rank)
             {
@@ -320,33 +313,14 @@ namespace osu.Game.Screens.Ranking
 
         #endregion
 
-        /// <summary>
-        /// Fetches the next page of scores in the given direction.
-        /// </summary>
-        /// <param name="direction">The direction, or <c>null</c> to fetch any scores.</param>
-        private void fetchScores(int? direction)
+        private void fetchScores()
         {
-            Debug.Assert(direction == null || direction == -1 || direction == 1);
-
             if (!lastFetchTask.IsCompleted)
                 return;
 
             lastFetchTask = Task.Run(async () =>
             {
-                ScoreInfo[] scores;
-
-                switch (direction)
-                {
-                    default:
-                        scores = await FetchScores().ConfigureAwait(false);
-                        break;
-
-                    case -1:
-                    case 1:
-                        scores = await FetchNextPage(direction.Value).ConfigureAwait(false);
-                        break;
-                }
-
+                ScoreInfo[] scores = await FetchScores().ConfigureAwait(false);
                 await addScores(scores).ConfigureAwait(false);
             });
         }
@@ -354,13 +328,123 @@ namespace osu.Game.Screens.Ranking
         /// <summary>
         /// Performs a fetch/refresh of scores to be displayed.
         /// </summary>
-        protected virtual Task<ScoreInfo[]> FetchScores() => Task.FromResult<ScoreInfo[]>([]);
+        protected async Task<ScoreInfo[]> FetchScores()
+        {
+            Debug.Assert(Score != null);
 
-        /// <summary>
-        /// Performs a fetch of the next page of scores. This is invoked every frame.
-        /// </summary>
-        /// <param name="direction">The fetch direction. -1 to fetch scores greater than the current start of the list, and 1 to fetch scores lower than the current end of the list.</param>
-        protected virtual Task<ScoreInfo[]> FetchNextPage(int direction) => Task.FromResult<ScoreInfo[]>([]);
+            // sort mode intentionally omitted to default to score - results screen only supports sorting by score, so don't pass any other to avoid confusion
+            var criteria = new LeaderboardCriteria(
+                Score.BeatmapInfo!,
+                Score.Ruleset,
+                leaderboardManager.CurrentCriteria?.ExactMods
+            );
+
+            Debug.Assert(requestTaskSource == null || requestTaskSource.Task.IsCompleted);
+
+            requestTaskSource = new TaskCompletionSource<LeaderboardScores>();
+
+            globalScores.BindValueChanged(_ =>
+            {
+                if (globalScores.Value != null && leaderboardManager.CurrentCriteria?.Equals(criteria) == true)
+                    requestTaskSource.TrySetResult(globalScores.Value);
+            });
+
+            Schedule(() => leaderboardManager.FetchWithCriteria(criteria, forceRefresh: true));
+
+            var result = await requestTaskSource.Task.ConfigureAwait(false);
+
+            if (result.FailState != null)
+            {
+                Logger.Log($"Failed to fetch scores (beatmap: {Score.BeatmapInfo}, ruleset: {Score.Ruleset}): {result.FailState}");
+                return [];
+            }
+
+            var clonedScores = result.AllScores.Select(s => s.DeepClone()).ToArray();
+
+            List<ScoreInfo> sortedScores = [];
+
+            foreach (var clonedScore in clonedScores)
+            {
+                // ensure that we do not double up on the score being presented here.
+                // additionally, ensure that the reference that ends up in `sortedScores` is the `Score` reference specifically.
+                // this simplifies handling later.
+                if (clonedScore.Equals(Score))
+                {
+                    // this is a precautionary guard that prevents `Score` from appearing multiple times in the list.
+                    // that can occur in rare cases wherein two local scores have the same online ID but different replay contents
+                    // (this is possible e.g. in cases of client-side vs server-side recorded replays, see https://github.com/ppy/osu-server-spectator/issues/193)
+                    if (sortedScores.Contains(Score))
+                        continue;
+
+                    Score.Position = clonedScore.Position;
+                    sortedScores.Add(Score);
+                }
+                else
+                {
+                    bool presentingUserScore = Score.User.ID == api.User.ID;
+                    bool presentedUserScoreIsBetter = presentingUserScore && clonedScore.User.ID == api.User.ID && clonedScore.TotalScore < Score.TotalScore;
+
+                    if (presentedUserScoreIsBetter)
+                        continue;
+
+                    sortedScores.Add(clonedScore);
+                }
+            }
+
+            // if we haven't encountered a match for the presented score, we still need to attach it.
+            // note that the above block ensuring that the `Score` reference makes it in here makes this valid to write in this way.
+            if (!sortedScores.Contains(Score))
+                sortedScores.Add(Score);
+
+            sortedScores = sortedScores.OrderByTotalScore().ToList();
+
+            int delta = 0;
+            bool isPartialLeaderboard = result.IsPartial;
+
+            for (int i = 0; i < sortedScores.Count; i++)
+            {
+                var sortedScore = sortedScores[i];
+
+                // see `SoloGameplayLeaderboardProvider.sort()` for another place that does the same thing with slight deviations
+                // if this code is changed, that code should probably be changed as well
+
+                if (!isPartialLeaderboard)
+                {
+                    sortedScore.Position = i + 1;
+                }
+                else
+                {
+                    if (ReferenceEquals(sortedScore, Score) && sortedScore.Position == null)
+                    {
+                        int? previousScorePosition = i > 0 ? sortedScores[i - 1].Position : 0;
+                        int? nextScorePosition = i < result.TopScores.Count - 1 ? sortedScores[i + 1].Position : null;
+
+                        if (previousScorePosition != null && nextScorePosition != null && previousScorePosition + 1 == nextScorePosition)
+                        {
+                            sortedScore.Position = previousScorePosition + 1;
+                            delta += 1;
+                        }
+                        else
+                        {
+                            sortedScore.Position = null;
+                        }
+                    }
+                    else
+                    {
+                        sortedScore.Position += delta;
+                    }
+                }
+            }
+
+            // there's a non-zero chance that the `Score.Position` was mutated above,
+            // but that is not actually coupled to `ScorePosition` of the relevant score panel in any way,
+            // so ensure that the drawable panel also receives the updated position.
+            // note that this is valid to do precisely because we ensured `Score` was in `sortedScores` earlier.
+            ScorePanelList.GetPanelForScore(Score).ScorePosition.Value = Score.Position;
+
+            sortedScores.Remove(Score);
+            return sortedScores.ToArray();
+        }
 
         private Task addScores(ScoreInfo[] scores)
         {
@@ -383,19 +467,9 @@ namespace osu.Game.Screens.Ranking
                     // This can happen if for example a beatmap that is part of a playlist hasn't been played yet.
                     VerticalScrollContent.Add(new MessagePlaceholder(LeaderboardStrings.NoRecordsYet));
                 }
-
-                OnScoresAdded(scores);
             });
 
             return tcs.Task;
-        }
-
-        /// <summary>
-        /// Invoked after online scores are fetched and added to the list.
-        /// </summary>
-        /// <param name="scores">The scores that were added.</param>
-        protected virtual void OnScoresAdded(ScoreInfo[] scores)
-        {
         }
 
         public override void OnEntering(ScreenTransitionEvent e)
@@ -421,7 +495,7 @@ namespace osu.Game.Screens.Ranking
             // This is a stop-gap safety against components holding references to gameplay after exiting the gameplay flow.
             // Right now, HitEvents are only used up to the results screen. If this changes in the future we need to remove
             // HitObject references from HitEvent.
-            Score?.HitEvents.Clear();
+            Score.HitEvents.Clear();
 
             if (!skipExitTransition)
                 this.FadeOut(100);

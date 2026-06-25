@@ -131,10 +131,9 @@ namespace osu.Game.Screens.Play
         {
             medalEvaluator.EvaluateScore(score);
 
-            return new SoloResultsScreen(score)
+            return new ResultsScreen(score)
             {
                 AllowRetry = true,
-                IsLocalPlay = true,
             };
         }
     }

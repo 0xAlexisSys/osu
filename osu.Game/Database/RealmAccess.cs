@@ -13,27 +13,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using osu.Framework.Allocation;
 using osu.Framework.Development;
-using osu.Framework.Extensions;
-using osu.Framework.Input.Bindings;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Framework.Statistics;
 using osu.Framework.Threading;
 using osu.Game.Beatmaps;
-using osu.Game.Beatmaps.Legacy;
-using osu.Game.Configuration;
-using osu.Game.Extensions;
-using osu.Game.Input;
-using osu.Game.Input.Bindings;
-using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
-using osu.Game.Scoring.Legacy;
 using osu.Game.Skinning;
 using osu.Game.Utils;
-using osuTK.Input;
 using Realms;
 using Realms.Exceptions;
 
@@ -100,8 +89,9 @@ namespace osu.Game.Database
         /// 49   2025-06-10    Reset the LegacyOnlineID to -1 for all scores that have it set to 0 (which is semantically the same) for consistency of handling with OnlineID.
         /// 50   2025-07-11    Add UserTags to BeatmapMetadata.
         /// 51   2025-07-22    Add ScoreInfo.Pauses.
+        /// 52   2026-06-25    First tracked fork version.
         /// </summary>
-        private const int schema_version = 51;
+        private const int schema_version = 52;
 
         /// <summary>
         /// Lock object which is held during <see cref="BlockAllOperations"/> sections, blocking realm retrieval during blocking periods.
@@ -820,433 +810,9 @@ namespace osu.Game.Database
         private void applyMigrationsForVersion(Migration migration, ulong targetVersion)
         {
             Logger.Log($"Running realm migration to version {targetVersion}...");
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = Stopwatch.StartNew();
 
-            var files = new RealmFileStore(this, storage);
-
-            stopwatch.Start();
-
-            switch (targetVersion)
-            {
-                case 7:
-                    convertOnlineIDs<BeatmapInfo>();
-                    convertOnlineIDs<BeatmapSetInfo>();
-                    convertOnlineIDs<RulesetInfo>();
-
-                    void convertOnlineIDs<T>() where T : RealmObject
-                    {
-                        string className = getMappedOrOriginalName(typeof(T));
-
-                        // version was not bumped when the beatmap/ruleset models were added
-                        // therefore we must manually check for their presence to avoid throwing on the `DynamicApi` calls.
-                        if (!migration.OldRealm.Schema.TryFindObjectSchema(className, out _))
-                            return;
-
-                        var oldItems = migration.OldRealm.DynamicApi.All(className);
-                        var newItems = migration.NewRealm.DynamicApi.All(className);
-
-                        int itemCount = newItems.Count();
-
-                        for (int i = 0; i < itemCount; i++)
-                        {
-                            dynamic oldItem = oldItems.ElementAt(i);
-                            dynamic newItem = newItems.ElementAt(i);
-
-                            long? nullableOnlineID = oldItem.OnlineID;
-                            newItem.OnlineID = (int)(nullableOnlineID ?? -1);
-                        }
-                    }
-
-                    break;
-
-                case 8:
-                {
-                    // Ctrl -/+ now adjusts UI scale so let's clear any bindings which overlap these combinations.
-                    // New defaults will be populated by the key store afterwards.
-                    var keyBindings = migration.NewRealm.All<RealmKeyBinding>();
-
-                    var increaseSpeedBinding = keyBindings.FirstOrDefault(k => k.ActionInt == (int)GlobalAction.IncreaseScrollSpeed);
-                    if (increaseSpeedBinding != null && increaseSpeedBinding.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Control, InputKey.Plus }))
-                        migration.NewRealm.Remove(increaseSpeedBinding);
-
-                    var decreaseSpeedBinding = keyBindings.FirstOrDefault(k => k.ActionInt == (int)GlobalAction.DecreaseScrollSpeed);
-                    if (decreaseSpeedBinding != null && decreaseSpeedBinding.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Control, InputKey.Minus }))
-                        migration.NewRealm.Remove(decreaseSpeedBinding);
-
-                    break;
-                }
-
-                case 10:
-                    string rulesetSettingClassName = getMappedOrOriginalName(typeof(RealmRulesetSetting));
-
-                    if (!migration.OldRealm.Schema.TryFindObjectSchema(rulesetSettingClassName, out _))
-                        return;
-
-                    var oldSettings = migration.OldRealm.DynamicApi.All(rulesetSettingClassName);
-                    var newSettings = migration.NewRealm.All<RealmRulesetSetting>().ToList();
-
-                    for (int i = 0; i < newSettings.Count; i++)
-                    {
-                        dynamic oldItem = oldSettings.ElementAt(i);
-                        var newItem = newSettings.ElementAt(i);
-
-                        long rulesetId = oldItem.RulesetID;
-                        string? rulesetName = getRulesetShortNameFromLegacyID(rulesetId);
-
-                        if (string.IsNullOrEmpty(rulesetName))
-                            migration.NewRealm.Remove(newItem);
-                        else
-                            newItem.RulesetName = rulesetName;
-                    }
-
-                    break;
-
-                case 11:
-                {
-                    string keyBindingClassName = getMappedOrOriginalName(typeof(RealmKeyBinding));
-
-                    if (!migration.OldRealm.Schema.TryFindObjectSchema(keyBindingClassName, out _))
-                        return;
-
-                    var oldKeyBindings = migration.OldRealm.DynamicApi.All(keyBindingClassName);
-                    var newKeyBindings = migration.NewRealm.All<RealmKeyBinding>().ToList();
-
-                    for (int i = 0; i < newKeyBindings.Count; i++)
-                    {
-                        dynamic oldItem = oldKeyBindings.ElementAt(i);
-                        var newItem = newKeyBindings.ElementAt(i);
-
-                        if (oldItem.RulesetID == null)
-                            continue;
-
-                        long rulesetId = oldItem.RulesetID;
-                        string? rulesetName = getRulesetShortNameFromLegacyID(rulesetId);
-
-                        if (string.IsNullOrEmpty(rulesetName))
-                            migration.NewRealm.Remove(newItem);
-                        else
-                            newItem.RulesetName = rulesetName;
-                    }
-
-                    break;
-                }
-
-                case 14:
-                    foreach (var beatmap in migration.NewRealm.All<BeatmapInfo>())
-                        beatmap.UserSettings = new BeatmapUserSettings();
-
-                    break;
-
-                case 20:
-                    // As we now have versioned difficulty calculations, let's reset
-                    // all star ratings and have `BackgroundBeatmapProcessor` recalculate them.
-                    foreach (var beatmap in migration.NewRealm.All<BeatmapInfo>())
-                        beatmap.StarRating = -1;
-
-                    break;
-
-                case 21:
-                    // Migrate collections from external file to inside realm.
-                    // We use the "legacy" importer because that is how things were actually being saved out until now.
-                    var legacyCollectionImporter = new LegacyCollectionImporter(this);
-
-                    if (legacyCollectionImporter.GetAvailableCount(storage).GetResultSafely() > 0)
-                    {
-                        legacyCollectionImporter.ImportFromStorage(storage).ContinueWith(_ => storage.Move("collection.db", "collection.db.migrated"));
-                    }
-
-                    break;
-
-                case 25:
-                    // Remove the default skins so they can be added back by SkinManager with updated naming.
-                    migration.NewRealm.RemoveRange(migration.NewRealm.All<SkinInfo>().Where(s => s.Protected));
-                    break;
-
-                case 26:
-                {
-                    // Add ScoreInfo.BeatmapHash property to ensure scores correspond to the correct version of beatmap.
-                    var scores = migration.NewRealm.All<ScoreInfo>();
-
-                    foreach (var score in scores)
-                        score.BeatmapHash = score.BeatmapInfo?.Hash ?? string.Empty;
-
-                    break;
-                }
-
-                case 28:
-                {
-                    var scores = migration.NewRealm.All<ScoreInfo>();
-
-                    foreach (var score in scores)
-                    {
-                        score.PopulateFromReplay(files, sr =>
-                        {
-                            sr.ReadByte(); // Ruleset.
-                            int version = sr.ReadInt32();
-                            if (version < LegacyScoreEncoder.FIRST_LAZER_VERSION)
-                                score.IsLegacyScore = true;
-                        });
-                    }
-
-                    break;
-                }
-
-                case 29:
-                case 30:
-                {
-                    // purposefully emptied 20260608
-                    // this previously contained score recalculation logic that is no longer really relevant at this time,
-                    // and thus has been dropped to simplify things
-                    break;
-                }
-
-                case 31:
-                {
-                    foreach (var score in migration.NewRealm.All<ScoreInfo>())
-                    {
-                        if (score.IsLegacyScore && score.Ruleset.IsLegacyRuleset())
-                        {
-                            // Scores with this version will trigger the score upgrade process in BackgroundBeatmapProcessor.
-                            score.TotalScoreVersion = 30000002;
-
-                            // Transfer known legacy scores to a permanent storage field for preservation.
-                            score.LegacyTotalScore = score.TotalScore;
-                        }
-                        else
-                            score.TotalScoreVersion = 30000003; // `LATEST_VERSION` at time of migration
-                    }
-
-                    break;
-                }
-
-                case 32:
-                {
-                    foreach (var score in migration.NewRealm.All<ScoreInfo>())
-                    {
-                        if (!score.IsLegacyScore || !score.Ruleset.IsLegacyRuleset())
-                            continue;
-
-                        score.PopulateFromReplay(files, sr =>
-                        {
-                            sr.ReadByte(); // Ruleset.
-                            sr.ReadInt32(); // Version.
-                            sr.ReadString(); // Beatmap hash.
-                            sr.ReadString(); // Username.
-                            sr.ReadString(); // MD5Hash.
-                            sr.ReadUInt16(); // Count300.
-                            sr.ReadUInt16(); // Count100.
-                            sr.ReadUInt16(); // Count50.
-                            sr.ReadUInt16(); // CountGeki.
-                            sr.ReadUInt16(); // CountKatu.
-                            sr.ReadUInt16(); // CountMiss.
-
-                            // we should have this in LegacyTotalScore already, but if we're reading through this anyways...
-                            int totalScore = sr.ReadInt32();
-
-                            sr.ReadUInt16(); // Max combo.
-                            sr.ReadBoolean(); // Perfect.
-
-                            var legacyMods = (LegacyMods)sr.ReadInt32();
-
-                            if (!legacyMods.HasFlag(LegacyMods.ScoreV2) || score.APIMods.Any(mod => mod.Acronym == @"SV2"))
-                                return;
-
-                            score.APIMods = score.APIMods.Append(new APIMod(new ModScoreV2())).ToArray();
-                            score.LegacyTotalScore = score.TotalScore = totalScore;
-                        });
-                    }
-
-                    break;
-                }
-
-                case 33:
-                {
-                    // Clear default bindings for the chat focus toggle,
-                    // as they would conflict with the newly-added leaderboard toggle.
-                    var keyBindings = migration.NewRealm.All<RealmKeyBinding>();
-
-                    var toggleChatBind = keyBindings.FirstOrDefault(bind => bind.ActionInt == (int)GlobalAction.ToggleChatFocus);
-                    if (toggleChatBind != null && toggleChatBind.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Tab }))
-                        migration.NewRealm.Remove(toggleChatBind);
-
-                    break;
-                }
-
-                case 35:
-                {
-                    // catch used `Shift` twice as a default key combination for dash, which generally was bothersome and causes issues elsewhere.
-                    // the duplicate binding logic below had to account for it, it could also break keybinding conflict resolution on revert-to-default.
-                    // as such, detect this situation and fix it before proceeding further.
-                    var catchDashBindings = migration.NewRealm.All<RealmKeyBinding>()
-                                                     .Where(kb => kb.RulesetName == @"fruits" && kb.ActionInt == 2)
-                                                     .ToList();
-
-                    if (catchDashBindings.All(kb => kb.KeyCombination.Equals(new KeyCombination(InputKey.Shift))))
-                    {
-                        Debug.Assert(catchDashBindings.Count == 2);
-                        catchDashBindings.Last().KeyCombination = KeyCombination.FromMouseButton(MouseButton.Left);
-                    }
-
-                    // with the catch case dealt with, de-duplicate the remaining bindings.
-                    int countCleared = 0;
-
-                    var globalBindings = migration.NewRealm.All<RealmKeyBinding>().Where(kb => kb.RulesetName == null).ToList();
-
-                    foreach (var category in Enum.GetValues<GlobalActionCategory>())
-                    {
-                        var categoryActions = GlobalActionContainer.GetGlobalActionsFor(category).Cast<int>().ToHashSet();
-                        var categoryBindings = globalBindings.Where(kb => categoryActions.Contains(kb.ActionInt));
-                        countCleared += RealmKeyBindingStore.ClearDuplicateBindings(categoryBindings);
-                    }
-
-                    var rulesetBindings = migration.NewRealm.All<RealmKeyBinding>().Where(kb => kb.RulesetName != null).ToList();
-
-                    foreach (var variantGroup in rulesetBindings.GroupBy(kb => (kb.RulesetName, kb.Variant)))
-                        countCleared += RealmKeyBindingStore.ClearDuplicateBindings(variantGroup);
-
-                    if (countCleared > 0)
-                    {
-                        Logger.Log($"{countCleared} of your keybinding(s) have been cleared due to being bound to multiple actions. "
-                                   + "Please choose new unique ones in the settings panel.", level: LogLevel.Important);
-                    }
-
-                    break;
-                }
-
-                case 39:
-                    foreach (var b in migration.NewRealm.All<BeatmapInfo>())
-                    {
-                        // Either actually no objects, or processing ran and failed.
-                        // Reset to -1 so the next time they become zero we know that processing was attempted.
-                        if (b.TotalObjectCount == 0 && b.EndTimeObjectCount == 0)
-                        {
-                            b.TotalObjectCount = -1;
-                            b.EndTimeObjectCount = -1;
-                        }
-                    }
-
-                    break;
-
-                case 41:
-                    foreach (var score in migration.NewRealm.All<ScoreInfo>())
-                    {
-                        try
-                        {
-                            // this can fail e.g. if a user has a score set on a ruleset that can no longer be loaded.
-                            LegacyScoreDecoder.PopulateTotalScoreWithoutMods(score);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Log($@"Failed to populate total score without mods for score {score.ID}: {ex}", LoggingTarget.Database);
-                        }
-                    }
-
-                    break;
-
-                case 42:
-                    for (int columns = 1; columns <= 10; columns++)
-                    {
-                        remapKeyBindingsForVariant(columns, false);
-                        remapKeyBindingsForVariant(columns, true);
-                    }
-
-                    // Replace existing key bindings with new ones reflecting changes to ManiaAction:
-                    // - "Special#" actions are removed and "Key#" actions are inserted in their place.
-                    // - All actions are renumbered to remove the old offsets.
-                    void remapKeyBindingsForVariant(int columns, bool dual)
-                    {
-                        // https://github.com/ppy/osu/blob/8773c2f7ebc226942d6124eb95c07a83934272ea/osu.Game.Rulesets.Mania/ManiaRuleset.cs#L327-L336
-                        int variant = dual ? 1000 + (columns * 2) : columns;
-
-                        var oldKeyBindingsQuery = migration.NewRealm
-                                                           .All<RealmKeyBinding>()
-                                                           .Where(kb => kb.RulesetName == @"mania" && kb.Variant == variant);
-                        var oldKeyBindings = oldKeyBindingsQuery.AsEnumerable().Detach();
-
-                        migration.NewRealm.RemoveRange(oldKeyBindingsQuery);
-
-                        // https://github.com/ppy/osu/blob/8773c2f7ebc226942d6124eb95c07a83934272ea/osu.Game.Rulesets.Mania/ManiaInputManager.cs#L22-L31
-                        int oldNormalAction = 10; // Old Key1 offset
-                        int oldSpecialAction = 1; // Old Special1 offset
-
-                        for (int column = 0; column < columns * (dual ? 2 : 1); column++)
-                        {
-                            if (columns % 2 == 1 && column % columns == columns / 2)
-                                remapKeyBinding(oldSpecialAction++, column);
-                            else
-                                remapKeyBinding(oldNormalAction++, column);
-                        }
-
-                        void remapKeyBinding(int oldAction, int newAction)
-                        {
-                            var oldKeyBinding = oldKeyBindings.Find(kb => kb.ActionInt == oldAction);
-
-                            if (oldKeyBinding != null)
-                                migration.NewRealm.Add(new RealmKeyBinding(newAction, oldKeyBinding.KeyCombination, @"mania", variant));
-                        }
-                    }
-
-                    break;
-
-                case 43:
-                {
-                    // Clear default bindings for "Toggle FPS Display",
-                    // as it conflicts with "Convert to Stream" in the editor.
-                    // Only apply change if set to the conflicting bind
-                    // i.e. has been manually rebound by the user.
-                    var keyBindings = migration.NewRealm.All<RealmKeyBinding>();
-
-                    var toggleFpsBind = keyBindings.FirstOrDefault(bind => bind.ActionInt == (int)GlobalAction.ToggleFPSDisplay);
-                    if (toggleFpsBind != null && toggleFpsBind.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Shift, InputKey.Control, InputKey.F }))
-                        migration.NewRealm.Remove(toggleFpsBind);
-
-                    break;
-                }
-
-                case 45:
-                {
-                    // Cycling beat snap divisors no longer requires holding shift (just control).
-                    var keyBindings = migration.NewRealm.All<RealmKeyBinding>();
-
-                    var nextBeatSnapBinding = keyBindings.FirstOrDefault(k => k.ActionInt == (int)GlobalAction.EditorCycleNextBeatSnapDivisor);
-                    if (nextBeatSnapBinding != null && nextBeatSnapBinding.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Shift, InputKey.Control, InputKey.MouseWheelLeft }))
-                        migration.NewRealm.Remove(nextBeatSnapBinding);
-
-                    var previousBeatSnapBinding = keyBindings.FirstOrDefault(k => k.ActionInt == (int)GlobalAction.EditorCyclePreviousBeatSnapDivisor);
-                    if (previousBeatSnapBinding != null && previousBeatSnapBinding.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Shift, InputKey.Control, InputKey.MouseWheelRight }))
-                        migration.NewRealm.Remove(previousBeatSnapBinding);
-
-                    break;
-                }
-
-                case 46:
-                {
-                    // Stable direction didn't match.
-                    var keyBindings = migration.NewRealm.All<RealmKeyBinding>();
-
-                    var nextBeatSnapBinding = keyBindings.FirstOrDefault(k => k.ActionInt == (int)GlobalAction.EditorCycleNextBeatSnapDivisor);
-                    if (nextBeatSnapBinding != null && nextBeatSnapBinding.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Control, InputKey.MouseWheelDown }))
-                        migration.NewRealm.Remove(nextBeatSnapBinding);
-
-                    var previousBeatSnapBinding = keyBindings.FirstOrDefault(k => k.ActionInt == (int)GlobalAction.EditorCyclePreviousBeatSnapDivisor);
-                    if (previousBeatSnapBinding != null && previousBeatSnapBinding.KeyCombination.Keys.SequenceEqual(new[] { InputKey.Control, InputKey.MouseWheelUp }))
-                        migration.NewRealm.Remove(previousBeatSnapBinding);
-
-                    break;
-                }
-
-                case 47:
-                {
-                    var keyBindings = migration.NewRealm.All<RealmKeyBinding>();
-
-                    var existingBinding = keyBindings.FirstOrDefault(k => k.ActionInt == (int)GlobalAction.AbsoluteScrollSongList);
-                    if (existingBinding != null && existingBinding.KeyCombination.Keys.SequenceEqual(new[] { InputKey.MouseRight }))
-                        migration.NewRealm.Remove(existingBinding);
-
-                    break;
-                }
-            }
-
+            stopwatch.Stop();
             Logger.Log($"Migration completed in {stopwatch.ElapsedMilliseconds}ms");
         }
 
@@ -1269,14 +835,14 @@ namespace osu.Game.Database
         public void CreateBackup(string backupFilename)
         {
             if (realmRetrievalLock.CurrentCount != 0)
-                throw new InvalidOperationException($"Call {nameof(BlockAllOperations)} before creating a backup.");
+                throw new InvalidOperationException(@$"Call {nameof(BlockAllOperations)} before creating a backup.");
 
             createBackup(backupFilename);
         }
 
         private void createBackup(string backupFilename)
         {
-            Logger.Log($"Creating full realm database backup at {backupFilename}", LoggingTarget.Database);
+            Logger.Log(@$"Creating full realm database backup at {backupFilename}", LoggingTarget.Database);
 
             FileUtils.AttemptOperation(() =>
             {

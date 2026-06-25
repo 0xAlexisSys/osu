@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using MessagePack;
 using osu.Framework.Bindables;
 using osu.Framework.Localisation;
 using osu.Game.Beatmaps;
@@ -596,8 +595,6 @@ namespace osu.Game.Rulesets.Scoring
         Classic
     }
 
-    [Serializable]
-    [MessagePackObject]
     public class ScoreProcessorStatistics
     {
         /// <summary>
@@ -607,7 +604,6 @@ namespace osu.Game.Rulesets.Scoring
         /// Used to compute accuracy.
         /// See: <see cref="HitResultExtensions.IsBasic"/> and <see cref="ScoreProcessor.GetBaseScoreForResult"/>.
         /// </remarks>
-        [Key(0)]
         public double BaseScore { get; set; }
 
         /// <summary>
@@ -616,25 +612,21 @@ namespace osu.Game.Rulesets.Scoring
         /// <remarks>
         /// Used to compute accuracy.
         /// </remarks>
-        [Key(1)]
         public double MaximumBaseScore { get; set; }
 
         /// <summary>
         /// The count of accuracy-affecting judgements at the current point in time.
         /// </summary>
-        [Key(2)]
         public int AccuracyJudgementCount { get; set; }
 
         /// <summary>
         /// The combo score at the current point in time.
         /// </summary>
-        [Key(3)]
         public double ComboPortion { get; set; }
 
         /// <summary>
         /// The bonus score at the current point in time.
         /// </summary>
-        [Key(4)]
         public double BonusPortion { get; set; }
     }
 }

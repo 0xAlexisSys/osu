@@ -235,7 +235,7 @@ namespace osu.Game.Rulesets.Catch
 
         public ILegacyScoreSimulator CreateLegacyScoreSimulator() => new CatchLegacyScoreSimulator();
 
-        public override IConvertibleReplayFrame CreateConvertibleReplayFrame() => new CatchReplayFrame();
+        public override IConvertibleReplayFrame CreateConvertibleReplayFrame() => new CatchReplayFrame(0.0d);
 
         public override HitObjectComposer CreateHitObjectComposer() => new CatchHitObjectComposer(this);
 

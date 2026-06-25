@@ -323,7 +323,7 @@ namespace osu.Game.Rulesets.Mania
 
         public ILegacyScoreSimulator CreateLegacyScoreSimulator() => new ManiaLegacyScoreSimulator();
 
-        public override IConvertibleReplayFrame CreateConvertibleReplayFrame() => new ManiaReplayFrame();
+        public override IConvertibleReplayFrame CreateConvertibleReplayFrame() => new ManiaReplayFrame(0.0d);
 
         public override IRulesetConfigManager CreateConfig(SettingsStore? settings) => new ManiaRulesetConfigManager(settings, RulesetInfo);
 

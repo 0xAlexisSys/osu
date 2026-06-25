@@ -12,6 +12,7 @@ namespace osu.Game.Rulesets.Pippidon.Replays
         public List<PippidonAction> Actions = new List<PippidonAction>();
 
         public PippidonReplayFrame(PippidonAction? button = null)
+            : base(0.0d)
         {
             if (button.HasValue)
                 Actions.Add(button.Value);

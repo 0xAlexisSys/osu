@@ -14,10 +14,6 @@ namespace osu.Game.Rulesets.Mania.Replays
     {
         public List<ManiaAction> Actions = new List<ManiaAction>();
 
-        public ManiaReplayFrame()
-        {
-        }
-
         public ManiaReplayFrame(double time, params ManiaAction[] actions)
             : base(time)
         {

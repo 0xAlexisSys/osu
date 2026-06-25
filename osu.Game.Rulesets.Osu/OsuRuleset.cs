@@ -283,7 +283,7 @@ namespace osu.Game.Rulesets.Osu
 
         public ILegacyScoreSimulator CreateLegacyScoreSimulator() => new OsuLegacyScoreSimulator();
 
-        public override IConvertibleReplayFrame CreateConvertibleReplayFrame() => new OsuReplayFrame();
+        public override IConvertibleReplayFrame CreateConvertibleReplayFrame() => new OsuReplayFrame(0.0d, Vector2.Zero);
 
         public override IRulesetConfigManager CreateConfig(SettingsStore? settings) => new OsuRulesetConfigManager(settings, RulesetInfo);
 

@@ -16,10 +16,6 @@ namespace osu.Game.Rulesets.Osu.Replays
         public Vector2 Position;
         public List<OsuAction> Actions = new List<OsuAction>();
 
-        public OsuReplayFrame()
-        {
-        }
-
         public OsuReplayFrame(double time, Vector2 position, params OsuAction[] actions)
             : base(time)
         {

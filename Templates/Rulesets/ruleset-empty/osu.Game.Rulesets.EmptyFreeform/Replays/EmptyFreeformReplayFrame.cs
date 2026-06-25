@@ -14,6 +14,7 @@ namespace osu.Game.Rulesets.EmptyFreeform.Replays
         public Vector2 Position;
 
         public EmptyFreeformReplayFrame(EmptyFreeformAction? button = null)
+            : base(0.0d)
         {
             if (button.HasValue)
                 Actions.Add(button.Value);

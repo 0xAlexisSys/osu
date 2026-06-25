@@ -12,6 +12,7 @@ namespace osu.Game.Rulesets.EmptyScrolling.Replays
         public List<EmptyScrollingAction> Actions = new List<EmptyScrollingAction>();
 
         public EmptyScrollingReplayFrame(EmptyScrollingAction? button = null)
+            : base(0.0d)
         {
             if (button.HasValue)
                 Actions.Add(button.Value);

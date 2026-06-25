@@ -17,10 +17,6 @@ namespace osu.Game.Rulesets.Catch.Replays
         public float Position;
         public bool Dashing;
 
-        public CatchReplayFrame()
-        {
-        }
-
         public CatchReplayFrame(double time, float? position = null, bool dashing = false, CatchReplayFrame? lastFrame = null)
             : base(time)
         {

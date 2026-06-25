@@ -81,31 +81,10 @@ namespace osu.Game.Rulesets.Mods
         }
 
         /// <summary>
-        /// The score multiplier of this mod.
-        /// </summary>
-        [JsonIgnore]
-        [Obsolete("This property is no longer used to calculate the score multiplier. Use `Ruleset.CreateScoreMultiplierCalculator()` instead.")]
-        public virtual double ScoreMultiplier => 1;
-
-        /// <summary>
         /// Returns true if this mod is implemented (and playable).
         /// </summary>
         [JsonIgnore]
         public virtual bool HasImplementation => this is IApplicableMod;
-
-        [JsonIgnore]
-        public virtual bool UserPlayable => true;
-
-        [JsonIgnore]
-        public virtual bool ValidForMultiplayer => true;
-
-        public virtual bool ValidForFreestyleAsRequiredMod => false;
-
-        [JsonIgnore]
-        public virtual bool ValidForMultiplayerAsFreeMod => true;
-
-        [JsonIgnore]
-        public virtual bool AlwaysValidForSubmission => false;
 
         /// <summary>
         /// Whether this mod requires configuration to apply changes to the game.

@@ -37,7 +37,7 @@ namespace osu.Game.Configuration
             if (newScore == null)
                 return;
 
-            if (newScore.Mods.Any(m => !m.UserPlayable || m is IHasNoTimedInputs))
+            if (newScore.Mods.Any(m => m is IHasNoTimedInputs))
                 return;
 
             if (newScore.HitEvents.Count < 50)

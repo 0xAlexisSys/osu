@@ -18,7 +18,5 @@ namespace osu.Game.Rulesets.Mods
         public override LocalisableString Description => "Feeling nostalgic?";
 
         public override ModType Type => ModType.Conversion;
-
-        public sealed override bool ValidForFreestyleAsRequiredMod => false;
     }
 }

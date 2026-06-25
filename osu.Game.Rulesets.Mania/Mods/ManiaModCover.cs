@@ -28,8 +28,6 @@ namespace osu.Game.Rulesets.Mania.Mods
             typeof(ManiaModFadeIn)
         }).ToArray();
 
-        public override bool ValidForFreestyleAsRequiredMod => false;
-
         [SettingSource("Coverage", "The proportion of playfield height that notes will be hidden for.")]
         public override BindableNumber<float> Coverage { get; } = new BindableFloat(0.5f)
         {

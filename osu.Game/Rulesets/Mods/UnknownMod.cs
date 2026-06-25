@@ -5,7 +5,7 @@ using osu.Framework.Localisation;
 
 namespace osu.Game.Rulesets.Mods
 {
-    public sealed class UnknownMod : Mod
+    public sealed class UnknownMod : Mod, IHasNoTimedInputs
     {
         /// <summary>
         /// The acronym of the mod which could not be resolved.
@@ -15,10 +15,6 @@ namespace osu.Game.Rulesets.Mods
         public override string Name => $"Unknown mod ({OriginalAcronym})";
         public override string Acronym => $"{OriginalAcronym}??";
         public override LocalisableString Description => "This mod could not be resolved by the game.";
-
-        public override bool UserPlayable => false;
-        public override bool ValidForMultiplayer => false;
-        public override bool ValidForMultiplayerAsFreeMod => false;
 
         public override ModType Type => ModType.System;
 

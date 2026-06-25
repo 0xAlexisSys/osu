@@ -20,10 +20,6 @@ namespace osu.Game.Rulesets.Mods
         public override ModType Type => ModType.Automation;
         public override LocalisableString Description => "Watch a perfect automated play through the song.";
 
-        public sealed override bool UserPlayable => false;
-        public sealed override bool ValidForMultiplayer => false;
-        public sealed override bool ValidForMultiplayerAsFreeMod => false;
-
         public override Type[] IncompatibleMods => new[] { typeof(ModCinema), typeof(ModRelax), typeof(ModAdaptiveSpeed), typeof(ModTouchDevice) };
 
         public override bool HasImplementation => GetType().GenericTypeArguments.Length == 0;

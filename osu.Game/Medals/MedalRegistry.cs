@@ -73,12 +73,6 @@ namespace osu.Game.Medals
                 @"complete a beatmap with the No Fail mod enabled",
                 @"NF"),
             new ModIntroAcronymMedal(
-                @"PassWithNF",
-                @"Risk Averse",
-                @"Safety nets are fun!",
-                @"complete a beatmap with the No Fail mod enabled",
-                @"NF"),
-            new ModIntroAcronymMedal(
                 @"PassWithHT",
                 @"Slowboat",
                 @"You got there. Eventually.",

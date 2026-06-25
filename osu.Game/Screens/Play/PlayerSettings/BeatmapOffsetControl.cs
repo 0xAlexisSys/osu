@@ -247,7 +247,7 @@ namespace osu.Game.Screens.Play.PlayerSettings
             if (!score.NewValue.BeatmapInfo.AsNonNull().Equals(beatmap.Value.BeatmapInfo))
                 return;
 
-            if (score.NewValue.Mods.Any(m => !m.UserPlayable || m is IHasNoTimedInputs))
+            if (score.NewValue.Mods.Any(m => m is IHasNoTimedInputs))
                 return;
 
             var hitEvents = score.NewValue.HitEvents;

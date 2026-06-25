@@ -25,7 +25,6 @@ namespace osu.Game.Rulesets.Mods
         public override IconUsage? Icon => OsuIcon.ModMuted;
         public override LocalisableString Description => "Can you still feel the rhythm without music?";
         public override ModType Type => ModType.Fun;
-        public override bool ValidForFreestyleAsRequiredMod => true;
     }
 
     public abstract class ModMuted<TObject> : ModMuted, IApplicableToDrawableRuleset<TObject>, IApplicableToTrack, IApplicableToScoreProcessor

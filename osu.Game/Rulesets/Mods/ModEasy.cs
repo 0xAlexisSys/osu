@@ -15,7 +15,6 @@ namespace osu.Game.Rulesets.Mods
         public override IconUsage? Icon => OsuIcon.ModEasy;
         public override ModType Type => ModType.DifficultyReduction;
         public override Type[] IncompatibleMods => new[] { typeof(ModHardRock), typeof(ModDifficultyAdjust) };
-        public override bool ValidForFreestyleAsRequiredMod => true;
 
         protected const float ADJUST_RATIO = 0.5f;
 

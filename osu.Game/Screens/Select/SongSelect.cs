@@ -1176,7 +1176,7 @@ namespace osu.Game.Screens.Select
                     Debug.Assert(Beatmap.Value.BeatmapInfo.Equals(score.BeatmapInfo));
                     Debug.Assert(Ruleset.Value.Equals(score.Ruleset));
 
-                    this.Push(new SoloResultsScreen(score));
+                    this.Push(new ResultsScreen(score));
                     break;
 
                 case ScorePresentType.Gameplay:

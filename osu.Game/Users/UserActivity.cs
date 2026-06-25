@@ -1,83 +1,40 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
-using MessagePack;
 using osu.Game.Beatmaps;
-using osu.Game.Graphics;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
-using osuTK.Graphics;
 
 namespace osu.Game.Users
 {
     /// <summary>
     /// Base class for all structures describing the user's current activity.
     /// </summary>
-    /// <remarks>
-    /// Warning: keep <see cref="UnionAttribute"/> specs consistent with
-    /// <see cref="SignalRWorkaroundTypes.BASE_TYPE_MAPPING"/>.
-    /// </remarks>
-    [Serializable]
-    [MessagePackObject]
-    [Union(11, typeof(ChoosingBeatmap))]
-    [Union(12, typeof(PlayingBeatmap))]
-    [Union(13, typeof(WatchingReplay))]
-    [Union(41, typeof(EditingBeatmap))]
-    [Union(43, typeof(TestingBeatmap))]
     public abstract class UserActivity
     {
         public abstract string GetStatus(bool hideIdentifiableInformation = false);
         public virtual string? GetDetails(bool hideIdentifiableInformation = false) => null;
 
-        public virtual Color4 GetAppropriateColour(OsuColour colours) => colours.GreenDarker;
-
-        /// <summary>
-        /// Returns the ID of the beatmap involved in this activity, if applicable and/or available.
-        /// </summary>
-        /// <param name="hideIdentifiableInformation"></param>
-        public virtual int? GetBeatmapID(bool hideIdentifiableInformation = false) => null;
-
-        [MessagePackObject]
         public class ChoosingBeatmap : UserActivity
         {
-            public override string GetStatus(bool hideIdentifiableInformation = false) => "Choosing a beatmap";
+            public override string GetStatus(bool hideIdentifiableInformation = false) => @"Choosing a beatmap";
         }
 
-        [MessagePackObject]
-        [Union(12, typeof(PlayingBeatmap))]
         public class PlayingBeatmap : UserActivity
         {
-            [Key(0)]
-            public int BeatmapID { get; set; }
-
-            [Key(1)]
-            public string BeatmapDisplayTitle { get; set; } = string.Empty;
-
-            [Key(2)]
-            public int RulesetID { get; set; }
-
-            [Key(3)]
-            public string RulesetPlayingVerb { get; set; } = string.Empty; // TODO: i'm going with this for now, but this is wasteful
+            private string rulesetPlayingVerb { get; } // TODO: i'm going with this for now, but this is wasteful
+            private string beatmapDisplayTitle { get; }
 
             public PlayingBeatmap(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
             {
-                BeatmapID = beatmapInfo.OnlineID;
-                BeatmapDisplayTitle = beatmapInfo.GetDisplayTitle();
-
-                RulesetID = ruleset.OnlineID;
-                RulesetPlayingVerb = ruleset.CreateInstance().PlayingVerb;
+                rulesetPlayingVerb = ruleset.CreateInstance().PlayingVerb;
+                beatmapDisplayTitle = beatmapInfo.GetDisplayTitle();
             }
 
-            [SerializationConstructor]
-            public PlayingBeatmap() { }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => RulesetPlayingVerb;
-            public override string GetDetails(bool hideIdentifiableInformation = false) => BeatmapDisplayTitle;
-            public override int? GetBeatmapID(bool hideIdentifiableInformation = false) => BeatmapID;
+            public override string GetStatus(bool hideIdentifiableInformation = false) => rulesetPlayingVerb;
+            public override string GetDetails(bool hideIdentifiableInformation = false) => beatmapDisplayTitle;
         }
 
-        [MessagePackObject]
         public class TestingBeatmap : EditingBeatmap
         {
             public TestingBeatmap(IBeatmapInfo beatmapInfo)
@@ -85,71 +42,39 @@ namespace osu.Game.Users
             {
             }
 
-            [SerializationConstructor]
-            public TestingBeatmap() { }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => "Testing a beatmap";
+            public override string GetStatus(bool hideIdentifiableInformation = false) => @"Testing a beatmap";
         }
 
-        [MessagePackObject]
         public class EditingBeatmap : UserActivity
         {
-            [Key(0)]
-            public int BeatmapID { get; set; }
-
-            [Key(1)]
-            public string BeatmapDisplayTitle { get; set; } = string.Empty;
+            private string beatmapDisplayTitle { get; }
 
             public EditingBeatmap(IBeatmapInfo info)
             {
-                BeatmapID = info.OnlineID;
-                BeatmapDisplayTitle = info.GetDisplayTitle();
+                beatmapDisplayTitle = info.GetDisplayTitle();
             }
-
-            [SerializationConstructor]
-            public EditingBeatmap() { }
 
             public override string GetStatus(bool hideIdentifiableInformation = false) => @"Editing a beatmap";
 
             public override string GetDetails(bool hideIdentifiableInformation = false) => hideIdentifiableInformation
                 // For now let's assume that showing the beatmap a user is editing could reveal unwanted information.
                 ? string.Empty
-                : BeatmapDisplayTitle;
-
-            public override int? GetBeatmapID(bool hideIdentifiableInformation = false) => hideIdentifiableInformation
-                // For now let's assume that showing the beatmap a user is editing could reveal unwanted information.
-                ? null
-                : BeatmapID;
+                : beatmapDisplayTitle;
         }
 
-        [MessagePackObject]
         public class WatchingReplay : UserActivity
         {
-            [Key(0)]
-            public Guid ScoreID { get; set; }
-
-            [Key(1)]
-            public string PlayerName { get; set; } = string.Empty;
-
-            [Key(2)]
-            public int BeatmapID { get; set; }
-
-            [Key(3)]
-            public string? BeatmapDisplayTitle { get; set; }
+            private string playerName { get; }
+            private string? beatmapDisplayTitle { get; }
 
             public WatchingReplay(ScoreInfo score)
             {
-                ScoreID = score.ID;
-                PlayerName = score.User.Username;
-                BeatmapID = score.BeatmapInfo?.OnlineID ?? -1;
-                BeatmapDisplayTitle = score.BeatmapInfo?.GetDisplayTitle();
+                playerName = score.User.Username;
+                beatmapDisplayTitle = score.BeatmapInfo?.GetDisplayTitle();
             }
 
-            [SerializationConstructor]
-            public WatchingReplay() { }
-
-            public override string GetStatus(bool hideIdentifiableInformation = false) => hideIdentifiableInformation ? @"Watching a replay" : $@"Watching {PlayerName}'s replay";
-            public override string? GetDetails(bool hideIdentifiableInformation = false) => BeatmapDisplayTitle;
+            public override string GetStatus(bool hideIdentifiableInformation = false) => hideIdentifiableInformation ? @"Watching a replay" : $@"Watching {playerName}'s replay";
+            public override string? GetDetails(bool hideIdentifiableInformation = false) => beatmapDisplayTitle;
         }
     }
 }

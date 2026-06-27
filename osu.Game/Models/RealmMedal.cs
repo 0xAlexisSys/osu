@@ -5,16 +5,16 @@ using System;
 using osu.Game.Database;
 using Realms;
 
-namespace osu.Game.Medals
+namespace osu.Game.Models
 {
     [MapTo("Medal")]
-    public class MedalInfo : RealmObject, IHasGuidPrimaryKey
+    public class RealmMedal : RealmObject, IHasGuidPrimaryKey
     {
         [PrimaryKey]
         public Guid ID { get; set; }
 
         [Indexed]
-        public string InternalName { get; set; } = string.Empty;
+        public string Slug { get; set; } = string.Empty;
 
         public DateTimeOffset UnlockedAt { get; set; }
     }

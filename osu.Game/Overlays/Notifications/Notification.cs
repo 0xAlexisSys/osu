@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
@@ -17,6 +16,7 @@ using osu.Framework.Localisation;
 using osu.Framework.Utils;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
+using osu.Game.Medals;
 using osuTK;
 using osuTK.Graphics;
 using osuTK.Input;
@@ -292,6 +292,9 @@ namespace osu.Game.Overlays.Notifications
 
             private readonly Notification notification;
 
+            [Resolved]
+            private MedalEvaluator medalEvaluator { get; set; } = null!;
+
             public DragContainer(Notification notification)
             {
                 this.notification = notification;
@@ -301,7 +304,7 @@ namespace osu.Game.Overlays.Notifications
             {
                 get
                 {
-                    var childBounding = Children.First().BoundingBox;
+                    var childBounding = Children[0].BoundingBox;
 
                     if (X < 0) childBounding *= new Vector2(1, Math.Max(0, 1 + (X / 300)));
                     if (Y > 0) childBounding *= new Vector2(1, Math.Max(0, 1 - (Y / 200)));
@@ -334,11 +337,19 @@ namespace osu.Game.Overlays.Notifications
             protected override void OnDragEnd(DragEndEvent e)
             {
                 if (notification.AllowFlingDismiss && (Rotation < -10 || velocity.X < -0.3f))
+                {
+                    if (velocity.X <= -2.4f)
+                        medalEvaluator.Unlock(@"secret-ui-courier_catapult");
                     notification.Close(true);
+                }
                 else if (X > 30 || velocity.X > 0.3f)
+                {
                     notification.ForwardToOverlay?.Invoke();
+                }
                 else
+                {
                     ResetPosition();
+                }
 
                 base.OnDragEnd(e);
             }
@@ -401,7 +412,6 @@ namespace osu.Game.Overlays.Notifications
         {
             private SpriteIcon icon = null!;
             private Box background = null!;
-
             private readonly IconUsage iconUsage;
 
             [Resolved]

@@ -123,6 +123,11 @@ namespace osu.Game.Rulesets.Mods
         public virtual bool UsesDefaultConfiguration => SettingsBindables.All(s => s.IsDefault);
 
         /// <summary>
+        /// The internal name of the medal to be unlocked on beatmap completion.
+        /// </summary>
+        public virtual string? MedalSlug => null;
+
+        /// <summary>
         /// Creates a copy of this <see cref="Mod"/> initialised to a default state.
         /// </summary>
         public virtual Mod DeepClone()

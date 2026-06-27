@@ -24,15 +24,16 @@ namespace osu.Game.Overlays.MedalSplash
     {
         private const float scale_when_unlocked = 0.76f;
         private const float scale_when_full = 0.6f;
-        private const string medal_icon_mystery = @"Medals/Mystery";
 
         [CanBeNull]
         public event Action<DisplayState> StateChanged;
 
         private readonly Medal medal;
         private readonly Container medalContainer;
-        private readonly Sprite medalSprite, medalGlow;
-        private readonly OsuSpriteText unlocked, name;
+        private readonly Sprite medalSprite;
+        private readonly Sprite medalGlow;
+        private readonly SpriteTextWithTooltip name;
+        private readonly OsuSpriteText unlocked;
         private readonly TextFlowContainer description;
         private DisplayState state;
 
@@ -69,7 +70,7 @@ namespace osu.Game.Overlays.MedalSplash
                 {
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
-                    Text = "Medal Unlocked".ToUpperInvariant(),
+                    Text = @"Medal Unlocked".ToUpperInvariant(),
                     Font = OsuFont.GetFont(size: 24, weight: FontWeight.Light),
                     Alpha = 0f,
                     Scale = new Vector2(1f / scale_when_unlocked),
@@ -85,11 +86,11 @@ namespace osu.Game.Overlays.MedalSplash
                     Spacing = new Vector2(0f, 5f),
                     Children = new Drawable[]
                     {
-                        name = new OsuSpriteText
+                        name = new SpriteTextWithTooltip
                         {
                             Anchor = Anchor.TopCentre,
                             Origin = Anchor.TopCentre,
-                            Text = medal.DisplayName,
+                            Text = medal.Title,
                             Font = OsuFont.GetFont(size: 20, weight: FontWeight.Bold),
                             Alpha = 0f,
                             Scale = new Vector2(1f / scale_when_full),
@@ -120,7 +121,7 @@ namespace osu.Game.Overlays.MedalSplash
         [BackgroundDependencyLoader]
         private void load(OsuColour colours, TextureStore textures, LargeTextureStore largeTextures)
         {
-            medalSprite.Texture = largeTextures.Get(medal.Icon) ?? largeTextures.Get(medal_icon_mystery);
+            medalSprite.Texture = largeTextures.Get(medal.Icon) ?? largeTextures.Get(@"Medals/unknown");
             medalGlow.Texture = textures.Get(@"MedalSplash/medal-glow");
             description.Colour = colours.BlueLight;
         }
@@ -182,6 +183,8 @@ namespace osu.Game.Overlays.MedalSplash
                     this.ScaleTo(scale_when_full, duration, Easing.OutExpo);
                     this.MoveToY(MedalAnimation.DISC_SIZE / 2 - 60, duration, Easing.OutExpo);
                     unlocked.Show();
+                    if (medal.TooltipText is not null)
+                        name.TooltipText = medal.TooltipText;
                     name.FadeInFromZero(duration + 100);
                     description.FadeInFromZero(duration * 2);
                     break;

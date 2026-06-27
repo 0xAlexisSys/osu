@@ -20,6 +20,7 @@ namespace osu.Game.Rulesets.Mods
         public override LocalisableString Description => "SS or quit.";
 
         public override Type[] IncompatibleMods => base.IncompatibleMods.Concat(new[] { typeof(ModSuddenDeath), typeof(ModAccuracyChallenge) }).ToArray();
+        public override string MedalSlug => @"mods-all-pf";
 
         protected ModPerfect()
         {

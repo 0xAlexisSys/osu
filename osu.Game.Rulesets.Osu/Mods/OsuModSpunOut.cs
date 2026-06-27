@@ -21,6 +21,7 @@ namespace osu.Game.Rulesets.Osu.Mods
         public override ModType Type => ModType.Automation;
         public override LocalisableString Description => @"Spinners will be automatically completed.";
         public override Type[] IncompatibleMods => new[] { typeof(ModAutoplay), typeof(OsuModAutopilot), typeof(OsuModTargetPractice) };
+        public override string MedalSlug => @"mods-all-so";
 
         public void ApplyToDrawableHitObject(DrawableHitObject hitObject)
         {

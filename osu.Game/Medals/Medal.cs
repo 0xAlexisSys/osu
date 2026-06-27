@@ -3,15 +3,38 @@
 
 namespace osu.Game.Medals
 {
-    public abstract class Medal
+    public partial record Medal
     {
-        public abstract string InternalName { get; }
-        public abstract string DisplayName { get; }
-        public abstract string Description { get; }
-        public abstract string? HoverDescription { get; }
+        /// <summary>
+        /// The internal name of the medal, which also determines the icon.
+        /// </summary>
+        public string Slug { get; init; } = string.Empty;
 
-        public string Icon => $@"Medals/{InternalName}";
+        /// <summary>
+        /// The title of the medal.
+        /// </summary>
+        public string Title { get; init; } = string.Empty;
 
-        public abstract bool CanUnlock(MedalEvaluationContext context);
+        /// <summary>
+        /// The description of the medal.
+        /// </summary>
+        public string Description { get; init; } = string.Empty;
+
+        /// <summary>
+        /// The text to show when the medal's title is hovered over.
+        /// </summary>
+        public string? TooltipText { get; init; }
+
+        /// <summary>
+        /// The category of the medal.
+        /// </summary>
+        public required string Category { get; init; }
+
+        /// <summary>
+        /// Whether this is an official osu! medal or not.
+        /// </summary>
+        public required bool IsCustom { get; init; }
+
+        public string Icon => $@"Medals/{Slug}";
     }
 }

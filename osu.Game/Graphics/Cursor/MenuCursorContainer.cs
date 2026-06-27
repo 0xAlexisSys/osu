@@ -14,12 +14,15 @@ using osu.Framework.Graphics.Textures;
 using osu.Framework.Input.Events;
 using osu.Framework.Utils;
 using osu.Game.Configuration;
+using osu.Game.Medals;
 using osuTK;
 
 namespace osu.Game.Graphics.Cursor
 {
     public partial class MenuCursorContainer : CursorContainer
     {
+        private const float medal_hamster_wheel_minimum_rotation = 27000.0f;
+
         private readonly IBindable<bool> screenshotCursorVisibility = new Bindable<bool>(true);
         public override bool IsPresent => screenshotCursorVisibility.Value && base.IsPresent;
 
@@ -68,6 +71,9 @@ namespace osu.Game.Graphics.Cursor
 
         [Resolved]
         private OsuGame? game { get; set; }
+
+        [Resolved]
+        private MedalEvaluator? medalEvaluator { get; set; }
 
         private readonly IBindable<bool> lastInputWasMouse = new BindableBool();
         private readonly IBindable<bool> gameActive = new BindableBool(true);
@@ -205,6 +211,8 @@ namespace osu.Game.Graphics.Cursor
 
                 if (dragRotationState != DragRotationState.NotDragging)
                 {
+                    if (activeCursor.Rotation is >= medal_hamster_wheel_minimum_rotation or <= -medal_hamster_wheel_minimum_rotation)
+                        medalEvaluator?.Unlock(@"secret-ui-hamster_wheel");
                     activeCursor.RotateTo(0, 400 * (0.5f + Math.Abs(activeCursor.Rotation / 960)), Easing.OutElasticQuarter);
                     dragRotationState = DragRotationState.NotDragging;
                 }

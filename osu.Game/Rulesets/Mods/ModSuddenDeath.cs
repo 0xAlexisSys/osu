@@ -18,6 +18,7 @@ namespace osu.Game.Rulesets.Mods
         public override IconUsage? Icon => OsuIcon.ModSuddenDeath;
         public override ModType Type => ModType.DifficultyIncrease;
         public override LocalisableString Description => "Miss and fail.";
+        public override string MedalSlug => @"mods-all-sd";
 
         public override Type[] IncompatibleMods => base.IncompatibleMods.Append(typeof(ModPerfect)).ToArray();
 

@@ -61,7 +61,7 @@ namespace osu.Game.Overlays
         {
             var medalAnimation = new MedalAnimation(medal);
 
-            Logger.Log($"Queueing medal unlock for \"{medal.DisplayName}\" ({queuedMedals.Count} to display)");
+            Logger.Log($"Queueing medal unlock for \"{medal.Title}\" ({queuedMedals.Count} to display)");
 
             Schedule(() => LoadComponentAsync(medalAnimation, m =>
             {
@@ -109,7 +109,7 @@ namespace osu.Game.Overlays
 
             if (queuedMedals.TryDequeue(out currentMedalDisplay))
             {
-                Logger.Log($"Displaying \"{currentMedalDisplay.Medal.DisplayName}\"");
+                Logger.Log($"Displaying \"{currentMedalDisplay.Medal.Title}\"");
                 medalContainer.Add(currentMedalDisplay);
                 Show();
             }

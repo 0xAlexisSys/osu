@@ -14,6 +14,7 @@ namespace osu.Game.Rulesets.Mods
         public override string Acronym => "HD";
         public override IconUsage? Icon => OsuIcon.ModHidden;
         public override ModType Type => ModType.DifficultyIncrease;
+        public override string MedalSlug => @"mods-all-hd";
 
         public virtual void ApplyToScoreProcessor(ScoreProcessor scoreProcessor)
         {

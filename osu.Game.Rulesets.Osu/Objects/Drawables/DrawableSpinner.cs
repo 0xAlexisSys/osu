@@ -13,6 +13,7 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Game.Audio;
+using osu.Game.Medals;
 using osu.Game.Rulesets.Judgements;
 using osu.Game.Rulesets.Objects;
 using osu.Game.Rulesets.Objects.Drawables;
@@ -67,6 +68,9 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
         /// The number of spins per minute this spinner is spinning at, for display purposes.
         /// </summary>
         public readonly IBindable<double> SpinsPerMinute = new BindableDouble();
+
+        [Resolved]
+        private MedalEvaluator medalEvaluator { get; set; }
 
         private const double fade_out_duration = 240;
 
@@ -325,7 +329,11 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             // don't update after end time to avoid the rate display dropping during fade out.
             // this shouldn't be limited to StartTime as it causes weirdness with the underlying calculation, which is expecting updates during that period.
             if (Time.Current <= HitObject.EndTime)
+            {
                 spmCalculator.SetRotation(Result.TotalRotation);
+                if (SpinsPerMinute.Value >= 477.0d)
+                    medalEvaluator.AddToQueue(@"skill-osu-reach_477_spm");
+            }
 
             updateBonusScore();
         }

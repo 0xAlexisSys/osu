@@ -1,7 +1,7 @@
 # EditorConfig is awesome: http://editorconfig.org
 root = true
 
-[*.{csproj,props,targets}]
+[*.{slnx,csproj,props,targets}]
 charset = utf-8-bom
 end_of_line = crlf
 insert_final_newline = true

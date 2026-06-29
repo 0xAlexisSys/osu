@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using osu.Framework.Extensions;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Game.Beatmaps;
@@ -22,13 +24,14 @@ namespace osu.Game.Scoring
 {
     public class ScoreImporter : RealmArchiveModelImporter<ScoreInfo>
     {
+        private static readonly TimeSpan legacy_score_user_id_get_timeout = TimeSpan.FromSeconds(10.0d);
+
         public override IEnumerable<string> HandledExtensions => new[] { @".osr" };
 
         protected override string[] HashableFileTypes => new[] { @".osr" };
 
         private readonly RulesetStore rulesets;
         private readonly Func<BeatmapManager> beatmaps;
-
         private readonly Session session;
 
         public ScoreImporter(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, Session session)
@@ -98,6 +101,32 @@ namespace osu.Game.Scoring
 
             if (model.BeatmapInfo.LastPlayed == null || model.Date > model.BeatmapInfo.LastPlayed)
                 model.BeatmapInfo.LastPlayed = model.Date;
+
+            if (model.IsLegacyScore && model.User.ID == User.OTHER_USER_ID)
+            {
+                // HACK: [alexis] Since stable scores don't store the user ID, it must be retrieved with a GET request;
+                //                thankfully, osu.ppy.sh redirects paths like /users/peppy to /users/2. This comes
+                //                at the cost of slowing down imports.
+                try
+                {
+                    var responseTask = session.HttpClient.GetAsync($@"https://osu.ppy.sh/users/{model.User.Username}");
+
+                    if (Task.WaitAny([responseTask], legacy_score_user_id_get_timeout) == -1)
+                        throw new TimeoutException();
+
+                    var response = responseTask.GetResultSafely();
+                    if (response.RequestMessage is { RequestUri: not null })
+                        model.User.ID = Convert.ToInt32(response.RequestMessage.RequestUri.AbsolutePath[7..]);
+                }
+                catch (TimeoutException)
+                {
+                    Logger.Log($@"User ID GET request for legacy score (ID {model.ID}) timed out", LoggingTarget.Network);
+                }
+                catch (Exception e)
+                {
+                    Logger.Log($@"Failed to populate user ID in legacy score (ID {model.ID}): {e}", LoggingTarget.Database);
+                }
+            }
         }
     }
 }

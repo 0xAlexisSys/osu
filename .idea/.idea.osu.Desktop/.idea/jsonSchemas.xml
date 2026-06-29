@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JsonSchemaMappingsProjectConfiguration">
+    <state>
+      <map>
+        <entry key="Solution filters">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="Solution filters" />
+              <option name="relativePathToSchema" value="https://www.schemastore.org/solution-filter.json" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="osu.Desktop.slnf" />
+                  </Item>
+                  <Item>
+                    <option name="path" value="osu.Android.slnf" />
+                  </Item>
+                  <Item>
+                    <option name="path" value="osu.iOS.slnf" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+      </map>
+    </state>
+  </component>
+</project>

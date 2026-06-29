@@ -131,11 +131,6 @@ namespace osu.Game.Database
             }
         }
 
-        /// <remarks>
-        /// This is split out from <see cref="processOnlineBeatmapSetsWithNoUpdate"/> as a separate process to prevent high server-side load
-        /// from the <see cref="beatmapUpdater"/> firing online requests as part of the update.
-        /// Star rating recalculations can be ran strictly locally.
-        /// </remarks>
         private void populateMissingStarRatings()
         {
             HashSet<Guid> beatmapIds = new HashSet<Guid>();

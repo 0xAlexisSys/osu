@@ -496,14 +496,6 @@ namespace osu.Game
         /// </summary>
         /// <param name="beatmap">The beatmap to select.</param>
         /// <param name="difficultyCriteria">Optional predicate used to narrow the set of difficulties to select from when presenting.</param>
-        /// <remarks>
-        /// Among items satisfying the predicate, the order of preference is:
-        /// <list type="bullet">
-        /// <item>beatmap with recommended difficulty, as provided by <see cref="DifficultyRecommender"/>,</item>
-        /// <item>first beatmap from the current ruleset,</item>
-        /// <item>first beatmap from any ruleset.</item>
-        /// </list>
-        /// </remarks>
         public void PresentBeatmap(IBeatmapSetInfo beatmap, Predicate<BeatmapInfo> difficultyCriteria = null)
         {
             Logger.Log($"Beginning {nameof(PresentBeatmap)} with beatmap {beatmap}");

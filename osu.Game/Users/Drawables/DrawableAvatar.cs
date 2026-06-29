@@ -1,9 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-#nullable disable
-
-using JetBrains.Annotations;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
@@ -14,17 +11,15 @@ namespace osu.Game.Users.Drawables
     [LongRunningLoad]
     public partial class DrawableAvatar : Sprite
     {
-        [CanBeNull]
-        private readonly User user;
+        private readonly User? user;
 
         /// <summary>
-        /// A simple, non-interactable avatar sprite for the specified user.
+        /// A simple avatar sprite for the specified user.
         /// </summary>
         /// <param name="user">The user. A null value will get a placeholder avatar.</param>
-        public DrawableAvatar(User user = null)
+        public DrawableAvatar(User? user = null)
         {
-            if (user is not null)
-                this.user = user as User;
+            this.user = user;
         }
 
         [BackgroundDependencyLoader]
@@ -34,7 +29,13 @@ namespace osu.Game.Users.Drawables
             FillMode = FillMode.Fit;
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
-            Texture = textures.Get(user is not null && user.ID == User.PERSONAL_USER_ID ? user.AvatarPath : @"Online/avatar-guest");
+
+            Texture = textures.Get(user switch
+            {
+                { ID: User.PERSONAL_USER_ID } => user.AvatarPath,
+                { ID: User.BOT_USER_ID or User.OTHER_USER_ID } or null => @"Online/avatar-guest",
+                _ => $@"https://a.ppy.sh/{user.ID}",
+            });
         }
 
         protected override void LoadComplete()

@@ -21,7 +21,6 @@ using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.Extensions;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Overlays.Volume;
@@ -73,9 +72,6 @@ namespace osu.Game.Screens.Menu
         private OsuScreen nextScreen;
 
         [Resolved]
-        private AudioManager audio { get; set; }
-
-        [Resolved]
         private MusicController musicController { get; set; }
 
         [CanBeNull]
@@ -106,7 +102,7 @@ namespace osu.Game.Screens.Menu
         private BeatmapManager beatmaps { get; set; }
 
         [BackgroundDependencyLoader]
-        private void load(OsuConfigManager config, Framework.Game game, RealmAccess realm, DummyAPIAccess api)
+        private void load(OsuConfigManager config, Framework.Game game, RealmAccess realm)
         {
             // prevent user from changing beatmap while the intro is still running.
             beatmap = Beatmap.BeginLease(false);

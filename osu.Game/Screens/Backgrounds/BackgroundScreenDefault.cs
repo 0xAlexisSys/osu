@@ -16,7 +16,6 @@ using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Graphics.Backgrounds;
-using osu.Game.Online.API;
 using osu.Game.Skinning;
 
 namespace osu.Game.Screens.Backgrounds
@@ -40,7 +39,7 @@ namespace osu.Game.Screens.Backgrounds
         protected virtual bool AllowStoryboardBackground => true;
 
         [BackgroundDependencyLoader]
-        private void load(DummyAPIAccess api, SkinManager skinManager, OsuConfigManager config)
+        private void load(SkinManager skinManager, OsuConfigManager config)
         {
             skin = skinManager.CurrentSkin.GetBoundCopy();
             source = config.GetBindable<BackgroundSource>(OsuSetting.MenuBackgroundSource);

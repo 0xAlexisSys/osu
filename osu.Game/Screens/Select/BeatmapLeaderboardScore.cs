@@ -24,7 +24,6 @@ using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Resources.Localisation.Web;
@@ -62,9 +61,6 @@ namespace osu.Game.Screens.Select
         private OverlayColourProvider colourProvider { get; set; } = null!;
 
         [Resolved]
-        private OsuColour colours { get; set; } = null!;
-
-        [Resolved]
         private IDialogOverlay? dialogOverlay { get; set; }
 
         [Resolved]
@@ -72,12 +68,6 @@ namespace osu.Game.Screens.Select
 
         [Resolved]
         private OsuConfigManager config { get; set; } = null!;
-
-        [Resolved]
-        private OsuGame? game { get; set; }
-
-        [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
 
         private const float expanded_right_content_width = 200;
         private const float grade_width = 35;
@@ -88,9 +78,6 @@ namespace osu.Game.Screens.Select
 
         private const int corner_radius = 10;
         private const int transition_duration = 200;
-
-        private static readonly Color4 personal_best_gradient_left = Color4Extensions.FromHex("#66FFCC");
-        private static readonly Color4 personal_best_gradient_right = Color4Extensions.FromHex("#51A388");
 
         private Colour4 foregroundColour;
         private Colour4 backgroundColour;

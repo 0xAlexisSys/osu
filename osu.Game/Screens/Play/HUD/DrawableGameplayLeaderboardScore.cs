@@ -13,7 +13,6 @@ using osu.Framework.Layout;
 using osu.Game.Configuration;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Online.API;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Users;
@@ -91,9 +90,6 @@ namespace osu.Game.Screens.Play.HUD
 
         [Resolved]
         private OsuConfigManager config { get; set; } = null!;
-
-        [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
 
         [Resolved]
         private OsuColour colours { get; set; } = null!;

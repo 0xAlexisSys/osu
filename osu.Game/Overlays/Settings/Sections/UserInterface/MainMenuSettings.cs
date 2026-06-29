@@ -7,7 +7,6 @@ using osu.Framework.Localisation;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 
 namespace osu.Game.Overlays.Settings.Sections.UserInterface
 {
@@ -16,7 +15,7 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
         protected override LocalisableString Header => UserInterfaceStrings.MainMenuHeader;
 
         [BackgroundDependencyLoader]
-        private void load(OsuConfigManager config, DummyAPIAccess api)
+        private void load(OsuConfigManager config)
         {
             Children = new Drawable[]
             {

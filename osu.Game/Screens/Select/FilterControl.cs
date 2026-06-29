@@ -22,7 +22,6 @@ using osu.Game.Graphics.UserInterface;
 using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Screens.Select.Filter;
@@ -80,7 +79,7 @@ namespace osu.Game.Screens.Select
         private IDisposable? collectionsSubscription;
 
         [BackgroundDependencyLoader]
-        private void load(DummyAPIAccess api)
+        private void load()
         {
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;

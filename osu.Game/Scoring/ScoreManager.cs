@@ -15,11 +15,11 @@ using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.IO.Archives;
-using osu.Game.Online.API;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring.Legacy;
+using osu.Game.Users;
 
 namespace osu.Game.Scoring
 {
@@ -40,14 +40,14 @@ namespace osu.Game.Scoring
             }
         }
 
-        public ScoreManager(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, DummyAPIAccess api,
+        public ScoreManager(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, Session session,
                             OsuConfigManager? configManager = null)
             : base(storage, realm)
         {
             this.beatmaps = beatmaps;
             this.configManager = configManager;
 
-            scoreImporter = new ScoreImporter(rulesets, beatmaps, storage, realm, api)
+            scoreImporter = new ScoreImporter(rulesets, beatmaps, storage, realm, session)
             {
                 PostNotification = obj => PostNotification?.Invoke(obj)
             };

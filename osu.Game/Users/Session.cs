@@ -2,15 +2,14 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using osu.Framework.Graphics;
-using osu.Game.Users;
 
-namespace osu.Game.Online.API
+namespace osu.Game.Users
 {
-    public partial class DummyAPIAccess : Component
+    public partial class Session : Component
     {
         public User User { get; }
 
-        public DummyAPIAccess(string username)
+        public Session(string username)
         {
             User = new User
             {

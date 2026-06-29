@@ -14,7 +14,7 @@ using osu.Game.Database;
 using osu.Game.IO.Archives;
 using osu.Game.Rulesets;
 using osu.Game.Scoring.Legacy;
-using osu.Game.Online.API;
+using osu.Game.Users;
 using osu.Game.Utils;
 using Realms;
 
@@ -29,14 +29,14 @@ namespace osu.Game.Scoring
         private readonly RulesetStore rulesets;
         private readonly Func<BeatmapManager> beatmaps;
 
-        private readonly DummyAPIAccess api;
+        private readonly Session session;
 
-        public ScoreImporter(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, DummyAPIAccess api)
+        public ScoreImporter(RulesetStore rulesets, Func<BeatmapManager> beatmaps, Storage storage, RealmAccess realm, Session session)
             : base(storage, realm)
         {
             this.rulesets = rulesets;
             this.beatmaps = beatmaps;
-            this.api = api;
+            this.session = session;
         }
 
         protected override ScoreInfo? CreateModel(ArchiveReader archive, ImportParameters parameters)

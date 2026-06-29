@@ -36,7 +36,6 @@ using osu.Game.Graphics.Cursor;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Overlays.OSD;
@@ -182,7 +181,7 @@ namespace osu.Game.Screens.Edit
             => dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
         [Resolved]
-        private DummyAPIAccess api { get; set; }
+        private Session session { get; set; }
 
         [Cached]
         public readonly EditorClipboard Clipboard = new EditorClipboard();
@@ -233,7 +232,7 @@ namespace osu.Game.Screens.Edit
 
                 isNewBeatmap = true;
 
-                loadableBeatmap = beatmapManager.CreateNew(Ruleset.Value, api.User);
+                loadableBeatmap = beatmapManager.CreateNew(Ruleset.Value, session.User);
 
                 // required so we can get the track length in EditorClock.
                 // this is ONLY safe because the track being provided is a `TrackVirtual` which we don't really care about disposing.

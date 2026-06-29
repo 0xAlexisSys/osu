@@ -14,8 +14,6 @@ using osu.Framework.Graphics;
 using osu.Framework.Logging;
 using osu.Game.Beatmaps;
 using osu.Game.Extensions;
-using osu.Game.Medals;
-using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Performance;
@@ -23,6 +21,7 @@ using osu.Game.Rulesets;
 using osu.Game.Scoring;
 using osu.Game.Scoring.Legacy;
 using osu.Game.Screens.Play;
+using osu.Game.Users;
 
 namespace osu.Game.Database
 {
@@ -61,10 +60,7 @@ namespace osu.Game.Database
         private INotificationOverlay? notificationOverlay { get; set; }
 
         [Resolved]
-        private MedalEvaluator medalEvaluator { get; set; } = null!;
-
-        [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
+        private Session session { get; set; } = null!;
 
         protected virtual int TimeToSleepDuringGameplay => 30000;
 
@@ -347,9 +343,9 @@ namespace osu.Game.Database
             {
                 realmAccess.Write(r =>
                 {
-                    // [alexis] Need to use AsEnumerable here, or Realm will throw a NotSupportedException.
-                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == api.User.ID && s.User.Username != api.User.Username))
-                        score.User.Username = api.User.Username;
+                    // [alexis] Must use AsEnumerable here, or Realm will throw a NotSupportedException.
+                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == session.User.ID && s.User.Username != session.User.Username))
+                        score.User.Username = session.User.Username;
                 });
             }
             catch (ObjectDisposedException)

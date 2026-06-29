@@ -12,20 +12,13 @@ using osu.Game.Rulesets.Scoring;
 namespace osu.Game.Scoring.Legacy
 {
     /// <summary>
-    /// A minified version of <see cref="SoloScoreInfo"/> retrofit onto the end of legacy replay files (.osr),
+    /// A minified version of <see cref="ScoreInfo"/> retrofit onto the end of legacy replay files (.osr),
     /// containing the minimum data required to support storage of non-legacy replays.
     /// </summary>
     [Serializable]
     [JsonObject(MemberSerialization.OptIn)]
     public class LegacyReplayScoreInfo
     {
-        /// <remarks>
-        /// The value of this property should correspond to <see cref="ScoreInfo.OnlineID"/>
-        /// (i.e. come from the `solo_scores` ID scheme).
-        /// </remarks>
-        [JsonProperty("online_id")]
-        public long OnlineID { get; set; } = -1;
-
         [JsonProperty("mods")]
         public APIMod[] Mods { get; set; } = Array.Empty<APIMod>();
 

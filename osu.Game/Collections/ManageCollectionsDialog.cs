@@ -183,8 +183,6 @@ namespace osu.Game.Collections
 
         protected override void PopOut()
         {
-            base.PopOut();
-
             duckOperation?.Dispose();
 
             this.FadeOut(exit_duration, Easing.OutQuint);

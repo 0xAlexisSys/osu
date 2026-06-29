@@ -238,8 +238,6 @@ namespace osu.Game.Overlays
 
         protected override void PopOut()
         {
-            base.PopOut();
-
             markAllRead();
 
             this.MoveToX(WIDTH, TRANSITION_LENGTH, Easing.OutQuint);

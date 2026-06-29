@@ -154,7 +154,6 @@ namespace osu.Game.Overlays.Mods
         {
             const double fade_out_duration = 500;
 
-            base.PopOut();
             this.FadeOut(fade_out_duration, Easing.OutQuint);
 
             Header.MoveToY(-Header.DrawHeight, fade_out_duration, Easing.OutQuint);

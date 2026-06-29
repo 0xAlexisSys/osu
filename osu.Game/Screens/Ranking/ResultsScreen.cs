@@ -126,7 +126,6 @@ namespace osu.Game.Screens.Ranking
                                         {
                                             RelativeSizeAxes = Axes.Both,
                                             Score = { BindTarget = SelectedScore },
-                                            AchievedScore = Score,
                                         },
                                         ScorePanelList = new ScorePanelList
                                         {

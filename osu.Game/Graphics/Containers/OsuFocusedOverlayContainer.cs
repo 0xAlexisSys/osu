@@ -9,13 +9,12 @@ using osu.Framework.Graphics.Containers;
 using osuTK;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
-using osu.Game.Audio;
 using osu.Game.Input.Bindings;
 using osu.Game.Overlays;
 
 namespace osu.Game.Graphics.Containers
 {
-    public abstract partial class OsuFocusedOverlayContainer : FocusedOverlayContainer, IPreviewTrackOwner, IKeyBindingHandler<GlobalAction>
+    public abstract partial class OsuFocusedOverlayContainer : FocusedOverlayContainer, IKeyBindingHandler<GlobalAction>
     {
         protected readonly IBindable<OverlayActivation> OverlayActivationMode = new Bindable<OverlayActivation>(OverlayActivation.All);
 
@@ -33,9 +32,6 @@ namespace osu.Game.Graphics.Containers
 
         [Resolved]
         private IOverlayManager? overlayManager { get; set; }
-
-        [Resolved]
-        private PreviewTrackManager previewTrackManager { get; set; } = null!;
 
         private Sample? samplePopIn;
         private Sample? samplePopOut;
@@ -156,11 +152,6 @@ namespace osu.Game.Graphics.Containers
             }
 
             base.UpdateState(state);
-        }
-
-        protected override void PopOut()
-        {
-            previewTrackManager.StopAnyPlaying(this);
         }
 
         protected override void Dispose(bool isDisposing)

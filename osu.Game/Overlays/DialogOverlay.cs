@@ -125,7 +125,6 @@ namespace osu.Game.Overlays
 
         protected override void PopOut()
         {
-            base.PopOut();
             duckOperation?.Dispose();
 
             // PopOut gets called initially, but we only want to hide dialog when we have been loaded and are present.

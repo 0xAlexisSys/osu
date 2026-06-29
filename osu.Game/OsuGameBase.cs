@@ -34,7 +34,6 @@ using osu.Framework.Localisation;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osu.Framework.Timing;
-using osu.Game.Audio;
 using osu.Game.Beatmaps;
 using osu.Game.Beatmaps.ControlPoints;
 using osu.Game.Beatmaps.Formats;
@@ -354,10 +353,6 @@ namespace osu.Game
             base.Content.Add(LeaderboardManager);
 
             base.Content.Add(rulesetConfigCache);
-
-            PreviewTrackManager previewTrackManager;
-            dependencies.Cache(previewTrackManager = new PreviewTrackManager(BeatmapManager.BeatmapTrackStore));
-            base.Content.Add(previewTrackManager);
 
             base.Content.Add(MusicController = new MusicController());
             dependencies.CacheAs(MusicController);

@@ -31,12 +31,12 @@ namespace osu.Game.Overlays
                     Width = OsuScrollContainer.SCROLL_BAR_WIDTH,
                     Anchor = Anchor.TopRight,
                     Origin = Anchor.TopRight,
-                    Alpha = 0.5f
+                    Alpha = 0.5f,
                 },
                 new Container
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Padding = new MarginPadding { Right = -3 }, // Compensate for scrollbar margin
+                    Padding = new MarginPadding { Right = -3.0f }, // Compensate for scrollbar margin
                     Child = new SidebarScrollContainer
                     {
                         RelativeSizeAxes = Axes.Both,
@@ -44,16 +44,16 @@ namespace osu.Game.Overlays
                         {
                             RelativeSizeAxes = Axes.X,
                             AutoSizeAxes = Axes.Y,
-                            Padding = new MarginPadding { Right = 3 }, // Addeded 3px back
+                            Padding = new MarginPadding { Right = 3.0f }, // Added 3px back
                             Child = new Container
                             {
                                 RelativeSizeAxes = Axes.X,
                                 AutoSizeAxes = Axes.Y,
                                 Padding = new MarginPadding
                                 {
-                                    Vertical = 20,
-                                    Left = WaveOverlayContainer.HORIZONTAL_PADDING,
-                                    Right = 30
+                                    Vertical = 20.0f,
+                                    Left = 50.0f,
+                                    Right = 30.0f,
                                 },
                                 Child = CreateContent()
                             }

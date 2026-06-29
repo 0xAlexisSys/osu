@@ -198,8 +198,6 @@ namespace osu.Game
         private BeatmapDifficultyCache difficultyCache;
         private BeatmapUpdater beatmapUpdater;
 
-        // private UserLookupCache userCache;
-        // private BeatmapLookupCache beatmapCache;
         protected LeaderboardManager LeaderboardManager { get; private set; }
 
         private RulesetConfigCache rulesetConfigCache;
@@ -327,12 +325,6 @@ namespace osu.Game
             dependencies.CacheAs(beatmapUpdater = new BeatmapUpdater(BeatmapManager, difficultyCache));
 
             BeatmapManager.ProcessBeatmap = beatmapSet => beatmapUpdater.Process(beatmapSet);
-
-            // dependencies.Cache(userCache = new UserLookupCache());
-            // base.Content.Add(userCache);
-            //
-            // dependencies.Cache(beatmapCache = new BeatmapLookupCache());
-            // base.Content.Add(beatmapCache);
 
             dependencies.CacheAs<IRulesetConfigCache>(rulesetConfigCache = new RulesetConfigCache(realm, RulesetStore));
 

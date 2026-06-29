@@ -1,10 +1,7 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-#nullable disable
-
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Realms;
 
 namespace osu.Game.Users
@@ -13,20 +10,20 @@ namespace osu.Game.Users
     {
         public const string DEFAULT_PERSONAL_USERNAME = @"Player";
         public const int PERSONAL_USER_ID = 0;
-        public const int OTHER_USER_ID = 1;
-        public const int BOT_USER_ID = -1;
+        public const int OTHER_USER_ID = -1;
+        public const int BOT_USER_ID = 1;
 
         public int ID { get; set; } = OTHER_USER_ID;
         public string Username { get; set; } = @"???";
         public string AvatarPath { get; set; } = @"Online/avatar-guest";
 
-        private UserStatistics statistics;
+        private UserStatistics? statistics;
 
         /// <summary>
         /// User statistics for the requested ruleset (in the case of a <see cref="GetUserRequest"/>).
         /// </summary>
         /// <remarks>
-        /// This returns null when accessed from <see cref="DummyAPIAccess.User"/>. Use <see cref="LocalUserStatisticsProvider"/> instead.
+        /// This returns null when accessed from <see cref="User"/>. Use <see cref="LocalUserStatisticsProvider"/> instead.
         /// </remarks>
         public UserStatistics Statistics
         {
@@ -39,9 +36,8 @@ namespace osu.Game.Users
         /// Otherwise empty. Can be altered for testing purposes.
         /// </summary>
         // todo: this should likely be moved to a separate UserCompact class at some point.
-        [CanBeNull]
         [Ignored]
-        public Dictionary<string, UserStatistics> RulesetsStatistics { get; set; }
+        public Dictionary<string, UserStatistics>? RulesetsStatistics { get; set; }
 
         public override string ToString() => Username;
     }

@@ -19,7 +19,6 @@ using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.Graphics.Cursor;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
@@ -94,7 +93,7 @@ namespace osu.Game.Tests.Visual
             AddGame(Game = CreateTestGame());
         }
 
-        protected virtual TestOsuGame CreateTestGame() => new TestOsuGame(LocalStorage, API);
+        protected virtual TestOsuGame CreateTestGame() => new TestOsuGame(LocalStorage);
 
         protected void PushAndConfirm(Func<Screen> newScreen)
         {
@@ -161,11 +160,10 @@ namespace osu.Game.Tests.Visual
 
             public new void PerformFromScreen(Action<IScreen> action, IEnumerable<Type> validScreens = null) => base.PerformFromScreen(action, validScreens);
 
-            public TestOsuGame(Storage storage, DummyAPIAccess api, string[] args = null)
+            public TestOsuGame(Storage storage, string[] args = null)
                 : base(args)
             {
                 base.Storage = storage;
-                API = api;
             }
 
             protected override void LoadComplete()

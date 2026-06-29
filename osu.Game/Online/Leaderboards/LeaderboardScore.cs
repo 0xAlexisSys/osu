@@ -11,7 +11,6 @@ using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
-// using osu.Framework.Graphics.Effects;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
@@ -29,7 +28,6 @@ using osu.Game.Scoring;
 using osu.Game.Users.Drawables;
 using osuTK;
 using osuTK.Graphics;
-using osu.Game.Online.API;
 using osu.Game.Resources.Localisation.Web;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Utils;
@@ -73,12 +71,6 @@ namespace osu.Game.Online.Leaderboards
         [Resolved(canBeNull: true)]
         private SongSelect songSelect { get; set; }
 
-        [Resolved(canBeNull: true)]
-        private OsuGame game { get; set; }
-
-        [Resolved]
-        private DummyAPIAccess api { get; set; }
-
         public ITooltip<ScoreInfo> GetCustomTooltip() => new LeaderboardScoreTooltip();
         public virtual ScoreInfo TooltipContent => Score;
 
@@ -96,7 +88,7 @@ namespace osu.Game.Online.Leaderboards
         }
 
         [BackgroundDependencyLoader]
-        private void load(DummyAPIAccess api, OsuColour colour)
+        private void load()
         {
             var user = Score.User;
 

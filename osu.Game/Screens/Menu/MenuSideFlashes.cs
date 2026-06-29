@@ -15,7 +15,6 @@ using osu.Game.Beatmaps;
 using osu.Game.Beatmaps.ControlPoints;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
-using osu.Game.Online.API;
 using osu.Game.Skinning;
 using osuTK.Graphics;
 
@@ -54,7 +53,7 @@ namespace osu.Game.Screens.Menu
         }
 
         [BackgroundDependencyLoader]
-        private void load(IBindable<WorkingBeatmap> beatmap, DummyAPIAccess api, SkinManager skinManager)
+        private void load(IBindable<WorkingBeatmap> beatmap, SkinManager skinManager)
         {
             this.beatmap.BindTo(beatmap);
 

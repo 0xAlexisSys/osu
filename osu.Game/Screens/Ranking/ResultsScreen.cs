@@ -25,7 +25,6 @@ using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Input.Bindings;
 using osu.Game.Localisation;
-using osu.Game.Online.API;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Online.Placeholders;
 using osu.Game.Overlays;
@@ -78,7 +77,7 @@ namespace osu.Game.Screens.Ranking
         private TaskCompletionSource<LeaderboardScores>? requestTaskSource;
 
         [Resolved]
-        private DummyAPIAccess api { get; set; } = null!;
+        private Session session { get; set; } = null!;
 
         [Resolved]
         private Player? player { get; set; }
@@ -380,8 +379,8 @@ namespace osu.Game.Screens.Ranking
                 }
                 else
                 {
-                    bool presentingUserScore = Score.User.ID == api.User.ID;
-                    bool presentedUserScoreIsBetter = presentingUserScore && clonedScore.User.ID == api.User.ID && clonedScore.TotalScore < Score.TotalScore;
+                    bool presentingUserScore = Score.User.ID == session.User.ID;
+                    bool presentedUserScoreIsBetter = presentingUserScore && clonedScore.User.ID == session.User.ID && clonedScore.TotalScore < Score.TotalScore;
 
                     if (presentedUserScoreIsBetter)
                         continue;

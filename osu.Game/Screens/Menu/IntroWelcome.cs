@@ -11,9 +11,7 @@ using osu.Framework.Audio.Sample;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Textures;
 using osu.Game.Audio;
-using osu.Game.Online.API;
 using osu.Game.Skinning;
 using osuTK;
 using osuTK.Graphics;
@@ -37,7 +35,7 @@ namespace osu.Game.Screens.Menu
         }
 
         [BackgroundDependencyLoader]
-        private void load(AudioManager audio, DummyAPIAccess api)
+        private void load(AudioManager audio)
         {
             if (MenuVoice.Value)
             {
@@ -103,7 +101,7 @@ namespace osu.Game.Screens.Menu
             public LogoVisualisation LogoVisualisation { get; private set; }
 
             [BackgroundDependencyLoader]
-            private void load(TextureStore textures, DummyAPIAccess api)
+            private void load()
             {
                 Origin = Anchor.Centre;
                 Anchor = Anchor.Centre;

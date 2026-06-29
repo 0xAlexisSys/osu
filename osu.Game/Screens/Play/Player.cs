@@ -25,7 +25,6 @@ using osu.Game.Database;
 using osu.Game.Extensions;
 using osu.Game.Graphics.Containers;
 using osu.Game.IO.Archives;
-using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
@@ -131,7 +130,7 @@ namespace osu.Game.Screens.Play
         private ScoreManager scoreManager { get; set; }
 
         [Resolved]
-        private DummyAPIAccess api { get; set; }
+        private Session session { get; set; }
 
         [Resolved]
         private MusicController musicController { get; set; }
@@ -1230,7 +1229,7 @@ namespace osu.Game.Screens.Play
         {
             ScoreInfo = new ScoreInfo
             {
-                User = api.User,
+                User = session.User,
                 ClientVersion = game.Version,
             },
         };

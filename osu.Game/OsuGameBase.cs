@@ -48,7 +48,6 @@ using osu.Game.Input.Bindings;
 using osu.Game.IO;
 using osu.Game.Localisation;
 using osu.Game.Medals;
-using osu.Game.Online.API;
 using osu.Game.Online.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Settings;
@@ -159,7 +158,7 @@ namespace osu.Game
 
         protected MusicController MusicController { get; private set; }
 
-        protected DummyAPIAccess API { get; set; }
+        protected Session Session { get; set; }
 
         protected Storage Storage { get; set; }
 
@@ -302,14 +301,14 @@ namespace osu.Game
                 LocalConfig.SetValue(OsuSetting.Username, username);
             }
 
-            dependencies.CacheAs(API ??= new DummyAPIAccess(username));
+            dependencies.CacheAs(Session ??= new Session(username));
 
             var defaultBeatmap = new DummyWorkingBeatmap(Audio, Textures);
 
             dependencies.Cache(difficultyCache = new BeatmapDifficultyCache());
 
             // ordering is important here to ensure foreign keys rules are not broken in ModelStore.Cleanup()
-            dependencies.Cache(ScoreManager = new ScoreManager(RulesetStore, () => BeatmapManager, Storage, realm, API, LocalConfig));
+            dependencies.Cache(ScoreManager = new ScoreManager(RulesetStore, () => BeatmapManager, Storage, realm, Session, LocalConfig));
 
             dependencies.Cache(BeatmapManager = new BeatmapManager(Storage, realm, Audio, Resources, Host, defaultBeatmap));
             dependencies.CacheAs<IWorkingBeatmapCache>(BeatmapManager);

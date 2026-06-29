@@ -25,7 +25,6 @@ using osu.Framework.Timing;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Graphics;
-using osu.Game.Online.API;
 using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
@@ -35,6 +34,7 @@ using osu.Game.Rulesets.UI;
 using osu.Game.Storyboards;
 using osu.Game.Tests.Beatmaps;
 using osu.Game.Tests.Rulesets;
+using osu.Game.Users;
 
 namespace osu.Game.Tests.Visual
 {
@@ -53,22 +53,9 @@ namespace osu.Game.Tests.Visual
 
         protected IResourceStore<byte[]> Resources;
 
-        protected DummyAPIAccess API
-        {
-            get
-            {
-                if (UseOnlineAPI)
-                    throw new InvalidOperationException($"Using the {nameof(OsuTestScene)} dummy API is not supported when {nameof(UseOnlineAPI)} is true");
-
-                return dummyAPI;
-            }
-        }
-
-        private DummyAPIAccess dummyAPI;
-
         /// <summary>
         /// Whether this test scene requires real-world API access.
-        /// If true, this will bypass the local <see cref="DummyAPIAccess"/> and use the <see cref="OsuGameBase"/> provided one.
+        /// If true, this will bypass the local <see cref="Session"/> and use the <see cref="OsuGameBase"/> provided one.
         /// </summary>
         protected virtual bool UseOnlineAPI => false;
 
@@ -149,13 +136,6 @@ namespace osu.Game.Tests.Visual
             Ruleset.Value = CreateRuleset()?.RulesetInfo ?? parent.Get<RulesetStore>().AvailableRulesets.First();
 
             SelectedMods.SetDefault();
-
-            if (!UseOnlineAPI)
-            {
-                dummyAPI = new DummyAPIAccess(string.Empty);
-                Dependencies.CacheAs(dummyAPI);
-                base.Content.Add(dummyAPI);
-            }
 
             return Dependencies;
         }

@@ -19,23 +19,12 @@ namespace osu.Game.Users
 
         private UserStatistics? statistics;
 
-        /// <summary>
-        /// User statistics for the requested ruleset (in the case of a <see cref="GetUserRequest"/>).
-        /// </summary>
-        /// <remarks>
-        /// This returns null when accessed from <see cref="User"/>. Use <see cref="LocalUserStatisticsProvider"/> instead.
-        /// </remarks>
         public UserStatistics Statistics
         {
             get => statistics ??= new UserStatistics();
             set => statistics = value;
         }
 
-        /// <summary>
-        /// All user statistics per ruleset's short name (in the case of a <see cref="GetUsersRequest"/> or <see cref="GetMeRequest"/> response).
-        /// Otherwise empty. Can be altered for testing purposes.
-        /// </summary>
-        // todo: this should likely be moved to a separate UserCompact class at some point.
         [Ignored]
         public Dictionary<string, UserStatistics>? RulesetsStatistics { get; set; }
 

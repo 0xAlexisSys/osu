@@ -26,7 +26,7 @@ using osuTK.Graphics;
 namespace osu.Game.Overlays
 {
     /// <summary>
-    /// <see cref="UserTrackingScrollContainer"/> which provides <see cref="ScrollBackButton"/>. Mostly used in <see cref="FullscreenOverlay{T}"/>.
+    /// <see cref="UserTrackingScrollContainer"/> which provides <see cref="ScrollBackButton"/>.
     /// </summary>
     public partial class OverlayScrollContainer : UserTrackingScrollContainer
     {

@@ -154,8 +154,6 @@ namespace osu.Game.Scoring
 
         #region Properties required to make things work with existing usages
 
-        public int UserID => User.ID;
-
         public int RulesetID => Ruleset.OnlineID;
 
         [Ignored]

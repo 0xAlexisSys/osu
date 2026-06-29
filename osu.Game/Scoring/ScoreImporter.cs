@@ -15,7 +15,6 @@ using osu.Game.IO.Archives;
 using osu.Game.Rulesets;
 using osu.Game.Scoring.Legacy;
 using osu.Game.Online.API;
-using osu.Game.Users;
 using osu.Game.Utils;
 using Realms;
 
@@ -23,9 +22,9 @@ namespace osu.Game.Scoring
 {
     public class ScoreImporter : RealmArchiveModelImporter<ScoreInfo>
     {
-        public override IEnumerable<string> HandledExtensions => new[] { ".osr" };
+        public override IEnumerable<string> HandledExtensions => new[] { @".osr" };
 
-        protected override string[] HashableFileTypes => new[] { ".osr" };
+        protected override string[] HashableFileTypes => new[] { @".osr" };
 
         private readonly RulesetStore rulesets;
         private readonly Func<BeatmapManager> beatmaps;
@@ -42,7 +41,7 @@ namespace osu.Game.Scoring
 
         protected override ScoreInfo? CreateModel(ArchiveReader archive, ImportParameters parameters)
         {
-            string name = archive.Filenames.First(f => f.EndsWith(".osr", StringComparison.OrdinalIgnoreCase));
+            string name = archive.Filenames.First(f => f.EndsWith(@".osr", StringComparison.OrdinalIgnoreCase));
 
             using (var stream = archive.GetStream(name))
             {
@@ -53,15 +52,6 @@ namespace osu.Game.Scoring
                 catch (LegacyScoreDecoder.BeatmapNotFoundException notFound)
                 {
                     Logger.Log($@"Score '{archive.Name}' failed to import: no corresponding beatmap with the hash '{notFound.Hash}' could be found.", LoggingTarget.Database);
-
-                    // if (!parameters.Batch)
-                    // {
-                    //     // In the case of a missing beatmap, let's attempt to resolve it and show a prompt to the user to download the required beatmap.
-                    //     var req = new GetBeatmapRequest(new BeatmapInfo { MD5Hash = notFound.Hash });
-                    //     req.Success += res => PostNotification?.Invoke(new MissingBeatmapNotification(res, notFound.Hash, archive));
-                    //     api.Queue(req);
-                    // }
-
                     return null;
                 }
                 catch (Exception e)
@@ -100,102 +90,14 @@ namespace osu.Game.Scoring
                 model.MaximumStatisticsJson = JsonConvert.SerializeObject(model.MaximumStatistics);
         }
 
-        // Very naive local caching to improve performance of large score imports (where the username is usually the same for most or all scores).
-
-        // TODO: `UserLookupCache` cannot currently be used here because of async foibles.
-        // It only supports lookups by user ID (username would require web changes), and even then the ID lookups cannot be used.
-        // That is because that component provides an async interface, and async functions cannot be consumed safely here due to the rigid structure of `RealmArchiveModelImporter`.
-        // The importer has two paths, one async and one sync; the async path runs the sync path in a task.
-        // This means that sometimes `PostImport()` is called from a sync context, and sometimes from an async one, whilst itself being a sync method.
-        // That in turn makes `.GetResultSafely()` not callable inside `PostImport()`, as it will throw when called from an async context,
-        private readonly Dictionary<int, User> idLookupCache = new Dictionary<int, User>();
-        private readonly Dictionary<string, User> usernameLookupCache = new Dictionary<string, User>();
-
         protected override void PostImport(ScoreInfo model, Realm realm, ImportParameters parameters)
         {
             base.PostImport(model, realm, parameters);
-
-            populateUserDetails(model);
 
             Debug.Assert(model.BeatmapInfo != null);
 
             if (model.BeatmapInfo.LastPlayed == null || model.Date > model.BeatmapInfo.LastPlayed)
                 model.BeatmapInfo.LastPlayed = model.Date;
-        }
-
-        /// <summary>
-        /// Legacy replays only store a username.
-        /// This will populate a user ID during import.
-        /// </summary>
-        private void populateUserDetails(ScoreInfo model)
-        {
-            if (model.User.ID > 1)
-            {
-                model.User = lookupUserById(model.User.ID) ?? model.User;
-                return;
-            }
-
-            model.User = lookupUserByName(model.User.Username) ?? model.User;
-        }
-
-        private User? lookupUserById(int id)
-        {
-            if (idLookupCache.TryGetValue(id, out var existing))
-            {
-                return existing;
-            }
-
-            // var userRequest = new GetUserRequest(id);
-            //
-            // api.Perform(userRequest);
-            //
-            // if (userRequest.Response is User user)
-            // {
-            //     User cachedUser;
-            //
-            //     idLookupCache.TryAdd(id, cachedUser = new User
-            //     {
-            //         // Because this is a permanent cache, let's only store the pieces we're interested in,
-            //         // rather than the full API response. If we start to store more than these three fields
-            //         // in realm, this should be undone.
-            //         Id = user.Id,
-            //         Username = user.Username,
-            //     });
-            //
-            //     return cachedUser;
-            // }
-
-            return null;
-        }
-
-        private User? lookupUserByName(string username)
-        {
-            if (usernameLookupCache.TryGetValue(username, out var existing))
-            {
-                return existing;
-            }
-
-            // var userRequest = new GetUserRequest(username);
-            //
-            // api.Perform(userRequest);
-            //
-            // if (userRequest.Response is User user)
-            // {
-            //     User cachedUser;
-            //
-            //     usernameLookupCache.TryAdd(username, cachedUser = new User
-            //     {
-            //         // Because this is a permanent cache, let's only store the pieces we're interested in,
-            //         // rather than the full API response. If we start to store more than these three fields
-            //         // in realm, this should be undone.
-            //         Id = user.Id,
-            //         Username = user.Username,
-            //     });
-            //
-            //     return cachedUser;
-            // }
-
-            return null;
         }
     }
 }

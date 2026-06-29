@@ -17,7 +17,7 @@ namespace osu.Game.Scoring.Legacy
     /// </summary>
     [Serializable]
     [JsonObject(MemberSerialization.OptIn)]
-    public class LegacyReplaySoloScoreInfo
+    public class LegacyReplayScoreInfo
     {
         /// <remarks>
         /// The value of this property should correspond to <see cref="ScoreInfo.OnlineID"/>
@@ -51,7 +51,7 @@ namespace osu.Game.Scoring.Legacy
         [JsonProperty("pauses")]
         public int[] Pauses { get; set; } = [];
 
-        public static LegacyReplaySoloScoreInfo FromScore(ScoreInfo score) => new LegacyReplaySoloScoreInfo
+        public static LegacyReplayScoreInfo FromScore(ScoreInfo score) => new LegacyReplayScoreInfo
         {
             Mods = score.APIMods,
             Statistics = score.Statistics.Where(kvp => kvp.Value != 0).ToDictionary(),

@@ -104,17 +104,11 @@ namespace osu.Game.Scoring.Legacy
 
                 byte[] compressedReplay = sr.ReadByteArray();
 
-                // [alexis] Still need to read LegacyOnlineID, so replay data doesn't become glitched.
-                switch (version)
-                {
-                    case >= 20140721:
-                        sr.ReadInt64();
-                        break;
-
-                    case >= 20121008:
-                        sr.ReadInt32();
-                        break;
-                }
+                /* score.LegacyOnlineID = */
+                if (version >= 20140721)
+                    sr.ReadInt64();
+                else if (version >= 20121008)
+                    sr.ReadInt32();
 
                 byte[] compressedScoreInfo = null;
 
@@ -128,7 +122,7 @@ namespace osu.Game.Scoring.Legacy
                 {
                     readCompressedData(compressedScoreInfo, reader =>
                     {
-                        LegacyReplaySoloScoreInfo readScore = JsonConvert.DeserializeObject<LegacyReplaySoloScoreInfo>(reader.ReadToEnd());
+                        LegacyReplayScoreInfo readScore = JsonConvert.DeserializeObject<LegacyReplayScoreInfo>(reader.ReadToEnd());
 
                         Debug.Assert(readScore != null);
 

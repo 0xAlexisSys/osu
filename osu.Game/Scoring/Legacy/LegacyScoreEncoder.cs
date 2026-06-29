@@ -37,7 +37,7 @@ namespace osu.Game.Scoring.Legacy
         /// </summary>
         /// <remarks>
         /// <list type="bullet">
-        /// <item><description>30000001: Appends <see cref="LegacyReplaySoloScoreInfo"/> to the end of scores.</description></item>
+        /// <item><description>30000001: Appends <see cref="LegacyReplayScoreInfo"/> to the end of scores.</description></item>
         /// <item><description>30000002: Score stored to replay calculated using the Score V2 algorithm. Legacy scores on this version are candidate to Score V1 -> V2 conversion.</description></item>
         /// <item><description>30000003: First version after converting legacy total score to standardised.</description></item>
         /// <item><description>30000004: Fixed mod multipliers during legacy score conversion. Reconvert all scores.</description></item>
@@ -122,7 +122,7 @@ namespace osu.Game.Scoring.Legacy
 
         private byte[] createReplayData() => compress(replayStringContent);
 
-        private byte[] createScoreInfoData() => compress(LegacyReplaySoloScoreInfo.FromScore(score.ScoreInfo).Serialize());
+        private byte[] createScoreInfoData() => compress(LegacyReplayScoreInfo.FromScore(score.ScoreInfo).Serialize());
 
         private byte[] compress(string data)
         {

@@ -78,8 +78,6 @@ namespace osu.Game
         public const string GAME_NAME = "osu-sp";
 #endif
 
-        public const string OSU_PROTOCOL = "osu://";
-
         /// <summary>
         /// The filename of the main client database.
         /// </summary>

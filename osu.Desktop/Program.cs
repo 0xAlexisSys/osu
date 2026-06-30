@@ -97,15 +97,6 @@ namespace osu.Desktop
 
         private static bool trySendIPCMessage(IIpcHost host, string cwd, string[] args)
         {
-            if (args.Length == 1 && args[0].StartsWith(OsuGameBase.OSU_PROTOCOL, StringComparison.Ordinal))
-            {
-                var osuSchemeLinkHandler = new OsuSchemeLinkIPCChannel(host);
-                if (!osuSchemeLinkHandler.HandleLinkAsync(args[0]).Wait(3000))
-                    throw new IPCTimeoutException(osuSchemeLinkHandler.GetType());
-
-                return true;
-            }
-
             if (args.Length > 0 && args[0].Contains('.')) // easy way to check for a file import in args
             {
                 var importer = new ArchiveImportIPCChannel(host);

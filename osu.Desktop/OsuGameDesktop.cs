@@ -27,7 +27,6 @@ namespace osu.Desktop
 {
     internal partial class OsuGameDesktop : OsuGame
     {
-        private OsuSchemeLinkIPCChannel? osuSchemeLinkIPCChannel;
         private ArchiveImportIPCChannel? archiveImportIPCChannel;
 
         [Cached(typeof(IHighPerformanceSessionManager))]
@@ -146,7 +145,6 @@ namespace osu.Desktop
 
             LoadComponentAsync(new ElevatedPrivilegesChecker(), Add);
 
-            osuSchemeLinkIPCChannel = new OsuSchemeLinkIPCChannel(Host, this);
             archiveImportIPCChannel = new ArchiveImportIPCChannel(Host, this);
         }
 
@@ -170,7 +168,6 @@ namespace osu.Desktop
         protected override void Dispose(bool isDisposing)
         {
             base.Dispose(isDisposing);
-            osuSchemeLinkIPCChannel?.Dispose();
             archiveImportIPCChannel?.Dispose();
         }
     }

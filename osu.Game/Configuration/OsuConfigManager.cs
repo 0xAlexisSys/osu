@@ -120,9 +120,6 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.IncreaseFirstObjectVisibility, true);
             SetDefault(OsuSetting.GameplayDisableWinKey, true);
 
-            // Update
-            SetDefault(OsuSetting.ReleaseStream, ReleaseStream.Lazer);
-
             SetDefault(OsuSetting.Version, string.Empty);
 
             SetDefault(OsuSetting.ShowFirstRunSetup, true);
@@ -303,7 +300,6 @@ namespace osu.Game.Configuration
         BeatmapDetailTab,
         BeatmapLeaderboardSortMode,
         BeatmapDetailModsFilter,
-        ReleaseStream,
         DisplayStarsMinimum,
         DisplayStarsMaximum,
         SongSelectGroupMode,

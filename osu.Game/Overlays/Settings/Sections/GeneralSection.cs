@@ -9,7 +9,6 @@ using osu.Framework.Localisation;
 using osu.Game.Graphics;
 using osu.Game.Localisation;
 using osu.Game.Overlays.Settings.Sections.General;
-using osu.Game.Updater;
 
 namespace osu.Game.Overlays.Settings.Sections
 {
@@ -23,13 +22,11 @@ namespace osu.Game.Overlays.Settings.Sections
         };
 
         [BackgroundDependencyLoader]
-        private void load(UpdateManager? updateManager)
+        private void load()
         {
             Add(new QuickActionSettings());
             Add(new LanguageSettings());
             Add(new IntegrationSettings());
-            if (updateManager?.CanCheckForUpdate == true)
-                Add(new UpdateSettings());
             if (RuntimeInfo.IsDesktop)
                 Add(new InstallationSettings());
         }

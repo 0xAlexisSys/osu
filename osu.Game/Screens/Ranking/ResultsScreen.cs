@@ -77,9 +77,6 @@ namespace osu.Game.Screens.Ranking
         private TaskCompletionSource<LeaderboardScores>? requestTaskSource;
 
         [Resolved]
-        private Session session { get; set; } = null!;
-
-        [Resolved]
         private Player? player { get; set; }
 
         [Resolved]
@@ -353,92 +350,20 @@ namespace osu.Game.Screens.Ranking
 
             if (result.FailState != null)
             {
-                Logger.Log($"Failed to fetch scores (beatmap: {Score.BeatmapInfo}, ruleset: {Score.Ruleset}): {result.FailState}");
+                Logger.Log($@"Failed to fetch scores (beatmap: {Score.BeatmapInfo}, ruleset: {Score.Ruleset}): {result.FailState}");
                 return [];
             }
 
-            var clonedScores = result.AllScores.Select(s => s.DeepClone()).ToArray();
-
-            List<ScoreInfo> sortedScores = [];
-
-            foreach (var clonedScore in clonedScores)
-            {
-                // ensure that we do not double up on the score being presented here.
-                // additionally, ensure that the reference that ends up in `sortedScores` is the `Score` reference specifically.
-                // this simplifies handling later.
-                if (clonedScore.Equals(Score))
-                {
-                    // this is a precautionary guard that prevents `Score` from appearing multiple times in the list.
-                    // that can occur in rare cases wherein two local scores have the same online ID but different replay contents
-                    // (this is possible e.g. in cases of client-side vs server-side recorded replays, see https://github.com/ppy/osu-server-spectator/issues/193)
-                    if (sortedScores.Contains(Score))
-                        continue;
-
-                    Score.Position = clonedScore.Position;
-                    sortedScores.Add(Score);
-                }
-                else
-                {
-                    bool presentingUserScore = Score.User.ID == session.User.ID;
-                    bool presentedUserScoreIsBetter = presentingUserScore && clonedScore.User.ID == session.User.ID && clonedScore.TotalScore < Score.TotalScore;
-
-                    if (presentedUserScoreIsBetter)
-                        continue;
-
-                    sortedScores.Add(clonedScore);
-                }
-            }
-
-            // if we haven't encountered a match for the presented score, we still need to attach it.
-            // note that the above block ensuring that the `Score` reference makes it in here makes this valid to write in this way.
-            if (!sortedScores.Contains(Score))
-                sortedScores.Add(Score);
-
-            sortedScores = sortedScores.OrderByTotalScore().ToList();
-
-            int delta = 0;
-            bool isPartialLeaderboard = result.IsPartial;
+            List<ScoreInfo> sortedScores = result.AllScores.OrderByTotalScore().ToList();
 
             for (int i = 0; i < sortedScores.Count; i++)
             {
                 var sortedScore = sortedScores[i];
 
-                // see `SoloGameplayLeaderboardProvider.sort()` for another place that does the same thing with slight deviations
-                // if this code is changed, that code should probably be changed as well
-
-                if (!isPartialLeaderboard)
-                {
-                    sortedScore.Position = i + 1;
-                }
-                else
-                {
-                    if (ReferenceEquals(sortedScore, Score) && sortedScore.Position == null)
-                    {
-                        int? previousScorePosition = i > 0 ? sortedScores[i - 1].Position : 0;
-                        int? nextScorePosition = i < result.TopScores.Count - 1 ? sortedScores[i + 1].Position : null;
-
-                        if (previousScorePosition != null && nextScorePosition != null && previousScorePosition + 1 == nextScorePosition)
-                        {
-                            sortedScore.Position = previousScorePosition + 1;
-                            delta += 1;
-                        }
-                        else
-                        {
-                            sortedScore.Position = null;
-                        }
-                    }
-                    else
-                    {
-                        sortedScore.Position += delta;
-                    }
-                }
+                sortedScore.Position = i + 1;
+                if (sortedScore.Position is not null && sortedScore.Equals(Score))
+                    ScorePanelList.GetPanelForScore(Score).ScorePosition.Value = sortedScore.Position;
             }
-
-            // there's a non-zero chance that the `Score.Position` was mutated above,
-            // but that is not actually coupled to `ScorePosition` of the relevant score panel in any way,
-            // so ensure that the drawable panel also receives the updated position.
-            // note that this is valid to do precisely because we ensured `Score` was in `sortedScores` earlier.
-            ScorePanelList.GetPanelForScore(Score).ScorePosition.Value = Score.Position;
 
             sortedScores.Remove(Score);
             return sortedScores.ToArray();

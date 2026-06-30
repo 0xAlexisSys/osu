@@ -215,9 +215,6 @@ namespace osu.Game.Screens.Select
                 modDisplayBar.FadeOut(duration, easing);
                 modDisplay.FadeOut(duration, easing);
                 overflowModCountDisplay.FadeOut(duration, easing);
-
-                // add delay to let unranked indicator hide first before resizing the button back to its original width.
-                this.Delay(duration).ResizeWidthTo(BUTTON_WIDTH, duration, easing);
             }
             else
             {

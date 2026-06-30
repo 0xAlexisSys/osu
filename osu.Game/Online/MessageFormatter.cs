@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using osu.Game.Rulesets.Edit;
 
 namespace osu.Game.Online
 {
@@ -234,12 +233,6 @@ namespace osu.Game.Online
 
             // handle bare links
             handleAdvanced(advanced_link_regex, result, startIndex);
-
-            // handle editor times
-            handleMatches(EditorTimestampParser.TIME_REGEX_STRICT, "{0}", $@"{OsuGameBase.OSU_PROTOCOL}edit/{{0}}", result, startIndex, LinkAction.OpenEditorTimestamp);
-
-            // handle channels
-            handleMatches(channel_regex, "{0}", $@"{OsuGameBase.OSU_PROTOCOL}chan/{{0}}", result, startIndex, LinkAction.OpenChannel);
 
             // see: https://github.com/ppy/osu/pull/24190
             result.Text = Regex.Replace(result.Text, emoji_regex.ToString(), "[emoji]");

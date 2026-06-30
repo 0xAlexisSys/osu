@@ -325,13 +325,6 @@ namespace osu.Game
 
         private void onWindowDragDrop(string path)
         {
-            // on macOS/iOS, URL associations are handled via SDL_DROPFILE events.
-            if (path.StartsWith(OSU_PROTOCOL, StringComparison.Ordinal))
-            {
-                // HandleLink(path);
-                return;
-            }
-
             lock (dragDropFiles)
             {
                 dragDropFiles.Add(path);
@@ -1056,18 +1049,7 @@ namespace osu.Game
                 string[] paths = args.Where(a => !a.StartsWith('-')).ToArray();
 
                 if (paths.Length > 0)
-                {
-                    string firstPath = paths.First();
-
-                    if (firstPath.StartsWith(OSU_PROTOCOL, StringComparison.Ordinal))
-                    {
-                        // HandleLink(firstPath);
-                    }
-                    else
-                    {
-                        Task.Run(() => Import(paths));
-                    }
-                }
+                    Task.Run(() => Import(paths));
             }
         }
 

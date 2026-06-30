@@ -50,11 +50,6 @@ namespace osu.Game.Localisation
         public static LocalisableString OverMonthsAgo(int quantity) => new PluralisableString(new TranslatableString(getKey(@"over_months_ago"), @"Over {0} month ago|Over {0} months ago", quantity), quantity, '|');
 
         /// <summary>
-        /// "Unranked"
-        /// </summary>
-        public static LocalisableString Unranked => new TranslatableString(getKey(@"unranked"), @"Unranked");
-
-        /// <summary>
         /// "Under {0} BPM"
         /// </summary>
         public static LocalisableString UnderBPM(int bpm) => new TranslatableString(getKey(@"under_bpm"), @"Under {0} BPM", bpm);

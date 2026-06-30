@@ -27,7 +27,7 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
                     Current = config.GetBindable<bool>(OsuSetting.ShowConvertedBeatmaps),
                 })
                 {
-                    Keywords = new[] { "converts", "converted" }
+                    Keywords = new[] { @"converts", @"converted" }
                 },
                 new SettingsItemV2(new FormEnumDropdown<RandomSelectAlgorithm>
                 {
@@ -59,7 +59,7 @@ namespace osu.Game.Overlays.Settings.Sections.UserInterface
                 {
                     Caption = UserInterfaceStrings.SongSelectShowLogo,
                     Current = config.GetBindable<bool>(OsuSetting.SongSelectShowLogo),
-                })
+                }),
             };
         }
     }

@@ -254,12 +254,7 @@ namespace osu.Game.Screens.Ranking
                     topLayerBackground.FadeColour(contracted_top_layer_colour, RESIZE_DURATION, Easing.OutQuint);
                     middleLayerBackground.FadeColour(contracted_middle_layer_colour, RESIZE_DURATION, Easing.OutQuint);
 
-                    topLayerContentContainer.Add(topLayerContent = new ContractedPanelTopContent
-                    {
-                        ScorePosition = { BindTarget = ScorePosition },
-                        Alpha = 0
-                    });
-
+                    topLayerContentContainer.Add(topLayerContent = new ContractedPanelTopContent(ScorePosition.Value) { Alpha = 0 });
                     middleLayerContentContainer.Add(middleLayerContent = new ContractedPanelMiddleContent(Score) { Alpha = 0 });
                     break;
             }

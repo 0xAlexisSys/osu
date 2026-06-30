@@ -20,30 +20,6 @@ namespace osu.Game.Localisation
         public static LocalisableString EpilepsyWarningContent => new TranslatableString(getKey(@"epilepsy_warning_content"), @"Please take caution if you are affected by epilepsy.");
 
         /// <summary>
-        /// "This beatmap is loved"
-        /// </summary>
-        public static LocalisableString LovedBeatmapDisclaimerTitle => new TranslatableString(getKey(@"loved_beatmap_disclaimer_title"), @"This beatmap is loved");
-
-        /// <summary>
-        /// "No performance points will be awarded.
-        /// Leaderboards may be reset."
-        /// </summary>
-        public static LocalisableString LovedBeatmapDisclaimerContent => new TranslatableString(getKey(@"loved_beatmap_disclaimer_content"), @"No performance points will be awarded.
-Leaderboards may be reset.");
-
-        /// <summary>
-        /// "This beatmap is qualified"
-        /// </summary>
-        public static LocalisableString QualifiedBeatmapDisclaimerTitle => new TranslatableString(getKey(@"qualified_beatmap_disclaimer_title"), @"This beatmap is qualified");
-
-        /// <summary>
-        /// "No performance points will be awarded.
-        /// Leaderboards will be reset when the beatmap is ranked."
-        /// </summary>
-        public static LocalisableString QualifiedBeatmapDisclaimerContent => new TranslatableString(getKey(@"qualified_beatmap_disclaimer_content"), @"No performance points will be awarded.
-Leaderboards will be reset when the beatmap is ranked.");
-
-        /// <summary>
         /// "Loading paused..."
         /// </summary>
         public static LocalisableString LoadingPaused => new TranslatableString(getKey(@"loading_paused"), @"Loading paused...");

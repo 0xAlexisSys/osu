@@ -14,7 +14,7 @@ using osu.Game.Localisation;
 namespace osu.Desktop.Windows
 {
     [SupportedOSPlatform("windows")]
-    public static class WindowsAssociationManager
+    public static partial class WindowsAssociationManager
     {
         private const string software_classes = @"Software\Classes";
         private const string software_registered_applications = @"Software\RegisteredApplications";
@@ -157,8 +157,8 @@ namespace osu.Desktop.Windows
 
         #region Native interop
 
-        [DllImport("Shell32.dll")]
-        private static extern void SHChangeNotify(EventId wEventId, Flags uFlags, IntPtr dwItem1, IntPtr dwItem2);
+        [LibraryImport("shell32.dll", EntryPoint = "SHChangeNotify")]
+        private static partial void SHChangeNotify(EventId wEventId, Flags uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         private enum EventId

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace osu.Desktop.Windows
 {
-    internal class WindowsKey
+    internal partial class WindowsKey
     {
         private delegate int LowLevelKeyboardProcDelegate(int nCode, int wParam, ref KdDllHookStruct lParam);
 
@@ -17,6 +17,7 @@ namespace osu.Desktop.Windows
         private const int wh_keyboard_ll = 13;
         private const int wm_keydown = 256;
         private const int wm_syskeyup = 261;
+        private const string user32_name = @"user32.dll";
 
         //Resharper disable once NotAccessedField.Local
         private static LowLevelKeyboardProcDelegate? keyboardHookDelegate; // keeping a reference alive for the GC
@@ -70,13 +71,13 @@ namespace osu.Desktop.Windows
             isBlocked = false;
         }
 
-        [DllImport(@"user32.dll", EntryPoint = @"SetWindowsHookExA")]
-        private static extern IntPtr setWindowsHookEx(int idHook, LowLevelKeyboardProcDelegate lpfn, IntPtr hMod, int dwThreadId);
+        [LibraryImport(user32_name, EntryPoint = "SetWindowsHookExA")]
+        private static partial IntPtr setWindowsHookEx(int idHook, LowLevelKeyboardProcDelegate lpfn, IntPtr hMod, int dwThreadId);
 
-        [DllImport(@"user32.dll", EntryPoint = @"UnhookWindowsHookEx")]
-        private static extern IntPtr unhookWindowsHookEx(IntPtr hHook);
+        [LibraryImport(user32_name, EntryPoint = "UnhookWindowsHookEx")]
+        private static partial IntPtr unhookWindowsHookEx(IntPtr hHook);
 
-        [DllImport(@"user32.dll", EntryPoint = @"CallNextHookEx")]
-        private static extern int callNextHookEx(int hHook, int nCode, int wParam, ref KdDllHookStruct lParam);
+        [LibraryImport(user32_name, EntryPoint = "CallNextHookEx")]
+        private static partial int callNextHookEx(int hHook, int nCode, int wParam, ref KdDllHookStruct lParam);
     }
 }

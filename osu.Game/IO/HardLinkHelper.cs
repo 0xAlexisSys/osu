@@ -10,7 +10,7 @@ using osu.Framework;
 
 namespace osu.Game.IO
 {
-    internal static class HardLinkHelper
+    internal static partial class HardLinkHelper
     {
         public static bool CheckAvailability(string testDestinationPath, string testSourcePath)
         {
@@ -18,7 +18,7 @@ namespace osu.Game.IO
             if (!RuntimeInfo.IsDesktop)
                 return false;
 
-            const string test_filename = "_hard_link_test";
+            const string test_filename = @"_hard_link_test";
 
             testDestinationPath = Path.Combine(testDestinationPath, test_filename);
             testSourcePath = Path.Combine(testSourcePath, test_filename);
@@ -67,7 +67,7 @@ namespace osu.Game.IO
             switch (RuntimeInfo.OS)
             {
                 case RuntimeInfo.Platform.Windows:
-                    return CreateHardLink(destinationPath, sourcePath, IntPtr.Zero);
+                    return createHardLink(destinationPath, sourcePath, IntPtr.Zero);
 
                 case RuntimeInfo.Platform.Linux:
                 case RuntimeInfo.Platform.macOS:
@@ -86,13 +86,11 @@ namespace osu.Game.IO
             switch (RuntimeInfo.OS)
             {
                 case RuntimeInfo.Platform.Windows:
-                    SafeFileHandle handle = CreateFile(filePath, FileAccess.Read, FileShare.Read, IntPtr.Zero, FileMode.Open, FileAttributes.Archive, IntPtr.Zero);
+                    SafeFileHandle handle = createFile(filePath, FileAccess.Read, FileShare.Read, IntPtr.Zero, FileMode.Open, FileAttributes.Archive, IntPtr.Zero);
 
-                    ByHandleFileInformation fileInfo;
-
-                    if (GetFileInformationByHandle(handle, out fileInfo))
+                    if (getFileInformationByHandle(handle, out var fileInfo))
                         result = (int)fileInfo.NumberOfLinks;
-                    CloseHandle(handle);
+                    closeHandle(handle);
                     break;
 
                 case RuntimeInfo.Platform.Linux:
@@ -108,11 +106,14 @@ namespace osu.Game.IO
 
         #region Windows native methods
 
-        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
+        private const string kernel32_name = @"kernel32.dll";
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        private static extern SafeFileHandle CreateFile(
+        [LibraryImport(kernel32_name, EntryPoint = "CreateHardLink", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool createHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
+
+        [DllImport(kernel32_name, EntryPoint = "CreateFile", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern SafeFileHandle createFile(
             string lpFileName,
             [MarshalAs(UnmanagedType.U4)] FileAccess dwDesiredAccess,
             [MarshalAs(UnmanagedType.U4)] FileShare dwShareMode,
@@ -121,12 +122,12 @@ namespace osu.Game.IO
             [MarshalAs(UnmanagedType.U4)] FileAttributes dwFlagsAndAttributes,
             IntPtr hTemplateFile);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool GetFileInformationByHandle(SafeFileHandle handle, out ByHandleFileInformation lpFileInformation);
+        [DllImport(kernel32_name, EntryPoint = "GetFileInformationByHandle", SetLastError = true)]
+        private static extern bool getFileInformationByHandle(SafeFileHandle handle, out ByHandleFileInformation lpFileInformation);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        [LibraryImport(kernel32_name, EntryPoint = "CloseHandle", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool CloseHandle(SafeHandle hObject);
+        private static partial bool closeHandle(SafeHandle hObject);
 
         [StructLayout(LayoutKind.Sequential)]
         private struct ByHandleFileInformation
@@ -147,13 +148,13 @@ namespace osu.Game.IO
 
         #region Linux native methods
 
-#pragma warning disable IDE1006 // Naming rule violation
+        private const string libc_name = @"libc";
 
-        [DllImport("libc", SetLastError = true)]
-        public static extern int link(string oldpath, string newpath);
+        [LibraryImport(libc_name, EntryPoint = "link", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+        private static partial int link(string oldpath, string newpath);
 
-        [DllImport("libc", SetLastError = true)]
-        private static extern int stat(string pathname, out Stat statbuf);
+        [LibraryImport(libc_name, EntryPoint = "stat", SetLastError = true, StringMarshalling = StringMarshalling.Utf8)]
+        private static partial int stat(string pathname, out Stat statbuf);
 
         // ReSharper disable once InconsistentNaming
         // Struct layout is likely non-portable across unices. Tread with caution.
@@ -182,8 +183,6 @@ namespace osu.Game.IO
             public readonly long tv_sec;
             public readonly long tv_nsec;
         }
-
-#pragma warning restore IDE1006
 
         #endregion
     }

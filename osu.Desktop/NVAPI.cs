@@ -15,7 +15,7 @@ namespace osu.Desktop
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SupportedOSPlatform("windows")]
-    internal static class NVAPI
+    internal static partial class NVAPI
     {
         private const string osu_filename = "osu-sp.exe";
 
@@ -414,14 +414,16 @@ namespace osu.Desktop
             newDelegate = ptr == IntPtr.Zero ? null : Marshal.GetDelegateForFunctionPointer(ptr, typeof(T)) as T;
         }
 
-        [DllImport("kernel32.dll", EntryPoint = "LoadLibrary")]
-        private static extern IntPtr loadLibrary(string dllToLoad);
+        [LibraryImport("kernel32.dll", EntryPoint = "LoadLibrary", StringMarshalling = StringMarshalling.Utf8)]
+        private static partial IntPtr loadLibrary(string dllToLoad);
 
-        [DllImport(@"nvapi.dll", EntryPoint = "nvapi_QueryInterface", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr queryInterface32(uint id);
+        [LibraryImport("nvapi.dll", EntryPoint = "nvapi_QueryInterface")]
+        [UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+        private static partial IntPtr queryInterface32(uint id);
 
-        [DllImport(@"nvapi64.dll", EntryPoint = "nvapi_QueryInterface", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr queryInterface64(uint id);
+        [LibraryImport("nvapi64.dll", EntryPoint = "nvapi_QueryInterface")]
+        [UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+        private static partial IntPtr queryInterface64(uint id);
 
         private delegate NvStatus InitializeDelegate();
     }

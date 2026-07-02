@@ -140,6 +140,11 @@ Please try changing your audio device to a working setting.");
         public static LocalisableString ScreenshotSaved(string filename) => new TranslatableString(getKey(@"screenshot_saved"), @"Screenshot saved! Click to view.
 {0}", filename);
 
+        /// <summary>
+        /// "Current avatar '{0}' is invalid. Please set the Avatar setting to /default/ or an image path."
+        /// </summary>
+        public static LocalisableString AvatarInvalid(string path) => new TranslatableString(getKey(@"avatar_invalid"), @"Current avatar '{0}' is invalid. Please set the Avatar setting to /default/ or an image path.", path);
+
         private static string getKey(string key) => $@"{prefix}:{key}";
     }
 }

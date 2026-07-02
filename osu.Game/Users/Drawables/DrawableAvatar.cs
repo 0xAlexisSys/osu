@@ -33,7 +33,7 @@ namespace osu.Game.Users.Drawables
             Texture = textures.Get(user switch
             {
                 { ID: User.PERSONAL_USER_ID } => user.AvatarPath,
-                { ID: User.BOT_USER_ID or User.OTHER_USER_ID } or null => @"Online/avatar-guest",
+                { ID: User.BOT_USER_ID or User.OTHER_USER_ID } or null => User.DEFAULT_AVATAR_PATH,
                 _ => $@"https://a.ppy.sh/{user.ID}",
             });
         }

@@ -957,6 +957,9 @@ namespace osu.Game
             applyConfigMigrations();
 
             LocalConfig.SetValue(OsuSetting.Version, Version);
+
+            if (!string.IsNullOrEmpty(ErroredAvatar))
+                Notifications.Post(new SimpleErrorNotification { Text = NotificationsStrings.AvatarInvalid(ErroredAvatar) });
         }
 
         /// <summary>

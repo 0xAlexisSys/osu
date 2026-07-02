@@ -11,12 +11,13 @@ namespace osu.Game.Users
         public HttpClient HttpClient { get; } = new HttpClient();
         public User User { get; }
 
-        public Session(string username)
+        public Session(string username, string avatarPath)
         {
             User = new User
             {
-                Username = username,
                 ID = User.PERSONAL_USER_ID,
+                Username = username,
+                AvatarPath = avatarPath,
             };
         }
 

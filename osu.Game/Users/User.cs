@@ -8,6 +8,7 @@ namespace osu.Game.Users
 {
     public class User : EmbeddedObject
     {
+        public const string DEFAULT_AVATAR_PATH = @"Online/avatar-guest";
         public const string DEFAULT_PERSONAL_USERNAME = @"Player";
         public const int PERSONAL_USER_ID = 0;
         public const int OTHER_USER_ID = -1;
@@ -15,7 +16,7 @@ namespace osu.Game.Users
 
         public int ID { get; set; } = OTHER_USER_ID;
         public string Username { get; set; } = @"???";
-        public string AvatarPath { get; set; } = @"Online/avatar-guest";
+        public string AvatarPath { get; set; } = DEFAULT_AVATAR_PATH;
 
         private UserStatistics? statistics;
 

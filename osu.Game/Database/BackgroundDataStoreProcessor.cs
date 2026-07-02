@@ -77,7 +77,7 @@ namespace osu.Game.Database
                 // Note that the previous method will also update these on a fresh run.
                 processBeatmapsWithMissingObjectCounts();
                 processScoresWithMissingStatistics();
-                syncPersonalScoreUsernames();
+                syncPersonalScoreUserData();
                 // ordering significant, `upgradeModMultipliers()` should run first as it will handle all scores
                 // (rather than only lazer scores, if it was called after `convertLegacyTotalScoreToStandardised()`)
                 upgradeModMultipliers();
@@ -330,17 +330,23 @@ namespace osu.Game.Database
             completeNotification(notification, processedCount, scoreIds.Count, failedCount);
         }
 
-        private void syncPersonalScoreUsernames()
+        private void syncPersonalScoreUserData()
         {
-            Logger.Log(@"Syncing personal scores with a differing username...");
+            Logger.Log(@"Syncing user data for personal scores...");
 
             try
             {
                 realmAccess.Write(r =>
                 {
                     // [alexis] Must use AsEnumerable here, or Realm will throw a NotSupportedException.
-                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == session.User.ID && s.User.Username != session.User.Username))
-                        score.User.Username = session.User.Username;
+                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == session.User.ID))
+                    {
+                        if (score.User.Username != session.User.Username)
+                            score.User.Username = session.User.Username;
+
+                        if (score.User.AvatarPath != session.User.AvatarPath)
+                            score.User.AvatarPath = session.User.AvatarPath;
+                    }
                 });
             }
             catch (ObjectDisposedException)
@@ -349,7 +355,7 @@ namespace osu.Game.Database
             }
             catch (Exception e)
             {
-                Logger.Log(@$"Failed to sync username in personal scores: {e}");
+                Logger.Log(@$"Failed to sync user data for personal scores: {e}");
             }
         }
 

@@ -60,6 +60,7 @@ using osu.Game.Scoring;
 using osu.Game.Skinning;
 using osu.Game.Users;
 using osu.Game.Utils;
+using SixLabors.ImageSharp;
 using RuntimeInfo = osu.Framework.RuntimeInfo;
 
 namespace osu.Game
@@ -212,6 +213,8 @@ namespace osu.Game
 
         protected override Container<Drawable> Content => content;
 
+        protected string ErroredAvatar;
+
         private Container content;
 
         private DependencyContainer dependencies;
@@ -267,6 +270,7 @@ namespace osu.Game
             dependencies.CacheAs(Storage);
 
             var largeStore = new LargeTextureStore(Host.Renderer, Host.CreateTextureLoaderStore(new NamespacedResourceStore<byte[]>(Resources, @"Textures")));
+            largeStore.AddTextureSource(Host.CreateTextureLoaderStore(new FileSystemResourceStore()));
             largeStore.AddTextureSource(Host.CreateTextureLoaderStore(CreateOnlineStore()));
             dependencies.Cache(largeStore);
 
@@ -292,6 +296,7 @@ namespace osu.Game
             CurrentLanguage.BindValueChanged(val => frameworkLocale.Value = val.NewValue.ToCultureCode());
 
             string username = LocalConfig.Get<string>(OsuSetting.Username);
+            string avatar = LocalConfig.Get<string>(OsuSetting.Avatar);
 
             if (string.IsNullOrWhiteSpace(username))
             {
@@ -299,7 +304,25 @@ namespace osu.Game
                 LocalConfig.SetValue(OsuSetting.Username, username);
             }
 
-            dependencies.CacheAs(Session ??= new Session(username));
+            if (avatar == OsuConfigManager.AVATAR_DEFAULT_KEYWORD)
+            {
+                avatar = User.DEFAULT_AVATAR_PATH;
+            }
+            else
+            {
+                try
+                {
+                    using var stream = File.OpenRead(avatar);
+                    Image.Identify(stream); // [alexis] Validate the image file.
+                }
+                catch
+                {
+                    ErroredAvatar = avatar;
+                    avatar = User.DEFAULT_AVATAR_PATH;
+                }
+            }
+
+            dependencies.CacheAs(Session = new Session(username, avatar));
 
             var defaultBeatmap = new DummyWorkingBeatmap(Audio, Textures);
 

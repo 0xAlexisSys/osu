@@ -8,9 +8,6 @@ namespace osu.Game.Online.Leaderboards
         Success,
         Retrieving,
         NoScores,
-
-        BeatmapUnavailable = LeaderboardFailState.BeatmapUnavailable,
-        RulesetUnavailable = LeaderboardFailState.RulesetUnavailable,
         NoneSelected = LeaderboardFailState.NoneSelected,
     }
 }

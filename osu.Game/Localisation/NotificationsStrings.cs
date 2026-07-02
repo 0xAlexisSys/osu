@@ -141,9 +141,14 @@ Please try changing your audio device to a working setting.");
 {0}", filename);
 
         /// <summary>
-        /// "Current avatar '{0}' is invalid. Please set the Avatar setting to /default/ or an image path."
+        /// "Current username is empty, falling back to default. Please specify a valid username in the settings."
         /// </summary>
-        public static LocalisableString AvatarInvalid(string path) => new TranslatableString(getKey(@"avatar_invalid"), @"Current avatar '{0}' is invalid. Please set the Avatar setting to /default/ or an image path.", path);
+        public static LocalisableString UsernameEmpty => new TranslatableString(getKey(@"username_empty"), @"Current username is empty, falling back to default. Please specify a valid username in the settings.");
+
+        /// <summary>
+        /// "Current avatar '{0}' is invalid, falling back to default. Please specify /default/ or an image path in the settings."
+        /// </summary>
+        public static LocalisableString AvatarInvalid(string path) => new TranslatableString(getKey(@"avatar_invalid"), @"Current avatar '{0}' is invalid, falling back to default. Please specify /default/ or an image path in the settings.", path);
 
         private static string getKey(string key) => $@"{prefix}:{key}";
     }

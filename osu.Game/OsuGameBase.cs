@@ -213,6 +213,8 @@ namespace osu.Game
 
         protected override Container<Drawable> Content => content;
 
+        protected bool UsingEmptyUsername;
+
         protected string ErroredAvatar;
 
         private Container content;
@@ -300,8 +302,8 @@ namespace osu.Game
 
             if (string.IsNullOrWhiteSpace(username))
             {
+                UsingEmptyUsername = true;
                 username = User.DEFAULT_PERSONAL_USERNAME;
-                LocalConfig.SetValue(OsuSetting.Username, username);
             }
 
             if (avatar == OsuConfigManager.AVATAR_DEFAULT_KEYWORD)

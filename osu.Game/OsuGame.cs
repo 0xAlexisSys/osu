@@ -958,6 +958,9 @@ namespace osu.Game
 
             LocalConfig.SetValue(OsuSetting.Version, Version);
 
+            if (UsingEmptyUsername)
+                Notifications.Post(new SimpleErrorNotification { Text = NotificationsStrings.UsernameEmpty });
+
             if (!string.IsNullOrEmpty(ErroredAvatar))
                 Notifications.Post(new SimpleErrorNotification { Text = NotificationsStrings.AvatarInvalid(ErroredAvatar) });
         }

@@ -174,8 +174,6 @@ namespace osu.Game.Online.Leaderboards
 
     public enum LeaderboardFailState
     {
-        BeatmapUnavailable = -2,
-        RulesetUnavailable = -3,
-        NoneSelected = -4,
+        NoneSelected = -1,
     }
 }

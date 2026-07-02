@@ -216,15 +216,15 @@ namespace osu.Game.Screens.Select
 
         public void RefetchScores()
         {
-            SetScores(Array.Empty<ScoreInfo>());
+            setScores(Array.Empty<ScoreInfo>());
 
             if (beatmap.IsDefault)
             {
-                SetState(LeaderboardState.NoneSelected);
+                setState(LeaderboardState.NoneSelected);
                 return;
             }
 
-            SetState(LeaderboardState.Retrieving);
+            setState(LeaderboardState.Retrieving);
 
             var fetchBeatmapInfo = beatmap.Value.BeatmapInfo;
             var fetchRuleset = ruleset.Value ?? fetchBeatmapInfo.Ruleset;
@@ -260,22 +260,22 @@ namespace osu.Game.Screens.Select
                 return;
 
             if (scores.FailState != null)
-                SetState((LeaderboardState)scores.FailState);
+                setState((LeaderboardState)scores.FailState);
             else
-                SetScores(scores.TopScores, scores.UserScore, scores.TotalScores);
+                setScores(scores.TopScores, scores.UserScore, scores.TotalScores);
         }
 
-        protected void SetScores(IEnumerable<ScoreInfo> scores, ScoreInfo? userScore = null, int? totalCount = null)
+        private void setScores(IEnumerable<ScoreInfo> scores, ScoreInfo? userScore = null, int? totalCount = null)
         {
             cancellationTokenSource?.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
 
             clearScores();
-            SetState(LeaderboardState.Success);
+            setState(LeaderboardState.Success);
 
             if (!scores.Any())
             {
-                SetState(LeaderboardState.NoScores);
+                setState(LeaderboardState.NoScores);
                 return;
             }
 
@@ -390,7 +390,7 @@ namespace osu.Game.Screens.Select
 
         private ScheduledDelegate? loadingShowDelegate;
 
-        protected void SetState(LeaderboardState state)
+        private void setState(LeaderboardState state)
         {
             if (state == displayedState)
                 return;
@@ -476,25 +476,17 @@ namespace osu.Game.Screens.Select
 
         #endregion
 
-        private Placeholder? getPlaceholderFor(LeaderboardState state)
+        private MessagePlaceholder? getPlaceholderFor(LeaderboardState state)
         {
             switch (state)
             {
                 case LeaderboardState.NoneSelected:
                     return new MessagePlaceholder(LeaderboardStrings.PleaseSelectABeatmap);
 
-                case LeaderboardState.RulesetUnavailable:
-                    return new MessagePlaceholder(LeaderboardStrings.LeaderboardsAreNotAvailableForThisRuleset);
-
-                case LeaderboardState.BeatmapUnavailable:
-                    return new MessagePlaceholder(LeaderboardStrings.LeaderboardsAreNotAvailableForThisBeatmap);
-
                 case LeaderboardState.NoScores:
                     return new MessagePlaceholder(LeaderboardStrings.NoRecordsYet);
 
                 case LeaderboardState.Retrieving:
-                    return null;
-
                 case LeaderboardState.Success:
                     return null;
 

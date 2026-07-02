@@ -10,24 +10,9 @@ namespace osu.Game.Localisation
         private const string prefix = @"osu.Game.Resources.Localisation.Leaderboard";
 
         /// <summary>
-        /// "Couldn't fetch scores!"
-        /// </summary>
-        public static LocalisableString CouldntFetchScores => new TranslatableString(getKey(@"couldnt_fetch_scores"), @"Couldn't fetch scores!");
-
-        /// <summary>
         /// "Please select a beatmap!"
         /// </summary>
         public static LocalisableString PleaseSelectABeatmap => new TranslatableString(getKey(@"please_select_a_beatmap"), @"Please select a beatmap!");
-
-        /// <summary>
-        /// "Leaderboards are not available for this ruleset!"
-        /// </summary>
-        public static LocalisableString LeaderboardsAreNotAvailableForThisRuleset => new TranslatableString(getKey(@"leaderboards_are_not_available_for_this_ruleset"), @"Leaderboards are not available for this ruleset!");
-
-        /// <summary>
-        /// "Leaderboards are not available for this beatmap!"
-        /// </summary>
-        public static LocalisableString LeaderboardsAreNotAvailableForThisBeatmap => new TranslatableString(getKey(@"leaderboards_are_not_available_for_this_beatmap"), @"Leaderboards are not available for this beatmap!");
 
         /// <summary>
         /// "No records yet!"

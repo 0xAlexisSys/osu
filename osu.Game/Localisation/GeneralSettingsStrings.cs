@@ -30,9 +30,24 @@ namespace osu.Game.Localisation
         public static LocalisableString Prefer24HourTimeDisplay => new TranslatableString(getKey(@"prefer_24_hour_time_display"), @"Prefer 24-hour time display");
 
         /// <summary>
-        /// "Integrations"
+        /// "User"
         /// </summary>
-        public static LocalisableString IntegrationsHeader => new TranslatableString(getKey(@"integrations_header"), @"Integrations");
+        public static LocalisableString UserHeader => new TranslatableString(getKey(@"user_header"), @"User");
+
+        /// <summary>
+        /// "Name"
+        /// </summary>
+        public static LocalisableString Name => new TranslatableString(getKey(@"name"), @"Name");
+
+        /// <summary>
+        /// "Avatar"
+        /// </summary>
+        public static LocalisableString Avatar => new TranslatableString(getKey(@"avatar"), @"Avatar");
+
+        /// <summary>
+        /// "Use default avatar"
+        /// </summary>
+        public static LocalisableString UseDefaultAvatar => new TranslatableString(getKey(@"use_default_avatar"), @"Use default avatar");
 
         /// <summary>
         /// "Discord Rich Presence"

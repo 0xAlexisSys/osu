@@ -20,9 +20,9 @@ namespace osu.Game.Localisation
         public static LocalisableString HeaderDescription => new TranslatableString(getKey(@"header_description"), @"change the way osu! behaves");
 
         /// <summary>
-        /// "Copy version"
+        /// "Changes to this setting will apply on restart."
         /// </summary>
-        public static LocalisableString CopyVersion => new TranslatableString(getKey(@"copy_version"), @"Copy version");
+        public static LocalisableString RestartRequiredSettingTooltip => new TranslatableString(getKey(@"restart_required_setting_tooltip"), @"Changes to this setting will apply on restart.");
 
         private static string getKey(string key) => $"{prefix}:{key}";
     }

@@ -298,7 +298,7 @@ namespace osu.Game
             CurrentLanguage.BindValueChanged(val => frameworkLocale.Value = val.NewValue.ToCultureCode());
 
             string username = LocalConfig.Get<string>(OsuSetting.Username);
-            string avatar = LocalConfig.Get<string>(OsuSetting.Avatar);
+            string userAvatar = LocalConfig.Get<string>(OsuSetting.Avatar);
 
             if (string.IsNullOrWhiteSpace(username))
             {
@@ -306,25 +306,25 @@ namespace osu.Game
                 username = User.DEFAULT_PERSONAL_USERNAME;
             }
 
-            if (avatar == OsuConfigManager.AVATAR_DEFAULT_KEYWORD)
+            if (userAvatar.Length == 0)
             {
-                avatar = User.DEFAULT_AVATAR_PATH;
+                userAvatar = User.DEFAULT_AVATAR_PATH;
             }
             else
             {
                 try
                 {
-                    using var stream = File.OpenRead(avatar);
+                    using var stream = File.OpenRead(userAvatar);
                     Image.Identify(stream); // [alexis] Validate the image file.
                 }
                 catch
                 {
-                    ErroredAvatar = avatar;
-                    avatar = User.DEFAULT_AVATAR_PATH;
+                    ErroredAvatar = userAvatar;
+                    userAvatar = User.DEFAULT_AVATAR_PATH;
                 }
             }
 
-            dependencies.CacheAs(Session = new Session(username, avatar));
+            dependencies.CacheAs(Session = new Session(username, userAvatar));
 
             var defaultBeatmap = new DummyWorkingBeatmap(Audio, Textures);
 

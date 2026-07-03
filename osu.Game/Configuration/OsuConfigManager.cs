@@ -26,8 +26,6 @@ namespace osu.Game.Configuration
 {
     public class OsuConfigManager : IniConfigManager<OsuSetting>, IGameplaySettings
     {
-        public const string AVATAR_DEFAULT_KEYWORD = @"/default/";
-
         public OsuConfigManager(Storage storage)
             : base(storage)
         {
@@ -36,7 +34,7 @@ namespace osu.Game.Configuration
         protected override void InitialiseDefaults()
         {
             SetDefault(OsuSetting.Username, User.DEFAULT_PERSONAL_USERNAME);
-            SetDefault(OsuSetting.Avatar, AVATAR_DEFAULT_KEYWORD);
+            SetDefault(OsuSetting.Avatar, string.Empty);
 
             // UI/selection defaults
             SetDefault(OsuSetting.Ruleset, string.Empty);

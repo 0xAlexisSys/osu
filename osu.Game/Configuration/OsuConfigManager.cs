@@ -114,8 +114,6 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.GameplayLeaderboard, true);
             SetDefault(OsuSetting.AlwaysPlayFirstComboBreak, true);
 
-            SetDefault(OsuSetting.FloatingComments, false);
-
             SetDefault(OsuSetting.ScoreDisplayMode, ScoringMode.Standardised);
 
             SetDefault(OsuSetting.IncreaseFirstObjectVisibility, true);
@@ -162,10 +160,6 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.EditorRotationOrigin, EditorOrigin.GridCentre);
             SetDefault(OsuSetting.EditorAdjustExistingObjectsOnTimingChanges, true);
 
-            SetDefault(OsuSetting.MultiplayerShowInProgressFilter, true);
-
-            SetDefault(OsuSetting.LastProcessedMetadataId, -1);
-
             SetDefault(OsuSetting.ComboColourNormalisationAmount, 0.2f, 0f, 1f, 0.01f);
 
             SetDefault(OsuSetting.EditorTimelineShowTimingChanges, true);
@@ -177,9 +171,6 @@ namespace osu.Game.Configuration
             SetDefault(OsuSetting.AlwaysShowHoldForMenuButton, false);
             SetDefault(OsuSetting.AlwaysRequireHoldingForPause, false);
             SetDefault(OsuSetting.EditorShowStoryboard, true);
-
-            SetDefault(OsuSetting.EditorSubmissionNotifyOnDiscussionReplies, true);
-            SetDefault(OsuSetting.EditorSubmissionLoadInBrowserAfterSubmission, true);
         }
 
         public override TrackedSettings CreateTrackedSettings()
@@ -273,7 +264,6 @@ namespace osu.Game.Configuration
         GameplayLeaderboard,
         PositionalHitsoundsLevel,
         AlwaysPlayFirstComboBreak,
-        FloatingComments,
         HUDVisibilityMode,
 
         ShowHealthDisplayWhenCantFail,
@@ -340,7 +330,6 @@ namespace osu.Game.Configuration
         EditorAutoSeekOnPlacement,
         DiscordRichPresence,
 
-        LastProcessedMetadataId,
         SafeAreaConsiderations,
         ComboColourNormalisationAmount,
         EditorLimitedDistanceSnap,
@@ -359,11 +348,8 @@ namespace osu.Game.Configuration
         EditorTimelineShowBreaks,
         EditorAdjustExistingObjectsOnTimingChanges,
         AlwaysRequireHoldingForPause,
-        MultiplayerShowInProgressFilter,
         ShowMobileDisclaimer,
         EditorShowStoryboard,
-        EditorSubmissionNotifyOnDiscussionReplies,
-        EditorSubmissionLoadInBrowserAfterSubmission,
 
         AutomaticallyAdjustBeatmapOffset,
     }

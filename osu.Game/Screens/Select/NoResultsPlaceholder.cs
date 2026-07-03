@@ -6,13 +6,13 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Platform;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Localisation;
-using osu.Game.Online;
 using osu.Game.Overlays;
 using osuTK;
 
@@ -33,6 +33,9 @@ namespace osu.Game.Screens.Select
 
         [Resolved]
         private FirstRunSetupOverlay? firstRunSetupOverlay { get; set; }
+
+        [Resolved]
+        private GameHost host { get; set; } = null!;
 
         [Resolved]
         private OsuConfigManager config { get; set; } = null!;
@@ -193,7 +196,7 @@ namespace osu.Game.Screens.Select
             {
                 addBulletPoint();
                 textFlow.AddText("Try ");
-                textFlow.AddLink("searching online", LinkAction.SearchBeatmapSet, filter.SearchText);
+                textFlow.AddLink("searching online", () => host.OpenUrlExternally($@"https://beatconnect.io/?q={filter.SearchText}"));
                 textFlow.AddText($" for \"{filter.SearchText}\".");
             }
             // TODO: add clickable link to reset criteria.

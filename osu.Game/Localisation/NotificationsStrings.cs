@@ -141,9 +141,9 @@ Please try changing your audio device to a working setting.");
 {0}", filename);
 
         /// <summary>
-        /// "Current username is empty, falling back to default. Please specify a valid username in the settings."
+        /// "Current username is empty, falling back to default. Please set a valid username in the settings."
         /// </summary>
-        public static LocalisableString UsernameEmpty => new TranslatableString(getKey(@"username_empty"), @"Current username is empty, falling back to default. Please specify a valid username in the settings.");
+        public static LocalisableString UsernameEmpty => new TranslatableString(getKey(@"username_empty"), @"Current username is empty, falling back to default. Please set a valid username in the settings.");
 
         /// <summary>
         /// "Current avatar '{0}' is invalid, falling back to default. Please pick an image file in the settings."

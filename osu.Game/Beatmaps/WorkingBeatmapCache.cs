@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using JetBrains.Annotations;
 using osu.Framework.Audio;
 using osu.Framework.Audio.Track;
@@ -31,6 +32,7 @@ namespace osu.Game.Beatmaps
     public class WorkingBeatmapCache : IBeatmapResourceProvider, IWorkingBeatmapCache
     {
         private readonly WeakList<BeatmapManagerWorkingBeatmap> workingCache = new WeakList<BeatmapManagerWorkingBeatmap>();
+        private readonly Lock workingCacheLock = new Lock();
 
         /// <summary>
         /// Beatmap files may specify this filename to denote that they don't have an audio track.
@@ -76,7 +78,7 @@ namespace osu.Game.Beatmaps
 
         public void Invalidate(BeatmapInfo info)
         {
-            lock (workingCache)
+            lock (workingCacheLock)
             {
                 var working = workingCache.FirstOrDefault(w => info.Equals(w.BeatmapInfo));
 
@@ -96,7 +98,7 @@ namespace osu.Game.Beatmaps
             if (beatmapInfo is null || ReferenceEquals(beatmapInfo, DefaultBeatmap.BeatmapInfo))
                 return DefaultBeatmap;
 
-            lock (workingCache)
+            lock (workingCacheLock)
             {
                 var working = workingCache.FirstOrDefault(w => beatmapInfo.Equals(w.BeatmapInfo));
 

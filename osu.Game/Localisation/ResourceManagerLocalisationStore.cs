@@ -18,6 +18,7 @@ namespace osu.Game.Localisation
     public class ResourceManagerLocalisationStore : ILocalisationStore
     {
         private readonly Dictionary<string, ResourceManager> resourceManagers = new Dictionary<string, ResourceManager>();
+        private readonly Lock resourceManagersLock = new Lock();
 
         public ResourceManagerLocalisationStore(string cultureCode)
         {
@@ -38,7 +39,7 @@ namespace osu.Game.Localisation
             string ns = split[0];
             string key = split[1];
 
-            lock (resourceManagers)
+            lock (resourceManagersLock)
             {
                 if (!resourceManagers.TryGetValue(ns, out var manager))
                 {

@@ -110,6 +110,7 @@ namespace osu.Game.Database
             int current = 0;
 
             var imported = new List<Live<TModel>>();
+            var importedLock = new Lock();
 
             parameters.Batch |= tasks.Length >= minimum_items_considered_batch_import;
 
@@ -130,7 +131,7 @@ namespace osu.Game.Database
 
                         var model = await Import(task, parameters, cancellation).ConfigureAwait(false);
 
-                        lock (imported)
+                        lock (importedLock)
                         {
                             if (model is not null)
                                 imported.Add(model);

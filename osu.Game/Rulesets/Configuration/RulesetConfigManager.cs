@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using osu.Framework.Bindables;
 using osu.Framework.Configuration;
 using osu.Framework.Extensions;
@@ -49,12 +50,13 @@ namespace osu.Game.Rulesets.Configuration
         }
 
         private readonly HashSet<TLookup> pendingWrites = new HashSet<TLookup>();
+        private readonly Lock pendingWritesLock = new Lock();
 
         protected override bool PerformSave()
         {
             TLookup[] changed;
 
-            lock (pendingWrites)
+            lock (pendingWritesLock)
             {
                 changed = pendingWrites.ToArray();
                 pendingWrites.Clear();
@@ -103,7 +105,7 @@ namespace osu.Game.Rulesets.Configuration
 
             bindable.ValueChanged += _ =>
             {
-                lock (pendingWrites)
+                lock (pendingWritesLock)
                     pendingWrites.Add(lookup);
             };
         }

@@ -122,6 +122,8 @@ namespace osu.Game.Database
         /// </summary>
         private readonly Dictionary<Func<Realm, IDisposable?>, Action> notificationsResetMap = new Dictionary<Func<Realm, IDisposable?>, Action>();
 
+        private readonly Lock notificationsResetMapLock = new Lock();
+
         private static readonly GlobalStatistic<int> realm_instances_created = GlobalStatistics.Get<int>(@"Realm", @"Instances (Created)");
 
         private static readonly GlobalStatistic<int> total_subscriptions = GlobalStatistics.Get<int>(@"Realm", @"Subscriptions");
@@ -619,7 +621,7 @@ namespace osu.Game.Database
         {
             Func<Realm, IDisposable?> action = realm => query(realm).QueryAsyncWithNotifications(callback);
 
-            lock (notificationsResetMap)
+            lock (notificationsResetMapLock)
             {
                 // Store an action which is used when blocking to ensure consumers don't use results of a stale changeset firing.
                 notificationsResetMap.Add(action, () => callback(new RealmResetEmptySet<T>(), null));
@@ -721,7 +723,7 @@ namespace osu.Game.Database
                         unsubscriptionAction?.Dispose();
                         customSubscriptionsResetMap.Remove(action);
 
-                        lock (notificationsResetMap)
+                        lock (notificationsResetMapLock)
                         {
                             notificationsResetMap.Remove(action);
                         }
@@ -925,7 +927,7 @@ namespace osu.Game.Database
 
                     try
                     {
-                        lock (notificationsResetMap)
+                        lock (notificationsResetMapLock)
                         {
                             foreach (var action in notificationsResetMap.Values)
                                 action();

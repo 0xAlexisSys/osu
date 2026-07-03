@@ -309,6 +309,7 @@ namespace osu.Game
             dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
         private readonly List<string> dragDropFiles = new List<string>();
+        private readonly Lock dragDropFilesLock = new Lock();
         private ScheduledDelegate dragDropImportSchedule;
 
         public override void SetHost(GameHost host)
@@ -324,7 +325,7 @@ namespace osu.Game
 
         private void onWindowDragDrop(string path)
         {
-            lock (dragDropFiles)
+            lock (dragDropFilesLock)
             {
                 dragDropFiles.Add(path);
 
@@ -338,7 +339,7 @@ namespace osu.Game
 
             void handlePendingDragDropImports()
             {
-                lock (dragDropFiles)
+                lock (dragDropFilesLock)
                 {
                     Logger.Log($"Handling batch import of {dragDropFiles.Count} files");
 

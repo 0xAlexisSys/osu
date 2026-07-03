@@ -18,6 +18,7 @@ namespace osu.Game.Database
         private readonly ManualResetEventSlim loaded = new ManualResetEventSlim();
 
         private readonly BindableList<BeatmapSetInfo> detachedBeatmapSets = new BindableList<BeatmapSetInfo>();
+        private readonly Lock detachedBeatmapSetsLock = new Lock();
 
         private IDisposable? realmSubscription;
 
@@ -29,7 +30,7 @@ namespace osu.Game.Database
         public override IBindableList<BeatmapSetInfo> GetBeatmapSets(CancellationToken? cancellationToken)
         {
             loaded.Wait(cancellationToken ?? CancellationToken.None);
-            lock (detachedBeatmapSets)
+            lock (detachedBeatmapSetsLock)
                 return detachedBeatmapSets.GetBoundCopy();
         }
 
@@ -65,7 +66,7 @@ namespace osu.Game.Database
                         {
                             var detached = frozenSets.Detach();
 
-                            lock (detachedBeatmapSets)
+                            lock (detachedBeatmapSetsLock)
                             {
                                 detachedBeatmapSets.Clear();
                                 detachedBeatmapSets.AddRange(detached);
@@ -83,7 +84,7 @@ namespace osu.Game.Database
 
             if (changes.InsertedIndices.Length == 1 && changes.DeletedIndices.Length == 1)
             {
-                lock (detachedBeatmapSets)
+                lock (detachedBeatmapSetsLock)
                 {
                     var deletedSet = detachedBeatmapSets[changes.DeletedIndices[0]];
                     var insertedSet = sender[changes.InsertedIndices[0]];
@@ -150,7 +151,7 @@ namespace osu.Game.Database
             if (pendingOperations.Count == 0)
                 return;
 
-            lock (detachedBeatmapSets)
+            lock (detachedBeatmapSetsLock)
             {
                 // If this ever leads to performance issues, we could dequeue a limited number of operations per update frame.
                 while (pendingOperations.TryDequeue(out var op))

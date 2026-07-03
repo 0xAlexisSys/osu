@@ -24,7 +24,7 @@ namespace osu.Game.Overlays
     /// </summary>
     public partial class NotificationOverlayToastTray : CompositeDrawable
     {
-        public override bool IsPresent => toastContentBackground.Height > 0 || toastFlow.Count > 0;
+        public override bool IsPresent => toastContentBackground.Height > 0 || toastFlow.Count != 0;
 
         public override bool ReceivePositionalInputAt(Vector2 screenSpacePos) => toastFlow.ReceivePositionalInputAt(screenSpacePos);
 
@@ -33,7 +33,7 @@ namespace osu.Game.Overlays
         /// </summary>
         public IEnumerable<Notification> Notifications => toastFlow.Concat(InternalChildren.OfType<Notification>());
 
-        public bool IsDisplayingToasts => toastFlow.Count > 0;
+        public bool IsDisplayingToasts => toastFlow.Count != 0;
 
         private FillFlowContainer<Notification> toastFlow = null!;
         private BufferedContainer toastContentBackground = null!;
@@ -168,7 +168,7 @@ namespace osu.Game.Overlays
             float height = 0;
             float alpha = 0;
 
-            if (toastFlow.Count > 0)
+            if (toastFlow.Count != 0)
             {
                 float maxNotificationAlpha = 0;
 

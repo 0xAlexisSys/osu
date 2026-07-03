@@ -33,7 +33,7 @@ namespace osu.Game.Rulesets.Osu.Edit
         {
             base.OnSelectionChanged();
 
-            Quad quad = selectedMovableObjects.Length > 0 ? GeometryUtils.GetSurroundingQuad(selectedMovableObjects) : new Quad();
+            Quad quad = selectedMovableObjects.Length != 0 ? GeometryUtils.GetSurroundingQuad(selectedMovableObjects) : new Quad();
 
             SelectionBox.CanFlipX = quad.Width > 0;
             SelectionBox.CanFlipY = quad.Height > 0;

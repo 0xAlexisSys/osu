@@ -314,7 +314,7 @@ namespace osu.Game.Rulesets.Objects
                     List<Vector2> subPath = calculateSubPath(segmentVertices, segmentType);
 
                     // Skip the first vertex if it is the same as the last vertex from the previous segment
-                    bool skipFirst = calculatedPath.Count > 0 && subPath.Count > 0 && calculatedPath.Last() == subPath[0];
+                    bool skipFirst = calculatedPath.Count != 0 && subPath.Count != 0 && calculatedPath.Last() == subPath[0];
 
                     for (int j = skipFirst ? 1 : 0; j < subPath.Count; j++)
                         calculatedPath.Add(subPath[j]);
@@ -459,7 +459,7 @@ namespace osu.Game.Rulesets.Objects
                 if (calculatedLength > expectedDistance)
                 {
                     // The path will be shortened further, in which case we should trim any more unnecessary lengths and their associated path segments
-                    while (cumulativeLength.Count > 0 && cumulativeLength[^1] >= expectedDistance)
+                    while (cumulativeLength.Count != 0 && cumulativeLength[^1] >= expectedDistance)
                     {
                         cumulativeLength.RemoveAt(cumulativeLength.Count - 1);
                         calculatedPath.RemoveAt(pathEndIndex--);

@@ -453,7 +453,7 @@ namespace osu.Game.Screens.Select
 
         private void updateModDisplay()
         {
-            if (Score.Mods.Length > 0)
+            if (Score.Mods.Length != 0)
             {
                 modsContainer.Padding = new MarginPadding { Top = 4f };
                 modsContainer.ChildrenEnumerable = Score.Mods.AsOrdered().Select(mod => new ModIcon(mod)
@@ -569,12 +569,12 @@ namespace osu.Game.Screens.Select
                 // system mods should never be copied across regardless of anything.
                 var copyableMods = Score.Mods.Where(m => IsValidMod.Invoke(m) && m.Type != ModType.System).ToArray();
 
-                if (copyableMods.Length > 0)
+                if (copyableMods.Length != 0)
                     items.Add(new OsuMenuItem(SongSelectStrings.UseTheseMods, MenuItemType.Highlighted, () => SelectedMods.Value = copyableMods));
 
-                if (Score.Files.Count <= 0) return items.ToArray();
+                if (Score.Files.Count == 0) return items.ToArray();
 
-                if (items.Count > 0)
+                if (items.Count != 0)
                     items.Add(new OsuMenuItemSpacer());
 
                 if (ShowReplay is not null)

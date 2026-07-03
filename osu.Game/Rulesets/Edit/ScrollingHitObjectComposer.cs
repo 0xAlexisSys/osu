@@ -100,7 +100,7 @@ namespace osu.Game.Rulesets.Edit
 
             if (BlueprintContainer.CurrentTool is SelectTool)
             {
-                if (EditorBeatmap.SelectedHitObjects.Any())
+                if (EditorBeatmap.SelectedHitObjects.Count != 0)
                 {
                     beatSnapGrid.SelectionTimeRange = (EditorBeatmap.SelectedHitObjects.Min(h => h.StartTime), EditorBeatmap.SelectedHitObjects.Max(h => h.GetEndTime()));
                 }

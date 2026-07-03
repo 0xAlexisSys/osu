@@ -178,7 +178,7 @@ namespace osu.Game.Rulesets.Catch.Edit
             base.OnSelectionChanged();
 
             var selectionRange = CatchHitObjectUtils.GetPositionRange(SelectedItems);
-            SelectionBox.CanFlipX = selectionRange.Length > 0 && SelectedItems.Any(h => h is CatchHitObject && !(h is BananaShower));
+            SelectionBox.CanFlipX = selectionRange.Length != 0 && SelectedItems.Any(h => h is CatchHitObject && !(h is BananaShower));
             SelectionBox.CanReverse = SelectedItems.Count > 1 || SelectedItems.Any(h => h is JuiceStream);
         }
 

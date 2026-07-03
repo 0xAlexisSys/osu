@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using osu.Framework;
@@ -74,7 +73,7 @@ namespace osu.Game.Database
 
             // A full stable installation will have a configuration file present.
             // This is the best case scenario, as it may contain a custom beatmap directory we need to traverse to.
-            if (directory.GetFiles(@"osu!.*.cfg").Any())
+            if (directory.GetFiles(@"osu!.*.cfg").Length != 0)
             {
                 stableRoot = directory;
                 return true;
@@ -82,7 +81,7 @@ namespace osu.Game.Database
 
             // The user may only have their songs or skins folders left.
             // We still want to allow them to import based on this.
-            if (directory.GetDirectories(@"Songs").Any() || directory.GetDirectories(@"Skins").Any())
+            if (directory.GetDirectories(@"Songs").Length != 0 || directory.GetDirectories(@"Skins").Length != 0)
             {
                 stableRoot = directory;
                 return true;

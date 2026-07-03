@@ -15,7 +15,7 @@ namespace osu.Game.Rulesets.Osu.Edit
         {
             base.AddInspectorValues(objects);
 
-            if (objects.Length > 0)
+            if (objects.Length != 0)
             {
                 var firstInSelection = (OsuHitObject)objects.MinBy(ho => ho.StartTime)!;
                 var lastInSelection = (OsuHitObject)objects.MaxBy(ho => ho.GetEndTime())!;

@@ -306,7 +306,7 @@ namespace osu.Game.Rulesets.Osu.Edit
 
                 var snapPositions = b.ScreenSpaceSnapPoints;
 
-                if (!snapPositions.Any())
+                if (snapPositions.Length == 0)
                     continue;
 
                 var closestSnapPosition = snapPositions.MinBy(p => Vector2.Distance(p, screenSpacePosition));
@@ -341,7 +341,7 @@ namespace osu.Game.Rulesets.Osu.Edit
             switch (BlueprintContainer.CurrentTool)
             {
                 case SelectTool:
-                    if (!EditorBeatmap.SelectedHitObjects.Any())
+                    if (EditorBeatmap.SelectedHitObjects.Count == 0)
                         return;
 
                     distanceSnapGrid = createDistanceSnapGrid(EditorBeatmap.SelectedHitObjects);
@@ -380,7 +380,7 @@ namespace osu.Game.Rulesets.Osu.Edit
             {
                 var osuSelectionHandler = (OsuSelectionHandler)BlueprintContainer.SelectionHandler;
 
-                if (!osuSelectionHandler.SelectedItems.Any())
+                if (osuSelectionHandler.SelectedItems.Count == 0)
                 {
                     osuSelectionHandler.SelectionNewComboState.Value =
                         osuSelectionHandler.SelectionNewComboState.Value == TernaryState.False ? TernaryState.True : TernaryState.False;

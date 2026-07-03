@@ -42,7 +42,7 @@ namespace osu.Game.Overlays.Mods
 
         private void updateIncompatibility()
         {
-            incompatible.Value = selectedMods.Value.Count > 0
+            incompatible.Value = selectedMods.Value.Count != 0
                                  && selectedMods.Value.All(selected => selected.GetType() != Mod.GetType())
                                  && !ModUtils.CheckCompatibleSet(selectedMods.Value.Append(Mod));
         }

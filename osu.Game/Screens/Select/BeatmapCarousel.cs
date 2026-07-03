@@ -1017,7 +1017,7 @@ namespace osu.Game.Screens.Select
                 {
                     ICollection<GroupedBeatmap> notYetVisitedBeatmaps = visibleBeatmaps.ExceptBy(previouslyVisitedRandomBeatmaps, gb => gb.Beatmap).ToList();
 
-                    if (!notYetVisitedBeatmaps.Any())
+                    if (notYetVisitedBeatmaps.Count == 0)
                     {
                         previouslyVisitedRandomBeatmaps.ExceptWith(visibleBeatmaps.Select(b => b.Beatmap));
                         notYetVisitedBeatmaps = visibleBeatmaps;
@@ -1065,7 +1065,7 @@ namespace osu.Game.Screens.Select
                     ICollection<GroupedBeatmapSet> notYetVisitedSets =
                         visibleGroupedSets.ExceptBy(previouslyVisitedRandomBeatmaps.Select(b => b.BeatmapSet!), groupedSet => groupedSet.BeatmapSet).ToList();
 
-                    if (!notYetVisitedSets.Any())
+                    if (notYetVisitedSets.Count == 0)
                     {
                         previouslyVisitedRandomBeatmaps.ExceptWith(visibleGroupedSets.SelectMany(setUnderGrouping => setUnderGrouping.BeatmapSet.Beatmaps));
                         notYetVisitedSets = visibleGroupedSets;
@@ -1099,7 +1099,7 @@ namespace osu.Game.Screens.Select
             if (carouselItems?.Any() != true)
                 return false;
 
-            while (randomHistory.Any())
+            while (randomHistory.Count != 0)
             {
                 var previousBeatmap = randomHistory[^1];
                 randomHistory.RemoveAt(randomHistory.Count - 1);

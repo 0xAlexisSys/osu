@@ -121,8 +121,8 @@ namespace osu.Game.Overlays.Mods
                     }
                 }).ToArray();
                 metricsGrid.RowDimensions = Enumerable.Repeat(new Dimension(GridSizeMode.AutoSize), attribute.AdditionalMetrics.Length).ToArray();
-                metricsGrid.Alpha = attribute.AdditionalMetrics.Length > 0 ? 1 : 0;
-                shouldShow |= attribute.AdditionalMetrics.Length > 0;
+                metricsGrid.Alpha = attribute.AdditionalMetrics.Length != 0 ? 1 : 0;
+                shouldShow |= attribute.AdditionalMetrics.Length != 0;
 
                 if (!Precision.AlmostEquals(attribute.OriginalValue, attribute.AdjustedValue))
                 {

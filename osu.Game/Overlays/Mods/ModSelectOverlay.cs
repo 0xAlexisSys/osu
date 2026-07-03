@@ -265,7 +265,7 @@ namespace osu.Game.Overlays.Mods
             var preselectedMod = matchingMod;
 
             foreach (var mod in AllAvailableMods)
-                mod.Preselected.Value = mod == preselectedMod && SearchTextBox.Current.Value.Length > 0;
+                mod.Preselected.Value = mod == preselectedMod && SearchTextBox.Current.Value.Length != 0;
         }
 
         private void clearPreselection()

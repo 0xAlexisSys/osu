@@ -219,7 +219,7 @@ namespace osu.Game.Tests.Visual
                 {
                     var match = Regex.Match(componentName, "-([0-9]*)");
 
-                    if (match.Length > 0 && int.TryParse(match.Groups[1].Value, out int number) && number < 60)
+                    if (match.Length != 0 && int.TryParse(match.Groups[1].Value, out int number) && number < 60)
                         return base.GetTexture(componentName.Replace($"-{number}", $"-{number % 2}"), wrapModeS, wrapModeT);
                 }
 

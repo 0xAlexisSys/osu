@@ -231,7 +231,7 @@ namespace osu.Game
         IBindable<OverlayActivation> IOverlayManager.OverlayActivationMode => OverlayActivationMode;
 
         private void updateBlockingOverlayFade() =>
-            ScreenContainer.FadeColour(visibleBlockingOverlays.Any() ? OsuColour.Gray(0.5f) : Color4.White, 500, Easing.OutQuint);
+            ScreenContainer.FadeColour(visibleBlockingOverlays.Count != 0 ? OsuColour.Gray(0.5f) : Color4.White, 500, Easing.OutQuint);
 
         IDisposable IOverlayManager.RegisterBlockingOverlay(OverlayContainer overlayContainer)
         {
@@ -1032,11 +1032,11 @@ namespace osu.Game
 
         private void handleStartupImport()
         {
-            if (args?.Length > 0)
+            if (args?.Length != 0)
             {
                 string[] paths = args.Where(a => !a.StartsWith('-')).ToArray();
 
-                if (paths.Length > 0)
+                if (paths.Length != 0)
                     Task.Run(() => Import(paths));
             }
         }

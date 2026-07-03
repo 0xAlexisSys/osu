@@ -52,7 +52,7 @@ namespace osu.Game.Storyboards
                     }
                 }
 
-                if (alphaCommands.Count > 0)
+                if (alphaCommands.Count != 0)
                 {
                     // Special care is given to cases where there's one or more no-op transforms (ie transforming from alpha 0 to alpha 0).
                     // - If a 0->0 transform exists, we still need to check it to ensure the absolute first start value is non-visible.

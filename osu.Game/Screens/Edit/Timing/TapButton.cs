@@ -326,7 +326,7 @@ namespace osu.Game.Screens.Edit.Timing
         {
             bpmText.FadeOut(transition_length, Easing.OutQuint);
 
-            using (BeginDelayedSequence(tapTimings.Count > 0 ? transition_length : 0))
+            using (BeginDelayedSequence(tapTimings.Count != 0 ? transition_length : 0))
             {
                 Schedule(() => bpmText.Text = "the beat!");
                 bpmText.FadeIn(800, Easing.OutQuint);

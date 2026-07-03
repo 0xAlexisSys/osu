@@ -164,7 +164,7 @@ namespace osu.Game.Screens.Select
                                                    .OrderBy(b => b.StarRating)
                                                    .Select(b => b.StarRating)
                                                    .ToList();
-                this.FadeTo(otherStarDifficulties.Count > 0 ? 1 : 0, transition_duration, Easing.OutQuint);
+                this.FadeTo(otherStarDifficulties.Count != 0 ? 1 : 0, transition_duration, Easing.OutQuint);
 
                 if (otherStarDifficulties.Count == 0)
                     return;

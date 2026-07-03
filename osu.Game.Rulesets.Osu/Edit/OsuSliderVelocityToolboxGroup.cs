@@ -166,7 +166,7 @@ namespace osu.Game.Rulesets.Osu.Edit
 
             var selectedSliders = selectedHitObjects.OfType<Slider>().ToList();
 
-            if (selectedSliders.Any())
+            if (selectedSliders.Count != 0)
             {
                 Debug.Assert(!overridingSliderVelocitySource);
 
@@ -218,7 +218,7 @@ namespace osu.Game.Rulesets.Osu.Edit
             {
                 var selectedSliderVelocities = selectedHitObjects.OfType<Slider>().Select(s => s.SliderVelocityMultiplier).Distinct().ToList();
 
-                if (selectedSliderVelocities.Count > 0)
+                if (selectedSliderVelocities.Count != 0)
                 {
                     overridingSliderVelocitySource = false;
 

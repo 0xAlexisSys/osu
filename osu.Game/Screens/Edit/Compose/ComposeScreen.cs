@@ -172,7 +172,7 @@ namespace osu.Game.Screens.Edit.Compose
 
         private void updateClipboardActionAvailability()
         {
-            CanCut.Value = CanCopy.Value = EditorBeatmap.SelectedHitObjects.Any();
+            CanCut.Value = CanCopy.Value = EditorBeatmap.SelectedHitObjects.Count != 0;
             CanPaste.Value = composer.IsLoaded && !string.IsNullOrEmpty(clipboard.Value);
         }
 

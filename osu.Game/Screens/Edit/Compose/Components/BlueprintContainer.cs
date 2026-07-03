@@ -118,7 +118,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             bool handled = performMouseDownActions(e);
             bool movementPossible = prepareSelectionMovement(e);
 
-            if (SelectedItems.Any())
+            if (SelectedItems.Count != 0)
             {
                 // if there is a selection and there are no modifiers pressed, don't block so the context menu still shows.
                 bool shouldShowContextMenu = e.Button == MouseButton.Right && !e.ShiftPressed && !e.AltPressed && !e.SuperPressed;
@@ -293,7 +293,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             switch (e.Action)
             {
                 case GlobalAction.Back:
-                    if (SelectedItems.Count > 0)
+                    if (SelectedItems.Count != 0)
                     {
                         DeselectAll();
                         return true;

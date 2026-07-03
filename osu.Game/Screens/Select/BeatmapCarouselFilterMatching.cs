@@ -63,7 +63,7 @@ namespace osu.Game.Screens.Select
 
             if (!match) return false;
 
-            if (criteria.SearchTerms.Length > 0) match = beatmap.Match(criteria.SearchTerms);
+            if (criteria.SearchTerms.Length != 0) match = beatmap.Match(criteria.SearchTerms);
 
             if (!match) return false;
 

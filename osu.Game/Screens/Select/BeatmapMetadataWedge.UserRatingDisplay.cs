@@ -30,7 +30,7 @@ namespace osu.Game.Screens.Select
                 {
                     const int rating_range = 10;
 
-                    if (!value.Any())
+                    if (value.Length == 0)
                     {
                         negativeText.Text = 0.ToLocalisableString(@"N0");
                         positiveText.Text = 0.ToLocalisableString(@"N0");

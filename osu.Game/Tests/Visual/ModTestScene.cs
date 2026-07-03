@@ -74,7 +74,7 @@ namespace osu.Game.Tests.Visual
 
             protected override void PrepareReplay()
             {
-                if (currentTestData.Autoplay && currentTestData.ReplayFrames?.Count > 0)
+                if (currentTestData.Autoplay && currentTestData.ReplayFrames?.Count != 0)
                     throw new InvalidOperationException(@$"{nameof(ModTestData.Autoplay)} must be false when {nameof(ModTestData.ReplayFrames)} is specified.");
 
                 if (currentTestData.ReplayFrames is not null)

@@ -255,7 +255,7 @@ namespace osu.Game.Overlays.SkinEditor
 
             SelectedComponents.BindCollectionChanged((_, _) =>
             {
-                canCopy.Value = canCut.Value = SelectedComponents.Any();
+                canCopy.Value = canCut.Value = SelectedComponents.Count != 0;
             }, true);
 
             clipboardContent.BindValueChanged(content => canPaste.Value = !string.IsNullOrEmpty(content.NewValue), true);

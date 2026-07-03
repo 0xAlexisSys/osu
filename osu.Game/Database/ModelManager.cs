@@ -154,7 +154,7 @@ namespace osu.Game.Database
         /// </summary>
         public void Undelete(List<TModel> items, bool silent = false)
         {
-            if (!items.Any())
+            if (items.Count == 0)
             {
                 if (!silent)
                     PostNotification?.Invoke(new ProgressCompletionNotification { Text = $"No {HumanisedModelName}s found to restore!" });

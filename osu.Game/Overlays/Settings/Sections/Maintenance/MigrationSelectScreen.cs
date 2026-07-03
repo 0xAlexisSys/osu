@@ -47,7 +47,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
                 var directoryInfos = target.GetDirectories();
                 var fileInfos = target.GetFiles();
 
-                if (directoryInfos.Length > 0 || fileInfos.Length > 0 || target.Parent is null)
+                if (directoryInfos.Length != 0 || fileInfos.Length != 0 || target.Parent is null)
                 {
                     // Quick test for whether there's already an osu! install at the target path.
                     if (fileInfos.Any(f => f.Name == OsuGameBase.CLIENT_DATABASE_FILENAME))

@@ -1117,7 +1117,7 @@ namespace osu.Game.Graphics.Carousel
                 Scroll.Add(drawable);
             }
 
-            if (toDisplay.Any())
+            if (toDisplay.Count != 0)
             {
                 // To make transitions of items appearing in the flow look good, do a pass and make sure newly added items spawn from
                 // just beneath the *current interpolated position* of the previous panel.

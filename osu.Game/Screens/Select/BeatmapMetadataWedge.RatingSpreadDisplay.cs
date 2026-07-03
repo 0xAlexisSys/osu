@@ -30,7 +30,7 @@ namespace osu.Game.Screens.Select
             {
                 set
                 {
-                    if (!value.Any())
+                    if (value.Length == 0)
                     {
                         foreach (var bar in graph)
                             bar.ResizeHeightTo(min_height, 300, Easing.OutQuint);

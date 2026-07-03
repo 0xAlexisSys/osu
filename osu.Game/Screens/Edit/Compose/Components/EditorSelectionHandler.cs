@@ -261,7 +261,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void resetTernaryStates()
         {
-            if (SelectedItems.Count > 0)
+            if (SelectedItems.Count != 0)
                 return;
 
             SelectionNewComboState.Value = TernaryState.False;
@@ -277,13 +277,13 @@ namespace osu.Game.Screens.Edit.Compose.Components
         /// </summary>
         protected virtual void UpdateTernaryStates()
         {
-            if (SelectedItems.Any())
+            if (SelectedItems.Count != 0)
                 SelectionNewComboState.Value = GetStateFromSelection(SelectedItems.OfType<IHasComboInformation>(), h => h.NewCombo);
             AutoSelectionBankEnabled.Value = SelectedItems.Count == 0;
 
             var samplesInSelection = SelectedItems.SelectMany(enumerateAllSamples).ToArray();
 
-            if (samplesInSelection.Length > 0)
+            if (samplesInSelection.Length != 0)
             {
                 foreach ((string sampleName, var bindable) in SelectionSampleStates)
                 {

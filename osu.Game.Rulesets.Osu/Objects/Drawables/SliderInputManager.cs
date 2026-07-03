@@ -221,7 +221,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
                 while (trackingHistory.TryPeek(out var historyEntry) && Time.Current < historyEntry.time)
                     trackingHistory.Pop();
 
-                Debug.Assert(trackingHistory.Count > 0);
+                Debug.Assert(trackingHistory.Count != 0);
 
                 Tracking = trackingHistory.Peek().tracking;
                 return;

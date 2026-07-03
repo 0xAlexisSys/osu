@@ -58,9 +58,9 @@ namespace osu.Game.Rulesets.Osu.UI.ReplayAnalysis
         protected override void OnApply(AnalysisFrameEntry entry)
         {
             base.OnApply(entry);
-            Size = new Vector2(entry.Action.Any() ? 4 : 2.5f);
+            Size = new Vector2(entry.Action.Length != 0 ? 4 : 2.5f);
 
-            mainCircle.Colour = entry.Action.Any() ? Colours.Gray4 : Colours.Pink2;
+            mainCircle.Colour = entry.Action.Length != 0 ? Colours.Gray4 : Colours.Pink2;
 
             leftClickDisplay.Alpha = entry.Action.Contains(OsuAction.LeftButton) ? 1 : 0;
             rightClickDisplay.Alpha = entry.Action.Contains(OsuAction.RightButton) ? 1 : 0;

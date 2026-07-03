@@ -141,7 +141,7 @@ namespace osu.Game.Storyboards.Drawables
             // and resources are retrieved until the end of the animation.
             var skinTextures = skin.GetTextures(Path.ChangeExtension(Animation.Path, null), default, default, true, string.Empty, null, out _);
 
-            if (skinTextures.Length > 0)
+            if (skinTextures.Length != 0)
             {
                 foreach (var texture in skinTextures)
                     AddFrame(texture, Animation.FrameDelay);

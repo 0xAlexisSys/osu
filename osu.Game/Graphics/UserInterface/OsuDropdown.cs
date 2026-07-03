@@ -164,7 +164,7 @@ namespace osu.Game.Graphics.UserInterface
                 // logic copied from https://github.com/ppy/osu-framework/blob/baf865f1fd9e677310e7e432a7c6af99db7db914/osu.Framework/Graphics/UserInterface/Dropdown.cs#L702-L717
                 var visibleMenuItemsList = VisibleMenuItems.ToList();
 
-                if (visibleMenuItemsList.Count > 0)
+                if (visibleMenuItemsList.Count != 0)
                 {
                     var currentPreselected = PreselectedItem;
                     int targetPreselectionIndex = visibleMenuItemsList.IndexOf(currentPreselected);

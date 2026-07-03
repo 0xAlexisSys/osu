@@ -96,7 +96,7 @@ namespace osu.Game.Rulesets.Osu.Edit
             initialPositions.AddRange(editorBeatmap.SelectedHitObjects.Where(ho => ho is not Spinner).Select(ho => new KeyValuePair<HitObject, Vector2>(ho, ((IHasPosition)ho).Position)));
             initialSurroundingQuad = GeometryUtils.GetSurroundingQuad(initialPositions.Keys.Cast<IHasPosition>()).AABBFloat;
 
-            Debug.Assert(initialPositions.Count > 0);
+            Debug.Assert(initialPositions.Count != 0);
 
             if (initialPositions.Count > 1)
             {

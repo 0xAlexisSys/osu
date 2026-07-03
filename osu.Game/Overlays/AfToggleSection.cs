@@ -411,7 +411,7 @@ namespace osu.Game.Overlays
                 {
                     var formCheckBoxes = getCheckboxes();
 
-                    if (heroActions.Count > 0 && RNG.NextSingle() > 0.5f)
+                    if (heroActions.Count != 0 && RNG.NextSingle() > 0.5f)
                     {
                         addNewToggle();
                         return;

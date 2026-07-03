@@ -37,7 +37,7 @@ namespace osu.Game.Rulesets.Objects
             double[] segmentEnds = sliderPath.GetSegmentEnds().ToArray();
 
             // Remove segments after the end of the slider.
-            for (int numSegmentsToRemove = segmentEnds.Count(se => se >= 1) - 1; numSegmentsToRemove > 0 && controlPoints.Count > 0;)
+            for (int numSegmentsToRemove = segmentEnds.Count(se => se >= 1) - 1; numSegmentsToRemove > 0 && controlPoints.Count != 0;)
             {
                 if (controlPoints.Last().Type is not null)
                 {
@@ -52,7 +52,7 @@ namespace osu.Game.Rulesets.Objects
             inheritedLinearPoints.ForEach(p => p.Type = null);
 
             // Recalculate middle perfect curve control points at the end of the slider path.
-            if (controlPoints.Count >= 3 && controlPoints[^3].Type == PathType.PERFECT_CURVE && controlPoints[^2].Type is null && segmentEnds.Any())
+            if (controlPoints.Count >= 3 && controlPoints[^3].Type == PathType.PERFECT_CURVE && controlPoints[^2].Type is null && segmentEnds.Length != 0)
             {
                 double lastSegmentStart = segmentEnds.Length > 1 ? segmentEnds[^2] : 0;
 

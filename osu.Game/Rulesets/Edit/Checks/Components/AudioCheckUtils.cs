@@ -22,7 +22,7 @@ namespace osu.Game.Rulesets.Edit.Checks.Components
         /// <returns>The ChannelType of the audio, or <see cref="ChannelType.Unknown"/> if detection fails.</returns>
         public static ChannelType GetAudioFormat(Stream data)
         {
-            if (data.Length <= 0)
+            if (data.Length == 0)
                 return ChannelType.Unknown;
 
             using (var fileCallbacks = new FileCallbacks(new DataStreamFileProcedures(data)))

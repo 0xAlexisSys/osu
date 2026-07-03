@@ -179,7 +179,7 @@ namespace osu.Game.Database
                     else
                         notification.CompletionText = $"Imported {imported.First().GetDisplayString()}!";
 
-                    if (imported.Count > 0 && PresentImport is not null)
+                    if (imported.Count != 0 && PresentImport is not null)
                     {
                         notification.CompletionText += " Click to view.";
                         notification.CompletionClickAction = () =>
@@ -479,7 +479,7 @@ namespace osu.Game.Database
                 }
             }
 
-            if (hashable.Length > 0)
+            if (hashable.Length != 0)
                 return hashable.ComputeSHA2Hash();
 
             return item.Hash;
@@ -495,7 +495,7 @@ namespace osu.Game.Database
                     s.CopyTo(hashable);
             }
 
-            if (hashable.Length > 0)
+            if (hashable.Length != 0)
                 return hashable.ComputeSHA2Hash();
 
             return reader.Name.ComputeSHA2Hash();

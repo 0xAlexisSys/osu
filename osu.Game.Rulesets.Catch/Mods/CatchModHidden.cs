@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.Linq;
 using osu.Framework.Graphics;
 using osu.Framework.Localisation;
 using osu.Game.Rulesets.Catch.Objects;
@@ -36,7 +35,7 @@ namespace osu.Game.Rulesets.Catch.Mods
             if (!(hitObject is DrawableCatchHitObject catchDrawable))
                 return;
 
-            if (catchDrawable.NestedHitObjects.Any())
+            if (catchDrawable.NestedHitObjects.Count != 0)
             {
                 foreach (var nestedDrawable in catchDrawable.NestedHitObjects)
                 {

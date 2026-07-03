@@ -41,7 +41,7 @@ namespace osu.Game.Screens.Ranking
         /// <exception cref="InvalidOperationException">If the <see cref="ScorePanel"/> is already attached.</exception>
         public void Attach()
         {
-            if (InternalChildren.Count > 0)
+            if (InternalChildren.Count != 0)
                 throw new InvalidOperationException("Score panel container is already attached.");
 
             AddInternal(Panel);

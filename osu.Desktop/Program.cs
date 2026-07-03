@@ -84,7 +84,7 @@ namespace osu.Desktop
 
         private static bool trySendIPCMessage(IIpcHost host, string cwd, string[] args)
         {
-            if (args.Length > 0 && args[0].Contains('.')) // easy way to check for a file import in args
+            if (args.Length != 0 && args[0].Contains('.')) // easy way to check for a file import in args
             {
                 var importer = new ArchiveImportIPCChannel(host);
 

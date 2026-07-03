@@ -123,7 +123,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
         private void addNewColour()
         {
-            Color4 startingColour = Colours.Count > 0
+            Color4 startingColour = Colours.Count != 0
                 ? Colours.Last()
                 : Colour4.White;
 

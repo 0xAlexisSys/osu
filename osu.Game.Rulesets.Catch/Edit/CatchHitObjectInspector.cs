@@ -14,7 +14,7 @@ namespace osu.Game.Rulesets.Catch.Edit
         {
             base.AddInspectorValues(objects);
 
-            if (objects.Length > 0)
+            if (objects.Length != 0)
             {
                 HitObject firstSelectedHitObject = objects.MinBy(ho => ho.StartTime)!;
                 HitObject lastSelectedHitObject = objects.MaxBy(ho => ho.GetEndTime())!;

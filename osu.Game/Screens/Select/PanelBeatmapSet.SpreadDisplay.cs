@@ -128,7 +128,7 @@ namespace osu.Game.Screens.Select
                 var beatmaps = BeatmapSet.Value.Beatmaps
                                          .Where(b => b.AllowGameplayWithRuleset(ruleset.Value, showConvertedBeatmaps.Value))
                                          .ToList();
-                this.FadeTo(beatmaps.Count > 0 ? 1 : 0, transition_duration, Easing.OutQuint);
+                this.FadeTo(beatmaps.Count != 0 ? 1 : 0, transition_duration, Easing.OutQuint);
 
                 if (beatmaps.Count == 0)
                     return;
@@ -146,7 +146,7 @@ namespace osu.Game.Screens.Select
                     {
                         i.Size = new Vector2(14);
                         i.Anchor = i.Origin = Anchor.CentreLeft;
-                        i.Margin = new MarginPadding { Left = flow.Count > 0 ? 9 : 0 };
+                        i.Margin = new MarginPadding { Left = flow.Count != 0 ? 9 : 0 };
                     }));
 
                     int overflowVisible = 0;

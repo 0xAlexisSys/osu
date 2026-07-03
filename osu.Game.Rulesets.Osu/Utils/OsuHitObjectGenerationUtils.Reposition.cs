@@ -109,7 +109,7 @@ namespace osu.Game.Rulesets.Osu.Utils
                         toBeShifted.Add(workingObjects[j].HitObject);
                     }
 
-                    if (toBeShifted.Count > 0)
+                    if (toBeShifted.Count != 0)
                         applyDecreasingShift(toBeShifted, shift);
                 }
 

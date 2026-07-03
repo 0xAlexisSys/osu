@@ -29,7 +29,7 @@ namespace osu.Game.Overlays
 
         public PopupDialog CurrentDialog { get; private set; }
 
-        public override bool IsPresent => (Scheduler.HasPendingTasks || dialogContainer.Children.Count > 0)
+        public override bool IsPresent => (Scheduler.HasPendingTasks || dialogContainer.Children.Count != 0)
                                           // The following line ensures that dialogs are not presented while the dialog overlay
                                           // cannot be displayed. This is due to the `Schedule` usage inside `Push()`.
                                           //

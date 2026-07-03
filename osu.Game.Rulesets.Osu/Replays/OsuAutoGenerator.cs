@@ -169,7 +169,7 @@ namespace osu.Game.Rulesets.Osu.Replays
             }
 
             // Do some nice easing for cursor movements
-            if (Frames.Count > 0)
+            if (Frames.Count != 0)
             {
                 moveToHitObject(h, startPosition, easing);
             }
@@ -215,7 +215,7 @@ namespace osu.Game.Rulesets.Osu.Replays
                 // Move along the tangent line, now startPosition is at the tangent point.
                 startPosition = prevPos + spinCentreOffset;
             }
-            else if (spinCentreOffset.Length > 0)
+            else if (spinCentreOffset.Length != 0)
             {
                 // Previous cursor position was inside spin circle, set startPosition to the nearest point on spin circle.
                 startPosition = SPINNER_CENTRE - spinCentreOffset * (SPIN_RADIUS / spinCentreOffset.Length);
@@ -308,7 +308,7 @@ namespace osu.Game.Rulesets.Osu.Replays
                 var previousActions = previousFrame.Actions;
 
                 // If a button is already held, then we simply alternate
-                if (previousActions.Any())
+                if (previousActions.Count != 0)
                 {
                     // Force alternation if we have the same button. Otherwise we can just keep the naturally to us assigned button.
                     if (previousActions.Contains(action))

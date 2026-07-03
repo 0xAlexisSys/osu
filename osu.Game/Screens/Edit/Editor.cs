@@ -737,14 +737,14 @@ namespace osu.Game.Screens.Edit
             switch (e.Action)
             {
                 case GlobalAction.EditorSeekToPreviousHitObject:
-                    if (editorBeatmap.SelectedHitObjects.Any())
+                    if (editorBeatmap.SelectedHitObjects.Count != 0)
                         return false;
 
                     seekHitObject(-1);
                     return true;
 
                 case GlobalAction.EditorSeekToNextHitObject:
-                    if (editorBeatmap.SelectedHitObjects.Any())
+                    if (editorBeatmap.SelectedHitObjects.Count != 0)
                         return false;
 
                     seekHitObject(1);
@@ -1012,7 +1012,7 @@ namespace osu.Game.Screens.Edit
                 {
                     targetTime = editorBeatmap.BeatmapInfo.EditorTimestamp.Value;
                 }
-                else if (Beatmap.Value.Beatmap.HitObjects.Count > 0)
+                else if (Beatmap.Value.Beatmap.HitObjects.Count != 0)
                 {
                     // seek to one beat length before the first hitobject
                     targetTime = Beatmap.Value.Beatmap.HitObjects[0].StartTime;
@@ -1403,7 +1403,7 @@ namespace osu.Game.Screens.Edit
 
             foreach (var rulesetBeatmaps in groupedOrderedBeatmaps)
             {
-                if (difficultyItems.Count > 0)
+                if (difficultyItems.Count != 0)
                     difficultyItems.Add(new OsuMenuItemSpacer());
 
                 foreach (var beatmap in rulesetBeatmaps)

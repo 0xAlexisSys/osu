@@ -76,7 +76,7 @@ namespace osu.Game.Skinning
             {
                 var textures = getTextures(retrievalSource).ToArray();
 
-                if (textures.Length > 0)
+                if (textures.Length != 0)
                     return textures;
             }
 

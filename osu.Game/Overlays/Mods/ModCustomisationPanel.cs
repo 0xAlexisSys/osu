@@ -190,7 +190,7 @@ namespace osu.Game.Overlays.Mods
             {
                 var settings = mod.CreateSettingsControls().ToList();
 
-                if (settings.Count > 0)
+                if (settings.Count != 0)
                     sectionsFlow.Add(new ModCustomisationSection(mod, settings));
             }
         }

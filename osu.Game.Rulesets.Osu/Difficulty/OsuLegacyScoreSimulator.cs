@@ -57,7 +57,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty
 
             int drainLength = 0;
 
-            if (baseBeatmap.HitObjects.Count > 0)
+            if (baseBeatmap.HitObjects.Count != 0)
             {
                 int breakLength = baseBeatmap.Breaks.Select(b => (int)Math.Round(b.EndTime) - (int)Math.Round(b.StartTime)).Sum();
                 drainLength = ((int)Math.Round(baseBeatmap.HitObjects[^1].StartTime) - (int)Math.Round(baseBeatmap.HitObjects[0].StartTime) - breakLength) / 1000;

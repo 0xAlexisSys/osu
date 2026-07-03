@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.UI.Scrolling.Algorithms
 
         public double TimeAt(float position, double currentTime, double timeRange, float scrollLength)
         {
-            Debug.Assert(controlPoints.Count > 0);
+            Debug.Assert(controlPoints.Count != 0);
 
             // Iterate over control points and find the most relevant for the provided position.
             // Note: Due to velocity adjustments, overlapping control points will provide multiple valid time values for a single position

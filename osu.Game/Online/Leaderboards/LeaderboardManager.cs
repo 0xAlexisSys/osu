@@ -77,10 +77,10 @@ namespace osu.Game.Online.Leaderboards
 
             if (CurrentCriteria.ExactMods is not null)
             {
-                if (!CurrentCriteria.ExactMods.Any())
+                if (CurrentCriteria.ExactMods.Length == 0)
                 {
                     // we need to filter out all scores that have any mods to get all local nomod scores
-                    newScores = newScores.Where(s => !s.Mods.Any());
+                    newScores = newScores.Where(s => s.Mods.Length == 0);
                 }
                 else
                 {

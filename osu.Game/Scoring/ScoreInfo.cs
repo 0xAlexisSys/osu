@@ -286,7 +286,7 @@ namespace osu.Game.Scoring
 
         private void updateModsJson()
         {
-            ModsJson = JsonMods.Length > 0
+            ModsJson = JsonMods.Length != 0
                 ? JsonConvert.SerializeObject(JsonMods)
                 : string.Empty;
         }

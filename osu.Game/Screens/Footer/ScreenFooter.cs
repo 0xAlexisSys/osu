@@ -203,7 +203,7 @@ namespace osu.Game.Screens.Footer
                 buttonsFlow.Remove(oldButton, false);
                 hiddenButtonsContainer.Add(oldButton);
 
-                if (buttons.Count > 0)
+                if (buttons.Count != 0)
                     makeButtonDisappearToRight(oldButton, i, oldButtons.Length, true);
                 else
                     makeButtonDisappearToBottom(oldButton, i, oldButtons.Length, true);
@@ -227,7 +227,7 @@ namespace osu.Game.Screens.Footer
                 // ensure transforms are added after LoadComplete to not be aborted by the FinishTransforms call.
                 newButton.OnLoadComplete += _ =>
                 {
-                    if (oldButtons.Length > 0)
+                    if (oldButtons.Length != 0)
                         makeButtonAppearFromLeft(newButton, index, buttons.Count, 240);
                     else
                         makeButtonAppearFromBottom(newButton, index);
@@ -278,7 +278,7 @@ namespace osu.Game.Screens.Footer
             if (content is not null)
                 overlayContentContainer.Child = content;
 
-            if (temporarilyHiddenButtons.Count > 0)
+            if (temporarilyHiddenButtons.Count != 0)
                 this.Delay(60).Schedule(() => content?.Show());
             else
                 content?.Show();

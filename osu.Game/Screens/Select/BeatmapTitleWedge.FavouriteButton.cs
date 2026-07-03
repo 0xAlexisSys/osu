@@ -121,7 +121,7 @@ namespace osu.Game.Screens.Select
                 {
                     realmSubscription = realm.RegisterForNotifications(r => r.All<BeatmapSetInfo>().Where(s => s.ID == set!.ID), (sender, _) =>
                     {
-                        if (sender.Count > 0)
+                        if (sender.Count != 0)
                         {
                             isFavourite.Value = sender[0].HasFavourited;
                             updateVisualState(withAnimation);

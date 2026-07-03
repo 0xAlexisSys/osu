@@ -53,7 +53,7 @@ namespace osu.Game.Rulesets.Osu.Beatmaps
         {
             var hitObjects = beatmap.HitObjects as List<OsuHitObject> ?? beatmap.HitObjects.OfType<OsuHitObject>().ToList();
 
-            if (hitObjects.Count > 0)
+            if (hitObjects.Count != 0)
             {
                 // Reset stacking
                 foreach (var h in hitObjects)

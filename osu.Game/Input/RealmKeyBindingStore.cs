@@ -54,7 +54,7 @@ namespace osu.Game.Input
                     string str = keyCombinationProvider.GetReadableString(action.KeyCombination);
 
                     // even if found, the readable string may be empty for an unbound action.
-                    if (str.Length > 0)
+                    if (str.Length != 0)
                         combinations.Add(str);
                 }
             });

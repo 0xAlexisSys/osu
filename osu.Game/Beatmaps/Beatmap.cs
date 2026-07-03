@@ -81,7 +81,7 @@ namespace osu.Game.Beatmaps
 
             // The last playable time in the beatmap - the last timing point extends to this time.
             // Note: This is more accurate and may present different results because osu-stable didn't have the ability to calculate slider durations in this context.
-            if (!HitObjects.Any())
+            if (HitObjects.Count == 0)
                 lastTime = ControlPointInfo.TimingPoints.LastOrDefault()?.Time ?? 0;
             else
                 lastTime = this.GetLastObjectTime();

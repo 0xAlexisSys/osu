@@ -198,7 +198,7 @@ namespace osu.Game.Screens.Edit.Components.TernaryButtons
             [BackgroundDependencyLoader]
             private void load()
             {
-                Debug.Assert(comboColours.Count > 0);
+                Debug.Assert(comboColours.Count != 0);
                 var hitObject = hasComboInformation as HitObject;
                 Debug.Assert(hitObject is not null);
 

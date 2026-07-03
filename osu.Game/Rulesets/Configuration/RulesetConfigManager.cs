@@ -62,7 +62,7 @@ namespace osu.Game.Rulesets.Configuration
                 pendingWrites.Clear();
             }
 
-            if (!changed.Any())
+            if (changed.Length == 0)
                 return true;
 
             realm?.Write(r =>

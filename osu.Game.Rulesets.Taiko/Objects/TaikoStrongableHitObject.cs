@@ -44,14 +44,14 @@ namespace osu.Game.Rulesets.Taiko.Objects
 
         private void updateTypeFromSamples()
         {
-            IsStrong = getStrongSamples().Any();
+            IsStrong = getStrongSamples().Length != 0;
         }
 
         private void updateSamplesFromType()
         {
             var strongSamples = getStrongSamples();
 
-            if (IsStrongBindable.Value != strongSamples.Any())
+            if (IsStrongBindable.Value != (strongSamples.Length != 0))
             {
                 if (IsStrongBindable.Value)
                     Samples.Add(CreateHitSampleInfo(HitSampleInfo.HIT_FINISH));

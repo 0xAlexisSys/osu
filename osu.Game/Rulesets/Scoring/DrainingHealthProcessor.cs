@@ -101,7 +101,7 @@ namespace osu.Game.Rulesets.Scoring
         {
             Beatmap = beatmap;
 
-            if (beatmap.HitObjects.Count > 0)
+            if (beatmap.HitObjects.Count != 0)
                 gameplayEndTime = beatmap.HitObjects[^1].GetEndTime();
 
             noDrainPeriodTracker = new PeriodTracker(

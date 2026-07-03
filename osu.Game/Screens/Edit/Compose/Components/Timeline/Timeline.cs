@@ -174,7 +174,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
         {
             waveform.RelativePositionAxes = Axes.X;
 
-            if (beatmap.Value.Track.Length > 0)
+            if (beatmap.Value.Track.Length != 0)
                 waveform.X = -(float)(Editor.WAVEFORM_VISUAL_OFFSET / beatmap.Value.Track.Length);
             else
             {

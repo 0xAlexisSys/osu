@@ -33,7 +33,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
             HitObject[] objects;
 
-            if (EditorBeatmap.SelectedHitObjects.Count > 0)
+            if (EditorBeatmap.SelectedHitObjects.Count != 0)
                 objects = EditorBeatmap.SelectedHitObjects.ToArray();
             else if (EditorBeatmap.PlacementObject.Value is not null)
                 objects = new[] { EditorBeatmap.PlacementObject.Value };
@@ -44,7 +44,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
             // I'd hope there's a better way to do this, but I don't want to bind to each and every property above to watch for changes.
             // This is a good middle-ground for the time being.
-            if (objects.Length > 0)
+            if (objects.Length != 0)
                 rollingTextUpdate ??= Scheduler.AddDelayed(updateInspectorText, 250);
         }
 

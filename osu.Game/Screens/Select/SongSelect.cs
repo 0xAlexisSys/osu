@@ -706,7 +706,7 @@ namespace osu.Game.Screens.Select
 
                 var validBeatmaps = activeSet.Beatmaps.Where(checkBeatmapValidForSelection).ToArray();
 
-                if (validBeatmaps.Any())
+                if (validBeatmaps.Length != 0)
                 {
                     var beatmap = validBeatmaps[0];
                     carousel.CurrentBeatmap = beatmap;

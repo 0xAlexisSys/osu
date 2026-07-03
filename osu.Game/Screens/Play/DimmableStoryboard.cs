@@ -56,7 +56,7 @@ namespace osu.Game.Screens.Play
             this.storyboard = storyboard;
             this.mods = mods;
 
-            storyboardMustAlwaysBePresent = new Lazy<bool>(() => storyboard.GetLayer(@"Overlay").Elements.Any() || storyboard.Layers.Any(l => l.Elements.OfType<StoryboardSampleInfo>().Any()));
+            storyboardMustAlwaysBePresent = new Lazy<bool>(() => storyboard.GetLayer(@"Overlay").Elements.Count != 0 || storyboard.Layers.Any(l => l.Elements.OfType<StoryboardSampleInfo>().Any()));
         }
 
         [BackgroundDependencyLoader]

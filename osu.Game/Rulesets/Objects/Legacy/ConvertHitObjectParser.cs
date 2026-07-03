@@ -111,7 +111,7 @@ namespace osu.Game.Rulesets.Objects.Legacy
                     nodeBankInfos.Add(bankInfo.Clone());
 
                 // Read any per-node sample banks
-                if (split.Length > 9 && split[9].Length > 0)
+                if (split.Length > 9 && split[9].Length != 0)
                 {
                     string[] sets = split[9].Split('|');
 
@@ -131,7 +131,7 @@ namespace osu.Game.Rulesets.Objects.Legacy
                     nodeSoundTypes.Add(soundType);
 
                 // Read any per-node sound types
-                if (split.Length > 8 && split[8].Length > 0)
+                if (split.Length > 8 && split[8].Length != 0)
                 {
                     string[] adds = split[8].Split('|');
 

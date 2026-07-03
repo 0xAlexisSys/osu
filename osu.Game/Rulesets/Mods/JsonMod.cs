@@ -48,7 +48,7 @@ namespace osu.Game.Rulesets.Mods
                 return new UnknownMod(Acronym);
             }
 
-            if (Settings.Count > 0)
+            if (Settings.Count != 0)
             {
                 foreach (var (_, property) in resultMod.GetSettingsSourceProperties())
                 {
@@ -69,7 +69,7 @@ namespace osu.Game.Rulesets.Mods
             return resultMod;
         }
 
-        public bool ShouldSerializeSettings() => Settings.Count > 0;
+        public bool ShouldSerializeSettings() => Settings.Count != 0;
 
         public bool Equals(JsonMod? other)
         {
@@ -81,7 +81,7 @@ namespace osu.Game.Rulesets.Mods
 
         public override string ToString()
         {
-            if (Settings.Count > 0)
+            if (Settings.Count != 0)
                 return $"{Acronym} ({string.Join(',', Settings.Select(kvp => $"{kvp.Key}:{kvp.Value}"))})";
 
             return $"{Acronym}";

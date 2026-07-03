@@ -59,7 +59,7 @@ namespace osu.Game.IO
             // ensure the new location has no files present, else hard abort
             if (destination.Exists)
             {
-                if (destination.GetFiles().Length > 0 || destination.GetDirectories().Length > 0)
+                if (destination.GetFiles().Length != 0 || destination.GetDirectories().Length != 0)
                     throw new ArgumentException("Destination provided already has files or directories present", destination.FullName);
             }
 

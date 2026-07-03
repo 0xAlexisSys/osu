@@ -317,7 +317,7 @@ namespace osu.Game.Rulesets.Scoring
 
             RemoveScoreChange(result);
 
-            Debug.Assert(hitEvents.Count > 0);
+            Debug.Assert(hitEvents.Count != 0);
             lastHitObject = hitEvents[^1].LastHitObject;
             hitEvents.RemoveAt(hitEvents.Count - 1);
 

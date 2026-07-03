@@ -37,17 +37,17 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
         public void SetRotation(float currentRotation)
         {
             // If we've gone back in time, it's fine to work with a fresh set of records for now
-            if (records.Count > 0 && Time.Current < lastRecord.Time)
+            if (records.Count != 0 && Time.Current < lastRecord.Time)
                 records.Clear();
 
             // Never calculate SPM by same time of record to avoid 0 / 0 = NaN or X / 0 = Infinity result.
-            if (records.Count > 0 && Precision.AlmostEquals(Time.Current, lastRecord.Time))
+            if (records.Count != 0 && Precision.AlmostEquals(Time.Current, lastRecord.Time))
                 return;
 
-            if (records.Count > 0)
+            if (records.Count != 0)
             {
                 var record = records.Peek();
-                while (records.Count > 0 && Time.Current - records.Peek().Time > spm_count_duration)
+                while (records.Count != 0 && Time.Current - records.Peek().Time > spm_count_duration)
                     record = records.Dequeue();
 
                 result.Value = (currentRotation - record.Rotation) / (Time.Current - record.Time) * 1000 * 60 / 360;

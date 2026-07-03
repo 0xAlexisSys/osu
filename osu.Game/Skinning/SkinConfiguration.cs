@@ -57,7 +57,7 @@ namespace osu.Game.Skinning
         {
             get
             {
-                if (CustomComboColours.Count > 0)
+                if (CustomComboColours.Count != 0)
                     return CustomComboColours;
 
                 if (AllowDefaultComboColoursFallback)

@@ -39,7 +39,7 @@ namespace osu.Game.Screens.Ranking
 
             realmSubscription = realm.RegisterForNotifications(r => r.All<BeatmapSetInfo>().Where(s => s.ID == beatmapSet.ID), (sender, _) =>
             {
-                if (sender.Count > 0)
+                if (sender.Count != 0)
                     updateVisualState(sender[0]);
             });
         }

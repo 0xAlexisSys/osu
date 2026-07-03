@@ -79,7 +79,7 @@ namespace osu.Game.Screens.Edit
         {
             base.Update();
 
-            bool hasAnyBookmark = bookmarks.Count > 0;
+            bool hasAnyBookmark = bookmarks.Count != 0;
             bool hasBookmarkCloseEnoughForDeletion = bookmarks.Any(b => Math.Abs(b - clock.CurrentTimeAccurate) < 2000);
 
             removeBookmarkMenuItem.Action.Disabled = !hasBookmarkCloseEnoughForDeletion;

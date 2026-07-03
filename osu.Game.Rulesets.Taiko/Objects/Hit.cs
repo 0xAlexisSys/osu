@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets.Taiko.Objects
 
         private void updateTypeFromSamples()
         {
-            Type = getRimSamples().Any() ? HitType.Rim : HitType.Centre;
+            Type = getRimSamples().Length != 0 ? HitType.Rim : HitType.Centre;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace osu.Game.Rulesets.Taiko.Objects
 
             bool isRimType = Type == HitType.Rim;
 
-            if (isRimType != rimSamples.Any())
+            if (isRimType != (rimSamples.Length != 0))
             {
                 if (isRimType)
                     Samples.Add(CreateHitSampleInfo(HitSampleInfo.HIT_CLAP));

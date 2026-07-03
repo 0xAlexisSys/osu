@@ -23,7 +23,7 @@ namespace osu.Game.Graphics.Containers
         {
             base.Update();
 
-            if (InternalChildren.Count > 0 && InternalChild.DrawSize.X > 0)
+            if (InternalChildren.Count != 0 && InternalChild.DrawSize.X > 0)
             {
                 // We're modifying scale here for a few reasons
                 // - Guarantees correctness if BorderWidth is being used

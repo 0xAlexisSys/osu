@@ -274,7 +274,7 @@ namespace osu.Game.Rulesets.UI
             }
 
             // When rewinding, revert future judgements in the reverse order.
-            while (judgedEntries.Count > 0)
+            while (judgedEntries.Count != 0)
             {
                 var result = judgedEntries.Peek().Result;
                 Debug.Assert(result?.RawTime is not null);

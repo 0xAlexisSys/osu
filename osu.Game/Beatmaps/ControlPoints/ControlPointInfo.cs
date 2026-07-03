@@ -72,7 +72,7 @@ namespace osu.Game.Beatmaps.ControlPoints
         /// <param name="time">The time to find the timing control point at.</param>
         /// <returns>The timing control point.</returns>
         [NotNull]
-        public TimingControlPoint TimingPointAt(double time) => BinarySearchWithFallback(TimingPoints, time, TimingPoints.Count > 0 ? TimingPoints[0] : TimingControlPoint.DEFAULT);
+        public TimingControlPoint TimingPointAt(double time) => BinarySearchWithFallback(TimingPoints, time, TimingPoints.Count != 0 ? TimingPoints[0] : TimingControlPoint.DEFAULT);
 
         /// <summary>
         /// Finds the first timing point that is active strictly after <paramref name="time"/>, or null if no such point exists.

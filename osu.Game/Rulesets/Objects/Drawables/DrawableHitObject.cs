@@ -391,7 +391,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
         {
             var samples = GetSamples().ToArray();
 
-            if (samples.Length <= 0)
+            if (samples.Length == 0)
                 return;
 
             Samples.Samples = samples.Cast<ISampleInfo>().ToArray();

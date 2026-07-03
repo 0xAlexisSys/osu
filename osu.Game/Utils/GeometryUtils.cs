@@ -329,7 +329,7 @@ namespace osu.Game.Utils
 
             stack.Push((null, p.Count));
 
-            while (stack.Count > 0)
+            while (stack.Count != 0)
             {
                 // `n` represents the number of points in P that are not yet processed.
                 // `point` represents the point that was randomly picked to process.

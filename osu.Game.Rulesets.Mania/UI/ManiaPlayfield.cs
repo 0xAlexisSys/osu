@@ -57,7 +57,7 @@ namespace osu.Game.Rulesets.Mania.UI
         {
             ArgumentNullException.ThrowIfNull(stageDefinitions);
 
-            if (stageDefinitions.Count <= 0)
+            if (stageDefinitions.Count == 0)
                 throw new ArgumentException("Can't have zero or fewer stages.");
 
             GridContainer playfieldGrid;

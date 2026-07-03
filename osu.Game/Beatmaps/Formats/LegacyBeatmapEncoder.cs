@@ -123,7 +123,7 @@ namespace osu.Game.Beatmaps.Formats
         {
             writer.WriteLine("[Editor]");
 
-            if (beatmap.Bookmarks.Length > 0)
+            if (beatmap.Bookmarks.Length != 0)
                 writer.WriteLine(FormattableString.Invariant($"Bookmarks: {string.Join(',', beatmap.Bookmarks)}"));
             writer.WriteLine(FormattableString.Invariant($"DistanceSpacing: {beatmap.DistanceSpacing}"));
             writer.WriteLine(FormattableString.Invariant($"BeatDivisor: {beatmap.BeatmapInfo.BeatDivisor}"));
@@ -343,14 +343,14 @@ namespace osu.Game.Beatmaps.Formats
                         {
                             double nodeTime = hitObject.StartTime + i * spanDuration;
 
-                            if (hasNodeSamples.NodeSamples[i].Count > 0)
+                            if (hasNodeSamples.NodeSamples[i].Count != 0)
                                 yield return createSampleControlPointFor(nodeTime, hasNodeSamples.NodeSamples[i]);
 
-                            if (spanDuration > LegacyBeatmapDecoder.CONTROL_POINT_LENIENCY + 1 && hitObject.Samples.Count > 0 && i < hasNodeSamples.NodeSamples.Count - 1)
+                            if (spanDuration > LegacyBeatmapDecoder.CONTROL_POINT_LENIENCY + 1 && hitObject.Samples.Count != 0 && i < hasNodeSamples.NodeSamples.Count - 1)
                                 yield return createSampleControlPointFor(nodeTime + LegacyBeatmapDecoder.CONTROL_POINT_LENIENCY + 1, hitObject.Samples);
                         }
                     }
-                    else if (hitObject.Samples.Count > 0)
+                    else if (hitObject.Samples.Count != 0)
                     {
                         yield return createSampleControlPointFor(hitObject.GetEndTime(), hitObject.Samples);
                     }

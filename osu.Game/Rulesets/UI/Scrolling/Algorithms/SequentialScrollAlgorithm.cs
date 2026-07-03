@@ -115,7 +115,7 @@ namespace osu.Game.Rulesets.UI.Scrolling.Algorithms
         /// <param name="timeRange">The time range.</param>
         private void generatePositionMappings(in double timeRange)
         {
-            if (positionMappings.Count > 0)
+            if (positionMappings.Count != 0)
                 return;
 
             if (controlPoints.Count == 0)

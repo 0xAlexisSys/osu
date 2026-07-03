@@ -128,7 +128,7 @@ namespace osu.Game.Screens.Edit
             for (int i = removedIndices.Count - 1; i >= 0; i--)
                 editorBeatmap.RemoveAt(removedIndices[i]);
 
-            if (addedIndices.Count > 0)
+            if (addedIndices.Count != 0)
             {
                 var newBeatmap = getNewBeatmap();
 

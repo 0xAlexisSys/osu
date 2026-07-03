@@ -115,10 +115,10 @@ namespace osu.Game.Scoring.Legacy
                 if (version >= 30000001)
                     compressedScoreInfo = sr.ReadByteArray();
 
-                if (compressedReplay?.Length > 0)
+                if (compressedReplay?.Length != 0)
                     readCompressedData(compressedReplay, reader => readLegacyReplay(score.Replay, reader));
 
-                if (compressedScoreInfo?.Length > 0)
+                if (compressedScoreInfo?.Length != 0)
                 {
                     readCompressedData(compressedScoreInfo, reader =>
                     {

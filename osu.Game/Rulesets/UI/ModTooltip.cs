@@ -115,7 +115,7 @@ namespace osu.Game.Rulesets.UI
                 settingsLabelsFlow.Clear();
                 settingsValuesFlow.Clear();
 
-                if (displayedSettings.Any())
+                if (displayedSettings.Length != 0)
                 {
                     settingsLabelsFlow.Show();
                     settingsValuesFlow.Show();

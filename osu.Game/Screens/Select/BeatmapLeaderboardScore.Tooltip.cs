@@ -322,7 +322,7 @@ namespace osu.Game.Screens.Select
                     {
                         var mods = value.Mods;
 
-                        if (!mods.Any())
+                        if (mods.Length == 0)
                             Hide();
                         else
                         {

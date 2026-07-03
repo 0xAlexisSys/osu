@@ -399,7 +399,7 @@ namespace osu.Game.Screens.Select
             return groupMappings.Values
                                 // safety against potentially empty eagerly-initialised groups
                                 // (could happen if user has a collection with MD5s of maps that aren't locally available)
-                                .Where(mapping => mapping.ItemsInGroup.Count > 0)
+                                .Where(mapping => mapping.ItemsInGroup.Count != 0)
                                 .OrderBy(mapping => mapping.Group!.Order)
                                 .ToList();
         }

@@ -453,7 +453,7 @@ namespace osu.Game.Screens.Edit
         {
             base.Update();
 
-            if (batchPendingUpdates.Count > 0)
+            if (batchPendingUpdates.Count != 0)
                 UpdateState();
 
             hasTiming.Value = !ReferenceEquals(ControlPointInfo.TimingPointAt(editorClock.CurrentTime), TimingControlPoint.DEFAULT);

@@ -83,7 +83,7 @@ namespace osu.Game.Graphics.UserInterface
 
             if (ClearTextOnBackKey && e.Action == GlobalAction.Back)
             {
-                if (Text.Length > 0)
+                if (Text.Length != 0)
                 {
                     Text = string.Empty;
                     PlayFeedbackSample(FeedbackSampleType.TextRemove);

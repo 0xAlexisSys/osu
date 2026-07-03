@@ -348,7 +348,7 @@ namespace osu.Game.Beatmaps
                 }
             }
 
-            if (!beatmaps.Any())
+            if (beatmaps.Count == 0)
                 throw new ArgumentException("No valid beatmap files found in the beatmap archive.");
 
             return beatmaps;

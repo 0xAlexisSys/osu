@@ -16,7 +16,7 @@ using osu.Framework.Input.Events;
 using osu.Game.Beatmaps;
 using osu.Game.Graphics.Containers;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.Placeholders;
+using osu.Game.Graphics.UserInterface.Placeholders;
 using osu.Game.Scoring;
 using osuTK;
 

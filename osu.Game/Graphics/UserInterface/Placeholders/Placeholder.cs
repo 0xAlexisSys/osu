@@ -7,7 +7,7 @@ using System;
 using osu.Framework.Graphics;
 using osu.Game.Graphics.Containers;
 
-namespace osu.Game.Online.Placeholders
+namespace osu.Game.Graphics.UserInterface.Placeholders
 {
     public abstract partial class Placeholder : OsuTextFlowContainer, IEquatable<Placeholder>
     {

@@ -5,7 +5,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Localisation;
 
-namespace osu.Game.Online.Placeholders
+namespace osu.Game.Graphics.UserInterface.Placeholders
 {
     public partial class MessagePlaceholder : Placeholder
     {

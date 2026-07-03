@@ -126,19 +126,19 @@ namespace osu.Game.Overlays.FirstRunSetup
 
             if (available)
             {
-                copyInformation.Text = FirstRunOverlayImportFromStableScreenStrings.DataMigrationNoExtraSpace;
+                copyInformation.AddText(FirstRunOverlayImportFromStableScreenStrings.DataMigrationNoExtraSpace);
                 copyInformation.AddText(@" "); // just to ensure correct spacing
-                // copyInformation.AddLink(FirstRunOverlayImportFromStableScreenStrings.LearnAboutHardLinks, LinkAction.OpenWiki, @"Client/Release_stream/Lazer/File_storage#via-hard-links");
+                copyInformation.AddLink(FirstRunOverlayImportFromStableScreenStrings.LearnAboutHardLinks, url: @"https://osu.ppy.sh/wiki/en/Client/Release_stream/Lazer/File_storage#via-hard-links");
             }
             else if (!RuntimeInfo.IsDesktop)
-                copyInformation.Text = FirstRunOverlayImportFromStableScreenStrings.LightweightLinkingNotSupported;
+                copyInformation.AddText(FirstRunOverlayImportFromStableScreenStrings.LightweightLinkingNotSupported);
             else
             {
-                copyInformation.Text = RuntimeInfo.OS == RuntimeInfo.Platform.Windows
+                copyInformation.AddText(RuntimeInfo.OS == RuntimeInfo.Platform.Windows
                     ? FirstRunOverlayImportFromStableScreenStrings.SecondCopyWillBeMadeWindows
-                    : FirstRunOverlayImportFromStableScreenStrings.SecondCopyWillBeMadeOtherPlatforms;
+                    : FirstRunOverlayImportFromStableScreenStrings.SecondCopyWillBeMadeOtherPlatforms);
                 copyInformation.AddText(@" "); // just to ensure correct spacing
-                copyInformation.AddLink(GeneralSettingsStrings.ChangeFolderLocation, () =>
+                copyInformation.AddLink(GeneralSettingsStrings.ChangeFolderLocation, action: () =>
                 {
                     game?.PerformFromScreen(menu => menu.Push(new MigrationSelectScreen()));
                 });

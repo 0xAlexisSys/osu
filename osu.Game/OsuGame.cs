@@ -45,7 +45,6 @@ using osu.Game.Input.Bindings;
 using osu.Game.IO;
 using osu.Game.Leaderboards;
 using osu.Game.Localisation;
-using osu.Game.Online;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Mods;
 using osu.Game.Overlays.Music;
@@ -77,7 +76,7 @@ namespace osu.Game
     /// for initial components that are generally retrieved via DI.
     /// </summary>
     [Cached(typeof(OsuGame))]
-    public partial class OsuGame : OsuGameBase, IKeyBindingHandler<GlobalAction>, ILocalUserPlayInfo, IPerformFromScreenRunner, IOverlayManager, ILinkHandler
+    public partial class OsuGame : OsuGameBase, IKeyBindingHandler<GlobalAction>, ILocalUserPlayInfo, IPerformFromScreenRunner, IOverlayManager
     {
 #if DEBUG
         // Different port allows running release and debug builds alongside each other.
@@ -403,37 +402,6 @@ namespace osu.Game
             applySafeAreaConsiderations = LocalConfig.GetBindable<bool>(OsuSetting.SafeAreaConsiderations);
             applySafeAreaConsiderations.BindValueChanged(apply => SafeAreaContainer.SafeAreaOverrideEdges = apply.NewValue ? SafeAreaOverrideEdges : Edges.All, true);
         }
-
-        /// <summary>
-        /// Handle an arbitrary URL. Displays via in-game overlays where possible.
-        /// This can be called from a non-thread-safe non-game-loaded state.
-        /// </summary>
-        /// <param name="url">The URL to load.</param>
-        public void HandleLink(string url) => HandleLink(MessageFormatter.GetLinkDetails(url));
-
-        /// <summary>
-        /// Handle a specific <see cref="LinkDetails"/>.
-        /// This can be called from a non-thread-safe non-game-loaded state.
-        /// </summary>
-        /// <param name="link">The link to load.</param>
-        public void HandleLink(LinkDetails link) => Schedule(() =>
-        {
-            string argString = link.Argument.ToString() ?? string.Empty;
-
-            switch (link.Action)
-            {
-                case LinkAction.OpenEditorTimestamp:
-                    HandleTimestamp(argString);
-                    break;
-
-                case LinkAction.OpenWiki:
-                    ShowWiki(argString);
-                    break;
-
-                default:
-                    throw new NotImplementedException($"This {nameof(LinkAction)} ({link.Action.ToString()}) is missing an associated action.");
-            }
-        });
 
         public void CopyToClipboard(string value) => waitForReady(() => onScreenDisplay, _ =>
         {

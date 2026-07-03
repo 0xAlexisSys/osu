@@ -144,9 +144,9 @@ namespace osu.Game.Screens.Select
             if (beatmaps.QueryBeatmapSet(s => !s.Protected && !s.DeletePending) is null)
             {
                 addBulletPoint();
-                textFlow.AddText("Consider running the \"");
-                textFlow.AddLink(FirstRunSetupOverlayStrings.FirstRunSetupTitle, () => firstRunSetupOverlay?.Show());
-                textFlow.AddText("\" to download or import some beatmaps!");
+                textFlow.AddText(@"Consider running the """);
+                textFlow.AddLink(FirstRunSetupOverlayStrings.FirstRunSetupTitle, action: () => firstRunSetupOverlay?.Show());
+                textFlow.AddText(@""" to download or import some beatmaps!");
             }
             else
             {
@@ -156,20 +156,16 @@ namespace osu.Game.Screens.Select
                 if (!string.IsNullOrEmpty(filter?.SearchText))
                 {
                     addBulletPoint();
-                    textFlow.AddText("Try ");
-                    textFlow.AddLink("clearing", () =>
-                    {
-                        RequestClearFilterText?.Invoke();
-                    });
-
-                    textFlow.AddText(" your current search criteria.");
+                    textFlow.AddText(@"Try ");
+                    textFlow.AddLink(@"clearing", action: () => RequestClearFilterText?.Invoke());
+                    textFlow.AddText(@" your current search criteria.");
                 }
 
                 if (filter?.UserStarDifficulty.HasFilter == true)
                 {
                     addBulletPoint();
-                    textFlow.AddText("Try ");
-                    textFlow.AddLink("removing", () =>
+                    textFlow.AddText(@"Try ");
+                    textFlow.AddLink(@"removing", action: () =>
                     {
                         config.SetValue(OsuSetting.DisplayStarsMinimum, 0.0);
                         config.SetValue(OsuSetting.DisplayStarsMaximum, 10.1);
@@ -178,7 +174,7 @@ namespace osu.Game.Screens.Select
                     string lowerStar = $"{filter.UserStarDifficulty.Min ?? 0:N1}";
                     string upperStar = filter.UserStarDifficulty.Max is null ? "∞" : $"{filter.UserStarDifficulty.Max:N1}";
 
-                    textFlow.AddText($" the {lowerStar} - {upperStar} star difficulty filter.");
+                    textFlow.AddText($@" the {lowerStar} - {upperStar} star difficulty filter.");
                 }
 
                 // TODO: Add realm queries to hint at which ruleset results are available in (and allow clicking to switch).
@@ -186,18 +182,18 @@ namespace osu.Game.Screens.Select
                 if (filter?.Ruleset?.ID != 0 && filter?.AllowConvertedBeatmaps == false)
                 {
                     addBulletPoint();
-                    textFlow.AddText("Try ");
-                    textFlow.AddLink("enabling", () => config.SetValue(OsuSetting.ShowConvertedBeatmaps, true));
-                    textFlow.AddText(" automatic conversion!");
+                    textFlow.AddText(@"Try ");
+                    textFlow.AddLink(@"enabling", action: () => config.SetValue(OsuSetting.ShowConvertedBeatmaps, true));
+                    textFlow.AddText(@" automatic conversion!");
                 }
             }
 
             if (!string.IsNullOrEmpty(filter?.SearchText))
             {
                 addBulletPoint();
-                textFlow.AddText("Try ");
-                textFlow.AddLink("searching online", () => host.OpenUrlExternally($@"https://beatconnect.io/?q={filter.SearchText}"));
-                textFlow.AddText($" for \"{filter.SearchText}\".");
+                textFlow.AddText(@"Try ");
+                textFlow.AddLink(@"searching online", action: () => host.OpenUrlExternally($@"https://beatconnect.io/?q={filter.SearchText}"));
+                textFlow.AddText($@" for ""{filter.SearchText}"".");
             }
             // TODO: add clickable link to reset criteria.
         }

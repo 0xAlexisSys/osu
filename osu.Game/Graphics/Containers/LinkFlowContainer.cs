@@ -1,105 +1,43 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-#nullable disable
-
 using System;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics.Sprites;
 using System.Collections.Generic;
+using osu.Framework.Extensions.ListExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Lists;
 using osu.Framework.Localisation;
-using osu.Framework.Logging;
 using osu.Framework.Platform;
-using osu.Game.Online;
-using osu.Game.Users;
+using osu.Game.Graphics.UserInterface;
+using osu.Game.Overlays;
+using osuTK;
 
 namespace osu.Game.Graphics.Containers
 {
-    public partial class LinkFlowContainer : OsuTextFlowContainer
+    public sealed partial class LinkFlowContainer : OsuTextFlowContainer
     {
-        public LinkFlowContainer(Action<SpriteText> defaultCreationParameters = null)
+        public LinkFlowContainer(Action<SpriteText>? defaultCreationParameters = null)
             : base(defaultCreationParameters)
         {
         }
 
-        [Resolved(CanBeNull = true)]
-        private ILinkHandler linkHandler { get; set; }
-
         [Resolved]
-        private GameHost host { get; set; }
+        private GameHost host { get; set; } = null!;
 
-        public void AddLinks(string text, List<Link> links, Action<SpriteText> creationParameters = null)
+        public void AddLink(LocalisableString text, string? url = null, Action? action = null, LocalisableString? tooltipText = null, Action<SpriteText>? creationParameters = null)
         {
-            if (string.IsNullOrEmpty(text) || links is null)
-                return;
-
-            if (links.Count == 0)
+            AddPart(new TextLink(CreateChunkFor(text, true, CreateSpriteText, creationParameters), tooltipText ?? string.Empty, () =>
             {
-                AddText(text, creationParameters);
-                return;
-            }
-
-            int previousLinkEnd = 0;
-
-            foreach (var link in links)
-            {
-                string displayText = text.Substring(link.Index, link.Length);
-
-                if (previousLinkEnd > link.Index)
-                {
-                    Logger.Log($@"Link ""{link.Url}"" with text ""{displayText}"" overlaps previous link, ignoring.");
-                    continue;
-                }
-
-                AddText(text[previousLinkEnd..link.Index], creationParameters);
-
-                object linkArgument = link.Argument;
-                string tooltip = displayText == link.Url ? null : link.Url;
-
-                AddLink(displayText, link.Action, linkArgument, tooltip, creationParameters);
-                previousLinkEnd = link.Index + link.Length;
-            }
-
-            AddText(text.Substring(previousLinkEnd), creationParameters);
+                action?.Invoke();
+                if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) host.OpenUrlExternally(url);
+            }));
         }
 
-        public void AddLink(LocalisableString text, string url, Action<SpriteText> creationParameters = null) =>
-            createLink(CreateChunkFor(text, true, CreateSpriteText, creationParameters), new LinkDetails(LinkAction.External, url), url);
-
-        public void AddLink(LocalisableString text, Action action, string tooltipText = null, Action<SpriteText> creationParameters = null)
-            => createLink(CreateChunkFor(text, true, CreateSpriteText, creationParameters), new LinkDetails(LinkAction.Custom, string.Empty), tooltipText, action);
-
-        public void AddLink(LocalisableString text, LinkAction action, object argument, string tooltipText = null, Action<SpriteText> creationParameters = null)
-            => createLink(CreateChunkFor(text, true, CreateSpriteText, creationParameters), new LinkDetails(action, argument), tooltipText);
-
-        public void AddLink(IEnumerable<SpriteText> text, LinkAction action, object linkArgument, string tooltipText = null)
-        {
-            createLink(new TextPartManual(text), new LinkDetails(action, linkArgument), tooltipText);
-        }
-
-        public void AddUserLink(User user, Action<SpriteText> creationParameters = null)
-            => createLink(CreateChunkFor(user.Username, true, CreateSpriteText, creationParameters), new LinkDetails(LinkAction.OpenUserProfile, user), string.Empty);
-
-        private void createLink(ITextPart textPart, LinkDetails link, LocalisableString tooltipText, Action action = null)
-        {
-            Action onClickAction = () =>
-            {
-                if (action is not null)
-                    action();
-                else if (linkHandler is not null)
-                    linkHandler.HandleLink(link);
-                // fallback to handle cases where OsuGame is not available, ie. tournament client.
-                else if (link.Action == LinkAction.External)
-                    host.OpenUrlExternally(link.Argument.ToString());
-            };
-
-            AddPart(new TextLink(textPart, tooltipText, onClickAction));
-        }
-
-        private class TextLink : TextPart
+        private partial class TextLink : TextPart
         {
             private readonly ITextPart innerPart;
             private readonly LocalisableString tooltipText;
@@ -119,27 +57,63 @@ namespace osu.Game.Graphics.Containers
                 innerPart.RecreateDrawablesFor(linkFlowContainer);
                 var drawables = innerPart.Drawables.ToList();
 
-                drawables.Add(linkFlowContainer.CreateLinkCompiler(innerPart).With(c =>
+                drawables.Add(new DrawableLinkCompiler(innerPart).With(c =>
                 {
-                    c.RelativeSizeAxes = Axes.Both;
                     c.TooltipText = tooltipText;
                     c.Action = action;
                 }));
 
                 return drawables;
             }
-        }
 
-        protected virtual DrawableLinkCompiler CreateLinkCompiler(ITextPart textPart) => new DrawableLinkCompiler(textPart);
+            /// <summary>
+            /// An invisible drawable that brings multiple <see cref="Drawable"/> pieces together to form a consumable clickable link.
+            /// </summary>
+            private partial class DrawableLinkCompiler : OsuHoverContainer
+            {
+                /// <summary>
+                /// Each word part of a chat link (split for word-wrap support).
+                /// </summary>
+                private readonly SlimReadOnlyListWrapper<Drawable> parts;
 
-        protected override InnerFlow CreateFlow() => new LinkFlow();
+                [Resolved]
+                private OverlayColourProvider? overlayColourProvider { get; set; }
 
-        private partial class LinkFlow : InnerFlow
-        {
-            // We want the compilers to always be visible no matter where they are, so RelativeSizeAxes is used.
-            // However due to https://github.com/ppy/osu-framework/issues/2073, it's possible for the compilers to be relative size in the flow's auto-size axes - an unsupported operation.
-            // Since the compilers don't display any content and don't affect the layout, it's simplest to exclude them from the flow.
-            public override IEnumerable<Drawable> FlowingChildren => base.FlowingChildren.Where(c => c is not DrawableLinkCompiler);
+                public override bool ReceivePositionalInputAt(Vector2 screenSpacePos) => parts.Any(part => part.ReceivePositionalInputAt(screenSpacePos));
+
+                protected override HoverSounds CreateHoverSounds(HoverSampleSet sampleSet) => new LinkHoverSounds(sampleSet, parts);
+
+                public DrawableLinkCompiler(ITextPart part)
+                    : this(part.Drawables.OfType<SpriteText>())
+                {
+                }
+
+                public DrawableLinkCompiler(IEnumerable<Drawable> parts)
+                {
+                    this.parts = parts.ToList().AsSlimReadOnly();
+                }
+
+                [BackgroundDependencyLoader]
+                private void load(OsuColour colours)
+                {
+                    IdleColour ??= overlayColourProvider?.Light2 ?? colours.Blue;
+                }
+
+                protected override IEnumerable<Drawable> EffectTargets => parts;
+
+                private partial class LinkHoverSounds : HoverClickSounds
+                {
+                    private readonly SlimReadOnlyListWrapper<Drawable> parts;
+
+                    public LinkHoverSounds(HoverSampleSet sampleSet, SlimReadOnlyListWrapper<Drawable> parts)
+                        : base(sampleSet)
+                    {
+                        this.parts = parts;
+                    }
+
+                    public override bool ReceivePositionalInputAt(Vector2 screenSpacePos) => parts.Any(part => part.ReceivePositionalInputAt(screenSpacePos));
+                }
+            }
         }
     }
 }

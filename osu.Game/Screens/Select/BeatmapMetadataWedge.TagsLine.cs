@@ -240,7 +240,7 @@ namespace osu.Game.Screens.Select
                     for (int i = TagsShownCount.Value; i < tags.Length; i++)
                     {
                         string tag = tags[i];
-                        textFlow.AddLink(tag, () => performSearch?.Invoke(tag));
+                        textFlow.AddLink(tag, action: () => performSearch?.Invoke(tag));
                         textFlow.AddText(" ");
                     }
                 }

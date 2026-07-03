@@ -344,11 +344,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
         private partial class NoTabletMessage : CompositeDrawable
         {
-            private IBindable<string> noTabletDetectedText = new Bindable<string>();
             private LinkFlowContainer linkContainer;
-
-            [Resolved]
-            private LocalisationManager localisation { get; set; }
 
             [BackgroundDependencyLoader]
             private void load(OsuColour colours, OverlayColourProvider colourProvider)
@@ -405,23 +401,10 @@ namespace osu.Game.Overlays.Settings.Sections.Input
                     },
                 };
 
-                const string url = @"https://opentabletdriver.net/Wiki/FAQ/General";
-                noTabletDetectedText = localisation.GetLocalisedBindableString(TabletSettingsStrings.NoTabletDetectedDescription(url));
-            }
-
-            protected override void LoadComplete()
-            {
-                base.LoadComplete();
-
-                noTabletDetectedText.BindValueChanged(_ =>
-                {
-                    linkContainer.Clear();
-                    linkContainer.NewLine();
-
-                    // var formattedSource = MessageFormatter.FormatText(noTabletDetectedText.Value);
-
-                    // linkContainer.AddLinks(formattedSource.Text, formattedSource.Links);
-                }, true);
+                linkContainer.NewLine();
+                linkContainer.AddText(@"If your tablet is not detected, please read ");
+                linkContainer.AddLink(@"this FAQ", url: @"https://opentabletdriver.net/Wiki/FAQ/General");
+                linkContainer.AddText(@" for troubleshooting steps.");
             }
         }
     }

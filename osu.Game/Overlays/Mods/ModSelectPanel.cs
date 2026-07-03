@@ -285,20 +285,18 @@ namespace osu.Game.Overlays.Mods
 
         public abstract IEnumerable<LocalisableString> FilterTerms { get; }
 
-        private bool matchingFilter = true;
-
         public virtual bool MatchingFilter
         {
-            get => matchingFilter;
+            get;
             set
             {
-                if (matchingFilter == value)
+                if (field == value)
                     return;
 
-                matchingFilter = value;
+                field = value;
                 this.FadeTo(value ? 1 : 0);
             }
-        }
+        } = true;
 
         public bool FilteringActive
         {

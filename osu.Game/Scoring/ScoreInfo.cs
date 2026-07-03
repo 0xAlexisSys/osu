@@ -197,40 +197,36 @@ namespace osu.Game.Scoring
         /// </summary>
         public bool IsLegacyScore { get; set; }
 
-        private Dictionary<HitResult, int>? statistics;
-
         [Ignored]
         public Dictionary<HitResult, int> Statistics
         {
             get
             {
-                if (statistics != null)
-                    return statistics;
+                if (field != null)
+                    return field;
 
                 if (!string.IsNullOrEmpty(StatisticsJson))
-                    statistics = JsonConvert.DeserializeObject<Dictionary<HitResult, int>>(StatisticsJson);
+                    field = JsonConvert.DeserializeObject<Dictionary<HitResult, int>>(StatisticsJson);
 
-                return statistics ??= new Dictionary<HitResult, int>();
+                return field ??= new Dictionary<HitResult, int>();
             }
-            set => statistics = value;
+            set;
         }
-
-        private Dictionary<HitResult, int>? maximumStatistics;
 
         [Ignored]
         public Dictionary<HitResult, int> MaximumStatistics
         {
             get
             {
-                if (maximumStatistics != null)
-                    return maximumStatistics;
+                if (field != null)
+                    return field;
 
                 if (!string.IsNullOrEmpty(MaximumStatisticsJson))
-                    maximumStatistics = JsonConvert.DeserializeObject<Dictionary<HitResult, int>>(MaximumStatisticsJson);
+                    field = JsonConvert.DeserializeObject<Dictionary<HitResult, int>>(MaximumStatisticsJson);
 
-                return maximumStatistics ??= new Dictionary<HitResult, int>();
+                return field ??= new Dictionary<HitResult, int>();
             }
-            set => maximumStatistics = value;
+            set;
         }
 
         private Mod[]? mods;

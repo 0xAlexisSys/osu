@@ -94,8 +94,6 @@ namespace osu.Game.Screens.Play
 
         private Bindable<bool> showStoryboards = null!;
 
-        private bool backgroundBrightnessReduction;
-
         private readonly BindableDouble volumeAdjustment = new BindableDouble(1);
 
         private AudioFilter? lowPassFilter;
@@ -119,12 +117,12 @@ namespace osu.Game.Screens.Play
         {
             set
             {
-                if (value == backgroundBrightnessReduction)
+                if (value == field)
                     return;
 
-                backgroundBrightnessReduction = value;
+                field = value;
 
-                ApplyToBackground(b => b.FadeColour(OsuColour.Gray(backgroundBrightnessReduction ? 0.8f : 1), 200));
+                ApplyToBackground(b => b.FadeColour(OsuColour.Gray(field ? 0.8f : 1), 200));
             }
         }
 

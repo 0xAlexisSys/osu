@@ -38,17 +38,15 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
         [Resolved]
         private DrawableHitObject drawableHitObject { get; set; } = null!;
 
-        private Color4 accentColour;
-
         /// <summary>
         /// The colour of the inner circle and outer glows.
         /// </summary>
         public Color4 AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                accentColour = value;
+                field = value;
 
                 background.Colour = AccentColour;
 
@@ -56,17 +54,15 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
             }
         }
 
-        private bool kiaiMode;
-
         /// <summary>
         /// Whether Kiai mode effects are enabled for this circle piece.
         /// </summary>
         public bool KiaiMode
         {
-            get => kiaiMode;
+            get;
             set
             {
-                kiaiMode = value;
+                field = value;
 
                 resetEdgeEffects();
             }

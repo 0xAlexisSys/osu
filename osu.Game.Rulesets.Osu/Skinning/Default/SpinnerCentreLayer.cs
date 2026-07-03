@@ -54,17 +54,15 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
             symbol.Rotation = (float)Interpolation.Lerp(symbol.Rotation, spinner.RotationTracker.Rotation / 2, Math.Clamp(Math.Abs(Time.Elapsed) / 40, 0, 1));
         }
 
-        private Color4 accentColour;
-
         public Color4 AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                accentColour = value;
+                field = value;
 
-                circle.Colour = accentColour;
-                glow.Colour = accentColour;
+                circle.Colour = field;
+                glow.Colour = field;
             }
         }
     }

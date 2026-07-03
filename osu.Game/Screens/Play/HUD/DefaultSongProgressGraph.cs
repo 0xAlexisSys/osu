@@ -13,28 +13,26 @@ namespace osu.Game.Screens.Play.HUD
 {
     public partial class DefaultSongProgressGraph : SquareGraph
     {
-        private IEnumerable<HitObject> objects;
-
         public IEnumerable<HitObject> Objects
         {
             set
             {
-                objects = value;
+                field = value;
 
                 const int granularity = 200;
                 Values = new int[granularity];
 
-                if (!objects.Any())
+                if (!field.Any())
                     return;
 
-                (double firstHit, double lastHit) = BeatmapExtensions.CalculatePlayableBounds(objects);
+                (double firstHit, double lastHit) = BeatmapExtensions.CalculatePlayableBounds(field);
 
                 if (lastHit == 0)
-                    lastHit = objects.Last().StartTime;
+                    lastHit = field.Last().StartTime;
 
                 double interval = (lastHit - firstHit + 1) / granularity;
 
-                foreach (var h in objects)
+                foreach (var h in field)
                 {
                     double endTime = h.GetEndTime();
 

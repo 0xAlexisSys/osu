@@ -24,14 +24,12 @@ namespace osu.Game.Rulesets.Mania.Objects
             set => Duration = value - StartTime;
         }
 
-        private double duration;
-
         public double Duration
         {
-            get => duration;
+            get;
             set
             {
-                duration = value;
+                field = value;
                 Tail?.StartTime = EndTime;
             }
         }

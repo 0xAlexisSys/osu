@@ -12,22 +12,20 @@ namespace osu.Game.Screens.Edit.Components.RadioButtons
 {
     public partial class EditorRadioButtonCollection : CompositeDrawable
     {
-        private IReadOnlyList<RadioButton> items = Array.Empty<RadioButton>();
-
         public IReadOnlyList<RadioButton> Items
         {
-            get => items;
+            get;
             set
             {
-                if (ReferenceEquals(items, value))
+                if (ReferenceEquals(field, value))
                     return;
 
-                items = value;
+                field = value;
 
                 buttonContainer.Clear();
-                items.ForEach(addButton);
+                field.ForEach(addButton);
             }
-        }
+        } = Array.Empty<RadioButton>();
 
         private readonly FlowContainer<EditorRadioButton> buttonContainer;
 

@@ -49,29 +49,25 @@ namespace osu.Game.Overlays.Notifications
         /// </summary>
         public Func<bool>? CompletionClickAction { get; set; }
 
-        private LocalisableString text;
-
         public override LocalisableString Text
         {
-            get => text;
+            get;
             set
             {
-                text = value;
-                Scheduler.AddOnce(t => textDrawable.Text = t, text);
+                field = value;
+                Scheduler.AddOnce(t => textDrawable.Text = t, field);
             }
         }
 
         public LocalisableString CompletionText { get; set; } = "Task has completed!";
 
-        private float progress;
-
         public float Progress
         {
-            get => progress;
+            get;
             set
             {
-                progress = value;
-                Scheduler.AddOnce(p => progressBar.Progress = p, progress);
+                field = value;
+                Scheduler.AddOnce(p => progressBar.Progress = p, field);
             }
         }
 
@@ -287,29 +283,25 @@ namespace osu.Game.Overlays.Notifications
             private Color4 colourActive;
             private Color4 colourInactive;
 
-            private float progress;
-
             public float Progress
             {
-                get => progress;
+                get;
                 set
                 {
-                    if (progress == value) return;
+                    if (field == value) return;
 
-                    progress = value;
-                    box.ResizeTo(new Vector2(progress, 1), 100, Easing.OutQuad);
+                    field = value;
+                    box.ResizeTo(new Vector2(field, 1), 100, Easing.OutQuad);
                 }
             }
 
-            private bool active;
-
             public bool Active
             {
-                get => active;
+                get;
                 set
                 {
-                    active = value;
-                    this.FadeColour(active ? colourActive : colourInactive, 100);
+                    field = value;
+                    this.FadeColour(field ? colourActive : colourInactive, 100);
                 }
             }
 

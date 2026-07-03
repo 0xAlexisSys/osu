@@ -30,36 +30,32 @@ namespace osu.Game.Screens.Play.HUD
             KeyUpTextColor = KeyUpTextColor,
         };
 
-        private Color4 keyDownTextColor = Color4.DarkGray;
-
         public Color4 KeyDownTextColor
         {
-            get => keyDownTextColor;
+            get;
             set
             {
-                if (value != keyDownTextColor)
+                if (value != field)
                 {
-                    keyDownTextColor = value;
+                    field = value;
                     foreach (var child in KeyFlow.Cast<DefaultKeyCounter>())
                         child.KeyDownTextColor = value;
                 }
             }
-        }
-
-        private Color4 keyUpTextColor = Color4.White;
+        } = Color4.DarkGray;
 
         public Color4 KeyUpTextColor
         {
-            get => keyUpTextColor;
+            get;
             set
             {
-                if (value != keyUpTextColor)
+                if (value != field)
                 {
-                    keyUpTextColor = value;
+                    field = value;
                     foreach (var child in KeyFlow.Cast<DefaultKeyCounter>())
                         child.KeyUpTextColor = value;
                 }
             }
-        }
+        } = Color4.White;
     }
 }

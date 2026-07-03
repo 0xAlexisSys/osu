@@ -42,19 +42,17 @@ namespace osu.Game.Rulesets.Osu.Objects
 
         public Vector2 StackedPositionAt(double t) => StackedPosition + this.CurvePositionAt(t);
 
-        private readonly SliderPath path = new SliderPath { OptimiseCatmull = true };
-
         public SliderPath Path
         {
-            get => path;
+            get;
             set
             {
-                path.ControlPoints.Clear();
-                path.ControlPoints.AddRange(value.ControlPoints.Select(c => new PathControlPoint(c.Position, c.Type)));
+                field.ControlPoints.Clear();
+                field.ControlPoints.AddRange(value.ControlPoints.Select(c => new PathControlPoint(c.Position, c.Type)));
 
-                path.ExpectedDistance.Value = value.ExpectedDistance.Value;
+                field.ExpectedDistance.Value = value.ExpectedDistance.Value;
             }
-        }
+        } = new SliderPath { OptimiseCatmull = true };
 
         public double Distance => Path.Distance;
 
@@ -112,16 +110,14 @@ namespace osu.Game.Rulesets.Osu.Objects
         /// </summary>
         public bool ClassicSliderBehaviour
         {
-            get => classicSliderBehaviour;
+            get;
             set
             {
-                classicSliderBehaviour = value;
+                field = value;
                 HeadCircle?.ClassicSliderBehaviour = value;
                 TailCircle?.ClassicSliderBehaviour = value;
             }
         }
-
-        private bool classicSliderBehaviour;
 
         public BindableNumber<double> SliderVelocityMultiplierBindable { get; } = new BindableDouble(1)
         {

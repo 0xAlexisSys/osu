@@ -98,16 +98,12 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
             protected override DropdownSearchBar CreateSearchBar() => SearchBar = new FormDropdownSearchBar();
 
-            private LocalisableString captionText;
-            private LocalisableString hintText;
-            private LocalisableString labelText;
-
             public LocalisableString Caption
             {
-                get => captionText;
+                get;
                 set
                 {
-                    captionText = value;
+                    field = value;
 
                     if (caption.IsNotNull())
                         caption.Caption = value;
@@ -116,10 +112,10 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
             public LocalisableString HintText
             {
-                get => hintText;
+                get;
                 set
                 {
-                    hintText = value;
+                    field = value;
 
                     if (caption.IsNotNull())
                         caption.TooltipText = value;
@@ -128,13 +124,13 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
             protected override LocalisableString Label
             {
-                get => labelText;
+                get;
                 set
                 {
-                    labelText = value;
+                    field = value;
 
                     if (label.IsNotNull())
-                        label.Text = labelText;
+                        label.Text = field;
                 }
             }
 

@@ -138,19 +138,17 @@ namespace osu.Game.Screens.Backgrounds
 
             public Background Background
             {
-                get => background;
+                get;
                 set
                 {
-                    background?.Expire();
+                    field?.Expire();
 
-                    base.Add(background = value);
-                    background.BlurTo(blurTarget, 0, Easing.OutQuint);
+                    base.Add(field = value);
+                    field.BlurTo(blurTarget, 0, Easing.OutQuint);
                 }
             }
 
             private Bindable<double> userBlurLevel { get; set; }
-
-            private Background background;
 
             public override void Add(Drawable drawable)
             {

@@ -49,21 +49,19 @@ namespace osu.Game.Screens.Play.HUD
             set => fill.Colour = value;
         }
 
-        private Color4 glowColour;
-
         public Color4 GlowColour
         {
-            get => glowColour;
+            get;
             set
             {
-                if (glowColour == value)
+                if (field == value)
                     return;
 
-                glowColour = value;
+                field = value;
 
                 fill.EdgeEffect = new EdgeEffectParameters
                 {
-                    Colour = glowColour.Opacity(base_glow_opacity),
+                    Colour = field.Opacity(base_glow_opacity),
                     Radius = 8,
                     Roundness = 4,
                     Type = EdgeEffectType.Glow,

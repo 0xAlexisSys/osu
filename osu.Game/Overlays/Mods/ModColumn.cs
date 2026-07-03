@@ -259,26 +259,22 @@ namespace osu.Game.Overlays.Mods
 
         private partial class ToggleAllCheckbox : OsuCheckbox
         {
-            private Color4 accentColour;
-
             public Color4 AccentColour
             {
-                get => accentColour;
+                get;
                 set
                 {
-                    accentColour = value;
+                    field = value;
                     updateState();
                 }
             }
 
-            private Color4 accentHoverColour;
-
             public Color4 AccentHoverColour
             {
-                get => accentHoverColour;
+                get;
                 set
                 {
-                    accentHoverColour = value;
+                    field = value;
                     updateState();
                 }
             }

@@ -40,19 +40,17 @@ namespace osu.Game.Screens.Edit.Compose.Components
         private SelectionBoxButton? rotateClockwiseButton;
         private SelectionBoxButton? rotateCounterClockwiseButton;
 
-        private bool canReverse;
-
         /// <summary>
         /// Whether pattern reversing support should be enabled.
         /// </summary>
         public bool CanReverse
         {
-            get => canReverse;
+            get;
             set
             {
-                if (canReverse == value) return;
+                if (field == value) return;
 
-                canReverse = value;
+                field = value;
                 recreateButtons();
             }
         }
@@ -65,36 +63,32 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private readonly IBindable<bool> canScaleDiagonally = new BindableBool();
 
-        private bool canFlipX;
-
         /// <summary>
         /// Whether horizontal flipping support should be enabled.
         /// </summary>
         public bool CanFlipX
         {
-            get => canFlipX;
+            get;
             set
             {
-                if (canFlipX == value) return;
+                if (field == value) return;
 
-                canFlipX = value;
+                field = value;
                 recreateButtons();
             }
         }
-
-        private bool canFlipY;
 
         /// <summary>
         /// Whether vertical flipping support should be enabled.
         /// </summary>
         public bool CanFlipY
         {
-            get => canFlipY;
+            get;
             set
             {
-                if (canFlipY == value) return;
+                if (field == value) return;
 
-                canFlipY = value;
+                field = value;
                 recreateButtons();
             }
         }

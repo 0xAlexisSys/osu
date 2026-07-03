@@ -30,17 +30,15 @@ namespace osu.Game.Graphics.UserInterface
 
         public event Action<SelectionState>? StateChanged;
 
-        private SelectionState state;
-
         public SelectionState State
         {
-            get => state;
+            get;
             set
             {
-                if (state == value)
+                if (field == value)
                     return;
 
-                state = value;
+                field = value;
                 StateChanged?.Invoke(value);
             }
         }
@@ -175,14 +173,12 @@ namespace osu.Game.Graphics.UserInterface
             StateChanged += selectionChanged;
         }
 
-        private Color4 buttonColour;
-
         public Color4 ButtonColour
         {
-            get => buttonColour;
+            get;
             set
             {
-                buttonColour = value;
+                field = value;
                 updateGlow();
                 ColourContainer.Colour = value;
             }
@@ -200,14 +196,12 @@ namespace osu.Game.Graphics.UserInterface
             }
         }
 
-        private LocalisableString text;
-
         public LocalisableString Text
         {
-            get => text;
+            get;
             set
             {
-                text = value;
+                field = value;
                 spriteText.Text = Text;
             }
         }

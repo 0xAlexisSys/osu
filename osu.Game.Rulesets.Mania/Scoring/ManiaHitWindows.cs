@@ -59,38 +59,32 @@ namespace osu.Game.Rulesets.Mania.Scoring
 
         private double overallDifficulty;
 
-        private bool classicModActive;
-
         public bool ClassicModActive
         {
-            get => classicModActive;
+            get;
             set
             {
-                classicModActive = value;
+                field = value;
                 updateWindows();
             }
         }
-
-        private bool scoreV2Active;
 
         public bool ScoreV2Active
         {
-            get => scoreV2Active;
+            get;
             set
             {
-                scoreV2Active = value;
+                field = value;
                 updateWindows();
             }
         }
 
-        private bool isConvert;
-
         public bool IsConvert
         {
-            get => isConvert;
+            get;
             set
             {
-                isConvert = value;
+                field = value;
                 updateWindows();
             }
         }

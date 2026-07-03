@@ -32,18 +32,16 @@ namespace osu.Game.Screens.Edit.Timing
         /// </summary>
         public bool IsMultipleValues
         {
-            get => isMultipleValues;
+            get;
             set
             {
-                if (isMultipleValues == value)
+                if (field == value)
                     return;
 
-                isMultipleValues = value;
+                field = value;
                 updateIndeterminateState();
             }
         }
-
-        private bool isMultipleValues;
 
         private FormDiscreteAdjustmentControl<double> control = null!;
 

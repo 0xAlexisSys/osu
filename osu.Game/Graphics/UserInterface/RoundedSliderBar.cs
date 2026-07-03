@@ -29,14 +29,12 @@ namespace osu.Game.Graphics.UserInterface
 
         private readonly Container mainContent;
 
-        private Color4 accentColour;
-
         public Color4 AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                accentColour = value;
+                field = value;
                 LeftBox.Colour = value;
             }
         }

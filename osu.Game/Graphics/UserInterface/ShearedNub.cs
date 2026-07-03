@@ -96,82 +96,70 @@ namespace osu.Game.Graphics.UserInterface
             FinishTransforms(true);
         }
 
-        private bool glowing;
-
         public bool Glowing
         {
-            get => glowing;
+            get;
             set
             {
-                if (glowing == value)
+                if (field == value)
                     return;
 
-                glowing = value;
+                field = value;
                 updateDisplay();
             }
         }
 
-        private Color4 shadowColour = Color4.Black.Opacity(0f);
-
         public Color4 ShadowColour
         {
-            get => shadowColour;
+            get;
             set
             {
-                if (shadowColour == value)
+                if (field == value)
                     return;
 
-                shadowColour = value;
+                field = value;
                 shadow.FadeEdgeEffectTo(value, 800, Easing.OutQuint);
             }
-        }
-
-        private readonly Bindable<bool> current = new Bindable<bool>();
+        } = Color4.Black.Opacity(0f);
 
         public Bindable<bool> Current
         {
-            get => current;
+            get;
             set
             {
                 ArgumentNullException.ThrowIfNull(value);
 
-                current.UnbindBindings();
-                current.BindTo(value);
+                field.UnbindBindings();
+                field.BindTo(value);
             }
-        }
-
-        private Color4 accentColour;
+        } = new Bindable<bool>();
 
         public Color4 AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                accentColour = value;
+                field = value;
                 updateDisplay();
             }
         }
-
-        private Color4 glowingAccentColour;
 
         public Color4 GlowingAccentColour
         {
-            get => glowingAccentColour;
+            get;
             set
             {
-                glowingAccentColour = value;
+                field = value;
                 updateDisplay();
             }
         }
 
-        private Color4 glowColour;
-
         public Color4 GlowColour
         {
-            get => glowColour;
+            get;
             set
             {
-                glowColour = value;
+                field = value;
                 updateDisplay();
             }
         }

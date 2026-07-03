@@ -24,23 +24,21 @@ namespace osu.Game.Graphics.Containers
         /// </summary>
         public readonly BindableBool DragActive = new BindableBool();
 
-        private Color4 handleColour = Color4.White;
-
         /// <summary>
         /// The colour of the drag handle.
         /// </summary>
         protected Color4 HandleColour
         {
-            get => handleColour;
+            get;
             set
             {
-                if (handleColour == value)
+                if (field == value)
                     return;
 
-                handleColour = value;
+                field = value;
                 handle?.Colour = value;
             }
-        }
+        } = Color4.White;
 
         /// <summary>
         /// Whether the drag handle should be shown.

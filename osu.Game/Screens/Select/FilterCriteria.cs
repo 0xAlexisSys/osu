@@ -51,8 +51,6 @@ namespace osu.Game.Screens.Select
         public IReadOnlyList<Mod>? Mods;
         public bool AllowConvertedBeatmaps;
 
-        private string searchText = string.Empty;
-
         /// <summary>
         /// <see cref="SearchText"/> as a number (if it can be parsed as one).
         /// </summary>
@@ -60,10 +58,10 @@ namespace osu.Game.Screens.Select
 
         public string SearchText
         {
-            get => searchText;
+            get;
             set
             {
-                searchText = value;
+                field = value;
 
                 List<OptionalTextFilter> terms = new List<OptionalTextFilter>();
 
@@ -104,10 +102,9 @@ namespace osu.Game.Screens.Select
                 if (SearchTerms.Length == 1 && int.TryParse(SearchTerms[0].SearchTerm, out int parsed))
                     SearchNumber = parsed;
             }
-        }
+        } = string.Empty;
 
         private ImmutableHashSet<string>? collectionBeatmapMD5Hashes;
-        private Live<BeatmapCollection>? collection;
 
         /// <summary>
         /// Hashes from the <see cref="BeatmapCollection"/> to filter to.
@@ -117,10 +114,10 @@ namespace osu.Game.Screens.Select
 
         public Live<BeatmapCollection>? Collection
         {
-            get => collection;
+            get;
             set
             {
-                collection = value;
+                field = value;
                 collectionBeatmapMD5Hashes = null;
             }
         }

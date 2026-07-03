@@ -47,20 +47,18 @@ namespace osu.Game.Graphics.UserInterface
         /// </summary>
         protected virtual Easing RollingEasing => Easing.OutQuad;
 
-        private T displayedCount;
-
         /// <summary>
         /// Value shown at the current moment.
         /// </summary>
         public virtual T DisplayedCount
         {
-            get => displayedCount;
+            get;
             set
             {
-                if (EqualityComparer<T>.Default.Equals(displayedCount, value))
+                if (EqualityComparer<T>.Default.Equals(field, value))
                     return;
 
-                displayedCount = value;
+                field = value;
                 UpdateDisplay();
             }
         }

@@ -127,27 +127,23 @@ namespace osu.Game.Graphics.UserInterface
                 }
             }
 
-            private Color4 hoverColour;
-
             public Color4 HoverColour
             {
-                get => hoverColour;
+                get;
                 set
                 {
-                    hoverColour = value;
+                    field = value;
                     foreach (var c in Children.OfType<DrawableOsuDropdownMenuItem>())
                         c.BackgroundColourHover = value;
                 }
             }
 
-            private Color4 selectionColour;
-
             public Color4 SelectionColour
             {
-                get => selectionColour;
+                get;
                 set
                 {
-                    selectionColour = value;
+                    field = value;
                     foreach (var c in Children.OfType<DrawableOsuDropdownMenuItem>())
                         c.BackgroundColourSelected = value;
                 }
@@ -311,19 +307,17 @@ namespace osu.Game.Graphics.UserInterface
                         Chevron.Colour = colourProvider?.Background5 ?? Color4.Black;
                     }
 
-                    private bool hovering;
-
                     public bool Hovering
                     {
-                        get => hovering;
+                        get;
                         set
                         {
-                            if (value == hovering)
+                            if (value == field)
                                 return;
 
-                            hovering = value;
+                            field = value;
 
-                            if (hovering)
+                            if (field)
                             {
                                 Chevron.FadeIn(400, Easing.OutQuint);
                                 Chevron.MoveToX(0, 400, Easing.OutQuint);

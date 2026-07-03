@@ -181,44 +181,38 @@ namespace osu.Game.Rulesets.Mods
                 return 1.0f;
             }
 
-            private Vector2 flashlightPosition;
-
             protected Vector2 FlashlightPosition
             {
-                get => flashlightPosition;
+                get;
                 set
                 {
-                    if (flashlightPosition == value) return;
+                    if (field == value) return;
 
-                    flashlightPosition = value;
+                    field = value;
                     Invalidate(Invalidation.DrawNode);
                 }
             }
-
-            private Vector2 flashlightSize;
 
             protected Vector2 FlashlightSize
             {
-                get => flashlightSize;
+                get;
                 set
                 {
-                    if (flashlightSize == value) return;
+                    if (field == value) return;
 
-                    flashlightSize = value;
+                    field = value;
                     Invalidate(Invalidation.DrawNode);
                 }
             }
 
-            private float flashlightDim;
-
             public float FlashlightDim
             {
-                get => flashlightDim;
+                get;
                 set
                 {
-                    if (flashlightDim == value) return;
+                    if (field == value) return;
 
-                    flashlightDim = value;
+                    field = value;
                     Invalidate(Invalidation.DrawNode);
                 }
             }

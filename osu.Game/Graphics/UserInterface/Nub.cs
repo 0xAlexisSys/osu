@@ -77,14 +77,12 @@ namespace osu.Game.Graphics.UserInterface
             Current.BindValueChanged(onCurrentValueChanged, true);
         }
 
-        private bool glowing;
-
         public bool Glowing
         {
-            get => glowing;
+            get;
             set
             {
-                glowing = value;
+                field = value;
 
                 if (value)
                 {
@@ -104,54 +102,46 @@ namespace osu.Game.Graphics.UserInterface
             }
         }
 
-        private readonly Bindable<bool> current = new Bindable<bool>();
-
         public Bindable<bool> Current
         {
-            get => current;
+            get;
             set
             {
                 ArgumentNullException.ThrowIfNull(value);
 
-                current.UnbindBindings();
-                current.BindTo(value);
+                field.UnbindBindings();
+                field.BindTo(value);
             }
-        }
-
-        private Color4 accentColour;
+        } = new Bindable<bool>();
 
         public Color4 AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                accentColour = value;
+                field = value;
                 if (!Glowing)
                     main.Colour = value;
             }
         }
 
-        private Color4 glowingAccentColour;
-
         public Color4 GlowingAccentColour
         {
-            get => glowingAccentColour;
+            get;
             set
             {
-                glowingAccentColour = value;
+                field = value;
                 if (Glowing)
                     main.Colour = value;
             }
         }
 
-        private Color4 glowColour;
-
         public Color4 GlowColour
         {
-            get => glowColour;
+            get;
             set
             {
-                glowColour = value;
+                field = value;
 
                 var effect = main.EdgeEffect;
                 effect.Colour = Glowing ? value : value.Opacity(0);

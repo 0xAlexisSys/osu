@@ -17,52 +17,46 @@ namespace osu.Game.Storyboards.Drawables
     {
         public StoryboardSprite Sprite { get; }
 
-        private bool flipH;
-
         public bool FlipH
         {
-            get => flipH;
+            get;
             set
             {
-                if (flipH == value)
+                if (field == value)
                     return;
 
-                flipH = value;
+                field = value;
                 Invalidate(Invalidation.MiscGeometry);
             }
         }
-
-        private bool flipV;
 
         public bool FlipV
         {
-            get => flipV;
+            get;
             set
             {
-                if (flipV == value)
+                if (field == value)
                     return;
 
-                flipV = value;
+                field = value;
                 Invalidate(Invalidation.MiscGeometry);
             }
         }
 
-        private Vector2 vectorScale = Vector2.One;
-
         public Vector2 VectorScale
         {
-            get => vectorScale;
+            get;
             set
             {
-                if (vectorScale == value)
+                if (field == value)
                     return;
 
                 if (!Validation.IsFinite(value)) throw new ArgumentException($@"{nameof(VectorScale)} must be finite, but is {value}.");
 
-                vectorScale = value;
+                field = value;
                 Invalidate(Invalidation.MiscGeometry);
             }
-        }
+        } = Vector2.One;
 
         public override bool RemoveWhenNotAlive => false;
 

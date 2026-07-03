@@ -28,35 +28,31 @@ namespace osu.Game.Graphics.UserInterface
             }
         }
 
-        private float expandedSize = 4;
-
         public float ExpandedSize
         {
-            get => expandedSize;
+            get;
             set
             {
-                if (value == expandedSize)
+                if (value == field)
                     return;
 
-                expandedSize = value;
+                field = value;
                 updateState();
             }
-        }
-
-        private float collapsedSize = 2;
+        } = 4;
 
         public float CollapsedSize
         {
-            get => collapsedSize;
+            get;
             set
             {
-                if (value == collapsedSize)
+                if (value == field)
                     return;
 
-                collapsedSize = value;
+                field = value;
                 updateState();
             }
-        }
+        } = 2;
 
         public override Axes RelativeSizeAxes
         {

@@ -358,17 +358,15 @@ namespace osu.Game.Screens.Menu
             }
         }
 
-        private ButtonSystemState buttonSystemState;
-
         public ButtonSystemState ButtonSystemState
         {
-            get => buttonSystemState;
+            get;
             set
             {
-                if (buttonSystemState == value)
+                if (field == value)
                     return;
 
-                buttonSystemState = value;
+                field = value;
                 UpdateState();
             }
         }

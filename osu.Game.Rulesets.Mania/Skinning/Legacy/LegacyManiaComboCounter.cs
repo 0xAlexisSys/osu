@@ -26,21 +26,19 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
         /// </summary>
         public virtual int DisplayedCount
         {
-            get => displayedCount;
+            get;
             private set
             {
-                if (displayedCount.Equals(value))
+                if (field.Equals(value))
                     return;
 
                 displayedCountText.FadeTo(value == 0 ? 0 : 1);
                 displayedCountText.Text = value.ToString(CultureInfo.InvariantCulture);
                 counterContainer.Size = displayedCountText.Size;
 
-                displayedCount = value;
+                field = value;
             }
         }
-
-        private int displayedCount;
 
         private int previousValue;
 

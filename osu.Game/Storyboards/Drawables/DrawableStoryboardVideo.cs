@@ -78,52 +78,46 @@ namespace osu.Game.Storyboards.Drawables
 
         private partial class DrawableVideo : Video, IFlippable, IVectorScalable
         {
-            private bool flipH;
-
             public bool FlipH
             {
-                get => flipH;
+                get;
                 set
                 {
-                    if (flipH == value)
+                    if (field == value)
                         return;
 
-                    flipH = value;
+                    field = value;
                     Invalidate(Invalidation.MiscGeometry);
                 }
             }
-
-            private bool flipV;
 
             public bool FlipV
             {
-                get => flipV;
+                get;
                 set
                 {
-                    if (flipV == value)
+                    if (field == value)
                         return;
 
-                    flipV = value;
+                    field = value;
                     Invalidate(Invalidation.MiscGeometry);
                 }
             }
 
-            private Vector2 vectorScale = Vector2.One;
-
             public Vector2 VectorScale
             {
-                get => vectorScale;
+                get;
                 set
                 {
-                    if (vectorScale == value)
+                    if (field == value)
                         return;
 
                     if (!Validation.IsFinite(value)) throw new ArgumentException($@"{nameof(VectorScale)} must be finite, but is {value}.");
 
-                    vectorScale = value;
+                    field = value;
                     Invalidate(Invalidation.MiscGeometry);
                 }
-            }
+            } = Vector2.One;
 
             protected override Vector2 DrawScale
                 => new Vector2(FlipH ? -base.DrawScale.X : base.DrawScale.X, FlipV ? -base.DrawScale.Y : base.DrawScale.Y) * VectorScale;

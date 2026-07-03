@@ -33,32 +33,28 @@ namespace osu.Game.Screens.Play.HUD.ArgonHealthDisplayParts
             }
         }
 
-        private float radius = 10f;
-
         public float PathRadius
         {
-            get => radius;
+            get;
             set
             {
-                if (radius == value)
+                if (field == value)
                     return;
 
-                radius = value;
+                field = value;
                 Invalidate(Invalidation.DrawNode);
             }
-        }
-
-        private float glowPortion;
+        } = 10f;
 
         public float GlowPortion
         {
-            get => glowPortion;
+            get;
             set
             {
-                if (glowPortion == value)
+                if (field == value)
                     return;
 
-                glowPortion = value;
+                field = value;
                 Invalidate(Invalidation.DrawNode);
             }
         }

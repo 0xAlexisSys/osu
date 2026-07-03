@@ -30,14 +30,12 @@ namespace osu.Game.Graphics.UserInterface
 
         protected virtual bool FocusIndicator => true;
 
-        private Color4 accentColour;
-
         public Color4 AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                accentColour = value;
+                field = value;
 
                 // We want to slightly darken the colour for the box because the sheared slider has the boxes at the same height as the nub,
                 // making the nub invisible when not hovered.

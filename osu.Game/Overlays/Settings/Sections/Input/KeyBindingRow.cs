@@ -59,15 +59,13 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
         #region IFilterable
 
-        private bool matchingFilter;
-
         public bool MatchingFilter
         {
-            get => matchingFilter;
+            get;
             set
             {
-                matchingFilter = value;
-                this.FadeTo(!matchingFilter ? 0 : 1);
+                field = value;
+                this.FadeTo(!field ? 0 : 1);
             }
         }
 

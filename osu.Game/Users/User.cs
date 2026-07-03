@@ -18,12 +18,10 @@ namespace osu.Game.Users
         public string Username { get; set; } = @"???";
         public string AvatarPath { get; set; } = DEFAULT_AVATAR_PATH;
 
-        private UserStatistics? statistics;
-
         public UserStatistics Statistics
         {
-            get => statistics ??= new UserStatistics();
-            set => statistics = value;
+            get => field ??= new UserStatistics();
+            set;
         }
 
         [Ignored]

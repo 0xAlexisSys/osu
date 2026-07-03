@@ -43,15 +43,13 @@ namespace osu.Game.Graphics.UserInterface
 
             protected readonly SpriteText Text;
 
-            private Color4 accentColour;
-
             public Color4 AccentColour
             {
-                get => accentColour;
+                get;
                 set
                 {
-                    accentColour = value;
-                    box.Colour = accentColour;
+                    field = value;
+                    box.Colour = field;
                 }
             }
 

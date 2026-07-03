@@ -14,56 +14,50 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
         private const float border_max_size = 8f;
         private const float border_min_size = 0f;
 
-        private Color4 borderColour = Color4.White;
-
         public Color4 BorderColour
         {
-            get => borderColour;
+            get;
             set
             {
-                if (borderColour == value)
+                if (field == value)
                     return;
 
-                borderColour = value;
+                field = value;
 
                 InvalidateTexture();
             }
-        }
-
-        private Color4 accentColour = Color4.White;
+        } = Color4.White;
 
         public Color4 AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                if (accentColour == value)
+                if (field == value)
                     return;
 
-                accentColour = value;
+                field = value;
 
                 InvalidateTexture();
             }
-        }
-
-        private float borderSize = 1;
+        } = Color4.White;
 
         public float BorderSize
         {
-            get => borderSize;
+            get;
             set
             {
-                if (borderSize == value)
+                if (field == value)
                     return;
 
                 if (value < border_min_size || value > border_max_size)
                     return;
 
-                borderSize = value;
+                field = value;
 
                 InvalidateTexture();
             }
-        }
+        } = 1;
 
         protected float CalculatedBorderPortion => BorderSize * BORDER_PORTION;
     }

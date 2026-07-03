@@ -65,17 +65,15 @@ namespace osu.Game.Overlays
             protected readonly ExpandingBar Bar;
             protected readonly OsuSpriteText Text;
 
-            private Color4 accentColour;
-
             public Color4 AccentColour
             {
-                get => accentColour;
+                get;
                 set
                 {
-                    if (accentColour == value)
+                    if (field == value)
                         return;
 
-                    accentColour = value;
+                    field = value;
                     Bar.Colour = value;
 
                     updateState();

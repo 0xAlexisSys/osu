@@ -24,17 +24,15 @@ namespace osu.Game.Rulesets.Catch.UI
     {
         public Catcher Catcher
         {
-            get => catcher;
-            set => catcherContainer.Child = catcher = value;
-        }
+            get;
+            set => catcherContainer.Child = field = value;
+        } = null!;
 
         private readonly Container<Catcher> catcherContainer;
 
         private readonly CatchComboDisplay comboDisplay;
 
         public readonly CatcherTrailDisplay CatcherTrails;
-
-        private Catcher catcher = null!;
 
         /// <summary>
         /// <c>-1</c> when only left button is pressed.

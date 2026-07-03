@@ -130,8 +130,7 @@ namespace osu.Game.Rulesets.Mods
 
         private class DifficultyBindableWithCurrent : DifficultyBindable, IHasCurrentValue<float?>
         {
-            private Bindable<float?> currentBound;
-
+#pragma warning disable CS9266 // The '{0}' accessor of property '{1}' should use 'field' because the other accessor is using it.
             public Bindable<float?> Current
             {
                 get => this;
@@ -139,10 +138,11 @@ namespace osu.Game.Rulesets.Mods
                 {
                     ArgumentNullException.ThrowIfNull(value);
 
-                    if (currentBound != null) UnbindFrom(currentBound);
-                    BindTo(currentBound = value);
+                    if (field != null) UnbindFrom(field);
+                    BindTo(field = value);
                 }
             }
+#pragma warning restore CS9266 // The '{0}' accessor of property '{1}' should use 'field' because the other accessor is using it.
 
             public DifficultyBindableWithCurrent(float? defaultValue = null)
                 : base(defaultValue)

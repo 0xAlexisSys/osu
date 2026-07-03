@@ -23,17 +23,15 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
 
         private const float kiai_flash_opacity = 0.15f;
 
-        private ColourInfo accentColour;
-
         /// <summary>
         /// The colour of the inner circle and outer glows.
         /// </summary>
         public ColourInfo AccentColour
         {
-            get => accentColour;
+            get;
             set
             {
-                accentColour = value;
+                field = value;
 
                 ring.Colour = AccentColour.MultiplyAlpha(0.5f);
                 ring2.Colour = AccentColour;

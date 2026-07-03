@@ -83,14 +83,12 @@ namespace osu.Game.Graphics.UserInterface
 
         protected partial class OsuTabDropdownHeader : OsuDropdownHeader, IHasAccentColour
         {
-            private Color4 accentColour;
-
             public Color4 AccentColour
             {
-                get => accentColour;
+                get;
                 set
                 {
-                    accentColour = value;
+                    field = value;
                     BackgroundColourHover = value;
                     updateColour();
                 }

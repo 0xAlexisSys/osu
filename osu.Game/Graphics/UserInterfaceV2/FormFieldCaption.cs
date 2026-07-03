@@ -30,14 +30,12 @@ namespace osu.Game.Graphics.UserInterfaceV2
             }
         }
 
-        private LocalisableString tooltipText;
-
         public LocalisableString TooltipText
         {
-            get => tooltipText;
+            get;
             set
             {
-                tooltipText = value;
+                field = value;
 
                 if (IsLoaded)
                     updateDisplay();

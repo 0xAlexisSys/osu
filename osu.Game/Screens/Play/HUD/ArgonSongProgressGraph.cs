@@ -19,27 +19,25 @@ namespace osu.Game.Screens.Play.HUD
 
         private const int display_granularity = 200;
 
-        private IEnumerable<HitObject>? objects;
-
         public IEnumerable<HitObject> Objects
         {
             set
             {
-                objects = value;
+                field = value;
 
                 int[] values = new int[display_granularity];
 
-                if (!objects.Any())
+                if (!field.Any())
                     return;
 
-                (double firstHit, double lastHit) = BeatmapExtensions.CalculatePlayableBounds(objects);
+                (double firstHit, double lastHit) = BeatmapExtensions.CalculatePlayableBounds(field);
 
                 if (lastHit == 0)
-                    lastHit = objects.Last().StartTime;
+                    lastHit = field.Last().StartTime;
 
                 double interval = (lastHit - firstHit + 1) / display_granularity;
 
-                foreach (var h in objects)
+                foreach (var h in field)
                 {
                     double endTime = h.GetEndTime();
 

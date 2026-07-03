@@ -210,16 +210,14 @@ namespace osu.Game.Screens.Play
                 }
             }
 
-            private ColumnState state;
-
             public ColumnState State
             {
-                get => state;
+                get;
                 set
                 {
-                    if (value == state) return;
+                    if (value == field) return;
 
-                    state = value;
+                    field = value;
                     if (IsLoaded)
                         fillActive();
 

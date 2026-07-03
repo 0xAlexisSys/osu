@@ -306,7 +306,7 @@ namespace osu.Game.Screens.Select
                 private void setPerformanceValue(ScoreInfo scoreInfo, double pp)
                 {
                     int ppValue = (int)Math.Round(pp, MidpointRounding.AwayFromZero);
-                    ValueText.Text = LocalisableString.Interpolate(@$"{ppValue:N0}pp");
+                    ValueText.Text = LocalisableString.Interpolate($@"{ppValue:N0}pp");
 
                     Alpha = 1.0f;
                 }

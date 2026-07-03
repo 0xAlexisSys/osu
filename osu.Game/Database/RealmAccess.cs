@@ -156,14 +156,14 @@ namespace osu.Game.Database
                 throw new InvalidOperationException("Cannot retrieve a realm context from a notification callback during a blocking operation.");
 
             if (!ThreadSafety.IsUpdateThread)
-                throw new InvalidOperationException(@$"Use {nameof(getRealmInstance)} when performing realm operations from a non-update thread");
+                throw new InvalidOperationException($@"Use {nameof(getRealmInstance)} when performing realm operations from a non-update thread");
 
             if (updateRealm is null)
             {
                 updateRealm = getRealmInstance();
                 hasInitialisedOnce = true;
 
-                Logger.Log(@$"Opened realm ""{updateRealm.Config.DatabasePath}"" at version {updateRealm.Config.SchemaVersion}");
+                Logger.Log($@"Opened realm ""{updateRealm.Config.DatabasePath}"" at version {updateRealm.Config.SchemaVersion}");
 
                 // Resubscribe any subscriptions
                 foreach (var action in customSubscriptionsResetMap.Keys.ToArray())
@@ -243,7 +243,7 @@ namespace osu.Game.Database
                 using (var previous = storage.GetStream(previousFilename))
                 using (var current = storage.CreateFileSafely(newFilename))
                 {
-                    Logger.Log(@$"Copying previous realm database {previousFilename} to {newFilename} for migration to schema version {schema_version}");
+                    Logger.Log($@"Copying previous realm database {previousFilename} to {newFilename} for migration to schema version {schema_version}");
                     previous.CopyTo(current);
                 }
             }
@@ -534,7 +534,7 @@ namespace osu.Game.Database
             // Required to ensure the write is tracked and accounted for before disposal.
             // Can potentially be avoided if we have a need to do so in the future.
             if (!ThreadSafety.IsUpdateThread)
-                throw new InvalidOperationException(@$"{nameof(WriteAsync)} must be called from the update thread.");
+                throw new InvalidOperationException($@"{nameof(WriteAsync)} must be called from the update thread.");
 
             // CountdownEvent will fail if already at zero.
             if (!pendingAsyncOperations.TryAddCount())
@@ -570,7 +570,7 @@ namespace osu.Game.Database
             // Required to ensure the write is tracked and accounted for before disposal.
             // Can potentially be avoided if we have a need to do so in the future.
             if (!ThreadSafety.IsUpdateThread)
-                throw new InvalidOperationException(@$"{nameof(WriteAsync)} must be called from the update thread.");
+                throw new InvalidOperationException($@"{nameof(WriteAsync)} must be called from the update thread.");
 
             // CountdownEvent will fail if already at zero.
             if (!pendingAsyncOperations.TryAddCount())
@@ -824,14 +824,14 @@ namespace osu.Game.Database
         public void CreateBackup(string backupFilename)
         {
             if (realmRetrievalLock.CurrentCount != 0)
-                throw new InvalidOperationException(@$"Call {nameof(BlockAllOperations)} before creating a backup.");
+                throw new InvalidOperationException($@"Call {nameof(BlockAllOperations)} before creating a backup.");
 
             createBackup(backupFilename);
         }
 
         private void createBackup(string backupFilename)
         {
-            Logger.Log(@$"Creating full realm database backup at {backupFilename}", LoggingTarget.Database);
+            Logger.Log($@"Creating full realm database backup at {backupFilename}", LoggingTarget.Database);
 
             FileUtils.AttemptOperation(() =>
             {
@@ -861,7 +861,7 @@ namespace osu.Game.Database
             Logger.Log($@"Attempting to block all realm operations for {reason}.", LoggingTarget.Database);
 
             if (!ThreadSafety.IsUpdateThread)
-                throw new InvalidOperationException(@$"{nameof(BlockAllOperations)} must be called from the update thread.");
+                throw new InvalidOperationException($@"{nameof(BlockAllOperations)} must be called from the update thread.");
 
             ObjectDisposedException.ThrowIf(isDisposed, this);
 

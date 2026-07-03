@@ -68,7 +68,7 @@ namespace osu.Game.Rulesets.Scoring
         {
 #pragma warning disable CS0618
             if (result.Type == HitResult.LegacyComboIncrease)
-                throw new ArgumentException(@$"A {nameof(HitResult.LegacyComboIncrease)} hit result cannot be applied.");
+                throw new ArgumentException($@"A {nameof(HitResult.LegacyComboIncrease)} hit result cannot be applied.");
 #pragma warning restore CS0618
 
             JudgedHits++;

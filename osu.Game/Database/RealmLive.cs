@@ -88,7 +88,7 @@ namespace osu.Game.Database
                 RealmLiveStatistics.USAGE_ASYNC.Value++;
 
                 if (returnData is RealmObjectBase realmObject && realmObject.IsManaged)
-                    throw new InvalidOperationException(@$"Managed realm objects should not exit the scope of {nameof(PerformRead)}.");
+                    throw new InvalidOperationException($@"Managed realm objects should not exit the scope of {nameof(PerformRead)}.");
 
                 return returnData;
             });

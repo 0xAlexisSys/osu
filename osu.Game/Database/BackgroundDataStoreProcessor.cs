@@ -321,7 +321,7 @@ namespace osu.Game.Database
                 }
                 catch (Exception e)
                 {
-                    Logger.Log(@$"Failed to populate maximum statistics for {id}: {e}");
+                    Logger.Log($@"Failed to populate maximum statistics for {id}: {e}");
                     realmAccess.Write(r => r.Find<ScoreInfo>(id)!.BackgroundReprocessingFailed = true);
                     ++failedCount;
                 }
@@ -355,7 +355,7 @@ namespace osu.Game.Database
             }
             catch (Exception e)
             {
-                Logger.Log(@$"Failed to sync user data for personal scores: {e}");
+                Logger.Log($@"Failed to sync user data for personal scores: {e}");
             }
         }
 

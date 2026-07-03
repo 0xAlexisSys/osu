@@ -41,7 +41,7 @@ namespace osu.Game.Leaderboards
         public void FetchWithCriteria(LeaderboardCriteria newCriteria, bool forceRefresh = false)
         {
             if (!ThreadSafety.IsUpdateThread)
-                throw new InvalidOperationException(@$"{nameof(FetchWithCriteria)} must be called from the update thread.");
+                throw new InvalidOperationException($@"{nameof(FetchWithCriteria)} must be called from the update thread.");
 
             if (!forceRefresh && CurrentCriteria?.Equals(newCriteria) == true && scores.Value?.FailState is null)
                 return;

@@ -67,13 +67,13 @@ namespace osu.Game.Screens.Edit.Components
             if (lastBPM != newBPM)
             {
                 lastBPM = newBPM;
-                bpm.Text = @$"{newBPM:0} BPM";
+                bpm.Text = $@"{newBPM:0} BPM";
             }
 
             if (lastProgress != newProgress)
             {
                 lastProgress = newProgress;
-                progress.Text = @$"{newProgress:0}%";
+                progress.Text = $@"{newProgress:0}%";
             }
         }
 

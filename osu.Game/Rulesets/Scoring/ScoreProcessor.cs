@@ -288,7 +288,7 @@ namespace osu.Game.Rulesets.Scoring
         protected sealed override void RevertResultInternal(JudgementResult result)
         {
             if (!TrackHitEvents)
-                throw new InvalidOperationException(@$"Rewind is not supported when {nameof(TrackHitEvents)} is disabled.");
+                throw new InvalidOperationException($@"Rewind is not supported when {nameof(TrackHitEvents)} is disabled.");
 
             // the reason this is written so funnily rather than just using `ComboAtJudgement`
             // is to nullify impact of ordering when reverting concurrent judgement results

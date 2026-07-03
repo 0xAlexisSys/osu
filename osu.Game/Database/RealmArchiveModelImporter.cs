@@ -289,7 +289,7 @@ namespace osu.Game.Database
             }
             catch (Exception e)
             {
-                LogForModel(model, @$"Model creation of {archive.Name} failed.", e);
+                LogForModel(model, $@"Model creation of {archive.Name} failed.", e);
                 return null;
             }
 
@@ -329,7 +329,7 @@ namespace osu.Game.Database
                         getFilenames(existing.Files).SequenceEqual(getShortenedFilenames(archive).Select(p => p.shortened).Order()) &&
                         checkAllFilesExist(existing))
                     {
-                        LogForModel(item, @$"Found existing (optimised) {HumanisedModelName} for {item} (ID {existing.ID}) – skipping import.");
+                        LogForModel(item, $@"Found existing (optimised) {HumanisedModelName} for {item} (ID {existing.ID}) – skipping import.");
 
                         using (var transaction = realm.BeginWrite())
                         {
@@ -398,7 +398,7 @@ namespace osu.Game.Database
                     {
                         if (CanReuseExisting(existing, item))
                         {
-                            LogForModel(item, @$"Found existing {HumanisedModelName} for {item} (ID {existing.ID}) – skipping import.");
+                            LogForModel(item, $@"Found existing {HumanisedModelName} for {item} (ID {existing.ID}) – skipping import.");
 
                             UndeleteForReuse(existing);
                             transaction.Commit();

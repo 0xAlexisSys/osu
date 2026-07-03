@@ -32,7 +32,7 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
             currentDrawable = drawables[CatcherAnimationState.Idle];
 
             Drawable getDrawableFor(CatcherAnimationState state) =>
-                skin.GetAnimation(@$"fruit-catcher-{state.ToString().ToLowerInvariant()}", true, true, true) ??
+                skin.GetAnimation($@"fruit-catcher-{state.ToString().ToLowerInvariant()}", true, true, true) ??
                 skin.GetAnimation(@"fruit-catcher-idle", true, true, true) ??
                 Empty();
         }

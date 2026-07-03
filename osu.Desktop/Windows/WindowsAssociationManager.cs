@@ -72,7 +72,7 @@ namespace osu.Desktop.Windows
             }
             catch (Exception e)
             {
-                Logger.Error(e, @$"Failed to install file and URI associations: {e.Message}");
+                Logger.Error(e, $@"Failed to install file and URI associations: {e.Message}");
             }
         }
 

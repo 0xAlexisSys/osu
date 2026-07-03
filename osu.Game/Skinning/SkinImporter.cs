@@ -148,7 +148,7 @@ namespace osu.Game.Skinning
                     // lazer exports use this format
                     // GetValidFilename accounts for skins with non-ASCII characters in the name that have been exported by lazer.
                     && archiveName != item.GetDisplayString().GetValidFilename())
-                    item.Name = @$"{item.Name} [{archiveName}]";
+                    item.Name = $@"{item.Name} [{archiveName}]";
             }
 
             // By this point, the metadata in SkinInfo will be correct.
@@ -222,7 +222,7 @@ namespace osu.Game.Skinning
 
                     using (var streamContent = new MemoryStream(Encoding.UTF8.GetBytes(json)))
                     {
-                        string filename = @$"{drawableInfo.Key}.json";
+                        string filename = $@"{drawableInfo.Key}.json";
 
                         var oldFile = s.GetFile(filename);
 

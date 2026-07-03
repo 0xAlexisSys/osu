@@ -16,7 +16,7 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
 using Realms;
 
-namespace osu.Game.Online.Leaderboards
+namespace osu.Game.Leaderboards
 {
     public partial class LeaderboardManager : Component
     {

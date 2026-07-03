@@ -4,7 +4,7 @@
 using osu.Framework.Localisation;
 using osu.Game.Localisation;
 
-namespace osu.Game.Online.Leaderboards
+namespace osu.Game.Leaderboards
 {
     public enum LeaderboardSortMode
     {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using osu.Game.Beatmaps;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Users;
 using Realms;

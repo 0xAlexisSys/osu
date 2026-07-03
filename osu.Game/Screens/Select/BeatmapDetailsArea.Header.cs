@@ -10,8 +10,8 @@ using osu.Framework.Localisation;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Graphics.UserInterfaceV2;
+using osu.Game.Leaderboards;
 using osu.Game.Localisation;
-using osu.Game.Online.Leaderboards;
 using osuTK;
 
 namespace osu.Game.Screens.Select

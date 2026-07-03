@@ -7,7 +7,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Transforms;
 using osu.Game.Scoring;
 
-namespace osu.Game.Online.Leaderboards
+namespace osu.Game.Leaderboards
 {
     public partial class UpdateableRank : ModelBackedDrawable<ScoreRank?>
     {

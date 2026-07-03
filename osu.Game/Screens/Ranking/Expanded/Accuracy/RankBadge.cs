@@ -9,7 +9,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Effects;
 using osu.Framework.Graphics.Shapes;
 using osu.Game.Graphics;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Scoring;
 using osuTK;
 

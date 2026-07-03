@@ -7,7 +7,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Caching;
 using osu.Framework.Graphics;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Scoring;
 
 namespace osu.Game.Screens.Play.Leaderboards

@@ -9,7 +9,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
 using osu.Game.Users;

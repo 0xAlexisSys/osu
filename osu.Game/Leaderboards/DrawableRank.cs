@@ -13,7 +13,7 @@ using osu.Game.Scoring;
 using osuTK;
 using osuTK.Graphics;
 
-namespace osu.Game.Online.Leaderboards
+namespace osu.Game.Leaderboards
 {
     public partial class DrawableRank : CompositeDrawable
     {

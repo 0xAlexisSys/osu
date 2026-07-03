@@ -4,11 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions;
+using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -19,6 +19,7 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
 using osu.Framework.Platform;
+using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
@@ -29,7 +30,7 @@ using CommonStrings = osu.Game.Resources.Localisation.Web.CommonStrings;
 
 namespace osu.Game.Graphics.UserInterfaceV2
 {
-    public partial class FormFileSelector : CompositeDrawable, IHasCurrentValue<FileInfo?>, ICanAcceptFiles, IHasPopover
+    public partial class FormFileSelector : CompositeDrawable, IHasCurrentValue<FileInfo?>, ICanAcceptFiles, IHasPopover, IFormControl
     {
         public Bindable<FileInfo?> Current
         {
@@ -78,10 +79,11 @@ namespace osu.Game.Graphics.UserInterfaceV2
         public Container PreviewContainer { get; private set; } = null!;
 
         private FormControlBackground background = null!;
-
         private FormFieldCaption caption = null!;
         private OsuSpriteText placeholderText = null!;
         private OsuSpriteText filenameText = null!;
+        private readonly bool showFullPath;
+        private readonly OsuSetting? setting;
 
         [Resolved]
         private OverlayColourProvider colourProvider { get; set; } = null!;
@@ -89,14 +91,22 @@ namespace osu.Game.Graphics.UserInterfaceV2
         [Resolved]
         private OsuGameBase game { get; set; } = null!;
 
-        public FormFileSelector(params string[] handledExtensions)
+        public FormFileSelector(bool showFullPath, OsuSetting? setting = null, params string[] handledExtensions)
         {
+            this.showFullPath = showFullPath;
+            this.setting = setting;
             this.handledExtensions = handledExtensions;
         }
 
         [BackgroundDependencyLoader]
-        private void load()
+        private void load(OsuConfigManager config)
         {
+            if (setting is OsuSetting loadedSetting)
+            {
+                string settingValue = config.Get<string>(loadedSetting);
+                Current = new Bindable<FileInfo?>(settingValue.Length == 0 ? null : new FileInfo(settingValue)) { Default = null };
+            }
+
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;
 
@@ -169,6 +179,12 @@ namespace osu.Game.Graphics.UserInterfaceV2
                     },
                 },
             };
+
+            ValueChanged += () =>
+            {
+                if (setting is OsuSetting changedSetting)
+                    config.SetValue(changedSetting, current.Value?.FullName ?? string.Empty);
+            };
         }
 
         protected override void LoadComplete()
@@ -181,6 +197,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
             {
                 updateState();
                 onFileSelected();
+                ValueChanged?.Invoke();
             }, true);
             FinishTransforms(true);
             game.RegisterImportHandler(this);
@@ -193,7 +210,10 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
             initialChooserPath = Current.Value?.DirectoryName;
             placeholderText.Alpha = Current.Value == null ? 1 : 0;
-            filenameText.Text = Current.Value?.Name ?? string.Empty;
+            if (Current.Value is not null)
+                filenameText.Text = !showFullPath ? Current.Value.Name : Current.Value.FullName;
+            else
+                filenameText.Text = string.Empty;
             background.FlashOnCommit();
         }
 
@@ -240,7 +260,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
         Task ICanAcceptFiles.Import(params string[] paths)
         {
-            Schedule(() => Current.Value = new FileInfo(paths.First()));
+            Schedule(() => Current.Value = new FileInfo(paths[0]));
             return Task.CompletedTask;
         }
 
@@ -346,5 +366,17 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
             protected virtual void OnFileSelected(FileInfo? file) => current.Value = file;
         }
+
+        public IEnumerable<LocalisableString> FilterTerms => Caption.Yield();
+
+        public event Action? ValueChanged;
+
+        public bool IsDefault => current.IsDefault;
+
+        public void SetDefault() => current.SetDefault();
+
+        public bool IsDisabled => current.Disabled;
+
+        public float MainDrawHeight => DrawHeight;
     }
 }

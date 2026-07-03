@@ -32,7 +32,7 @@ namespace osu.Game.Screens.Edit.Setup
         public readonly Bindable<bool> ApplyToAllDifficulties = new Bindable<bool>(true);
 
         public FormBeatmapFileSelector(bool beatmapHasMultipleDifficulties, params string[] handledExtensions)
-            : base(handledExtensions)
+            : base(false, handledExtensions: handledExtensions)
         {
             this.beatmapHasMultipleDifficulties = beatmapHasMultipleDifficulties;
         }

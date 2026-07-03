@@ -32,9 +32,7 @@ namespace osu.Game.Rulesets.Mania.Objects
             set
             {
                 duration = value;
-
-                if (Tail != null)
-                    Tail.StartTime = EndTime;
+                Tail?.StartTime = EndTime;
             }
         }
 
@@ -44,12 +42,8 @@ namespace osu.Game.Rulesets.Mania.Objects
             set
             {
                 base.StartTime = value;
-
-                if (Head != null)
-                    Head.StartTime = value;
-
-                if (Tail != null)
-                    Tail.StartTime = EndTime;
+                Head?.StartTime = value;
+                Tail?.StartTime = EndTime;
             }
         }
 
@@ -59,12 +53,8 @@ namespace osu.Game.Rulesets.Mania.Objects
             set
             {
                 base.Column = value;
-
-                if (Head != null)
-                    Head.Column = value;
-
-                if (Tail != null)
-                    Tail.Column = value;
+                Head?.Column = value;
+                Tail?.Column = value;
             }
         }
 

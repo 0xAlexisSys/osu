@@ -63,12 +63,7 @@ namespace osu.Game.Database
                         writer.Write(file.Filename, stream);
                     }
 
-                    i++;
-
-                    if (notification != null)
-                    {
-                        notification.Progress = (float)i / fileCount;
-                    }
+                    notification?.Progress = (float)i++ / fileCount;
                 }
 
                 if (anyFileMissing)

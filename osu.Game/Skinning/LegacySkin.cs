@@ -387,15 +387,11 @@ namespace osu.Game.Skinning
                                     var combo = container.OfType<LegacyDefaultComboCounter>().FirstOrDefault();
                                     var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
-                                    Vector2 pos = new Vector2();
-
                                     if (combo != null)
                                     {
                                         combo.Anchor = Anchor.BottomLeft;
                                         combo.Origin = Anchor.BottomLeft;
                                         combo.Scale = new Vector2(1.28f);
-
-                                        pos += new Vector2(10, -(combo.DrawHeight * 1.56f + 20) * combo.Scale.X);
                                     }
 
                                     if (leaderboard != null)
@@ -565,10 +561,7 @@ namespace osu.Game.Skinning
             }
 
             texture ??= Textures?.Get(componentName, wrapModeS, wrapModeT);
-
-            if (texture != null)
-                texture.ScaleAdjust = ratio;
-
+            texture?.ScaleAdjust = ratio;
             return texture;
         }
 

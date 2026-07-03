@@ -236,8 +236,7 @@ namespace osu.Game.Screens.Select
                     realm.Write(r =>
                     {
                         var set = r.Find<BeatmapSetInfo>(beatmapSet.ID);
-                        if (set != null)
-                            set.HasFavourited = !set.HasFavourited;
+                        set?.HasFavourited = !set.HasFavourited;
                     });
                 }));
 

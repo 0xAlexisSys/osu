@@ -96,9 +96,7 @@ namespace osu.Game.Rulesets.Objects.Types
                 inCurrentCombo = 0;
                 index++;
                 indexWithOffsets += ComboOffset + 1;
-
-                if (lastObj != null)
-                    lastObj.LastInCombo = true;
+                lastObj?.LastInCombo = true;
             }
 
             ComboIndex = index;

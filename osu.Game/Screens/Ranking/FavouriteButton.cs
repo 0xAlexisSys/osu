@@ -57,8 +57,7 @@ namespace osu.Game.Screens.Ranking
             realm.Write(r =>
             {
                 var set = r.Find<BeatmapSetInfo>(beatmapSet.ID);
-                if (set != null)
-                    set.HasFavourited = !set.HasFavourited;
+                set?.HasFavourited = !set.HasFavourited;
             });
         }
 

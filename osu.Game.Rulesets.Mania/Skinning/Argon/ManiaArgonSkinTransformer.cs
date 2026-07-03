@@ -43,8 +43,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Argon
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
                                 var combo = container.ChildrenOfType<ArgonManiaComboCounter>().FirstOrDefault();
 
-                                if (leaderboard != null)
-                                    leaderboard.Position = new Vector2(36, 115);
+                                leaderboard?.Position = new Vector2(36, 115);
 
                                 if (combo != null)
                                 {

@@ -41,8 +41,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
                                     leaderboard.Height = 140;
                                 }
 
-                                if (comboCounter != null)
-                                    comboCounter.Position = new Vector2(36, -66);
+                                comboCounter?.Position = new Vector2(36, -66);
 
                                 foreach (var d in container.OfType<ISerialisableDrawable>())
                                     d.UsesFixedAnchor = true;

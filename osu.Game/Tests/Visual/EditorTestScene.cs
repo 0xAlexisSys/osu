@@ -68,10 +68,7 @@ namespace osu.Game.Tests.Visual
         protected virtual void LoadEditor()
         {
             Beatmap.Value = CreateWorkingBeatmap(Ruleset.Value);
-
-            if (testBeatmapManager != null)
-                testBeatmapManager.TestBeatmap = Beatmap.Value;
-
+            testBeatmapManager?.TestBeatmap = Beatmap.Value;
             LoadScreen(editorLoader = new TestEditorLoader());
         }
 

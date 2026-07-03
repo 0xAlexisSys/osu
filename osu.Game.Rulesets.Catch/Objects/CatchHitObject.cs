@@ -171,9 +171,7 @@ namespace osu.Game.Rulesets.Catch.Objects
                 inCurrentCombo = 0;
                 index++;
                 indexWithOffsets += ComboOffset + 1;
-
-                if (lastObj != null)
-                    lastObj.LastInCombo = true;
+                lastObj?.LastInCombo = true;
             }
 
             ComboIndex = index;

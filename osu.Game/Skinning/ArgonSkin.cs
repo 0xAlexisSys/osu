@@ -114,11 +114,8 @@ namespace osu.Game.Skinning
                                     var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
                                     var comboCounter = container.OfType<ArgonComboCounter>().FirstOrDefault();
 
-                                    if (leaderboard != null)
-                                        leaderboard.Position = new Vector2(36, 115);
-
-                                    if (comboCounter != null)
-                                        comboCounter.Position = new Vector2(36, -66);
+                                    leaderboard?.Position = new Vector2(36, 115);
+                                    comboCounter?.Position = new Vector2(36, -66);
 
                                     foreach (var d in container.OfType<ISerialisableDrawable>())
                                         d.UsesFixedAnchor = true;

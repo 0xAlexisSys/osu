@@ -107,9 +107,7 @@ namespace osu.Game.Overlays
             set
             {
                 mainText = value;
-
-                if (mainTextPiece != null)
-                    mainTextPiece.Text = value;
+                mainTextPiece?.Text = value;
             }
         }
 
@@ -121,9 +119,7 @@ namespace osu.Game.Overlays
             set
             {
                 additionalText = value;
-
-                if (additionalTextPiece != null)
-                    additionalTextPiece.Text = value;
+                additionalTextPiece?.Text = value;
             }
         }
 
@@ -136,8 +132,7 @@ namespace osu.Game.Overlays
             {
                 infoText = value;
 
-                if (infoTextPiece != null)
-                    infoTextPiece.Text = value;
+                infoTextPiece?.Text = value;
             }
         }
 

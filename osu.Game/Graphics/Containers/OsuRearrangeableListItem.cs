@@ -38,9 +38,7 @@ namespace osu.Game.Graphics.Containers
                     return;
 
                 handleColour = value;
-
-                if (handle != null)
-                    handle.Colour = value;
+                handle?.Colour = value;
             }
         }
 

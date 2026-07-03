@@ -93,9 +93,7 @@ namespace osu.Game.Overlays.Mods
 
             Beatmap.BindValueChanged(b =>
             {
-                if (beatmapAttributesDisplay != null)
-                    beatmapAttributesDisplay.BeatmapInfo.Value = b.NewValue?.BeatmapInfo;
-
+                beatmapAttributesDisplay?.BeatmapInfo.Value = b.NewValue?.BeatmapInfo;
                 updateInformation();
             }, true);
 

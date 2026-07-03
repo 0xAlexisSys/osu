@@ -93,8 +93,7 @@ namespace osu.Game.Skinning
                                 {
                                     var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
-                                    if (leaderboard != null)
-                                        leaderboard.Position = new Vector2(40, 60);
+                                    leaderboard?.Position = new Vector2(40, 60);
 
                                     foreach (var d in container.OfType<ISerialisableDrawable>())
                                         d.UsesFixedAnchor = true;

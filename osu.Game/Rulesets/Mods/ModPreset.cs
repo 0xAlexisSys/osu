@@ -7,7 +7,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using osu.Framework.Extensions.ObjectExtensions;
 using osu.Game.Database;
-using osu.Game.Online.API;
 using Realms;
 
 namespace osu.Game.Rulesets.Mods
@@ -50,14 +49,14 @@ namespace osu.Game.Rulesets.Mods
                 if (string.IsNullOrEmpty(ModsJson))
                     return Array.Empty<Mod>();
 
-                var apiMods = JsonConvert.DeserializeObject<IEnumerable<APIMod>>(ModsJson);
+                var jsonMods = JsonConvert.DeserializeObject<IEnumerable<JsonMod>>(ModsJson);
                 var ruleset = Ruleset.CreateInstance();
-                return apiMods.AsNonNull().Select(mod => mod.ToMod(ruleset)).ToArray();
+                return jsonMods.AsNonNull().Select(mod => mod.ToMod(ruleset)).ToArray();
             }
             set
             {
-                var apiMods = value.Select(mod => new APIMod(mod)).ToArray();
-                ModsJson = JsonConvert.SerializeObject(apiMods);
+                var jsonMods = value.Select(mod => new JsonMod(mod)).ToArray();
+                ModsJson = JsonConvert.SerializeObject(jsonMods);
             }
         }
 

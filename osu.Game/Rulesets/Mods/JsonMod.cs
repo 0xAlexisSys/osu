@@ -9,12 +9,10 @@ using osu.Framework.Bindables;
 using osu.Framework.Logging;
 using osu.Game.Configuration;
 using osu.Game.Extensions;
-using osu.Game.Rulesets;
-using osu.Game.Rulesets.Mods;
 
-namespace osu.Game.Online.API
+namespace osu.Game.Rulesets.Mods
 {
-    public class APIMod : IEquatable<APIMod>
+    public class JsonMod : IEquatable<JsonMod>
     {
         [JsonProperty("acronym")]
         public string Acronym { get; set; } = string.Empty;
@@ -23,11 +21,11 @@ namespace osu.Game.Online.API
         public Dictionary<string, object> Settings { get; set; } = new Dictionary<string, object>();
 
         [JsonConstructor]
-        public APIMod()
+        public JsonMod()
         {
         }
 
-        public APIMod(Mod mod)
+        public JsonMod(Mod mod)
         {
             Acronym = mod.Acronym;
 
@@ -73,7 +71,7 @@ namespace osu.Game.Online.API
 
         public bool ShouldSerializeSettings() => Settings.Count > 0;
 
-        public bool Equals(APIMod? other)
+        public bool Equals(JsonMod? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -10,7 +10,6 @@ using osu.Framework.Localisation;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Models;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
@@ -244,7 +243,7 @@ namespace osu.Game.Scoring
                 if (mods != null)
                     return mods;
 
-                return APIMods.Select(m => m.ToMod(Ruleset.CreateInstance())).ToArray();
+                return JsonMods.Select(m => m.ToMod(Ruleset.CreateInstance())).ToArray();
             }
             set
             {
@@ -254,30 +253,30 @@ namespace osu.Game.Scoring
             }
         }
 
-        private APIMod[]? apiMods;
+        private JsonMod[]? jsonMods;
 
         // Used for API serialisation/deserialisation.
         [Ignored]
-        public APIMod[] APIMods
+        public JsonMod[] JsonMods
         {
             get
             {
-                if (apiMods != null) return apiMods;
+                if (jsonMods != null) return jsonMods;
 
                 // prioritise reading from realm backing
                 if (!string.IsNullOrEmpty(ModsJson))
-                    apiMods = JsonConvert.DeserializeObject<APIMod[]>(ModsJson);
+                    jsonMods = JsonConvert.DeserializeObject<JsonMod[]>(ModsJson);
 
                 // then check mods set via Mods property.
                 if (mods != null)
-                    apiMods ??= mods.Select(m => new APIMod(m)).ToArray();
+                    jsonMods ??= mods.Select(m => new JsonMod(m)).ToArray();
 
-                return apiMods ?? Array.Empty<APIMod>();
+                return jsonMods ?? Array.Empty<JsonMod>();
             }
             set
             {
                 clearAllMods();
-                apiMods = value;
+                jsonMods = value;
                 updateModsJson();
             }
         }
@@ -286,13 +285,13 @@ namespace osu.Game.Scoring
         {
             ModsJson = string.Empty;
             mods = null;
-            apiMods = null;
+            jsonMods = null;
         }
 
         private void updateModsJson()
         {
-            ModsJson = APIMods.Length > 0
-                ? JsonConvert.SerializeObject(APIMods)
+            ModsJson = JsonMods.Length > 0
+                ? JsonConvert.SerializeObject(JsonMods)
                 : string.Empty;
         }
 

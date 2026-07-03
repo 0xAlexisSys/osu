@@ -29,7 +29,7 @@ namespace osu.Game.Skinning
                              ?? Resources.AudioManager?.Samples.Get(lookup.Replace(@"Gameplay/", @"Gameplay/Argon/"))
                              ?? Resources.AudioManager?.Samples.Get(lookup);
 
-                if (sample != null)
+                if (sample is not null)
                     return sample;
             }
 

@@ -144,20 +144,20 @@ namespace osu.Game.Screens.Select
         public struct OptionalRange<T> : IEquatable<OptionalRange<T>>
             where T : struct
         {
-            public bool HasFilter => Max != null || Min != null;
+            public bool HasFilter => Max is not null || Min is not null;
 
             public bool IsInRange(T value)
             {
                 bool lowerRangeSatisfied = true;
                 bool upperRangeSatisfied = true;
 
-                if (Min != null)
+                if (Min is not null)
                 {
                     int comparison = Comparer<T>.Default.Compare(value, Min.Value);
                     lowerRangeSatisfied = comparison > 0 || (comparison == 0 && IsLowerInclusive);
                 }
 
-                if (Max != null)
+                if (Max is not null)
                 {
                     int comparison = Comparer<T>.Default.Compare(value, Max.Value);
                     upperRangeSatisfied = comparison < 0 || (comparison == 0 && IsUpperInclusive);

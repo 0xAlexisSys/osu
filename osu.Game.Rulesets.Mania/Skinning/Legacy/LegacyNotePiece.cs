@@ -58,7 +58,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
             else if (noteAnimation is TextureAnimation textureAnimation && textureAnimation.FrameCount > 0)
                 texture = textureAnimation.CurrentFrame;
 
-            if (texture != null)
+            if (texture is not null)
             {
                 float noteHeight = widthForNoteHeightScale ?? DrawWidth;
                 noteAnimation.Scale = Vector2.Divide(new Vector2(DrawWidth, noteHeight), texture.DisplayWidth);

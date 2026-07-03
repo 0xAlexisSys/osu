@@ -256,7 +256,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
                 var tab = val.NewValue;
 
-                bool tabletFound = tab != null;
+                bool tabletFound = tab is not null;
                 if (!tabletFound)
                     return;
 
@@ -281,7 +281,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (!tabletHandler.Enabled.Value)
                 return;
 
-            if (tablet.Value != null)
+            if (tablet.Value is not null)
                 mainSettings.Show();
             else
                 noTabletMessage.Show();

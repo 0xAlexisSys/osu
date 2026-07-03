@@ -144,12 +144,12 @@ namespace osu.Game.Rulesets.Osu.Mods
             {
                 case DrawableSliderTail tail:
                     // Use the same fade sequence as the slider head.
-                    Debug.Assert(tail.Slider != null);
+                    Debug.Assert(tail.Slider is not null);
                     return getParameters(tail.Slider.HeadCircle);
 
                 case DrawableSliderRepeat repeat:
                     // Use the same fade sequence as the slider head.
-                    Debug.Assert(repeat.Slider != null);
+                    Debug.Assert(repeat.Slider is not null);
                     return getParameters(repeat.Slider.HeadCircle);
 
                 default:
@@ -185,7 +185,7 @@ namespace osu.Game.Rulesets.Osu.Mods
         private static void hideSpinnerApproachCircle(DrawableSpinner spinner)
         {
             var approachCircle = (spinner.Body.Drawable as IHasApproachCircle)?.ApproachCircle;
-            if (approachCircle == null)
+            if (approachCircle is null)
                 return;
 
             using (spinner.BeginAbsoluteSequence(spinner.HitObject.StartTime - spinner.HitObject.TimePreempt))

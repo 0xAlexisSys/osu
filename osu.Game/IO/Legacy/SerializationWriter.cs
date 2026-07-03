@@ -32,7 +32,7 @@ namespace osu.Game.IO.Legacy
         /// <summary> Writes a string to the buffer.  Overrides the base implementation so it can cope with nulls </summary>
         public override void Write(string str)
         {
-            if (str == null)
+            if (str is null)
             {
                 Write((byte)ObjType.NullType);
             }
@@ -47,7 +47,7 @@ namespace osu.Game.IO.Legacy
         /// send the length of the array which is needed when it is retrieved </summary>
         public override void Write(byte[] b)
         {
-            if (b == null)
+            if (b is null)
             {
                 Write(-1);
             }
@@ -63,7 +63,7 @@ namespace osu.Game.IO.Legacy
         /// sends the length of the array which is needed when it is read. </summary>
         public override void Write(char[] c)
         {
-            if (c == null)
+            if (c is null)
             {
                 Write(-1);
             }
@@ -87,7 +87,7 @@ namespace osu.Game.IO.Legacy
         /// <summary> Writes a generic ICollection (such as an IList(T)) to the buffer.</summary>
         public void Write<T>(List<T> c) where T : ILegacySerializable
         {
-            if (c == null)
+            if (c is null)
             {
                 Write(-1);
             }
@@ -103,7 +103,7 @@ namespace osu.Game.IO.Legacy
         /// <summary> Writes a generic IDictionary to the buffer. </summary>
         public void Write<TKey, TValue>(IDictionary<TKey, TValue> d)
         {
-            if (d == null)
+            if (d is null)
             {
                 Write(-1);
             }
@@ -123,7 +123,7 @@ namespace osu.Game.IO.Legacy
         /// and don't know how to treat it.  This works out the best method to use to write to the buffer. </summary>
         public void WriteObject(object obj)
         {
-            if (obj == null)
+            if (obj is null)
             {
                 Write((byte)ObjType.NullType);
             }
@@ -229,7 +229,7 @@ namespace osu.Game.IO.Legacy
 
         public void WriteByteArray(byte[] b)
         {
-            if (b == null)
+            if (b is null)
             {
                 Write(-1);
             }

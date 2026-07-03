@@ -47,7 +47,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Evaluators
             intervalDifficulty *= repeatedIntervalPenalty(sameRhythmGroupedHitObjects, hitWindow);
 
             // If a previous interval exists and there are multiple hit objects in the sequence:
-            if (previousInterval != null && sameRhythmGroupedHitObjects.HitObjects.Count > 1)
+            if (previousInterval is not null && sameRhythmGroupedHitObjects.HitObjects.Count > 1)
             {
                 double expectedDurationFromPrevious = (double)previousInterval * sameRhythmGroupedHitObjects.HitObjects.Count;
                 double durationDifference = sameRhythmGroupedHitObjects.Duration - expectedDurationFromPrevious;
@@ -93,13 +93,13 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Evaluators
                 List<double?> intervals = new List<double?>();
                 var currentObject = startObject;
 
-                for (int i = 0; i < intervalCount && currentObject != null; i++)
+                for (int i = 0; i < intervalCount && currentObject is not null; i++)
                 {
                     intervals.Add(currentObject.HitObjectInterval);
                     currentObject = currentObject.Previous;
                 }
 
-                intervals.RemoveAll(interval => interval == null);
+                intervals.RemoveAll(interval => interval is null);
 
                 if (intervals.Count < intervalCount)
                     return 1.0; // No penalty if there aren't enough valid intervals.

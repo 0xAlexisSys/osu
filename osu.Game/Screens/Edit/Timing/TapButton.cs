@@ -295,7 +295,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         private void handleTap()
         {
-            if (selectedGroup?.Value == null)
+            if (selectedGroup?.Value is null)
                 return;
 
             tapTimings.Add(Clock.CurrentTime);

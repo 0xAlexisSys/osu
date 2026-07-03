@@ -28,7 +28,7 @@ namespace osu.Game.Screens.Menu
         {
             get
             {
-                if (CentreTarget == null)
+                if (CentreTarget is null)
                     return base.OriginPosition;
 
                 return CentreTarget.DrawPosition + CentreTarget.DrawSize / 2 * CentreTarget.Scale;

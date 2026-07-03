@@ -121,7 +121,7 @@ namespace osu.Game.Overlays.Toolbar
         private void expandVolumeBarTemporarily()
         {
             // avoid starting a new transform if one is already active.
-            if (expandTransform == null)
+            if (expandTransform is null)
             {
                 expandTransform = volumeDisplay.ResizeWidthTo(6, 500, Easing.OutQuint);
                 expandTransform.Finally(_ => expandTransform = null);

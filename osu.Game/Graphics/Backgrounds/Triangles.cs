@@ -106,7 +106,7 @@ namespace osu.Game.Graphics.Backgrounds
         /// <param name="seed">An optional seed to stabilise random positions / attributes. Note that this does not guarantee stable playback when seeking in time.</param>
         public Triangles(int? seed = null)
         {
-            if (seed != null)
+            if (seed is not null)
                 stableRandom = new Random(seed.Value);
         }
 
@@ -178,7 +178,7 @@ namespace osu.Game.Graphics.Backgrounds
         /// <param name="seed">An optional seed to stabilise random positions / attributes. Note that this does not guarantee stable playback when seeking in time.</param>
         public void Reset(int? seed = null)
         {
-            if (seed != null)
+            if (seed is not null)
                 stableRandom = new Random(seed.Value);
 
             // Limited by the maximum size of QuadVertexBuffer for safety.

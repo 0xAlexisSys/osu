@@ -16,7 +16,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
         public Popover GetPopover()
         {
-            Debug.Assert(pendingKeyBindingConflict != null);
+            Debug.Assert(pendingKeyBindingConflict is not null);
             return new KeyBindingConflictPopover(pendingKeyBindingConflict)
             {
                 BindingConflictResolved = () => BindingUpdated?.Invoke(this, new KeyBindingUpdatedEventArgs(bindingConflictResolved: true, canAdvanceToNextBinding: false))

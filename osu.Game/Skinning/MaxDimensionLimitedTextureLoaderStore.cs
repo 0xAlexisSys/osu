@@ -32,7 +32,7 @@ namespace osu.Game.Skinning
             var textureUpload = textureStore?.Get(name);
 
             // NRT not enabled on framework side classes (IResourceStore / TextureLoaderStore), welp.
-            if (textureUpload == null)
+            if (textureUpload is null)
                 return null!;
 
             return limitTextureUploadSize(textureUpload);
@@ -41,12 +41,12 @@ namespace osu.Game.Skinning
         public async Task<TextureUpload> GetAsync(string name, CancellationToken cancellationToken = new CancellationToken())
         {
             // NRT not enabled on framework side classes (IResourceStore / TextureLoaderStore), welp.
-            if (textureStore == null)
+            if (textureStore is null)
                 return null!;
 
             var textureUpload = await textureStore.GetAsync(name, cancellationToken).ConfigureAwait(false);
 
-            if (textureUpload == null)
+            if (textureUpload is null)
                 return null!;
 
             return await Task.Run(() => limitTextureUploadSize(textureUpload), cancellationToken).ConfigureAwait(false);

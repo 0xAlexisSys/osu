@@ -55,7 +55,7 @@ namespace osu.Game.Skinning
                             pendingLines.Add(line);
 
                             // Hold all lines until a "Keys" item is found.
-                            if (currentConfig != null)
+                            if (currentConfig is not null)
                                 flushPendingLines();
                             break;
                     }
@@ -66,7 +66,7 @@ namespace osu.Game.Skinning
 
         private void flushPendingLines()
         {
-            Debug.Assert(currentConfig != null);
+            Debug.Assert(currentConfig is not null);
 
             foreach (string line in pendingLines)
             {

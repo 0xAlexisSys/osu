@@ -49,7 +49,7 @@ namespace osu.Game.Screens.Ranking.Expanded.Statistics
                     var performanceCalculator = score.Ruleset.CreateInstance().CreatePerformanceCalculator();
 
                     // Performance calculation requires the beatmap and ruleset to be locally available. If not, return a default value.
-                    if (attributes?.DifficultyAttributes == null || performanceCalculator == null)
+                    if (attributes?.DifficultyAttributes is null || performanceCalculator is null)
                         return;
 
                     var result = await performanceCalculator.CalculateAsync(score, attributes.Value.DifficultyAttributes, cancellationToken ?? CancellationToken.None).ConfigureAwait(false);

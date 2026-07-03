@@ -21,13 +21,13 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
 
         private readonly Lazy<bool> hasExplosion;
 
-        private bool hasHitCircle => GetTexture("taikohitcircle") != null;
-        private bool hasBarLeft => GetTexture("taiko-bar-left") != null;
+        private bool hasHitCircle => GetTexture("taikohitcircle") is not null;
+        private bool hasBarLeft => GetTexture("taiko-bar-left") is not null;
 
         public TaikoLegacySkinTransformer(ISkin skin)
             : base(skin)
         {
-            hasExplosion = new Lazy<bool>(() => GetTexture(getHitName(TaikoSkinComponents.TaikoExplosionGreat)) != null);
+            hasExplosion = new Lazy<bool>(() => GetTexture(getHitName(TaikoSkinComponents.TaikoExplosionGreat)) is not null);
         }
 
         public override Drawable? GetDrawableComponent(ISkinComponentLookup lookup)
@@ -37,7 +37,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                 case GlobalSkinnableContainerLookup containerLookup:
                 {
                     // Modifications for global components.
-                    if (containerLookup.Ruleset == null)
+                    if (containerLookup.Ruleset is null)
                         return base.GetDrawableComponent(lookup);
 
                     // we don't have enough assets to display these components (this is especially the case on a "beatmap" skin).
@@ -54,7 +54,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
 
                                 Vector2 pos = new Vector2();
 
-                                if (combo != null)
+                                if (combo is not null)
                                 {
                                     combo.Anchor = Anchor.BottomLeft;
                                     combo.Origin = Anchor.BottomLeft;
@@ -63,7 +63,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                                     pos += new Vector2(10, -(combo.DrawHeight * 1.56f + 20) * combo.Scale.X);
                                 }
 
-                                if (leaderboard != null)
+                                if (leaderboard is not null)
                                 {
                                     leaderboard.Anchor = Anchor.BottomLeft;
                                     leaderboard.Origin = Anchor.BottomLeft;
@@ -101,13 +101,13 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                     switch (taikoComponent.Component)
                     {
                         case TaikoSkinComponents.DrumRollHead:
-                            if (GetTexture("taiko-roll-middle") != null)
+                            if (GetTexture("taiko-roll-middle") is not null)
                                 return new LegacyCirclePiece();
 
                             return null;
 
                         case TaikoSkinComponents.DrumRollBody:
-                            if (GetTexture("taiko-roll-middle") != null)
+                            if (GetTexture("taiko-roll-middle") is not null)
                                 return new LegacyDrumRoll();
 
                             return null;
@@ -132,39 +132,39 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                             return this.GetAnimation("sliderscorepoint", false, false);
 
                         case TaikoSkinComponents.Swell:
-                            if (GetTexture("spinner-circle") != null)
+                            if (GetTexture("spinner-circle") is not null)
                                 return new LegacySwell();
 
                             return null;
 
                         case TaikoSkinComponents.HitTarget:
-                            if (GetTexture("taikobigcircle") != null)
+                            if (GetTexture("taikobigcircle") is not null)
                                 return new TaikoLegacyHitTarget();
 
                             return null;
 
                         case TaikoSkinComponents.PlayfieldBackgroundRight:
-                            if (GetTexture("taiko-bar-right") != null)
+                            if (GetTexture("taiko-bar-right") is not null)
                                 return new TaikoLegacyPlayfieldBackgroundRight();
 
                             return null;
 
                         case TaikoSkinComponents.PlayfieldBackgroundLeft:
                             // This is displayed inside LegacyInputDrum. It is required to be there for layout purposes (can be seen on legacy skins).
-                            if (GetTexture("taiko-bar-right") != null)
+                            if (GetTexture("taiko-bar-right") is not null)
                                 return Drawable.Empty();
 
                             return null;
 
                         case TaikoSkinComponents.BarLine:
-                            if (GetTexture("taiko-barline") != null)
+                            if (GetTexture("taiko-barline") is not null)
                                 return new LegacyBarLine();
 
                             return null;
 
                         case TaikoSkinComponents.TaikoExplosionMiss:
                             var missSprite = this.GetAnimation(getHitName(taikoComponent.Component), true, false);
-                            if (missSprite != null)
+                            if (missSprite is not null)
                                 return new LegacyHitExplosion(missSprite);
 
                             return null;
@@ -174,7 +174,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                             string hitName = getHitName(taikoComponent.Component);
                             var hitSprite = this.GetAnimation(hitName, true, false);
 
-                            if (hitSprite != null)
+                            if (hitSprite is not null)
                             {
                                 var strongHitSprite = this.GetAnimation($"{hitName}k", true, false);
 
@@ -192,7 +192,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                             return null;
 
                         case TaikoSkinComponents.Scroller:
-                            if (GetTexture("taiko-slider") != null)
+                            if (GetTexture("taiko-slider") is not null)
                                 return new LegacyTaikoScroller();
 
                             return null;
@@ -201,7 +201,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                             return new DrawableTaikoMascot();
 
                         case TaikoSkinComponents.KiaiGlow:
-                            if (GetTexture("taiko-glow") != null)
+                            if (GetTexture("taiko-glow") is not null)
                                 return new LegacyKiaiGlow();
 
                             return null;

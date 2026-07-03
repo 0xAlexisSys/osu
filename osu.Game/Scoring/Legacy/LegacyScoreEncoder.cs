@@ -80,7 +80,7 @@ namespace osu.Game.Scoring.Legacy
             this.score = score;
             this.beatmap = beatmap;
 
-            if (beatmap == null && !score.Replay.Frames.All(f => f is LegacyReplayFrame))
+            if (beatmap is null && !score.Replay.Frames.All(f => f is LegacyReplayFrame))
                 throw new ArgumentException(@"Beatmap must be provided if frames are not already legacy frames.", nameof(beatmap));
 
             if (!score.ScoreInfo.Ruleset.IsLegacyRuleset())
@@ -156,7 +156,7 @@ namespace osu.Game.Scoring.Legacy
 
                 int lastTime = 0;
 
-                if (score.Replay != null)
+                if (score.Replay is not null)
                 {
                     foreach (var f in score.Replay.Frames)
                     {
@@ -184,7 +184,7 @@ namespace osu.Game.Scoring.Legacy
                     return legacyFrame;
 
                 case IConvertibleReplayFrame convertibleFrame:
-                    Debug.Assert(beatmap != null);
+                    Debug.Assert(beatmap is not null);
                     return convertibleFrame.ToLegacy(beatmap);
 
                 default:

@@ -59,7 +59,7 @@ namespace osu.Game.Beatmaps.Drawables
             foreach (var group in flow)
                 group.Alpha = 0;
 
-            if (beatmapSet == null)
+            if (beatmapSet is null)
             {
                 foreach (var group in flow)
                     group.Beatmaps = [];
@@ -75,7 +75,7 @@ namespace osu.Game.Beatmaps.Drawables
 
                 var group = flow.SingleOrDefault(rg => rg.RulesetId == rulesetId);
 
-                if (group == null)
+                if (group is null)
                 {
                     group = new RulesetDifficultyGroup(rulesetId);
                     flow.Add(group);

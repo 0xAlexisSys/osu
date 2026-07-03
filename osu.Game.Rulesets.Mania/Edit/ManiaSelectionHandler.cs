@@ -93,7 +93,7 @@ namespace osu.Game.Rulesets.Mania.Edit
             var maniaPlayfield = ((ManiaHitObjectComposer)composer).Playfield;
 
             var currentColumn = maniaPlayfield.GetColumnByPosition(moveEvent.Blueprint.ScreenSpaceSelectionPoint + moveEvent.ScreenSpaceDelta);
-            if (currentColumn == null)
+            if (currentColumn is null)
                 return;
 
             int columnDelta = currentColumn.Index - lastColumn;

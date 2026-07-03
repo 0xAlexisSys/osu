@@ -21,7 +21,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
             {
                 var baseLookup = base.GetConfig<TLookup, TValue>(lookup);
 
-                if (baseLookup != null)
+                if (baseLookup is not null)
                     return baseLookup;
 
                 // default provisioning.

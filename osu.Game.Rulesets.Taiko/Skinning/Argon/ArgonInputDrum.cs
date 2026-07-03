@@ -201,7 +201,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
                 else if (e.Action == RimAction)
                     target = rimHit;
 
-                if (target != null)
+                if (target is not null)
                 {
                     const float alpha_amount = 0.5f;
 

@@ -41,7 +41,7 @@ namespace osu.Game.Beatmaps.Formats
 
             string? line;
 
-            while ((line = stream.ReadLine()) != null)
+            while ((line = stream.ReadLine()) is not null)
             {
                 if (ShouldSkipLine(line))
                     continue;

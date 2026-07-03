@@ -182,7 +182,7 @@ namespace osu.Game.Overlays.Toolbar
 
             ((IBindable<bool>)background.ShowGradient).BindTo(interceptor.ReceivedHover);
 
-            if (osuGame != null)
+            if (osuGame is not null)
                 OverlayActivationMode.BindTo(osuGame.OverlayActivationMode);
         }
 

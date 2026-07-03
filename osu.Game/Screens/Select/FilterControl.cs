@@ -264,7 +264,7 @@ namespace osu.Game.Screens.Select
             });
             collectionsSubscription = realm.RegisterForNotifications(r => r.All<BeatmapCollection>(), (_, changeSet) =>
             {
-                if (changeSet != null && groupDropdown.Current.Value.Value == GroupMode.Collections)
+                if (changeSet is not null && groupDropdown.Current.Value.Value == GroupMode.Collections)
                     updateCriteria();
             });
 
@@ -314,7 +314,7 @@ namespace osu.Game.Screens.Select
 
         private void updateCriteria(bool clearScopedSet = true)
         {
-            if (clearScopedSet && ScopedBeatmapSet.Value != null)
+            if (clearScopedSet && ScopedBeatmapSet.Value is not null)
             {
                 songSelect?.UnscopeBeatmapSet();
                 // because `ScopedBeatmapSet` has a value change callback bound to it that calls `updateCriteria()` again,
@@ -364,7 +364,7 @@ namespace osu.Game.Screens.Select
 
                 public override bool OnPressed(KeyBindingPressEvent<GlobalAction> e)
                 {
-                    if (e.Action == GlobalAction.Back && ScopedBeatmapSet.Value != null)
+                    if (e.Action == GlobalAction.Back && ScopedBeatmapSet.Value is not null)
                         return false;
 
                     return base.OnPressed(e);

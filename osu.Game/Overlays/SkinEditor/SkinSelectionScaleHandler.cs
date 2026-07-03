@@ -60,7 +60,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         public override void Begin()
         {
-            if (objectsInScale != null)
+            if (objectsInScale is not null)
                 throw new InvalidOperationException($"Cannot {nameof(Begin)} a scale operation while another is in progress!");
 
             changeHandler?.BeginChange();
@@ -75,10 +75,10 @@ namespace osu.Game.Overlays.SkinEditor
 
         public override void Update(Vector2 scale, Vector2? origin = null, Axes adjustAxis = Axes.Both, float axisRotation = 0)
         {
-            if (objectsInScale == null)
+            if (objectsInScale is null)
                 throw new InvalidOperationException($"Cannot {nameof(Update)} a scale operation without calling {nameof(Begin)} first!");
 
-            Debug.Assert(defaultOrigin != null && OriginalSurroundingQuad != null);
+            Debug.Assert(defaultOrigin is not null && OriginalSurroundingQuad is not null);
 
             var actualOrigin = ToScreenSpace(origin ?? defaultOrigin.Value);
 
@@ -149,7 +149,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         public override void Commit()
         {
-            if (objectsInScale == null)
+            if (objectsInScale is null)
                 throw new InvalidOperationException($"Cannot {nameof(Commit)} a scale operation without calling {nameof(Begin)} first!");
 
             changeHandler?.EndChange();

@@ -211,7 +211,7 @@ namespace osu.Game.Rulesets.Catch.Edit
 
             var sourceHitObject = getDistanceSnapGridSourceHitObject();
 
-            if (sourceHitObject == null)
+            if (sourceHitObject is null)
             {
                 distanceSnapGrid.Hide();
                 return;
@@ -246,7 +246,7 @@ namespace osu.Game.Rulesets.Catch.Edit
 
                 CatchHitObject? current = remainingHitObjects.FirstOrDefault(h => h.IndexInCurrentCombo + 1 == combo);
 
-                if (current == null)
+                if (current is null)
                     continue;
 
                 EditorBeatmap.SelectedHitObjects.Add(current);

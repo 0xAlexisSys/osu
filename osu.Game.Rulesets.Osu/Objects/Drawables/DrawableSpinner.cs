@@ -283,7 +283,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             if (HandleUserInput)
                 RotationTracker.Tracking = RotationTracker.IsSpinnableTime && !Result.HasResult && correctButtonPressed();
 
-            if (spinningSample != null && spinnerFrequencyModulate)
+            if (spinningSample is not null && spinnerFrequencyModulate)
                 spinningSample.Frequency.Value = spinning_sample_modulated_base_frequency + Progress;
 
             // Ticks can theoretically be judged at any point in the spinner's duration.
@@ -307,7 +307,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         private bool correctButtonPressed()
         {
-            if (OsuActionInputManager == null)
+            if (OsuActionInputManager is null)
                 return false;
 
             foreach (var action in OsuActionInputManager.PressedActions)
@@ -323,7 +323,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
         {
             base.UpdateAfterChildren();
 
-            if (Result.TimeStarted == null && RotationTracker.Tracking)
+            if (Result.TimeStarted is null && RotationTracker.Tracking)
                 Result.TimeStarted = Time.Current;
 
             // don't update after end time to avoid the rate display dropping during fade out.
@@ -359,7 +359,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
                 var tick = ticks.FirstOrDefault(t => !t.Result.HasResult);
 
                 // tick may be null if we've hit the spin limit.
-                if (tick == null)
+                if (tick is null)
                 {
                     // we still want to play a sound. this will probably be a new sound in the future, but for now let's continue playing the bonus sound.
                     // TODO: this doesn't concurrency. i can't figure out how to make it concurrency. samples are bad and need a refactor.

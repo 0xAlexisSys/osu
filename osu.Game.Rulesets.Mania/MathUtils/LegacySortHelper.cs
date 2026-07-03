@@ -90,8 +90,8 @@ namespace osu.Game.Rulesets.Mania.MathUtils
 
         private static void heapsort(T[] keys, int lo, int hi, IComparer<T> comparer)
         {
-            Contract.Requires(keys != null);
-            Contract.Requires(comparer != null);
+            Contract.Requires(keys is not null);
+            Contract.Requires(comparer is not null);
             Contract.Requires(lo >= 0);
             Contract.Requires(hi > lo);
             Contract.Requires(hi < keys.Length);
@@ -112,8 +112,8 @@ namespace osu.Game.Rulesets.Mania.MathUtils
 
         private static void downHeap(T[] keys, int i, int n, int lo, IComparer<T> comparer)
         {
-            Contract.Requires(keys != null);
-            Contract.Requires(comparer != null);
+            Contract.Requires(keys is not null);
+            Contract.Requires(comparer is not null);
             Contract.Requires(lo >= 0);
             Contract.Requires(lo < keys.Length);
 

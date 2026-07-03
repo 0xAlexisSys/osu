@@ -42,7 +42,7 @@ namespace osu.Game.Skinning
 
         private static IResourceStore<byte[]> createRealmBackedStore(BeatmapInfo beatmapInfo, IStorageResourceProvider? resources)
         {
-            if (resources == null || beatmapInfo.BeatmapSet == null)
+            if (resources is null || beatmapInfo.BeatmapSet is null)
                 // should only ever be used in tests.
                 return new ResourceStore<byte[]>();
 

@@ -89,7 +89,7 @@ namespace osu.Game.Graphics.UserInterface
         [BackgroundDependencyLoader]
         private void load(OsuColour colours, AudioManager audio)
         {
-            if (accentColour == null)
+            if (accentColour is null)
                 AccentColour = colours.Blue;
 
             sampleChecked = audio.Samples.Get(@"UI/check-on");

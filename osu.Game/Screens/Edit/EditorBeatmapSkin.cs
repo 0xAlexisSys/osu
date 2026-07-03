@@ -60,7 +60,7 @@ namespace osu.Game.Screens.Edit
 
             ComboColours.BindCollectionChanged((_, _) => updateColours());
 
-            if (skin.BeatmapSetResources != null)
+            if (skin.BeatmapSetResources is not null)
                 skin.BeatmapSetResources.CacheInvalidated += beatmapResourcesInvalidated;
         }
 
@@ -118,7 +118,7 @@ namespace osu.Game.Screens.Edit
                 [1] = new SampleSet(1),
             };
 
-            if (Skin.Samples != null)
+            if (Skin.Samples is not null)
             {
                 foreach (string sample in Skin.Samples.GetAvailableResources())
                 {
@@ -154,7 +154,7 @@ namespace osu.Game.Screens.Edit
 
         public void Dispose()
         {
-            if (Skin.BeatmapSetResources != null)
+            if (Skin.BeatmapSetResources is not null)
                 Skin.BeatmapSetResources.CacheInvalidated -= beatmapResourcesInvalidated;
             Skin.Dispose();
         }

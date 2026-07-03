@@ -53,7 +53,7 @@ namespace osu.Game.Screens.Ranking.Expanded.Statistics
                 }
             };
 
-            if (maxCount != null)
+            if (maxCount is not null)
             {
                 container.Add(new OsuSpriteText
                 {

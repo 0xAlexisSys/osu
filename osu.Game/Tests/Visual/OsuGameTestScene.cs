@@ -65,7 +65,7 @@ namespace osu.Game.Tests.Visual
         {
             AddStep("Create new game instance", () =>
             {
-                if (Game?.Parent != null)
+                if (Game?.Parent is not null)
                     Remove(Game, true);
 
                 RecycleLocalStorage(false);
@@ -83,7 +83,7 @@ namespace osu.Game.Tests.Visual
             if (DebugUtils.IsNUnitRunning)
             {
                 AddStep("exit game", () => Game?.Exit());
-                AddUntilStep("wait for game exit", () => Game?.Parent == null);
+                AddUntilStep("wait for game exit", () => Game?.Parent is null);
                 AddStep("dispose game", () => Game?.Dispose());
             }
         }

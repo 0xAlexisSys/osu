@@ -75,10 +75,10 @@ namespace osu.Game.Screens.Edit.Components.TernaryButtons
             };
 
             selectedHitObjects.BindTo(editorBeatmap.SelectedHitObjects);
-            if (editorBeatmap.BeatmapSkin != null)
+            if (editorBeatmap.BeatmapSkin is not null)
                 comboColours.BindTo(editorBeatmap.BeatmapSkin.ComboColours);
 
-            if (expandableParent != null)
+            if (expandableParent is not null)
                 expanded.BindTo(expandableParent.Expanded);
         }
 
@@ -147,12 +147,12 @@ namespace osu.Game.Screens.Edit.Components.TernaryButtons
                 ComboColours.BindCollectionChanged((_, _) => updateState());
                 SelectedHitObject.BindValueChanged(val =>
                 {
-                    if (val.OldValue != null)
+                    if (val.OldValue is not null)
                         val.OldValue.ComboIndexWithOffsetsBindable.ValueChanged -= onComboIndexChanged;
 
                     updateState();
 
-                    if (val.NewValue != null)
+                    if (val.NewValue is not null)
                         val.NewValue.ComboIndexWithOffsetsBindable.ValueChanged += onComboIndexChanged;
                 }, true);
             }
@@ -161,9 +161,9 @@ namespace osu.Game.Screens.Edit.Components.TernaryButtons
 
             private void updateState()
             {
-                Enabled.Value = SelectedHitObject.Value != null;
+                Enabled.Value = SelectedHitObject.Value is not null;
 
-                if (SelectedHitObject.Value == null || SelectedHitObject.Value.ComboOffset == 0 || ComboColours.Count <= 1 || !SelectedHitObject.Value.NewCombo)
+                if (SelectedHitObject.Value is null || SelectedHitObject.Value.ComboOffset == 0 || ComboColours.Count <= 1 || !SelectedHitObject.Value.NewCombo)
                 {
                     BackgroundColour = colourProvider.Background3;
                     Icon.Colour = BackgroundColour.Darken(0.5f);
@@ -200,7 +200,7 @@ namespace osu.Game.Screens.Edit.Components.TernaryButtons
             {
                 Debug.Assert(comboColours.Count > 0);
                 var hitObject = hasComboInformation as HitObject;
-                Debug.Assert(hitObject != null);
+                Debug.Assert(hitObject is not null);
 
                 FillFlowContainer container;
 
@@ -278,7 +278,7 @@ namespace osu.Game.Screens.Edit.Components.TernaryButtons
                                                        .OrderBy(t => t)
                                                        .LastOrDefault();
 
-                if (closestBreakEnd == null)
+                if (closestBreakEnd is null)
                     return false;
 
                 return editorBeatmap.HitObjects.FirstOrDefault(ho => ho.StartTime >= closestBreakEnd) == hitObject;

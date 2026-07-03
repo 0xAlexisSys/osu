@@ -64,7 +64,7 @@ namespace osu.Game.Tests.Visual
             // a `TestReplayPlayer`.
             var autoplayMod = Mods.Value.OfType<ModAutoplay>().FirstOrDefault();
 
-            if (autoplayMod != null)
+            if (autoplayMod is not null)
             {
                 DrawableRuleset?.SetReplayScore(autoplayMod.CreateScoreFromReplayData(GameplayState.Beatmap, Mods.Value));
                 return;

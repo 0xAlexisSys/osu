@@ -106,7 +106,7 @@ namespace osu.Game.Screens.Edit
 
             // If the operation completed successfully, ensure that we finish the operation before exiting.
             // The finish() call will subsequently call Exit() when done.
-            if (EditOperation != null && !operationFinishStarted)
+            if (EditOperation is not null && !operationFinishStarted)
             {
                 Task.Run(finish);
                 return true;
@@ -183,7 +183,7 @@ namespace osu.Game.Screens.Edit
 
         private void openDirectory()
         {
-            if (EditOperation == null)
+            if (EditOperation is null)
                 return;
 
             // Ensure the trailing separator is present in order to show the folder contents.
@@ -218,7 +218,7 @@ namespace osu.Game.Screens.Edit
             // Setting to null will allow exit to succeed.
             EditOperation = null;
 
-            if (beatmap == null)
+            if (beatmap is null)
             {
                 // has to be set before `Exit()` call to ensure the exit isn't blocked in `OnExiting()`
                 operationFinished = true;

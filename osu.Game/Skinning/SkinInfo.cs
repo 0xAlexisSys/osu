@@ -47,7 +47,7 @@ namespace osu.Game.Skinning
                 ? typeof(LegacySkin)
                 : Type.GetType(InstantiationInfo);
 
-            if (type == null)
+            if (type is null)
             {
                 // Since the class was renamed from "DefaultSkin" to "TrianglesSkin", the type retrieval would fail
                 // for user modified skins. This aims to amicably handle that.
@@ -79,7 +79,7 @@ namespace osu.Game.Skinning
         public bool Equals(SkinInfo? other)
         {
             if (ReferenceEquals(this, other)) return true;
-            if (other == null) return false;
+            if (other is null) return false;
 
             return ID == other.ID;
         }

@@ -47,7 +47,7 @@ namespace osu.Game.Overlays.SkinEditor
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    Debug.Assert(e.NewItems != null);
+                    Debug.Assert(e.NewItems is not null);
 
                     foreach (var item in e.NewItems.Cast<ISerialisableDrawable>())
                         AddBlueprintFor(item);
@@ -55,15 +55,15 @@ namespace osu.Game.Overlays.SkinEditor
 
                 case NotifyCollectionChangedAction.Remove:
                 case NotifyCollectionChangedAction.Reset:
-                    Debug.Assert(e.OldItems != null);
+                    Debug.Assert(e.OldItems is not null);
 
                     foreach (var item in e.OldItems.Cast<ISerialisableDrawable>())
                         RemoveBlueprintFor(item);
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    Debug.Assert(e.NewItems != null);
-                    Debug.Assert(e.OldItems != null);
+                    Debug.Assert(e.NewItems is not null);
+                    Debug.Assert(e.OldItems is not null);
 
                     foreach (var item in e.OldItems.Cast<ISerialisableDrawable>())
                         RemoveBlueprintFor(item);
@@ -129,7 +129,7 @@ namespace osu.Game.Overlays.SkinEditor
         {
             var firstBlueprint = SelectionHandler.SelectedBlueprints.FirstOrDefault();
 
-            if (firstBlueprint == null)
+            if (firstBlueprint is null)
                 return;
 
             // convert to game space coordinates

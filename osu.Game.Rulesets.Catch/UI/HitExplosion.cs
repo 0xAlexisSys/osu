@@ -41,7 +41,7 @@ namespace osu.Game.Rulesets.Catch.UI
 
         private void apply(HitExplosionEntry? entry)
         {
-            if (entry == null)
+            if (entry is null)
                 return;
 
             ApplyTransformsAt(double.MinValue, true);

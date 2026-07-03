@@ -43,13 +43,13 @@ namespace osu.Game.Rulesets.UI
                 if (value == field)
                     return;
 
-                if (value != null && field != null)
+                if (value is not null && field is not null)
                     throw new InvalidOperationException("Cannot attach more than one recorder");
 
                 field?.Expire();
                 field = value;
 
-                if (field != null)
+                if (field is not null)
                     KeyBindingContainer.Add(field);
             }
         }
@@ -106,7 +106,7 @@ namespace osu.Game.Rulesets.UI
                 if (field == value)
                     return;
 
-                if (field != null)
+                if (field is not null)
                     RemoveHandler(field);
 
                 // ensures that all replay keys are released, that the last replay state is correctly cleared,
@@ -115,9 +115,9 @@ namespace osu.Game.Rulesets.UI
                 new ReplayStateReset().Apply(CurrentState, this);
 
                 field = value;
-                UseParentInput = field == null;
+                UseParentInput = field is null;
 
-                if (field != null)
+                if (field is not null)
                     AddHandler(field);
             }
         }

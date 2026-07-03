@@ -113,7 +113,7 @@ namespace osu.Game.Overlays
 
         private void updateState()
         {
-            if (current == null)
+            if (current is null)
                 return;
 
             // Avoid running animations if we are already in an up-to-date state.

@@ -57,7 +57,7 @@ namespace osu.Game.Graphics.Containers.Markdown
             string[] attributes = literal.Content.ToString().Trim(' ', '{', '}').Split();
             string flagAttribute = attributes.SingleOrDefault(a => a.StartsWith(@"flag", StringComparison.Ordinal));
 
-            if (flagAttribute == null)
+            if (flagAttribute is null)
             {
                 base.AddCustomComponent(inline);
                 return;

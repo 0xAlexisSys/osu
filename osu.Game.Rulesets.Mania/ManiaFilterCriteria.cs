@@ -62,25 +62,25 @@ namespace osu.Game.Rulesets.Mania
                             return true;
 
                         case Operator.Less:
-                            if (singleKeyCount == null) return false;
+                            if (singleKeyCount is null) return false;
 
                             includedKeyCounts.RemoveWhere(k => k >= singleKeyCount.Value);
                             return true;
 
                         case Operator.LessOrEqual:
-                            if (singleKeyCount == null) return false;
+                            if (singleKeyCount is null) return false;
 
                             includedKeyCounts.RemoveWhere(k => k > singleKeyCount.Value);
                             return true;
 
                         case Operator.Greater:
-                            if (singleKeyCount == null) return false;
+                            if (singleKeyCount is null) return false;
 
                             includedKeyCounts.RemoveWhere(k => k <= singleKeyCount.Value);
                             return true;
 
                         case Operator.GreaterOrEqual:
-                            if (singleKeyCount == null) return false;
+                            if (singleKeyCount is null) return false;
 
                             includedKeyCounts.RemoveWhere(k => k < singleKeyCount.Value);
                             return true;

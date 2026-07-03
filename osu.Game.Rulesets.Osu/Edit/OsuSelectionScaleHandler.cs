@@ -102,7 +102,7 @@ namespace osu.Game.Rulesets.Osu.Edit
             if (!OperationInProgress.Value)
                 throw new InvalidOperationException($"Cannot {nameof(Update)} a scale operation without calling {nameof(Begin)} first!");
 
-            Debug.Assert(objectsInScale != null && defaultOrigin != null && OriginalSurroundingQuad != null);
+            Debug.Assert(objectsInScale is not null && defaultOrigin is not null && OriginalSurroundingQuad is not null);
 
             Vector2 actualOrigin = origin ?? defaultOrigin.Value;
             scale = clampScaleToAdjustAxis(scale, adjustAxis);
@@ -166,7 +166,7 @@ namespace osu.Game.Rulesets.Osu.Edit
 
         private void scaleSlider(Slider slider, Vector2 scale, Vector2 origin, OriginalHitObjectState originalInfo, float axisRotation = 0)
         {
-            Debug.Assert(originalInfo.PathControlPointPositions != null && originalInfo.PathControlPointTypes != null);
+            Debug.Assert(originalInfo.PathControlPointPositions is not null && originalInfo.PathControlPointTypes is not null);
 
             scale = Vector2.ComponentMax(scale, new Vector2(Precision.FLOAT_EPSILON));
 
@@ -218,10 +218,10 @@ namespace osu.Game.Rulesets.Osu.Edit
         public Vector2 ClampScaleToPlayfieldBounds(Vector2 scale, Vector2? origin = null, Axes adjustAxis = Axes.Both, float axisRotation = 0)
         {
             //todo: this is not always correct for selections involving sliders. This approximation assumes each point is scaled independently, but sliderends move with the sliderhead.
-            if (objectsInScale == null || adjustAxis == Axes.None)
+            if (objectsInScale is null || adjustAxis == Axes.None)
                 return scale;
 
-            Debug.Assert(defaultOrigin != null && OriginalSurroundingQuad != null);
+            Debug.Assert(defaultOrigin is not null && OriginalSurroundingQuad is not null);
 
             if (objectsInScale.Count == 1 && objectsInScale.First().Key is Slider slider)
                 origin = slider.Position;

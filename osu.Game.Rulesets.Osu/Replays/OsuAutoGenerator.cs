@@ -112,7 +112,7 @@ namespace osu.Game.Rulesets.Osu.Replays
                     break;
             }
 
-            Debug.Assert(hitWindows != null);
+            Debug.Assert(hitWindows is not null);
 
             // Make the cursor stay at a hitObject as long as possible (mainly for autopilot).
             if (h.StartTime - hitWindows.WindowFor(HitResult.Miss) > endTime + hitWindows.WindowFor(HitResult.Meh) + 50)
@@ -250,7 +250,7 @@ namespace osu.Game.Rulesets.Osu.Replays
             if (timeDifference >= 0)
             {
                 // If the last frame is a key-up frame and there has been no wait period, adjust the last frame's position such that it begins eased movement instantaneously.
-                if (lastLastFrame != null && lastFrame is OsuKeyUpReplayFrame && !hasWaited)
+                if (lastLastFrame is not null && lastFrame is OsuKeyUpReplayFrame && !hasWaited)
                 {
                     // [lastLastFrame] ... [lastFrame] ... [current frame]
                     // We want to find the cursor position at lastFrame, so interpolate between lastLastFrame and the new target position.

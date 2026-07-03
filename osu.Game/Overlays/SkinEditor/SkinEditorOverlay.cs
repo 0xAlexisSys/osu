@@ -120,7 +120,7 @@ namespace osu.Game.Overlays.SkinEditor
         {
             overrideSkinEditorRelevantSettings();
 
-            if (skinEditor != null)
+            if (skinEditor is not null)
             {
                 disableNestedInputManagers();
                 skinEditor.Show();
@@ -147,7 +147,7 @@ namespace osu.Game.Overlays.SkinEditor
                 if (lastTargetScreen is MainMenu)
                     PresentGameplay();
 
-                Debug.Assert(lastTargetScreen != null);
+                Debug.Assert(lastTargetScreen is not null);
 
                 SetTarget(lastTargetScreen);
             });
@@ -201,13 +201,13 @@ namespace osu.Game.Overlays.SkinEditor
 
                 IReadOnlyList<Mod> usableMods = mods.Value;
 
-                if (replayGeneratingMod != null)
+                if (replayGeneratingMod is not null)
                     usableMods = usableMods.Append(replayGeneratingMod).ToArray();
 
                 if (!ModUtils.CheckCompatibleSet(usableMods, out var invalid))
                     mods.Value = mods.Value.Except(invalid).ToArray();
 
-                if (replayGeneratingMod != null)
+                if (replayGeneratingMod is not null)
                     screen.Push(new EndlessPlayer(replayGeneratingMod.CreateScoreFromReplayData));
             }, new[] { typeof(Player), typeof(SongSelect) });
         }
@@ -243,7 +243,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         private void updateComponentVisibility()
         {
-            Debug.Assert(skinEditor != null);
+            Debug.Assert(skinEditor is not null);
 
             if (skinEditor.State.Value == Visibility.Visible)
             {
@@ -276,7 +276,7 @@ namespace osu.Game.Overlays.SkinEditor
 
             lastTargetScreen = screen;
 
-            if (skinEditor == null) return;
+            if (skinEditor is null) return;
 
             // ensure the toolbar is re-hidden even if a new screen decides to try and show it.
             updateComponentVisibility();
@@ -287,10 +287,10 @@ namespace osu.Game.Overlays.SkinEditor
 
         private void setTarget(OsuScreen? target)
         {
-            if (target == null)
+            if (target is null)
                 return;
 
-            Debug.Assert(skinEditor != null);
+            Debug.Assert(skinEditor is not null);
 
             if (!target.IsLoaded || !skinEditor.IsLoaded)
             {
@@ -315,7 +315,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         private void disableNestedInputManagers()
         {
-            if (lastTargetScreen == null)
+            if (lastTargetScreen is null)
                 return;
 
             var nestedInputManagers = lastTargetScreen.ChildrenOfType<PassThroughInputManager>().Where(manager => manager.UseParentInput).ToArray();

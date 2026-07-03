@@ -51,7 +51,7 @@ namespace osu.Game.Overlays.SkinEditor
         {
             base.LoadComplete();
 
-            if (ChangeHandler != null)
+            if (ChangeHandler is not null)
                 ChangeHandler.OnStateChange += updateTernaryStates;
             SelectedItems.BindCollectionChanged((_, _) => updateTernaryStates());
         }
@@ -62,13 +62,13 @@ namespace osu.Game.Overlays.SkinEditor
 
             closestAnchor?.State.Value = usingClosestAnchor;
 
-            if (fixedAnchors != null)
+            if (fixedAnchors is not null)
             {
                 foreach (var fixedAnchor in fixedAnchors)
                     fixedAnchor.State.Value = GetStateFromSelection(SelectedBlueprints, c => c.Item.UsesFixedAnchor && ((Drawable)c.Item).Anchor == fixedAnchor.Anchor);
             }
 
-            if (originMenu != null)
+            if (originMenu is not null)
             {
                 foreach (var origin in originMenu.Items.OfType<AnchorMenuItem>())
                 {
@@ -280,7 +280,7 @@ namespace osu.Game.Overlays.SkinEditor
         {
             var parent = drawable.Parent;
 
-            if (parent == null)
+            if (parent is null)
                 return drawable.Anchor;
 
             var screenPosition = drawable.ToScreenSpace(drawable.OriginPosition);

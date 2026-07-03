@@ -73,7 +73,7 @@ namespace osu.Game.Rulesets.Objects
                 switch (args.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        Debug.Assert(args.NewItems != null);
+                        Debug.Assert(args.NewItems is not null);
 
                         foreach (object? newItem in args.NewItems)
                             ((PathControlPoint)newItem).Changed += invalidate;
@@ -82,7 +82,7 @@ namespace osu.Game.Rulesets.Objects
 
                     case NotifyCollectionChangedAction.Reset:
                     case NotifyCollectionChangedAction.Remove:
-                        Debug.Assert(args.OldItems != null);
+                        Debug.Assert(args.OldItems is not null);
 
                         foreach (object? oldItem in args.OldItems)
                             ((PathControlPoint)oldItem).Changed -= invalidate;
@@ -220,7 +220,7 @@ namespace osu.Game.Rulesets.Objects
 
             foreach (PathControlPoint point in ControlPoints)
             {
-                if (point.Type != null)
+                if (point.Type is not null)
                 {
                     if (!found)
                         pointsInCurrentSegment.Clear();
@@ -299,7 +299,7 @@ namespace osu.Game.Rulesets.Objects
 
             for (int i = 0; i < ControlPoints.Count; i++)
             {
-                if (ControlPoints[i].Type == null && i < ControlPoints.Count - 1)
+                if (ControlPoints[i].Type is null && i < ControlPoints.Count - 1)
                     continue;
 
                 // The current vertex ends the segment
@@ -387,7 +387,7 @@ namespace osu.Game.Rulesets.Objects
 
                     for (int i = 0; i < subPath.Count; i++)
                     {
-                        if (lastStart == null)
+                        if (lastStart is null)
                         {
                             optimisedPath.Add(subPath[i]);
                             lastStart = subPath[i];

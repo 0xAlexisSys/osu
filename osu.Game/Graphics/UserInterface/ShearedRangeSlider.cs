@@ -242,7 +242,7 @@ namespace osu.Game.Graphics.UserInterface
 
             protected virtual void UpdateDisplay(double value)
             {
-                if (Current.IsDefault && DefaultString != null)
+                if (Current.IsDefault && DefaultString is not null)
                     NubText.Text = DefaultString.Value;
                 else
                     NubText.Text = value.ToLocalisableString(@"N1");

@@ -46,7 +46,7 @@ namespace osu.Game.Database
         /// </summary>
         public ArchiveReader GetReader()
         {
-            if (Stream == null)
+            if (Stream is null)
             {
                 if (ZipUtils.IsZipArchive(Path))
                     return new ZipArchiveReader(File.Open(Path, FileMode.Open, FileAccess.Read, FileShare.Read), System.IO.Path.GetFileName(Path));

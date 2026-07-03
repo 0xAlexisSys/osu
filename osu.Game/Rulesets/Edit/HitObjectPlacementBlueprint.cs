@@ -129,13 +129,13 @@ namespace osu.Game.Rulesets.Edit
             var lastHitObject = getPreviousHitObject();
             var lastHitNormal = lastHitObject?.Samples?.FirstOrDefault(o => o.Name == HitSampleInfo.HIT_NORMAL);
 
-            if (lastHitNormal != null && AutomaticBankAssignment)
+            if (lastHitNormal is not null && AutomaticBankAssignment)
                 // Inherit the bank from the previous hit object
                 HitObject.Samples = HitObject.Samples.Select(s => s.Name == HitSampleInfo.HIT_NORMAL ? s.With(newBank: lastHitNormal.Bank, newEditorAutoBank: true) : s).ToList();
             else
                 HitObject.Samples = HitObject.Samples.Select(s => s.Name == HitSampleInfo.HIT_NORMAL ? s.With(newEditorAutoBank: false) : s).ToList();
 
-            if (lastHitNormal != null)
+            if (lastHitNormal is not null)
             {
                 // Inherit the volume and sample set info from the previous hit object
                 HitObject.Samples = HitObject.Samples.Select(s => s.With(

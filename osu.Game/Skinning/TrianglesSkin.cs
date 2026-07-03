@@ -52,7 +52,7 @@ namespace osu.Game.Skinning
             foreach (string lookup in sampleInfo.LookupNames)
             {
                 var sample = Samples?.Get(lookup) ?? resources.AudioManager?.Samples.Get(lookup);
-                if (sample != null)
+                if (sample is not null)
                     return sample;
             }
 
@@ -87,7 +87,7 @@ namespace osu.Game.Skinning
                             // Hard to find this at runtime, so taken from the most expanded state during replay.
                             const float song_progress_offset_height = 73;
 
-                            if (containerLookup.Ruleset != null)
+                            if (containerLookup.Ruleset is not null)
                             {
                                 return new DefaultSkinComponentsContainer(container =>
                                 {
@@ -113,27 +113,27 @@ namespace osu.Game.Skinning
                                 var songProgress = container.OfType<DefaultSongProgress>().FirstOrDefault();
                                 var keyCounter = container.OfType<DefaultKeyCounterDisplay>().FirstOrDefault();
 
-                                if (score != null)
+                                if (score is not null)
                                 {
                                     score.Anchor = Anchor.TopCentre;
                                     score.Origin = Anchor.TopCentre;
 
                                     score.Position = new Vector2(0, score_vertical_offset);
 
-                                    if (ppCounter != null)
+                                    if (ppCounter is not null)
                                     {
                                         ppCounter.Y = score.Position.Y + ppCounter.ScreenSpaceDeltaToParentSpace(score.ScreenSpaceDrawQuad.Size).Y - 4;
                                         ppCounter.Origin = Anchor.TopCentre;
                                         ppCounter.Anchor = Anchor.TopCentre;
                                     }
 
-                                    if (accuracy != null)
+                                    if (accuracy is not null)
                                     {
                                         accuracy.Position = new Vector2(-accuracy.ScreenSpaceDeltaToParentSpace(score.ScreenSpaceDrawQuad.Size).X / 2 - horizontal_padding, score_vertical_offset + 5);
                                         accuracy.Origin = Anchor.TopRight;
                                         accuracy.Anchor = Anchor.TopCentre;
 
-                                        if (combo != null)
+                                        if (combo is not null)
                                         {
                                             combo.Position = new Vector2(accuracy.ScreenSpaceDeltaToParentSpace(score.ScreenSpaceDrawQuad.Size).X / 2 + horizontal_padding, score_vertical_offset + 5);
                                             combo.Anchor = Anchor.TopCentre;
@@ -142,7 +142,7 @@ namespace osu.Game.Skinning
 
                                     var hitError = container.OfType<HitErrorMeter>().FirstOrDefault();
 
-                                    if (hitError != null)
+                                    if (hitError is not null)
                                     {
                                         hitError.Anchor = Anchor.CentreLeft;
                                         hitError.Origin = Anchor.CentreLeft;
@@ -150,7 +150,7 @@ namespace osu.Game.Skinning
 
                                     var hitError2 = container.OfType<HitErrorMeter>().LastOrDefault();
 
-                                    if (hitError2 != null)
+                                    if (hitError2 is not null)
                                     {
                                         hitError2.Anchor = Anchor.CentreRight;
                                         hitError2.Scale = new Vector2(-1, 1);
@@ -159,7 +159,7 @@ namespace osu.Game.Skinning
                                     }
                                 }
 
-                                if (songProgress != null && keyCounter != null)
+                                if (songProgress is not null && keyCounter is not null)
                                 {
                                     keyCounter.Anchor = Anchor.BottomRight;
                                     keyCounter.Origin = Anchor.BottomRight;

@@ -97,7 +97,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             if (travelLength < DistanceBetweenTicks)
                 travelLength = DistanceBetweenTicks;
 
-            float snappedDistance = fixedTime != null
+            float snappedDistance = fixedTime is not null
                 ? SnapProvider.DurationToDistance(fixedTime.Value - StartTime, StartTime, SliderVelocitySource)
                 // When interacting with the resolved snap provider, the distance spacing multiplier should first be removed
                 // to allow for snapping at a non-multiplied ratio.
@@ -146,7 +146,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             {
                 base.Update();
 
-                if (editorClock == null)
+                if (editorClock is null)
                     return;
 
                 float distanceSpacingMultiplier = (float)snapProvider.DistanceSpacingMultiplier.Value;

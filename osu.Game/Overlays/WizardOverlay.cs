@@ -129,7 +129,7 @@ namespace osu.Game.Overlays
             if (CurrentStepIndex == 0)
                 return false;
 
-            Debug.Assert(stack != null);
+            Debug.Assert(stack is not null);
 
             stack.CurrentScreen.Exit();
             CurrentStepIndex--;
@@ -164,7 +164,7 @@ namespace osu.Game.Overlays
             content.ScaleTo(0.99f)
                    .ScaleTo(1, 400, Easing.OutQuint);
 
-            if (CurrentStepIndex == null)
+            if (CurrentStepIndex is null)
                 showFirstStep();
         }
 
@@ -174,7 +174,7 @@ namespace osu.Game.Overlays
 
             content.ScaleTo(0.99f, 400, Easing.OutQuint);
 
-            if (CurrentStepIndex == null)
+            if (CurrentStepIndex is null)
             {
                 stack?.FadeOut(100)
                      .Expire();
@@ -189,7 +189,7 @@ namespace osu.Game.Overlays
 
         private void showFirstStep()
         {
-            Debug.Assert(CurrentStepIndex == null);
+            Debug.Assert(CurrentStepIndex is null);
 
             screenContent.Child = stack = new ScreenStack
             {
@@ -202,8 +202,8 @@ namespace osu.Game.Overlays
 
         protected virtual void ShowNextStep()
         {
-            Debug.Assert(CurrentStepIndex != null);
-            Debug.Assert(stack != null);
+            Debug.Assert(CurrentStepIndex is not null);
+            Debug.Assert(stack is not null);
 
             CurrentStepIndex++;
 
@@ -257,14 +257,14 @@ namespace osu.Game.Overlays
 
             public void UpdateButtons(int? currentStep, WizardScreen? currentScreen, IReadOnlyList<Type> steps)
             {
-                NextButton.Enabled.Value = currentStep != null;
+                NextButton.Enabled.Value = currentStep is not null;
 
-                if (currentStep == null)
+                if (currentStep is null)
                     return;
 
                 bool isLastStep = currentStep == steps.Count - 1;
 
-                if (currentScreen?.NextStepText != null)
+                if (currentScreen?.NextStepText is not null)
                     NextButton.Text = currentScreen.NextStepText.Value;
                 else
                 {

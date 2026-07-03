@@ -51,7 +51,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         public override void Begin()
         {
-            if (objectsInRotation != null)
+            if (objectsInRotation is not null)
                 throw new InvalidOperationException($"Cannot {nameof(Begin)} a rotate operation while another is in progress!");
 
             changeHandler?.BeginChange();
@@ -66,12 +66,12 @@ namespace osu.Game.Overlays.SkinEditor
 
         public override void Update(float rotation, Vector2? origin = null)
         {
-            if (objectsInRotation == null)
+            if (objectsInRotation is null)
                 throw new InvalidOperationException($"Cannot {nameof(Update)} a rotate operation without calling {nameof(Begin)} first!");
 
-            Debug.Assert(originalRotations != null && originalPositions != null && DefaultOrigin != null);
+            Debug.Assert(originalRotations is not null && originalPositions is not null && DefaultOrigin is not null);
 
-            if (objectsInRotation.Length == 1 && origin == null)
+            if (objectsInRotation.Length == 1 && origin is null)
             {
                 // for single items, rotate around the origin rather than the selection centre by default.
                 objectsInRotation[0].Rotation = originalRotations.Single().Value + rotation;
@@ -91,7 +91,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         public override void Commit()
         {
-            if (objectsInRotation == null)
+            if (objectsInRotation is null)
                 throw new InvalidOperationException($"Cannot {nameof(Commit)} a rotate operation without calling {nameof(Begin)} first!");
 
             changeHandler?.EndChange();

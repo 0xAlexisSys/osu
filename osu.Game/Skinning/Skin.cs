@@ -78,7 +78,7 @@ namespace osu.Game.Skinning
 
             Name = skin.Name;
 
-            if (resources != null)
+            if (resources is not null)
             {
                 SkinInfo = skin.ToLive(resources.RealmAccess);
 
@@ -94,16 +94,16 @@ namespace osu.Game.Skinning
             }
 
             FallbackStore = fallbackStore;
-            if (fallbackStore != null)
+            if (fallbackStore is not null)
                 store.AddStore(fallbackStore);
 
             var configurationStream = store.GetStream(configurationFilename);
 
-            if (configurationStream != null)
+            if (configurationStream is not null)
             {
                 // stream will be closed after use by LineBufferedReader.
                 ParseConfigurationStream(configurationStream);
-                Debug.Assert(Configuration != null);
+                Debug.Assert(Configuration is not null);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace osu.Game.Skinning
 
                 byte[]? bytes = store?.Get(filename);
 
-                if (bytes == null)
+                if (bytes is null)
                     continue;
 
                 try
@@ -131,7 +131,7 @@ namespace osu.Game.Skinning
                     string jsonContent = Encoding.UTF8.GetString(bytes);
 
                     var layoutInfo = parseLayoutInfo(jsonContent, skinnableTarget);
-                    if (layoutInfo == null)
+                    if (layoutInfo is null)
                         continue;
 
                     LayoutInfos[skinnableTarget] = layoutInfo;
@@ -155,7 +155,7 @@ namespace osu.Game.Skinning
 
             var samples = resources?.AudioManager?.GetSampleStore(store);
 
-            if (samples != null)
+            if (samples is not null)
             {
                 samples.PlaybackConcurrency = OsuGameBase.SAMPLE_CONCURRENCY;
 
@@ -251,10 +251,10 @@ namespace osu.Game.Skinning
             }
 
             // If deserialisation using SkinLayoutInfo fails, attempt to deserialise using the old naked list.
-            if (layout == null)
+            if (layout is null)
             {
                 var deserializedContent = JsonConvert.DeserializeObject<IEnumerable<SerialisedDrawableInfo>>(jsonContent);
-                if (deserializedContent == null)
+                if (deserializedContent is null)
                     return null;
 
                 layout = new SkinLayoutInfo { Version = 0 };
@@ -304,7 +304,7 @@ namespace osu.Game.Skinning
                     // This is to allow some rulesets to customise further (ie. mania and catch moving the combo to within their play area).
                     if (target != GlobalSkinnableContainers.MainHUDComponents ||
                         !layout.TryGetDrawableInfo(null, out var globalHUDComponents) ||
-                        resources == null)
+                        resources is null)
                         break;
 
                     var comboCounters = globalHUDComponents.Where(c =>

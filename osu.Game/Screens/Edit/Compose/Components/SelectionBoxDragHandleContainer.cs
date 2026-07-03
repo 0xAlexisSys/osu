@@ -123,7 +123,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             activeHandle = rotationHandles.FirstOrDefault(h => h.IsHeld || h.IsHovered);
             activeHandle ??= allDragHandles.FirstOrDefault(h => h.IsHovered);
 
-            if (activeHandle != null)
+            if (activeHandle is not null)
             {
                 displayedRotationHandle = getCorrespondingRotationHandle(activeHandle, rotationHandles);
                 displayedRotationHandle?.FadeIn(SelectionBoxControl.TRANSFORM_DURATION, Easing.OutQuint);

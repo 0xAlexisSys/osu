@@ -65,7 +65,7 @@ namespace osu.Game.Rulesets.Mods
                         return h;
 
                     var nestedResult = getFirstAdjustableObjectRecursive(h.NestedHitObjects);
-                    if (nestedResult != null)
+                    if (nestedResult is not null)
                         return nestedResult;
                 }
 
@@ -93,7 +93,7 @@ namespace osu.Game.Rulesets.Mods
         /// <returns>Whether <paramref name="toCheck"/> is equal to or nested within <paramref name="target"/>.</returns>
         private bool isObjectEqualToOrNestedIn(HitObject toCheck, HitObject? target)
         {
-            if (target == null)
+            if (target is null)
                 return false;
 
             if (toCheck == target)

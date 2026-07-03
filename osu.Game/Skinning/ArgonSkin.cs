@@ -81,7 +81,7 @@ namespace osu.Game.Skinning
                              ?? Resources.AudioManager?.Samples.Get(lookup.Replace(@"Gameplay/", @"Gameplay/Argon/"))
                              ?? Resources.AudioManager?.Samples.Get(lookup);
 
-                if (sample != null)
+                if (sample is not null)
                     return sample;
             }
 
@@ -107,7 +107,7 @@ namespace osu.Game.Skinning
                             return songSelectComponents;
 
                         case GlobalSkinnableContainers.MainHUDComponents:
-                            if (containerLookup.Ruleset != null)
+                            if (containerLookup.Ruleset is not null)
                             {
                                 return new DefaultSkinComponentsContainer(container =>
                                 {
@@ -146,7 +146,7 @@ namespace osu.Game.Skinning
                                 var songProgress = container.OfType<ArgonSongProgress>().FirstOrDefault();
                                 var keyCounter = container.OfType<ArgonKeyCounterDisplay>().FirstOrDefault();
 
-                                if (health != null)
+                                if (health is not null)
                                 {
                                     // elements default to beneath the health bar
                                     const float components_x_offset = 50;
@@ -158,7 +158,7 @@ namespace osu.Game.Skinning
                                     health.BarHeight.Value = 30f;
                                     health.Position = new Vector2(components_x_offset, 20f);
 
-                                    if (healthLine != null)
+                                    if (healthLine is not null)
                                     {
                                         healthLine.Anchor = Anchor.TopLeft;
                                         healthLine.Origin = Anchor.CentreLeft;
@@ -169,13 +169,13 @@ namespace osu.Game.Skinning
                                     foreach (var wedgePiece in wedgePieces)
                                         wedgePiece.Position += new Vector2(-50, 15);
 
-                                    if (score != null)
+                                    if (score is not null)
                                     {
                                         score.Origin = Anchor.TopRight;
                                         score.Position = new Vector2(components_x_offset + 200, wedgePieces.Last().Y + 30);
                                     }
 
-                                    if (accuracy != null)
+                                    if (accuracy is not null)
                                     {
                                         // +4 to vertically align the accuracy counter with the score counter.
                                         accuracy.Position = new Vector2(-20, 20);
@@ -183,7 +183,7 @@ namespace osu.Game.Skinning
                                         accuracy.Origin = Anchor.TopRight;
                                     }
 
-                                    if (performancePoints != null && accuracy != null)
+                                    if (performancePoints is not null && accuracy is not null)
                                     {
                                         performancePoints.Position = new Vector2(accuracy.X, accuracy.Y + accuracy.DrawHeight + 10);
                                         performancePoints.Anchor = Anchor.TopRight;
@@ -192,7 +192,7 @@ namespace osu.Game.Skinning
 
                                     var hitError = container.OfType<HitErrorMeter>().FirstOrDefault();
 
-                                    if (hitError != null)
+                                    if (hitError is not null)
                                     {
                                         hitError.Anchor = Anchor.CentreLeft;
                                         hitError.Origin = Anchor.CentreLeft;
@@ -200,7 +200,7 @@ namespace osu.Game.Skinning
 
                                     var hitError2 = container.OfType<HitErrorMeter>().LastOrDefault();
 
-                                    if (hitError2 != null)
+                                    if (hitError2 is not null)
                                     {
                                         hitError2.Anchor = Anchor.CentreRight;
                                         hitError2.Scale = new Vector2(-1, 1);
@@ -208,7 +208,7 @@ namespace osu.Game.Skinning
                                         hitError2.Origin = Anchor.CentreLeft;
                                     }
 
-                                    if (songProgress != null)
+                                    if (songProgress is not null)
                                     {
                                         const float padding = 10;
                                         // Hard to find this at runtime, so taken from the most expanded state during replay.
@@ -217,7 +217,7 @@ namespace osu.Game.Skinning
                                         songProgress.Position = new Vector2(0, -padding);
                                         songProgress.Scale = new Vector2(0.9f, 1);
 
-                                        if (keyCounter != null && hitError != null)
+                                        if (keyCounter is not null && hitError is not null)
                                         {
                                             keyCounter.Anchor = Anchor.BottomRight;
                                             keyCounter.Origin = Anchor.BottomRight;

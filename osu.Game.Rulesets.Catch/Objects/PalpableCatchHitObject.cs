@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Catch.Objects
             set
             {
                 field = value;
-                HyperDashBindable.Value = value != null;
+                HyperDashBindable.Value = value is not null;
             }
         }
 

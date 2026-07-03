@@ -54,7 +54,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                     Texture = skin.GetTexture("spinner-warning"),
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    Scale = skin.GetTexture("spinner-warning") != null ? Vector2.One : new Vector2(0.18f),
+                    Scale = skin.GetTexture("spinner-warning") is not null ? Vector2.One : new Vector2(0.18f),
                 },
                 new Container
                 {

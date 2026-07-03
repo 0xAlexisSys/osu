@@ -84,7 +84,7 @@ namespace osu.Game.Rulesets.Mania.Objects.Drawables
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)
         {
-            Debug.Assert(HitObject.HitWindows != null);
+            Debug.Assert(HitObject.HitWindows is not null);
 
             if (!userTriggered)
             {
@@ -125,7 +125,7 @@ namespace osu.Game.Rulesets.Mania.Objects.Drawables
 
         private void updateSnapColour()
         {
-            if (beatmap == null || HitObject == null) return;
+            if (beatmap is null || HitObject is null) return;
 
             int snapDivisor = beatmap.ControlPointInfo.GetClosestBeatDivisor(HitObject.StartTime);
 

@@ -17,7 +17,7 @@ namespace osu.Game.Utils
         public static object GetValue(IBindable bindable)
         {
             Type? bindableWithValueType = bindable.GetType().GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IBindable<>));
-            if (bindableWithValueType == null)
+            if (bindableWithValueType is null)
                 return bindable;
 
             return get_method.MakeGenericMethod(bindableWithValueType.GenericTypeArguments[0]).Invoke(null, [bindable])!;
@@ -26,7 +26,7 @@ namespace osu.Game.Utils
         public static void SetValue(IBindable bindable, object value)
         {
             Type? bindableWithValueType = bindable.GetType().EnumerateBaseTypes().SingleOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Bindable<>));
-            if (bindableWithValueType == null)
+            if (bindableWithValueType is null)
                 return;
 
             set_method.MakeGenericMethod(bindableWithValueType.GenericTypeArguments[0]).Invoke(null, [bindable, value]);

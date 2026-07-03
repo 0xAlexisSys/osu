@@ -143,9 +143,9 @@ namespace osu.Game.Screens.Select
 
             private void updateDisplay()
             {
-                loading.State.Value = text != null ? Visibility.Hidden : Visibility.Visible;
+                loading.State.Value = text is not null ? Visibility.Hidden : Visibility.Visible;
 
-                if (text != null)
+                if (text is not null)
                 {
                     valueText.Text = text.Value;
                     valueText.FadeIn(120, Easing.OutQuint);

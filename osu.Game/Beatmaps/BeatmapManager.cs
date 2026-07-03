@@ -114,7 +114,7 @@ namespace osu.Game.Beatmaps
 
             var imported = beatmapImporter.ImportModel(beatmapSet);
 
-            if (imported == null)
+            if (imported is null)
                 throw new InvalidOperationException("Failed to import new beatmap");
 
             return imported.PerformRead(s => GetWorkingBeatmap(s.Beatmaps.First()));
@@ -363,7 +363,7 @@ namespace osu.Game.Beatmaps
             {
                 var items = r.All<BeatmapSetInfo>().Where(s => !s.DeletePending && !s.Protected);
 
-                if (filter != null)
+                if (filter is not null)
                     items = items.Where(filter);
 
                 Delete(items.ToList(), silent);
@@ -384,8 +384,8 @@ namespace osu.Game.Beatmaps
                 if (!beatmapInfo.IsManaged)
                     beatmapInfo = r.Find<BeatmapInfo>(beatmapInfo.ID)!;
 
-                Debug.Assert(beatmapInfo.BeatmapSet != null);
-                Debug.Assert(beatmapInfo.File != null);
+                Debug.Assert(beatmapInfo.BeatmapSet is not null);
+                Debug.Assert(beatmapInfo.File is not null);
 
                 var setInfo = beatmapInfo.BeatmapSet;
 
@@ -434,7 +434,7 @@ namespace osu.Game.Beatmaps
 
                 var video = b.Files.FirstOrDefault(f => SupportedExtensions.VIDEO_EXTENSIONS.Any(ex => f.Filename.EndsWith(ex, StringComparison.OrdinalIgnoreCase)));
 
-                if (video != null)
+                if (video is not null)
                 {
                     DeleteFile(b, video);
                     deleted++;
@@ -474,7 +474,7 @@ namespace osu.Game.Beatmaps
         private void save(BeatmapInfo beatmapInfo, IBeatmap beatmapContent, ISkin? beatmapSkin, Storyboard? storyboard, bool transferCollections)
         {
             var setInfo = beatmapInfo.BeatmapSet;
-            Debug.Assert(setInfo != null);
+            Debug.Assert(setInfo is not null);
 
             // Difficulty settings must be copied first due to the clone in `Beatmap<>.BeatmapInfo_Set`.
             // This should hopefully be temporary, assuming said clone is eventually removed.
@@ -499,14 +499,14 @@ namespace osu.Game.Beatmaps
                 stream.Seek(0, SeekOrigin.Begin);
 
                 // AddFile generally handles updating/replacing files, but this is a case where the filename may have also changed so let's delete for simplicity.
-                var existingFileInfo = beatmapInfo.Path != null ? setInfo.GetFile(beatmapInfo.Path) : null;
+                var existingFileInfo = beatmapInfo.Path is not null ? setInfo.GetFile(beatmapInfo.Path) : null;
                 string targetFilename = createBeatmapFilenameFromMetadata(beatmapInfo);
 
                 // ensure that two difficulties from the set don't point at the same beatmap file.
                 if (setInfo.Beatmaps.Any(b => b.ID != beatmapInfo.ID && string.Equals(b.Path, targetFilename, StringComparison.OrdinalIgnoreCase)))
                     throw new InvalidOperationException($"{setInfo.GetDisplayString()} already has a difficulty with the name of '{beatmapInfo.DifficultyName}'.");
 
-                if (existingFileInfo != null)
+                if (existingFileInfo is not null)
                     DeleteFile(setInfo, existingFileInfo);
 
                 string oldMd5Hash = beatmapInfo.MD5Hash;
@@ -531,7 +531,7 @@ namespace osu.Game.Beatmaps
                 ProcessBeatmap?.Invoke(liveBeatmapSet);
             });
 
-            Debug.Assert(beatmapInfo.BeatmapSet != null);
+            Debug.Assert(beatmapInfo.BeatmapSet is not null);
 
             static string createBeatmapFilenameFromMetadata(BeatmapInfo beatmapInfo)
             {
@@ -589,7 +589,7 @@ namespace osu.Game.Beatmaps
         /// <returns>A <see cref="WorkingBeatmap"/> instance correlating to the provided <see cref="BeatmapInfo"/>.</returns>
         public WorkingBeatmap GetWorkingBeatmap(BeatmapInfo? beatmapInfo, bool refetch = false)
         {
-            if (beatmapInfo != null)
+            if (beatmapInfo is not null)
             {
                 if (refetch)
                     workingBeatmapCache.Invalidate(beatmapInfo);

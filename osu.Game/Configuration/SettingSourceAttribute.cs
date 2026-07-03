@@ -51,12 +51,12 @@ namespace osu.Game.Configuration
 
             LocalisableString? getLocalisableStringFromMember(string? member)
             {
-                if (member == null)
+                if (member is null)
                     return null;
 
                 var property = declaringType.GetMember(member, BindingFlags.Static | BindingFlags.Public).FirstOrDefault();
 
-                if (property == null)
+                if (property is null)
                     return null;
 
                 switch (property)
@@ -97,9 +97,9 @@ namespace osu.Game.Configuration
                 return 0;
 
             // unordered items come last (are greater than any ordered items).
-            if (OrderPosition == null)
+            if (OrderPosition is null)
                 return 1;
-            if (other?.OrderPosition == null)
+            if (other?.OrderPosition is null)
                 return -1;
 
             // ordered items are sorted by the order value.
@@ -115,7 +115,7 @@ namespace osu.Game.Configuration
             {
                 object value = property.GetValue(obj)!;
 
-                if (attr.SettingControlType != null)
+                if (attr.SettingControlType is not null)
                 {
                     var controlType = attr.SettingControlType;
                     if (controlType.EnumerateBaseTypes().All(t => !t.IsGenericType || t.GetGenericTypeDefinition() != typeof(SettingsItem<>)))
@@ -266,7 +266,7 @@ namespace osu.Game.Configuration
             {
                 var attr = property.GetCustomAttribute<SettingSourceAttribute>(true);
 
-                if (attr == null)
+                if (attr is null)
                     continue;
 
                 yield return (attr, property);

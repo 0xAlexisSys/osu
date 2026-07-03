@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Spinners
 
         private void updateEndTimeFromCurrent()
         {
-            HitObject.EndTime = beatSnapProvider == null
+            HitObject.EndTime = beatSnapProvider is null
                 ? Math.Max(HitObject.StartTime, EditorClock.CurrentTime)
                 : Math.Max(HitObject.StartTime + beatSnapProvider.GetBeatLengthAtTime(HitObject.StartTime), beatSnapProvider.SnapTime(EditorClock.CurrentTime));
         }

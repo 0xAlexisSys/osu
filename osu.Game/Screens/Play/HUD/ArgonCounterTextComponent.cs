@@ -193,7 +193,7 @@ namespace osu.Game.Screens.Play.HUD
 
                     TexturedCharacterGlyph? glyph = null;
 
-                    if (texture != null)
+                    if (texture is not null)
                         glyph = new TexturedCharacterGlyph(new CharacterGlyph(character, 0, 0, texture.Width, texture.Height, null), texture, 0.125f);
 
                     cache[character] = glyph;

@@ -39,14 +39,14 @@ namespace osu.Game.Rulesets.Edit.Checks
         {
             var beatmapSet = context.CurrentDifficulty.Playable.BeatmapInfo.BeatmapSet;
 
-            if (beatmapSet == null)
+            if (beatmapSet is null)
                 yield break;
 
             foreach (var file in beatmapSet.Files)
             {
                 using (Stream? stream = context.CurrentDifficulty.Working.GetStream(file.File.GetStoragePath()))
                 {
-                    if (stream == null)
+                    if (stream is null)
                         continue;
 
                     if (!isHitSound(file.Filename))

@@ -37,7 +37,7 @@ namespace osu.Game.Rulesets.Taiko.UI
         {
             TaikoHitObject? hitObject = GetMostValidObject() as TaikoHitObject;
 
-            if (hitObject == null)
+            if (hitObject is null)
                 return;
 
             var baseSample = hitObject.CreateHitSampleInfo(hitType == HitType.Rim ? HitSampleInfo.HIT_CLAP : HitSampleInfo.HIT_NORMAL);

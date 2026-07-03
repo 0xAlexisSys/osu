@@ -64,10 +64,10 @@ namespace osu.Game.Rulesets.Osu.Mods
 
         public void Update(Playfield playfield)
         {
-            if (LastAcceptedAction != null && nonGameplayPeriods.IsInAny(gameplayClock.CurrentTime))
+            if (LastAcceptedAction is not null && nonGameplayPeriods.IsInAny(gameplayClock.CurrentTime))
                 LastAcceptedAction = null;
 
-            if (LastAcceptedAction != null && gameplayClock.IsRewinding)
+            if (LastAcceptedAction is not null && gameplayClock.IsRewinding)
                 LastAcceptedAction = null;
         }
 

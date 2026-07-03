@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.Edit
 
             var current = new VerifiedBeatmap(workingBeatmap, beatmap);
 
-            if (beatmapSet?.Beatmaps == null || beatmapSet.Beatmaps.Count == 1)
+            if (beatmapSet?.Beatmaps is null || beatmapSet.Beatmaps.Count == 1)
                 return new BeatmapVerifierContext(current, [], difficultyRating);
 
             var others = new List<VerifiedBeatmap>();
@@ -79,7 +79,7 @@ namespace osu.Game.Rulesets.Edit
                 var otherWorking = beatmapManager?.GetWorkingBeatmap(info);
                 var otherPlayable = otherWorking?.GetPlayableBeatmap(info.Ruleset);
 
-                if (otherWorking != null && otherPlayable != null)
+                if (otherWorking is not null && otherPlayable is not null)
                     others.Add(new VerifiedBeatmap(otherWorking, otherPlayable));
             }
 

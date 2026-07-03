@@ -36,7 +36,7 @@ namespace osu.Game.Overlays.SkinEditor
         /// <param name="target">The target. This is mainly used as a dependency source to find candidate components.</param>
         /// <param name="ruleset">A ruleset to filter components by. If null, only components which are not ruleset-specific will be included.</param>
         public SkinComponentToolbox(SkinnableContainer target, RulesetInfo? ruleset)
-            : base(ruleset == null ? SkinEditorStrings.Components : LocalisableString.Interpolate($"{SkinEditorStrings.Components} ({ruleset.Name})"))
+            : base(ruleset is null ? SkinEditorStrings.Components : LocalisableString.Interpolate($"{SkinEditorStrings.Components} ({ruleset.Name})"))
         {
             this.target = target;
             this.ruleset = ruleset;
@@ -155,7 +155,7 @@ namespace osu.Game.Overlays.SkinEditor
             {
                 // Cheap debouncing to avoid stacking animations.
                 // The only place this is nulled is at the end of this method.
-                if (expandContractAction == null)
+                if (expandContractAction is null)
                     return;
 
                 this.ResizeHeightTo(contracted_size, animation_duration, Easing.OutQuint);
@@ -235,7 +235,7 @@ namespace osu.Game.Overlays.SkinEditor
             protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent)
             {
                 var baseDependencies = base.CreateChildDependencies(parent);
-                if (donor == null)
+                if (donor is null)
                     return baseDependencies;
 
                 var dependencies = new DependencyContainer(donor.Dependencies);

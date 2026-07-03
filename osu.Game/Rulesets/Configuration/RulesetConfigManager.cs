@@ -41,7 +41,7 @@ namespace osu.Game.Rulesets.Configuration
 
         protected override void PerformLoad()
         {
-            if (realm != null)
+            if (realm is not null)
             {
                 // As long as RulesetConfigCache exists, there is no need to subscribe to realm events.
                 databasedSettings = realm.Realm.All<RealmRulesetSetting>().Where(b => b.RulesetName == rulesetName && b.Variant == variant).ToList();
@@ -82,7 +82,7 @@ namespace osu.Game.Rulesets.Configuration
 
             var setting = databasedSettings.Find(s => s.Key == lookup.ToString());
 
-            if (setting != null)
+            if (setting is not null)
             {
                 bindable.Parse(setting.Value, CultureInfo.InvariantCulture);
             }

@@ -29,7 +29,7 @@ namespace osu.Game.IO
 
         protected virtual string MutatePath(string path)
         {
-            if (path == null)
+            if (path is null)
                 return null;
 
             return !string.IsNullOrEmpty(subPath) ? Path.Combine(subPath, path) : path;

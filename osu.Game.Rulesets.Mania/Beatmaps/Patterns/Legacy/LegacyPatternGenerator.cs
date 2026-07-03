@@ -91,7 +91,7 @@ namespace osu.Game.Rulesets.Mania.Beatmaps.Patterns.Legacy
         {
             get
             {
-                if (conversionDifficulty != null)
+                if (conversionDifficulty is not null)
                     return conversionDifficulty.Value;
 
                 HitObject? lastObject = Beatmap.HitObjects.LastOrDefault();

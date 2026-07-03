@@ -24,7 +24,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
         [BackgroundDependencyLoader]
         private void load(OsuGameBase game, GameHost host, IPerformFromScreenRunner? performer)
         {
-            if ((selector = host.CreateSystemFileSelector(game.HandledExtensions.ToArray())) != null)
+            if ((selector = host.CreateSystemFileSelector(game.HandledExtensions.ToArray())) is not null)
                 selector.Selected += f => Task.Run(() => game.Import(f.FullName));
 
             AddRange(new Drawable[]
@@ -34,7 +34,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
                     Text = DebugSettingsStrings.ImportFiles,
                     Action = () =>
                     {
-                        if (selector != null)
+                        if (selector is not null)
                             selector.Present();
                         else
                             performer?.PerformFromScreen(menu => menu.Push(new FileImportScreen()));

@@ -518,7 +518,7 @@ namespace osu.Game.Screens.Select
 
         private void updateDisplayMode(DisplayMode mode)
         {
-            double duration = currentMode == null ? 0 : transition_duration;
+            double duration = currentMode is null ? 0 : transition_duration;
             if (mode >= DisplayMode.Full)
                 rankLabelStandalone.FadeIn(duration, Easing.OutQuint).ResizeWidthTo(rank_label_width, duration, Easing.OutQuint);
             else
@@ -577,7 +577,7 @@ namespace osu.Game.Screens.Select
                 if (items.Count > 0)
                     items.Add(new OsuMenuItemSpacer());
 
-                if (ShowReplay != null)
+                if (ShowReplay is not null)
                     items.Add(new OsuMenuItem(SongSelectStrings.WatchReplay, MenuItemType.Standard, () => ShowReplay.Invoke(Score)));
                 items.Add(new OsuMenuItem(CommonStrings.Export, MenuItemType.Standard, () => scoreManager.Export(Score)));
                 items.Add(new OsuMenuItem(Resources.Localisation.Web.CommonStrings.ButtonsDelete, MenuItemType.Destructive, () => dialogOverlay?.Push(new LocalScoreDeleteDialog(Score))));

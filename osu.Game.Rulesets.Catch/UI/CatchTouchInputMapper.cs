@@ -131,7 +131,7 @@ namespace osu.Game.Rulesets.Catch.UI
 
             if (actionBefore != newAction)
             {
-                if (newAction != null)
+                if (newAction is not null)
                     trackedActionSources[source] = newAction.Value;
                 else
                     trackedActionSources.Remove(source);
@@ -139,7 +139,7 @@ namespace osu.Game.Rulesets.Catch.UI
                 updatePressedActions();
             }
 
-            return newAction != null;
+            return newAction is not null;
         }
 
         private void updatePressedActions()

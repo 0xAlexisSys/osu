@@ -80,7 +80,7 @@ namespace osu.Game.Screens.Edit.Setup
 
         private void onFileSelected(ValueChangedEvent<FileInfo?> file)
         {
-            if (file.NewValue != null)
+            if (file.NewValue is not null)
                 this.HidePopover();
 
             initialChooserPath = file.NewValue?.DirectoryName;

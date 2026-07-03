@@ -104,7 +104,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
             DistanceBetweenTicks = beatSnapDistance * distanceSpacingMultiplier;
 
-            if (LatestEndTime == null)
+            if (LatestEndTime is null)
                 MaxIntervals = int.MaxValue;
             else
                 MaxIntervals = (int)((LatestEndTime.Value - StartTime) / SnapProvider.DistanceToDuration(beatSnapDistance, StartTime, SliderVelocitySource));

@@ -115,7 +115,7 @@ namespace osu.Game.Screens.Select
                 realmSubscription?.Dispose();
                 realmSubscription = null;
 
-                Enabled.Value = set != null;
+                Enabled.Value = set is not null;
 
                 if (Enabled.Value)
                 {

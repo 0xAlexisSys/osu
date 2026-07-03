@@ -54,7 +54,7 @@ namespace osu.Game.Rulesets.Edit
 
             var inputManager = GetContainingInputManager();
 
-            if (inputManager != null)
+            if (inputManager is not null)
             {
                 Expanded.BindValueChanged(_ =>
                 {
@@ -96,14 +96,14 @@ namespace osu.Game.Rulesets.Edit
                 {
                     targetDrawable = value;
 
-                    if (value != null)
+                    if (value is not null)
                         targetPosition = ToLocalSpace(value.ScreenSpaceDrawQuad.TopLeft).Y;
                 }
             }
 
             protected override void UpdateAfterChildren()
             {
-                if (targetDrawable != null)
+                if (targetDrawable is not null)
                 {
                     float currentPosition = ToLocalSpace(targetDrawable.ScreenSpaceDrawQuad.TopLeft).Y;
 

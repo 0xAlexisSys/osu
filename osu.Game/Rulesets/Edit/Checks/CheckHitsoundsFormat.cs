@@ -26,7 +26,7 @@ namespace osu.Game.Rulesets.Edit.Checks
         {
             var beatmapSet = context.CurrentDifficulty.Playable.BeatmapInfo.BeatmapSet;
 
-            if (beatmapSet == null) yield break;
+            if (beatmapSet is null) yield break;
 
             // Collect all audio files from all difficulties to exclude them from the check, as they aren't hitsounds.
             var audioFiles = new HashSet<RealmNamedFileUsage>(ReferenceEqualityComparer.Instance);
@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.Edit.Checks
             foreach (var difficulty in context.AllDifficulties)
             {
                 var audioFile = beatmapSet.GetFile(difficulty.Playable.Metadata.AudioFile);
-                if (audioFile != null)
+                if (audioFile is not null)
                     audioFiles.Add(audioFile);
             }
 
@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets.Edit.Checks
 
                 using (Stream data = context.CurrentDifficulty.Working.GetStream(file.File.GetStoragePath()))
                 {
-                    if (data == null)
+                    if (data is null)
                         continue;
 
                     if (!AudioCheckUtils.HasAudioExtension(file.Filename) || !probablyHasAudioData(data))

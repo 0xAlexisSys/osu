@@ -22,7 +22,7 @@ namespace osu.Game.Extensions
         internal static string GetInvariantInstantiationInfo(this Type type)
         {
             string? assemblyQualifiedName = type.AssemblyQualifiedName;
-            if (assemblyQualifiedName == null)
+            if (assemblyQualifiedName is null)
                 throw new ArgumentException($"{type}'s assembly-qualified name is null. Ensure that it is a concrete type and not a generic type parameter.", nameof(type));
 
             return string.Join(',', assemblyQualifiedName.Split(',').Take(2));

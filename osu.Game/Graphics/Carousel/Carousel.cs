@@ -115,7 +115,7 @@ namespace osu.Game.Graphics.Carousel
                 {
                     HandleItemSelected(value);
 
-                    if (currentSelection.Model != null)
+                    if (currentSelection.Model is not null)
                         HandleItemDeselected(currentSelection.Model);
 
                     currentSelection = new Selection(value);
@@ -434,7 +434,7 @@ namespace osu.Game.Graphics.Carousel
 
         private void updateItemYPosition(CarouselItem item, ref CarouselItem? previousVisible, ref float offset)
         {
-            float spacing = previousVisible == null || !item.IsVisible ? 0 : GetSpacingBetweenPanels(previousVisible, item);
+            float spacing = previousVisible is null || !item.IsVisible ? 0 : GetSpacingBetweenPanels(previousVisible, item);
 
             offset += spacing;
             item.CarouselYPosition = offset;
@@ -510,10 +510,10 @@ namespace osu.Game.Graphics.Carousel
                     return true;
 
                 case GlobalAction.ToggleCurrentGroup:
-                    if (carouselItems == null || carouselItems.Count == 0)
+                    if (carouselItems is null || carouselItems.Count == 0)
                         return true;
 
-                    if (currentKeyboardSelection.CarouselItem == null || currentKeyboardSelection.Index == null)
+                    if (currentKeyboardSelection.CarouselItem is null || currentKeyboardSelection.Index is null)
                         return true;
 
                     if (CheckValidForGroupSelection(currentKeyboardSelection.CarouselItem))
@@ -588,7 +588,7 @@ namespace osu.Game.Graphics.Carousel
 
         private bool activateSelection()
         {
-            if (currentKeyboardSelection.CarouselItem != null)
+            if (currentKeyboardSelection.CarouselItem is not null)
             {
                 Activate(currentKeyboardSelection.CarouselItem);
                 return true;
@@ -599,11 +599,11 @@ namespace osu.Game.Graphics.Carousel
 
         private void traverseKeyboardSelection(int direction)
         {
-            if (carouselItems == null || carouselItems.Count == 0) return;
+            if (carouselItems is null || carouselItems.Count == 0) return;
 
             int originalIndex;
 
-            if (currentKeyboardSelection.Index != null)
+            if (currentKeyboardSelection.Index is not null)
                 originalIndex = currentKeyboardSelection.Index.Value;
             else if (direction > 0)
                 originalIndex = carouselItems.Count - 1;
@@ -640,7 +640,7 @@ namespace osu.Game.Graphics.Carousel
         /// <param name="direction">Positive for downwards, negative for upwards.</param>
         private void traverseKeyboardPage(int direction)
         {
-            if (carouselItems == null || carouselItems.Count == 0)
+            if (carouselItems is null || carouselItems.Count == 0)
                 return;
 
             int startIndex = currentKeyboardSelection.Index ?? (direction > 0 ? carouselItems.Count - 1 : 0);
@@ -679,7 +679,7 @@ namespace osu.Game.Graphics.Carousel
                 ? carouselItems.LastOrDefault(x => x.IsVisible)
                 : carouselItems.FirstOrDefault(x => x.IsVisible);
 
-            if (fallback != null && !CheckModelEquality(fallback.Model, currentKeyboardSelection.Model))
+            if (fallback is not null && !CheckModelEquality(fallback.Model, currentKeyboardSelection.Model))
             {
                 setKeyboardSelection(fallback.Model);
                 ScrollToSelection();
@@ -693,14 +693,14 @@ namespace osu.Game.Graphics.Carousel
         /// <param name="direction">Positive for last item, negative for first item.</param>
         private void traverseKeyboardEdge(int direction)
         {
-            if (carouselItems == null || carouselItems.Count == 0)
+            if (carouselItems is null || carouselItems.Count == 0)
                 return;
 
             var item = direction > 0
                 ? carouselItems.LastOrDefault(x => x.IsVisible)
                 : carouselItems.FirstOrDefault(x => x.IsVisible);
 
-            if (item != null && !CheckModelEquality(item.Model, currentKeyboardSelection.Model))
+            if (item is not null && !CheckModelEquality(item.Model, currentKeyboardSelection.Model))
             {
                 setKeyboardSelection(item.Model);
                 ScrollToSelection();
@@ -728,7 +728,7 @@ namespace osu.Game.Graphics.Carousel
             // set selection, first transfer the keyboard selection to actual selection.
             //
             // It is assumed that selecting a set will immediately change selection to one of its children.
-            if (currentKeyboardSelection.CarouselItem != null && currentSelection.CarouselItem != currentKeyboardSelection.CarouselItem)
+            if (currentKeyboardSelection.CarouselItem is not null && currentSelection.CarouselItem != currentKeyboardSelection.CarouselItem)
             {
                 Activate(currentKeyboardSelection.CarouselItem);
                 return;
@@ -739,12 +739,12 @@ namespace osu.Game.Graphics.Carousel
 
         private void traverseSelection(int direction, Func<CarouselItem, bool> predicate)
         {
-            if (carouselItems == null || carouselItems.Count == 0) return;
+            if (carouselItems is null || carouselItems.Count == 0) return;
 
             int originalIndex;
             int newIndex;
 
-            if (currentKeyboardSelection.Index == null)
+            if (currentKeyboardSelection.Index is null)
             {
                 // If there's no current selection, start from either end of the full list.
                 newIndex = originalIndex = direction > 0 ? carouselItems.Count - 1 : 0;
@@ -867,7 +867,7 @@ namespace osu.Game.Graphics.Carousel
             currentKeyboardSelection = new Selection(currentKeyboardSelection.Model);
             currentSelection = new Selection(currentSelection.Model);
 
-            if (carouselItems == null)
+            if (carouselItems is null)
                 return;
 
             CarouselItem? lastVisible = null;
@@ -896,7 +896,7 @@ namespace osu.Game.Graphics.Carousel
 
             // If a keyboard selection is currently made, we want to keep the view stable around the selection.
             // That means that we should offset the immediate scroll position by any change in Y position for the selection.
-            if (prevKeyboard.YPosition != null && currentKeyboardSelection.YPosition != null && currentKeyboardSelection.YPosition != prevKeyboard.YPosition)
+            if (prevKeyboard.YPosition is not null && currentKeyboardSelection.YPosition is not null && currentKeyboardSelection.YPosition != prevKeyboard.YPosition)
                 Scroll.OffsetScrollPosition((float)(currentKeyboardSelection.YPosition!.Value - prevKeyboard.YPosition.Value));
         }
 
@@ -953,7 +953,7 @@ namespace osu.Game.Graphics.Carousel
         {
             base.Update();
 
-            if (carouselItems == null)
+            if (carouselItems is null)
                 return;
 
             visibleBottomBound = (float)(Scroll.Current + DrawHeight + BleedBottom);
@@ -985,7 +985,7 @@ namespace osu.Game.Graphics.Carousel
                 var c = (ICarouselPanel)panel;
 
                 // panel in the process of expiring, ignore it.
-                if (c.Item == null)
+                if (c.Item is null)
                     continue;
 
                 float normalisedDepth = (float)(Math.Abs(selectedYPos - c.Item.CarouselYPosition) / DrawHeight);
@@ -996,7 +996,7 @@ namespace osu.Game.Graphics.Carousel
 
                 panel.X = GetPanelXOffset(panel);
 
-                c.Selected.Value = currentSelection?.CarouselItem != null && CheckModelEquality(c.Item, currentSelection.CarouselItem);
+                c.Selected.Value = currentSelection?.CarouselItem is not null && CheckModelEquality(c.Item, currentSelection.CarouselItem);
                 c.KeyboardSelected.Value = c.Item == currentKeyboardSelection?.CarouselItem;
                 c.Expanded.Value = c.Item.IsExpanded;
             }
@@ -1049,7 +1049,7 @@ namespace osu.Game.Graphics.Carousel
 
         private DisplayRange getDisplayRange()
         {
-            Debug.Assert(carouselItems != null);
+            Debug.Assert(carouselItems is not null);
 
             if (carouselItems.Count == 0)
                 return DisplayRange.EMPTY;
@@ -1071,7 +1071,7 @@ namespace osu.Game.Graphics.Carousel
 
         private void updateDisplayedRange(DisplayRange range)
         {
-            Debug.Assert(carouselItems != null);
+            Debug.Assert(carouselItems is not null);
 
             List<CarouselItem> toDisplay = range == DisplayRange.EMPTY
                 ? new List<CarouselItem>()
@@ -1084,7 +1084,7 @@ namespace osu.Game.Graphics.Carousel
             {
                 var carouselPanel = (ICarouselPanel)panel;
 
-                if (carouselPanel.Item == null)
+                if (carouselPanel.Item is null)
                 {
                     // Item is null when a panel is already fading away from existence; should be ignored for tracking purposes.
                     continue;
@@ -1092,7 +1092,7 @@ namespace osu.Game.Graphics.Carousel
 
                 var existing = toDisplay.FirstOrDefault(i => CheckModelEquality(i.Model, carouselPanel.Item!.Model));
 
-                if (existing != null)
+                if (existing is not null)
                 {
                     carouselPanel.Item = existing;
                     toDisplay.Remove(existing);
@@ -1124,7 +1124,7 @@ namespace osu.Game.Graphics.Carousel
                 var orderedPanels = Scroll.Panels
                                           .Where(p => Scroll.ScreenSpaceDrawQuad.Intersects(p.ScreenSpaceDrawQuad))
                                           .OfType<ICarouselPanel>()
-                                          .Where(p => p.Item != null)
+                                          .Where(p => p.Item is not null)
                                           .OrderBy(p => p.Item!.CarouselYPosition)
                                           .ToList();
 

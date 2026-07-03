@@ -66,11 +66,11 @@ namespace osu.Game.Collections
         {
             base.OnItemsChanged();
 
-            if (lastCreated != null)
+            if (lastCreated is not null)
             {
                 var createdItem = flow.Children.SingleOrDefault(item => item.Model.Value.ID == lastCreated);
 
-                if (createdItem != null)
+                if (createdItem is not null)
                 {
                     ScheduleAfterChildren(() => scroll.ScrollIntoView(createdItem));
                 }
@@ -81,7 +81,7 @@ namespace osu.Game.Collections
 
         private void collectionsChanged(IRealmCollection<BeatmapCollection> collections, ChangeSet? changes)
         {
-            if (changes == null)
+            if (changes is null)
             {
                 Items.AddRange(collections.AsEnumerable().Select(c => c.ToLive(realm)));
                 return;

@@ -35,7 +35,7 @@ namespace osu.Game.Rulesets.Osu.UI
 
         public virtual ClickAction CheckHittable(DrawableHitObject hitObject, double time, HitResult result)
         {
-            if (HitObjectContainer == null)
+            if (HitObjectContainer is null)
                 throw new InvalidOperationException($"{nameof(HitObjectContainer)} should be set before {nameof(CheckHittable)} is called.");
 
             var aliveObjects = HitObjectContainer.AliveObjects.ToList();

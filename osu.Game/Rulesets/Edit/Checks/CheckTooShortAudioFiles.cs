@@ -25,13 +25,13 @@ namespace osu.Game.Rulesets.Edit.Checks
         {
             var beatmapSet = context.CurrentDifficulty.Playable.BeatmapInfo.BeatmapSet;
 
-            if (beatmapSet != null)
+            if (beatmapSet is not null)
             {
                 foreach (var file in beatmapSet.Files)
                 {
                     using (Stream data = context.CurrentDifficulty.Working.GetStream(file.File.GetStoragePath()))
                     {
-                        if (data == null)
+                        if (data is null)
                             continue;
 
                         var fileCallbacks = new FileCallbacks(new DataStreamFileProcedures(data));

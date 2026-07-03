@@ -22,6 +22,6 @@ namespace osu.Game.Input
             inputManager = GetContainingInputManager();
         }
 
-        protected override bool AllowIdle => inputManager.FocusedDrawable == null;
+        protected override bool AllowIdle => inputManager.FocusedDrawable is null;
     }
 }

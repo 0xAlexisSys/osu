@@ -150,7 +150,7 @@ namespace osu.Game.Overlays.Settings
         {
             if (!isCurrentSection)
             {
-                Debug.Assert(settingsPanel != null);
+                Debug.Assert(settingsPanel is not null);
                 settingsPanel.SectionsContainer.ScrollTo(this);
             }
 

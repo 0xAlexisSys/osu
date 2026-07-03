@@ -72,7 +72,7 @@ namespace osu.Game.Rulesets.Osu.Edit
             if (!OperationInProgress.Value)
                 throw new InvalidOperationException($"Cannot {nameof(Update)} a rotate operation without calling {nameof(Begin)} first!");
 
-            Debug.Assert(objectsInRotation != null && originalPositions != null && originalPathControlPointPositions != null && DefaultOrigin != null);
+            Debug.Assert(objectsInRotation is not null && originalPositions is not null && originalPathControlPointPositions is not null && DefaultOrigin is not null);
 
             Vector2 actualOrigin = origin ?? DefaultOrigin.Value;
 

@@ -39,7 +39,7 @@ namespace osu.Game.Screens.Play
 
         protected override UserActivity? InitialActivity =>
             // score may be null if LoadedBeatmapSuccessfully is false.
-            Score == null ? null : new UserActivity.WatchingReplay(Score.ScoreInfo);
+            Score is null ? null : new UserActivity.WatchingReplay(Score.ScoreInfo);
 
         private bool isAutoplayPlayback => GameplayState.Mods.OfType<ModAutoplay>().Any();
 

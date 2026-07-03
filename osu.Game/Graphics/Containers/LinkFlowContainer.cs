@@ -33,7 +33,7 @@ namespace osu.Game.Graphics.Containers
 
         public void AddLinks(string text, List<Link> links, Action<SpriteText> creationParameters = null)
         {
-            if (string.IsNullOrEmpty(text) || links == null)
+            if (string.IsNullOrEmpty(text) || links is null)
                 return;
 
             if (links.Count == 0)
@@ -87,9 +87,9 @@ namespace osu.Game.Graphics.Containers
         {
             Action onClickAction = () =>
             {
-                if (action != null)
+                if (action is not null)
                     action();
-                else if (linkHandler != null)
+                else if (linkHandler is not null)
                     linkHandler.HandleLink(link);
                 // fallback to handle cases where OsuGame is not available, ie. tournament client.
                 else if (link.Action == LinkAction.External)

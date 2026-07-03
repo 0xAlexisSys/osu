@@ -73,7 +73,7 @@ namespace osu.Game.Overlays.Mods
 
         public void SetAttribute(RulesetBeatmapAttribute? attribute)
         {
-            if (attribute != null)
+            if (attribute is not null)
             {
                 text.Text = attribute.Acronym;
                 current.Value = attribute.AdjustedValue;

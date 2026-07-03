@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets.Objects
         /// </summary>
         /// <param name="controlPoints">The control points of the path.</param>
         /// <returns>The number of segments in a slider path.</returns>
-        public static int CountSegments(IList<PathControlPoint> controlPoints) => controlPoints.Where((t, i) => t.Type != null && i < controlPoints.Count - 1).Count();
+        public static int CountSegments(IList<PathControlPoint> controlPoints) => controlPoints.Where((t, i) => t.Type is not null && i < controlPoints.Count - 1).Count();
 
         /// <summary>
         /// Converts a slider path to bezier control point positions compatible with the legacy osu! client.
@@ -63,7 +63,7 @@ namespace osu.Game.Rulesets.Objects
 
             for (int i = 0; i < controlPoints.Count; i++)
             {
-                if (controlPoints[i].Type == null && i < controlPoints.Count - 1)
+                if (controlPoints[i].Type is null && i < controlPoints.Count - 1)
                     continue;
 
                 // The current vertex ends the segment
@@ -85,7 +85,7 @@ namespace osu.Game.Rulesets.Objects
                         break;
 
                     case SplineType.BSpline:
-                        if (segmentType.Degree != null)
+                        if (segmentType.Degree is not null)
                             throw new NotImplementedException("BSpline conversion of arbitrary degree is not implemented.");
 
                         foreach (Vector2 v in segmentVertices)
@@ -122,7 +122,7 @@ namespace osu.Game.Rulesets.Objects
 
             for (int i = 0; i < controlPoints.Count; i++)
             {
-                if (controlPoints[i].Type == null && i < controlPoints.Count - 1)
+                if (controlPoints[i].Type is null && i < controlPoints.Count - 1)
                     continue;
 
                 // The current vertex ends the segment
@@ -164,7 +164,7 @@ namespace osu.Game.Rulesets.Objects
                         break;
 
                     case SplineType.BSpline:
-                        var bSplineResult = segmentType.Degree == null
+                        var bSplineResult = segmentType.Degree is null
                             ? segmentVertices
                             : PathApproximator.BSplineToBezier(segmentVertices, segmentType.Degree.Value);
 

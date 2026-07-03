@@ -73,13 +73,13 @@ namespace osu.Game.Screens.Select
                     });
                 });
 
-                Debug.Assert(beatmap.BeatmapSet != null);
+                Debug.Assert(beatmap.BeatmapSet is not null);
                 addHeader(SongSelectStrings.ForAllDifficulties, beatmap.BeatmapSet.ToString());
                 addButton(CommonStrings.DeleteWithConfirmation, FontAwesome.Solid.Trash, () => SongSelect?.Delete(beatmap.BeatmapSet), colours.Red1);
 
                 addHeader(SongSelectStrings.ForSelectedDifficulty, beatmap.DifficultyName);
 
-                if (SongSelect == null) return;
+                if (SongSelect is null) return;
 
                 foreach (OsuMenuItem item in SongSelect.GetForwardActions(beatmap))
                 {
@@ -125,7 +125,7 @@ namespace osu.Game.Screens.Select
 
                 textFlow.AddText(text, t => t.Font = OsuFont.Default.With(weight: FontWeight.SemiBold));
 
-                if (context != null)
+                if (context is not null)
                 {
                     textFlow.NewLine();
                     textFlow.AddText(context, t =>
@@ -167,7 +167,7 @@ namespace osu.Game.Screens.Select
 
                     OptionButton? found = buttonFlow.Children.OfType<OptionButton>().ElementAtOrDefault(requested);
 
-                    if (found != null)
+                    if (found is not null)
                     {
                         found.TriggerClick();
                         return true;

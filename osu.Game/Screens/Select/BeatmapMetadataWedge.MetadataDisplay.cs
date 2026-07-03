@@ -31,7 +31,7 @@ namespace osu.Game.Screens.Select
                 {
                     data = value;
 
-                    if (value?.action != null)
+                    if (value?.action is not null)
                         setClickableText(value.Value.value, value.Value.action);
                     else if (value.HasValue)
                         setText(value.Value.value);
@@ -42,7 +42,7 @@ namespace osu.Game.Screens.Select
             {
                 set
                 {
-                    if (value?.action != null)
+                    if (value?.action is not null)
                         setTags(value.Value.tags, value.Value.action);
                     else if (value.HasValue)
                         setText(@"N/A");

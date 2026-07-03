@@ -74,7 +74,7 @@ namespace osu.Game.Graphics.UserInterface
 
         private void updateDetails(ValueChangedEvent<string> details)
         {
-            if (detailsPart != null)
+            if (detailsPart is not null)
                 textFlow.RemovePart(detailsPart);
 
             if (!string.IsNullOrEmpty(details.NewValue))

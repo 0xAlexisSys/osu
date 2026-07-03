@@ -104,7 +104,7 @@ namespace osu.Game.Tests.Beatmaps
                 if (!string.IsNullOrEmpty(userFile))
                     userSkinInfo.Files.Add(new RealmNamedFileUsage(new RealmFile { Hash = userFile }, userFile));
 
-                Debug.Assert(beatmapInfo.BeatmapSet != null);
+                Debug.Assert(beatmapInfo.BeatmapSet is not null);
 
                 beatmapInfo.BeatmapSet.Files.Clear();
                 if (!string.IsNullOrEmpty(beatmapFile))

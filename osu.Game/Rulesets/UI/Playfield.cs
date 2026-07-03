@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.UI
         {
             get
             {
-                if (HitObjectContainer == null)
+                if (HitObjectContainer is null)
                     return Enumerable.Empty<DrawableHitObject>();
 
                 var enumerable = HitObjectContainer.Objects;
@@ -138,7 +138,7 @@ namespace osu.Game.Rulesets.UI
         {
             Cursor = CreateCursor();
 
-            if (Cursor != null)
+            if (Cursor is not null)
             {
                 // initial showing of the cursor will be handed by MenuCursorContainer (via DrawableRuleset's IProvideCursor implementation).
                 Cursor.Hide();
@@ -256,7 +256,7 @@ namespace osu.Game.Rulesets.UI
             mods = Mods?.ToArray();
 
             // in the case a consumer forgets to add the HitObjectContainer, we will add it here.
-            if (HitObjectContainer.Parent == null)
+            if (HitObjectContainer.Parent is null)
                 AddInternal(HitObjectContainer);
         }
 
@@ -264,7 +264,7 @@ namespace osu.Game.Rulesets.UI
         {
             base.Update();
 
-            if (!IsNested && mods != null)
+            if (!IsNested && mods is not null)
             {
                 foreach (Mod mod in mods)
                 {
@@ -277,7 +277,7 @@ namespace osu.Game.Rulesets.UI
             while (judgedEntries.Count > 0)
             {
                 var result = judgedEntries.Peek().Result;
-                Debug.Assert(result?.RawTime != null);
+                Debug.Assert(result?.RawTime is not null);
 
                 if (Time.Current >= result.RawTime.Value)
                     break;
@@ -336,7 +336,7 @@ namespace osu.Game.Rulesets.UI
 
         private void onEntryAdded(HitObjectLifetimeEntry entry, [CanBeNull] HitObject parentHitObject)
         {
-            if (parentHitObject != null) return;
+            if (parentHitObject is not null) return;
 
             HitObjectContainer.Add(entry);
             OnHitObjectAdded(entry.HitObject);
@@ -344,7 +344,7 @@ namespace osu.Game.Rulesets.UI
 
         private void onEntryRemoved(HitObjectLifetimeEntry entry, [CanBeNull] HitObject parentHitObject)
         {
-            if (parentHitObject != null) return;
+            if (parentHitObject is not null) return;
 
             HitObjectContainer.Remove(entry);
             OnHitObjectRemoved(entry.HitObject);
@@ -407,7 +407,7 @@ namespace osu.Game.Rulesets.UI
 
                     // If this is the first time this DHO is being used, then apply the DHO mods.
                     // This is done before Apply() so that the state is updated once when the hitobject is applied.
-                    if (mods != null)
+                    if (mods is not null)
                     {
                         foreach (Mod mod in mods)
                         {
@@ -480,7 +480,7 @@ namespace osu.Game.Rulesets.UI
 
         private void onNewResult(DrawableHitObject drawable, JudgementResult result)
         {
-            Debug.Assert(result != null && drawable.Entry?.Result == result && result.RawTime != null);
+            Debug.Assert(result is not null && drawable.Entry?.Result == result && result.RawTime is not null);
             judgedEntries.Push(drawable.Entry.AsNonNull());
 
             NewResult?.Invoke(drawable, result);
@@ -489,7 +489,7 @@ namespace osu.Game.Rulesets.UI
         private void revertResult(HitObjectLifetimeEntry entry)
         {
             var result = entry.Result;
-            Debug.Assert(result != null);
+            Debug.Assert(result is not null);
 
             RevertResult?.Invoke(result);
             entry.OnRevertResult();

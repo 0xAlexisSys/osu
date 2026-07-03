@@ -105,7 +105,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
         public override bool ReceivePositionalInputAt(Vector2 screenSpacePos) =>
             content.ReceivePositionalInputAt(screenSpacePos);
 
-        public override bool AcceptsFocus => bindTarget == null;
+        public override bool AcceptsFocus => bindTarget is null;
 
         /// <summary>
         /// Creates a new <see cref="KeyBindingRow"/>.
@@ -300,7 +300,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (!HasFocus)
                 return base.OnMouseDown(e);
 
-            Debug.Assert(bindTarget != null);
+            Debug.Assert(bindTarget is not null);
 
             if (!bindTarget.IsHovered)
                 return base.OnMouseDown(e);
@@ -328,7 +328,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
                 return;
             }
 
-            Debug.Assert(bindTarget != null);
+            Debug.Assert(bindTarget is not null);
 
             if (bindTarget.IsHovered)
                 finalise(false);
@@ -341,7 +341,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
         {
             if (HasFocus)
             {
-                Debug.Assert(bindTarget != null);
+                Debug.Assert(bindTarget is not null);
 
                 if (bindTarget.IsHovered)
                 {
@@ -359,7 +359,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (!HasFocus || e.Repeat)
                 return false;
 
-            Debug.Assert(bindTarget != null);
+            Debug.Assert(bindTarget is not null);
 
             keypressSamples?[RNG.Next(0, keypressSamples.Length)]?.Play();
 
@@ -387,7 +387,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (!HasFocus)
                 return false;
 
-            Debug.Assert(bindTarget != null);
+            Debug.Assert(bindTarget is not null);
 
             bindTarget.UpdateKeyCombination(KeyCombination.FromInputState(e.CurrentState), KeyCombination.FromJoystickButton(e.Button));
             finalise();
@@ -411,7 +411,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (!HasFocus)
                 return false;
 
-            Debug.Assert(bindTarget != null);
+            Debug.Assert(bindTarget is not null);
 
             bindTarget.UpdateKeyCombination(KeyCombination.FromInputState(e.CurrentState), KeyCombination.FromMidiKey(e.Key));
             finalise();
@@ -435,7 +435,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (!HasFocus)
                 return false;
 
-            Debug.Assert(bindTarget != null);
+            Debug.Assert(bindTarget is not null);
 
             bindTarget.UpdateKeyCombination(KeyCombination.FromInputState(e.CurrentState), KeyCombination.FromTabletAuxiliaryButton(e.Button));
             finalise();
@@ -459,7 +459,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (!HasFocus)
                 return false;
 
-            Debug.Assert(bindTarget != null);
+            Debug.Assert(bindTarget is not null);
 
             bindTarget.UpdateKeyCombination(KeyCombination.FromInputState(e.CurrentState), KeyCombination.FromTabletPenButton(e.Button));
             finalise();
@@ -492,7 +492,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
         private void clear()
         {
-            if (bindTarget == null)
+            if (bindTarget is null)
                 return;
 
             bindTarget.UpdateKeyCombination(InputKey.None);
@@ -501,7 +501,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
         private void finalise(bool advanceToNextBinding = true)
         {
-            if (bindTarget != null)
+            if (bindTarget is not null)
             {
                 updateIsDefaultValue();
 
@@ -562,7 +562,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
                 ? null
                 : bindings.FirstOrDefault(other => isConflictingBinding(keyBinding, other, restoringDefaults));
 
-            if (existingBinding == null)
+            if (existingBinding is null)
             {
                 realm.Write(r => r.Find<RealmKeyBinding>(keyBinding.ID)!.KeyCombinationString = keyBinding.KeyCombination.ToString());
                 BindingUpdated?.Invoke(this, new KeyBindingUpdatedEventArgs(bindingConflictResolved: false, advanceToNextBinding));

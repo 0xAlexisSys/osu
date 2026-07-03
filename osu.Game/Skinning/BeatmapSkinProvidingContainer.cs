@@ -61,7 +61,7 @@ namespace osu.Game.Skinning
                 // So here, check what skin the user has selected. If it's already a legacy skin then we don't need to do anything special.
                 // If it isn't, we insert the classic default. Note that this is only done if the beatmap seems to be providing skin elements,
                 // as we only want to override the user's (non-legacy) skin choice when required for beatmap skin visuals.
-                if (!userSkinIsLegacy && beatmapProvidingResources && classicFallback != null)
+                if (!userSkinIsLegacy && beatmapProvidingResources && classicFallback is not null)
                     SetSources(new[] { skin, classicFallback });
                 else
                     SetSources(new[] { skin });

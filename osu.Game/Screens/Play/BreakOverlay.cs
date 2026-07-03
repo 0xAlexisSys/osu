@@ -128,7 +128,7 @@ namespace osu.Game.Screens.Play
         }
 
         private float remainingTimeForCurrentPeriod =>
-            currentPeriod.Value == null ? 0 : (float)Math.Max(0, (currentPeriod.Value.Value.End - Time.Current - BREAK_FADE_DURATION) / currentPeriod.Value.Value.Duration);
+            currentPeriod.Value is null ? 0 : (float)Math.Max(0, (currentPeriod.Value.Value.End - Time.Current - BREAK_FADE_DURATION) / currentPeriod.Value.Value.Duration);
 
         protected override void Update()
         {
@@ -142,7 +142,7 @@ namespace osu.Game.Screens.Play
         {
             Scheduler.CancelDelayedTasks();
 
-            if (period.NewValue == null)
+            if (period.NewValue is null)
                 return;
 
             var b = period.NewValue.Value;

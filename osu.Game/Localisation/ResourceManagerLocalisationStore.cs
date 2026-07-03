@@ -51,7 +51,7 @@ namespace osu.Game.Localisation
                     {
                         var matchingAssembly = loadedAssemblies.FirstOrDefault(asm => asm.GetName().Name == assemblyName);
 
-                        if (matchingAssembly != null)
+                        if (matchingAssembly is not null)
                         {
                             resourceManagers[ns] = manager = new ResourceManager(ns, matchingAssembly);
                             break;
@@ -62,7 +62,7 @@ namespace osu.Game.Localisation
                     }
                 }
 
-                if (manager == null)
+                if (manager is null)
                     return null;
 
                 // When using the English culture, prefer the fallbacks rather than osu-resources baked strings.

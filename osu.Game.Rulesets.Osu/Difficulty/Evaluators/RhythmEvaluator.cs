@@ -218,7 +218,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators
 
             public bool Equals(Island? other)
             {
-                if (other == null)
+                if (other is null)
                     return false;
 
                 return Math.Abs(Delta - other.Delta) < deltaDifferenceEpsilon &&

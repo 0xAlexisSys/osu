@@ -155,7 +155,7 @@ namespace osu.Game.Screens.Edit.Timing
                 // using estimated row height.
                 var row = Items.FlowingChildren.SingleOrDefault(item => item.Row.Equals(group));
 
-                if (row == null)
+                if (row is null)
                     return;
 
                 float minPos = row.Y;
@@ -295,8 +295,8 @@ namespace osu.Game.Screens.Edit.Timing
             {
                 bool isSelected = selectedGroup.Value?.Equals(current.Value) == true;
 
-                bool hasCurrentTimingPoint = activeTimingPoint.Value != null && current.Value.ControlPoints.Contains(activeTimingPoint.Value);
-                bool hasCurrentEffectPoint = activeEffectPoint.Value != null && current.Value.ControlPoints.Contains(activeEffectPoint.Value);
+                bool hasCurrentTimingPoint = activeTimingPoint.Value is not null && current.Value.ControlPoints.Contains(activeTimingPoint.Value);
+                bool hasCurrentEffectPoint = activeEffectPoint.Value is not null && current.Value.ControlPoints.Contains(activeEffectPoint.Value);
 
                 background.FadeTo(IsHovered || isSelected ? 1 : 0, 100, Easing.OutQuint);
                 background.FadeColour(isSelected ? colourProvider.Colour3 : colourProvider.Background1, 100, Easing.OutQuint);
@@ -394,7 +394,7 @@ namespace osu.Game.Screens.Edit.Timing
                 {
                     controlPoints.UnbindBindings();
                     controlPoints.Clear();
-                    if (Group.Value != null)
+                    if (Group.Value is not null)
                         ((IBindableList<ControlPoint>)controlPoints).BindTo(Group.Value.ControlPoints);
                 }, true);
 

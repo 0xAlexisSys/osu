@@ -50,7 +50,7 @@ namespace osu.Game.Screens.Edit.Timing
         [BackgroundDependencyLoader]
         private void load(Editor? editor)
         {
-            if (editor != null)
+            if (editor is not null)
                 currentEditorMode.BindTo(editor.Mode);
         }
 
@@ -71,7 +71,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         private void selectClosestTimingPoint()
         {
-            if (editorClock == null)
+            if (editorClock is null)
                 return;
 
             double accurateTime = editorClock.CurrentTimeAccurate;

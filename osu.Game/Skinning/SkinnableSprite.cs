@@ -60,10 +60,10 @@ namespace osu.Game.Skinning
             var spriteLookup = (SpriteComponentLookup)lookup;
             var texture = textures.Get(spriteLookup.LookupName);
 
-            if (texture == null)
+            if (texture is null)
                 return new SpriteNotFound(spriteLookup.LookupName);
 
-            if (spriteLookup.MaxSize != null)
+            if (spriteLookup.MaxSize is not null)
                 texture = texture.WithMaximumSize(spriteLookup.MaxSize.Value);
 
             return new Sprite { Texture = texture };

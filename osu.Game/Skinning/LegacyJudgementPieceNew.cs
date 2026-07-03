@@ -39,7 +39,7 @@ namespace osu.Game.Skinning
                 })
             };
 
-            if (particleTexture != null)
+            if (particleTexture is not null)
             {
                 AddInternal(particles = new ParticleExplosion(particleTexture, 150, 1600)
                 {
@@ -68,7 +68,7 @@ namespace osu.Game.Skinning
 
             animation?.GotoFrame(0);
 
-            if (particles != null)
+            if (particles is not null)
             {
                 // start the particles already some way into their animation to break cluster away from centre.
                 using (particles.BeginDelayedSequence(-100))
@@ -83,7 +83,7 @@ namespace osu.Game.Skinning
             this.Delay(fade_out_delay).FadeOut(fade_out_length);
 
             // new style non-miss judgements show the original style temporarily, with additive colour.
-            if (temporaryOldStyle != null)
+            if (temporaryOldStyle is not null)
             {
                 temporaryOldStyle.PlayAnimation();
 

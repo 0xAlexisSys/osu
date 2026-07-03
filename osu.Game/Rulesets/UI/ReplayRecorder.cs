@@ -72,14 +72,14 @@ namespace osu.Game.Rulesets.UI
         {
             var last = target.Replay.Frames.LastOrDefault();
 
-            if (!important && last != null && Time.Current - last.Time < (1000d / RecordFrameRate) * Clock.Rate)
+            if (!important && last is not null && Time.Current - last.Time < (1000d / RecordFrameRate) * Clock.Rate)
                 return;
 
             var position = ScreenSpaceToGamefield?.Invoke(inputManager.CurrentState.Mouse.Position) ?? inputManager.CurrentState.Mouse.Position;
 
             var frame = HandleFrame(position, pressedActions, last);
 
-            if (frame != null)
+            if (frame is not null)
             {
                 // this reduces redundancy of frames in the resulting replay.
                 if (last?.IsEquivalentTo(frame) == true)

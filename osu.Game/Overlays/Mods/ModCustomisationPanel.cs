@@ -235,7 +235,7 @@ namespace osu.Game.Overlays.Mods
                 if (ExpandedState.Value == ModCustomisationPanelState.Expanded)
                 {
                     bool canCollapse = !DrawRectangle.Inflate(new Vector2(collapse_grace_position)).Contains(ToLocalSpace(inputManager.CurrentState.Mouse.Position))
-                                       && inputManager.DraggedDrawable == null;
+                                       && inputManager.DraggedDrawable is null;
 
                     if (canCollapse)
                     {

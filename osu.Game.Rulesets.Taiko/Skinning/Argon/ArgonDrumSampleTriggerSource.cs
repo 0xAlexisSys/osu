@@ -25,13 +25,13 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
         {
             TaikoHitObject? hitObject = GetMostValidObject() as TaikoHitObject;
 
-            if (hitObject == null)
+            if (hitObject is null)
                 return;
 
             var originalSample = hitObject.CreateHitSampleInfo(hitType == HitType.Rim ? HitSampleInfo.HIT_CLAP : HitSampleInfo.HIT_NORMAL);
 
             // If the sample is provided by a legacy skin, we should not try and do anything special.
-            if (skinSource.FindProvider(s => s.GetSample(originalSample) != null) is LegacySkinTransformer)
+            if (skinSource.FindProvider(s => s.GetSample(originalSample) is not null) is LegacySkinTransformer)
             {
                 base.Play(hitType, strong);
                 return;

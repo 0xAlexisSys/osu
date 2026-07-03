@@ -410,7 +410,7 @@ namespace osu.Game.Rulesets.Scoring
 
         private void updateScoreMultiplier()
         {
-            if (Beatmap.Value == null)
+            if (Beatmap.Value is null)
                 return;
 
             var calculator = Ruleset.CreateScoreMultiplierCalculator(new ScoreMultiplierContext(Beatmap.Value.BeatmapInfo.Difficulty));

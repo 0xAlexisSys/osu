@@ -23,10 +23,10 @@ namespace osu.Game.IPC
 
             MessageReceived += msg =>
             {
-                Debug.Assert(importer != null);
+                Debug.Assert(importer is not null);
                 ImportAsync(msg.Path).ContinueWith(t =>
                 {
-                    if (t.Exception != null) throw t.Exception;
+                    if (t.Exception is not null) throw t.Exception;
                 }, TaskContinuationOptions.OnlyOnFaulted);
 
                 return null;
@@ -35,7 +35,7 @@ namespace osu.Game.IPC
 
         public async Task ImportAsync(string path)
         {
-            if (importer == null)
+            if (importer is null)
             {
                 // we want to contact a remote osu! to handle the import.
                 await SendMessageAsync(new ArchiveImportMessage { Path = path }).ConfigureAwait(false);

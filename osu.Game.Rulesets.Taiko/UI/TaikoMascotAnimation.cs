@@ -88,15 +88,15 @@ namespace osu.Game.Rulesets.Taiko.UI
             [BackgroundDependencyLoader]
             private void load(ISkinSource source)
             {
-                ISkin? skin = source.FindProvider(s => getAnimationFrame(s, state, 0) != null);
+                ISkin? skin = source.FindProvider(s => getAnimationFrame(s, state, 0) is not null);
 
-                if (skin == null) return;
+                if (skin is null) return;
 
                 for (int frameIndex = 0; true; frameIndex++)
                 {
                     var texture = getAnimationFrame(skin, state, frameIndex);
 
-                    if (texture == null)
+                    if (texture is null)
                         break;
 
                     AddFrame(texture);
@@ -119,15 +119,15 @@ namespace osu.Game.Rulesets.Taiko.UI
             [BackgroundDependencyLoader]
             private void load(ISkinSource source)
             {
-                ISkin? skin = source.FindProvider(s => getAnimationFrame(s, TaikoMascotAnimationState.Clear, 0) != null);
+                ISkin? skin = source.FindProvider(s => getAnimationFrame(s, TaikoMascotAnimationState.Clear, 0) is not null);
 
-                if (skin == null) return;
+                if (skin is null) return;
 
                 foreach (int frameIndex in clear_animation_sequence)
                 {
                     var texture = getAnimationFrame(skin, TaikoMascotAnimationState.Clear, frameIndex);
 
-                    if (texture == null)
+                    if (texture is null)
                         // as per https://osu.ppy.sh/help/wiki/Skinning/osu!taiko#pippidon
                         break;
 
@@ -140,7 +140,7 @@ namespace osu.Game.Rulesets.Taiko.UI
         {
             var texture = skin.GetTexture($"pippidon{state.ToString().ToLowerInvariant()}{frameIndex}");
 
-            if (frameIndex == 0 && texture == null)
+            if (frameIndex == 0 && texture is null)
                 texture = skin.GetTexture($"pippidon{state.ToString().ToLowerInvariant()}");
 
             return texture;

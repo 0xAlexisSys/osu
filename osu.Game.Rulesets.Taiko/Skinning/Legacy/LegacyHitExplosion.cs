@@ -45,7 +45,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                 s.Origin = Anchor.Centre;
             }));
 
-            if (strongSprite != null)
+            if (strongSprite is not null)
             {
                 AddInternal(strongSprite.With(s =>
                 {
@@ -79,7 +79,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
 
         public void AnimateSecondHit()
         {
-            if (strongSprite == null)
+            if (strongSprite is null)
                 return;
 
             sprite.FadeOut(50, Easing.OutQuint);

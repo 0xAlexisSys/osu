@@ -100,7 +100,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
 
             foreach (var controlPoint in controlPoints)
             {
-                if (controlPoint.Type != null)
+                if (controlPoint.Type is not null)
                 {
                     pointsInCurrentSegment.Add(controlPoint);
                     ensureValidPathType(pointsInCurrentSegment);
@@ -207,7 +207,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    Debug.Assert(e.NewItems != null);
+                    Debug.Assert(e.NewItems is not null);
 
                     for (int i = 0; i < e.NewItems.Count; i++)
                     {
@@ -228,7 +228,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    Debug.Assert(e.OldItems != null);
+                    Debug.Assert(e.OldItems is not null);
 
                     foreach (var point in e.OldItems.Cast<PathControlPoint>())
                     {
@@ -301,7 +301,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
                     PathType?[] validTypes = path_types;
 
                     if (selectedPoint == controlPoints[0])
-                        validTypes = validTypes.Where(t => t != null).ToArray();
+                        validTypes = validTypes.Where(t => t is not null).ToArray();
 
                     int currentTypeIndex = Array.IndexOf(validTypes, selectedPoint.Type);
 
@@ -338,7 +338,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
                     PathType? type = path_types[e.Key - Key.Number1];
 
                     // The first control point can never be inherit type
-                    if (Pieces[0].IsSelected.Value && type == null)
+                    if (Pieces[0].IsSelected.Value && type is null)
                         return false;
 
                     updatePathTypeOfSelectedPieces(type);
@@ -545,7 +545,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
                     PathType? type = path_types[i];
 
                     // special inherit case
-                    if (type == null)
+                    if (type is null)
                     {
                         if (selectedPieces.Contains(Pieces[0]))
                             continue;
@@ -591,7 +591,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
                 {
                     Hotkey hotkey = default;
 
-                    if (key != null)
+                    if (key is not null)
                         hotkey = new Hotkey(new KeyCombination(InputKey.Alt, key.Value));
 
                     return new CurveTypeMenuItem(type, _ => updatePathTypeOfSelectedPieces(type)) { Hotkey = hotkey };
@@ -601,7 +601,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
 
         private void updateCurveMenuItems()
         {
-            if (curveTypeItems == null)
+            if (curveTypeItems is null)
                 return;
 
             foreach (var item in curveTypeItems.OfType<CurveTypeMenuItem>())

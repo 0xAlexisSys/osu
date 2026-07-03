@@ -74,7 +74,7 @@ namespace osu.Game.Graphics.Containers
             {
                 Vector2 offset = Vector2.Zero;
 
-                if (input.CurrentState.Mouse != null)
+                if (input.CurrentState.Mouse is not null)
                 {
                     var sizeDiv2 = DrawSize / 2;
 

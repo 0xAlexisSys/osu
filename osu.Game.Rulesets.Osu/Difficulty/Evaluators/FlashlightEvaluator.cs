@@ -70,7 +70,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators
 
                     result += stackNerf * opacityBonus * scalingFactor * jumpDistance / cumulativeStrainTime;
 
-                    if (currentObj.Angle != null && osuCurrent.Angle != null)
+                    if (currentObj.Angle is not null && osuCurrent.Angle is not null)
                     {
                         // Objects further back in time should count less for the nerf.
                         if (Math.Abs(currentObj.Angle.Value - osuCurrent.Angle.Value) < 0.02)

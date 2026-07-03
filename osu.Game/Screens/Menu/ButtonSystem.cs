@@ -55,7 +55,7 @@ namespace osu.Game.Screens.Menu
         {
             this.logo = logo;
 
-            if (this.logo != null)
+            if (this.logo is not null)
             {
                 this.logo.Action = onOsuLogo;
 
@@ -157,7 +157,7 @@ namespace osu.Game.Screens.Menu
 
             isIdle.ValueChanged += idle => updateIdleState(idle.NewValue);
 
-            if (idleTracker != null) isIdle.BindTo(idleTracker.IsIdle);
+            if (idleTracker is not null) isIdle.BindTo(idleTracker.IsIdle);
 
             sampleBackToLogo = audio.Samples.Get(@"Menu/back-to-logo");
             sampleLogoSwoosh = audio.Samples.Get(@"Menu/osu-logo-swoosh");
@@ -339,7 +339,7 @@ namespace osu.Game.Screens.Menu
 
         private void updateLogoState(ButtonSystemState lastState = ButtonSystemState.Initial)
         {
-            if (logo == null) return;
+            if (logo is null) return;
 
             switch (state)
             {

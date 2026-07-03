@@ -148,7 +148,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
                     back = rim;
                 }
 
-                if (target != null && back != null)
+                if (target is not null && back is not null)
                 {
                     const float scale_amount = 0.05f;
                     const float alpha_amount = 0.5f;

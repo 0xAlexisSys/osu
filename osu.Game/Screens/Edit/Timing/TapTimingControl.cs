@@ -194,7 +194,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         private void onGroupChanged()
         {
-            if (selectedGroup.Value == null)
+            if (selectedGroup.Value is null)
                 return;
 
             changingGroup = true;
@@ -208,7 +208,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         private void start()
         {
-            if (selectedGroup.Value == null)
+            if (selectedGroup.Value is null)
                 return;
 
             editorClock.Seek(selectedGroup.Value.Time);
@@ -217,7 +217,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         private void reset()
         {
-            if (selectedGroup.Value == null)
+            if (selectedGroup.Value is null)
                 return;
 
             editorClock.Stop();
@@ -229,7 +229,7 @@ namespace osu.Game.Screens.Edit.Timing
             if (changingGroup)
                 return;
 
-            if (selectedGroup.Value == null)
+            if (selectedGroup.Value is null)
                 return;
 
             bool wasAtStart = editorClock.CurrentTimeAccurate == selectedGroup.Value.Time;
@@ -268,7 +268,7 @@ namespace osu.Game.Screens.Edit.Timing
 
             var timing = selectedGroup.Value?.ControlPoints.OfType<TimingControlPoint>().FirstOrDefault();
 
-            if (timing == null)
+            if (timing is null)
                 return;
 
             double oldBeatLength = timing.BeatLength;

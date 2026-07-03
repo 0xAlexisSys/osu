@@ -103,7 +103,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
                     ? ((IHasSliderVelocity)relevantObjects.First()).SliderVelocityMultiplierBindable
                     : null;
 
-                if (selectedPointBindable != null)
+                if (selectedPointBindable is not null)
                 {
                     // there may be legacy control points, which contain infinite precision for compatibility reasons (see LegacyDifficultyControlPoint).
                     // generally that level of precision could only be set by externally editing the .osu file, so at the point

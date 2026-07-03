@@ -23,7 +23,7 @@ namespace osu.Game.Utils
             var parentInfo = new DirectoryInfo(Path.GetFullPath(parent));
             var childInfo = new DirectoryInfo(Path.GetFullPath(child));
 
-            while (childInfo != null)
+            while (childInfo is not null)
             {
                 if (parentInfo.FullName == childInfo.FullName)
                     return true;

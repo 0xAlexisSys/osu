@@ -26,7 +26,7 @@ namespace osu.Game.Screens.Ranking.Statistics
 
         protected override LocalisableString DisplayValue(double? value)
         {
-            return value == null ? RankingStatisticsStrings.NotAvailable : getEarlyLateText(value.Value);
+            return value is null ? RankingStatisticsStrings.NotAvailable : getEarlyLateText(value.Value);
 
             LocalisableString getEarlyLateText(double offset) =>
                 offset < 0

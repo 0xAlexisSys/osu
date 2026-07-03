@@ -121,7 +121,7 @@ namespace osu.Game.Screens
 
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent)
         {
-            if (screenDependencies == null)
+            if (screenDependencies is null)
             {
                 if (DisallowExternalBeatmapRulesetChanges)
                     throw new InvalidOperationException($"Screens that specify {nameof(DisallowExternalBeatmapRulesetChanges)} must be pushed immediately.");
@@ -188,10 +188,10 @@ namespace osu.Game.Screens
         /// <param name="action">The operation to perform.</param>
         public void ApplyToBackground(Action<BackgroundScreen> action)
         {
-            if (backgroundStack == null)
+            if (backgroundStack is null)
                 throw new InvalidOperationException("Attempted to apply to background without a background stack being available.");
 
-            if (background == null)
+            if (background is null)
                 throw new InvalidOperationException("Attempted to apply to background before screen is pushed.");
 
             background.ApplyToBackground(action);
@@ -203,9 +203,9 @@ namespace osu.Game.Screens
 
             // it's feasible to resume to a screen if the target screen never loaded successfully.
             // in such a case there's no need to restore this value.
-            if (modTrackAdjustmentStateAtSuspend != null)
+            if (modTrackAdjustmentStateAtSuspend is not null)
                 musicController.ApplyModTrackAdjustments = modTrackAdjustmentStateAtSuspend.Value;
-            if (globalMusicControlStateAtSuspend != null)
+            if (globalMusicControlStateAtSuspend is not null)
                 musicController.AllowTrackControl.Value = globalMusicControlStateAtSuspend.Value;
 
             base.OnResuming(e);
@@ -225,10 +225,10 @@ namespace osu.Game.Screens
         {
             applyArrivingDefaults(false);
 
-            if (ApplyModTrackAdjustments != null)
+            if (ApplyModTrackAdjustments is not null)
                 musicController.ApplyModTrackAdjustments = ApplyModTrackAdjustments.Value;
 
-            if (AllowGlobalTrackControl != null)
+            if (AllowGlobalTrackControl is not null)
                 musicController.AllowTrackControl.Value = AllowGlobalTrackControl.Value;
 
             if (backgroundStack?.Push(ownedBackground = CreateBackground()) != true)
@@ -252,13 +252,13 @@ namespace osu.Game.Screens
             if (ValidForResume && PlayExitSound && arrivingAtFinalDestination)
                 sampleExit?.Play();
 
-            if (ValidForResume && logo != null)
+            if (ValidForResume && logo is not null)
                 onExitingLogo();
 
             if (base.OnExiting(e))
                 return true;
 
-            if (ownedBackground != null && backgroundStack?.CurrentScreen == ownedBackground)
+            if (ownedBackground is not null && backgroundStack?.CurrentScreen == ownedBackground)
                 backgroundStack?.Exit();
 
             return false;

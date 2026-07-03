@@ -35,7 +35,7 @@ namespace osu.Game.Rulesets.Edit.Checks
 
             var track = context.CurrentDifficulty.Working.Track;
 
-            if (track?.Bitrate == null || track.Bitrate.Value == 0)
+            if (track?.Bitrate is null || track.Bitrate.Value == 0)
                 yield return new IssueTemplateNoBitrate(this).Create();
             else
             {

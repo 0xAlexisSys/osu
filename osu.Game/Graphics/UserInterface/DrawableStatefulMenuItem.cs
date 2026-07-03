@@ -52,7 +52,7 @@ namespace osu.Game.Graphics.UserInterface
             {
                 var icon = menuItem.GetIconForState(state.NewValue);
 
-                if (icon == null)
+                if (icon is null)
                     stateIcon.Alpha = 0;
                 else
                 {

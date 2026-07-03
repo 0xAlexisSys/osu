@@ -96,18 +96,18 @@ namespace osu.Game.Screens.Edit.Timing
             {
                 if (selected.NewValue)
                 {
-                    if (SelectedGroup.Value == null)
+                    if (SelectedGroup.Value is null)
                     {
                         Checkbox.Current.Value = false;
                         return;
                     }
 
-                    if (ControlPoint.Value == null)
+                    if (ControlPoint.Value is null)
                         SelectedGroup.Value.Add(ControlPoint.Value = CreatePoint(SelectedGroup.Value));
                 }
                 else
                 {
-                    if (ControlPoint.Value != null)
+                    if (ControlPoint.Value is not null)
                     {
                         SelectedGroup.Value!.Remove(ControlPoint.Value);
                         ControlPoint.Value = null;
@@ -124,7 +124,7 @@ namespace osu.Game.Screens.Edit.Timing
         protected virtual void OnSelectedGroupChanged(ValueChangedEvent<ControlPointGroup?> group)
         {
             ControlPoint.Value = group.NewValue?.ControlPoints.OfType<T>().FirstOrDefault();
-            Checkbox.Current.Value = ControlPoint.Value != null;
+            Checkbox.Current.Value = ControlPoint.Value is not null;
         }
 
         protected abstract void OnControlPointChanged(ValueChangedEvent<T?> point);

@@ -117,9 +117,9 @@ namespace osu.Game.Overlays.Mods
         {
             WorkingBeatmap? workingBeatmap = Beatmap.Value;
 
-            if (beatmapAttributesDisplay != null)
+            if (beatmapAttributesDisplay is not null)
             {
-                if (workingBeatmap != null)
+                if (workingBeatmap is not null)
                 {
                     var scoreMultiplierCalculator = Ruleset.Value?.CreateInstance().CreateScoreMultiplierCalculator(new ScoreMultiplierContext(workingBeatmap.BeatmapInfo.Difficulty));
                     double multiplier = scoreMultiplierCalculator?.CalculateFor(ActiveMods.Value) ?? 1;
@@ -135,7 +135,7 @@ namespace osu.Game.Overlays.Mods
         {
             base.Update();
 
-            if (beatmapAttributesDisplay != null)
+            if (beatmapAttributesDisplay is not null)
             {
                 float rightEdgeOfLastButton = buttonFlow[^1].ScreenSpaceDrawQuad.TopRight.X;
 

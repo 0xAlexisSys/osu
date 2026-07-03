@@ -80,7 +80,7 @@ namespace osu.Game.Beatmaps
             {
                 var working = workingCache.FirstOrDefault(w => info.Equals(w.BeatmapInfo));
 
-                if (working != null)
+                if (working is not null)
                 {
                     Logger.Log($"Invalidating working beatmap cache for {info}");
                     workingCache.Remove(working);
@@ -93,14 +93,14 @@ namespace osu.Game.Beatmaps
 
         public virtual WorkingBeatmap GetWorkingBeatmap([CanBeNull] BeatmapInfo beatmapInfo)
         {
-            if (beatmapInfo == null || ReferenceEquals(beatmapInfo, DefaultBeatmap.BeatmapInfo))
+            if (beatmapInfo is null || ReferenceEquals(beatmapInfo, DefaultBeatmap.BeatmapInfo))
                 return DefaultBeatmap;
 
             lock (workingCache)
             {
                 var working = workingCache.FirstOrDefault(w => beatmapInfo.Equals(w.BeatmapInfo));
 
-                if (working != null)
+                if (working is not null)
                     return working;
 
                 beatmapInfo = beatmapInfo.Detach();
@@ -121,7 +121,7 @@ namespace osu.Game.Beatmaps
         private bool confirmFileHashIsUpToDate(BeatmapInfo beatmapInfo)
         {
             string refetchPath = realm.Run(r => r.Find<BeatmapInfo>(beatmapInfo.ID)?.File?.File.Hash);
-            return refetchPath == null || refetchPath == beatmapInfo.File?.File.Hash;
+            return refetchPath is null || refetchPath == beatmapInfo.File?.File.Hash;
         }
 
         #region IResourceStorageProvider
@@ -151,7 +151,7 @@ namespace osu.Game.Beatmaps
 
             protected override IBeatmap GetBeatmap()
             {
-                if (BeatmapInfo.Path == null)
+                if (BeatmapInfo.Path is null)
                     return new Beatmap { BeatmapInfo = BeatmapInfo };
 
                 try
@@ -160,7 +160,7 @@ namespace osu.Game.Beatmaps
 
                     var stream = GetStream(fileStorePath);
 
-                    if (stream == null)
+                    if (stream is null)
                     {
                         Logger.Log($"Beatmap failed to load (file {BeatmapInfo.Path} not found on disk at expected location {fileStorePath}).", level: LogLevel.Error);
                         return null;
@@ -207,7 +207,7 @@ namespace osu.Game.Beatmaps
                     string fileStorePath = BeatmapSetInfo.GetPathForFile(Metadata.BackgroundFile);
                     var texture = store.Get(fileStorePath);
 
-                    if (texture == null)
+                    if (texture is null)
                     {
                         Logger.Log($"Beatmap background failed to load (file {Metadata.BackgroundFile} not found on disk at expected location {fileStorePath}).");
                         return null;
@@ -235,7 +235,7 @@ namespace osu.Game.Beatmaps
                     string fileStorePath = BeatmapSetInfo.GetPathForFile(Metadata.AudioFile);
                     var track = resources.Tracks.Get(fileStorePath);
 
-                    if (track == null)
+                    if (track is null)
                     {
                         Logger.Log($"Beatmap failed to load (file {Metadata.AudioFile} not found on disk at expected location {fileStorePath}).", level: LogLevel.Error);
                         return null;
@@ -264,7 +264,7 @@ namespace osu.Game.Beatmaps
 
                     var trackData = GetStream(fileStorePath);
 
-                    if (trackData == null)
+                    if (trackData is null)
                     {
                         Logger.Log($"Beatmap waveform failed to load (file {Metadata.AudioFile} not found on disk at expected location {fileStorePath}).", level: LogLevel.Error);
                         return null;
@@ -283,7 +283,7 @@ namespace osu.Game.Beatmaps
             {
                 Storyboard storyboard;
 
-                if (BeatmapInfo.Path == null)
+                if (BeatmapInfo.Path is null)
                     return new Storyboard();
 
                 try
@@ -291,7 +291,7 @@ namespace osu.Game.Beatmaps
                     string fileStorePath = BeatmapSetInfo.GetPathForFile(BeatmapInfo.Path);
                     var beatmapFileStream = GetStream(fileStorePath);
 
-                    if (beatmapFileStream == null)
+                    if (beatmapFileStream is null)
                     {
                         Logger.Log($"Beatmap failed to load (file {BeatmapInfo.Path} not found on disk at expected location {fileStorePath})", level: LogLevel.Error);
                         return new Storyboard();
@@ -311,11 +311,11 @@ namespace osu.Game.Beatmaps
                             string storyboardFileStorePath = BeatmapSetInfo?.GetPathForFile(storyboardFilename);
                             storyboardFileStream = GetStream(storyboardFileStorePath);
 
-                            if (storyboardFileStream == null)
+                            if (storyboardFileStream is null)
                                 Logger.Log($"Storyboard failed to load (file {storyboardFilename} not found on disk at expected location {storyboardFileStorePath})", level: LogLevel.Error);
                         }
 
-                        if (storyboardFileStream != null)
+                        if (storyboardFileStream is not null)
                         {
                             // Stand-alone storyboard was found, so parse in addition to the beatmap's local storyboard.
                             using (var secondaryReader = new LineBufferedReader(storyboardFileStream))

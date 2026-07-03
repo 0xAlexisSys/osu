@@ -173,7 +173,7 @@ namespace osu.Game.Overlays.Mods
             sampleOn = audio.Samples.Get(@"UI/check-on");
             sampleOff = audio.Samples.Get(@"UI/check-off");
 
-            if (samplePlaybackDisabler != null)
+            if (samplePlaybackDisabler is not null)
                 ((IBindable<bool>)samplePlaybackDisabled).BindTo(samplePlaybackDisabler.SamplePlaybackDisabled);
 
             lastPlaybackTime = statics.GetBindable<double?>(Static.LastHoverSoundPlaybackTime);

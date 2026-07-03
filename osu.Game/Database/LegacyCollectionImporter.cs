@@ -88,7 +88,7 @@ namespace osu.Game.Database
                     {
                         var existing = r.All<BeatmapCollection>().FirstOrDefault(c => c.Name == collection.Name);
 
-                        if (existing != null)
+                        if (existing is not null)
                         {
                             foreach (string newBeatmap in collection.BeatmapMD5Hashes)
                             {
@@ -114,7 +114,7 @@ namespace osu.Game.Database
 
         private List<BeatmapCollection> readCollections(Stream stream, ProgressNotification? notification = null)
         {
-            if (notification != null)
+            if (notification is not null)
             {
                 notification.Text = NotificationsStrings.ReadingCollections;
                 notification.Progress = 0;
@@ -149,7 +149,7 @@ namespace osu.Game.Database
                             collection.BeatmapMD5Hashes.Add(checksum);
                         }
 
-                        if (notification != null)
+                        if (notification is not null)
                         {
                             notification.Text = NotificationsStrings.CollectionsImportProgressTotal(i + 1, collectionCount);
                             notification.Progress = (float)(i + 1) / collectionCount;

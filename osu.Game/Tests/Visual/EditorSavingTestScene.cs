@@ -37,7 +37,7 @@ namespace osu.Game.Tests.Visual
 
             AddStep("set ruleset", () => Game.Ruleset.Value = CreateRuleset()?.RulesetInfo ?? Game.Ruleset.Value);
 
-            if (CreateInitialBeatmap == null)
+            if (CreateInitialBeatmap is null)
                 AddStep("set default beatmap", () => Game.Beatmap.SetDefault());
             else
             {
@@ -48,7 +48,7 @@ namespace osu.Game.Tests.Visual
 
             AddUntilStep("wait for editor load", () => Editor?.IsLoaded == true);
 
-            if (CreateInitialBeatmap == null)
+            if (CreateInitialBeatmap is null)
                 AddUntilStep("wait for metadata screen load", () => Editor.ChildrenOfType<MetadataSection>().FirstOrDefault()?.IsLoaded == true);
 
             // We intentionally switch away from the metadata screen, else there is a feedback loop with the textbox handling which causes metadata changes below to get overwritten.
@@ -85,7 +85,7 @@ namespace osu.Game.Tests.Visual
             AddUntilStep("Wait for beatmap selected", () => Game.Beatmap.Value.BeatmapInfo.ID == beatmapGuid);
             AddStep("Open editor", () => songSelect.Edit(Game.Beatmap.Value.BeatmapInfo));
 
-            AddUntilStep("Wait for editor load", () => Editor != null);
+            AddUntilStep("Wait for editor load", () => Editor is not null);
         }
     }
 }

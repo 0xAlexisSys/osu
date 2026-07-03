@@ -84,7 +84,7 @@ namespace osu.Game.Screens.Select
             }
             else
             {
-                if (CurrentSelection != null && (top == CurrentSelectionItem || bottom == CurrentSelectionItem))
+                if (CurrentSelection is not null && (top == CurrentSelectionItem || bottom == CurrentSelectionItem))
                     return SPACING * 2;
             }
 
@@ -174,7 +174,7 @@ namespace osu.Game.Screens.Select
                     // This needs to be done immediately to avoid song select making a random selection.
                     // This needs to be done in this class because we need to know final display order.
                     // This needs to be done with attention to detail of which beatmaps have not been deleted.
-                    if (selectedSetDeleted && CurrentSelectionIndex != null)
+                    if (selectedSetDeleted && CurrentSelectionIndex is not null)
                     {
                         var items = GetCarouselItems()!;
                         if (items.Count == 0)
@@ -263,11 +263,11 @@ namespace osu.Game.Screens.Select
                         if (matchingNewBeatmap?.ID is Guid matchingID)
                             matchingNewBeatmap = realm.Run(r => r.FindWithRefresh<BeatmapInfo>(matchingID)?.Detach());
 
-                        if (matchingNewBeatmap != null)
+                        if (matchingNewBeatmap is not null)
                         {
                             // TODO: should this exist in song select instead of here?
                             // we need to ensure the global beatmap is also updated alongside changes.
-                            if (CurrentBeatmap != null && beatmap.Equals(CurrentBeatmap))
+                            if (CurrentBeatmap is not null && beatmap.Equals(CurrentBeatmap))
                                 // we don't know in which group the matching new beatmap is, but that's fine - we can keep the previous one for now.
                                 // we are about to modify `Items`, which - if required - will trigger a re-filter,
                                 // which will pick a correct group - if one is present - via `HandleFilterCompleted()`.
@@ -331,13 +331,13 @@ namespace osu.Game.Screens.Select
             get => CurrentGroupedBeatmap?.Beatmap;
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     CurrentGroupedBeatmap = null;
                     return;
                 }
 
-                if (CurrentGroupedBeatmap != null && value.Equals(CurrentGroupedBeatmap.Beatmap))
+                if (CurrentGroupedBeatmap is not null && value.Equals(CurrentGroupedBeatmap.Beatmap))
                     return;
 
                 // it is not universally guaranteed that the carousel items will be materialised at the time this is set.
@@ -377,7 +377,7 @@ namespace osu.Game.Screens.Select
                         return;
 
                     case GroupedBeatmap groupedBeatmap:
-                        if (CurrentSelection != null && CheckModelEquality(CurrentSelection, groupedBeatmap))
+                        if (CurrentSelection is not null && CheckModelEquality(CurrentSelection, groupedBeatmap))
                         {
                             RequestPresentBeatmap?.Invoke(groupedBeatmap.Beatmap);
                             return;
@@ -464,10 +464,10 @@ namespace osu.Game.Screens.Select
 
         protected override void FindCarouselItemsForSelection(ref Selection keyboardSelection, ref Selection selection, IList<CarouselItem> items)
         {
-            if (keyboardSelection.Model != null && grouping.ItemMap.TryGetValue(keyboardSelection.Model, out var keyboardSelectionItem))
+            if (keyboardSelection.Model is not null && grouping.ItemMap.TryGetValue(keyboardSelection.Model, out var keyboardSelectionItem))
                 keyboardSelection = keyboardSelection with { CarouselItem = keyboardSelectionItem.item, Index = keyboardSelectionItem.index };
 
-            if (selection.Model != null && grouping.ItemMap.TryGetValue(selection.Model, out var selectionItem))
+            if (selection.Model is not null && grouping.ItemMap.TryGetValue(selection.Model, out var selectionItem))
                 selection = selection with { CarouselItem = selectionItem.item, Index = selectionItem.index };
         }
 
@@ -490,16 +490,16 @@ namespace osu.Game.Screens.Select
 
                     // Only change the selection if we actually got a positive hit.
                     // This is necessary so that selection isn't lost if the panel reappears later due to e.g. unapplying some filter criteria that made it disappear in the first place.
-                    if (newSelection != null)
+                    if (newSelection is not null)
                         CurrentSelection = newSelection;
                 }
             }
 
             // Transfer the previous flag states across to the new models.
-            if (ExpandedBeatmapSet != null) setExpandedSet(ExpandedBeatmapSet);
-            if (ExpandedGroup != null) setExpandedGroup(ExpandedGroup);
+            if (ExpandedBeatmapSet is not null) setExpandedSet(ExpandedBeatmapSet);
+            if (ExpandedGroup is not null) setExpandedGroup(ExpandedGroup);
 
-            foreach (var item in Scroll.Panels.OfType<PanelBeatmapSet>().Where(p => p.Item != null))
+            foreach (var item in Scroll.Panels.OfType<PanelBeatmapSet>().Where(p => p.Item is not null))
                 updateVisibleBeatmaps((GroupedBeatmapSet)item.Item!.Model, item);
         }
 
@@ -520,7 +520,7 @@ namespace osu.Game.Screens.Select
         {
             var items = GetCarouselItems();
 
-            if (items == null || items.Count == 0) return;
+            if (items is null || items.Count == 0) return;
 
             BeatmapSetInfo? beatmapSetInfo = null;
 
@@ -530,7 +530,7 @@ namespace osu.Game.Screens.Select
                 {
                     var beatmapInfo = groupedBeatmap.Beatmap;
 
-                    if (beatmapSetInfo == null)
+                    if (beatmapSetInfo is null)
                     {
                         beatmapSetInfo = beatmapInfo.BeatmapSet!;
                         continue;
@@ -548,11 +548,11 @@ namespace osu.Game.Screens.Select
             // as it could change the difficulty that will be selected
             var preexistingSelection = beatmaps.FirstOrDefault(b => b.Equals(CurrentSelection as GroupedBeatmap));
 
-            if (preexistingSelection != null)
+            if (preexistingSelection is not null)
             {
                 // the selection might not have an item associated with it, if it was fully filtered away previously
                 // in this case, request to reselect it
-                if (CurrentSelectionItem == null)
+                if (CurrentSelectionItem is null)
                     RequestSelection(preexistingSelection);
 
                 return;
@@ -583,12 +583,12 @@ namespace osu.Game.Screens.Select
 
         private void setExpandedGroup(GroupDefinition? group)
         {
-            if (ExpandedGroup != null)
+            if (ExpandedGroup is not null)
                 setExpansionStateOfGroup(ExpandedGroup, false);
 
             ExpandedGroup = group;
 
-            if (ExpandedGroup != null)
+            if (ExpandedGroup is not null)
                 setExpansionStateOfGroup(ExpandedGroup, true);
         }
 
@@ -661,7 +661,7 @@ namespace osu.Game.Screens.Select
 
         private void setExpansionStateOfSetItems(GroupedBeatmapSet? set, bool expanded)
         {
-            if (set == null)
+            if (set is null)
                 return;
 
             bool canMakeVisible = !grouping.GroupItems.Any() || ExpandedGroup == set.Group;
@@ -684,14 +684,14 @@ namespace osu.Game.Screens.Select
 
             // if the base implementation returned null, it means that the keyboard selection has been filtered out and is no longer visible
             // attempt a fallback to other possibly expanded panels (set first, then group)
-            if (target == null)
+            if (target is null)
             {
                 CarouselItem? targetItem = null;
 
-                if (ExpandedBeatmapSet != null && grouping.ItemMap.TryGetValue(ExpandedBeatmapSet, out var setItem))
+                if (ExpandedBeatmapSet is not null && grouping.ItemMap.TryGetValue(ExpandedBeatmapSet, out var setItem))
                     targetItem = setItem.item;
 
-                if (targetItem == null && ExpandedGroup != null && grouping.ItemMap.TryGetValue(ExpandedGroup, out var groupItem))
+                if (targetItem is null && ExpandedGroup is not null && grouping.ItemMap.TryGetValue(ExpandedGroup, out var groupItem))
                     targetItem = groupItem.item;
 
                 target = targetItem?.CarouselYPosition;
@@ -801,7 +801,7 @@ namespace osu.Game.Screens.Select
 
         protected override Task<IEnumerable<CarouselItem>> FilterAsync(bool clearExistingPanels = false)
         {
-            if (Criteria == null)
+            if (Criteria is null)
                 return Task.FromResult(Enumerable.Empty<CarouselItem>());
 
             return base.FilterAsync(clearExistingPanels);
@@ -835,7 +835,7 @@ namespace osu.Game.Screens.Select
 
             foreach (var score in allPersonalScores)
             {
-                Debug.Assert(score.BeatmapInfo != null);
+                Debug.Assert(score.BeatmapInfo is not null);
 
                 if (topRankMapping.ContainsKey(score.BeatmapInfo.ID))
                     continue;
@@ -966,7 +966,7 @@ namespace osu.Game.Screens.Select
 
             bool success;
 
-            if (beatmapBefore != null)
+            if (beatmapBefore is not null)
             {
                 // keep track of visited beatmaps and sets for rewind
                 randomHistory.Add(beatmapBefore);
@@ -982,7 +982,7 @@ namespace osu.Game.Screens.Select
 
             if (!success)
             {
-                if (beatmapBefore != null)
+                if (beatmapBefore is not null)
                     randomHistory.RemoveAt(randomHistory.Count - 1);
                 return false;
             }
@@ -991,7 +991,7 @@ namespace osu.Game.Screens.Select
             // We probably want to fix this at some point since a few places are working-around this quirk.
             ScheduleAfterChildren(() =>
             {
-                if (selectionBefore != null && CurrentSelectionItem != null)
+                if (selectionBefore is not null && CurrentSelectionItem is not null)
                     playSpinSample(visiblePanelCountBetweenItems(selectionBefore, CurrentSelectionItem));
             });
 
@@ -1000,7 +1000,7 @@ namespace osu.Game.Screens.Select
 
         private bool nextRandomBeatmap()
         {
-            ICollection<GroupedBeatmap> visibleBeatmaps = ExpandedGroup != null && grouping.GroupItems.TryGetValue(ExpandedGroup, out var groupItems)
+            ICollection<GroupedBeatmap> visibleBeatmaps = ExpandedGroup is not null && grouping.GroupItems.TryGetValue(ExpandedGroup, out var groupItems)
                 // In the case of grouping, users expect random to only operate on the expanded group.
                 // This is going to incur some overhead as we don't have a group-beatmapset mapping currently.
                 //
@@ -1046,7 +1046,7 @@ namespace osu.Game.Screens.Select
 
         private bool nextRandomSet()
         {
-            ICollection<GroupedBeatmapSet> visibleGroupedSets = ExpandedGroup != null && grouping.GroupItems.TryGetValue(ExpandedGroup, out var groupItems)
+            ICollection<GroupedBeatmapSet> visibleGroupedSets = ExpandedGroup is not null && grouping.GroupItems.TryGetValue(ExpandedGroup, out var groupItems)
                 // In the case of grouping, users expect random to only operate on the expanded group.
                 // This is going to incur some overhead as we don't have a group-beatmapset mapping currently.
                 //
@@ -1110,7 +1110,7 @@ namespace osu.Game.Screens.Select
                 var previousBeatmapItem = carouselItems.Where(i => i.Model is GroupedBeatmap gb && gb.Beatmap.Equals(previousBeatmap.Beatmap))
                                                        .MaxBy(i => ((GroupedBeatmap)i.Model).Group == previousBeatmap.Group);
 
-                if (previousBeatmapItem == null)
+                if (previousBeatmapItem is null)
                     return false;
 
                 if (CurrentSelection is GroupedBeatmap groupedBeatmap)
@@ -1118,7 +1118,7 @@ namespace osu.Game.Screens.Select
                     if (randomAlgorithm.Value == RandomSelectAlgorithm.RandomPermutation)
                         previouslyVisitedRandomBeatmaps.Remove(groupedBeatmap.Beatmap);
 
-                    if (CurrentSelectionItem == null)
+                    if (CurrentSelectionItem is null)
                         playSpinSample(0);
                     else
                         playSpinSample(visiblePanelCountBetweenItems(previousBeatmapItem, CurrentSelectionItem));
@@ -1137,7 +1137,7 @@ namespace osu.Game.Screens.Select
         {
             var chan = spinSample?.GetChannel();
 
-            if (chan != null)
+            if (chan is not null)
             {
                 chan.Frequency.Value = 1f + Math.Clamp(distance / 200, 0, 1);
                 chan.Play();

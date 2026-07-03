@@ -17,7 +17,7 @@ namespace osu.Game.Audio
         public static SampleChannel? PlayWithRandomPitch(Sample? sample, double pitchVariation = 0.2f)
         {
             var chan = sample?.GetChannel();
-            if (chan == null)
+            if (chan is null)
                 return null;
 
             chan.Frequency.Value = RNG.NextDouble(1 - pitchVariation, 1 + pitchVariation);

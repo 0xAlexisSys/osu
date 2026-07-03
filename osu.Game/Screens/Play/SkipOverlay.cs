@@ -246,7 +246,7 @@ namespace osu.Game.Screens.Play
             {
                 base.Update();
 
-                if (nextHideTime != null && nextHideTime <= Time.Current)
+                if (nextHideTime is not null && nextHideTime <= Time.Current)
                 {
                     Hide();
                     nextHideTime = null;

@@ -53,7 +53,7 @@ namespace osu.Game.Database
 
                     using (var stream = GetFileContents(model, file))
                     {
-                        if (stream == null)
+                        if (stream is null)
                         {
                             Logger.Log($"File {file.Filename} is missing in local storage and will not be included in the export", LoggingTarget.Database);
                             anyFileMissing = true;

@@ -52,7 +52,7 @@ namespace osu.Game.Rulesets.Edit
             beatmap.HitObjectAdded += hitObjectAdded;
             beatmap.HitObjectRemoved += hitObjectRemoved;
 
-            if (changeHandler != null)
+            if (changeHandler is not null)
             {
                 // for now only regenerate replay on a finalised state change, not HitObjectUpdated.
                 changeHandler.OnStateChange += stateChanged;
@@ -104,7 +104,7 @@ namespace osu.Game.Rulesets.Edit
                 beatmap.HitObjectUpdated -= hitObjectUpdated;
             }
 
-            if (changeHandler != null)
+            if (changeHandler is not null)
                 changeHandler.OnStateChange -= stateChanged;
         }
     }

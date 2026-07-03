@@ -133,7 +133,7 @@ namespace osu.Game.IO
             var lastStorage = UnderlyingStorage;
             base.ChangeTargetStorage(newStorage);
 
-            if (lastStorage != null)
+            if (lastStorage is not null)
             {
                 // for now we assume that if there was a previous storage, this is a migration operation.
                 // the logger shouldn't be set during initialisation as it can cause cross-talk in tests (due to being static).

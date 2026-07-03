@@ -80,7 +80,7 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
 
         protected override void RecreatePieces()
         {
-            if (headPiece != null)
+            if (headPiece is not null)
                 Content.Remove(headPiece, true);
 
             base.RecreatePieces();

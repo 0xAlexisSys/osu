@@ -56,7 +56,7 @@ namespace osu.Game.Graphics.Containers.Markdown.Footnotes
                 t.Text = LocalisableString.Format("[{0}]", FootnoteLink.Index);
             }));
 
-            if (scrollContainer != null)
+            if (scrollContainer is not null)
             {
                 Action = () =>
                 {

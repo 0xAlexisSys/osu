@@ -126,7 +126,7 @@ namespace osu.Game.Rulesets.UI
 
         public virtual void Add(DrawableHitObject drawable)
         {
-            if (drawable.Entry == null)
+            if (drawable.Entry is null)
                 throw new InvalidOperationException($"May not add a {nameof(DrawableHitObject)} without {nameof(HitObject)} associated");
 
             nonPooledDrawableMap.Add(drawable.Entry, drawable);
@@ -136,7 +136,7 @@ namespace osu.Game.Rulesets.UI
 
         public virtual bool Remove(DrawableHitObject drawable)
         {
-            if (drawable.Entry == null)
+            if (drawable.Entry is null)
                 return false;
 
             return Remove(drawable.Entry);

@@ -69,7 +69,7 @@ namespace osu.Game.Rulesets.Edit
 
         public void AttachToToolbox(ExpandingToolboxContainer toolboxContainer)
         {
-            if (toolboxGroup != null)
+            if (toolboxGroup is not null)
                 throw new InvalidOperationException($"{nameof(AttachToToolbox)} may be called only once for a single {nameof(ComposerDistanceSnapProvider)} instance.");
 
             toolboxContainer.Add(toolboxGroup = new EditorToolboxGroup("snapping")
@@ -92,7 +92,7 @@ namespace osu.Game.Rulesets.Edit
                         {
                             (HitObject before, HitObject after)? objects = getObjectsOnEitherSideOfCurrentTime();
 
-                            Debug.Assert(objects != null);
+                            Debug.Assert(objects is not null);
 
                             DistanceSpacingMultiplier.Value = ReadCurrentDistanceSnap(objects.Value.before, objects.Value.after);
                             DistanceSnapToggle.Value = TernaryState.True;
@@ -136,11 +136,11 @@ namespace osu.Game.Rulesets.Edit
                 if (objTime >= editorClock.CurrentTime)
                     continue;
 
-                if (lastBefore == null || objTime > lastBefore.StartTime)
+                if (lastBefore is null || objTime > lastBefore.StartTime)
                     lastBefore = entry.Value.HitObject;
             }
 
-            if (lastBefore == null)
+            if (lastBefore is null)
                 return null;
 
             HitObject? firstAfter = null;
@@ -152,11 +152,11 @@ namespace osu.Game.Rulesets.Edit
                 if (objTime < editorClock.CurrentTime)
                     continue;
 
-                if (firstAfter == null || objTime < firstAfter.StartTime)
+                if (firstAfter is null || objTime < firstAfter.StartTime)
                     firstAfter = entry.Value.HitObject;
             }
 
-            if (firstAfter == null)
+            if (firstAfter is null)
                 return null;
 
             if (lastBefore == firstAfter)
@@ -173,7 +173,7 @@ namespace osu.Game.Rulesets.Edit
 
             (HitObject before, HitObject after)? objects = getObjectsOnEitherSideOfCurrentTime();
 
-            double currentSnap = objects == null
+            double currentSnap = objects is null
                 ? 0
                 : ReadCurrentDistanceSnap(objects.Value.before, objects.Value.after);
 
@@ -216,7 +216,7 @@ namespace osu.Game.Rulesets.Edit
 
             if (!altPressed && distanceSnapMomentary)
             {
-                Debug.Assert(distanceSnapStateBeforeMomentaryToggle != null);
+                Debug.Assert(distanceSnapStateBeforeMomentaryToggle is not null);
                 DistanceSnapToggle.Value = distanceSnapStateBeforeMomentaryToggle.Value;
                 distanceSnapStateBeforeMomentaryToggle = null;
                 distanceSnapMomentary = false;

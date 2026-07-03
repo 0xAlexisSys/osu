@@ -57,7 +57,7 @@ namespace osu.Game.Rulesets.Taiko.Mods
         {
             base.ApplySettings(difficulty);
 
-            if (ScrollSpeed.Value != null) difficulty.SliderMultiplier *= ScrollSpeed.Value.Value;
+            if (ScrollSpeed.Value is not null) difficulty.SliderMultiplier *= ScrollSpeed.Value.Value;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Catch.Beatmaps
             // This is normally enforced by the legacy decoder, but is not enforced by the editor.
             foreach (var obj in Beatmap.HitObjects.OfType<IHasComboInformation>())
             {
-                if (obj is not BananaShower && (lastObj == null || lastObj is BananaShower))
+                if (obj is not BananaShower && (lastObj is null || lastObj is BananaShower))
                     obj.NewCombo = true;
                 lastObj = obj;
             }
@@ -118,7 +118,7 @@ namespace osu.Game.Rulesets.Catch.Beatmaps
             float offsetPosition = hitObject.OriginalX;
             double startTime = hitObject.StartTime;
 
-            if (lastPosition == null ||
+            if (lastPosition is null ||
                 // some objects can get assigned position zero, making stable incorrectly go inside this if branch on the next object. to maintain behaviour and compatibility, do the same here.
                 // reference: https://github.com/peppy/osu-stable-reference/blob/3ea48705eb67172c430371dcfc8a16a002ed0d3d/osu!/GameplayElements/HitObjects/Fruits/HitFactoryFruits.cs#L45-L50
                 // todo: should be revisited and corrected later probably.

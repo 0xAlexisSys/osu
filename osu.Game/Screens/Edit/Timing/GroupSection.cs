@@ -85,7 +85,7 @@ namespace osu.Game.Screens.Edit.Timing
 
             SelectedGroup.BindValueChanged(group =>
             {
-                if (group.NewValue == null)
+                if (group.NewValue is null)
                 {
                     textBox.Current.Value = string.Empty;
 
@@ -104,7 +104,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         private void changeSelectedGroupTime(in double time)
         {
-            if (SelectedGroup.Value == null || time == SelectedGroup.Value.Time)
+            if (SelectedGroup.Value is null || time == SelectedGroup.Value.Time)
                 return;
 
             changeHandler?.BeginChange();

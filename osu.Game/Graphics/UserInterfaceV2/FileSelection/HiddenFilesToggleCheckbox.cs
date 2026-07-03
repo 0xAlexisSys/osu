@@ -31,7 +31,7 @@ namespace osu.Game.Graphics.UserInterfaceV2.FileSelection
         [BackgroundDependencyLoader(true)]
         private void load(OverlayColourProvider? overlayColourProvider, OsuColour colours)
         {
-            if (overlayColourProvider != null)
+            if (overlayColourProvider is not null)
                 return;
 
             Nub.AccentColour = colours.GreySeaFoamLighter;

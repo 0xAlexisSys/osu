@@ -43,14 +43,14 @@ namespace osu.Game.Online.Leaderboards
             if (!ThreadSafety.IsUpdateThread)
                 throw new InvalidOperationException(@$"{nameof(FetchWithCriteria)} must be called from the update thread.");
 
-            if (!forceRefresh && CurrentCriteria?.Equals(newCriteria) == true && scores.Value?.FailState == null)
+            if (!forceRefresh && CurrentCriteria?.Equals(newCriteria) == true && scores.Value?.FailState is null)
                 return;
 
             CurrentCriteria = newCriteria;
             localScoreSubscription?.Dispose();
             scores.Value = null;
 
-            if (newCriteria.Beatmap == null || newCriteria.Ruleset == null)
+            if (newCriteria.Beatmap is null || newCriteria.Ruleset is null)
             {
                 scores.Value = LeaderboardScores.Failure(LeaderboardFailState.NoneSelected);
                 return;
@@ -66,7 +66,7 @@ namespace osu.Game.Online.Leaderboards
 
         private void localScoresChanged(IRealmCollection<ScoreInfo> sender, ChangeSet? changes)
         {
-            Debug.Assert(CurrentCriteria != null);
+            Debug.Assert(CurrentCriteria is not null);
 
             // This subscription may fire from changes to linked beatmaps, which we don't care about.
             // It's currently not possible for a score to be modified after insertion, so we can safely ignore callbacks with only modifications.
@@ -75,7 +75,7 @@ namespace osu.Game.Online.Leaderboards
 
             var newScores = sender.AsEnumerable();
 
-            if (CurrentCriteria.ExactMods != null)
+            if (CurrentCriteria.ExactMods is not null)
             {
                 if (!CurrentCriteria.ExactMods.Any())
                 {
@@ -151,7 +151,7 @@ namespace osu.Game.Online.Leaderboards
                 foreach (var score in TopScores)
                     yield return score;
 
-                if (UserScore != null && TopScores.All(topScore => !topScore.Equals(UserScore)))
+                if (UserScore is not null && TopScores.All(topScore => !topScore.Equals(UserScore)))
                     yield return UserScore;
             }
         }

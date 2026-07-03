@@ -177,7 +177,7 @@ namespace osu.Game.Rulesets.Objects.Legacy
                 result = createHold(pos, endTime + offset - startTime);
             }
 
-            if (result == null)
+            if (result is null)
                 throw new InvalidDataException($"Unknown hit object type: {split[3]}");
 
             result.StartTime = startTime;
@@ -365,7 +365,7 @@ namespace osu.Game.Rulesets.Objects.Legacy
             // Edge-case rules (to match stable).
             if (type == PathType.PERFECT_CURVE)
             {
-                int endPointLength = endPoint == null ? 0 : 1;
+                int endPointLength = endPoint is null ? 0 : 1;
 
                 if (formatVersion < LegacyBeatmapEncoder.FIRST_LAZER_VERSION)
                 {
@@ -611,7 +611,7 @@ namespace osu.Game.Rulesets.Objects.Legacy
             {
                 get
                 {
-                    if (Suffix != null)
+                    if (Suffix is not null)
                         return int.Parse(Suffix);
 
                     return UseBeatmapSamples ? 1 : 0;
@@ -653,7 +653,7 @@ namespace osu.Game.Rulesets.Objects.Legacy
                 bool useBeatmapSamples = newUseBeatmapSamples.GetOr(UseBeatmapSamples);
                 int newCustomSampleBank = 0;
 
-                if (suffix != null)
+                if (suffix is not null)
                     _ = int.TryParse(suffix, out newCustomSampleBank);
 
                 if (newCustomSampleBank == 0 && useBeatmapSamples)

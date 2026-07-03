@@ -31,7 +31,7 @@ namespace osu.Game.Graphics.UserInterface
                 Action = () => Action?.Invoke()
             };
 
-            if (receptor == null)
+            if (receptor is null)
             {
                 // if a receptor wasn't provided, create our own locally.
                 Add(receptor = new ScreenFooter.BackReceptor());

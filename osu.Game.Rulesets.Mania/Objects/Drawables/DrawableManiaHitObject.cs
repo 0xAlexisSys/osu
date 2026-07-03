@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Mania.Objects.Drawables
         {
             get
             {
-                if (playfield == null)
+                if (playfield is null)
                     return base.SamplePlaybackPosition;
 
                 return (float)HitObject.Column / playfield.TotalColumns;
@@ -52,7 +52,7 @@ namespace osu.Game.Rulesets.Mania.Objects.Drawables
         [BackgroundDependencyLoader(true)]
         private void load([CanBeNull] IBindable<ManiaAction> action, [NotNull] IScrollingInfo scrollingInfo)
         {
-            if (action != null)
+            if (action is not null)
                 Action.BindTo(action);
 
             Direction.BindTo(scrollingInfo.Direction);

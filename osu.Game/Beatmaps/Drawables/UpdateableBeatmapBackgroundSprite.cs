@@ -51,7 +51,7 @@ namespace osu.Game.Beatmaps.Drawables
 
         private Drawable getDrawableForModel(IBeatmapInfo? model)
         {
-            if (model == null)
+            if (model is null)
                 return Empty();
 
             if (model is BeatmapInfo localModel)

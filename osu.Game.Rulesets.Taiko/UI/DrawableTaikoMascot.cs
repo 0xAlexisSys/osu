@@ -49,7 +49,7 @@ namespace osu.Game.Rulesets.Taiko.UI
                 animations[TaikoMascotAnimationState.Fail] = new TaikoMascotAnimation(TaikoMascotAnimationState.Fail),
             };
 
-            if (gameplayState != null)
+            if (gameplayState is not null)
                 ((IBindable<JudgementResult>)LastResult).BindTo(gameplayState.LastJudgementResult);
         }
 
@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.Taiko.UI
         private void onNewResult(ValueChangedEvent<JudgementResult?> resultChangedEvent)
         {
             var result = resultChangedEvent.NewValue;
-            if (result == null)
+            if (result is null)
                 return;
 
             // TODO: missing support for clear/fail state transition at end of beatmap gameplay

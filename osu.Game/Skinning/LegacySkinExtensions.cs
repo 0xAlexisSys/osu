@@ -26,7 +26,7 @@ namespace osu.Game.Skinning
         public static Drawable? GetAnimation(this ISkin? source, string componentName, WrapMode wrapModeS, WrapMode wrapModeT, bool animatable, bool looping, bool applyConfigFrameRate = false,
                                              string animationSeparator = "-", bool startAtCurrentTime = true, double? frameLength = null, Vector2? maxSize = null)
         {
-            if (source == null)
+            if (source is null)
                 return null;
 
             var textures = GetTextures(source, componentName, wrapModeS, wrapModeT, animatable, animationSeparator, maxSize, out var retrievalSource);
@@ -40,7 +40,7 @@ namespace osu.Game.Skinning
                     return new Sprite { Texture = textures[0] };
 
                 default:
-                    Debug.Assert(retrievalSource != null);
+                    Debug.Assert(retrievalSource is not null);
 
                     var animation = new SkinnableTextureAnimation(startAtCurrentTime)
                     {
@@ -60,16 +60,16 @@ namespace osu.Game.Skinning
         {
             retrievalSource = null;
 
-            if (source == null)
+            if (source is null)
                 return Array.Empty<Texture>();
 
             // find the first source which provides either the animated or non-animated version.
             retrievalSource = (source as ISkinSource)?.FindProvider(s =>
             {
-                if (animatable && s.GetTexture(getFrameName(0)) != null)
+                if (animatable && s.GetTexture(getFrameName(0)) is not null)
                     return true;
 
-                return s.GetTexture(componentName, wrapModeS, wrapModeT) != null;
+                return s.GetTexture(componentName, wrapModeS, wrapModeT) is not null;
             }) ?? source;
 
             if (animatable)
@@ -83,10 +83,10 @@ namespace osu.Game.Skinning
             // if an animation was not allowed or not found, fall back to a sprite retrieval.
             var singleTexture = retrievalSource.GetTexture(componentName, wrapModeS, wrapModeT);
 
-            if (singleTexture != null && maxSize != null)
+            if (singleTexture is not null && maxSize is not null)
                 singleTexture = singleTexture.WithMaximumSize(maxSize.Value);
 
-            return singleTexture != null
+            return singleTexture is not null
                 ? new[] { singleTexture }
                 : Array.Empty<Texture>();
 
@@ -96,10 +96,10 @@ namespace osu.Game.Skinning
                 {
                     var texture = skin.GetTexture(getFrameName(i), wrapModeS, wrapModeT);
 
-                    if (texture == null)
+                    if (texture is null)
                         break;
 
-                    if (maxSize != null)
+                    if (maxSize is not null)
                         texture = texture.WithMaximumSize(maxSize.Value);
 
                     yield return texture;
@@ -134,7 +134,7 @@ namespace osu.Game.Skinning
 
         public static bool HasFont(this ISkin source, LegacyFont font)
         {
-            return source.GetTexture($"{source.GetFontPrefix(font)}-0") != null;
+            return source.GetTexture($"{source.GetFontPrefix(font)}-0") is not null;
         }
 
         public static string GetFontPrefix(this ISkin source, LegacyFont font)
@@ -200,7 +200,7 @@ namespace osu.Game.Skinning
             {
                 base.LoadComplete();
 
-                if (timeReference != null)
+                if (timeReference is not null)
                 {
                     Clock = timeReference.Clock;
                     animationStartTime.BindTo(timeReference.AnimationStartTime);
@@ -211,7 +211,7 @@ namespace osu.Game.Skinning
 
             private void updatePlaybackPosition()
             {
-                if (timeReference == null)
+                if (timeReference is null)
                     return;
 
                 PlaybackPosition = timeReference.Clock.CurrentTime - timeReference.AnimationStartTime.Value;

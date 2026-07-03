@@ -47,7 +47,7 @@ namespace osu.Game.Screens.Select
 
         private readonly UpdateableRank updateable;
 
-        public bool HasRank => updateable.Rank != null;
+        public bool HasRank => updateable.Rank is not null;
 
         public PanelLocalRankDisplay(BeatmapInfo? beatmap = null)
         {
@@ -74,7 +74,7 @@ namespace osu.Game.Screens.Select
             scoreSubscription?.Dispose();
             setRankFromScore(null);
 
-            if (beatmap == null)
+            if (beatmap is null)
                 return;
 
             scoreSubscription = realm.RegisterForNotifications(r => r.All<ScoreInfo>().Where(s => s.BeatmapHash == beatmap.Hash && !s.DeletePending), localScoresChanged);
@@ -98,7 +98,7 @@ namespace osu.Game.Screens.Select
         private void setRankFromScore(ScoreInfo? topScore)
         {
             updateable.Rank = topScore?.Rank;
-            updateable.Alpha = topScore != null ? 1 : 0;
+            updateable.Alpha = topScore is not null ? 1 : 0;
         }
 
         protected override void Dispose(bool isDisposing)

@@ -85,7 +85,7 @@ namespace osu.Game.Graphics.UserInterface
         {
             base.State.BindValueChanged(state =>
             {
-                if (state.NewValue == null)
+                if (state.NewValue is null)
                     base.State.Value = default(T);
 
                 State.Value = (T)base.State.Value;

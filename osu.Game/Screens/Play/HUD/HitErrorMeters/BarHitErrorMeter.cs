@@ -204,7 +204,7 @@ namespace osu.Game.Screens.Play.HUD.HitErrorMeters
 
         private void recreateCentreMarker(CentreMarkerStyles style)
         {
-            if (centreMarkerDrawables != null)
+            if (centreMarkerDrawables is not null)
             {
                 foreach (var d in centreMarkerDrawables)
                 {
@@ -276,7 +276,7 @@ namespace osu.Game.Screens.Play.HUD.HitErrorMeters
                     throw new ArgumentOutOfRangeException(nameof(style), style, null);
             }
 
-            if (centreMarkerDrawables != null)
+            if (centreMarkerDrawables is not null)
             {
                 foreach (var d in centreMarkerDrawables)
                 {
@@ -412,7 +412,7 @@ namespace osu.Game.Screens.Play.HUD.HitErrorMeters
                 // check with a bit of lenience to avoid precision error in comparison.
                 var old = judgementsContainer.FirstOrDefault(j => j.LifetimeEnd > Clock.CurrentTime + quick_fade_time * 1.1);
 
-                if (old != null)
+                if (old is not null)
                 {
                     old.ClearTransforms();
                     old.FadeOut(quick_fade_time).Expire();

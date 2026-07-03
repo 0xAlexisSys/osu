@@ -84,7 +84,7 @@ namespace osu.Game.Utils
                 }
             }
 
-            return invalidMods == null;
+            return invalidMods is null;
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace osu.Game.Utils
                 }
             }
 
-            return invalidMods == null;
+            return invalidMods is null;
         }
 
         /// <summary>

@@ -71,7 +71,7 @@ namespace osu.Game.Beatmaps.Timing
         public bool Intersects(BreakPeriod other) => StartTime <= other.EndTime && EndTime >= other.StartTime;
 
         public virtual bool Equals(BreakPeriod? other) =>
-            other != null
+            other is not null
             && StartTime == other.StartTime
             && EndTime == other.EndTime;
 

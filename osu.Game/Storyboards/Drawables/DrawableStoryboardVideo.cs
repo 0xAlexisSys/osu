@@ -44,7 +44,7 @@ namespace osu.Game.Storyboards.Drawables
         {
             var stream = textureStore.GetStream(Video.Path);
 
-            if (stream == null)
+            if (stream is null)
                 return;
 
             InternalChild = drawableVideo = new DrawableVideo(stream, false)
@@ -63,7 +63,7 @@ namespace osu.Game.Storyboards.Drawables
         {
             base.LoadComplete();
 
-            if (drawableVideo == null) return;
+            if (drawableVideo is null) return;
 
             using (drawableVideo.BeginAbsoluteSequence(Video.StartTime))
             {

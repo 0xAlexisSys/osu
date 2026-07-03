@@ -130,7 +130,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)
         {
-            Debug.Assert(HitObject.HitWindows != null);
+            Debug.Assert(HitObject.HitWindows is not null);
 
             if (!userTriggered)
             {
@@ -202,7 +202,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         protected override void UpdateHitStateTransforms(ArmedState state)
         {
-            Debug.Assert(HitObject.HitWindows != null);
+            Debug.Assert(HitObject.HitWindows is not null);
 
             // todo: temporary / arbitrary, used for lifetime optimisation.
             this.Delay(800).FadeOut();

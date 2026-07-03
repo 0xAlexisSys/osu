@@ -154,7 +154,7 @@ namespace osu.Game.Overlays
             headerText.Alpha = (float)Interpolation.DampContinuously(headerText.Alpha, headerText.DrawWidth < DrawWidth ? 1 : 0, 40, Time.Elapsed);
 
             // Dragged child finished its drag operation.
-            bool childDragFinished = draggedChild != null && inputManager.DraggedDrawable != draggedChild;
+            bool childDragFinished = draggedChild is not null && inputManager.DraggedDrawable != draggedChild;
 
             if (childDragFinished)
                 draggedChild = null;
@@ -179,7 +179,7 @@ namespace osu.Game.Overlays
             // potentially continuing to get processed while content has changed to autosize.
             content.ClearTransforms();
 
-            if (Expanded.Value || mouseInBounds || draggedChild != null)
+            if (Expanded.Value || mouseInBounds || draggedChild is not null)
             {
                 content.AutoSizeAxes = Axes.Y;
                 content.AutoSizeDuration = animate ? transition_duration : 0;

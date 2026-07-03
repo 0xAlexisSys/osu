@@ -59,7 +59,7 @@ namespace osu.Game.Screens.Select
 
                 Action = () =>
                 {
-                    if (Beatmap.Value != null)
+                    if (Beatmap.Value is not null)
                         songSelect?.ScopeToBeatmapSet(Beatmap.Value.BeatmapSet!);
                 };
             }
@@ -127,7 +127,7 @@ namespace osu.Game.Screens.Select
                     }
                 });
 
-                if (songSelect != null)
+                if (songSelect is not null)
                     scopedBeatmapSet.BindTo(songSelect.ScopedBeatmapSet);
 
                 configManager.BindWith(OsuSetting.ShowConvertedBeatmaps, showConvertedBeatmaps);
@@ -149,7 +149,7 @@ namespace osu.Game.Screens.Select
 
             private void updateBeatmap()
             {
-                if (Beatmap.Value == null || scopedBeatmapSet.Value != null)
+                if (Beatmap.Value is null || scopedBeatmapSet.Value is not null)
                 {
                     this.FadeOut(transition_duration, Easing.OutQuint);
                     return;

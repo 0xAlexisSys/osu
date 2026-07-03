@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets.Taiko.UI
         [BackgroundDependencyLoader]
         private void load(TaikoInputManager taikoInputManager, TaikoRulesetConfigManager config)
         {
-            Debug.Assert(taikoInputManager.KeyBindingContainer != null);
+            Debug.Assert(taikoInputManager.KeyBindingContainer is not null);
 
             keyBindingContainer = taikoInputManager.KeyBindingContainer;
 

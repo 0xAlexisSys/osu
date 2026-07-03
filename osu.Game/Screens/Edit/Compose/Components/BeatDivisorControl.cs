@@ -179,7 +179,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
             cycleOnce();
 
-            if (lastCustomDivisor == null && currentType == BeatDivisorType.Custom)
+            if (lastCustomDivisor is null && currentType == BeatDivisorType.Custom)
                 cycleOnce();
 
             switch (currentType)
@@ -193,7 +193,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                     break;
 
                 case BeatDivisorType.Custom:
-                    Debug.Assert(lastCustomDivisor != null);
+                    Debug.Assert(lastCustomDivisor is not null);
                     beatDivisor.SetArbitraryDivisor(lastCustomDivisor.Value);
                     break;
             }

@@ -107,7 +107,7 @@ namespace osu.Game.Beatmaps
 
         #region Track
 
-        public virtual bool TrackLoaded => track != null;
+        public virtual bool TrackLoaded => track is not null;
 
         public Track LoadTrack()
         {
@@ -274,7 +274,7 @@ namespace osu.Game.Beatmaps
         {
             var rulesetInstance = ruleset.CreateInstance();
 
-            if (rulesetInstance == null)
+            if (rulesetInstance is null)
                 throw new RulesetLoadException("Creating ruleset instance failed when attempting to create playable beatmap.");
 
             IBeatmapConverter converter = CreateBeatmapConverter(Beatmap, rulesetInstance);
@@ -312,7 +312,7 @@ namespace osu.Game.Beatmaps
 
             var processor = rulesetInstance.CreateBeatmapProcessor(converted);
 
-            if (processor != null)
+            if (processor is not null)
             {
                 foreach (var mod in mods.OfType<IApplicableToBeatmapProcessor>())
                     mod.ApplyToBeatmapProcessor(processor);

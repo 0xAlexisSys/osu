@@ -73,7 +73,7 @@ namespace osu.Game.Screens.Menu
         /// The size of the logo Sprite with respect to the scale of its hover and bounce containers.
         /// </summary>
         /// <remarks>Does not account for the scale of this <see cref="OsuLogo"/></remarks>
-        public float SizeForFlow => logo == null ? 0 : logo.DrawSize.X * logo.Scale.X * logoBounceContainer.Scale.X * logoHoverContainer.Scale.X;
+        public float SizeForFlow => logo is null ? 0 : logo.DrawSize.X * logo.Scale.X * logoBounceContainer.Scale.X * logoHoverContainer.Scale.X;
 
         public bool IsTracking { get; set; }
 
@@ -300,7 +300,7 @@ namespace osu.Game.Screens.Menu
 
             if (beatIndex < 0) return;
 
-            if (Action != null && IsHovered)
+            if (Action is not null && IsHovered)
             {
                 this.Delay(early_activation).Schedule(() =>
                 {
@@ -415,7 +415,7 @@ namespace osu.Game.Screens.Menu
 
         protected override bool OnHover(HoverEvent e)
         {
-            if (Action != null)
+            if (Action is not null)
                 logoHoverContainer.ScaleTo(1.1f, 500, Easing.OutElastic);
 
             return true;
@@ -461,10 +461,10 @@ namespace osu.Game.Screens.Menu
 
         public IDisposable ProxyToContainer(Container c)
         {
-            if (currentProxyTarget != null)
+            if (currentProxyTarget is not null)
                 throw new InvalidOperationException("Previous proxy usage was not returned");
 
-            if (defaultProxyTarget == null)
+            if (defaultProxyTarget is null)
                 throw new InvalidOperationException($"{nameof(SetupDefaultContainer)} must be called first");
 
             currentProxyTarget = c;
@@ -476,8 +476,8 @@ namespace osu.Game.Screens.Menu
 
             void returnProxy()
             {
-                Debug.Assert(currentProxyTarget != null);
-                Debug.Assert(defaultProxyTarget != null);
+                Debug.Assert(currentProxyTarget is not null);
+                Debug.Assert(defaultProxyTarget is not null);
 
                 currentProxyTarget.Remove(proxy, false);
                 currentProxyTarget = null;

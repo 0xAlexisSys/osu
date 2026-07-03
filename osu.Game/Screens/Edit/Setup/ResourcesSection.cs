@@ -101,7 +101,7 @@ namespace osu.Game.Screens.Edit.Setup
                     SampleRemoveRequested = filename =>
                     {
                         var file = currentWorkingBeatmap.Value.BeatmapSetInfo.GetFile(filename);
-                        if (file != null)
+                        if (file is not null)
                             beatmaps.DeleteFile(currentWorkingBeatmap.Value.BeatmapSetInfo, file);
                     }
                 },
@@ -140,7 +140,7 @@ namespace osu.Game.Screens.Edit.Setup
 
         public bool ChangeVideo(FileInfo? source, bool applyToAllDifficulties)
         {
-            if (source != null && !source.Exists)
+            if (source is not null && !source.Exists)
                 return false;
 
             changeResource(source, applyToAllDifficulties, @"video",
@@ -149,7 +149,7 @@ namespace osu.Game.Screens.Edit.Setup
                 {
                     var videoLayer = working.Storyboard.GetLayer(@"Video");
                     videoLayer.Elements.RemoveAll(elem => elem is StoryboardVideo);
-                    if (name != null)
+                    if (name is not null)
                         videoLayer.Elements.Insert(0, new StoryboardVideo(StoryboardElementSource.Beatmap, name, 0));
                 });
 
@@ -230,7 +230,7 @@ namespace osu.Game.Screens.Edit.Setup
             {
                 RealmNamedFileUsage? oldFile = set.GetFile(readOldFilenameFrom(currentWorkingBeatmap.Value));
 
-                if (oldFile != null)
+                if (oldFile is not null)
                 {
                     bool oldFileUsedInOtherDiff = false;
 
@@ -252,12 +252,12 @@ namespace osu.Game.Screens.Edit.Setup
 
             string? newFilename = null;
 
-            if (source != null)
+            if (source is not null)
             {
                 // Choose a new filename that doesn't clash with any other existing files.
                 newFilename = $"{baseFilename}{source.Extension}";
 
-                if (set.GetFile(newFilename) != null)
+                if (set.GetFile(newFilename) is not null)
                 {
                     string[] existingFilenames = set.Files.Select(f => f.Filename).Where(f =>
                         f.StartsWith(baseFilename, StringComparison.OrdinalIgnoreCase) &&
@@ -306,7 +306,7 @@ namespace osu.Game.Screens.Edit.Setup
             if (rollingBackBackgroundChange)
                 return;
 
-            if (file.NewValue == null || !ChangeBackgroundImage(file.NewValue, backgroundChooser.ApplyToAllDifficulties.Value))
+            if (file.NewValue is null || !ChangeBackgroundImage(file.NewValue, backgroundChooser.ApplyToAllDifficulties.Value))
             {
                 rollingBackBackgroundChange = true;
                 backgroundChooser.Current.Value = file.OldValue;
@@ -332,7 +332,7 @@ namespace osu.Game.Screens.Edit.Setup
             if (rollingBackAudioChange)
                 return;
 
-            if (file.NewValue == null || !ChangeAudioTrack(file.NewValue, audioTrackChooser.ApplyToAllDifficulties.Value))
+            if (file.NewValue is null || !ChangeAudioTrack(file.NewValue, audioTrackChooser.ApplyToAllDifficulties.Value))
             {
                 rollingBackAudioChange = true;
                 audioTrackChooser.Current.Value = file.OldValue;

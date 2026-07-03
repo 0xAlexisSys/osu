@@ -70,7 +70,7 @@ namespace osu.Game.Overlays
                 throw new InvalidOperationException($"{nameof(configManager)} is already registered.");
 
             var trackedSettings = configManager.CreateTrackedSettings();
-            if (trackedSettings == null)
+            if (trackedSettings is null)
                 return new InvokeOnDisposal(() => { });
 
             configManager.LoadInto(trackedSettings);
@@ -103,7 +103,7 @@ namespace osu.Game.Overlays
         protected virtual void DisplayTemporarily(Drawable toDisplay)
         {
             // avoid starting a new fade-in if one is already active.
-            if (fadeIn == null)
+            if (fadeIn is null)
             {
                 fadeIn = toDisplay.Animate(
                     b => b.FadeIn(500, Easing.OutQuint),

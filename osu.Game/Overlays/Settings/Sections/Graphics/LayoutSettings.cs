@@ -92,7 +92,7 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
 
             windowedResolution.Value = sizeWindowed.Value;
 
-            if (window != null)
+            if (window is not null)
             {
                 currentDisplay.BindTo(window.CurrentDisplayBindable);
                 window.DisplaysChanged += onDisplaysChanged;
@@ -253,7 +253,7 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
 
             currentDisplay.BindValueChanged(display => Schedule(() =>
             {
-                if (display.NewValue == null)
+                if (display.NewValue is null)
                 {
                     resolutionsFullscreen.Clear();
                     resolutionsWindowed.Clear();
@@ -438,7 +438,7 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
 
         protected override void Dispose(bool isDisposing)
         {
-            if (window != null)
+            if (window is not null)
                 window.DisplaysChanged -= onDisplaysChanged;
 
             base.Dispose(isDisposing);

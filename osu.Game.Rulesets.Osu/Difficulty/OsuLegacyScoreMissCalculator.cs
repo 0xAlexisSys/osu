@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty
 
         public double Calculate()
         {
-            if (attributes.MaxCombo == 0 || score.LegacyTotalScore == null)
+            if (attributes.MaxCombo == 0 || score.LegacyTotalScore is null)
                 return 0;
 
             double scoreV1Multiplier = attributes.LegacyScoreBaseMultiplier * getLegacyScoreMultiplier();

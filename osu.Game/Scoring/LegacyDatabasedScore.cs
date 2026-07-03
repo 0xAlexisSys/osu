@@ -21,12 +21,12 @@ namespace osu.Game.Scoring
 
             string replayFilename = score.Files.FirstOrDefault(f => f.Filename.EndsWith(".osr", StringComparison.InvariantCultureIgnoreCase))?.File.GetStoragePath();
 
-            if (replayFilename == null)
+            if (replayFilename is null)
                 return;
 
             using (var stream = store.GetStream(replayFilename))
             {
-                if (stream == null)
+                if (stream is null)
                     return;
 
                 Replay = new DatabasedLegacyScoreDecoder(rulesets, beatmaps).Parse(stream).Replay;

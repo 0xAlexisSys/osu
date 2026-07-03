@@ -194,7 +194,7 @@ namespace osu.Game.Screens.Select
             // Then try a prefix match.
             string? prefixMatch = Enum.GetNames(typeof(TEnum)).FirstOrDefault(name => name.StartsWith(value, true, CultureInfo.InvariantCulture));
 
-            if (prefixMatch == null)
+            if (prefixMatch is null)
                 return false;
 
             return Enum.TryParse(prefixMatch, true, out result);
@@ -515,7 +515,7 @@ namespace osu.Game.Screens.Select
             match ??= tryMatchRegex(val, @"^((?<hours>\d+(\.\d+)?)h)?((?<minutes>\d+(\.\d+)?)m)?((?<seconds>\d+(\.\d+)?)s)?$");
             match ??= tryMatchRegex(val, @"^(?<seconds>\d+(\.\d+)?)$");
 
-            if (match == null)
+            if (match is null)
                 return false;
 
             if (match["seconds"].Success)
@@ -592,7 +592,7 @@ namespace osu.Game.Screens.Select
             match ??= tryMatchRegex(val, @"^((?<years>\d+)y)?((?<months>\d+)M)?((?<days>\d+(\.\d+)?)d)?((?<hours>\d+(\.\d+)?)h)?((?<minutes>\d+(\.\d+)?)m)?((?<seconds>\d+(\.\d+)?)s)?$");
             match ??= tryMatchRegex(val, @"^(?<days>\d+(\.\d+)?)$");
 
-            if (match == null)
+            if (match is null)
                 return false;
 
             DateTimeOffset? dateTimeOffset = null;
@@ -672,7 +672,7 @@ namespace osu.Game.Screens.Select
         {
             GroupCollection? match = tryMatchRegex(val, @"^(?<year>\d+)([-/.](?<month>\d+)([-/.](?<day>\d+))?)?$");
 
-            if (match == null)
+            if (match is null)
                 return false;
 
             int? year = null;
@@ -708,7 +708,7 @@ namespace osu.Game.Screens.Select
                 }
             }
 
-            if (year == null)
+            if (year is null)
             {
                 return false;
             }
@@ -728,7 +728,7 @@ namespace osu.Game.Screens.Select
                         return tryUpdateCriteriaRange(ref dateRange, op, dateTimeOffset);
 
                     case Operator.LessOrEqual:
-                        if (month == null)
+                        if (month is null)
                         {
                             month = 1;
                             day = 1;
@@ -736,7 +736,7 @@ namespace osu.Game.Screens.Select
                             return tryUpdateCriteriaRange(ref dateRange, Operator.Less, dateTimeOffset);
                         }
 
-                        if (day == null)
+                        if (day is null)
                         {
                             day = 1;
                             dateTimeOffset = dateTimeOffsetFromDateOnly(year.Value, month.Value, day.Value).AddMonths(1);
@@ -754,7 +754,7 @@ namespace osu.Game.Screens.Select
                         return tryUpdateCriteriaRange(ref dateRange, op, dateTimeOffset);
 
                     case Operator.Greater:
-                        if (month == null)
+                        if (month is null)
                         {
                             month = 1;
                             day = 1;
@@ -762,7 +762,7 @@ namespace osu.Game.Screens.Select
                             return tryUpdateCriteriaRange(ref dateRange, Operator.GreaterOrEqual, dateTimeOffset);
                         }
 
-                        if (day == null)
+                        if (day is null)
                         {
                             day = 1;
                             dateTimeOffset = dateTimeOffsetFromDateOnly(year.Value, month.Value, day.Value).AddMonths(1);
@@ -782,7 +782,7 @@ namespace osu.Game.Screens.Select
                         DateTimeOffset minDateTimeOffset;
                         DateTimeOffset maxDateTimeOffset;
 
-                        if (month == null)
+                        if (month is null)
                         {
                             month = 1;
                             day = 1;
@@ -792,7 +792,7 @@ namespace osu.Game.Screens.Select
                                    && tryUpdateCriteriaRange(ref dateRange, Operator.Less, maxDateTimeOffset);
                         }
 
-                        if (day == null)
+                        if (day is null)
                         {
                             day = 1;
                             minDateTimeOffset = dateTimeOffsetFromDateOnly(year.Value, month.Value, day.Value);

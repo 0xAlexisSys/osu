@@ -105,7 +105,7 @@ namespace osu.Game.Screens.Select
 
             private void updateState()
             {
-                if (ScopedBeatmapSet.Value != null)
+                if (ScopedBeatmapSet.Value is not null)
                 {
                     this.TransformTo(nameof(Margin), new MarginPadding { Top = 5 }, transition_duration, Easing.OutQuint);
                     content.BypassAutoSizeAxes = Axes.None;
@@ -125,7 +125,7 @@ namespace osu.Game.Screens.Select
 
             public bool OnPressed(KeyBindingPressEvent<GlobalAction> e)
             {
-                if (ScopedBeatmapSet.Value != null && e.Action == GlobalAction.Back && !e.Repeat)
+                if (ScopedBeatmapSet.Value is not null && e.Action == GlobalAction.Back && !e.Repeat)
                 {
                     TriggerClick();
                     return true;

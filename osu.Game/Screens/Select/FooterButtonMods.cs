@@ -182,7 +182,7 @@ namespace osu.Game.Screens.Select
 
                 updateDisplay();
 
-                if (m.NewValue != null)
+                if (m.NewValue is not null)
                 {
                     modSettingChangeTracker = new ModSettingChangeTracker(m.NewValue);
                     modSettingChangeTracker.SettingChanged += _ => updateDisplay();
@@ -306,7 +306,7 @@ namespace osu.Game.Screens.Select
 
             private void updateText()
             {
-                if (CustomText != null)
+                if (CustomText is not null)
                     text.Text = CustomText.Value;
                 else
                     text.Text = ModSelectOverlayStrings.Mods(Mods.Value.Count).ToUpper();

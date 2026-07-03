@@ -61,7 +61,7 @@ namespace osu.Game.Rulesets.UI
         {
             HitObject? nextObject = GetMostValidObject();
 
-            if (nextObject == null)
+            if (nextObject is null)
                 return;
 
             var samples = nextObject.Samples
@@ -99,7 +99,7 @@ namespace osu.Game.Rulesets.UI
 
         protected HitObject? GetMostValidObject()
         {
-            if (mostValidObject == null || isAlreadyHit(mostValidObject))
+            if (mostValidObject is null || isAlreadyHit(mostValidObject))
             {
                 // We need to use lifetime entries to find the next object (we can't just use `hitObjectContainer.Objects` due to pooling - it may even be empty).
                 // If required, we can make this lookup more efficient by adding support to get next-future-entry in LifetimeEntryManager.
@@ -109,7 +109,7 @@ namespace osu.Game.Rulesets.UI
                     ?? hitObjectContainer.Entries.Where(e => !isAlreadyHit(e)).MinBy(e => e.HitObject.StartTime);
 
                 // In the case there are no non-judged objects, the last hit object should be used instead.
-                if (candidate == null)
+                if (candidate is null)
                 {
                     mostValidObject = hitObjectContainer.Entries.LastOrDefault();
                 }
@@ -126,7 +126,7 @@ namespace osu.Game.Rulesets.UI
                 }
             }
 
-            if (mostValidObject == null)
+            if (mostValidObject is null)
                 return null;
 
             // If the fallback has been judged then we want the sample from the object itself.

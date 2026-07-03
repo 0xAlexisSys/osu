@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.Osu.UI
 
             var drawableOsuRuleset = (DrawableOsuRuleset?)drawableRuleset;
 
-            if (drawableOsuRuleset != null)
+            if (drawableOsuRuleset is not null)
             {
                 var osuPlayfield = drawableOsuRuleset.Playfield;
                 osuPlayfield.AttachResumeOverlayInputBlocker(inputBlocker = new OsuResumeOverlayInputBlocker());
@@ -55,7 +55,7 @@ namespace osu.Game.Rulesets.Osu.UI
                         // we cannot do this from OsuClickToResumeCursor directly since we're in a different input manager tree than the gameplay one,
                         // so we rely on a dedicated input blocking component that's implanted in there to do that for us.
                         // note this only matters when the user didn't pause while they were holding the same key that they are resuming with.
-                        if (inputBlocker != null && !drawableOsuRuleset.AsNonNull().KeyBindingInputManager.PressedActions.Contains(action))
+                        if (inputBlocker is not null && !drawableOsuRuleset.AsNonNull().KeyBindingInputManager.PressedActions.Contains(action))
                             inputBlocker.BlockNextPress = true;
 
                         Resume();
@@ -79,7 +79,7 @@ namespace osu.Game.Rulesets.Osu.UI
             cursorScaleContainer.Position = ToLocalSpace(GameplayCursor.ActiveCursor.ScreenSpaceDrawQuad.Centre);
             clickToResumeCursor.Appear();
 
-            if (localCursorContainer == null)
+            if (localCursorContainer is null)
                 Add(localCursorContainer = new OsuCursorContainer());
         }
 

@@ -15,7 +15,7 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
     {
         public override bool IsProvidingLegacyResources => base.IsProvidingLegacyResources || hasPear;
 
-        private bool hasPear => GetTexture("fruit-pear") != null;
+        private bool hasPear => GetTexture("fruit-pear") is not null;
 
         /// <summary>
         /// For simplicity, let's use legacy combo font texture existence as a way to identify legacy skins from default.
@@ -33,7 +33,7 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
             {
                 case GlobalSkinnableContainerLookup containerLookup:
                     // Only handle per ruleset defaults here.
-                    if (containerLookup.Ruleset == null)
+                    if (containerLookup.Ruleset is null)
                         return base.GetDrawableComponent(lookup);
 
                     // we don't have enough assets to display these components (this is especially the case on a "beatmap" skin).
@@ -50,7 +50,7 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
                                 var keyCounter = container.OfType<LegacyKeyCounterDisplay>().FirstOrDefault();
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
-                                if (keyCounter != null)
+                                if (keyCounter is not null)
                                 {
                                     // set the anchor to top right so that it won't squash to the return button to the top
                                     keyCounter.Anchor = Anchor.CentreRight;
@@ -58,7 +58,7 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
                                     keyCounter.Position = new Vector2(0, -40) * 1.6f;
                                 }
 
-                                if (leaderboard != null)
+                                if (leaderboard is not null)
                                 {
                                     leaderboard.Anchor = Anchor.CentreLeft;
                                     leaderboard.Origin = Anchor.CentreLeft;
@@ -89,13 +89,13 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
                             return null;
 
                         case CatchSkinComponents.Banana:
-                            if (GetTexture("fruit-bananas") != null)
+                            if (GetTexture("fruit-bananas") is not null)
                                 return new LegacyBananaPiece();
 
                             return null;
 
                         case CatchSkinComponents.Droplet:
-                            if (GetTexture("fruit-drop") != null)
+                            if (GetTexture("fruit-drop") is not null)
                                 return new LegacyDropletPiece();
 
                             return null;
@@ -135,12 +135,12 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
         }
 
         private bool hasOldStyleCatcherSprite() =>
-            GetTexture(@"fruit-ryuuta") != null
-            || GetTexture(@"fruit-ryuuta-0") != null;
+            GetTexture(@"fruit-ryuuta") is not null
+            || GetTexture(@"fruit-ryuuta-0") is not null;
 
         private bool hasNewStyleCatcherSprite() =>
-            GetTexture(@"fruit-catcher-idle") != null
-            || GetTexture(@"fruit-catcher-idle-0") != null;
+            GetTexture(@"fruit-catcher-idle") is not null
+            || GetTexture(@"fruit-catcher-idle-0") is not null;
 
         public override IBindable<TValue>? GetConfig<TLookup, TValue>(TLookup lookup)
         {
@@ -148,7 +148,7 @@ namespace osu.Game.Rulesets.Catch.Skinning.Legacy
             {
                 case CatchSkinColour colour:
                     var result = (Bindable<Color4>?)base.GetConfig<SkinCustomColourLookup, TValue>(new SkinCustomColourLookup(colour));
-                    if (result == null)
+                    if (result is null)
                         return null;
 
                     result.Value = LegacyColourCompatibility.DisallowZeroAlpha(result.Value);

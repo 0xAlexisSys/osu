@@ -72,7 +72,7 @@ namespace osu.Game
             // find closest valid target
             IScreen current = getCurrentScreen();
 
-            if (current == null)
+            if (current is null)
                 return;
 
             // a dialog may be blocking the execution for now.
@@ -99,14 +99,14 @@ namespace osu.Game
                 return true;
             }
 
-            while (current != null)
+            while (current is not null)
             {
                 // if this has a sub stack, recursively check the screens within it.
                 if (current is IHasSubScreenStack currentSubScreen)
                 {
                     var nestedCurrent = currentSubScreen.SubScreenStack.CurrentScreen;
 
-                    if (nestedCurrent != null)
+                    if (nestedCurrent is not null)
                     {
                         // should be correct in theory, but currently untested/unused in existing implementations.
                         // note that calling findValidTarget actually performs the final operation.
@@ -141,7 +141,7 @@ namespace osu.Game
             {
                 var nestedCurrent = currentWithSubScreenStack.SubScreenStack.CurrentScreen;
 
-                if (nestedCurrent == null)
+                if (nestedCurrent is null)
                     break;
 
                 current = nestedCurrent;
@@ -149,7 +149,7 @@ namespace osu.Game
 
             var currentDialog = dialogOverlay.CurrentDialog;
 
-            if (lastEncounteredDialog != null)
+            if (lastEncounteredDialog is not null)
             {
                 if (lastEncounteredDialog == currentDialog)
                     // still waiting on user interaction
@@ -174,7 +174,7 @@ namespace osu.Game
                 return true;
             }
 
-            if (currentDialog == null)
+            if (currentDialog is null)
                 return false;
 
             // a new dialog was encountered.

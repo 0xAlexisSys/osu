@@ -95,7 +95,7 @@ namespace osu.Game.Overlays
 
             beatmap.BindValueChanged(b =>
             {
-                if (b.NewValue != null)
+                if (b.NewValue is not null)
                     changeBeatmap(b.NewValue);
             }, true);
             mods.BindValueChanged(_ => ResetTrackAdjustments(), true);
@@ -106,7 +106,7 @@ namespace osu.Game.Overlays
         /// </summary>
         public void ReloadCurrentTrack()
         {
-            if (current == null)
+            if (current is null)
                 return;
 
             changeTrack();
@@ -263,7 +263,7 @@ namespace osu.Game.Overlays
                               ?? getBeatmapSets(allowProtectedTracks).LastOrDefault();
             }
 
-            if (playableSet != null)
+            if (playableSet is not null)
             {
                 changeBeatmap(beatmaps.GetWorkingBeatmap(playableSet.Value.Beatmaps.First()));
                 restartTrack();
@@ -361,7 +361,7 @@ namespace osu.Game.Overlays
 
             var playableBeatmap = playableSet?.Value.Beatmaps.FirstOrDefault();
 
-            if (playableBeatmap != null)
+            if (playableBeatmap is not null)
             {
                 changeBeatmap(beatmaps.GetWorkingBeatmap(playableBeatmap));
                 restartTrack();
@@ -388,15 +388,15 @@ namespace osu.Game.Overlays
             // now that we actually know there is a choice, do not allow the current track to be played again.
             possibleSets.RemoveAll(s => s.Value.Equals(current?.BeatmapSetInfo));
 
-            if (currentRandomHistoryPosition != null)
+            if (currentRandomHistoryPosition is not null)
             {
-                if (direction < 0 && currentRandomHistoryPosition.Previous != null)
+                if (direction < 0 && currentRandomHistoryPosition.Previous is not null)
                 {
                     currentRandomHistoryPosition = currentRandomHistoryPosition.Previous;
                     return currentRandomHistoryPosition.Value;
                 }
 
-                if (direction > 0 && currentRandomHistoryPosition.Next != null)
+                if (direction > 0 && currentRandomHistoryPosition.Next is not null)
                 {
                     currentRandomHistoryPosition = currentRandomHistoryPosition.Next;
                     return currentRandomHistoryPosition.Value;
@@ -474,7 +474,7 @@ namespace osu.Game.Overlays
 
             bool audioEquals = newWorking.BeatmapInfo?.AudioEquals(current?.BeatmapInfo) == true;
 
-            if (current != null)
+            if (current is not null)
             {
                 if (audioEquals)
                     direction = TrackChangeDirection.None;
@@ -495,7 +495,7 @@ namespace osu.Game.Overlays
 
             current = newWorking;
 
-            if (lastWorking == null || !lastWorking.TryTransferTrack(current))
+            if (lastWorking is null || !lastWorking.TryTransferTrack(current))
                 changeTrack();
 
             TrackChanged?.Invoke(current, direction);

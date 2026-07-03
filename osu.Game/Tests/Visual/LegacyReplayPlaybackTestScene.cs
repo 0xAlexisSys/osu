@@ -88,7 +88,7 @@ namespace osu.Game.Tests.Visual
                 scoreStream.Position = 0;
             });
 
-            if (ExportLocation != null)
+            if (ExportLocation is not null)
             {
                 AddStep("export beatmap", () =>
                 {

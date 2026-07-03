@@ -50,9 +50,9 @@ namespace osu.Game.Screens.Play.HUD
 
             double? unstableRate = unstableRateResult?.Result;
 
-            IsValid.Value = unstableRate != null;
+            IsValid.Value = unstableRate is not null;
 
-            if (unstableRate != null)
+            if (unstableRate is not null)
                 Current.Value = (int)Math.Round(unstableRate.Value);
         }
 

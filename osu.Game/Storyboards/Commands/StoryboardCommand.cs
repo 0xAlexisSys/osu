@@ -41,7 +41,7 @@ namespace osu.Game.Storyboards.Commands
 
         public int CompareTo(StoryboardCommand<T>? other)
         {
-            if (other == null)
+            if (other is null)
                 return 1;
 
             int result = StartTime.CompareTo(other.StartTime);

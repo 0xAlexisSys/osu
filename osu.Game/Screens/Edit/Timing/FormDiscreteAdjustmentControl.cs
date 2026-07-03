@@ -189,7 +189,7 @@ namespace osu.Game.Screens.Edit.Timing
                 },
             };
 
-            if (game != null)
+            if (game is not null)
                 currentLanguage.BindTo(game.CurrentLanguage);
         }
 

@@ -67,7 +67,7 @@ namespace osu.Game.Overlays.Settings
             get => labelText?.Text ?? string.Empty;
             set
             {
-                if (labelText == null)
+                if (labelText is null)
                 {
                     // construct lazily for cases where the label is not needed (may be provided by the Control).
                     FlowContent.Insert(-1, labelText = new OsuSpriteText());
@@ -211,7 +211,7 @@ namespace osu.Game.Overlays.Settings
 
             // IMPORTANT: all bindable logic is in constructor intentionally to support "CreateSettingsControls" being used in a context it is
             // never loaded, but requires bindable storage.
-            if (controlWithCurrent == null)
+            if (controlWithCurrent is null)
                 throw new ArgumentException(@$"Control created via {nameof(CreateControl)} must implement {nameof(IHasCurrentValue<T>)}");
 
             controlWithCurrent.Current.ValueChanged += _ => SettingChanged?.Invoke();
@@ -233,7 +233,7 @@ namespace osu.Game.Overlays.Settings
 
         private void updateLayout()
         {
-            bool hasLabel = labelText != null && !string.IsNullOrEmpty(labelText.Text.ToString());
+            bool hasLabel = labelText is not null && !string.IsNullOrEmpty(labelText.Text.ToString());
 
             // if the settings item is providing a label, the default value indicator should be centred vertically to the left of the label.
             // otherwise, it should be centred vertically to the left of the main control of the settings item.

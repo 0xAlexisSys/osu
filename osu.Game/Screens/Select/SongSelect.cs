@@ -348,7 +348,7 @@ namespace osu.Game.Screens.Select
         /// </summary>
         protected void OnStart()
         {
-            if (playerLoader != null) return;
+            if (playerLoader is not null) return;
 
             modsAtGameplayStart = Mods.Value.Select(m => m.DeepClone()).ToArray();
 
@@ -357,7 +357,7 @@ namespace osu.Game.Screens.Select
             {
                 var autoInstance = getAutoplayMod();
 
-                if (autoInstance == null)
+                if (autoInstance is null)
                 {
                     notifications?.Post(new SimpleNotification
                     {
@@ -384,7 +384,7 @@ namespace osu.Game.Screens.Select
 
                 var replayGeneratingMod = Mods.Value.OfType<ICreateReplayData>().FirstOrDefault();
 
-                if (replayGeneratingMod != null)
+                if (replayGeneratingMod is not null)
                 {
                     player = new ReplayPlayer(replayGeneratingMod.CreateScoreFromReplayData);
                 }
@@ -484,7 +484,7 @@ namespace osu.Game.Screens.Select
 
         private void revertMods()
         {
-            if (playerLoader == null) return;
+            if (playerLoader is null) return;
 
             Mods.Value = modsAtGameplayStart;
             playerLoader = null;
@@ -515,7 +515,7 @@ namespace osu.Game.Screens.Select
 
         private void updateDebounce()
         {
-            if (debounceQueuedSelection == null) return;
+            if (debounceQueuedSelection is null) return;
 
             double elapsed = Clock.ElapsedFrameTime;
 
@@ -535,7 +535,7 @@ namespace osu.Game.Screens.Select
 
         private void performDebounceSelection()
         {
-            if (debounceQueuedSelection == null) return;
+            if (debounceQueuedSelection is null) return;
 
             try
             {
@@ -730,7 +730,7 @@ namespace osu.Game.Screens.Select
             if (beatmap.Hidden)
                 return false;
 
-            if (beatmap.BeatmapSet == null)
+            if (beatmap.BeatmapSet is null)
                 return false;
 
             if (beatmap.BeatmapSet.Protected || beatmap.BeatmapSet.DeletePending)
@@ -958,7 +958,7 @@ namespace osu.Game.Screens.Select
             filterDebounce?.Cancel();
 
             // The first filter needs to be applied immediately as this triggers the initial carousel load.
-            bool isFirstFilter = filterDebounce == null;
+            bool isFirstFilter = filterDebounce is null;
 
             // Criteria change may have included a ruleset change which made the current selection invalid.
             bool isSelectionValid = checkBeatmapValidForSelection(Beatmap.Value.BeatmapInfo);
@@ -968,7 +968,7 @@ namespace osu.Game.Screens.Select
 
         private void newItemsPresented(IEnumerable<CarouselItem> carouselItems)
         {
-            if (carousel.Criteria == null)
+            if (carousel.Criteria is null)
                 return;
 
             CarouselItemsPresented = true;
@@ -981,7 +981,7 @@ namespace osu.Game.Screens.Select
             // Interrupting could cause the debounce interval to be reduced.
             //
             // `ensureGlobalBeatmapValid` is run post-selection which will resolve any pending incompatibilities (see `Beatmap` bindable callback).
-            if (debounceQueuedSelection == null)
+            if (debounceQueuedSelection is null)
                 ensureGlobalBeatmapValid();
 
             updateWedgeVisibility();
@@ -1045,11 +1045,11 @@ namespace osu.Game.Screens.Select
             // For simplicity, disable this functionality on mobile.
             bool isTouchInput = e.CurrentState.Mouse.LastSource is ISourcedFromTouch;
 
-            if (!carousel.AbsoluteScrolling && !isTouchInput && mouseDownPriority && revealBackgroundDelegate == null)
+            if (!carousel.AbsoluteScrolling && !isTouchInput && mouseDownPriority && revealBackgroundDelegate is null)
             {
                 revealBackgroundDelegate = Scheduler.AddDelayed(() =>
                 {
-                    if (containingInputManager.DraggedDrawable != null)
+                    if (containingInputManager.DraggedDrawable is not null)
                     {
                         revealBackgroundDelegate = null;
                         return;
@@ -1080,7 +1080,7 @@ namespace osu.Game.Screens.Select
 
         private void restoreBackground()
         {
-            if (revealBackgroundDelegate == null)
+            if (revealBackgroundDelegate is null)
                 return;
 
             if (revealBackgroundDelegate.State == ScheduledDelegate.RunState.Complete)
@@ -1110,7 +1110,7 @@ namespace osu.Game.Screens.Select
         {
             if (!this.IsCurrentScreen()) return false;
 
-            if (game == null)
+            if (game is null)
                 return false;
 
             var flattenedMods = ModUtils.FlattenMods(game.AvailableMods.Value.SelectMany(kv => kv.Value));
@@ -1235,7 +1235,7 @@ namespace osu.Game.Screens.Select
             foreach (var i in CreateCollectionMenuActions(beatmap))
                 yield return i;
 
-            if (beatmap.LastPlayed == null)
+            if (beatmap.LastPlayed is null)
                 yield return new OsuMenuItem(SongSelectStrings.MarkAsPlayed, MenuItemType.Standard, () => beatmaps.MarkPlayed(beatmap)) { Icon = FontAwesome.Solid.TimesCircle };
             else
                 yield return new OsuMenuItem(SongSelectStrings.RemoveFromPlayed, MenuItemType.Standard, () => beatmaps.MarkNotPlayed(beatmap)) { Icon = FontAwesome.Solid.TimesCircle };
@@ -1285,10 +1285,10 @@ namespace osu.Game.Screens.Select
 
         public void UnscopeBeatmapSet()
         {
-            if (scopedBeatmapSet.Value == null)
+            if (scopedBeatmapSet.Value is null)
                 return;
 
-            if (beforeScopedSelection != null)
+            if (beforeScopedSelection is not null)
                 queueBeatmapSelection(beforeScopedSelection);
 
             scopedBeatmapSet.Value = null;

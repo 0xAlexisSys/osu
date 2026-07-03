@@ -107,7 +107,7 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)
         {
-            Debug.Assert(HitObject.HitWindows != null);
+            Debug.Assert(HitObject.HitWindows is not null);
 
             if (!userTriggered)
             {
@@ -155,7 +155,7 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
 
         protected override void UpdateHitStateTransforms(ArmedState state)
         {
-            Debug.Assert(HitObject.HitWindows != null);
+            Debug.Assert(HitObject.HitWindows is not null);
 
             switch (state)
             {
@@ -248,7 +248,7 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
                     return false;
 
                 // Don't process actions if the pressed button was released
-                if (ParentHitObject.HitAction == null)
+                if (ParentHitObject.HitAction is null)
                     return false;
 
                 // Don't handle invalid hit action presses

@@ -34,7 +34,7 @@ namespace osu.Game.Configuration
 
         private void calculateAverageHitError(ScoreInfo? newScore)
         {
-            if (newScore == null)
+            if (newScore is null)
                 return;
 
             if (newScore.Mods.Any(m => m is IHasNoTimedInputs))

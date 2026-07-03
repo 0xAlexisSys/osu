@@ -140,20 +140,20 @@ namespace osu.Game.Screens.Play
                 },
             };
 
-            if (OnResume != null)
+            if (OnResume is not null)
                 AddButton(GameplayMenuOverlayStrings.Continue, colours.Green, () => OnResume.Invoke());
 
-            if (OnRetry != null)
+            if (OnRetry is not null)
                 AddButton(GameplayMenuOverlayStrings.Retry, colours.YellowDark, () => OnRetry.Invoke());
 
-            if (OnQuit != null)
+            if (OnQuit is not null)
                 AddButton(GameplayMenuOverlayStrings.Quit, new Color4(170, 27, 39, 255), () => OnQuit.Invoke());
 
             State.ValueChanged += _ => InternalButtons.Deselect();
 
             updateInfoText();
 
-            if (host != null)
+            if (host is not null)
                 windowActive.BindTo(host.IsActive);
         }
 
@@ -253,7 +253,7 @@ namespace osu.Game.Screens.Play
                 playInfoText.AddText($"{progress}%", cp => cp.Font = cp.Font.With(weight: FontWeight.Bold));
             }
 
-            if (gameplayState != null)
+            if (gameplayState is not null)
             {
                 playInfoText.NewLine();
                 playInfoText.AddText(BeatmapsetsStrings.ShowScoreboardHeadersAccuracy);
@@ -264,7 +264,7 @@ namespace osu.Game.Screens.Play
 
         private int? getSongProgress()
         {
-            if (gameplayClock == null || gameplayState == null)
+            if (gameplayClock is null || gameplayState is null)
                 return null;
 
             (double firstHitTime, double lastHitTime) = gameplayState.Beatmap.CalculatePlayableBounds();

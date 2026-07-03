@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
                 result = RectangleF.Union(result, HeadOverlay.VisibleQuad);
                 result = RectangleF.Union(result, TailOverlay.VisibleQuad);
 
-                if (ControlPointVisualiser != null)
+                if (ControlPointVisualiser is not null)
                 {
                     foreach (var piece in ControlPointVisualiser.Pieces)
                         result = RectangleF.Union(result, piece.ScreenSpaceDrawQuad.AABBFloat);
@@ -102,7 +102,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
             };
 
             // tail will always have a non-null end drag marker.
-            Debug.Assert(TailOverlay.EndDragMarker != null);
+            Debug.Assert(TailOverlay.EndDragMarker is not null);
 
             TailOverlay.EndDragMarker.StartDrag += startAdjustingLength;
             TailOverlay.EndDragMarker.Drag += adjustLength;
@@ -123,7 +123,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
 
             BodyPiece.UpdateFrom(HitObject);
 
-            if (editorBeatmap != null)
+            if (editorBeatmap is not null)
                 selectedObjects.BindTo(editorBeatmap.SelectedHitObjects);
             selectedObjects.BindCollectionChanged((_, _) => updateVisualDefinition(), true);
             showHitMarkers.BindValueChanged(_ =>
@@ -137,7 +137,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
         {
             var hoveredControlPoint = ControlPointVisualiser?.Pieces.FirstOrDefault(p => p.IsHovered);
 
-            if (hoveredControlPoint == null)
+            if (hoveredControlPoint is null)
                 return false;
 
             if (hoveredControlPoint.IsSelected.Value)
@@ -181,7 +181,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
         {
             base.OnDeselected();
 
-            if (placementControlPoint != null)
+            if (placementControlPoint is not null)
                 endControlPointPlacement();
 
             updateVisualDefinition();
@@ -193,7 +193,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
             // To reduce overhead of drawing these blueprints, only add extra detail when only this slider is selected.
             if (IsSelected && selectedObjects.Count < 2)
             {
-                if (ControlPointVisualiser == null)
+                if (ControlPointVisualiser is null)
                 {
                     AddInternal(ControlPointVisualiser = new PathControlPointVisualiser<Slider>(HitObject, true)
                     {
@@ -372,7 +372,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
 
         protected override bool OnDragStart(DragStartEvent e)
         {
-            if (placementControlPoint == null)
+            if (placementControlPoint is null)
                 return base.OnDragStart(e);
 
             ControlPointVisualiser?.DragStarted(placementControlPoint);
@@ -383,13 +383,13 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
         {
             base.OnDrag(e);
 
-            if (placementControlPoint != null)
+            if (placementControlPoint is not null)
                 ControlPointVisualiser?.DragInProgress(e);
         }
 
         protected override void OnMouseUp(MouseUpEvent e)
         {
-            if (placementControlPoint != null)
+            if (placementControlPoint is not null)
                 endControlPointPlacement();
         }
 
@@ -471,7 +471,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
             {
                 // The first control point in the slider must have a type, so take it from the previous "first" one
                 // Todo: Should be handled within SliderPath itself
-                if (c == controlPoints[0] && controlPoints.Count > 1 && controlPoints[1].Type == null)
+                if (c == controlPoints[0] && controlPoints.Count > 1 && controlPoints[1].Type is null)
                     controlPoints[1].Type = controlPoints[0].Type;
 
                 controlPoints.Remove(c);
@@ -499,7 +499,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
 
         private void splitControlPoints(List<PathControlPoint> controlPointsToSplitAt)
         {
-            if (editorBeatmap == null)
+            if (editorBeatmap is null)
                 return;
 
             // Arbitrary gap in milliseconds to put between split slider pieces
@@ -513,7 +513,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
 
             foreach (var splitPoint in controlPointsToSplitAt)
             {
-                if (splitPoint == controlPoints[0] || splitPoint == controlPoints[^1] || splitPoint.Type == null)
+                if (splitPoint == controlPoints[0] || splitPoint == controlPoints[^1] || splitPoint.Type is null)
                     continue;
 
                 // Split off the section of slider before this control point so the remaining control points to split are in the latter part of the slider.
@@ -565,7 +565,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
         // consider extracting common helper when applying changes here
         private void convertToStream()
         {
-            if (editorBeatmap == null || beatDivisor == null)
+            if (editorBeatmap is null || beatDivisor is null)
                 return;
 
             var timingPoint = editorBeatmap.ControlPointInfo.TimingPointAt(HitObject.StartTime);
@@ -634,7 +634,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
         {
             // Returns the positions of control points that produce visible kinks on the slider's path
             // This excludes inherited control points from Bezier, B-Spline, Perfect, and Catmull curves
-            if (DrawableObject.SliderBody == null)
+            if (DrawableObject.SliderBody is null)
                 yield break;
 
             PathType? currentPathType = null;
@@ -664,7 +664,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
             if (BodyPiece.ReceivePositionalInputAt(screenSpacePos) && (IsSelected || DrawableObject.Body.Alpha > 0 || DrawableObject.HeadCircle.Alpha > 0))
                 return true;
 
-            if (ControlPointVisualiser == null)
+            if (ControlPointVisualiser is null)
                 return false;
 
             foreach (var p in ControlPointVisualiser.Pieces)

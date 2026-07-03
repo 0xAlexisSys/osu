@@ -364,7 +364,7 @@ namespace osu.Game.Screens.Menu
                 {
                     base.Update();
 
-                    if (lastGenTime == null || Time.Current - lastGenTime > time_between_triangles)
+                    if (lastGenTime is null || Time.Current - lastGenTime > time_between_triangles)
                     {
                         lastGenTime = (lastGenTime ?? Time.Current) + time_between_triangles;
 

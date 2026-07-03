@@ -151,7 +151,7 @@ namespace osu.Game.Screens.Play
             // This is to avoid any kind of isPaused state checks and frequency ramping (as provided by MasterGameplayClockContainer).
             GameplayClock.Stop();
 
-            if (time != null)
+            if (time is not null)
                 StartTime = time.Value;
 
             Seek(StartTime);

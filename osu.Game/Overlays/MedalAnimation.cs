@@ -216,7 +216,7 @@ namespace osu.Game.Overlays
                     leftStrip.ResizeWidthTo(1f, step_duration, Easing.OutQuint);
                     rightStrip.ResizeWidthTo(1f, step_duration, Easing.OutQuint);
 
-                    Debug.Assert(drawableMedal != null);
+                    Debug.Assert(drawableMedal is not null);
 
                     this.Animate().Schedule(() =>
                     {
@@ -247,7 +247,7 @@ namespace osu.Game.Overlays
 
         public bool Dismiss()
         {
-            if (drawableMedal != null && drawableMedal.State != DisplayState.Full)
+            if (drawableMedal is not null && drawableMedal.State != DisplayState.Full)
             {
                 // if we haven't yet, play out the animation fully
                 drawableMedal.State = DisplayState.Full;

@@ -22,14 +22,14 @@ namespace osu.Game.Rulesets.Catch.Edit
                 HitObject? precedingObject = EditorBeatmap.HitObjects.LastOrDefault(ho => ho.GetEndTime() < firstSelectedHitObject.StartTime);
                 HitObject? nextObject = EditorBeatmap.HitObjects.FirstOrDefault(ho => ho.StartTime > lastSelectedHitObject.GetEndTime());
 
-                if (precedingObject != null && precedingObject is not BananaShower)
+                if (precedingObject is not null && precedingObject is not BananaShower)
                 {
                     double previousSnap = snapProvider.ReadCurrentDistanceSnap(precedingObject, firstSelectedHitObject);
                     AddHeader("To previous");
                     AddValue($"{previousSnap:#,0.##}x");
                 }
 
-                if (nextObject != null && nextObject is not BananaShower)
+                if (nextObject is not null && nextObject is not BananaShower)
                 {
                     double nextSnap = snapProvider.ReadCurrentDistanceSnap(lastSelectedHitObject, nextObject);
                     AddHeader("To next");

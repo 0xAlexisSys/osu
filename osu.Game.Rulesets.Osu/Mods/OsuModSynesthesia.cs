@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Osu.Mods
 
         public void ApplyToDrawableHitObject(DrawableHitObject d)
         {
-            if (currentBeatmap == null) return;
+            if (currentBeatmap is null) return;
 
             Color4? timingBasedColour = null;
 
@@ -47,7 +47,7 @@ namespace osu.Game.Rulesets.Osu.Mods
             // Need to set this every update to ensure it doesn't get overwritten by DrawableHitObject.OnApply() -> UpdateComboColour().
             d.OnUpdate += _ =>
             {
-                if (timingBasedColour != null)
+                if (timingBasedColour is not null)
                     d.AccentColour.Value = timingBasedColour.Value;
             };
         }

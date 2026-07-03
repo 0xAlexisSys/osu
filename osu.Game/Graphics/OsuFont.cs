@@ -155,8 +155,8 @@ namespace osu.Game.Graphics
         /// <returns>The resulting <see cref="FontUsage"/>.</returns>
         public static FontUsage With(this FontUsage usage, Typeface? typeface = null, float? size = null, FontWeight? weight = null, bool? italics = null, bool? fixedWidth = null)
         {
-            string familyString = typeface != null ? OsuFont.GetFamilyString(typeface.Value) : usage.Family;
-            string weightString = weight != null ? OsuFont.GetWeightString(familyString, weight.Value) : usage.Weight;
+            string familyString = typeface is not null ? OsuFont.GetFamilyString(typeface.Value) : usage.Family;
+            string weightString = weight is not null ? OsuFont.GetWeightString(familyString, weight.Value) : usage.Weight;
 
             return usage.With(familyString, size, weightString, italics, fixedWidth);
         }

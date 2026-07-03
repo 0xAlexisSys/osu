@@ -79,8 +79,8 @@ namespace osu.Game.Rulesets.Catch.Mods
         {
             base.ApplySettings(difficulty);
 
-            if (CircleSize.Value != null) difficulty.CircleSize = CircleSize.Value.Value;
-            if (ApproachRate.Value != null) difficulty.ApproachRate = ApproachRate.Value.Value;
+            if (CircleSize.Value is not null) difficulty.CircleSize = CircleSize.Value.Value;
+            if (ApproachRate.Value is not null) difficulty.ApproachRate = ApproachRate.Value.Value;
         }
 
         public void ApplyToBeatmapProcessor(IBeatmapProcessor beatmapProcessor)

@@ -20,7 +20,7 @@ namespace osu.Game.Overlays.Settings
             get => base.Current;
             set
             {
-                if (value.Default == null)
+                if (value.Default is null)
                     throw new InvalidOperationException($"Bindable settings of type {nameof(Bindable<string>)} should have a non-null default value.");
 
                 base.Current = value;

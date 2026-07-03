@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.Scoring
         /// </returns>
         public static UnstableRateCalculationResult? CalculateUnstableRate(this IReadOnlyList<HitEvent> hitEvents, UnstableRateCalculationResult? result = null)
         {
-            Debug.Assert(hitEvents.All(ev => ev.GameplayRate != null));
+            Debug.Assert(hitEvents.All(ev => ev.GameplayRate is not null));
 
             result ??= new UnstableRateCalculationResult();
 

@@ -67,7 +67,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.HitCircles
         public override SnapResult UpdateTimeAndPosition(Vector2 screenSpacePosition, double fallbackTime)
         {
             var result = composer?.TrySnapToNearbyObjects(screenSpacePosition, fallbackTime);
-            result ??= composer?.TrySnapToDistanceGrid(screenSpacePosition, limitedDistanceSnap.Value && editorClock != null ? editorClock.CurrentTime : null);
+            result ??= composer?.TrySnapToDistanceGrid(screenSpacePosition, limitedDistanceSnap.Value && editorClock is not null ? editorClock.CurrentTime : null);
             if (composer?.TrySnapToPositionGrid(result?.ScreenSpacePosition ?? screenSpacePosition, result?.Time ?? fallbackTime) is SnapResult gridSnapResult)
                 result = gridSnapResult;
             result ??= new SnapResult(screenSpacePosition, fallbackTime);

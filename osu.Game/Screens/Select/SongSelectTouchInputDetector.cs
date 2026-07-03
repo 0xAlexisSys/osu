@@ -47,7 +47,7 @@ namespace osu.Game.Screens.Select
 
             var touchDeviceMod = ruleset.Value.CreateInstance().GetTouchDeviceMod();
 
-            if (touchDeviceMod == null)
+            if (touchDeviceMod is null)
                 return;
 
             bool touchDeviceModEnabled = mods.Value.Any(mod => mod is ModTouchDevice);

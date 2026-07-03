@@ -358,7 +358,7 @@ namespace osu.Game.Rulesets.Osu.Mods
                 return almostBigger(time, breakPeriod.StartTime)
                        // There should never really be a break section with no objects after it, but we've seen crashes from users with malformed beatmaps,
                        // so it's best to guard against this.
-                       && (firstObjAfterBreak == null || definitelyBigger(firstObjAfterBreak.StartTime, time));
+                       && (firstObjAfterBreak is null || definitelyBigger(firstObjAfterBreak.StartTime, time));
             });
         }
 
@@ -419,7 +419,7 @@ namespace osu.Game.Rulesets.Osu.Mods
 
                 return nodeIndexFromTime(s, time - hitObject.StartTime) != -1;
             });
-            if (sampleObj == null) return null;
+            if (sampleObj is null) return null;
 
             IList<HitSampleInfo> samples;
 

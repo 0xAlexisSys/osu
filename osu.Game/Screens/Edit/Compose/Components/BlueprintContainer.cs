@@ -61,7 +61,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                 switch (args.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        Debug.Assert(args.NewItems != null);
+                        Debug.Assert(args.NewItems is not null);
 
                         foreach (object o in args.NewItems)
                         {
@@ -72,7 +72,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        Debug.Assert(args.OldItems != null);
+                        Debug.Assert(args.OldItems is not null);
 
                         foreach (object o in args.OldItems)
                         {
@@ -144,7 +144,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
             // Deselection should only occur if no selected blueprints are hovered
             // A special case for when a blueprint was selected via this click is added since OnClick() may occur outside the item and should not trigger deselection
-            if (endClickSelection(e) || ClickedBlueprint != null)
+            if (endClickSelection(e) || ClickedBlueprint is not null)
                 return true;
 
             DeselectAll();
@@ -157,7 +157,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                 return false;
 
             // ensure the blueprint which was hovered for the first click is still the hovered blueprint.
-            if (ClickedBlueprint == null || SelectionHandler.SelectedBlueprints.FirstOrDefault(b => b.IsHovered) != ClickedBlueprint)
+            if (ClickedBlueprint is null || SelectionHandler.SelectedBlueprints.FirstOrDefault(b => b.IsHovered) != ClickedBlueprint)
                 return false;
 
             doubleClickHandled = true;
@@ -194,7 +194,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             lastDragEvent = e;
             wasDragStarted = true;
 
-            if (movementBlueprints != null)
+            if (movementBlueprints is not null)
             {
                 isDraggingBlueprint = true;
                 changeHandler?.BeginChange();
@@ -236,7 +236,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         {
             base.Update();
 
-            if (lastDragEvent != null && DragBox.State == Visibility.Visible)
+            if (lastDragEvent is not null && DragBox.State == Visibility.Visible)
             {
                 lastDragEvent.Target = this;
                 DragBox.HandleDrag(lastDragEvent);
@@ -317,7 +317,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                 return;
 
             var blueprint = CreateBlueprintFor(item);
-            if (blueprint == null)
+            if (blueprint is null)
                 return;
 
             blueprintMap[item] = blueprint;
@@ -591,7 +591,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         /// <returns>Whether a movement was active.</returns>
         private bool moveCurrentSelection(DragEvent e)
         {
-            if (movementBlueprints == null)
+            if (movementBlueprints is null)
                 return false;
 
             return TryMoveBlueprints(e, movementBlueprints);
@@ -605,7 +605,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         /// <returns>Whether a movement was active.</returns>
         private bool finishSelectionMovement()
         {
-            if (movementBlueprints == null)
+            if (movementBlueprints is null)
                 return false;
 
             movementBlueprints = null;

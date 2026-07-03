@@ -105,7 +105,7 @@ namespace osu.Game.Rulesets.Mania.Beatmaps
         {
             var converter = new ManiaBeatmapConverter(null, difficulty, new ManiaRuleset());
 
-            if (mods != null)
+            if (mods is not null)
             {
                 foreach (var m in mods.OfType<IApplicableToBeatmapConverter>())
                     m.ApplyToBeatmapConverter(converter);

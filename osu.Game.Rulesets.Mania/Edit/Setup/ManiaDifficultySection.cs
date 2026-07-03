@@ -179,7 +179,7 @@ namespace osu.Game.Rulesets.Mania.Edit.Setup
 
             updateValues();
 
-            if (editor == null) return;
+            if (editor is null) return;
 
             updatingKeyCount = true;
 

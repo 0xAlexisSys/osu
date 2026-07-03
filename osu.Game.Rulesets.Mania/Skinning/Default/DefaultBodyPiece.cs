@@ -41,7 +41,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Default
                 foregroundContainer = new Container { RelativeSizeAxes = Axes.Both }
             };
 
-            if (drawableObject != null)
+            if (drawableObject is not null)
             {
                 var holdNote = (DrawableHoldNote)drawableObject;
 

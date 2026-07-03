@@ -71,7 +71,7 @@ namespace osu.Game.Overlays
         {
         }
 
-        public override bool AcceptsFocus => lastOpenedSubPanel == null || lastOpenedSubPanel.State.Value == Visibility.Hidden;
+        public override bool AcceptsFocus => lastOpenedSubPanel is null || lastOpenedSubPanel.State.Value == Visibility.Hidden;
 
         public void ShowAtControl<T>()
             where T : Drawable

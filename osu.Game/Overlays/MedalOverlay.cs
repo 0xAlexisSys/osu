@@ -104,7 +104,7 @@ namespace osu.Game.Overlays
                 return;
 
             // A medal is already displaying.
-            if (currentMedalDisplay != null)
+            if (currentMedalDisplay is not null)
                 return;
 
             if (queuedMedals.TryDequeue(out currentMedalDisplay))

@@ -87,7 +87,7 @@ namespace osu.Game.Screens.Play
             // if a storyboard is present, it may dictate the appropriate start time by having events in negative time space.
             // this is commonly used to display an intro before the audio track start.
             double? firstStoryboardEvent = storyboard.EarliestEventTime;
-            if (firstStoryboardEvent != null)
+            if (firstStoryboardEvent is not null)
                 time = Math.Min(time, firstStoryboardEvent.Value);
 
             // some beatmaps specify a current lead-in time which should be used instead of the ruleset-provided value when available.
@@ -169,7 +169,7 @@ namespace osu.Game.Screens.Play
             {
                 elapsedGameplayClockTime += GameplayClock.ElapsedFrameTime;
 
-                if (elapsedValidationTime == null)
+                if (elapsedValidationTime is null)
                     elapsedValidationTime = elapsedGameplayClockTime;
                 else
                     elapsedValidationTime += GameplayClock.Rate * Time.Elapsed;

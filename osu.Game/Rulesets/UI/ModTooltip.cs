@@ -108,7 +108,7 @@ namespace osu.Game.Rulesets.UI
         {
             nameText.Text = content.Name;
 
-            if (displayedSettings == null || !displayedSettings.SequenceEqual(content.SettingDescription))
+            if (displayedSettings is null || !displayedSettings.SequenceEqual(content.SettingDescription))
             {
                 displayedSettings = content.SettingDescription.ToArray();
 

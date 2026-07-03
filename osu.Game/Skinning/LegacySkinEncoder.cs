@@ -152,7 +152,7 @@ namespace osu.Game.Skinning
 
         private void writeValue(TextWriter textWriter, string key, string? value, string? defaultValue = null)
         {
-            if (value != null && (defaultValue == null || value != defaultValue))
+            if (value is not null && (defaultValue is null || value != defaultValue))
                 textWriter.WriteLine(FormattableString.Invariant($"{key}: {value}"));
         }
 
@@ -181,7 +181,7 @@ namespace osu.Game.Skinning
 
         private string? colourToString(Color4? colour, bool allowTransparency)
         {
-            if (colour == null)
+            if (colour is null)
                 return null;
 
             return allowTransparency

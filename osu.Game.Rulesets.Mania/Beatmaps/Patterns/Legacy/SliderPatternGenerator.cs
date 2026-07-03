@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.Mania.Beatmaps.Patterns.Legacy
             var pathData = hitObject as IHasPath;
             var repeatsData = hitObject as IHasRepeats;
 
-            Debug.Assert(pathData != null);
+            Debug.Assert(pathData is not null);
 
             TimingControlPoint timingPoint = beatmap.ControlPointInfo.TimingPointAt(hitObject.StartTime);
 

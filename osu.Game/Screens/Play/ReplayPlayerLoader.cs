@@ -14,7 +14,7 @@ namespace osu.Game.Screens.Play
         public ReplayPlayerLoader(Score score)
             : base(() => new ReplayPlayer(score))
         {
-            if (score.Replay == null)
+            if (score.Replay is null)
                 throw new ArgumentException($"{nameof(score)} must have a non-null {nameof(score.Replay)}.", nameof(score));
 
             Score = score.ScoreInfo;

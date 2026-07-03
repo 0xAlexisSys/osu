@@ -27,7 +27,7 @@ namespace osu.Game.Graphics
         {
             ClearErrors();
 
-            if (errors == null) return;
+            if (errors is null) return;
 
             foreach (string error in errors)
                 errorTextParts.Add(AddParagraph(error, cp => cp.Colour = Color4.Red));

@@ -71,7 +71,7 @@ namespace osu.Game.Screens
                 }
             };
 
-            if (PossibleChildren != null)
+            if (PossibleChildren is not null)
             {
                 foreach (Type t in PossibleChildren)
                 {

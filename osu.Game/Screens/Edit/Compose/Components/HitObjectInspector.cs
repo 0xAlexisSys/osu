@@ -35,7 +35,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
             if (EditorBeatmap.SelectedHitObjects.Count > 0)
                 objects = EditorBeatmap.SelectedHitObjects.ToArray();
-            else if (EditorBeatmap.PlacementObject.Value != null)
+            else if (EditorBeatmap.PlacementObject.Value is not null)
                 objects = new[] { EditorBeatmap.PlacementObject.Value };
             else
                 objects = Array.Empty<HitObject>();

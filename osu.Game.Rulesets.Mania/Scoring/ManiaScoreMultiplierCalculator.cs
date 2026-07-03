@@ -118,7 +118,7 @@ namespace osu.Game.Rulesets.Mania.Scoring
         /// </summary>
         private double keyModMultiplier(ScoreInfo? scoreInfo)
         {
-            if (scoreInfo == null)
+            if (scoreInfo is null)
                 return new_key_mod_multiplier;
 
             string clientVersion = scoreInfo.ClientVersion;
@@ -145,7 +145,7 @@ namespace osu.Game.Rulesets.Mania.Scoring
 
         private static double classicMultiplier(ScoreInfo? score)
         {
-            if (score != null && score.TotalScoreVersion < 30000017)
+            if (score is not null && score.TotalScoreVersion < 30000017)
                 return 0.96;
 
             return 1;

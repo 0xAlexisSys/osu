@@ -81,7 +81,7 @@ namespace osu.Game.Skinning
             // Populate a local list first so we can adjust the returned order as we go.
             var sources = new List<ISkin>();
 
-            Debug.Assert(ParentSource != null);
+            Debug.Assert(ParentSource is not null);
 
             foreach (var source in ParentSource.AllSources)
             {
@@ -113,11 +113,11 @@ namespace osu.Game.Skinning
 
         protected ISkin GetRulesetTransformedSkin(ISkin skin)
         {
-            if (skin == null)
+            if (skin is null)
                 return null;
 
             var rulesetTransformed = Ruleset.CreateSkinTransformer(skin, Beatmap);
-            if (rulesetTransformed != null)
+            if (rulesetTransformed is not null)
                 return rulesetTransformed;
 
             return skin;

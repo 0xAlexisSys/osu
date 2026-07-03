@@ -77,7 +77,7 @@ namespace osu.Game.Screens.Select
                 if (tags.Length == 0)
                     return;
 
-                Debug.Assert(overflowButton != null);
+                Debug.Assert(overflowButton is not null);
 
                 float limit = DrawWidth - overflowButton.DrawWidth - 5;
                 int totalTagsShown = 0;

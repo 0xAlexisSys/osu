@@ -78,7 +78,7 @@ namespace osu.Game.Screens.Select
 
             public void SetContent(ScoreInfo content)
             {
-                if (lastContent != null && lastContent.Equals(content))
+                if (lastContent is not null && lastContent.Equals(content))
                     return;
 
                 dateAndStatistics.Score = content;
@@ -294,7 +294,7 @@ namespace osu.Game.Screens.Select
                         var performanceCalculator = score.Ruleset.CreateInstance().CreatePerformanceCalculator();
 
                         // Performance calculation requires the beatmap and ruleset to be locally available. If not, return a default value.
-                        if (attributes?.DifficultyAttributes == null || performanceCalculator == null)
+                        if (attributes?.DifficultyAttributes is null || performanceCalculator is null)
                             return;
 
                         var result = await performanceCalculator.CalculateAsync(score, attributes.Value.DifficultyAttributes, cancellationToken ?? CancellationToken.None).ConfigureAwait(false);

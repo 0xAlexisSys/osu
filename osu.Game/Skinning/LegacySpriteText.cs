@@ -96,9 +96,9 @@ namespace osu.Game.Skinning
 
                 TexturedCharacterGlyph? glyph = null;
 
-                if (texture != null)
+                if (texture is not null)
                 {
-                    if (maxSize != null)
+                    if (maxSize is not null)
                         texture = texture.WithMaximumSize(maxSize.Value);
 
                     glyph = new TexturedCharacterGlyph(new CharacterGlyph(character, 0, 0, texture.Width, 0, null), texture, 1f / texture.ScaleAdjust);

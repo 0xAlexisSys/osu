@@ -116,7 +116,7 @@ namespace osu.Game.Rulesets.Mania.UI
                     }
                 }
 
-                if (found != null)
+                if (found is not null)
                     break;
             }
 

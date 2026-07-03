@@ -51,7 +51,7 @@ namespace osu.Game.Rulesets.Objects.Pooling
                 throw new InvalidOperationException($@"The {nameof(HitObjectLifetimeEntry)} is already added to this {nameof(HitObjectEntryManager)}.");
 
             // If the entry has a parent, set it and add the entry to the parent's children.
-            if (parent != null)
+            if (parent is not null)
             {
                 parentMap[entry] = parent;
                 if (entryMap.TryGetValue(parent, out var parentEntry))

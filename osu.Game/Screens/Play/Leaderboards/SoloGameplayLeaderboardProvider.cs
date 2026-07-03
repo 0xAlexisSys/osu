@@ -32,11 +32,11 @@ namespace osu.Game.Screens.Play.Leaderboards
 
             var globalScores = leaderboardManager?.Scores.Value;
 
-            isPartial = globalScores == null || globalScores.IsPartial;
+            isPartial = globalScores is null || globalScores.IsPartial;
 
             List<GameplayLeaderboardScore> newScores = new List<GameplayLeaderboardScore>();
 
-            if (globalScores != null)
+            if (globalScores is not null)
             {
                 foreach (var topScore in globalScores.AllScores.OrderByTotalScore())
                 {
@@ -44,7 +44,7 @@ namespace osu.Game.Screens.Play.Leaderboards
                 }
             }
 
-            if (gameplayState != null)
+            if (gameplayState is not null)
             {
                 var localScore = new GameplayLeaderboardScore(gameplayState, tracked: true, GameplayLeaderboardScore.ComboDisplayMode.Highest)
                 {
@@ -98,7 +98,7 @@ namespace osu.Game.Screens.Play.Leaderboards
 
                         // if the tracked score is perfectly between two scores which have known neighbouring initial positions,
                         // we can assign it the position of the previous score plus one...
-                        if (previousScorePosition != null && nextScorePosition != null && previousScorePosition + 1 == nextScorePosition)
+                        if (previousScorePosition is not null && nextScorePosition is not null && previousScorePosition + 1 == nextScorePosition)
                         {
                             score.Position.Value = previousScorePosition + 1;
                             // but we also need to ensure all subsequent scores get shifted down one position, too.

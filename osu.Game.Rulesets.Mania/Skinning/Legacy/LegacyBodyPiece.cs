@@ -65,7 +65,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
                 d.Scale = new Vector2(lightScale);
             });
 
-            if (light != null)
+            if (light is not null)
             {
                 lightContainer = new HitTargetInsetContainer
                 {
@@ -93,7 +93,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
                 // Todo: Wrap?
             });
 
-            if (bodySprite != null)
+            if (bodySprite is not null)
                 InternalChild = bodySprite;
         }
 
@@ -113,7 +113,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
             if (bodySprite is TextureAnimation bodyAnimation)
                 bodyAnimation.IsPlaying = isHitting.NewValue;
 
-            if (lightContainer == null)
+            if (lightContainer is null)
                 return;
 
             if (isHitting.NewValue)
@@ -122,7 +122,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
                 lightContainer.ClearTransforms();
 
                 // Only add the container if the removal has taken place.
-                if (lightContainer.Parent == null)
+                if (lightContainer.Parent is null)
                     Column.TopLevelContainer.Add(lightContainer);
 
                 // The light must be seeked only after being loaded, otherwise a nullref occurs (https://github.com/ppy/osu-framework/issues/3847).
@@ -142,7 +142,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
         {
             if (direction.NewValue == ScrollingDirection.Up)
             {
-                if (bodySprite != null)
+                if (bodySprite is not null)
                 {
                     bodySprite.Origin = Anchor.TopCentre;
                     bodySprite.Anchor = Anchor.BottomCentre; // needs to be flipped due to scale flip in Update.
@@ -152,7 +152,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
             }
             else
             {
-                if (bodySprite != null)
+                if (bodySprite is not null)
                 {
                     bodySprite.Origin = Anchor.TopCentre;
                     bodySprite.Anchor = Anchor.TopCentre;
@@ -170,7 +170,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
 
         private void applyMissingDim()
         {
-            if (missingStartTime.Value == null)
+            if (missingStartTime.Value is null)
                 return;
 
             using (BeginAbsoluteSequence(missingStartTime.Value.Value))
@@ -198,7 +198,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
                     // this is where things get a bit messed up.
                     // honestly there's three modes to handle here but they seem really pointless?
                     // let's wait to see if anyone actually uses them in skins.
-                    if (bodySprite != null)
+                    if (bodySprite is not null)
                     {
                         var sprite = bodySprite as Sprite ?? bodySprite.ChildrenOfType<Sprite>().Single();
 

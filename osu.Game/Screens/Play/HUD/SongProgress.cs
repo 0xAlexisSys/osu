@@ -83,7 +83,7 @@ namespace osu.Game.Screens.Play.HUD
         [BackgroundDependencyLoader]
         private void load(DrawableRuleset? drawableRuleset, Player? player)
         {
-            if (drawableRuleset != null)
+            if (drawableRuleset is not null)
             {
                 if (player?.Configuration.AllowUserInteraction == true)
                     ((IBindable<bool>)Interactive).BindTo(drawableRuleset.HasReplayLoaded);
@@ -100,7 +100,7 @@ namespace osu.Game.Screens.Play.HUD
         {
             base.Update();
 
-            if (objects == null)
+            if (objects is null)
                 return;
 
             double currentTime = Math.Min(FrameStableClock.CurrentTime, LastHitTime);

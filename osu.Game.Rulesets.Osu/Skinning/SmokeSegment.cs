@@ -333,7 +333,7 @@ namespace osu.Game.Rulesets.Osu.Skinning
 
             private void drawPointQuad(IRenderer renderer, SmokePoint point, RectangleF textureRect, int index)
             {
-                Debug.Assert(quadBatch != null);
+                Debug.Assert(quadBatch is not null);
 
                 var colour = PointColour(point);
                 if (colour.A == 0)

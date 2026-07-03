@@ -156,7 +156,7 @@ namespace osu.Game.Screens.Ranking
             {
                 // We want the scroll position to remain relative to the expanded panel. When a new panel is added after the expanded panel, nothing needs to be done.
                 // But when a panel is added before the expanded panel, we need to offset the scroll position by the width of the new panel.
-                if (expandedPanel != null && flow.GetPanelIndex(score) < flow.GetPanelIndex(expandedPanel.Score))
+                if (expandedPanel is not null && flow.GetPanelIndex(score) < flow.GetPanelIndex(expandedPanel.Score))
                 {
                     // A somewhat hacky property is used here because we need to:
                     // 1) Scroll after the scroll container's visible range is updated.
@@ -174,7 +174,7 @@ namespace osu.Game.Screens.Ranking
         private void selectedScoreChanged(ValueChangedEvent<ScoreInfo?> score)
         {
             // avoid contracting panels unnecessarily when TriggerChange is fired manually.
-            if (score.OldValue != null && !score.OldValue.Equals(score.NewValue))
+            if (score.OldValue is not null && !score.OldValue.Equals(score.NewValue))
             {
                 // Contract the old panel.
                 foreach (var t in flow.Where(t => t.Panel.Score.Equals(score.OldValue)))
@@ -188,10 +188,10 @@ namespace osu.Game.Screens.Ranking
             var expandedTrackingComponent = flow.SingleOrDefault(t => t.Panel.Score.Equals(score.NewValue));
             expandedPanel = expandedTrackingComponent?.Panel;
 
-            if (expandedPanel == null)
+            if (expandedPanel is null)
                 return;
 
-            Debug.Assert(expandedTrackingComponent != null);
+            Debug.Assert(expandedTrackingComponent is not null);
 
             // Expand the new panel.
             expandedTrackingComponent.Margin = new MarginPadding { Horizontal = expanded_panel_spacing };
@@ -217,7 +217,7 @@ namespace osu.Game.Screens.Ranking
 
             // Add padding to both sides such that the centre of an expanded panel on either side is in the middle of the screen.
 
-            if (SelectedScore.Value != null)
+            if (SelectedScore.Value is not null)
             {
                 // The expanded panel has extra padding applied to it, so it needs to be included into the offset.
                 offset -= ScorePanel.EXPANDED_WIDTH / 2f + expanded_panel_spacing;
@@ -266,7 +266,7 @@ namespace osu.Game.Screens.Ranking
         public void Detach(ScorePanel panel)
         {
             var container = flow.SingleOrDefault(t => t.Panel == panel);
-            if (container == null)
+            if (container is null)
                 throw new InvalidOperationException("Panel is not contained by the score panel list.");
 
             container.Detach();
@@ -280,7 +280,7 @@ namespace osu.Game.Screens.Ranking
         public void Attach(ScorePanel panel)
         {
             var container = flow.SingleOrDefault(t => t.Panel == panel);
-            if (container == null)
+            if (container is null)
                 throw new InvalidOperationException("Panel is not contained by the score panel list.");
 
             container.Attach();
@@ -288,20 +288,20 @@ namespace osu.Game.Screens.Ranking
 
         protected override bool OnKeyDown(KeyDownEvent e)
         {
-            if (expandedPanel == null)
+            if (expandedPanel is null)
                 return base.OnKeyDown(e);
 
             switch (e.Key)
             {
                 case Key.Left:
                     var previousScore = flow.GetPreviousScore(expandedPanel.Score);
-                    if (previousScore != null)
+                    if (previousScore is not null)
                         SelectedScore.Value = previousScore;
                     return true;
 
                 case Key.Right:
                     var nextScore = flow.GetNextScore(expandedPanel.Score);
-                    if (nextScore != null)
+                    if (nextScore is not null)
                         SelectedScore.Value = nextScore;
                     return true;
             }
@@ -345,7 +345,7 @@ namespace osu.Game.Screens.Ranking
 
             protected override void UpdateAfterChildren()
             {
-                if (InstantScrollTarget != null)
+                if (InstantScrollTarget is not null)
                 {
                     ScrollTo(InstantScrollTarget.Value, false);
                     InstantScrollTarget = null;

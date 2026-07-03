@@ -99,7 +99,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty
             double comboBasedEstimatedMissCount = calculateComboBasedEstimatedMissCount(osuAttributes);
             double? scoreBasedEstimatedMissCount = null;
 
-            if (usingClassicSliderAccuracy && score.LegacyTotalScore != null)
+            if (usingClassicSliderAccuracy && score.LegacyTotalScore is not null)
             {
                 var legacyScoreMissCalculator = new OsuLegacyScoreMissCalculator(score, osuAttributes);
                 scoreBasedEstimatedMissCount = legacyScoreMissCalculator.Calculate();
@@ -224,7 +224,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty
 
         private double computeSpeedValue(ScoreInfo score, OsuDifficultyAttributes attributes)
         {
-            if (score.Mods.Any(h => h is OsuModRelax) || speedDeviation == null)
+            if (score.Mods.Any(h => h is OsuModRelax) || speedDeviation is null)
                 return 0.0;
 
             double speedValue = OsuStrainSkill.DifficultyToPerformance(attributes.SpeedDifficulty);
@@ -467,7 +467,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty
         // https://www.desmos.com/calculator/dmogdhzofn
         private double calculateSpeedHighDeviationNerf(OsuDifficultyAttributes attributes)
         {
-            if (speedDeviation == null)
+            if (speedDeviation is null)
                 return 0;
 
             double speedValue = OsuStrainSkill.DifficultyToPerformance(attributes.SpeedDifficulty);

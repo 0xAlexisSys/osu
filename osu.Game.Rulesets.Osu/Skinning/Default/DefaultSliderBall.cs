@@ -50,7 +50,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
                 }
             };
 
-            if (parentObject != null)
+            if (parentObject is not null)
             {
                 var slider = (DrawableSlider)parentObject;
                 slider.Tracking.BindValueChanged(trackingChanged, true);
@@ -61,7 +61,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
         {
             base.LoadComplete();
 
-            if (parentObject != null)
+            if (parentObject is not null)
             {
                 parentObject.ApplyCustomUpdateState += updateStateTransforms;
                 updateStateTransforms(parentObject, parentObject.State.Value);
@@ -104,7 +104,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
         {
             base.Dispose(isDisposing);
 
-            if (parentObject != null)
+            if (parentObject is not null)
                 parentObject.ApplyCustomUpdateState -= updateStateTransforms;
         }
     }

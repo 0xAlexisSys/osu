@@ -75,12 +75,12 @@ namespace osu.Game.Overlays.Mods
         {
             get
             {
-                if (latestLoadedPanels == null)
+                if (latestLoadedPanels is null)
                     return false;
 
                 foreach (var panel in latestLoadedPanels)
                 {
-                    if (panel.Parent == null)
+                    if (panel.Parent is null)
                         return false;
                 }
 
@@ -122,7 +122,7 @@ namespace osu.Game.Overlays.Mods
         {
             AccentColour = colours.ForModType(ModType);
 
-            if (toggleAllCheckbox != null)
+            if (toggleAllCheckbox is not null)
             {
                 toggleAllCheckbox.AccentColour = AccentColour;
                 toggleAllCheckbox.AccentHoverColour = AccentColour.Lighten(0.3f);
@@ -142,7 +142,7 @@ namespace osu.Game.Overlays.Mods
 
         private void updateToggleAllText()
         {
-            Debug.Assert(toggleAllCheckbox != null);
+            Debug.Assert(toggleAllCheckbox is not null);
             toggleAllCheckbox.LabelText = toggleAllCheckbox.Current.Value ? CommonStrings.DeselectAll : CommonStrings.SelectAll;
         }
 
@@ -166,7 +166,7 @@ namespace osu.Game.Overlays.Mods
         {
             Alpha = availableMods.All(mod => !mod.Visible) ? 0 : 1;
 
-            if (toggleAllCheckbox != null && !SelectionAnimationRunning)
+            if (toggleAllCheckbox is not null && !SelectionAnimationRunning)
             {
                 bool anyPanelsVisible = availableMods.Any(panel => panel.Visible);
 
@@ -198,7 +198,7 @@ namespace osu.Game.Overlays.Mods
             // however, because of that we must also ensure that we signal correct invalidations (https://github.com/ppy/osu-framework/issues/5129).
             // failing to do so causes columns to be stuck in "present" mode despite actually not being present themselves.
             // this works because `Update()` will always run after a scheduler update, which is what causes the presence state change responsible for the failure.
-            if (wasPresent != null && wasPresent != IsPresent)
+            if (wasPresent is not null && wasPresent != IsPresent)
                 Invalidate(Invalidation.Presence);
             wasPresent = IsPresent;
 

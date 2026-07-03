@@ -164,7 +164,7 @@ namespace osu.Game.Rulesets.Difficulty
                 Mod classicMod = rulesetInstance.CreateMod<ModClassic>();
 
                 var finalCombination = ModUtils.FlattenMod(combination);
-                if (classicMod != null)
+                if (classicMod is not null)
                     finalCombination = finalCombination.Append(classicMod);
 
                 yield return Calculate(finalCombination.ToArray(), cancellationToken);

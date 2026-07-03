@@ -61,7 +61,7 @@ namespace osu.Game.Screens.Play
 
         private void updateDisplay(ValueChangedEvent<Period?> period)
         {
-            if (period.NewValue == null)
+            if (period.NewValue is null)
                 return;
 
             var b = period.NewValue.Value;

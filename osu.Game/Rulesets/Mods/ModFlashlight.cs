@@ -146,7 +146,7 @@ namespace osu.Game.Rulesets.Mods
 
                 Combo.ValueChanged += _ => UpdateFlashlightSize(GetSize());
 
-                if (player != null)
+                if (player is not null)
                 {
                     isBreakTime.BindTo(player.IsBreakTime);
                     isBreakTime.BindValueChanged(_ => UpdateFlashlightSize(GetSize()), true);
@@ -272,7 +272,7 @@ namespace osu.Game.Rulesets.Mods
                 {
                     base.Draw(renderer);
 
-                    if (quadBatch == null)
+                    if (quadBatch is null)
                     {
                         quadBatch = renderer.CreateQuadBatch<PositionAndColourVertex>(1, 1);
                         addAction = v => quadBatch.Add(new PositionAndColourVertex

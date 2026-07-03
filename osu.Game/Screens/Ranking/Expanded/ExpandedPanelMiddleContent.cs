@@ -68,7 +68,7 @@ namespace osu.Game.Screens.Ranking.Expanded
 
             // In some cases, the beatmap ferried through ScoreInfo actually represents an online beatmap.
             // If it isn't, we may be able to compute a more accurate difficulty from the ruleset and mods.
-            if (realmAccess.Run(r => r.Find<BeatmapInfo>(score.BeatmapInfo!.ID)) != null)
+            if (realmAccess.Run(r => r.Find<BeatmapInfo>(score.BeatmapInfo!.ID)) is not null)
                 starDifficulty = beatmapDifficultyCache.GetDifficultyAsync(score.BeatmapInfo!, score.Ruleset, score.Mods).GetResultSafely() ?? starDifficulty;
 
             var topStatistics = new List<StatisticDisplay>

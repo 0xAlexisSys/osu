@@ -132,7 +132,7 @@ namespace osu.Game.Database
 
                         lock (imported)
                         {
-                            if (model != null)
+                            if (model is not null)
                                 imported.Add(model);
                             current++;
 
@@ -178,7 +178,7 @@ namespace osu.Game.Database
                     else
                         notification.CompletionText = $"Imported {imported.First().GetDisplayString()}!";
 
-                    if (imported.Count > 0 && PresentImport != null)
+                    if (imported.Count > 0 && PresentImport is not null)
                     {
                         notification.CompletionText += " Click to view.";
                         notification.CompletionClickAction = () =>
@@ -279,7 +279,7 @@ namespace osu.Game.Database
             {
                 model = CreateModel(archive, parameters);
 
-                if (model == null)
+                if (model is null)
                     return null;
             }
             catch (TaskCanceledException)
@@ -311,14 +311,14 @@ namespace osu.Game.Database
         {
             TModel? existing;
 
-            if (parameters.Batch && archive != null)
+            if (parameters.Batch && archive is not null)
             {
                 // this is a fast bail condition to improve large import performance.
                 item.Hash = computeHashFast(archive);
 
                 existing = CheckForExisting(item, realm);
 
-                if (existing != null)
+                if (existing is not null)
                 {
                     // bare minimum comparisons
                     //
@@ -350,7 +350,7 @@ namespace osu.Game.Database
 
                 List<RealmNamedFileUsage> files = new List<RealmNamedFileUsage>();
 
-                if (archive != null)
+                if (archive is not null)
                 {
                     // Import files to the disk store.
                     // We intentionally delay adding to realm to avoid blocking on a write during disk operations.
@@ -393,7 +393,7 @@ namespace osu.Game.Database
                     // I don't think it is a huge deal doing a second indexed check, though.
                     existing = CheckForExisting(item, realm);
 
-                    if (existing != null)
+                    if (existing is not null)
                     {
                         if (CanReuseExisting(existing, item))
                         {
@@ -446,14 +446,14 @@ namespace osu.Game.Database
         internal static void LogForModel(TModel? model, string message, Exception? e = null)
         {
             string trimmedHash;
-            if (model == null || !model.IsValid || string.IsNullOrEmpty(model.Hash))
+            if (model is null || !model.IsValid || string.IsNullOrEmpty(model.Hash))
                 trimmedHash = "?????";
             else
                 trimmedHash = model.Hash.Substring(0, 5);
 
             string prefix = $"[{trimmedHash}]";
 
-            if (e != null)
+            if (e is not null)
                 Logger.Error(e, $"{prefix} {message}", LoggingTarget.Database);
             else
                 Logger.Log($"{prefix} {message}", LoggingTarget.Database);

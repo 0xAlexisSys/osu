@@ -25,7 +25,7 @@ namespace osu.Game.Database
         {
             var found = realm.Find<T>(id);
 
-            if (found == null)
+            if (found is null)
             {
                 // It may be that we access this from the update thread before a refresh has taken place.
                 // To ensure that behaviour matches what we'd expect (the object generally *should be* available), force

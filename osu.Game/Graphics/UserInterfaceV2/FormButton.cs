@@ -236,17 +236,17 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
             private void updateColours()
             {
-                if (triangles == null)
+                if (triangles is null)
                     return;
 
-                Debug.Assert(triangleGradientSecondColour != null);
+                Debug.Assert(triangleGradientSecondColour is not null);
 
                 triangles.Colour = ColourInfo.GradientVertical(triangleGradientSecondColour.Value, BackgroundColour);
             }
 
             protected override bool OnHover(HoverEvent e)
             {
-                Debug.Assert(triangleGradientSecondColour != null);
+                Debug.Assert(triangleGradientSecondColour is not null);
 
                 Background.FadeColour(triangleGradientSecondColour.Value, 300, Easing.OutQuint);
                 return base.OnHover(e);

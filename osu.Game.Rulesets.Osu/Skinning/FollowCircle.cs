@@ -28,7 +28,7 @@ namespace osu.Game.Rulesets.Osu.Skinning
         {
             DrawableObject = hitObject as DrawableSlider;
 
-            if (DrawableObject != null)
+            if (DrawableObject is not null)
             {
                 tracking.BindTo(DrawableObject.Tracking);
                 tracking.BindValueChanged(tracking =>
@@ -51,7 +51,7 @@ namespace osu.Game.Rulesets.Osu.Skinning
         {
             base.LoadComplete();
 
-            if (DrawableObject != null)
+            if (DrawableObject is not null)
             {
                 DrawableObject.HitObjectApplied += onHitObjectApplied;
                 onHitObjectApplied(DrawableObject);
@@ -73,7 +73,7 @@ namespace osu.Game.Rulesets.Osu.Skinning
 
         private void updateStateTransforms(DrawableHitObject d, ArmedState state)
         {
-            Debug.Assert(DrawableObject != null);
+            Debug.Assert(DrawableObject is not null);
 
             switch (state)
             {
@@ -119,7 +119,7 @@ namespace osu.Game.Rulesets.Osu.Skinning
         {
             base.Dispose(isDisposing);
 
-            if (DrawableObject != null)
+            if (DrawableObject is not null)
             {
                 DrawableObject.HitObjectApplied -= onHitObjectApplied;
                 DrawableObject.ApplyCustomUpdateState -= updateStateTransforms;

@@ -105,7 +105,7 @@ namespace osu.Game.Overlays.Toolbar
 
         private void moveLineToCurrent()
         {
-            if (SelectedTab != null)
+            if (SelectedTab is not null)
             {
                 ModeButtonLine.MoveToX(SelectedTab.DrawPosition.X, !hasInitialPosition ? 0 : 500, Easing.OutElasticQuarter);
                 hasInitialPosition = true;
@@ -115,13 +115,13 @@ namespace osu.Game.Overlays.Toolbar
         private void playRulesetSelectionSample(ValueChangedEvent<RulesetInfo> r)
         {
             // Don't play sample on first setting of value
-            if (r.OldValue == null)
+            if (r.OldValue is null)
                 return;
 
             var channel = rulesetSelectionSample[r.NewValue]?.GetChannel();
 
             // Skip sample choking and ducking for the default/fallback sample
-            if (channel == null)
+            if (channel is null)
             {
                 defaultSelectSample.Play();
                 return;
@@ -162,7 +162,7 @@ namespace osu.Game.Overlays.Toolbar
                 int requested = e.Key - Key.Number1;
 
                 RulesetInfo found = Rulesets.AvailableRulesets.ElementAtOrDefault(requested);
-                if (found != null)
+                if (found is not null)
                     SelectItem(found);
                 return true;
             }

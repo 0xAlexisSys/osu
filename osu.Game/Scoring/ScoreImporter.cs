@@ -69,7 +69,7 @@ namespace osu.Game.Scoring
 
         protected override void Populate(ScoreInfo model, ArchiveReader? archive, Realm realm, CancellationToken cancellationToken = default)
         {
-            Debug.Assert(model.BeatmapInfo != null);
+            Debug.Assert(model.BeatmapInfo is not null);
 
             // Ensure the beatmap is not detached.
             if (!model.BeatmapInfo.IsManaged)
@@ -97,9 +97,9 @@ namespace osu.Game.Scoring
         {
             base.PostImport(model, realm, parameters);
 
-            Debug.Assert(model.BeatmapInfo != null);
+            Debug.Assert(model.BeatmapInfo is not null);
 
-            if (model.BeatmapInfo.LastPlayed == null || model.Date > model.BeatmapInfo.LastPlayed)
+            if (model.BeatmapInfo.LastPlayed is null || model.Date > model.BeatmapInfo.LastPlayed)
                 model.BeatmapInfo.LastPlayed = model.Date;
 
             if (model.IsLegacyScore && model.User.ID == User.OTHER_USER_ID)

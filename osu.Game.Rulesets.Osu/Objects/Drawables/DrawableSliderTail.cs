@@ -93,7 +93,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
         {
             base.UpdateHitStateTransforms(state);
 
-            Debug.Assert(HitObject.HitWindows != null);
+            Debug.Assert(HitObject.HitWindows is not null);
 
             switch (state)
             {
@@ -118,7 +118,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
         {
             base.OnApply();
 
-            if (Slider != null)
+            if (Slider is not null)
                 Position = Slider.CurvePositionAt(HitObject.RepeatIndex % 2 == 0 ? 1 : 0);
         }
 

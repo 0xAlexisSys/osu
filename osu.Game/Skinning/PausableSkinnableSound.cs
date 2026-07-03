@@ -41,7 +41,7 @@ namespace osu.Game.Skinning
         private void load(ISamplePlaybackDisabler samplePlaybackDisabler)
         {
             // if in a gameplay context, pause sample playback when gameplay is paused.
-            if (samplePlaybackDisabler != null)
+            if (samplePlaybackDisabler is not null)
             {
                 samplePlaybackDisabled.BindTo(samplePlaybackDisabler.SamplePlaybackDisabled);
                 samplePlaybackDisabled.BindValueChanged(SamplePlaybackDisabledChanged);

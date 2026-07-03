@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.Edit.Checks
                 yield break;
 
             var texture = context.CurrentDifficulty.Working.GetBackground();
-            if (texture == null)
+            if (texture is null)
                 yield break;
 
             if (texture.Width > max_width || texture.Height > max_height)

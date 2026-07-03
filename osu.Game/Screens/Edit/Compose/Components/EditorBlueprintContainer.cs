@@ -51,7 +51,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             Beatmap.HitObjectRemoved += RemoveBlueprintFor;
             Beatmap.SelectedHitObjects.CollectionChanged += updateSelectionLifetime;
 
-            if (Composer != null)
+            if (Composer is not null)
             {
                 foreach (var obj in Composer.HitObjects)
                     AddBlueprintFor(obj.HitObject);
@@ -135,13 +135,13 @@ namespace osu.Game.Screens.Edit.Compose.Components
         /// </summary>
         private void updateSelectionLifetime(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.NewItems != null)
+            if (e.NewItems is not null)
             {
                 foreach (HitObject newSelection in e.NewItems)
                     Composer.Playfield.SetKeepAlive(newSelection, true);
             }
 
-            if (e.OldItems != null)
+            if (e.OldItems is not null)
             {
                 foreach (HitObject oldSelection in e.OldItems)
                     Composer.Playfield.SetKeepAlive(oldSelection, false);
@@ -166,7 +166,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         {
             base.Dispose(isDisposing);
 
-            if (Beatmap != null)
+            if (Beatmap is not null)
             {
                 Beatmap.HitObjectAdded -= AddBlueprintFor;
                 Beatmap.HitObjectRemoved -= RemoveBlueprintFor;

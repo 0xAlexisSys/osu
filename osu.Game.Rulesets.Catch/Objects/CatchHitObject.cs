@@ -166,7 +166,7 @@ namespace osu.Game.Rulesets.Catch.Objects
             // - For the purpose of combo colours, spinners never start a new combo even if they are flagged as doing so.
             // - At decode time, the first hitobject in the beatmap and the first hitobject after a banana shower are both enforced to be a new combo,
             //   but this isn't directly enforced by the editor so the extra checks against the last hitobject are duplicated here.
-            if (this is not BananaShower && (NewCombo || lastObj == null || lastObj is BananaShower))
+            if (this is not BananaShower && (NewCombo || lastObj is null || lastObj is BananaShower))
             {
                 inCurrentCombo = 0;
                 index++;

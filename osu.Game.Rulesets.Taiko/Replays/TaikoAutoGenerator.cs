@@ -117,7 +117,7 @@ namespace osu.Game.Rulesets.Taiko.Replays
 
                 var nextHitObject = GetNextObject(i); // Get the next object that requires pressing the same button
 
-                bool canDelayKeyUp = nextHitObject == null || nextHitObject.StartTime > endTime + KEY_UP_DELAY;
+                bool canDelayKeyUp = nextHitObject is null || nextHitObject.StartTime > endTime + KEY_UP_DELAY;
                 double calculatedDelay = canDelayKeyUp ? KEY_UP_DELAY : (nextHitObject.AsNonNull().StartTime - endTime) * 0.9;
                 Frames.Add(new TaikoReplayFrame(endTime + calculatedDelay));
 

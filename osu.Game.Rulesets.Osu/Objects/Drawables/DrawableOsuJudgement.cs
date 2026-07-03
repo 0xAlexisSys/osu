@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             Lighting.ResetAnimation();
             Lighting.SetColourFrom(this, Result);
 
-            if (screenSpacePosition != null)
+            if (screenSpacePosition is not null)
                 Position = Parent!.ToLocalSpace(screenSpacePosition.Value);
         }
 

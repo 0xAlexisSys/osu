@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.Edit.Checks
                 string? storagePath = beatmapSet?.GetPathForFile(filename);
 
                 // Don't report any issues for missing video here since another check is already doing that (CheckAudioInVideo)
-                if (storagePath == null) continue;
+                if (storagePath is null) continue;
 
                 Issue issue;
 

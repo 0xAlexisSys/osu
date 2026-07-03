@@ -20,7 +20,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
             {
                 var result = CirclePiece.ScreenSpaceDrawQuad.AABBFloat;
 
-                if (endDragMarkerContainer == null) return result;
+                if (endDragMarkerContainer is null) return result;
 
                 var size = result.Size * 1.4f;
                 var location = result.TopLeft - result.Size * 0.2f;
@@ -68,7 +68,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
             CirclePiece.UpdateFrom(circle);
             marker?.UpdateFrom(circle);
 
-            if (endDragMarkerContainer != null)
+            if (endDragMarkerContainer is not null)
             {
                 endDragMarkerContainer.Position = circle.Position + slider.StackOffset;
                 endDragMarkerContainer.Scale = CirclePiece.Scale * 1.2f;

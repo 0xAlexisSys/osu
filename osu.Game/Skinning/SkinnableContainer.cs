@@ -81,7 +81,7 @@ namespace osu.Game.Skinning
         /// <exception cref="ArgumentException">Thrown if the provided instance is not a <see cref="Drawable"/>.</exception>
         public void Add(ISerialisableDrawable component)
         {
-            if (content == null)
+            if (content is null)
                 throw new NotSupportedException("Attempting to add a new component to a target container which is not supported by the current skin.");
 
             if (!(component is Drawable drawable))
@@ -96,7 +96,7 @@ namespace osu.Game.Skinning
         /// <exception cref="ArgumentException">Thrown if the provided instance is not a <see cref="Drawable"/>.</exception>
         public void Remove(ISerialisableDrawable component, bool disposeImmediately)
         {
-            if (content == null)
+            if (content is null)
                 throw new NotSupportedException("Attempting to remove a new component from a target container which is not supported by the current skin.");
 
             if (!(component is Drawable drawable))

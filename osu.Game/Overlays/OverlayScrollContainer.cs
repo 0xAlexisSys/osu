@@ -68,7 +68,7 @@ namespace osu.Game.Overlays
                 return;
             }
 
-            Button.State = Target > button_scroll_position || lastScrollTarget.Value != null ? Visibility.Visible : Visibility.Hidden;
+            Button.State = Target > button_scroll_position || lastScrollTarget.Value is not null ? Visibility.Visible : Visibility.Hidden;
         }
 
         protected override void OnUserScroll(double value, bool animated = true, double? distanceDecay = null)
@@ -80,7 +80,7 @@ namespace osu.Game.Overlays
 
         private void scrollBack()
         {
-            if (lastScrollTarget.Value == null)
+            if (lastScrollTarget.Value is null)
             {
                 lastScrollTarget.Value = Target;
                 ScrollToStart();
@@ -191,8 +191,8 @@ namespace osu.Game.Overlays
 
                 LastScrollTarget.BindValueChanged(target =>
                 {
-                    spriteIcon.ScaleTo(target.NewValue != null ? new Vector2(1f, -1f) : Vector2.One, fade_duration, Easing.OutQuint);
-                    TooltipText = target.NewValue != null ? CommonStrings.ButtonsBackToPrevious : CommonStrings.ButtonsBackToTop;
+                    spriteIcon.ScaleTo(target.NewValue is not null ? new Vector2(1f, -1f) : Vector2.One, fade_duration, Easing.OutQuint);
+                    TooltipText = target.NewValue is not null ? CommonStrings.ButtonsBackToPrevious : CommonStrings.ButtonsBackToTop;
                 }, true);
             }
 
@@ -200,7 +200,7 @@ namespace osu.Game.Overlays
             {
                 background.FlashColour(flashColour, 800, Easing.OutQuint);
 
-                if (LastScrollTarget.Value == null)
+                if (LastScrollTarget.Value is null)
                     scrollToTopSample?.Play();
                 else
                     scrollToPreviousSample?.Play();

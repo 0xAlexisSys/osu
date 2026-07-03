@@ -221,7 +221,7 @@ namespace osu.Game.Screens.Ranking
         private void playAppearSample()
         {
             var channel = samplePanelFocus?.GetChannel();
-            if (channel == null) return;
+            if (channel is null) return;
 
             channel.Frequency.Value = 0.99 + RNG.NextDouble(0.2);
             channel.Play();
@@ -240,7 +240,7 @@ namespace osu.Game.Screens.Ranking
                     topLayerBackground.FadeColour(expanded_top_layer_colour, RESIZE_DURATION, Easing.OutQuint);
                     middleLayerBackground.FadeColour(expanded_middle_layer_colour, RESIZE_DURATION, Easing.OutQuint);
 
-                    bool firstLoad = topLayerContent == null;
+                    bool firstLoad = topLayerContent is null;
                     topLayerContentContainer.Add(topLayerContent = new ExpandedPanelTopContent(Score.User, firstLoad) { Alpha = 0 });
                     middleLayerContentContainer.Add(middleLayerContent = new ExpandedPanelMiddleContent(Score, displayWithFlair) { Alpha = 0 });
 
@@ -327,7 +327,7 @@ namespace osu.Game.Screens.Ranking
         /// <exception cref="InvalidOperationException">If a <see cref="ScorePanelTrackingContainer"/> already exists.</exception>
         public ScorePanelTrackingContainer CreateTrackingContainer()
         {
-            if (trackingContainer != null)
+            if (trackingContainer is not null)
                 throw new InvalidOperationException("A score panel container has already been created.");
 
             return trackingContainer = new ScorePanelTrackingContainer(this);

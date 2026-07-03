@@ -79,9 +79,9 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
         private void placementChanged(ValueChangedEvent<HitObject> obj)
         {
-            if (obj.NewValue == null)
+            if (obj.NewValue is null)
             {
-                if (placementBlueprint != null)
+                if (placementBlueprint is not null)
                 {
                     SelectionBlueprints.Remove(placementBlueprint, true);
                     placementBlueprint = null;
@@ -136,7 +136,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
             else
                 dragTimeAccumulated = 0;
 
-            if (Composer != null && timeline != null)
+            if (Composer is not null && timeline is not null)
             {
                 Composer.Playfield.PastLifetimeExtension = timeline.VisibleRange / 2;
                 Composer.Playfield.FutureLifetimeExtension = timeline.VisibleRange / 2;
@@ -155,7 +155,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
             const double absolute_minimum_gap = 31; // assumes single letter bank name for default banks
             double minimumGap = absolute_minimum_gap;
 
-            if (timeline == null || editorClock == null)
+            if (timeline is null || editorClock is null)
                 return;
 
             // Find the smallest time gap between any two sample point pieces
@@ -261,7 +261,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
         {
             return new TimelineHitObjectBlueprint(item)
             {
-                OnDragHandled = e => hitObjectDragged = e != null,
+                OnDragHandled = e => hitObjectDragged = e is not null,
             };
         }
 
@@ -301,7 +301,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
             // A maximum drag speed to ensure things don't get out of hand.
             const float max_velocity = 10;
 
-            if (timeline == null) return;
+            if (timeline is null) return;
 
             var mousePos = timeline.ToLocalSpace(InputManager.CurrentState.Mouse.Position);
 

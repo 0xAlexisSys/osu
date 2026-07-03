@@ -27,7 +27,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
         [BackgroundDependencyLoader(true)]
         private void load(GameplayState? gameplayState)
         {
-            if (gameplayState != null)
+            if (gameplayState is not null)
                 ((IBindable<JudgementResult>)LastResult).BindTo(gameplayState.LastJudgementResult);
         }
 
@@ -45,7 +45,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                 if (r?.Type.AffectsCombo() == false)
                     return;
 
-                passing = r == null || r.IsHit;
+                passing = r is null || r.IsHit;
 
                 foreach (var sprite in InternalChildren.OfType<ScrollerSprite>())
                     sprite.Passing = passing;

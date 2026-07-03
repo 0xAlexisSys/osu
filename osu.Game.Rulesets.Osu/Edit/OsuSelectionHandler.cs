@@ -140,7 +140,7 @@ namespace osu.Game.Rulesets.Osu.Edit
 
             var firstBlueprint = SelectedBlueprints.FirstOrDefault();
 
-            if (firstBlueprint == null)
+            if (firstBlueprint is null)
                 return false;
 
             moveObjects(selectedMovableObjects, delta);

@@ -198,9 +198,9 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
             {
                 base.OnDrag(e);
 
-                Debug.Assert(allowedDragRange != null);
+                Debug.Assert(allowedDragRange is not null);
 
-                if (Action != null
+                if (Action is not null
                     && timeline.FindSnappedPositionAndTime(e.ScreenSpaceMousePosition).Time is double time
                     && time > allowedDragRange.Value.min
                     && time < allowedDragRange.Value.max)

@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
 
             AutoSizeAxes = Axes.Both;
 
-            var skin = skinSource.FindProvider(s => s.GetTexture(lookup_name) != null);
+            var skin = skinSource.FindProvider(s => s.GetTexture(lookup_name) is not null);
 
             InternalChild = arrow = new Sprite
             {
@@ -74,7 +74,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
 
         private void onHitObjectApplied(DrawableHitObject drawableObject)
         {
-            Debug.Assert(proxy.Parent == null);
+            Debug.Assert(proxy.Parent is null);
 
             // see logic in LegacySliderHeadHitCircle.
             drawableRepeat.DrawableSlider.OverlayElementContainer.Add(proxy);

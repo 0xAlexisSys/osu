@@ -157,7 +157,7 @@ namespace osu.Game.Overlays.Toolbar
         [BackgroundDependencyLoader]
         private void load()
         {
-            if (Hotkey != null)
+            if (Hotkey is not null)
             {
                 subTooltipFlow.Add(new HotkeyDisplay
                 {

@@ -80,7 +80,7 @@ namespace osu.Game.Rulesets.Edit
 
             beatSnapGrid = CreateBeatSnapGrid();
 
-            if (beatSnapGrid != null)
+            if (beatSnapGrid is not null)
                 AddInternal(beatSnapGrid);
 
             EditorBeatmap.ControlPointInfo.ControlPointsChanged += expireComposeScreenOnControlPointChange;
@@ -95,7 +95,7 @@ namespace osu.Game.Rulesets.Edit
 
         private void updateBeatSnapGrid()
         {
-            if (beatSnapGrid == null)
+            if (beatSnapGrid is null)
                 return;
 
             if (BlueprintContainer.CurrentTool is SelectTool)
@@ -120,7 +120,7 @@ namespace osu.Game.Rulesets.Edit
         public SnapResult FindSnappedPositionAndTime(Vector2 screenSpacePosition)
         {
             var scrollingPlayfield = PlayfieldAtScreenSpacePosition(screenSpacePosition) as ScrollingPlayfield;
-            if (scrollingPlayfield == null)
+            if (scrollingPlayfield is null)
                 return new SnapResult(screenSpacePosition, null);
 
             double? targetTime = scrollingPlayfield.TimeAtScreenSpacePosition(screenSpacePosition);

@@ -73,7 +73,7 @@ namespace osu.Game.Overlays
         {
             base.PopOut();
 
-            if (CurrentStepIndex != null)
+            if (CurrentStepIndex is not null)
             {
                 notificationOverlay.Post(new SimpleNotification
                 {
@@ -92,7 +92,7 @@ namespace osu.Game.Overlays
         {
             base.ShowNextStep();
 
-            if (CurrentStepIndex == null)
+            if (CurrentStepIndex is null)
                 showFirstRunSetup.Value = false;
         }
     }

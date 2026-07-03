@@ -29,7 +29,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             if (e.Button != MouseButton.Left)
                 return false;
 
-            if (scaleHandler == null) return false;
+            if (scaleHandler is null) return false;
 
             if (scaleHandler.OperationInProgress.Value)
                 return false;
@@ -46,7 +46,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         {
             base.OnDrag(e);
 
-            if (scaleHandler == null) return;
+            if (scaleHandler is null) return;
 
             rawScale = convertDragEventToScaleMultiplier(e);
 

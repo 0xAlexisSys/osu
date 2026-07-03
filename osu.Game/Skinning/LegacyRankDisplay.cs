@@ -61,7 +61,7 @@ namespace osu.Game.Skinning
                 rankUpSample = new SkinnableSound(new SampleInfo("Gameplay/rank-up")),
             });
 
-            if (skinEditor != null)
+            if (skinEditor is not null)
                 PlaySamples.Value = false;
 
             lastSamplePlayback = statics.GetBindable<double?>(Static.LastRankChangeSamplePlaybackTime);
@@ -93,7 +93,7 @@ namespace osu.Game.Skinning
 
             rankDisplay.Texture = texture;
 
-            if (texture != null && displayedRank != null)
+            if (texture is not null && displayedRank is not null)
             {
                 var transientRank = new Sprite
                 {
@@ -115,7 +115,7 @@ namespace osu.Game.Skinning
             bool enoughSampleTimeElapsed = !lastSamplePlayback.Value.HasValue || Time.Current - lastSamplePlayback.Value >= OsuGameBase.SAMPLE_DEBOUNCE_TIME;
 
             // Also don't play rank-down sfx on quit/retry/initial update.
-            if (displayedRank != null && rank > ScoreRank.F && PlaySamples.Value && enoughSampleTimeElapsed)
+            if (displayedRank is not null && rank > ScoreRank.F && PlaySamples.Value && enoughSampleTimeElapsed)
             {
                 if (rank > displayedRank)
                     rankUpSample.Play();

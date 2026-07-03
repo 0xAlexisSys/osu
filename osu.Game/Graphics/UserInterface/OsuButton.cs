@@ -54,7 +54,7 @@ namespace osu.Game.Graphics.UserInterface
             {
                 defaultBackgroundColour = value;
 
-                if (backgroundColour == null)
+                if (backgroundColour is null)
                     Background.FadeColour(value);
             }
         }

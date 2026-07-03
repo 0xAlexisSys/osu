@@ -55,7 +55,7 @@ namespace osu.Game.Screens.Play.HUD
         [BackgroundDependencyLoader]
         private void load()
         {
-            if (gameplayState != null)
+            if (gameplayState is not null)
                 avatar.User = gameplayState.Score.ScoreInfo.User;
         }
 

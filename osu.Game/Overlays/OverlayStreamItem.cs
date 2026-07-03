@@ -156,7 +156,7 @@ namespace osu.Game.Overlays
             bool textHighlighted = IsHovered;
             bool barExpanded = IsHovered;
 
-            if (SelectedItem.Value == null)
+            if (SelectedItem.Value is null)
             {
                 // at listing, all badges are highlighted when user is not hovering any badge.
                 textHighlighted |= !userHoveringArea;

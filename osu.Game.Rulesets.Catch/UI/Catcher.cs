@@ -314,7 +314,7 @@ namespace osu.Game.Rulesets.Catch.UI
         /// </summary>
         public void ApplyDifficulty(IBeatmapDifficultyInfo? difficulty)
         {
-            if (difficulty != null)
+            if (difficulty is not null)
                 Scale = calculateScale(difficulty);
 
             CatchWidth = CalculateCatchWidth(Scale);
@@ -369,7 +369,7 @@ namespace osu.Game.Rulesets.Catch.UI
         {
             var caughtObject = getCaughtObject(drawableObject.HitObject);
 
-            if (caughtObject == null) return;
+            if (caughtObject is null) return;
 
             caughtObject.RestoreState(drawableObject.SaveState());
             caughtObject.Anchor = Anchor.TopCentre;
@@ -423,7 +423,7 @@ namespace osu.Game.Rulesets.Catch.UI
         private CaughtObject getDroppedObject(CatchObjectState state)
         {
             var droppedObject = getCaughtObject(state.HitObject);
-            Debug.Assert(droppedObject != null);
+            Debug.Assert(droppedObject is not null);
 
             droppedObject.RestoreState(state);
             droppedObject.Anchor = Anchor.TopLeft;

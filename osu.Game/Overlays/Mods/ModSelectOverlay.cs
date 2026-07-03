@@ -437,7 +437,7 @@ namespace osu.Game.Overlays.Mods
             {
                 var matchingSelectedMod = SelectedMods.Value.SingleOrDefault(selected => selected.GetType() == modState.Mod.GetType());
 
-                if (matchingSelectedMod != null)
+                if (matchingSelectedMod is not null)
                 {
                     modState.Mod.CopyFrom(matchingSelectedMod);
                     modState.Active.Value = true;
@@ -508,7 +508,7 @@ namespace osu.Game.Overlays.Mods
                 Scheduler.AddDelayed(() =>
                 {
                     var channel = columnAppearSample?.GetChannel();
-                    if (channel == null) return;
+                    if (channel is null) return;
 
                     // Still play sound effects for off-screen columns up to a certain point.
                     if (columnNumber > 5 && !column.Active.Value) return;
@@ -630,7 +630,7 @@ namespace osu.Game.Overlays.Mods
 
             void hideOverlay()
             {
-                if (footer != null)
+                if (footer is not null)
                     footer.BackButton.TriggerClick();
                 else
                     Hide();
@@ -732,7 +732,7 @@ namespace osu.Game.Overlays.Mods
             {
                 base.Add(dimContainer);
 
-                Debug.Assert(dimContainer != null);
+                Debug.Assert(dimContainer is not null);
                 dimContainer.Column.Shear = Vector2.Zero;
             }
         }

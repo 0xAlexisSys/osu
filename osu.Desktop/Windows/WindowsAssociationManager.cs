@@ -209,7 +209,7 @@ namespace osu.Desktop.Windows
             public void RegisterFileAssociations(FileAssociation[] associations)
             {
                 using var capability = Registry.CurrentUser.OpenSubKey(capabilityPath, true);
-                if (capability == null) return;
+                if (capability is null) return;
 
                 using var fileAssociations = capability.CreateSubKey(@"FileAssociations");
 
@@ -220,7 +220,7 @@ namespace osu.Desktop.Windows
             public void RegisterUriAssociations(UriAssociation[] associations)
             {
                 using var capability = Registry.CurrentUser.OpenSubKey(capabilityPath, true);
-                if (capability == null) return;
+                if (capability is null) return;
 
                 using var urlAssociations = capability.CreateSubKey(@"UrlAssociations");
 
@@ -266,7 +266,7 @@ namespace osu.Desktop.Windows
             public void Install()
             {
                 using var classes = Registry.CurrentUser.OpenSubKey(software_classes, true);
-                if (classes == null) return;
+                if (classes is null) return;
 
                 // register a program id for the given extension
                 using (var programKey = classes.CreateSubKey(ProgramId))
@@ -297,7 +297,7 @@ namespace osu.Desktop.Windows
             public void LocaliseDescription(LocalisationManager localisationManager)
             {
                 using var classes = Registry.CurrentUser.OpenSubKey(software_classes, true);
-                if (classes == null) return;
+                if (classes is null) return;
 
                 using (var programKey = classes.OpenSubKey(ProgramId, true))
                     programKey?.SetValue(null, localisationManager.GetLocalisedString(description));
@@ -309,7 +309,7 @@ namespace osu.Desktop.Windows
             public void Uninstall()
             {
                 using var classes = Registry.CurrentUser.OpenSubKey(software_classes, true);
-                if (classes == null) return;
+                if (classes is null) return;
 
                 using (var extensionKey = classes.OpenSubKey(Extension, true))
                 {
@@ -348,7 +348,7 @@ namespace osu.Desktop.Windows
             public void Install()
             {
                 using var classes = Registry.CurrentUser.OpenSubKey(software_classes, true);
-                if (classes == null) return;
+                if (classes is null) return;
 
                 using (var protocolKey = classes.CreateSubKey(Protocol))
                 {
@@ -374,7 +374,7 @@ namespace osu.Desktop.Windows
             public void LocaliseDescription(LocalisationManager localisationManager)
             {
                 using var classes = Registry.CurrentUser.OpenSubKey(software_classes, true);
-                if (classes == null) return;
+                if (classes is null) return;
 
                 using (var protocolKey = classes.OpenSubKey(Protocol, true))
                     protocolKey?.SetValue(null, $@"URL:{localisationManager.GetLocalisedString(description)}");

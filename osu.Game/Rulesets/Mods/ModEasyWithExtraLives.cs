@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets.Mods
             // - every time `Player` loads, it deep-clones mods into itself, and the deep clone copies *only* `[SettingsSource]` properties
             // - `Player` is the only consumer of `IApplicableToPlayer` and it calls `ApplyToPlayer()` exactly once per mod instance
             // if either of the above assumptions no longer holds true for any reason, this will need to be reconsidered
-            if (retries != null)
+            if (retries is not null)
                 throw new InvalidOperationException(@"Cannot apply this mod instance to a player twice.");
 
             retries = Retries.Value;
@@ -52,7 +52,7 @@ namespace osu.Game.Rulesets.Mods
 
         public bool PerformFail()
         {
-            Debug.Assert(retries != null);
+            Debug.Assert(retries is not null);
 
             if (retries == 0) return true;
 

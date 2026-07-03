@@ -78,7 +78,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Preprocessing.Colour
                 TaikoDifficultyHitObject? previousObject = taikoObject.PreviousNote(0);
 
                 // If this is the first object in the list or the colour changed, create a new mono streak
-                if (currentMonoStreak == null || previousObject == null || (taikoObject.BaseObject as Hit)?.Type != (previousObject.BaseObject as Hit)?.Type)
+                if (currentMonoStreak is null || previousObject is null || (taikoObject.BaseObject as Hit)?.Type != (previousObject.BaseObject as Hit)?.Type)
                 {
                     currentMonoStreak = new MonoStreak();
                     monoStreaks.Add(currentMonoStreak);
@@ -102,7 +102,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Preprocessing.Colour
             for (int i = 0; i < data.Count; i++)
             {
                 // Start a new AlternatingMonoPattern if the previous MonoStreak has a different mono length, or if this is the first MonoStreak in the list.
-                if (currentMonoPattern == null || data[i].RunLength != data[i - 1].RunLength)
+                if (currentMonoPattern is null || data[i].RunLength != data[i - 1].RunLength)
                 {
                     currentMonoPattern = new AlternatingMonoPattern();
                     monoPatterns.Add(currentMonoPattern);

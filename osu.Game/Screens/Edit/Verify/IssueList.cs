@@ -104,7 +104,7 @@ namespace osu.Game.Screens.Edit.Verify
         {
             var issues = generalVerifier.Run(context);
 
-            if (rulesetVerifier != null)
+            if (rulesetVerifier is not null)
                 issues = issues.Concat(rulesetVerifier.Run(context));
 
             issues = filter(issues);

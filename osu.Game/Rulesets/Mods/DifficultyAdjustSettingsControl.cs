@@ -72,7 +72,7 @@ namespace osu.Game.Rulesets.Mods
 
         private void updateCurrentFromSlider()
         {
-            if (Current.Value != null)
+            if (Current.Value is not null)
             {
                 // a user override has been added or updated.
                 sliderDisplayCurrent.Value = Current.Value.Value;
@@ -82,7 +82,7 @@ namespace osu.Game.Rulesets.Mods
             var difficulty = beatmap.Value.BeatmapInfo.Difficulty;
 
             // generally should always be implemented, else the slider will have a zero default.
-            if (difficultyBindable.ReadCurrentFromDifficulty == null)
+            if (difficultyBindable.ReadCurrentFromDifficulty is null)
                 return;
 
             isInternalChange = true;
@@ -138,7 +138,7 @@ namespace osu.Game.Rulesets.Mods
                 {
                     ArgumentNullException.ThrowIfNull(value);
 
-                    if (field != null) UnbindFrom(field);
+                    if (field is not null) UnbindFrom(field);
                     BindTo(field = value);
                 }
             }

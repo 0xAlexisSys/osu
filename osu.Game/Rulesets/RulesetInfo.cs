@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets
         public bool Equals(RulesetInfo? other)
         {
             if (ReferenceEquals(this, other)) return true;
-            if (other == null) return false;
+            if (other is null) return false;
 
             return ShortName == other.ShortName;
         }
@@ -95,12 +95,12 @@ namespace osu.Game.Rulesets
 
             var type = Type.GetType(InstantiationInfo);
 
-            if (type == null)
+            if (type is null)
                 throw new RulesetLoadException(@"Type lookup failure");
 
             var ruleset = Activator.CreateInstance(type) as Ruleset;
 
-            if (ruleset == null)
+            if (ruleset is null)
                 throw new RulesetLoadException(@"Instantiation failure");
 
             // overwrite the pre-populated RulesetInfo with a potentially database attached copy.

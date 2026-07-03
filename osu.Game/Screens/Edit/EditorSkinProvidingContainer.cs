@@ -23,7 +23,7 @@ namespace osu.Game.Screens.Edit
         {
             base.LoadComplete();
 
-            if (beatmapSkin != null)
+            if (beatmapSkin is not null)
                 beatmapSkin.BeatmapSkinChanged += triggerSourceChanged;
         }
 
@@ -31,7 +31,7 @@ namespace osu.Game.Screens.Edit
         {
             base.Dispose(isDisposing);
 
-            if (beatmapSkin != null)
+            if (beatmapSkin is not null)
                 beatmapSkin.BeatmapSkinChanged -= triggerSourceChanged;
         }
 

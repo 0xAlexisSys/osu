@@ -57,7 +57,7 @@ namespace osu.Game.Graphics.Backgrounds
 
         public void LoadStoryboard(bool async = true)
         {
-            Debug.Assert(drawableStoryboard == null);
+            Debug.Assert(drawableStoryboard is null);
 
             if (!Beatmap.Storyboard.HasDrawable)
                 return;
@@ -87,7 +87,7 @@ namespace osu.Game.Graphics.Backgrounds
 
         public void UnloadStoryboard()
         {
-            if (drawableStoryboard == null)
+            if (drawableStoryboard is null)
                 return;
 
             loadCancellationSource?.Cancel();
@@ -103,7 +103,7 @@ namespace osu.Game.Graphics.Backgrounds
         protected override void LoadComplete()
         {
             base.LoadComplete();
-            if (musicController != null)
+            if (musicController is not null)
                 musicController.TrackChanged += onTrackChanged;
 
             updateStoryboardClockSource(Beatmap);
@@ -113,7 +113,7 @@ namespace osu.Game.Graphics.Backgrounds
 
         private void updateStoryboardVisibility()
         {
-            bool showStoryboard = drawableStoryboard != null && ShowStoryboard.Value;
+            bool showStoryboard = drawableStoryboard is not null && ShowStoryboard.Value;
             bool showBackground = !showStoryboard || !Beatmap.Storyboard.ReplacesBackground;
 
             Storyboard.FadeTo(showStoryboard ? 1 : 0, BackgroundScreen.TRANSITION_LENGTH, Easing.OutQuint);
@@ -139,7 +139,7 @@ namespace osu.Game.Graphics.Backgrounds
         protected override void Dispose(bool isDisposing)
         {
             base.Dispose(isDisposing);
-            if (musicController != null)
+            if (musicController is not null)
                 musicController.TrackChanged -= onTrackChanged;
         }
     }

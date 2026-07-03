@@ -118,7 +118,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
 
         protected override bool OnMouseDown(MouseDownEvent e)
         {
-            if (RequestSelection == null)
+            if (RequestSelection is null)
                 return false;
 
             switch (e.Button)
@@ -158,11 +158,11 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders.Components
             keepSelection = false;
         }
 
-        protected override bool OnClick(ClickEvent e) => RequestSelection != null;
+        protected override bool OnClick(ClickEvent e) => RequestSelection is not null;
 
         protected override bool OnDragStart(DragStartEvent e)
         {
-            if (RequestSelection == null)
+            if (RequestSelection is null)
                 return false;
 
             if (e.Button == MouseButton.Left)

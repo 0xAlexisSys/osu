@@ -88,7 +88,7 @@ namespace osu.Game.Graphics.UserInterface
 
         private void recalculateTiers(T[]? arr)
         {
-            if (arr == null || arr.Length == 0)
+            if (arr is null || arr.Length == 0)
             {
                 tiers = Array.Empty<int>();
                 return;
@@ -271,7 +271,7 @@ namespace osu.Game.Graphics.UserInterface
 
             public void StartSegment(int tier, float start)
             {
-                if (pendingSegments[tier] != null)
+                if (pendingSegments[tier] is not null)
                     throw new InvalidOperationException($"Another {nameof(SegmentInfo)} of tier {tier.ToString()} has already been started.");
 
                 pendingSegments[tier] = new SegmentInfo
@@ -284,7 +284,7 @@ namespace osu.Game.Graphics.UserInterface
             public void EndSegment(int tier, float end)
             {
                 SegmentInfo? pendingSegment = pendingSegments[tier];
-                if (pendingSegment == null)
+                if (pendingSegment is null)
                     throw new InvalidOperationException($"Cannot end {nameof(SegmentInfo)} of tier {tier.ToString()} that has not been started.");
 
                 SegmentInfo segment = pendingSegment.Value;
@@ -297,7 +297,7 @@ namespace osu.Game.Graphics.UserInterface
             {
                 foreach (SegmentInfo? pendingSegment in pendingSegments)
                 {
-                    if (pendingSegment == null)
+                    if (pendingSegment is null)
                         continue;
 
                     SegmentInfo finalizedSegment = pendingSegment.Value;

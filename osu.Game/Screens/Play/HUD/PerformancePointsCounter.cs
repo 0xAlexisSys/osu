@@ -51,7 +51,7 @@ namespace osu.Game.Screens.Play.HUD
         [BackgroundDependencyLoader]
         private void load(BeatmapDifficultyCache difficultyCache)
         {
-            if (gameplayState != null)
+            if (gameplayState is not null)
             {
                 performanceCalculator = gameplayState.Ruleset.CreatePerformanceCalculator();
                 clonedMods = gameplayState.Mods.Select(m => m.DeepClone()).ToArray();
@@ -66,7 +66,7 @@ namespace osu.Game.Screens.Play.HUD
 
                                    IsValid = true;
 
-                                   if (lastJudgement != null)
+                                   if (lastJudgement is not null)
                                        onJudgementChanged(lastJudgement);
                                }), TaskContinuationOptions.OnlyOnRanToCompletion);
             }
@@ -76,13 +76,13 @@ namespace osu.Game.Screens.Play.HUD
         {
             base.LoadComplete();
 
-            if (scoreProcessor != null)
+            if (scoreProcessor is not null)
             {
                 scoreProcessor.NewJudgement += onJudgementChanged;
                 scoreProcessor.JudgementReverted += onJudgementChanged;
             }
 
-            if (gameplayState?.LastJudgementResult.Value != null)
+            if (gameplayState?.LastJudgementResult.Value is not null)
                 onJudgementChanged(gameplayState.LastJudgementResult.Value);
         }
 
@@ -94,7 +94,7 @@ namespace osu.Game.Screens.Play.HUD
 
             var attrib = getAttributeAtTime(judgement);
 
-            if (gameplayState == null || attrib == null || scoreProcessor == null)
+            if (gameplayState is null || attrib is null || scoreProcessor is null)
             {
                 IsValid = false;
                 return;
@@ -108,7 +108,7 @@ namespace osu.Game.Screens.Play.HUD
         [CanBeNull]
         private DifficultyAttributes getAttributeAtTime(JudgementResult judgement)
         {
-            if (timedAttributes == null || timedAttributes.Count == 0)
+            if (timedAttributes is null || timedAttributes.Count == 0)
                 return null;
 
             int attribIndex = timedAttributes.BinarySearch(new TimedDifficultyAttributes(judgement.HitObject.GetEndTime(), null));
@@ -122,7 +122,7 @@ namespace osu.Game.Screens.Play.HUD
         {
             base.Dispose(isDisposing);
 
-            if (scoreProcessor != null)
+            if (scoreProcessor is not null)
             {
                 scoreProcessor.NewJudgement -= onJudgementChanged;
                 scoreProcessor.JudgementReverted -= onJudgementChanged;

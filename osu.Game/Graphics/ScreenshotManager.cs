@@ -146,7 +146,7 @@ namespace osu.Game.Graphics
 
                     (string? filename, Stream? stream) = getWritableStream(screenshotFormat);
 
-                    if (filename == null) return;
+                    if (filename is null) return;
 
                     using (stream)
                     {

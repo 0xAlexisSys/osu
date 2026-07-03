@@ -44,7 +44,7 @@ namespace osu.Game.Tests.Beatmaps
             BeatmapInfo.BPM = 123;
             BeatmapInfo.StarRating = 4.32;
 
-            Debug.Assert(BeatmapInfo.BeatmapSet != null);
+            Debug.Assert(BeatmapInfo.BeatmapSet is not null);
 
             BeatmapInfo.BeatmapSet.Beatmaps.Add(BeatmapInfo);
         }

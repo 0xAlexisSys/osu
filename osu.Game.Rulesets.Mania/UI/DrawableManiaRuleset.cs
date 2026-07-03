@@ -129,7 +129,7 @@ namespace osu.Game.Rulesets.Mania.UI
                 KeyBindingInputManager.Add(touchInputArea = new ManiaTouchInputArea(this));
             else
             {
-                if (touchInputArea != null)
+                if (touchInputArea is not null)
                     KeyBindingInputManager.Remove(touchInputArea, true);
 
                 touchInputArea = null;

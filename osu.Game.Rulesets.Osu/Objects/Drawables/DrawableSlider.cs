@@ -240,7 +240,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
             Tracking.Value = SliderInputManager.Tracking;
 
-            if (slidingSample != null)
+            if (slidingSample is not null)
             {
                 if (Tracking.Value && Time.Current >= HitObject.StartTime)
                 {

@@ -121,10 +121,10 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
 
         protected override void LoadComplete()
         {
-            if (InitialPath != null)
+            if (InitialPath is not null)
                 directorySelector.CurrentPath.Value = InitialPath;
 
-            directorySelector.CurrentPath.BindValueChanged(e => selectionButton.Enabled.Value = e.NewValue != null && IsValidDirectory(e.NewValue), true);
+            directorySelector.CurrentPath.BindValueChanged(e => selectionButton.Enabled.Value = e.NewValue is not null && IsValidDirectory(e.NewValue), true);
             base.LoadComplete();
         }
 

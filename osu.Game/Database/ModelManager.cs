@@ -55,7 +55,7 @@ namespace osu.Game.Database
                 Realm.Realm.Write(realm =>
                 {
                     var managed = realm.FindWithRefresh<TModel>(item.ID);
-                    Debug.Assert(managed != null);
+                    Debug.Assert(managed is not null);
                     operation(managed);
 
                     item.Files.Clear();
@@ -94,7 +94,7 @@ namespace osu.Game.Database
 
             var existing = item.GetFile(filename);
 
-            if (existing != null)
+            if (existing is not null)
             {
                 ReplaceFile(existing, contents, realm);
                 return;

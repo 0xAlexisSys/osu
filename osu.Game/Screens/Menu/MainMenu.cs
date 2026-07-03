@@ -47,7 +47,7 @@ namespace osu.Game.Screens.Menu
 
         public const float FADE_OUT_DURATION = 400;
 
-        public override bool HideOverlaysOnEnter => Buttons == null || Buttons.State == ButtonSystemState.Initial;
+        public override bool HideOverlaysOnEnter => Buttons is null || Buttons.State == ButtonSystemState.Initial;
 
         public override bool AllowUserExit => false;
 
@@ -343,7 +343,7 @@ namespace osu.Game.Screens.Menu
         {
             bool requiresConfirmation =
                 // we need to have a dialog overlay to confirm in the first place.
-                dialogOverlay != null
+                dialogOverlay is not null
                 // if the dialog has already displayed and been accepted by the user, we are good.
                 && !exitConfirmedViaDialog
                 // Only require confirmation if there is either an ongoing operation or the user exited via a non-hold escape press.
@@ -353,7 +353,7 @@ namespace osu.Game.Screens.Menu
             {
                 if (dialogOverlay.CurrentDialog is ConfirmExitDialog exitDialog)
                 {
-                    if (exitDialog.Buttons.OfType<PopupDialogOkButton>().FirstOrDefault() != null)
+                    if (exitDialog.Buttons.OfType<PopupDialogOkButton>().FirstOrDefault() is not null)
                         exitDialog.PerformOkAction();
                     else
                         exitDialog.Flash();

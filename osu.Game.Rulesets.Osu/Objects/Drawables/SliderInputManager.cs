@@ -83,7 +83,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             if (!IsMouseInFollowArea(true))
                 return;
 
-            Debug.Assert(screenSpaceMousePosition != null);
+            Debug.Assert(screenSpaceMousePosition is not null);
 
             Vector2 mousePositionInSlider = slider.ToLocalSpace(screenSpaceMousePosition.Value) - slider.OriginPosition;
 
@@ -233,11 +233,11 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             // it may be null if the head circle was missed.
             OsuAction? headCircleHitAction = getInitialHitAction();
 
-            if (headCircleHitAction == null)
+            if (headCircleHitAction is null)
                 timeToAcceptAnyKeyAfter = null;
 
             // if the head circle was hit with a specific key, tracking should only occur while that key is pressed.
-            if (headCircleHitAction != null && timeToAcceptAnyKeyAfter == null)
+            if (headCircleHitAction is not null && timeToAcceptAnyKeyAfter is null)
             {
                 var otherKey = headCircleHitAction == OsuAction.RightButton ? OsuAction.LeftButton : OsuAction.RightButton;
 
@@ -246,7 +246,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
                     timeToAcceptAnyKeyAfter = Time.Current;
             }
 
-            if (slider.OsuActionInputManager == null)
+            if (slider.OsuActionInputManager is null)
                 return;
 
             lastPressedActions.Clear();

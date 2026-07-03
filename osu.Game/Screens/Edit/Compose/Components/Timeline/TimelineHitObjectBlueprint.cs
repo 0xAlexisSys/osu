@@ -284,7 +284,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
             var rect = RectangleF.Union(ScreenSpaceDrawQuad.AABBFloat, circle.ScreenSpaceDrawQuad.AABBFloat);
             rect = RectangleF.Union(rect, samplePointPiece.ScreenSpaceDrawQuad.AABBFloat);
 
-            if (difficultyPointPiece != null)
+            if (difficultyPointPiece is not null)
                 rect = RectangleF.Union(rect, difficultyPointPiece.ScreenSpaceDrawQuad.AABBFloat);
 
             return !Precision.AlmostIntersects(maskingBounds, rect);
@@ -331,7 +331,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
             public Action<DragEvent?>? OnDragHandled;
 
-            public override bool HandlePositionalInput => hitObject != null;
+            public override bool HandlePositionalInput => hitObject is not null;
 
             public DragArea(HitObject? hitObject)
             {

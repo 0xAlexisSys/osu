@@ -22,7 +22,7 @@ namespace osu.Game.Beatmaps.Drawables
         private void load()
         {
             var background = working.GetBackground();
-            if (background != null)
+            if (background is not null)
                 Texture = background;
         }
     }

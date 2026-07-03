@@ -38,13 +38,13 @@ namespace osu.Game.Database
         {
             var beatmapInfo = model.Beatmaps.SingleOrDefault(o => o.Hash == file.File.Hash);
 
-            if (beatmapInfo == null)
+            if (beatmapInfo is null)
                 return base.GetFileContents(model, file);
 
             // Read the beatmap contents and skin
             using var contentStream = base.GetFileContents(model, file);
 
-            if (contentStream == null)
+            if (contentStream is null)
                 return null;
 
             using var contentStreamReader = new LineBufferedReader(contentStream);
@@ -58,7 +58,7 @@ namespace osu.Game.Database
 
             using var skinStream = base.GetFileContents(model, file);
 
-            if (skinStream == null)
+            if (skinStream is null)
                 return null;
 
             using var skinStreamReader = new LineBufferedReader(skinStream);
@@ -69,7 +69,7 @@ namespace osu.Game.Database
 
             using var storyboardStream = base.GetFileContents(model, file);
 
-            if (storyboardStream == null)
+            if (storyboardStream is null)
                 return null;
 
             using var storyboardStreamReader = new LineBufferedReader(storyboardStream);
@@ -165,7 +165,7 @@ namespace osu.Game.Database
                     hasPath.Path.ControlPoints[^1].Type = null;
 
                 if (BezierConverter.CountSegments(hasPath.Path.ControlPoints) <= 1
-                    && hasPath.Path.ControlPoints[0].Type!.Value.Degree == null)
+                    && hasPath.Path.ControlPoints[0].Type!.Value.Degree is null)
                 {
                     // Round every control point to integer positions before skipping to the next hit object
                     for (int i = 0; i < hasPath.Path.ControlPoints.Count; i++)
@@ -238,7 +238,7 @@ namespace osu.Game.Database
                     using var exportStream = ExportStorage.CreateFileSafely(filename);
                     using var inputFile = GetFileContents(b.BeatmapSet!, b.File!);
 
-                    if (inputFile == null)
+                    if (inputFile is null)
                         throw new InvalidOperationException($"Beatmap file {b.File!.Filename} could not be opened!");
 
                     inputFile.CopyTo(exportStream);

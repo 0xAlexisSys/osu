@@ -56,7 +56,7 @@ namespace osu.Game.Screens.Play
             if (gameplayClock.IsRewinding)
                 return;
 
-            if (combo.NewValue == 0 && (combo.OldValue > 20 || (alwaysPlayFirst.Value && firstBreakTime == null)))
+            if (combo.NewValue == 0 && (combo.OldValue > 20 || (alwaysPlayFirst.Value && firstBreakTime is null)))
             {
                 firstBreakTime = gameplayClock.CurrentTime;
 

@@ -20,18 +20,18 @@ namespace osu.Game.Rulesets.Osu.Edit
                 var firstInSelection = (OsuHitObject)objects.MinBy(ho => ho.StartTime)!;
                 var lastInSelection = (OsuHitObject)objects.MaxBy(ho => ho.GetEndTime())!;
 
-                Debug.Assert(firstInSelection != null && lastInSelection != null);
+                Debug.Assert(firstInSelection is not null && lastInSelection is not null);
 
                 var precedingObject = (OsuHitObject?)EditorBeatmap.HitObjects.LastOrDefault(ho => ho.GetEndTime() < firstInSelection.StartTime);
                 var nextObject = (OsuHitObject?)EditorBeatmap.HitObjects.FirstOrDefault(ho => ho.StartTime > lastInSelection.GetEndTime());
 
-                if (precedingObject != null && precedingObject is not Spinner)
+                if (precedingObject is not null && precedingObject is not Spinner)
                 {
                     AddHeader("To previous");
                     AddValue($"{(firstInSelection.StackedPosition - precedingObject.StackedEndPosition).Length:#,0.##}px");
                 }
 
-                if (nextObject != null && nextObject is not Spinner)
+                if (nextObject is not null && nextObject is not Spinner)
                 {
                     AddHeader("To next");
                     AddValue($"{(nextObject.StackedPosition - lastInSelection.StackedEndPosition).Length:#,0.##}px");

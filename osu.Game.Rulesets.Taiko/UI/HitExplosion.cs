@@ -73,7 +73,7 @@ namespace osu.Game.Rulesets.Taiko.UI
 
         private void runAnimation()
         {
-            if (JudgedObject?.Result == null)
+            if (JudgedObject?.Result is null)
                 return;
 
             double resultTime = JudgedObject.Result.TimeAbsolute;
@@ -86,7 +86,7 @@ namespace osu.Game.Rulesets.Taiko.UI
             using (BeginAbsoluteSequence(resultTime))
                 (skinnable.Drawable as IAnimatableHitExplosion)?.Animate(JudgedObject);
 
-            if (secondHitTime != null)
+            if (secondHitTime is not null)
             {
                 using (BeginAbsoluteSequence(secondHitTime.Value))
                 {

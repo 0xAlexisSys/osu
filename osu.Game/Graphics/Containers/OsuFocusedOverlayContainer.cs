@@ -48,7 +48,7 @@ namespace osu.Game.Graphics.Containers
 
         protected override void LoadComplete()
         {
-            if (overlayManager != null)
+            if (overlayManager is not null)
                 OverlayActivationMode.BindTo(overlayManager.OverlayActivationMode);
 
             OverlayActivationMode.BindValueChanged(mode =>
@@ -131,7 +131,7 @@ namespace osu.Game.Graphics.Containers
                         return;
                     }
 
-                    if (didChange && samplePopIn != null)
+                    if (didChange && samplePopIn is not null)
                     {
                         samplePopIn.Balance.Value = PopInOutSampleBalance;
                         samplePopIn.Play();
@@ -141,7 +141,7 @@ namespace osu.Game.Graphics.Containers
                     break;
 
                 case Visibility.Hidden:
-                    if (didChange && samplePopOut != null)
+                    if (didChange && samplePopOut is not null)
                     {
                         samplePopOut.Balance.Value = PopInOutSampleBalance;
                         samplePopOut.Play();

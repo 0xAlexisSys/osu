@@ -133,7 +133,7 @@ namespace osu.Game.Rulesets.Scoring
                 var judgement = obj.Judgement;
 
                 var result = CreateResult(obj, judgement);
-                if (result == null)
+                if (result is null)
                     throw new InvalidOperationException($"{GetType().ReadableName()} must provide a {nameof(JudgementResult)} through {nameof(CreateResult)}.");
 
                 result.Type = GetSimulatedHitResult(judgement);

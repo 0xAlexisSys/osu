@@ -58,7 +58,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
 
         private void updateColour(DrawableHitObject? judgedObject = null)
         {
-            if (body == null)
+            if (body is null)
                 return;
 
             bool isRim = (judgedObject?.HitObject as Hit)?.Type == HitType.Rim;

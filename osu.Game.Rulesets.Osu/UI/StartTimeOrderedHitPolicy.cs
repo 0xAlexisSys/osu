@@ -25,7 +25,7 @@ namespace osu.Game.Rulesets.Osu.UI
 
         public ClickAction CheckHittable(DrawableHitObject hitObject, double time, HitResult _)
         {
-            if (HitObjectContainer == null)
+            if (HitObjectContainer is null)
                 throw new InvalidOperationException($"{nameof(HitObjectContainer)} should be set before {nameof(CheckHittable)} is called.");
 
             DrawableHitObject? blockingObject = null;
@@ -37,7 +37,7 @@ namespace osu.Game.Rulesets.Osu.UI
             }
 
             // If there is no previous hitobject, allow the hit.
-            if (blockingObject == null)
+            if (blockingObject is null)
                 return ClickAction.Hit;
 
             // A hit is allowed if:
@@ -49,7 +49,7 @@ namespace osu.Game.Rulesets.Osu.UI
 
         public void HandleHit(DrawableHitObject hitObject)
         {
-            if (HitObjectContainer == null)
+            if (HitObjectContainer is null)
                 throw new InvalidOperationException($"{nameof(HitObjectContainer)} should be set before {nameof(HandleHit)} is called.");
 
             // Hitobjects which themselves don't block future hitobjects don't cause misses (e.g. slider ticks, spinners).

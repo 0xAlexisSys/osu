@@ -117,7 +117,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void updatePlacementSamples()
         {
-            if (CurrentHitObjectPlacement == null) return;
+            if (CurrentHitObjectPlacement is null) return;
 
             foreach (var kvp in SelectionHandler.SelectionSampleStates)
                 sampleChanged(kvp.Key, kvp.Value.Value);
@@ -131,7 +131,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void sampleChanged(string sampleName, TernaryState state)
         {
-            if (CurrentHitObjectPlacement == null) return;
+            if (CurrentHitObjectPlacement is null) return;
 
             var samples = CurrentHitObjectPlacement.HitObject.Samples;
 
@@ -140,12 +140,12 @@ namespace osu.Game.Screens.Edit.Compose.Components
             switch (state)
             {
                 case TernaryState.False:
-                    if (existingSample != null)
+                    if (existingSample is not null)
                         samples.Remove(existingSample);
                     break;
 
                 case TernaryState.True:
-                    if (existingSample == null)
+                    if (existingSample is null)
                         samples.Add(CurrentHitObjectPlacement.HitObject.CreateHitSampleInfo(sampleName));
                     break;
             }
@@ -153,7 +153,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void bankChanged(string bankName, TernaryState state)
         {
-            if (CurrentHitObjectPlacement == null) return;
+            if (CurrentHitObjectPlacement is null) return;
 
             if (bankName == EditorSelectionHandler.HIT_BANK_AUTO)
                 CurrentHitObjectPlacement.AutomaticBankAssignment = state == TernaryState.True;
@@ -163,7 +163,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void additionBankChanged(string bankName, TernaryState state)
         {
-            if (CurrentHitObjectPlacement == null) return;
+            if (CurrentHitObjectPlacement is null) return;
 
             if (bankName == EditorSelectionHandler.HIT_BANK_AUTO)
                 CurrentHitObjectPlacement.AutomaticAdditionBankAssignment = state == TernaryState.True;
@@ -222,7 +222,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             //TODO: this should only be enabled (visible?) for rulesets that provide combo-supporting HitObjects.
             var newComboButton = CreateNewComboButton();
 
-            if (newComboButton != null)
+            if (newComboButton is not null)
                 yield return newComboButton;
 
             foreach (var kvp in SelectionHandler.SelectionSampleStates)
@@ -333,7 +333,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         {
             base.Update();
 
-            if (CurrentPlacement != null)
+            if (CurrentPlacement is not null)
             {
                 switch (CurrentPlacement.PlacementActive)
                 {
@@ -362,7 +362,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         protected override bool OnMouseMove(MouseMoveEvent e)
         {
             // updates the placement with the latest mouse position.
-            if (CurrentPlacement != null)
+            if (CurrentPlacement is not null)
                 updatePlacementTimeAndPosition();
 
             return base.OnMouseMove(e);
@@ -372,7 +372,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         {
             var drawable = Composer.HitObjects.FirstOrDefault(d => d.HitObject == item);
 
-            if (drawable == null)
+            if (drawable is null)
                 return null;
 
             return CreateHitObjectBlueprintFor(item)?.With(b => b.DrawableObject = drawable);
@@ -393,11 +393,11 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void ensurePlacementCreated()
         {
-            if (CurrentPlacement != null) return;
+            if (CurrentPlacement is not null) return;
 
             var blueprint = CurrentTool?.CreatePlacementBlueprint();
 
-            if (blueprint != null)
+            if (blueprint is not null)
             {
                 placementBlueprintContainer.Child = CurrentPlacement = blueprint;
 

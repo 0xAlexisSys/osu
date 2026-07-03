@@ -202,7 +202,7 @@ namespace osu.Game.Scoring
         {
             get
             {
-                if (field != null)
+                if (field is not null)
                     return field;
 
                 if (!string.IsNullOrEmpty(StatisticsJson))
@@ -218,7 +218,7 @@ namespace osu.Game.Scoring
         {
             get
             {
-                if (field != null)
+                if (field is not null)
                     return field;
 
                 if (!string.IsNullOrEmpty(MaximumStatisticsJson))
@@ -236,7 +236,7 @@ namespace osu.Game.Scoring
         {
             get
             {
-                if (mods != null)
+                if (mods is not null)
                     return mods;
 
                 return JsonMods.Select(m => m.ToMod(Ruleset.CreateInstance())).ToArray();
@@ -257,14 +257,14 @@ namespace osu.Game.Scoring
         {
             get
             {
-                if (jsonMods != null) return jsonMods;
+                if (jsonMods is not null) return jsonMods;
 
                 // prioritise reading from realm backing
                 if (!string.IsNullOrEmpty(ModsJson))
                     jsonMods = JsonConvert.DeserializeObject<JsonMod[]>(ModsJson);
 
                 // then check mods set via Mods property.
-                if (mods != null)
+                if (mods is not null)
                     jsonMods ??= mods.Select(m => new JsonMod(m)).ToArray();
 
                 return jsonMods ?? Array.Empty<JsonMod>();

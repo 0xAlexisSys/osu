@@ -121,7 +121,7 @@ namespace osu.Game.Storyboards
                 // Some old storyboards don't include a file extension, so let's best guess at one.
                 foreach (string ext in SupportedExtensions.IMAGE_EXTENSIONS)
                 {
-                    if ((resolvedPath = BeatmapInfo.BeatmapSet?.GetPathForFile($"{path}{ext}")) != null)
+                    if ((resolvedPath = BeatmapInfo.BeatmapSet?.GetPathForFile($"{path}{ext}")) is not null)
                         break;
                 }
             }

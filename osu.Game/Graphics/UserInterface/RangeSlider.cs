@@ -206,7 +206,7 @@ namespace osu.Game.Graphics.UserInterface
             [BackgroundDependencyLoader(true)]
             private void load(OverlayColourProvider? colourProvider)
             {
-                if (colourProvider == null) return;
+                if (colourProvider is null) return;
 
                 AccentColour = colourProvider.Background2;
                 Nub.AccentColour = colourProvider.Background2;

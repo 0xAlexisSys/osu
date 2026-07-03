@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables.Connections
         {
             UnbindEvents();
 
-            if (End == null)
+            if (End is null)
                 return;
 
             // Note: Positions are bound for instantaneous feedback from positional changes from the editor, before ApplyDefaults() is called on hitobjects.
@@ -60,7 +60,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables.Connections
             if (!wasBound)
                 return;
 
-            Debug.Assert(End != null);
+            Debug.Assert(End is not null);
 
             Start.DefaultsApplied -= onDefaultsApplied;
             Start.PositionBindable.ValueChanged -= onPositionChanged;
@@ -77,7 +77,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables.Connections
 
         private void refreshLifetimes()
         {
-            if (End == null || End.NewCombo || Start is Spinner || End is Spinner)
+            if (End is null || End.NewCombo || Start is Spinner || End is Spinner)
             {
                 LifetimeEnd = LifetimeStart;
                 return;

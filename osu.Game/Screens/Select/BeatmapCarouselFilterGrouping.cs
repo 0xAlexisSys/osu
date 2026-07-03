@@ -75,7 +75,7 @@ namespace osu.Game.Screens.Select
                     HashSet<CarouselItem>? currentSetItems = null;
                     BeatmapInfo? lastBeatmap = null;
 
-                    if (group != null)
+                    if (group is not null)
                     {
                         newGroupMap[group] = currentGroupItems = new HashSet<CarouselItem>();
 
@@ -105,7 +105,7 @@ namespace osu.Game.Screens.Select
                         {
                             if (newBeatmapSet)
                             {
-                                if (groupItem != null)
+                                if (groupItem is not null)
                                     groupItem.NestedItemCount++;
 
                                 addItem(new CarouselItem(groupedBeatmapSet)
@@ -117,7 +117,7 @@ namespace osu.Game.Screens.Select
                         }
                         else
                         {
-                            if (groupItem != null)
+                            if (groupItem is not null)
                                 groupItem.NestedItemCount++;
                         }
 
@@ -137,7 +137,7 @@ namespace osu.Game.Screens.Select
                         currentGroupItems?.Add(i);
                         currentSetItems?.Add(i);
 
-                        i.IsVisible = i.Model is GroupDefinition || (group == null && (i.Model is GroupedBeatmapSet || !BeatmapSetsGroupedTogether));
+                        i.IsVisible = i.Model is GroupDefinition || (group is null && (i.Model is GroupedBeatmapSet || !BeatmapSetsGroupedTogether));
                     }
                 }
 
@@ -190,7 +190,7 @@ namespace osu.Game.Screens.Select
                     {
                         var date = b.LastPlayed;
 
-                        if (date == null)
+                        if (date is null)
                             return new GroupDefinition(int.MaxValue, BeatmapCarouselFilterGroupingStrings.NeverPlayed).Yield();
 
                         return defineGroupByDate(date.Value);
@@ -230,7 +230,7 @@ namespace osu.Game.Screens.Select
                 {
                     var rulesetInstance = criteria.Ruleset?.CreateInstance();
 
-                    if (rulesetInstance == null || rulesetInstance.AvailableVariants.Count() <= 1)
+                    if (rulesetInstance is null || rulesetInstance.AvailableVariants.Count() <= 1)
                         goto case GroupMode.None;
 
                     return getGroupsBy(b => defineGroupByVariant(rulesetInstance, b, criteria.Mods), items);

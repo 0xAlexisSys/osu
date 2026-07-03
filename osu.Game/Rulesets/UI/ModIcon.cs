@@ -228,7 +228,7 @@ namespace osu.Game.Rulesets.UI
             modIcon.Icon = value.Icon ?? FontAwesome.Solid.Question;
             TooltipContent = showTooltip ? value as Mod : null;
 
-            if (value.Icon == null)
+            if (value.Icon is null)
             {
                 modIcon.FadeOut();
                 modAcronym.FadeIn();

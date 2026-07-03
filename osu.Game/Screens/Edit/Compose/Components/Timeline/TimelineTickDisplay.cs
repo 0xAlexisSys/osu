@@ -82,7 +82,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
         {
             base.Update();
 
-            if (timeline == null || DrawWidth <= 0) return;
+            if (timeline is null || DrawWidth <= 0) return;
 
             (float, float) newRange = (
                 (ToLocalSpace(timeline.ScreenSpaceDrawQuad.TopLeft).X - PointVisualisation.MAX_WIDTH * 2) / DrawWidth * Content.RelativeChildSize.X,
@@ -93,7 +93,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
                 visibleRange = newRange;
 
                 // actual regeneration only needs to occur if we've passed one of the known next min/max tick boundaries.
-                if (nextMinTick == null || nextMaxTick == null || (visibleRange.min < nextMinTick || visibleRange.max > nextMaxTick))
+                if (nextMinTick is null || nextMaxTick is null || (visibleRange.min < nextMinTick || visibleRange.max > nextMaxTick))
                     tickCache.Invalidate();
             }
 

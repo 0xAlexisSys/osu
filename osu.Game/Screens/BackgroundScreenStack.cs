@@ -24,10 +24,10 @@ namespace osu.Game.Screens
         /// <returns>Whether the push succeeded. For example, if the existing screen was already of the correct type this will return <c>false</c>.</returns>
         public bool Push(BackgroundScreen? screen)
         {
-            if (screen == null)
+            if (screen is null)
                 return false;
 
-            bool isFirstScreen = CurrentScreen == null;
+            bool isFirstScreen = CurrentScreen is null;
             screen.AnimateEntry = !isFirstScreen;
 
             if (EqualityComparer<BackgroundScreen>.Default.Equals((BackgroundScreen?)CurrentScreen, screen))

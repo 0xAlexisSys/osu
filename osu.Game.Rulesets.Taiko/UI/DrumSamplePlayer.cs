@@ -107,7 +107,7 @@ namespace osu.Game.Rulesets.Taiko.UI
 
         private bool checkStrongValidity(TaikoAction newAction, TaikoAction? lastAction, double timeBetweenActions)
         {
-            if (lastAction == null)
+            if (lastAction is null)
                 return false;
 
             if (timeBetweenActions < 0 || timeBetweenActions > DrawableHit.StrongNestedHit.SECOND_HIT_WINDOW)

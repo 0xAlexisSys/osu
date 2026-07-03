@@ -128,7 +128,7 @@ namespace osu.Game.Screens.Play.PlayerSettings
                 {
                     // At the point we reach here, it's not guaranteed that all realm writes have taken place (there may be some in-flight).
                     // We are only aware of writes that originated from our own flow, so if we do see one that's active we can avoid handling the feedback value arriving.
-                    if (realmWriteTask == null)
+                    if (realmWriteTask is null)
                     {
                         Current.Disabled = false;
                         Current.Value = val;
@@ -179,7 +179,7 @@ namespace osu.Game.Screens.Play.PlayerSettings
 
             bool allow = allowOffsetAdjust;
 
-            if (calibrateFromLastPlayButton != null)
+            if (calibrateFromLastPlayButton is not null)
             {
                 double suggestedOffset = computeSuggestedOffset(lastPlayMedian, lastPlayUnstableRate, lastPlayBeatmapOffset);
                 calibrateFromLastPlayButton.Enabled.Value = allow && !Precision.AlmostEquals(suggestedOffset, Current.Value, Current.Precision / 2);
@@ -220,7 +220,7 @@ namespace osu.Game.Screens.Play.PlayerSettings
             {
                 var setInfo = r.Find<BeatmapSetInfo>(beatmap.Value.BeatmapSetInfo.ID);
 
-                if (setInfo == null) // only the case for tests.
+                if (setInfo is null) // only the case for tests.
                     return;
 
                 // Apply to all difficulties in a beatmap set if they have the same audio
@@ -238,7 +238,7 @@ namespace osu.Game.Screens.Play.PlayerSettings
 
         private void scoreChanged(ValueChangedEvent<ScoreInfo?> score)
         {
-            if (score.NewValue == null)
+            if (score.NewValue is null)
                 return;
 
             if (score.NewValue.Equals(lastAppliedScore.Value))
@@ -264,7 +264,7 @@ namespace osu.Game.Screens.Play.PlayerSettings
             bool hasEnoughUsableEvents = hitEvents.Count(HitEventExtensions.AffectsUnstableRate) >= 50;
 
             // If we already have an old score with enough hit events and the new score doesn't have enough, continue displaying the old one rather than showing the user "play too short" message.
-            if (lastValidScore != null && !hasEnoughUsableEvents)
+            if (lastValidScore is not null && !hasEnoughUsableEvents)
                 return;
 
             referenceScoreContainer.Children = new Drawable[]

@@ -251,7 +251,7 @@ namespace osu.Game.Screens.Select
         {
             var scores = fetchedScores.Value;
 
-            if (scores == null) return;
+            if (scores is null) return;
 
             // because leaderboard refetches are debounced, it is technically possible for the global leaderboard manager
             // to contain scores for a different beatmap than the ones the wedge is currently on.
@@ -259,7 +259,7 @@ namespace osu.Game.Screens.Select
             if (leaderboardManager.CurrentCriteria?.Beatmap?.Equals(beatmap.Value.BeatmapInfo) != true)
                 return;
 
-            if (scores.FailState != null)
+            if (scores.FailState is not null)
                 setState((LeaderboardState)scores.FailState);
             else
                 setScores(scores.TopScores, scores.UserScore, scores.TotalScores);
@@ -320,7 +320,7 @@ namespace osu.Game.Screens.Select
                         var del = Scheduler.AddDelayed(() =>
                         {
                             var chan = swishSample?.GetChannel();
-                            if (chan == null) return;
+                            if (chan is null) return;
 
                             chan.Balance.Value = -OsuGameBase.SFX_STEREO_STRENGTH / 2;
                             chan.Frequency.Value = 0.98f + RNG.NextDouble(0.04f);
@@ -335,7 +335,7 @@ namespace osu.Game.Screens.Select
                 }
             }, cancellation: cancellationTokenSource.Token);
 
-            if (userScore != null)
+            if (userScore is not null)
             {
                 personalBestDisplay.MoveToX(0, 600, Easing.OutQuint);
                 personalBestDisplay.FadeIn(600, Easing.OutQuint);
@@ -348,7 +348,7 @@ namespace osu.Game.Screens.Select
 
                 scoresScroll.TransformTo(nameof(scoresScroll.Padding), new MarginPadding { Bottom = personal_best_height }, 300, Easing.OutQuint);
 
-                if (totalCount != null && userScore.Position != null)
+                if (totalCount is not null && userScore.Position is not null)
                     personalBestText.Text = BeatmapLeaderboardWedgeStrings.PersonalBestWithPosition(userScore.Position.Value, totalCount.Value);
                 else
                     personalBestText.Text = BeatmapLeaderboardWedgeStrings.PersonalBest;
@@ -413,7 +413,7 @@ namespace osu.Game.Screens.Select
             placeholder?.FadeOut(150, Easing.OutQuint).Expire();
             placeholder = getPlaceholderFor(state);
 
-            if (placeholder == null)
+            if (placeholder is null)
                 return;
 
             clearScores();

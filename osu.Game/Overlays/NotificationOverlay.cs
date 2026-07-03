@@ -259,7 +259,7 @@ namespace osu.Game.Overlays
             if (string.IsNullOrEmpty(sampleName))
                 return;
 
-            if (lastSamplePlayback == null || Time.Current - lastSamplePlayback > OsuGameBase.SAMPLE_DEBOUNCE_TIME)
+            if (lastSamplePlayback is null || Time.Current - lastSamplePlayback > OsuGameBase.SAMPLE_DEBOUNCE_TIME)
             {
                 audio.Samples.Get(sampleName)?.Play();
                 lastSamplePlayback = Time.Current;

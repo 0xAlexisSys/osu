@@ -57,7 +57,7 @@ namespace osu.Game.Screens.Play.HUD
                 },
             };
 
-            if (skinEditor != null)
+            if (skinEditor is not null)
                 PlaySamples.Value = false;
 
             lastSamplePlayback = statics.GetBindable<double?>(Static.LastRankChangeSamplePlaybackTime);
@@ -91,7 +91,7 @@ namespace osu.Game.Screens.Play.HUD
             bool enoughSampleTimeElapsed = !lastSamplePlayback.Value.HasValue || Time.Current - lastSamplePlayback.Value >= OsuGameBase.SAMPLE_DEBOUNCE_TIME;
 
             // Also don't play rank-down sfx on quit/retry/initial update.
-            if (displayedRank != null && rank > ScoreRank.F && PlaySamples.Value && enoughSampleTimeElapsed)
+            if (displayedRank is not null && rank > ScoreRank.F && PlaySamples.Value && enoughSampleTimeElapsed)
             {
                 if (rank > displayedRank)
                     rankUpSample.Play();

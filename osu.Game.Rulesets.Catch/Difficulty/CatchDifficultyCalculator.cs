@@ -59,7 +59,7 @@ namespace osu.Game.Rulesets.Catch.Difficulty
                 if (hitObject is Banana || hitObject is TinyDroplet)
                     continue;
 
-                if (lastObject != null)
+                if (lastObject is not null)
                     objects.Add(new CatchDifficultyHitObject(hitObject, lastObject, clockRate, halfCatcherWidth, objects, objects.Count));
 
                 lastObject = hitObject;

@@ -50,7 +50,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
                 d.Scale = new Vector2(explosionScale);
             });
 
-            if (explosion != null)
+            if (explosion is not null)
                 InternalChild = explosion;
 
             direction.BindTo(scrollingInfo.Direction);

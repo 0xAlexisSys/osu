@@ -75,7 +75,7 @@ namespace osu.Game.Screens.Edit.Compose
 
         public void Dispose()
         {
-            if (playfield != null)
+            if (playfield is not null)
             {
                 playfield.HitObjectUsageBegan -= onHitObjectUsageBegan;
                 playfield.HitObjectUsageFinished -= onHitObjectUsageFinished;

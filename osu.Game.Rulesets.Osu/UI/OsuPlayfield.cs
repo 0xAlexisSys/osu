@@ -144,7 +144,7 @@ namespace osu.Game.Rulesets.Osu.UI
             int maxRepeatsOnOneSlider = 0;
             int maxTicksOnOneSlider = 0;
 
-            if (osuBeatmap != null)
+            if (osuBeatmap is not null)
             {
                 foreach (var slider in osuBeatmap.HitObjects.OfType<Slider>())
                 {
@@ -163,7 +163,7 @@ namespace osu.Game.Rulesets.Osu.UI
             RegisterPool<SpinnerTick, DrawableSpinnerTick>(10, 200);
             RegisterPool<SpinnerBonusTick, DrawableSpinnerBonusTick>(10, 200);
 
-            if (beatmap != null)
+            if (beatmap is not null)
                 ApplyCircleSizeToPlayfieldBorder(beatmap);
         }
 
@@ -196,7 +196,7 @@ namespace osu.Game.Rulesets.Osu.UI
 
             var explosion = judgementPooler.Get(result.Type, doj => doj.Apply(result, judgedObject));
 
-            if (explosion == null)
+            if (explosion is null)
                 return;
 
             judgementLayer.Add(explosion);
@@ -212,7 +212,7 @@ namespace osu.Game.Rulesets.Osu.UI
 
         public void AttachResumeOverlayInputBlocker(OsuResumeOverlay.OsuResumeOverlayInputBlocker resumeInputBlocker)
         {
-            Debug.Assert(this.resumeInputBlocker == null);
+            Debug.Assert(this.resumeInputBlocker is null);
             this.resumeInputBlocker = resumeInputBlocker;
             AddInternal(resumeInputBlocker);
         }

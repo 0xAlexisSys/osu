@@ -318,7 +318,7 @@ namespace osu.Game.Rulesets.Taiko.UI
 
                     var judgement = judgementPooler.Get(result.Type, j => j.Apply(result, judgedObject));
 
-                    if (judgement == null)
+                    if (judgement is null)
                         return;
 
                     judgementContainer.Add(judgement);

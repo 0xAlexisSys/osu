@@ -52,7 +52,7 @@ namespace osu.Game.Beatmaps
             : this()
         {
             ID = Guid.NewGuid();
-            if (beatmaps != null)
+            if (beatmaps is not null)
                 Beatmaps.AddRange(beatmaps);
         }
 
@@ -64,7 +64,7 @@ namespace osu.Game.Beatmaps
         public bool Equals(BeatmapSetInfo? other)
         {
             if (ReferenceEquals(this, other)) return true;
-            if (other == null) return false;
+            if (other is null) return false;
 
             return ID == other.ID;
         }

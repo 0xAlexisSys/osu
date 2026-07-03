@@ -33,7 +33,7 @@ namespace osu.Game.Rulesets.Osu.Mods
         {
             base.Update(playfield);
             OsuPlayfield osuPlayfield = (OsuPlayfield)playfield;
-            Debug.Assert(osuPlayfield.Cursor != null);
+            Debug.Assert(osuPlayfield.Cursor is not null);
 
             osuPlayfield.Cursor.ActiveCursor.Rotation = -CurrentRotation;
         }

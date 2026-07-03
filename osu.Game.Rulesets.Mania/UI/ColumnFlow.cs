@@ -110,7 +110,7 @@ namespace osu.Game.Rulesets.Mania.UI
                 Vector2? containingCell = this.FindClosestParent<Stage>()?.Parent?.DrawSize;
 
                 // Will be null in tests.
-                if (containingCell != null && containingCell.Value.X >= containingCell.Value.Y)
+                if (containingCell is not null && containingCell.Value.X >= containingCell.Value.Y)
                 {
                     float aspectRatio = containingCell.Value.X / containingCell.Value.Y;
 

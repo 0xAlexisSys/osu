@@ -77,7 +77,7 @@ namespace osu.Game.Overlays.Settings
             ClearTransforms(false, @"baseSize");
             ClearTransforms(false, nameof(Height));
 
-            if (Current.Value == null)
+            if (Current.Value is null)
             {
                 AutoSizeAxes = Axes.None;
                 this.ResizeHeightTo(0, 300, Easing.OutQuint);

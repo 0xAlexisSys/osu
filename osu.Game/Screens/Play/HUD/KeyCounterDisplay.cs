@@ -52,7 +52,7 @@ namespace osu.Game.Screens.Play.HUD
 
             config.BindWith(OsuSetting.KeyOverlay, ConfigVisibility);
 
-            if (drawableRuleset != null)
+            if (drawableRuleset is not null)
                 AlwaysVisible.BindTo(drawableRuleset.HasReplayLoaded);
         }
 

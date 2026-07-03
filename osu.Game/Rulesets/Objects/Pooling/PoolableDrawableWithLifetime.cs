@@ -31,7 +31,7 @@ namespace osu.Game.Rulesets.Objects.Pooling
             {
                 if (LoadState == LoadState.NotLoaded)
                     entry = value;
-                else if (value != null)
+                else if (value is not null)
                     Apply(value);
                 else if (HasEntryApplied)
                     free();
@@ -49,7 +49,7 @@ namespace osu.Game.Rulesets.Objects.Pooling
             get => base.LifetimeStart;
             set
             {
-                if (Entry == null && LifetimeStart != value)
+                if (Entry is null && LifetimeStart != value)
                     throw new InvalidOperationException($"Cannot modify lifetime of {nameof(PoolableDrawableWithLifetime<TEntry>)} when entry is not set");
 
                 Entry?.LifetimeStart = value;
@@ -61,7 +61,7 @@ namespace osu.Game.Rulesets.Objects.Pooling
             get => base.LifetimeEnd;
             set
             {
-                if (Entry == null && LifetimeEnd != value)
+                if (Entry is null && LifetimeEnd != value)
                     throw new InvalidOperationException($"Cannot modify lifetime of {nameof(PoolableDrawableWithLifetime<TEntry>)} when entry is not set");
 
                 Entry?.LifetimeEnd = value;
@@ -81,7 +81,7 @@ namespace osu.Game.Rulesets.Objects.Pooling
             base.LoadAsyncComplete();
 
             // Apply the initial entry.
-            if (Entry != null && !HasEntryApplied)
+            if (Entry is not null && !HasEntryApplied)
                 apply(Entry);
         }
 
@@ -136,7 +136,7 @@ namespace osu.Game.Rulesets.Objects.Pooling
 
         private void free()
         {
-            Debug.Assert(Entry != null && HasEntryApplied);
+            Debug.Assert(Entry is not null && HasEntryApplied);
 
             OnFree(Entry);
 

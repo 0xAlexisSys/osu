@@ -60,7 +60,7 @@ namespace osu.Game.Storyboards
                     var firstAlpha = alphaCommands.MinBy(c => c.StartTime);
                     var firstRealAlpha = alphaCommands.Where(visibleAtStartOrEnd).MinBy(c => c.StartTime);
 
-                    if (firstAlpha!.StartValue == 0 && firstRealAlpha != null)
+                    if (firstAlpha!.StartValue == 0 && firstRealAlpha is not null)
                         return firstRealAlpha.StartTime;
                 }
 

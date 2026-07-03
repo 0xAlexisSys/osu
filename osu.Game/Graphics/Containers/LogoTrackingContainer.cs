@@ -36,12 +36,12 @@ namespace osu.Game.Graphics.Containers
         /// <param name="easing">The easing type of the initial transform.</param>
         public IDisposable StartTracking(OsuLogo logo, double duration = 0, Easing easing = Easing.None)
         {
-            if (Logo != null && Logo != logo)
+            if (Logo is not null && Logo != logo)
                 throw new InvalidOperationException("A different logo is already being tracked.");
 
             ArgumentNullException.ThrowIfNull(logo);
 
-            if (logo.IsTracking && Logo == null)
+            if (logo.IsTracking && Logo is null)
                 throw new InvalidOperationException($"Cannot track an instance of {typeof(OsuLogo)} to multiple {typeof(LogoTrackingContainer)}s");
 
             if (logo.IsTracking)
@@ -60,7 +60,7 @@ namespace osu.Game.Graphics.Containers
 
             void stopTracking()
             {
-                Debug.Assert(Logo != null);
+                Debug.Assert(Logo is not null);
 
                 Logo.IsTracking = false;
                 Logo = null;
@@ -84,7 +84,7 @@ namespace osu.Game.Graphics.Containers
         {
             base.UpdateAfterChildren();
 
-            if (Logo == null)
+            if (Logo is null)
                 return;
 
             if (Logo.RelativePositionAxes != Axes.Both)
@@ -95,10 +95,10 @@ namespace osu.Game.Graphics.Containers
 
             var localPos = ComputeLogoTrackingPosition();
 
-            if (LogoFacade.Parent != null && Logo.Position != localPos)
+            if (LogoFacade.Parent is not null && Logo.Position != localPos)
             {
                 // If this is our first update since tracking has started, initialize our starting values for interpolation
-                if (startTime == null || startPosition == null)
+                if (startTime is null || startPosition is null)
                 {
                     startTime = Time.Current;
                     startPosition = Logo.Position;

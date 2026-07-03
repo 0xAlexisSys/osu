@@ -58,7 +58,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         protected override HitResult ResultFor(double timeOffset)
         {
-            Debug.Assert(HitObject != null);
+            Debug.Assert(HitObject is not null);
 
             if (HitObject.ClassicSliderBehaviour)
             {

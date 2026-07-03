@@ -35,7 +35,7 @@ namespace osu.Game.Beatmaps.ControlPoints
         {
             var existing = controlPoints.FirstOrDefault(p => p.GetType() == point.GetType());
 
-            if (existing != null)
+            if (existing is not null)
                 Remove(existing);
 
             point.AttachGroup(this);
@@ -57,7 +57,7 @@ namespace osu.Game.Beatmaps.ControlPoints
                && Equals(otherGroup);
 
         public virtual bool Equals(ControlPointGroup? other)
-            => other != null
+            => other is not null
                && Time == other.Time
                && ControlPoints.SequenceEqual(other.ControlPoints);
 

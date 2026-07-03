@@ -54,7 +54,7 @@ namespace osu.Game.Database
         public bool Equals(Live<T>? other)
         {
             if (ReferenceEquals(this, other)) return true;
-            if (other == null) return false;
+            if (other is null) return false;
 
             return ID == other.ID;
         }

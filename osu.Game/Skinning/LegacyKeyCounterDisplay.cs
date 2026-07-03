@@ -59,7 +59,7 @@ namespace osu.Game.Skinning
 
             Texture? backgroundTexture = source.GetTexture(@"inputoverlay-background");
 
-            if (backgroundTexture != null)
+            if (backgroundTexture is not null)
                 backgroundSprite.Texture = backgroundTexture;
 
             for (int i = 0; i < KeyFlow.Count; ++i)

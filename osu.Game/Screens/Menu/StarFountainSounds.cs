@@ -41,7 +41,7 @@ namespace osu.Game.Screens.Menu
             try
             {
                 // Only play 'shootSample' if enough time has passed since last `Play()` call.
-                if (lastPlayback == null || Time.Current - lastPlayback > shoot_retrigger_delay)
+                if (lastPlayback is null || Time.Current - lastPlayback > shoot_retrigger_delay)
                 {
                     loopSample.Stop();
                     shootSample.Play();

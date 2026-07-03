@@ -144,7 +144,7 @@ namespace osu.Game.Screens.Select
         {
             base.PrepareForUse();
 
-            Debug.Assert(Item != null);
+            Debug.Assert(Item is not null);
 
             var group = (StarDifficultyGroupDefinition)Item.Model;
             int starNumber = (int)group.Difficulty.Stars;
@@ -195,7 +195,7 @@ namespace osu.Game.Screens.Select
         {
             get
             {
-                if (Item == null)
+                if (Item is null)
                     return Array.Empty<MenuItem>();
 
                 return new MenuItem[]

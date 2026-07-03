@@ -71,11 +71,11 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
             this.beatmap = (ManiaBeatmap)beatmap;
             isBeatmapConverted = !beatmap.BeatmapInfo.Ruleset.Equals(new ManiaRuleset().RulesetInfo);
 
-            isLegacySkin = new Lazy<bool>(() => GetConfig<SkinConfiguration.LegacySetting, decimal>(SkinConfiguration.LegacySetting.Version) != null);
+            isLegacySkin = new Lazy<bool>(() => GetConfig<SkinConfiguration.LegacySetting, decimal>(SkinConfiguration.LegacySetting.Version) is not null);
             hasKeyTexture = new Lazy<bool>(() =>
             {
                 string keyImage = this.GetManiaSkinConfig<string>(LegacyManiaSkinConfigurationLookups.KeyImage, 0)?.Value ?? "mania-key1";
-                return this.GetAnimation(keyImage, true, true) != null;
+                return this.GetAnimation(keyImage, true, true) is not null;
             });
         }
 
@@ -85,7 +85,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
             {
                 case GlobalSkinnableContainerLookup containerLookup:
                     // Modifications for global components.
-                    if (containerLookup.Ruleset == null)
+                    if (containerLookup.Ruleset is null)
                         return base.GetDrawableComponent(lookup);
 
                     // we don't have enough assets to display these components (this is especially the case on a "beatmap" skin).
@@ -100,14 +100,14 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
                                 var combo = container.ChildrenOfType<LegacyManiaComboCounter>().FirstOrDefault();
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
-                                if (combo != null)
+                                if (combo is not null)
                                 {
                                     combo.Anchor = Anchor.TopCentre;
                                     combo.Origin = Anchor.Centre;
                                     combo.Y = this.GetManiaSkinConfig<float>(LegacyManiaSkinConfigurationLookups.ComboPosition)?.Value ?? 0;
                                 }
 
-                                if (leaderboard != null)
+                                if (leaderboard is not null)
                                 {
                                     leaderboard.Anchor = Anchor.CentreLeft;
                                     leaderboard.Origin = Anchor.CentreLeft;
@@ -189,7 +189,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
                               ?? default_hit_result_skin_filenames[result];
 
             var animation = this.GetAnimation(filename, true, true, frameLength: 1000 / 20d);
-            return animation == null ? null : new LegacyManiaJudgementPiece(result, animation);
+            return animation is null ? null : new LegacyManiaJudgementPiece(result, animation);
         }
 
         public override ISample GetSample(ISampleInfo sampleInfo)

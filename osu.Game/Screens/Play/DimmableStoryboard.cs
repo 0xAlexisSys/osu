@@ -73,7 +73,7 @@ namespace osu.Game.Screens.Play
             {
                 initializeStoryboard(true);
 
-                if (drawableStoryboard != null)
+                if (drawableStoryboard is not null)
                 {
                     // Regardless of user dim setting, for the time being we need to ensure storyboards are still updated in the background (even if not displayed).
                     // If we don't do this, an intensive storyboard will have a lot of catch-up work to do at the start of a break, causing a huge stutter.
@@ -92,7 +92,7 @@ namespace osu.Game.Screens.Play
 
         private void initializeStoryboard(bool async)
         {
-            if (drawableStoryboard != null)
+            if (drawableStoryboard is not null)
                 return;
 
             if (!ShowStoryboard.Value && !IgnoreUserSettings.Value)

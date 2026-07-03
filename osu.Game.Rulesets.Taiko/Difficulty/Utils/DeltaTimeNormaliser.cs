@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Utils
             foreach (double value in deltaTimes)
             {
                 // Add to the current group if within margin of error
-                if (current != null && Math.Abs(value - current[0]) <= marginOfError)
+                if (current is not null && Math.Abs(value - current[0]) <= marginOfError)
                 {
                     current.Add(value);
                     continue;

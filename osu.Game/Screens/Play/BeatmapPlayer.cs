@@ -45,7 +45,7 @@ namespace osu.Game.Screens.Play
         [BackgroundDependencyLoader]
         private void load()
         {
-            if (DrawableRuleset == null)
+            if (DrawableRuleset is null)
             {
                 // base load must have failed (e.g. due to an unknown mod); bail.
                 return;

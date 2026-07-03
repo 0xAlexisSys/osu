@@ -67,7 +67,7 @@ namespace osu.Game.Screens.Backgrounds
         public override void OnSuspending(ScreenTransitionEvent e)
         {
             var backgroundScreenStack = Parent as BackgroundScreenStack;
-            Debug.Assert(backgroundScreenStack != null);
+            Debug.Assert(backgroundScreenStack is not null);
 
             if (background is BeatmapBackgroundWithStoryboard storyboardBackground)
                 storyboardUnloadDelegate = gameHost.UpdateThread.Scheduler.AddDelayed(storyboardBackground.UnloadStoryboard, TRANSITION_LENGTH);

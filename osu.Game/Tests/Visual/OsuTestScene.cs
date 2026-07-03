@@ -123,7 +123,7 @@ namespace osu.Game.Tests.Visual
             baseDependencies = isolatedBaseDependencies;
 
             var providedRuleset = CreateRuleset();
-            if (providedRuleset != null)
+            if (providedRuleset is not null)
                 isolatedBaseDependencies = rulesetDependencies = new DrawableRulesetDependencies(providedRuleset, baseDependencies);
 
             Dependencies = isolatedBaseDependencies;
@@ -188,7 +188,7 @@ namespace osu.Game.Tests.Visual
                 // When running headless, there is an opportunity to use the host storage rather than creating a second isolated one.
                 // This is because the host is recycled per TestScene execution in headless at an nunit level.
                 // Importantly, we can't use this optimisation when `UseFreshStoragePerRun` is true, as it doesn't reset per test method.
-                if (!UseFreshStoragePerRun && headlessHostStorage != null)
+                if (!UseFreshStoragePerRun && headlessHostStorage is not null)
                     return headlessHostStorage;
 
                 return new TemporaryNativeStorage($"{GetType().Name}-{Guid.NewGuid()}");
@@ -266,7 +266,7 @@ namespace osu.Game.Tests.Visual
                     // add buffer after last hitobject to allow for final replay frames etc.
                     trackLength = Math.Max(trackLength, beatmap.HitObjects.Max(h => h.GetEndTime()) + 2000);
 
-                if (referenceClock != null)
+                if (referenceClock is not null)
                 {
                     var store = new TrackVirtualStore(referenceClock);
                     audio.AddItem(store);
@@ -396,7 +396,7 @@ namespace osu.Game.Tests.Visual
 
                         double? lastRefTime = lastReferenceTime;
 
-                        if (lastRefTime != null)
+                        if (lastRefTime is not null)
                             accumulated += (refTime - lastRefTime.Value) * Rate;
 
                         lastReferenceTime = refTime;

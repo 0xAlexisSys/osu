@@ -135,7 +135,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
         private void updateLabelWidth()
         {
-            if (fixedLabelWidth == null)
+            if (fixedLabelWidth is null)
             {
                 grid.ColumnDimensions = new[] { new Dimension(GridSizeMode.AutoSize) };
                 labelText.RelativeSizeAxes = Axes.None;

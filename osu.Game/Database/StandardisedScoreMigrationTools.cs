@@ -135,7 +135,7 @@ namespace osu.Game.Database
             if (!score.IsLegacyScore)
                 return (score.TotalScoreWithoutMods, score.TotalScore);
 
-            Debug.Assert(score.LegacyTotalScore != null);
+            Debug.Assert(score.LegacyTotalScore is not null);
 
             if (ruleset is not ILegacyRuleset legacyRuleset)
                 return (score.TotalScoreWithoutMods, score.TotalScore);
@@ -501,14 +501,14 @@ namespace osu.Game.Database
         public static void PopulateFromReplay(this ScoreInfo score, RealmFileStore files, Action<SerializationReader> populationFunc)
         {
             string? replayFilename = score.Files.FirstOrDefault(f => f.Filename.EndsWith(@".osr", StringComparison.InvariantCultureIgnoreCase))?.File.GetStoragePath();
-            if (replayFilename == null)
+            if (replayFilename is null)
                 return;
 
             try
             {
                 using (var stream = files.Store.GetStream(replayFilename))
                 {
-                    if (stream == null)
+                    if (stream is null)
                         return;
 
                     using (SerializationReader sr = new SerializationReader(stream))

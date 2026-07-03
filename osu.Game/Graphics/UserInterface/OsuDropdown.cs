@@ -408,7 +408,7 @@ namespace osu.Game.Graphics.UserInterface
             {
                 base.LoadComplete();
 
-                if (Dropdown != null)
+                if (Dropdown is not null)
                     Dropdown.Menu.StateChanged += _ => updateChevron();
 
                 SearchBar.State.ValueChanged += _ => updateColour();
@@ -450,7 +450,7 @@ namespace osu.Game.Graphics.UserInterface
 
             private void updateChevron()
             {
-                Debug.Assert(Dropdown != null);
+                Debug.Assert(Dropdown is not null);
                 bool open = Dropdown.Menu.State == MenuState.Open;
                 Chevron.ScaleTo(open ? new Vector2(1f, -1f) : Vector2.One, 300, Easing.OutQuint);
             }

@@ -50,7 +50,7 @@ namespace osu.Game.Input.Handlers
 
                 var lastPressed = inputState.LastReplayState?.PressedActions;
 
-                if (lastPressed == null || lastPressed.Count == 0)
+                if (lastPressed is null || lastPressed.Count == 0)
                 {
                     pressed = PressedActions.ToArray();
                 }

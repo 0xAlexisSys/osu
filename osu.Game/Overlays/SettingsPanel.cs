@@ -225,7 +225,7 @@ namespace osu.Game.Overlays
 
         private void loadSections()
         {
-            if (sectionsLoadingTask != null)
+            if (sectionsLoadingTask is not null)
                 return;
 
             sectionsLoadingTask = LoadComponentsAsync(loadableSections, sections =>
@@ -244,7 +244,7 @@ namespace osu.Game.Overlays
 
         private void loadSidebarButtons()
         {
-            if (Sidebar == null)
+            if (Sidebar is null)
                 return;
 
             LoadComponentsAsync(createSidebarButtons(), buttons =>

@@ -31,7 +31,7 @@ namespace osu.Game.Skinning
 
         public override string ToString()
         {
-            if (Ruleset == null) return Lookup.GetDescription();
+            if (Ruleset is null) return Lookup.GetDescription();
 
             return $"{Lookup.GetDescription()} (\"{Ruleset.Name}\" only)";
         }

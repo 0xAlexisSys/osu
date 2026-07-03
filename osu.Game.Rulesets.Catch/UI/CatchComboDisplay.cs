@@ -36,7 +36,7 @@ namespace osu.Game.Rulesets.Catch.UI
         {
             base.LoadComplete();
 
-            if (player != null)
+            if (player is not null)
             {
                 showCombo.BindTo(player.ShowingOverlayComponents);
                 showCombo.BindValueChanged(s => this.FadeTo(s.NewValue ? 1 : 0, HUDOverlay.FADE_DURATION, HUDOverlay.FADE_EASING), true);

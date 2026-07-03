@@ -45,7 +45,7 @@ namespace osu.Game.Screens.Ranking
         {
             background.Colour = colours.Green;
 
-            if (player != null)
+            if (player is not null)
             {
                 TooltipText = player is ReplayPlayer ? "replay" : "retry";
                 Action = () => player.Restart();

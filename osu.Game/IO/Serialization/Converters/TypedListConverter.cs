@@ -45,21 +45,21 @@ namespace osu.Game.IO.Serialization.Converters
 
             var obj = JObject.Load(reader);
 
-            if (obj["$lookup_table"] == null)
+            if (obj["$lookup_table"] is null)
                 return list;
 
             var lookupTable = serializer.Deserialize<List<string>>(obj["$lookup_table"].CreateReader());
-            if (lookupTable == null)
+            if (lookupTable is null)
                 return list;
 
-            if (obj["$items"] == null)
+            if (obj["$items"] is null)
                 return list;
 
             foreach (var tok in obj["$items"])
             {
                 var itemReader = tok.CreateReader();
 
-                if (tok["$type"] == null)
+                if (tok["$type"] is null)
                     throw new JsonException("Expected $type token.");
 
                 // Prevent instantiation of types that do not inherit the type targetted by this converter

@@ -58,7 +58,7 @@ namespace osu.Game.Skinning
         /// <exception cref="InvalidOperationException">If an <see cref="ISampleInfo"/> has already been applied to this <see cref="PoolableSkinnableSample"/>.</exception>
         public void Apply(ISampleInfo sampleInfo)
         {
-            if (this.sampleInfo != null)
+            if (this.sampleInfo is not null)
                 throw new InvalidOperationException($"A {nameof(PoolableSkinnableSample)} cannot be applied multiple {nameof(ISampleInfo)}s.");
 
             this.sampleInfo = sampleInfo;
@@ -96,12 +96,12 @@ namespace osu.Game.Skinning
         {
             clearPreviousSamples();
 
-            if (sampleInfo == null)
+            if (sampleInfo is null)
                 return;
 
             var sample = CurrentSkin.GetSample(sampleInfo);
 
-            if (sample == null)
+            if (sample is null)
                 return;
 
             sampleContainer.Add(Sample = new DrawableSample(sample));
@@ -118,7 +118,7 @@ namespace osu.Game.Skinning
         {
             FlushPendingSkinChanges();
 
-            if (Sample == null)
+            if (Sample is null)
                 return;
 
             activeChannel = Sample.GetChannel();

@@ -65,7 +65,7 @@ namespace osu.Game.Screens.Menu
                     skinnableWelcome?.Play();
 
                     var reverbChannel = pianoReverb?.Play();
-                    if (reverbChannel != null)
+                    if (reverbChannel is not null)
                         intro.LogoVisualisation.AddAmplitudeSource(reverbChannel);
 
                     if (!UsingThemedIntro)

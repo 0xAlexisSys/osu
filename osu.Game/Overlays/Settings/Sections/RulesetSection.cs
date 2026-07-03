@@ -31,7 +31,7 @@ namespace osu.Game.Overlays.Settings.Sections
                 {
                     SettingsSubsection? section = ruleset.CreateSettings();
 
-                    if (section != null)
+                    if (section is not null)
                         Add(section);
                 }
                 catch (Exception e)

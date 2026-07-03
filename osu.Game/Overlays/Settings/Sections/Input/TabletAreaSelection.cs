@@ -192,7 +192,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
         private void checkBounds()
         {
-            if (tablet.Value == null)
+            if (tablet.Value is null)
                 return;
 
             // allow for some degree of floating point error, as we don't care about being perfect here.

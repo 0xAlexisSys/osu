@@ -106,7 +106,7 @@ namespace osu.Game.Tests.Visual
         {
             AddUntilStep("exit all screens", () =>
             {
-                if (Stack.CurrentScreen == null) return true;
+                if (Stack.CurrentScreen is null) return true;
 
                 Stack.Exit();
                 return false;

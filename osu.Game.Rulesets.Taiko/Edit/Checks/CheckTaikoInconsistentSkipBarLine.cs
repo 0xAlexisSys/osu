@@ -41,7 +41,7 @@ namespace osu.Game.Rulesets.Taiko.Edit.Checks
                 {
                     var matchingPoint = TimingCheckUtils.FindExactMatchingTimingPoint(timingPoints, referencePoint.Time);
 
-                    if (matchingPoint == null)
+                    if (matchingPoint is null)
                         // Inconsistent timing points - that's handled by `CheckInconsistentTimingControlPoints`, so skip
                         continue;
 

@@ -82,7 +82,7 @@ namespace osu.Game.Screens.Ranking.Statistics
 
             var newScore = score.NewValue;
 
-            if (newScore == null)
+            if (newScore is null)
                 return;
 
             spinner.Show();

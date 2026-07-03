@@ -183,7 +183,7 @@ namespace osu.Game.Screens.Play
 
                 var chan = sampleCountdown?.GetChannel();
 
-                if (chan != null)
+                if (chan is not null)
                 {
                     chan.Frequency.Value = newCount == 0 ? 0.5f : 1;
                     chan.Play();

@@ -60,7 +60,7 @@ namespace osu.Game.Rulesets.Mania.Edit.Blueprints
         {
             base.Update();
 
-            if (Column != null)
+            if (Column is not null)
             {
                 headPiece.Y = Parent!.ToLocalSpace(Column.ScreenSpacePositionAtTime(HitObject.StartTime)).Y;
                 tailPiece.Y = Parent!.ToLocalSpace(Column.ScreenSpacePositionAtTime(HitObject.EndTime)).Y;
@@ -112,7 +112,7 @@ namespace osu.Game.Rulesets.Mania.Edit.Blueprints
             }
             else
             {
-                if (result.Playfield != null)
+                if (result.Playfield is not null)
                 {
                     headPiece.Width = tailPiece.Width = result.Playfield.DrawWidth;
                     headPiece.X = tailPiece.X = ToLocalSpace(result.ScreenSpacePosition).X;

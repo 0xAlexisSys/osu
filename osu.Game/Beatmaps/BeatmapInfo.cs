@@ -108,7 +108,7 @@ namespace osu.Game.Beatmaps
         public bool Equals(BeatmapInfo? other)
         {
             if (ReferenceEquals(this, other)) return true;
-            if (other == null) return false;
+            if (other is null) return false;
 
             return ID == other.ID;
         }
@@ -121,20 +121,20 @@ namespace osu.Game.Beatmaps
             return ID.GetHashCode();
         }
 
-        public bool AudioEquals(BeatmapInfo? other) => other != null
-                                                       && BeatmapSet != null
-                                                       && other.BeatmapSet != null
+        public bool AudioEquals(BeatmapInfo? other) => other is not null
+                                                       && BeatmapSet is not null
+                                                       && other.BeatmapSet is not null
                                                        && compareFiles(this, other, m => m.AudioFile);
 
-        public bool BackgroundEquals(BeatmapInfo? other) => other != null
-                                                            && BeatmapSet != null
-                                                            && other.BeatmapSet != null
+        public bool BackgroundEquals(BeatmapInfo? other) => other is not null
+                                                            && BeatmapSet is not null
+                                                            && other.BeatmapSet is not null
                                                             && compareFiles(this, other, m => m.BackgroundFile);
 
         private static bool compareFiles(BeatmapInfo x, BeatmapInfo y, Func<IBeatmapMetadataInfo, string> getFilename)
         {
-            Debug.Assert(x.BeatmapSet != null);
-            Debug.Assert(y.BeatmapSet != null);
+            Debug.Assert(x.BeatmapSet is not null);
+            Debug.Assert(y.BeatmapSet is not null);
 
             string? fileHashX = x.BeatmapSet.GetFile(getFilename(x.Metadata))?.File.Hash;
             string? fileHashY = y.BeatmapSet.GetFile(getFilename(y.Metadata))?.File.Hash;

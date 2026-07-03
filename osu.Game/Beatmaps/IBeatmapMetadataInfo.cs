@@ -63,7 +63,7 @@ namespace osu.Game.Beatmaps
 
         bool IEquatable<IBeatmapMetadataInfo>.Equals(IBeatmapMetadataInfo? other)
         {
-            if (other == null)
+            if (other is null)
                 return false;
 
             return Title == other.Title

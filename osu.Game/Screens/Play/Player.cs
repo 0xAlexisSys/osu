@@ -237,7 +237,7 @@ namespace osu.Game.Screens.Play
 
             IBeatmap playableBeatmap = loadPlayableBeatmap(gameplayMods, cancellationToken);
 
-            if (playableBeatmap == null)
+            if (playableBeatmap is null)
                 return;
 
             if (!ModUtils.CheckModsBelongToRuleset(ruleset, gameplayMods))
@@ -246,7 +246,7 @@ namespace osu.Game.Screens.Play
                 return;
             }
 
-            if (game != null)
+            if (game is not null)
                 gameActive.BindTo(game.IsActive);
 
             DrawableRuleset = ruleset.CreateDrawableRulesetWith(playableBeatmap, gameplayMods);
@@ -584,13 +584,13 @@ namespace osu.Game.Screens.Play
 
             try
             {
-                if (Beatmap.Value.Beatmap == null)
+                if (Beatmap.Value.Beatmap is null)
                     throw new InvalidOperationException("Beatmap was not loaded");
 
                 var rulesetInfo = Ruleset.Value ?? Beatmap.Value.BeatmapInfo.Ruleset;
                 ruleset = rulesetInfo.CreateInstance();
 
-                if (ruleset == null)
+                if (ruleset is null)
                     throw new RulesetLoadException("Instantiation failure");
 
                 try
@@ -701,7 +701,7 @@ namespace osu.Game.Screens.Play
             else
             {
                 // May be restarting from results screen.
-                if (this.GetChildScreen() != null)
+                if (this.GetChildScreen() is not null)
                     this.MakeCurrent();
             }
 
@@ -868,7 +868,7 @@ namespace osu.Game.Screens.Play
             resultsDisplayDelegate?.Cancel();
             resultsDisplayDelegate = new ScheduledDelegate(() =>
             {
-                if (prepareScoreForDisplayTask == null)
+                if (prepareScoreForDisplayTask is null)
                 {
                     // Try importing score since the task hasn't been invoked yet.
                     prepareAndImportScoreAsync();
@@ -881,7 +881,7 @@ namespace osu.Game.Screens.Play
 
                 resultsDisplayDelegate?.Cancel();
 
-                if (prepareScoreForDisplayTask.GetResultSafely() == null)
+                if (prepareScoreForDisplayTask.GetResultSafely() is null)
                 {
                     // If score import did not occur, we do not want to show the results screen.
                     return;
@@ -909,7 +909,7 @@ namespace osu.Game.Screens.Play
             // Ensure we are not writing to the replay any more, as we are about to consume and store the score.
             DrawableRuleset.SetRecordTarget(null);
 
-            if (prepareScoreForDisplayTask != null)
+            if (prepareScoreForDisplayTask is not null)
                 return prepareScoreForDisplayTask;
 
             // We do not want to import the score in cases where we don't show results
@@ -1200,12 +1200,12 @@ namespace osu.Game.Screens.Play
 
             if (LoadedBeatmapSuccessfully && !GameplayState.HasPassed)
             {
-                Debug.Assert(resultsDisplayDelegate == null);
+                Debug.Assert(resultsDisplayDelegate is null);
 
                 if (!GameplayState.HasFailed)
                     GameplayState.HasQuit = true;
 
-                if (DrawableRuleset.ReplayScore == null)
+                if (DrawableRuleset.ReplayScore is null)
                     ScoreProcessor.FailScore(Score.ScoreInfo);
             }
 
@@ -1242,7 +1242,7 @@ namespace osu.Game.Screens.Play
         protected virtual Task ImportScore(Score score)
         {
             // Replays are already populated and present in the game's database, so should not be re-imported.
-            if (DrawableRuleset.ReplayScore != null)
+            if (DrawableRuleset.ReplayScore is not null)
                 return Task.CompletedTask;
 
             ByteArrayArchiveReader replayReader = null;
@@ -1260,7 +1260,7 @@ namespace osu.Game.Screens.Play
             var importableScore = score.ScoreInfo.DeepClone();
 
             var imported = scoreManager.Import(importableScore, replayReader);
-            Debug.Assert(imported != null);
+            Debug.Assert(imported is not null);
 
             imported.PerformRead(s =>
             {
@@ -1299,7 +1299,7 @@ namespace osu.Game.Screens.Play
                     b.IgnoreUserSettings.Value = true;
 
                     // May be null if the load never completed.
-                    if (breakTracker != null)
+                    if (breakTracker is not null)
                     {
                         b.IsBreakTime.UnbindFrom(breakTracker.IsBreakTime);
                         b.IsBreakTime.Value = false;

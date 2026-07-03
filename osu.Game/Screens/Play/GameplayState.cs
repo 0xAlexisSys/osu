@@ -101,7 +101,7 @@ namespace osu.Game.Screens.Play
             HealthProcessor = healthProcessor ?? ruleset.CreateHealthProcessor(beatmap.HitObjects[0].StartTime);
             Storyboard = storyboard ?? new Storyboard();
 
-            if (localUserPlayingState != null)
+            if (localUserPlayingState is not null)
                 PlayingState.BindTo(localUserPlayingState);
         }
 

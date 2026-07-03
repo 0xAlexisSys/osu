@@ -38,17 +38,17 @@ namespace osu.Game.Graphics.UserInterface
         {
             var result = new List<string>();
 
-            if (KeyCombinations != null)
+            if (KeyCombinations is not null)
             {
                 result.AddRange(KeyCombinations.Select(keyCombinationProvider.GetReadableString));
             }
 
-            if (GlobalAction != null)
+            if (GlobalAction is not null)
             {
                 result.AddRange(keyBindingStore.GetReadableKeyCombinationsFor(GlobalAction.Value));
             }
 
-            if (PlatformAction != null)
+            if (PlatformAction is not null)
             {
                 var action = PlatformAction.Value;
                 var bindings = gameHost.PlatformKeyBindings.Where(kb => (PlatformAction)kb.Action == action);
@@ -60,13 +60,13 @@ namespace osu.Game.Graphics.UserInterface
 
         public bool Equals(Hotkey other)
         {
-            if (KeyCombinations == null && other.KeyCombinations != null)
+            if (KeyCombinations is null && other.KeyCombinations is not null)
                 return false;
 
-            if (KeyCombinations != null && other.KeyCombinations == null)
+            if (KeyCombinations is not null && other.KeyCombinations is null)
                 return false;
 
-            bool result = (KeyCombinations == null && other.KeyCombinations == null) || KeyCombinations!.SequenceEqual(other.KeyCombinations!);
+            bool result = (KeyCombinations is null && other.KeyCombinations is null) || KeyCombinations!.SequenceEqual(other.KeyCombinations!);
             result &= GlobalAction == other.GlobalAction;
             result &= PlatformAction == other.PlatformAction;
             return result;

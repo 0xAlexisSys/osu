@@ -49,7 +49,7 @@ namespace osu.Game.Graphics.Containers.Markdown.Footnotes
                 Icon = FontAwesome.Solid.ArrowUp,
             });
 
-            if (scrollContainer != null)
+            if (scrollContainer is not null)
             {
                 Action = () =>
                 {

@@ -31,7 +31,7 @@ namespace osu.Game.Database
         public override void ExportToStream(ScoreInfo model, Stream outputStream, ProgressNotification? notification, CancellationToken cancellationToken = default)
         {
             var file = model.Files.SingleOrDefault();
-            if (file == null)
+            if (file is null)
                 return;
 
             using (var inputStream = UserFileStorage.GetStream(file.File.GetStoragePath()))

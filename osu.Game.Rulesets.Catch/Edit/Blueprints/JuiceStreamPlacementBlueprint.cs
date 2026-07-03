@@ -89,7 +89,7 @@ namespace osu.Game.Rulesets.Catch.Edit.Blueprints
             gridSnapResult.ScreenSpacePosition.X = screenSpacePosition.X;
             var distanceSnapResult = Composer?.TryDistanceSnap(gridSnapResult.ScreenSpacePosition);
 
-            var result = distanceSnapResult != null && Vector2.Distance(gridSnapResult.ScreenSpacePosition, distanceSnapResult.ScreenSpacePosition) < CatchHitObjectComposer.DISTANCE_SNAP_RADIUS
+            var result = distanceSnapResult is not null && Vector2.Distance(gridSnapResult.ScreenSpacePosition, distanceSnapResult.ScreenSpacePosition) < CatchHitObjectComposer.DISTANCE_SNAP_RADIUS
                 ? distanceSnapResult
                 : gridSnapResult;
 

@@ -156,7 +156,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             DrawableSlider slider = (DrawableSlider)ParentHitObject;
             int repeatIndex = ((SliderEndCircle)HitObject).RepeatIndex;
 
-            Debug.Assert(slider != null);
+            Debug.Assert(slider is not null);
 
             // When snaking in is enabled, the first end circle needs to be delayed until the snaking completes.
             bool delayFadeIn = slider.SliderBody?.SnakingIn.Value == true && repeatIndex == 0;

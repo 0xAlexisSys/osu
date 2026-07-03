@@ -26,7 +26,7 @@ namespace osu.Game.Skinning
         {
             var textureUpload = wrappedStore?.Get(name);
 
-            if (textureUpload == null)
+            if (textureUpload is null)
                 return null!;
 
             return shouldConvertToGrayscale(name)
@@ -38,7 +38,7 @@ namespace osu.Game.Skinning
         {
             var textureUpload = wrappedStore?.Get(name);
 
-            if (textureUpload == null)
+            if (textureUpload is null)
                 return null!;
 
             return shouldConvertToGrayscale(name)

@@ -145,7 +145,7 @@ namespace osu.Game.Overlays.FirstRunSetup
             {
                 currentlyLoadedBeatmaps.FadeColour(colours.Red1, 500, Easing.OutQuint);
             }
-            else if (changes != null && (changes.DeletedIndices.Any() || changes.InsertedIndices.Any()))
+            else if (changes is not null && (changes.DeletedIndices.Any() || changes.InsertedIndices.Any()))
             {
                 currentlyLoadedBeatmaps.FadeColour(colours.Yellow)
                                        .FadeColour(OverlayColourProvider.Content2, 1500, Easing.OutQuint);
@@ -157,7 +157,7 @@ namespace osu.Game.Overlays.FirstRunSetup
 
         private void downloadTutorial()
         {
-            if (tutorialDownloader != null)
+            if (tutorialDownloader is not null)
                 return;
 
             tutorialDownloader = new BundledBeatmapDownloader(true);
@@ -180,7 +180,7 @@ namespace osu.Game.Overlays.FirstRunSetup
 
         private void downloadBundled()
         {
-            if (bundledDownloader != null)
+            if (bundledDownloader is not null)
                 return;
 
             downloadInBackgroundText

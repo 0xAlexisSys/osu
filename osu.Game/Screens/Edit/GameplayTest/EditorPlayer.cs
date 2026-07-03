@@ -133,7 +133,7 @@ namespace osu.Game.Screens.Edit.GameplayTest
                                                     .AliveObjects
                                                     .SingleOrDefault(it => it.HitObject == hitObject);
 
-                if (drawableObject != null)
+                if (drawableObject is not null)
                     preventMissOnDrawable(drawableObject);
             }
 
@@ -142,7 +142,7 @@ namespace osu.Game.Screens.Edit.GameplayTest
                 foreach (var nested in drawableObject.NestedHitObjects)
                     preventMissOnDrawable(nested);
 
-                if (drawableObject.Entry != null && drawableObject.HitObject.GetEndTime() < editorState.Time)
+                if (drawableObject.Entry is not null && drawableObject.HitObject.GetEndTime() < editorState.Time)
                 {
                     var result = drawableObject.CreateResult(drawableObject.HitObject.Judgement);
                     result.Type = result.Judgement.MaxResult;
@@ -213,10 +213,10 @@ namespace osu.Game.Screens.Edit.GameplayTest
 
         private void toggleAutoplay()
         {
-            if (DrawableRuleset.ReplayScore == null)
+            if (DrawableRuleset.ReplayScore is null)
             {
                 var autoplay = Ruleset.Value.CreateInstance().GetAutoplayMod();
-                if (autoplay == null)
+                if (autoplay is null)
                     return;
 
                 var score = autoplay.CreateScoreFromReplayData(GameplayState.Beatmap, [autoplay]);

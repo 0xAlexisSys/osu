@@ -59,7 +59,7 @@ namespace osu.Game.Screens.Select
         {
             get
             {
-                Debug.Assert(Item != null);
+                Debug.Assert(Item is not null);
                 return (GroupedBeatmapSet)Item!.Model;
             }
         }
@@ -195,7 +195,7 @@ namespace osu.Game.Screens.Select
         {
             get
             {
-                if (Item == null)
+                if (Item is null)
                     return Array.Empty<MenuItem>();
 
                 var beatmapSet = groupedBeatmapSet.BeatmapSet;
@@ -226,7 +226,7 @@ namespace osu.Game.Screens.Select
                                            .Select(createCollectionMenuItem)
                                            .ToList();
 
-                if (manageCollectionsDialog != null)
+                if (manageCollectionsDialog is not null)
                     collectionItems.Add(new OsuMenuItem(CommonStrings.Manage, MenuItemType.Standard, manageCollectionsDialog.Show));
 
                 items.Add(new OsuMenuItem(CommonStrings.Collections) { Items = collectionItems });

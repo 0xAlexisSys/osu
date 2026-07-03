@@ -140,7 +140,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                     target = Rim;
                 }
 
-                if (target != null)
+                if (target is not null)
                 {
                     const float down_time = 80;
                     const float up_time = 50;

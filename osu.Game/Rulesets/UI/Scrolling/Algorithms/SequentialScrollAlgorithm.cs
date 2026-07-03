@@ -104,7 +104,7 @@ namespace osu.Game.Rulesets.UI.Scrolling.Algorithms
             }
 
             var mapping = positionMappings[mappingIndex];
-            Debug.Assert(mapping.ControlPoint != null);
+            Debug.Assert(mapping.ControlPoint is not null);
 
             return mapping;
         }

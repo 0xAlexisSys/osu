@@ -73,7 +73,7 @@ namespace osu.Game.Graphics.Carousel
 
         public int CompareTo(CarouselItem? other)
         {
-            if (other == null) return 1;
+            if (other is null) return 1;
 
             return CarouselYPosition.CompareTo(other.CarouselYPosition);
         }

@@ -42,7 +42,7 @@ namespace osu.Game.Skinning
         /// <summary>
         /// All raw <see cref="DrawableSamples"/>s contained in this <see cref="SkinnableSound"/>.
         /// </summary>
-        protected IEnumerable<DrawableSample> DrawableSamples => samplesContainer.Select(c => c.Sample).Where(s => s != null);
+        protected IEnumerable<DrawableSample> DrawableSamples => samplesContainer.Select(c => c.Sample).Where(s => s is not null);
 
         private readonly AudioContainer<PoolableSkinnableSample> samplesContainer;
 

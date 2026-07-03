@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Mods
         {
             Mod? resultMod = ruleset.CreateModFromAcronym(Acronym);
 
-            if (resultMod == null)
+            if (resultMod is null)
             {
                 Logger.Log($"There is no mod in the ruleset ({ruleset.ShortName}) matching the acronym {Acronym}.");
                 return new UnknownMod(Acronym);

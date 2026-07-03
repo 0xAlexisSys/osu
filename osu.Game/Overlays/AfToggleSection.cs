@@ -327,7 +327,7 @@ namespace osu.Game.Overlays
                     {
                         if (val.NewValue)
                         {
-                            if (dvdLogo == null)
+                            if (dvdLogo is null)
                             {
                                 target.Add(dvdLogo = new Sprite
                                 {

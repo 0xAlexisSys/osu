@@ -57,7 +57,7 @@ namespace osu.Game.Rulesets.Mania.Edit.Blueprints.Components
         {
             base.Update();
 
-            if (column != null)
+            if (column is not null)
                 Scale = new Vector2(1, column.ScrollingInfo.Direction.Value == ScrollingDirection.Down ? 1 : -1);
         }
     }

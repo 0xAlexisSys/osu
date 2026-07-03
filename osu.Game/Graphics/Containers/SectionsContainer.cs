@@ -50,12 +50,12 @@ namespace osu.Game.Graphics.Containers
             {
                 if (value == field) return;
 
-                if (field != null)
+                if (field is not null)
                     RemoveInternal(field, false);
 
                 field = value;
 
-                if (value == null) return;
+                if (value is null) return;
 
                 AddInternal(field);
 
@@ -73,7 +73,7 @@ namespace osu.Game.Graphics.Containers
                 field?.Expire();
                 field = value;
 
-                if (value == null) return;
+                if (value is null) return;
 
                 AddInternal(field);
                 lastKnownScroll = null;
@@ -87,12 +87,12 @@ namespace osu.Game.Graphics.Containers
             {
                 if (value == field) return;
 
-                if (field != null)
+                if (field is not null)
                     scrollContainer.Remove(field, false);
 
                 field = value;
 
-                if (field == null) return;
+                if (field is null) return;
 
                 field.Anchor |= Anchor.y2;
                 field.Origin |= Anchor.y2;
@@ -112,7 +112,7 @@ namespace osu.Game.Graphics.Containers
                 headerBackgroundContainer.Clear();
                 field = value;
 
-                if (field != null)
+                if (field is not null)
                 {
                     headerBackgroundContainer.Add(field);
                     lastKnownScroll = null;
@@ -144,7 +144,7 @@ namespace osu.Game.Graphics.Containers
         {
             base.Add(drawable);
 
-            Debug.Assert(drawable != null);
+            Debug.Assert(drawable is not null);
 
             lastKnownScroll = null;
             headerHeight = null;
@@ -262,7 +262,7 @@ namespace osu.Game.Graphics.Containers
                 if (scrollContainer.UserScrolling)
                     lastClickedSection = null;
 
-                if (ExpandableHeader != null && FixedHeader != null)
+                if (ExpandableHeader is not null && FixedHeader is not null)
                 {
                     float offset = Math.Min(expandableHeaderSize, currentScroll);
 
@@ -286,7 +286,7 @@ namespace osu.Game.Graphics.Containers
 
                 var presentChildren = flowChildren.Where(c => c.IsPresent);
 
-                if (lastClickedSection != null)
+                if (lastClickedSection is not null)
                     SelectedSection.Value = lastClickedSection;
                 else if (Precision.AlmostBigger(0, scrollContainer.Current))
                     SelectedSection.Value = presentChildren.FirstOrDefault();

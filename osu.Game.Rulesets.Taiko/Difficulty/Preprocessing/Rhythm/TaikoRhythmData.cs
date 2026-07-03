@@ -41,7 +41,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Preprocessing.Rhythm
         {
             var previous = current.Previous(0);
 
-            if (previous == null)
+            if (previous is null)
             {
                 Ratio = 1;
                 return;

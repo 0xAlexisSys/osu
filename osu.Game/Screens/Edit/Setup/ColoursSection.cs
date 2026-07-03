@@ -33,7 +33,7 @@ namespace osu.Game.Screens.Edit.Setup
 
         protected override void LoadComplete()
         {
-            if (Beatmap.BeatmapSkin != null)
+            if (Beatmap.BeatmapSkin is not null)
                 comboColours.Colours.AddRange(Beatmap.BeatmapSkin.ComboColours);
 
             if (comboColours.Colours.Count == 0)
@@ -45,7 +45,7 @@ namespace osu.Game.Screens.Edit.Setup
 
             comboColours.Colours.BindCollectionChanged((_, _) =>
             {
-                if (Beatmap.BeatmapSkin != null)
+                if (Beatmap.BeatmapSkin is not null)
                 {
                     if (syncingColours)
                         return;

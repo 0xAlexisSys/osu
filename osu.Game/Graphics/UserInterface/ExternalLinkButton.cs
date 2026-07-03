@@ -66,7 +66,7 @@ namespace osu.Game.Graphics.UserInterface
 
         protected override bool OnClick(ClickEvent e)
         {
-            if (Link != null)
+            if (Link is not null)
                 host.OpenUrlExternally(Link);
             return true;
         }
@@ -79,7 +79,7 @@ namespace osu.Game.Graphics.UserInterface
             {
                 List<MenuItem> items = new List<MenuItem>();
 
-                if (Link != null)
+                if (Link is not null)
                 {
                     items.Add(new OsuMenuItem("Open", MenuItemType.Highlighted, () => host.OpenUrlExternally(Link)));
                     items.Add(new OsuMenuItem(CommonStrings.CopyLink, MenuItemType.Standard, copyUrl));
@@ -91,7 +91,7 @@ namespace osu.Game.Graphics.UserInterface
 
         private void copyUrl()
         {
-            if (Link == null) return;
+            if (Link is null) return;
 
             game.CopyToClipboard(Link);
         }

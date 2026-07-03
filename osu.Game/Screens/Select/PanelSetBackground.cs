@@ -37,7 +37,7 @@ namespace osu.Game.Screens.Select
             get => working;
             set
             {
-                if (working == null && value == null)
+                if (working is null && value is null)
                     return;
 
                 // this guard papers over excessive refreshes of the background asset which occur if `working == value` type guards are used.
@@ -134,10 +134,10 @@ namespace osu.Game.Screens.Select
         private void loadContentIfRequired()
         {
             // A load is already in progress if the cancellation token is non-null.
-            if (loadCancellation != null || working == null)
+            if (loadCancellation is not null || working is null)
                 return;
 
-            if (beatmapCarousel != null)
+            if (beatmapCarousel is not null)
             {
                 Quad containingSsdq = beatmapCarousel.ScreenSpaceDrawQuad;
 

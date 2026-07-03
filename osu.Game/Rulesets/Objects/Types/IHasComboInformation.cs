@@ -91,7 +91,7 @@ namespace osu.Game.Rulesets.Objects.Types
             int indexWithOffsets = lastObj?.ComboIndexWithOffsets ?? 0;
             int inCurrentCombo = (lastObj?.IndexInCurrentCombo + 1) ?? 0;
 
-            if (NewCombo || lastObj == null)
+            if (NewCombo || lastObj is null)
             {
                 inCurrentCombo = 0;
                 index++;

@@ -83,10 +83,10 @@ namespace osu.Game.Screens.Play.HUD
         {
             config.BindWith(OsuSetting.GameplayLeaderboard, configVisibility);
 
-            if (gameplayState != null)
+            if (gameplayState is not null)
                 userPlayingState.BindTo(gameplayState.PlayingState);
 
-            if (hudOverlay != null)
+            if (hudOverlay is not null)
                 holdingForHUD.BindTo(hudOverlay.HoldingForHUD);
         }
 
@@ -128,7 +128,7 @@ namespace osu.Game.Screens.Play.HUD
 
             if (score.Tracked)
             {
-                if (TrackedScore != null)
+                if (TrackedScore is not null)
                     throw new InvalidOperationException("Cannot track more than one score.");
 
                 TrackedScore = drawable;
@@ -161,7 +161,7 @@ namespace osu.Game.Screens.Play.HUD
 
             requiresScroll = Flow.DrawHeight > Height;
 
-            if (requiresScroll && TrackedScore != null)
+            if (requiresScroll && TrackedScore is not null)
             {
                 double scrollTarget = scroll.GetChildPosInContent(TrackedScore) + TrackedScore.DrawHeight / 2 - scroll.DrawHeight / 2;
 

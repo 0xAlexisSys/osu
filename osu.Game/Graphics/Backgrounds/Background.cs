@@ -55,7 +55,7 @@ namespace osu.Game.Graphics.Backgrounds
         /// <returns>A <see cref="TransformSequence{T}"/> to which further transforms can be added.</returns>
         public void BlurTo(Vector2 newBlurSigma, double duration = 0, Easing easing = Easing.None)
         {
-            if (bufferedContainer == null && newBlurSigma != Vector2.Zero)
+            if (bufferedContainer is null && newBlurSigma != Vector2.Zero)
             {
                 RemoveInternal(Sprite, false);
 
@@ -67,7 +67,7 @@ namespace osu.Game.Graphics.Backgrounds
                 });
             }
 
-            if (bufferedContainer != null)
+            if (bufferedContainer is not null)
                 transformBlurSigma(newBlurSigma, duration, easing);
         }
 
@@ -81,7 +81,7 @@ namespace osu.Game.Graphics.Backgrounds
             get;
             set
             {
-                Debug.Assert(bufferedContainer != null);
+                Debug.Assert(bufferedContainer is not null);
 
                 field = value;
                 blurScale = new Vector2(calculateBlurDownscale(value.X), calculateBlurDownscale(value.Y));

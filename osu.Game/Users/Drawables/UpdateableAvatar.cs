@@ -60,7 +60,7 @@ namespace osu.Game.Users.Drawables
 
         protected override Drawable? CreateDrawable(User? user)
         {
-            if (user == null && !showGuestOnNull)
+            if (user is null && !showGuestOnNull)
                 return null;
 
             return new DrawableAvatar(user)

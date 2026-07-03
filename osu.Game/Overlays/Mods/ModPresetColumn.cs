@@ -120,7 +120,7 @@ namespace osu.Game.Overlays.Mods
                 return false;
 
             var panel = ItemsFlow.OfType<ModPresetPanel>().ElementAtOrDefault(index);
-            if (panel == null)
+            if (panel is null)
                 return false;
 
             panel.Toggle();

@@ -105,7 +105,7 @@ namespace osu.Game.Graphics.UserInterface
         private void applyPath()
         {
             path.ClearVertices();
-            if (values == null) return;
+            if (values is null) return;
 
             int count = Math.Max(values.Length, DefaultValueCount);
 

@@ -24,11 +24,11 @@ namespace osu.Game.Rulesets.Edit.Checks
             var currentVideo = ResourcesCheckUtils.GetDifficultyVideo(context.CurrentDifficulty.Working);
 
             // If current difficulty has no video but any other does -> problem
-            if (currentVideo == null)
+            if (currentVideo is null)
             {
                 foreach (var otherDifficulty in context.OtherDifficulties)
                 {
-                    if (ResourcesCheckUtils.GetDifficultyVideo(otherDifficulty.Working) != null)
+                    if (ResourcesCheckUtils.GetDifficultyVideo(otherDifficulty.Working) is not null)
                     {
                         yield return new IssueTemplateMissingVideo(this).Create(context.CurrentDifficulty.Playable.BeatmapInfo.DifficultyName);
 
@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.Edit.Checks
             }
 
             // If current has a video, check for missing video on other difficulties and warn about different files vs current.
-            if (currentVideo != null)
+            if (currentVideo is not null)
             {
                 string referencePath = currentVideo.Path;
 
@@ -48,7 +48,7 @@ namespace osu.Game.Rulesets.Edit.Checks
                     string difficultyName = otherDifficulty.Playable.BeatmapInfo.DifficultyName;
 
                     // If other difficulty has no video -> problem
-                    if (otherVideo == null)
+                    if (otherVideo is null)
                     {
                         yield return new IssueTemplateMissingVideo(this).Create(difficultyName);
 
@@ -67,14 +67,14 @@ namespace osu.Game.Rulesets.Edit.Checks
             // Build a list of all difficulties with a video present (including current).
             var allDifficultiesWithVideo = new List<(string DifficultyName, string Path, double StartTime)>();
 
-            if (currentVideo != null)
+            if (currentVideo is not null)
                 allDifficultiesWithVideo.Add((context.CurrentDifficulty.Playable.BeatmapInfo.DifficultyName, currentVideo.Path, currentVideo.StartTime));
 
             foreach (var other in context.OtherDifficulties)
             {
                 var video = ResourcesCheckUtils.GetDifficultyVideo(other.Working);
 
-                if (video != null)
+                if (video is not null)
                 {
                     string name = other.Playable.BeatmapInfo.DifficultyName;
                     allDifficultiesWithVideo.Add((name, video.Path, video.StartTime));

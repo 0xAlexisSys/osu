@@ -211,7 +211,7 @@ namespace osu.Game.Tests.Visual
             {
                 var lookup = base.GetTexture(componentName, wrapModeS, wrapModeT);
 
-                if (lookup != null)
+                if (lookup is not null)
                     return lookup;
 
                 // extrapolate frames to test longer animations

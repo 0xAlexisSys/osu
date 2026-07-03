@@ -32,7 +32,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Argon
             {
                 case GlobalSkinnableContainerLookup containerLookup:
                     // Only handle per ruleset defaults here.
-                    if (containerLookup.Ruleset == null)
+                    if (containerLookup.Ruleset is null)
                         return base.GetDrawableComponent(lookup);
 
                     switch (containerLookup.Lookup)
@@ -45,7 +45,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Argon
 
                                 leaderboard?.Position = new Vector2(36, 115);
 
-                                if (combo != null)
+                                if (combo is not null)
                                 {
                                     combo.ShowLabel.Value = false;
                                     combo.Anchor = Anchor.TopCentre;

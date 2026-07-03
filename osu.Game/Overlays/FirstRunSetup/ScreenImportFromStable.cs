@@ -102,7 +102,7 @@ namespace osu.Game.Overlays.FirstRunSetup
         {
             var storage = legacyImportManager.GetCurrentStableStorage();
 
-            if (storage == null)
+            if (storage is null)
             {
                 toggleInteraction(false);
 
@@ -254,7 +254,7 @@ namespace osu.Game.Overlays.FirstRunSetup
                 currentDirectory.BindValueChanged(onDirectorySelected);
 
                 string? fullPath = legacyImportManager.GetCurrentStableStorage()?.GetFullPath(string.Empty);
-                if (fullPath != null)
+                if (fullPath is not null)
                     currentDirectory.Value = new DirectoryInfo(fullPath);
             }
 
@@ -267,7 +267,7 @@ namespace osu.Game.Overlays.FirstRunSetup
                 {
                     changingDirectory = true;
 
-                    if (directory.NewValue == null)
+                    if (directory.NewValue is null)
                     {
                         Current.Value = string.Empty;
                         return;

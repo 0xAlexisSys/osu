@@ -96,7 +96,7 @@ namespace osu.Game.Rulesets.Osu.UI
             }
 
             // Otherwise, we only want to use the new touch for position tracking if no other touch is tracking position yet..
-            if (positionTrackingTouch == null)
+            if (positionTrackingTouch is null)
             {
                 positionTrackingTouch = newTouch;
                 return;

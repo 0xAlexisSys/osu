@@ -95,7 +95,7 @@ namespace osu.Game.Skinning
         {
             Texture? keyTexture = source.GetTexture(@"inputoverlay-key");
 
-            if (keyTexture != null)
+            if (keyTexture is not null)
                 keySprite.Texture = keyTexture;
         }
 

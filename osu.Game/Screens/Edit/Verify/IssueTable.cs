@@ -202,7 +202,7 @@ namespace osu.Game.Screens.Edit.Verify
             {
                 selectedIssue.Value = current.Value;
 
-                if (current.Value.Time != null)
+                if (current.Value.Time is not null)
                 {
                     clock.Seek(current.Value.Time.Value);
                     editor.OnPressed(new KeyBindingPressEvent<GlobalAction>(GetContainingInputManager()!.CurrentState, GlobalAction.EditorComposeMode));

@@ -30,7 +30,7 @@ namespace osu.Game.Overlays.SkinEditor
 
             firstTarget = targetScreen.ChildrenOfType<ISerialisableDrawableContainer>().FirstOrDefault();
 
-            if (firstTarget == null)
+            if (firstTarget is null)
                 return;
 
             components = new BindableList<ISerialisableDrawable> { BindTarget = firstTarget.Components };
@@ -39,7 +39,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         protected override void WriteCurrentStateToStream(MemoryStream stream)
         {
-            if (firstTarget == null)
+            if (firstTarget is null)
                 return;
 
             var skinnableInfos = firstTarget.CreateSerialisedInfo().ToArray();
@@ -49,12 +49,12 @@ namespace osu.Game.Overlays.SkinEditor
 
         protected override void ApplyStateChange(byte[] previousState, byte[] newState)
         {
-            if (firstTarget == null)
+            if (firstTarget is null)
                 return;
 
             var deserializedContent = JsonConvert.DeserializeObject<IEnumerable<SerialisedDrawableInfo>>(Encoding.UTF8.GetString(newState));
 
-            if (deserializedContent == null)
+            if (deserializedContent is null)
                 return;
 
             SerialisedDrawableInfo[] skinnableInfos = deserializedContent.ToArray();

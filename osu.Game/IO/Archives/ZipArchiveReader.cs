@@ -57,7 +57,7 @@ namespace osu.Game.IO.Archives
         public override Stream GetStream(string name)
         {
             IArchiveEntry entry = archive.Entries.SingleOrDefault(e => e.Key == name);
-            if (entry == null)
+            if (entry is null)
                 return null;
 
             using (Stream s = entry.OpenEntryStream())

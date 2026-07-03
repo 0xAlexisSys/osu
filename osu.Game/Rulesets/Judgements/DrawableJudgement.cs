@@ -105,7 +105,7 @@ namespace osu.Game.Rulesets.Judgements
             if (!IsInPool)
                 Logger.Log($"{nameof(DrawableJudgement)} for judgement type {Result} was not retrieved from a pool. Consider adding to a JudgementPooler.");
 
-            Debug.Assert(Result != null);
+            Debug.Assert(Result is not null);
 
             runAnimation();
         }
@@ -116,7 +116,7 @@ namespace osu.Game.Rulesets.Judgements
             ApplyTransformsAt(double.MinValue, true);
             ClearTransforms(true);
 
-            Debug.Assert(Result != null && JudgementBody != null);
+            Debug.Assert(Result is not null && JudgementBody is not null);
 
             LifetimeStart = Result.TimeAbsolute;
 
@@ -160,7 +160,7 @@ namespace osu.Game.Rulesets.Judgements
                 return;
 
             // sub-classes might have added their own children that would be removed here if .InternalChild was used.
-            if (JudgementBody != null)
+            if (JudgementBody is not null)
                 RemoveInternal(JudgementBody, true);
 
             AddInternal(JudgementBody = new SkinnableDrawable(new SkinComponentLookup<HitResult>(type), _ =>
@@ -185,7 +185,7 @@ namespace osu.Game.Rulesets.Judgements
                 if (JudgementBody.Drawable is IAnimatableJudgement animatable)
                 {
                     var proxiedContent = animatable.GetAboveHitObjectsProxiedContent();
-                    if (proxiedContent != null)
+                    if (proxiedContent is not null)
                         aboveHitObjectsContent.Add(proxiedContent);
                 }
             }

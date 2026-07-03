@@ -145,7 +145,7 @@ namespace osu.Game.Screens.Edit.Setup
                 };
             }
 
-            if (editor != null)
+            if (editor is not null)
                 editor.Saved += () => dirty = false;
 
             updateReadOnlyState();

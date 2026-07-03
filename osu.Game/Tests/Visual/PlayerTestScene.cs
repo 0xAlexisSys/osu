@@ -33,7 +33,7 @@ namespace osu.Game.Tests.Visual
         {
             base.Update();
 
-            if (Player?.GameplayClockContainer != null)
+            if (Player?.GameplayClockContainer is not null)
             {
                 int roundedTime = (int)Player.GameplayClockContainer.CurrentTime / 1000;
 
@@ -63,7 +63,7 @@ namespace osu.Game.Tests.Visual
 
         protected void CreateTest([CanBeNull] Action action = null)
         {
-            if (action != null && !HasCustomSteps)
+            if (action is not null && !HasCustomSteps)
                 throw new InvalidOperationException($"Cannot add custom test steps without {nameof(HasCustomSteps)} being set.");
 
             action?.Invoke();
@@ -99,14 +99,14 @@ namespace osu.Game.Tests.Visual
             if (!AllowFail)
             {
                 var noFailMod = ruleset.CreateMod<ModNoFail>();
-                if (noFailMod != null)
+                if (noFailMod is not null)
                     SelectedMods.Value = SelectedMods.Value.Append(noFailMod).ToArray();
             }
 
             if (Autoplay)
             {
                 var mod = ruleset.GetAutoplayMod();
-                if (mod != null)
+                if (mod is not null)
                     SelectedMods.Value = SelectedMods.Value.Append(mod).ToArray();
             }
 

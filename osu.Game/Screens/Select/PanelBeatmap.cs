@@ -239,7 +239,7 @@ namespace osu.Game.Screens.Select
             starDifficultyCancellationSource?.Cancel();
             starDifficultyCancellationSource = new CancellationTokenSource();
 
-            if (Item == null)
+            if (Item is null)
                 return;
 
             starDifficultyBindable = difficultyCache.GetBindableDifficulty(beatmap, starDifficultyCancellationSource.Token, SongSelect.DIFFICULTY_CALCULATION_DEBOUNCE);
@@ -285,7 +285,7 @@ namespace osu.Game.Screens.Select
 
         private void updateKeyCount()
         {
-            if (Item == null)
+            if (Item is null)
                 return;
 
             var rulesetInstance = ruleset.Value.CreateInstance();
@@ -306,12 +306,12 @@ namespace osu.Game.Screens.Select
         {
             get
             {
-                if (Item == null)
+                if (Item is null)
                     return Array.Empty<MenuItem>();
 
                 List<MenuItem> items = new List<MenuItem>();
 
-                if (songSelect != null)
+                if (songSelect is not null)
                     items.AddRange(songSelect.GetForwardActions(beatmap));
 
                 return items.ToArray();

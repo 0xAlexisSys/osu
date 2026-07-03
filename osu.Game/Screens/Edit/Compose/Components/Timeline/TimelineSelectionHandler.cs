@@ -70,7 +70,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
         internal override bool MouseDownSelectionRequested(SelectionBlueprint<HitObject> blueprint, MouseButtonEvent e)
         {
-            if (e.ShiftPressed && e.Button == MouseButton.Left && pivot != null)
+            if (e.ShiftPressed && e.Button == MouseButton.Left && pivot is not null)
             {
                 handleRangeSelection(blueprint, e.ControlPressed);
                 return true;
@@ -96,7 +96,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
         {
             var clickedObject = blueprint.Item;
 
-            Debug.Assert(pivot != null);
+            Debug.Assert(pivot is not null);
 
             double rangeStart = Math.Min(clickedObject.StartTime, pivot.StartTime);
             double rangeEnd = Math.Max(clickedObject.GetEndTime(), pivot.GetEndTime());

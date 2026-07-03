@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.Osu.Mods
         public void Update(Playfield playfield)
         {
             var osuPlayfield = (OsuPlayfield)playfield;
-            Debug.Assert(osuPlayfield.Cursor != null);
+            Debug.Assert(osuPlayfield.Cursor is not null);
 
             bool shouldAlwaysShowCursor = IsBreakTime.Value || spinnerPeriods.IsInAny(osuPlayfield.Clock.CurrentTime);
             float targetAlpha = shouldAlwaysShowCursor ? 1 : ComboBasedAlpha;

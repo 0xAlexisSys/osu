@@ -49,7 +49,7 @@ namespace osu.Game.Overlays.Mods.Input
                 return false;
 
             var modState = availableMods.Where(modState => modState.Visible).ElementAtOrDefault(index);
-            if (modState == null)
+            if (modState is null)
                 return false;
 
             modState.Active.Toggle();

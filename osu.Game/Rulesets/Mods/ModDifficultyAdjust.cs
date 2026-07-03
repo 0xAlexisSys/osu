@@ -90,13 +90,13 @@ namespace osu.Game.Rulesets.Mods
                 if (setting.IsDefault)
                     continue;
 
-                if (changedSetting != null)
+                if (changedSetting is not null)
                     return false;
 
                 changedSetting = setting;
             }
 
-            return changedSetting != null;
+            return changedSetting is not null;
         }
 
         public override IEnumerable<(LocalisableString setting, LocalisableString value)> SettingDescription
@@ -119,8 +119,8 @@ namespace osu.Game.Rulesets.Mods
         /// <param name="difficulty">The beatmap to have settings applied.</param>
         protected virtual void ApplySettings(BeatmapDifficulty difficulty)
         {
-            if (DrainRate.Value != null) difficulty.DrainRate = DrainRate.Value.Value;
-            if (OverallDifficulty.Value != null) difficulty.OverallDifficulty = OverallDifficulty.Value.Value;
+            if (DrainRate.Value is not null) difficulty.DrainRate = DrainRate.Value.Value;
+            if (OverallDifficulty.Value is not null) difficulty.OverallDifficulty = OverallDifficulty.Value.Value;
         }
     }
 }

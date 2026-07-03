@@ -93,7 +93,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
 
             inputManager = GetContainingInputManager()!;
 
-            if (freehandToolboxGroup != null)
+            if (freehandToolboxGroup is not null)
             {
                 freehandToolboxGroup.Tolerance.BindValueChanged(e =>
                 {
@@ -117,7 +117,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
         public override SnapResult UpdateTimeAndPosition(Vector2 screenSpacePosition, double fallbackTime)
         {
             var result = composer?.TrySnapToNearbyObjects(screenSpacePosition, fallbackTime);
-            result ??= composer?.TrySnapToDistanceGrid(screenSpacePosition, limitedDistanceSnap.Value && editorClock != null ? editorClock.CurrentTime : null);
+            result ??= composer?.TrySnapToDistanceGrid(screenSpacePosition, limitedDistanceSnap.Value && editorClock is not null ? editorClock.CurrentTime : null);
             if (composer?.TrySnapToPositionGrid(result?.ScreenSpacePosition ?? screenSpacePosition, result?.Time ?? fallbackTime) is SnapResult gridSnapResult)
                 result = gridSnapResult;
             result ??= new SnapResult(screenSpacePosition, fallbackTime);
@@ -159,7 +159,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
                 case SliderPlacementState.ControlPoints:
                     if (canPlaceNewControlPoint(out var lastPoint))
                         placeNewControlPoint();
-                    else if (lastPoint != null)
+                    else if (lastPoint is not null)
                         beginNewSegment(lastPoint);
 
                     break;
@@ -361,7 +361,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
             if (canPlaceNewControlPoint(out _))
             {
                 // The cursor does not overlap a previous control point, so it can be added if not already existing.
-                if (cursor == null)
+                if (cursor is null)
                 {
                     HitObject.Path.ControlPoints.Add(cursor = new PathControlPoint { Position = Vector2.Zero });
 
@@ -373,7 +373,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
                 // Update the cursor position.
                 cursor.Position = getCursorPosition();
             }
-            else if (cursor != null)
+            else if (cursor is not null)
             {
                 // The cursor overlaps a previous control point, so it's removed.
                 HitObject.Path.ControlPoints.Remove(cursor);
@@ -458,7 +458,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Blueprints.Sliders
                 // Replace this segment with a circular arc if it is a reasonable substitute.
                 var circleArcSegment = tryCircleArc(segment);
 
-                if (circleArcSegment != null)
+                if (circleArcSegment is not null)
                 {
                     HitObject.Path.ControlPoints.Add(new PathControlPoint(circleArcSegment[0], PathType.PERFECT_CURVE));
                     HitObject.Path.ControlPoints.Add(new PathControlPoint(circleArcSegment[1]));

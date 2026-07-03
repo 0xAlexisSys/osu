@@ -111,7 +111,7 @@ namespace osu.Game.Screens.Edit.Timing
 
             var tcp = selectedGroup.Value?.ControlPoints.OfType<TimingControlPoint>().FirstOrDefault();
 
-            if (tcp == null)
+            if (tcp is null)
             {
                 timingPoint = new TimingControlPoint();
                 // During movement of a control point's offset, this clause can be hit momentarily,

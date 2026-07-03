@@ -45,7 +45,7 @@ namespace osu.Game.IO.Archives
         {
             using (Stream input = GetStream(name))
             {
-                if (input == null)
+                if (input is null)
                     return null;
 
                 return await input.ReadAllBytesToArrayAsync(cancellationToken).ConfigureAwait(false);

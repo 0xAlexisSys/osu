@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.Mania.UI
         public bool IsHittable(DrawableHitObject hitObject, double time)
         {
             var nextObject = hitObjectContainer.AliveObjects.GetNext(hitObject);
-            return nextObject == null || time < nextObject.HitObject.StartTime;
+            return nextObject is null || time < nextObject.HitObject.StartTime;
         }
 
         /// <summary>

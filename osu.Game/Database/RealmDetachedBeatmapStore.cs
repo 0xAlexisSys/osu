@@ -41,7 +41,7 @@ namespace osu.Game.Database
 
         private void beatmapSetsChanged(IRealmCollection<BeatmapSetInfo> sender, ChangeSet? changes)
         {
-            if (changes == null)
+            if (changes is null)
             {
                 if (sender is RealmResetEmptySet<BeatmapSetInfo>)
                 {

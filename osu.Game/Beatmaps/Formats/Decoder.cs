@@ -62,14 +62,14 @@ namespace osu.Game.Beatmaps.Formats
             // start off with the first line of the file
             string? line = stream.PeekLine()?.Trim();
 
-            while (line != null && line.Length == 0)
+            while (line is not null && line.Length == 0)
             {
                 // consume the previously peeked empty line and advance to the next one
                 stream.ReadLine();
                 line = stream.PeekLine()?.Trim();
             }
 
-            if (line == null)
+            if (line is null)
                 throw new IOException("Unknown file format (no content)");
 
             var decoder = typedDecoders.Where(d => line.StartsWith(d.Key, StringComparison.InvariantCulture)).Select(d => d.Value).FirstOrDefault();
@@ -77,7 +77,7 @@ namespace osu.Game.Beatmaps.Formats
             // it's important the magic does NOT get consumed here, since sometimes it's part of the structure
             // (see JsonBeatmapDecoder - the magic string is the opening brace)
             // decoder implementations should therefore not die on receiving their own magic
-            if (decoder != null)
+            if (decoder is not null)
                 return (Decoder<T>)decoder.Invoke(line);
 
             if (!fallback_decoders.TryGetValue(typeof(T), out var fallbackDecoder))

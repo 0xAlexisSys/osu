@@ -61,7 +61,7 @@ namespace osu.Game.Graphics.Cursor
         {
             cursorRotate = config.GetBindable<bool>(OsuSetting.CursorRotation);
 
-            if (screenshotManager != null)
+            if (screenshotManager is not null)
                 screenshotCursorVisibility.BindTo(screenshotManager.CursorVisibility);
 
             tapSample = audio.Samples.Get(@"UI/cursor-tap");
@@ -86,7 +86,7 @@ namespace osu.Game.Graphics.Cursor
             lastInputWasMouse.BindTo(mouseInputDetector.LastInputWasMouseSource);
             lastInputWasMouse.BindValueChanged(_ => updateState(), true);
 
-            if (game != null)
+            if (game is not null)
             {
                 gameIdle.BindTo(game.IsIdle);
                 gameIdle.BindValueChanged(_ => updateState());

@@ -77,7 +77,7 @@ namespace osu.Game.Skinning
         {
             var retrieved = skin.GetDrawableComponent(ComponentLookup);
 
-            if (retrieved == null)
+            if (retrieved is null)
             {
                 Drawable = CreateDefault(ComponentLookup);
                 isDefault = true;

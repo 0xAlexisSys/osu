@@ -107,7 +107,7 @@ namespace osu.Game.Screens.Play.HUD
         {
             base.Update();
 
-            if (hudOverlay != null)
+            if (hudOverlay is not null)
                 button.Y = ToLocalSpace(hudOverlay.TopRightElements.ScreenSpaceDrawQuad.BottomRight).Y;
 
             // Only check expanded if already expanded.
@@ -124,7 +124,7 @@ namespace osu.Game.Screens.Play.HUD
             Expanded.Value =
                 (screenMouseX >= button.ScreenSpaceDrawQuad.TopLeft.X && screenMouseX <= ToScreenSpace(new Vector2(DrawWidth + EXPANDED_WIDTH, 0)).X)
                 // Stay expanded if the user is dragging a slider.
-                || inputManager.DraggedDrawable != null;
+                || inputManager.DraggedDrawable is not null;
         }
 
         protected override void OnHoverLost(HoverLostEvent e)

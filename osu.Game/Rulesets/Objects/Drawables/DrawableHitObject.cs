@@ -190,7 +190,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
         /// </param>
         protected DrawableHitObject([CanBeNull] HitObject initialHitObject = null)
         {
-            if (initialHitObject == null) return;
+            if (initialHitObject is null) return;
 
             Entry = new SyntheticHitObjectEntry(initialHitObject);
             ensureEntryHasResult();
@@ -250,7 +250,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
 
         protected sealed override void OnApply(HitObjectLifetimeEntry entry)
         {
-            Debug.Assert(Entry != null);
+            Debug.Assert(Entry is not null);
 
             // LifetimeStart is already computed using HitObjectLifetimeEntry's InitialLifetimeOffset.
             // We override this with DHO's InitialLifetimeOffset for a non-pooled DHO.
@@ -269,7 +269,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
                                      ?? throw new InvalidOperationException($"{nameof(CreateNestedHitObject)} returned null for {h.GetType().ReadableName()}.");
 
                 // Only invoke the event for non-pooled DHOs, otherwise the event will be fired by the playfield.
-                if (pooledDrawableNested == null)
+                if (pooledDrawableNested is null)
                     OnNestedDrawableCreated?.Invoke(drawableNested);
 
                 drawableNested.OnNewResult += onNewResult;
@@ -327,7 +327,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
 
         protected sealed override void OnFree(HitObjectLifetimeEntry entry)
         {
-            Debug.Assert(Entry != null);
+            Debug.Assert(Entry is not null);
 
             StartTimeBindable.UnbindFrom(HitObject.StartTimeBindable);
 
@@ -411,7 +411,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
 
         private void onDefaultsApplied(HitObject hitObject)
         {
-            Debug.Assert(Entry != null);
+            Debug.Assert(Entry is not null);
             Apply(Entry);
 
             // Applied defaults indicate a change in hit object state.
@@ -484,7 +484,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
 
             state.Value = newState;
 
-            if (LifetimeEnd == double.MaxValue && (state.Value != ArmedState.Idle || HitObject.HitWindows == null))
+            if (LifetimeEnd == double.MaxValue && (state.Value != ArmedState.Idle || HitObject.HitWindows is null))
                 LifetimeEnd = Math.Max(LatestTransformEndTime, HitStateUpdateTime + (Samples?.Length ?? 0));
 
             // apply any custom state overrides
@@ -611,7 +611,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
         /// </summary>
         public virtual void PlaySamples()
         {
-            if (Samples != null)
+            if (Samples is not null)
             {
                 Samples.Balance.Value = CalculateSamplePlaybackBalance(SamplePlaybackPosition);
                 Samples.Play();
@@ -785,7 +785,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
 
         private void ensureEntryHasResult()
         {
-            Debug.Assert(Entry != null);
+            Debug.Assert(Entry is not null);
             Entry.Result ??= CreateResult(HitObject.Judgement)
                              ?? throw new InvalidOperationException($"{GetType().ReadableName()} must provide a {nameof(JudgementResult)} through {nameof(CreateResult)}.");
         }
@@ -794,10 +794,10 @@ namespace osu.Game.Rulesets.Objects.Drawables
         {
             base.Dispose(isDisposing);
 
-            if (HitObject != null)
+            if (HitObject is not null)
                 HitObject.DefaultsApplied -= onDefaultsApplied;
 
-            if (CurrentSkin != null)
+            if (CurrentSkin is not null)
                 CurrentSkin.SourceChanged -= skinSourceChanged;
 
             // Safeties against shooting in foot in cases where these are bound by external entities (like playfield) that don't clean up.

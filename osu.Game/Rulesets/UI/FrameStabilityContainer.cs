@@ -78,7 +78,7 @@ namespace osu.Game.Rulesets.UI
 
         private PlaybackState state;
 
-        private bool hasReplayAttached => ReplayInputHandler != null;
+        private bool hasReplayAttached => ReplayInputHandler is not null;
 
         private bool firstConsumption = true;
 
@@ -94,7 +94,7 @@ namespace osu.Game.Rulesets.UI
         [BackgroundDependencyLoader(true)]
         private void load(IGameplayClock? gameplayClock)
         {
-            if (gameplayClock != null)
+            if (gameplayClock is not null)
             {
                 parentGameplayClock = gameplayClock;
                 IsPaused.BindTo(parentGameplayClock.IsPaused);
@@ -215,7 +215,7 @@ namespace osu.Game.Rulesets.UI
         /// <returns>Whether playback is still valid.</returns>
         private bool updateReplay(ref double proposedTime)
         {
-            Debug.Assert(ReplayInputHandler != null);
+            Debug.Assert(ReplayInputHandler is not null);
 
             double? newTime;
 
@@ -231,7 +231,7 @@ namespace osu.Game.Rulesets.UI
                 // for the current time.
                 while ((newTime = ReplayInputHandler.SetFrameFromTime(proposedTime)) != proposedTime)
                 {
-                    if (newTime == null)
+                    if (newTime is null)
                     {
                         // special case for when the replay actually can't arrive at the required time.
                         // protects from potential endless loop.
@@ -240,7 +240,7 @@ namespace osu.Game.Rulesets.UI
                 }
             }
 
-            if (newTime == null)
+            if (newTime is null)
                 return false;
 
             proposedTime = newTime.Value;

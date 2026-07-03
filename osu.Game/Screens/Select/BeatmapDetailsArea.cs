@@ -70,7 +70,7 @@ namespace osu.Game.Screens.Select
 
         private void updateDisplay()
         {
-            if (currentContent != null)
+            if (currentContent is not null)
             {
                 currentContent.Hide();
                 currentContent.Expire();

@@ -92,7 +92,7 @@ namespace osu.Game.Skinning
         {
             var skinInfoFile = model.GetFile(skin_info_file);
 
-            if (skinInfoFile != null)
+            if (skinInfoFile is not null)
             {
                 try
                 {
@@ -101,7 +101,7 @@ namespace osu.Game.Skinning
                     {
                         var deserialisedSkinInfo = JsonConvert.DeserializeObject<SkinInfo>(reader.ReadToEnd());
 
-                        if (deserialisedSkinInfo != null)
+                        if (deserialisedSkinInfo is not null)
                         {
                             // for now we only care about the instantiation info.
                             // eventually we probably want to transfer everything across.
@@ -182,7 +182,7 @@ namespace osu.Game.Skinning
                 encoder.Encode(outWriter);
             }
 
-            if (existingFile == null)
+            if (existingFile is null)
                 modelManager.AddFile(item, outStream, @"skin.ini", realm);
             else
                 modelManager.ReplaceFile(existingFile, outStream, realm);
@@ -226,7 +226,7 @@ namespace osu.Game.Skinning
 
                         var oldFile = s.GetFile(filename);
 
-                        if (oldFile != null)
+                        if (oldFile is not null)
                             modelManager.ReplaceFile(oldFile, streamContent, s.Realm!);
                         else
                             modelManager.AddFile(s, streamContent, filename, s.Realm!);

@@ -173,7 +173,7 @@ namespace osu.Game.Beatmaps
             var localRulesetInfo = rulesetInfo as RulesetInfo;
 
             // Difficulty can only be computed if the beatmap and ruleset are locally available.
-            if (localBeatmapInfo == null || localRulesetInfo == null)
+            if (localBeatmapInfo is null || localRulesetInfo is null)
             {
                 // If not, fall back to the existing star difficulty (e.g. from an online source).
                 return Task.FromResult<StarDifficulty?>(new StarDifficulty(beatmapInfo.StarRating));
@@ -271,7 +271,7 @@ namespace osu.Game.Beatmaps
                             {
                                 StarDifficulty? starDifficulty = task.GetResultSafely();
 
-                                if (starDifficulty != null)
+                                if (starDifficulty is not null)
                                     bindable.Value = starDifficulty.Value;
                             }
 
@@ -304,7 +304,7 @@ namespace osu.Game.Beatmaps
             try
             {
                 var ruleset = rulesetInfo.CreateInstance();
-                Debug.Assert(ruleset != null);
+                Debug.Assert(ruleset is not null);
 
                 PlayableCachedWorkingBeatmap workingBeatmap = new PlayableCachedWorkingBeatmap(beatmapManager.GetWorkingBeatmap(key.BeatmapInfo));
                 IBeatmap playableBeatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo, key.OrderedMods, cancellationToken);
@@ -313,7 +313,7 @@ namespace osu.Game.Beatmaps
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var performanceCalculator = ruleset.CreatePerformanceCalculator();
-                if (performanceCalculator == null)
+                if (performanceCalculator is null)
                     return new StarDifficulty(difficulty, new PerformanceAttributes());
 
                 ScoreProcessor scoreProcessor = ruleset.CreateScoreProcessor();

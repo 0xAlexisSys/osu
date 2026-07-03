@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
             {
                 case GlobalSkinnableContainerLookup containerLookup:
                     // Only handle per ruleset defaults here.
-                    if (containerLookup.Ruleset == null)
+                    if (containerLookup.Ruleset is null)
                         return base.GetDrawableComponent(lookup);
 
                     switch (containerLookup.Lookup)
@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
                                 var comboCounter = container.OfType<ArgonComboCounter>().FirstOrDefault();
 
-                                if (leaderboard != null)
+                                if (leaderboard is not null)
                                 {
                                     leaderboard.Anchor = leaderboard.Origin = Anchor.BottomLeft;
                                     leaderboard.Position = new Vector2(36, -140);

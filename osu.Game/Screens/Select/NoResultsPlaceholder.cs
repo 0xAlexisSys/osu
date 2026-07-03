@@ -138,7 +138,7 @@ namespace osu.Game.Screens.Select
 
             textFlow.Clear();
 
-            if (beatmaps.QueryBeatmapSet(s => !s.Protected && !s.DeletePending) == null)
+            if (beatmaps.QueryBeatmapSet(s => !s.Protected && !s.DeletePending) is null)
             {
                 addBulletPoint();
                 textFlow.AddText("Consider running the \"");
@@ -173,7 +173,7 @@ namespace osu.Game.Screens.Select
                     });
 
                     string lowerStar = $"{filter.UserStarDifficulty.Min ?? 0:N1}";
-                    string upperStar = filter.UserStarDifficulty.Max == null ? "∞" : $"{filter.UserStarDifficulty.Max:N1}";
+                    string upperStar = filter.UserStarDifficulty.Max is null ? "∞" : $"{filter.UserStarDifficulty.Max:N1}";
 
                     textFlow.AddText($" the {lowerStar} - {upperStar} star difficulty filter.");
                 }

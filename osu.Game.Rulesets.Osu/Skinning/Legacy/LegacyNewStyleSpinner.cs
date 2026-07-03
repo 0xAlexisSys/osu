@@ -78,7 +78,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                 }
             });
 
-            var topProvider = source.FindProvider(s => s.GetTexture("spinner-top") != null);
+            var topProvider = source.FindProvider(s => s.GetTexture("spinner-top") is not null);
 
             if (topProvider is ISkinTransformer transformer && !(transformer.Skin is DefaultLegacySkin))
             {
@@ -136,7 +136,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             base.Update();
 
-            float turnRatio = spinningMiddle.Texture != null ? 0.5f : 1;
+            float turnRatio = spinningMiddle.Texture is not null ? 0.5f : 1;
             discTop.Rotation = DrawableSpinner.RotationTracker.Rotation * turnRatio;
             spinningMiddle.Rotation = DrawableSpinner.RotationTracker.Rotation;
 

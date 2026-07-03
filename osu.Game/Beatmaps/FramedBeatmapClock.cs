@@ -102,8 +102,8 @@ namespace osu.Game.Beatmaps
 
             if (applyOffsets)
             {
-                Debug.Assert(userBeatmapOffsetClock != null);
-                Debug.Assert(userGlobalOffsetClock != null);
+                Debug.Assert(userBeatmapOffsetClock is not null);
+                Debug.Assert(userGlobalOffsetClock is not null);
 
                 userAudioOffset = config.GetBindable<double>(OsuSetting.AudioOffset);
                 userAudioOffset.BindValueChanged(offset => userGlobalOffsetClock.Offset = offset.NewValue, true);
@@ -121,7 +121,7 @@ namespace osu.Game.Beatmaps
                     });
             }
 
-            if (initialSeek != null)
+            if (initialSeek is not null)
             {
                 Seek(initialSeek.Value);
                 initialSeek = null;
@@ -144,7 +144,7 @@ namespace osu.Game.Beatmaps
             if (!applyOffsets)
                 return;
 
-            Debug.Assert(platformOffsetClock != null);
+            Debug.Assert(platformOffsetClock is not null);
 
             switch (RuntimeInfo.OS)
             {
@@ -178,9 +178,9 @@ namespace osu.Game.Beatmaps
                 if (!applyOffsets)
                     return 0;
 
-                Debug.Assert(userGlobalOffsetClock != null);
-                Debug.Assert(userBeatmapOffsetClock != null);
-                Debug.Assert(platformOffsetClock != null);
+                Debug.Assert(userGlobalOffsetClock is not null);
+                Debug.Assert(userBeatmapOffsetClock is not null);
+                Debug.Assert(platformOffsetClock is not null);
 
                 return userGlobalOffsetClock.RateAdjustedOffset + userBeatmapOffsetClock.Offset + platformOffsetClock.RateAdjustedOffset;
             }
@@ -271,7 +271,7 @@ namespace osu.Game.Beatmaps
 
             string output(IClock? clock)
             {
-                if (clock == null)
+                if (clock is null)
                     return "null";
 
                 if (clock is IFrameBasedClock framed)

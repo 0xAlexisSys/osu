@@ -92,14 +92,14 @@ namespace osu.Game.Rulesets.Taiko.Mods
                 return true;
 
             if ((action == TaikoAction.LeftCentre || action == TaikoAction.RightCentre)
-                && (lastAcceptedCentreAction == null || lastAcceptedCentreAction == action))
+                && (lastAcceptedCentreAction is null || lastAcceptedCentreAction == action))
             {
                 lastAcceptedCentreAction = action;
                 return true;
             }
 
             if ((action == TaikoAction.LeftRim || action == TaikoAction.RightRim)
-                && (lastAcceptedRimAction == null || lastAcceptedRimAction == action))
+                && (lastAcceptedRimAction is null || lastAcceptedRimAction == action))
             {
                 lastAcceptedRimAction = action;
                 return true;

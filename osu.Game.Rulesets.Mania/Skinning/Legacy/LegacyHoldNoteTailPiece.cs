@@ -37,7 +37,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
 
         private void applyMissingDim()
         {
-            if (missingStartTime.Value == null)
+            if (missingStartTime.Value is null)
                 return;
 
             using (BeginAbsoluteSequence(missingStartTime.Value.Value))

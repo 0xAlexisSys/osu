@@ -129,7 +129,7 @@ namespace osu.Desktop
             if (!RuntimeInfo.IsApple)
             {
                 var iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(GetType(), "lazer.ico");
-                if (iconStream != null)
+                if (iconStream is not null)
                     host.Window.SetIconFromStream(iconStream);
             }
 

@@ -79,7 +79,7 @@ namespace osu.Game.Online
                 if (displayText.Length == 0 || linkText.Length == 0) continue;
 
                 // Remove backslash escapes in front of the characters provided in escapeChars
-                if (escapeChars != null)
+                if (escapeChars is not null)
                     displayText = escapeChars.Aggregate(displayText, (current, c) => current.Replace($"\\{c}", c.ToString()));
 
                 // Check for overlapping links

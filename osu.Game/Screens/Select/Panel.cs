@@ -78,7 +78,7 @@ namespace osu.Game.Screens.Select
 
         public sealed override bool ReceivePositionalInputAt(Vector2 screenSpacePos)
         {
-            if (item == null)
+            if (item is null)
                 return TopLevelContent.ReceivePositionalInputAt(screenSpacePos);
 
             var inputRectangle = TopLevelContent.DrawRectangle;
@@ -268,7 +268,7 @@ namespace osu.Game.Screens.Select
             // Item may be set to null before actual `FreeAfterUse`.
             // This is because Carousel knows to do this ahead of time and let the drawable fade/animate away.
             // See https://github.com/ppy/osu/blob/033e13cb3b79e6195ddcd9f659b04095aa52fd2f/osu.Game/Graphics/Carousel/Carousel.cs#L1132-L1135.
-            if (item != null)
+            if (item is not null)
                 carousel?.Activate(item);
 
             return true;
@@ -372,7 +372,7 @@ namespace osu.Game.Screens.Select
                 // To keep things simple, assume that we need to do a full refresh.
                 //
                 // In the future, this could be more contextual and check whether the associated model has actually changed.
-                if (item != null && value != null)
+                if (item is not null && value is not null)
                 {
                     item = value;
                     PrepareForUse();

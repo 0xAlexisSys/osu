@@ -55,7 +55,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Default
             direction.BindTo(scrollingInfo.Direction);
             direction.BindValueChanged(onDirectionChanged, true);
 
-            if (drawableObject != null)
+            if (drawableObject is not null)
             {
                 accentColour.BindTo(drawableObject.AccentColour);
                 accentColour.BindValueChanged(onAccentChanged, true);

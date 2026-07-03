@@ -26,7 +26,7 @@ namespace osu.Game.Rulesets.Catch.Replays
             if (Dashing)
                 Actions.Add(CatchAction.Dash);
 
-            if (lastFrame != null)
+            if (lastFrame is not null)
             {
                 if (Position > lastFrame.Position)
                     lastFrame.Actions.Add(CatchAction.MoveRight);

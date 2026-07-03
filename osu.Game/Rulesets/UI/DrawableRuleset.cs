@@ -144,7 +144,7 @@ namespace osu.Game.Rulesets.UI
         {
             base.LoadComplete();
 
-            if (Config != null)
+            if (Config is not null)
                 configTracker = onScreenDisplay?.BeginTracking(this, Config);
 
             IsPaused.ValueChanged += paused =>
@@ -186,7 +186,7 @@ namespace osu.Game.Rulesets.UI
                 }
             };
 
-            if ((ResumeOverlay = CreateResumeOverlay()) != null)
+            if ((ResumeOverlay = CreateResumeOverlay()) is not null)
             {
                 AddInternal(CreateInputManager()
                     .WithChild(CreatePlayfieldAdjustmentContainer()
@@ -222,7 +222,7 @@ namespace osu.Game.Rulesets.UI
 
         public override void RequestResume(Action continueResume)
         {
-            if (ResumeOverlay != null && UseResumeOverlay)
+            if (ResumeOverlay is not null && UseResumeOverlay)
             {
                 ResumeOverlay.GameplayCursor = Cursor;
                 ResumeOverlay.ResumeAction = continueResume;
@@ -250,7 +250,7 @@ namespace osu.Game.Rulesets.UI
             var drawableRepresentation = CreateDrawableRepresentation(hitObject);
 
             // If a drawable representation exists, use it, otherwise assume the hitobject is being pooled.
-            if (drawableRepresentation != null)
+            if (drawableRepresentation is not null)
                 Playfield.Add(drawableRepresentation);
             else
                 Playfield.Add(hitObject);
@@ -270,7 +270,7 @@ namespace osu.Game.Rulesets.UI
 
             // If the entry was not removed from the playfield, assume the hitobject is not being pooled and attempt a direct drawable removal.
             var drawableObject = Playfield.AllHitObjects.SingleOrDefault(d => d.HitObject == hitObject);
-            if (drawableObject != null)
+            if (drawableObject is not null)
                 return Playfield.Remove(drawableObject);
 
             return false;
@@ -281,7 +281,7 @@ namespace osu.Game.Rulesets.UI
             if (!(KeyBindingInputManager is IHasRecordingHandler recordingInputManager))
                 throw new InvalidOperationException($"A {nameof(KeyBindingInputManager)} which supports recording is not available");
 
-            if (score == null)
+            if (score is null)
             {
                 NewResult -= emitImportantFrame;
                 recordingInputManager.Recorder = null;
@@ -290,7 +290,7 @@ namespace osu.Game.Rulesets.UI
 
             var recorder = CreateReplayRecorder(score);
 
-            if (recorder == null)
+            if (recorder is null)
                 return;
 
             recorder.ScreenSpaceToGamefield = Playfield.ScreenSpaceToGamefield;
@@ -306,11 +306,11 @@ namespace osu.Game.Rulesets.UI
             if (!(KeyBindingInputManager is IHasReplayHandler replayInputManager))
                 throw new InvalidOperationException($"A {nameof(KeyBindingInputManager)} which supports replay loading is not available");
 
-            var handler = (ReplayScore = replayScore) != null ? CreateReplayInputHandler(replayScore.Replay) : null;
+            var handler = (ReplayScore = replayScore) is not null ? CreateReplayInputHandler(replayScore.Replay) : null;
 
             replayInputManager.ReplayInputHandler = handler;
             frameStabilityContainer.ReplayInputHandler = handler;
-            HasReplayLoaded.Value = replayInputManager.ReplayInputHandler != null;
+            HasReplayLoaded.Value = replayInputManager.ReplayInputHandler is not null;
             replayInputManager.ReplayInputHandler?.GamefieldToScreenSpace = Playfield.GamefieldToScreenSpace;
 
             if (!ProvidingUserCursor)
@@ -360,7 +360,7 @@ namespace osu.Game.Rulesets.UI
         /// <param name="config">The <see cref="OsuConfigManager"/> to apply.</param>
         private void applyRulesetMods(IReadOnlyList<Mod> mods, OsuConfigManager config)
         {
-            if (mods == null)
+            if (mods is null)
                 return;
 
             foreach (var mod in mods.OfType<IApplicableToDrawableRuleset<TObject>>())
@@ -381,7 +381,7 @@ namespace osu.Game.Rulesets.UI
 
         public override GameplayCursorContainer Cursor => Playfield.Cursor;
 
-        public bool ProvidingUserCursor => Playfield.Cursor != null && !HasReplayLoaded.Value;
+        public bool ProvidingUserCursor => Playfield.Cursor is not null && !HasReplayLoaded.Value;
 
         #endregion
 

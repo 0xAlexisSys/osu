@@ -36,10 +36,10 @@ namespace osu.Game.Skinning
         {
             AutoSizeAxes = Axes.Both;
 
-            var skin = source.FindProvider(s => getTexture(s, "bg") != null);
+            var skin = source.FindProvider(s => getTexture(s, "bg") is not null);
 
             // the marker lookup to decide which display style must be performed on the source of the bg, which is the most common element.
-            isNewStyle = getTexture(skin, "marker") != null;
+            isNewStyle = getTexture(skin, "marker") is not null;
 
             // background implementation is the same for both versions.
             AddInternal(new Sprite { Texture = getTexture(skin, "bg") });
@@ -164,7 +164,7 @@ namespace osu.Game.Skinning
                 // required for sizing correctly..
                 var firstFrame = getTexture(skin, "colour-0");
 
-                if (firstFrame == null)
+                if (firstFrame is null)
                 {
                     InternalChild = new Sprite { Texture = getTexture(skin, "colour") };
                     Size = InternalChild.Size;

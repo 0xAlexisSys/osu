@@ -47,7 +47,7 @@ namespace osu.Game.IO
         public string ReadToEnd()
         {
             string remainingText = streamReader.ReadToEnd();
-            if (peekedLine == null)
+            if (peekedLine is null)
                 return remainingText;
 
             var builder = new StringBuilder();

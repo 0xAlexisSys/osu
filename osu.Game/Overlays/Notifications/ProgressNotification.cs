@@ -168,7 +168,7 @@ namespace osu.Game.Overlays.Notifications
 
             // This notification may not have been posted yet (and thus may not have a target to post the completion to).
             // Completion posting will be re-attempted in a scheduled invocation.
-            if (CompletionTarget == null)
+            if (CompletionTarget is null)
                 return;
 
             // Thread-safe barrier, as this may be called by a web request and also scheduled to the update thread at the same time.

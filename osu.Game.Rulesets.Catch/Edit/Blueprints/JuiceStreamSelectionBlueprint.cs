@@ -194,7 +194,7 @@ namespace osu.Game.Rulesets.Catch.Edit.Blueprints
         // consider extracting common helper when applying changes here
         private void convertToStream()
         {
-            if (editorBeatmap == null || beatDivisor == null)
+            if (editorBeatmap is null || beatDivisor is null)
                 return;
 
             var timingPoint = editorBeatmap.ControlPointInfo.TimingPointAt(HitObject.StartTime);

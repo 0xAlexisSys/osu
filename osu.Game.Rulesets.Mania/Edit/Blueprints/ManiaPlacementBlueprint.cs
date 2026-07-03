@@ -51,7 +51,7 @@ namespace osu.Game.Rulesets.Mania.Edit.Blueprints
             if (e.Button != MouseButton.Left)
                 return false;
 
-            if (Column == null)
+            if (Column is null)
                 return false;
 
             BeginPlacement(true);

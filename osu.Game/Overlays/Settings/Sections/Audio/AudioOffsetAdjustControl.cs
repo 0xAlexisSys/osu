@@ -138,7 +138,7 @@ namespace osu.Game.Overlays.Settings.Sections.Audio
                     foreach (SessionAverageHitErrorTracker.DataPoint dataPoint in e.OldItems!)
                     {
                         var notch = notchContainer.FirstOrDefault(n => n.X == getXPositionForOffset(dataPoint.SuggestedGlobalAudioOffset));
-                        Debug.Assert(notch != null);
+                        Debug.Assert(notch is not null);
                         notchContainer.Remove(notch, true);
                     }
 
@@ -156,7 +156,7 @@ namespace osu.Game.Overlays.Settings.Sections.Audio
 
         private void updateHintText()
         {
-            if (SuggestedOffset.Value == null)
+            if (SuggestedOffset.Value is null)
             {
                 applySuggestion.Enabled.Value = false;
                 notchContainer.Hide();

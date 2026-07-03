@@ -85,7 +85,7 @@ namespace osu.Game.Screens.Backgrounds
             get => beatmap;
             set
             {
-                if (beatmap == value && beatmap != null)
+                if (beatmap == value && beatmap is not null)
                     return;
 
                 beatmap = value;
@@ -105,7 +105,7 @@ namespace osu.Game.Screens.Backgrounds
         {
             float newDepth = 0;
 
-            if (Background != null)
+            if (Background is not null)
             {
                 newDepth = Background.Depth + 1;
                 Background.FadeOut(250);

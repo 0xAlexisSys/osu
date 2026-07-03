@@ -263,7 +263,7 @@ namespace osu.Game.Rulesets.Osu.Objects
                     case SliderTick tick:
                         tick.SamplesBindable.Clear();
 
-                        if (tickSample != null)
+                        if (tickSample is not null)
                             tick.SamplesBindable.Add(tickSample);
                         break;
 

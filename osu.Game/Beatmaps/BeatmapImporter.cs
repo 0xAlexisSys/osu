@@ -91,7 +91,7 @@ namespace osu.Game.Beatmaps
                     {
                         var updatedBeatmap = updated.Beatmaps.FirstOrDefault(b => b.Hash == beatmap.Hash);
 
-                        if (updatedBeatmap != null)
+                        if (updatedBeatmap is not null)
                         {
                             // If the updated beatmap matches an existing one, transfer any user data across..
                             if (beatmap.Scores.Any())
@@ -156,7 +156,7 @@ namespace osu.Game.Beatmaps
 
         protected override void Populate(BeatmapSetInfo beatmapSet, ArchiveReader? archive, Realm realm, CancellationToken cancellationToken = default)
         {
-            if (archive != null)
+            if (archive is not null)
                 beatmapSet.Beatmaps.AddRange(createBeatmapDifficulties(beatmapSet, realm));
 
             beatmapSet.DateAdded = getDateAdded(archive);
@@ -230,7 +230,7 @@ namespace osu.Game.Beatmaps
 
             using var stream = new LineBufferedReader(reader.GetStream(mapName));
 
-            if (stream.PeekLine() != null) return new BeatmapSetInfo();
+            if (stream.PeekLine() is not null) return new BeatmapSetInfo();
 
             Logger.Log($@"No content found in first .osu file of beatmap archive ({reader.Name} / {mapName})", LoggingTarget.Database);
             return null;
@@ -282,7 +282,7 @@ namespace osu.Game.Beatmaps
 
                     using (var lineReader = new LineBufferedReader(memoryStream, true))
                     {
-                        if (lineReader.PeekLine() == null)
+                        if (lineReader.PeekLine() is null)
                         {
                             LogForModel(beatmapSet, $"No content found in beatmap file {file.Filename}.");
                             continue;

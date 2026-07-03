@@ -35,7 +35,7 @@ namespace osu.Game.Storyboards.Drawables
         {
             base.SkinChanged(skin);
 
-            if (mods != null)
+            if (mods is not null)
             {
                 foreach (var mod in mods.OfType<IApplicableToSample>())
                 {

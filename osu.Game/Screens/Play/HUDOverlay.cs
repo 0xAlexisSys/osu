@@ -128,10 +128,10 @@ namespace osu.Game.Screens.Play
                 clicksPerSecondController = new ClicksPerSecondController(),
                 InputCountController = new InputCountController(),
                 mainComponents = new HUDComponentsContainer { AlwaysPresent = true, },
-                drawableRuleset != null
+                drawableRuleset is not null
                     ? (rulesetComponents = new HUDComponentsContainer(drawableRuleset.Ruleset.RulesetInfo) { AlwaysPresent = true, })
                     : Empty(),
-                PlayfieldSkinLayer = drawableRuleset != null
+                PlayfieldSkinLayer = drawableRuleset is not null
                     ? new SkinnableContainer(new GlobalSkinnableContainerLookup(GlobalSkinnableContainers.Playfield, drawableRuleset.Ruleset.RulesetInfo)) { AlwaysPresent = true, }
                     : Empty(),
                 TopRightElements = new FillFlowContainer
@@ -177,7 +177,7 @@ namespace osu.Game.Screens.Play
 
             hideTargets = new List<Drawable> { mainComponents, TopRightElements };
 
-            if (rulesetComponents != null)
+            if (rulesetComponents is not null)
                 hideTargets.Add(rulesetComponents);
 
             hideTargets.Add(TopLeftElements);
@@ -186,7 +186,7 @@ namespace osu.Game.Screens.Play
         [BackgroundDependencyLoader(true)]
         private void load(OsuConfigManager config, RealmKeyBindingStore keyBindingStore, INotificationOverlay notificationOverlay)
         {
-            if (drawableRuleset != null)
+            if (drawableRuleset is not null)
             {
                 BindDrawableRuleset(drawableRuleset);
             }
@@ -247,7 +247,7 @@ namespace osu.Game.Screens.Play
         {
             base.Update();
 
-            if (drawableRuleset != null)
+            if (drawableRuleset is not null)
             {
                 Quad playfieldScreenSpaceDrawQuad = drawableRuleset.Playfield.SkinnableComponentScreenSpaceDrawQuad;
 
@@ -264,7 +264,7 @@ namespace osu.Game.Screens.Play
 
             processDrawables(mainComponents);
 
-            if (rulesetComponents != null)
+            if (rulesetComponents is not null)
                 processDrawables(rulesetComponents);
 
             if (lowestTopScreenSpaceRight.HasValue && DrawHeight - TopRightElements.DrawHeight > 0)
@@ -310,13 +310,13 @@ namespace osu.Game.Screens.Play
 
                     if (drawable.Anchor.HasFlag(Anchor.TopRight) || isRelativeX)
                     {
-                        if (lowestTopScreenSpaceRight == null || bottom > lowestTopScreenSpaceRight.Value)
+                        if (lowestTopScreenSpaceRight is null || bottom > lowestTopScreenSpaceRight.Value)
                             lowestTopScreenSpaceRight = bottom;
                     }
 
                     if (drawable.Anchor.HasFlag(Anchor.TopLeft) || isRelativeX)
                     {
-                        if (lowestTopScreenSpaceLeft == null || bottom > lowestTopScreenSpaceLeft.Value)
+                        if (lowestTopScreenSpaceLeft is null || bottom > lowestTopScreenSpaceLeft.Value)
                             lowestTopScreenSpaceLeft = bottom;
                     }
                 }
@@ -324,7 +324,7 @@ namespace osu.Game.Screens.Play
                 else if (drawable.Anchor.HasFlag(Anchor.BottomRight) || (drawable.Anchor.HasFlag(Anchor.y2) && drawable.RelativeSizeAxes == Axes.X))
                 {
                     var topLeft = element.ScreenSpaceDrawQuad.AABBFloat.TopLeft;
-                    if (highestBottomScreenSpace == null || topLeft.Y < highestBottomScreenSpace.Value.Y)
+                    if (highestBottomScreenSpace is null || topLeft.Y < highestBottomScreenSpace.Value.Y)
                         highestBottomScreenSpace = topLeft;
                 }
             }

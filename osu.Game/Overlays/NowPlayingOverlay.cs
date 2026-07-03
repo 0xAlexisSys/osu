@@ -229,7 +229,7 @@ namespace osu.Game.Overlays
 
         private void onSeek(double progress)
         {
-            if (!musicController.IsPlaying || lastSeekGameTime == null || Time.Current - lastSeekGameTime > TRACK_DRAG_SEEK_DEBOUNCE)
+            if (!musicController.IsPlaying || lastSeekGameTime is null || Time.Current - lastSeekGameTime > TRACK_DRAG_SEEK_DEBOUNCE)
             {
                 musicController.SeekTo(progress);
                 lastSeekGameTime = Time.Current;
@@ -249,7 +249,7 @@ namespace osu.Game.Overlays
 
         private void togglePlaylist()
         {
-            if (playlist == null)
+            if (playlist is null)
             {
                 LoadComponentAsync(playlist = new PlaylistOverlay
                 {
@@ -306,7 +306,7 @@ namespace osu.Game.Overlays
 
             float height = player_height;
 
-            if (playlist != null)
+            if (playlist is not null)
             {
                 height += playlist.DrawHeight;
                 if (playlist.State.Value == Visibility.Visible)
@@ -320,7 +320,7 @@ namespace osu.Game.Overlays
         {
             base.Update();
 
-            if (pendingBeatmapSwitch != null)
+            if (pendingBeatmapSwitch is not null)
             {
                 pendingBeatmapSwitch();
                 pendingBeatmapSwitch = null;

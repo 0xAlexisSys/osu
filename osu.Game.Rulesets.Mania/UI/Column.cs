@@ -122,7 +122,7 @@ namespace osu.Game.Rulesets.Mania.UI
             RegisterPool<TailNote, DrawableHoldNoteTail>(10, 50);
             RegisterPool<HoldNoteBody, DrawableHoldNoteBody>(10, 50);
 
-            if (rulesetConfig != null)
+            if (rulesetConfig is not null)
                 touchOverlay = rulesetConfig.GetBindable<bool>(ManiaRulesetSetting.TouchOverlay);
         }
 

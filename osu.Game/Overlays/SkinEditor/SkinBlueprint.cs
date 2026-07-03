@@ -202,7 +202,7 @@ namespace osu.Game.Overlays.SkinEditor
         {
             base.Update();
 
-            if (drawable.Parent == null)
+            if (drawable.Parent is null)
                 return;
 
             var newAnchor = drawable.Parent!.ToSpaceOfOtherDrawable(drawable.AnchorPosition, this);
@@ -210,7 +210,7 @@ namespace osu.Game.Overlays.SkinEditor
             anchorBox.Position = anchorPosition.Value;
 
             // for the origin, tween in the drawable's local space to avoid unwanted tweening when the drawable is being dragged.
-            originPositionInDrawableSpace = originPositionInDrawableSpace != null ? tweenPosition(originPositionInDrawableSpace.Value, drawable.OriginPosition) : drawable.OriginPosition;
+            originPositionInDrawableSpace = originPositionInDrawableSpace is not null ? tweenPosition(originPositionInDrawableSpace.Value, drawable.OriginPosition) : drawable.OriginPosition;
             originBox.Position = drawable.ToSpaceOfOtherDrawable(originPositionInDrawableSpace.Value, this);
 
             var point1 = ToLocalSpace(anchorBox.ScreenSpaceDrawQuad.Centre);

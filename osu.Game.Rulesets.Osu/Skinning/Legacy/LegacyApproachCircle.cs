@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         private void load(ISkinSource skin)
         {
             var texture = skin.GetTexture(@"approachcircle");
-            Debug.Assert(texture != null);
+            Debug.Assert(texture is not null);
             Texture = texture.WithMaximumSize(OsuHitObject.OBJECT_DIMENSIONS * 2);
         }
 

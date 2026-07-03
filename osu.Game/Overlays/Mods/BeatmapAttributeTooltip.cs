@@ -95,10 +95,10 @@ namespace osu.Game.Overlays.Mods
         {
             bool shouldShow = false;
 
-            if (attribute != null)
+            if (attribute is not null)
             {
                 descriptionText.Text = attribute.Description ?? default;
-                shouldShow = attribute.Description != null;
+                shouldShow = attribute.Description is not null;
 
                 metricsGrid.Content = attribute.AdditionalMetrics.Select(metric => new[]
                 {

@@ -44,7 +44,7 @@ namespace osu.Game.Collections
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            if (Collection == null) return false;
+            if (Collection is null) return false;
 
             return Collection.ID == other.Collection?.ID;
         }

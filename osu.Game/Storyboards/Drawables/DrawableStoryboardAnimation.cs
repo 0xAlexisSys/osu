@@ -166,7 +166,7 @@ namespace osu.Game.Storyboards.Drawables
         {
             base.Dispose(isDisposing);
 
-            if (skin != null)
+            if (skin is not null)
                 skin.SourceChanged -= skinSourceChanged;
         }
     }

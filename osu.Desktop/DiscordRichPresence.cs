@@ -89,7 +89,7 @@ namespace osu.Desktop
             Logger.Log("Discord RPC Client ready.", LoggingTarget.Network, LogLevel.Debug);
 
             // when RPC is lost and reconnected, we have to clear presence state for updatePresence to work (see DiscordRpcClient.SkipIdenticalPresence).
-            if (client.CurrentPresence != null)
+            if (client.CurrentPresence is not null)
                 client.SetPresence(null);
 
             schedulePresenceUpdate();
@@ -123,7 +123,7 @@ namespace osu.Desktop
         private void updatePresence(bool hideIdentifiableInformation)
         {
             // user activity
-            if (userActivity.Value != null)
+            if (userActivity.Value is not null)
             {
                 presence.State = clampLength(userActivity.Value.GetStatus(hideIdentifiableInformation));
                 presence.Details = clampLength(userActivity.Value.GetDetails(hideIdentifiableInformation) ?? string.Empty);
@@ -189,7 +189,7 @@ namespace osu.Desktop
                 return false;
             }
 
-            if (roomSecret == null) return false;
+            if (roomSecret is null) return false;
 
             roomId = roomSecret.RoomID;
             password = roomSecret.Password;

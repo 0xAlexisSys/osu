@@ -48,7 +48,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         public readonly BindableList<ISerialisableDrawable> SelectedComponents = new BindableList<ISerialisableDrawable>();
 
-        public bool ExternalEditInProgress => externalEditOperation != null && !externalEditOperation.IsCompleted;
+        public bool ExternalEditInProgress => externalEditOperation is not null && !externalEditOperation.IsCompleted;
 
         protected override bool StartHidden => true;
 
@@ -272,7 +272,7 @@ namespace osu.Game.Overlays.SkinEditor
             // probably something which will be factored out in a future database refactor so not too concerning for now.
             currentSkin.BindValueChanged(val =>
             {
-                if (val.OldValue != null && hasBegunMutating)
+                if (val.OldValue is not null && hasBegunMutating)
                     save(val.OldValue);
 
                 hasBegunMutating = false;
@@ -381,11 +381,11 @@ namespace osu.Game.Overlays.SkinEditor
             componentsSidebar.Clear();
             SelectedComponents.Clear();
 
-            Debug.Assert(content != null);
+            Debug.Assert(content is not null);
 
             var skinComponentsContainer = getTarget(target.NewValue);
 
-            if (target.NewValue == null || skinComponentsContainer == null)
+            if (target.NewValue is null || skinComponentsContainer is null)
             {
                 content.Child = new NonSkinnableScreenPlaceholder();
                 return;
@@ -414,7 +414,7 @@ namespace osu.Game.Overlays.SkinEditor
             };
 
             // If the new target has a ruleset, let's show ruleset-specific items at the top, and the rest below.
-            if (target.NewValue.Ruleset != null)
+            if (target.NewValue.Ruleset is not null)
             {
                 componentsSidebar.Add(new SkinComponentToolbox(skinComponentsContainer, target.NewValue.Ruleset)
                 {
@@ -485,7 +485,7 @@ namespace osu.Game.Overlays.SkinEditor
             {
                 var targetContainer = getTarget(selectedTarget.Value);
 
-                if (targetContainer != null)
+                if (targetContainer is not null)
                     changeHandler = new SkinEditorChangeHandler(targetContainer);
 
                 hasBegunMutating = true;
@@ -505,7 +505,7 @@ namespace osu.Game.Overlays.SkinEditor
         {
             var targetContainer = getTarget(selectedTarget.Value);
 
-            if (targetContainer == null)
+            if (targetContainer is null)
                 return false;
 
             var drawableComponent = (Drawable)component;
@@ -595,7 +595,7 @@ namespace osu.Game.Overlays.SkinEditor
 
             var drawableInfo = JsonConvert.DeserializeObject<SerialisedDrawableInfo[]>(clipboardContent.Value);
 
-            if (drawableInfo == null)
+            if (drawableInfo is null)
                 return;
 
             var instances = drawableInfo.Select(d => d.CreateInstance())
@@ -735,7 +735,7 @@ namespace osu.Game.Overlays.SkinEditor
                 var skinnableTarget = getFirstTarget();
 
                 // Import still should happen for now, even if not placeable (as it allows a user to import skin resources that would apply to legacy gameplay skins).
-                if (skinnableTarget == null)
+                if (skinnableTarget is null)
                     return;
 
                 // place component
@@ -797,7 +797,7 @@ namespace osu.Game.Overlays.SkinEditor
             // Let's track the one that was used when beginning the change so we can call EndChange on it specifically.
             (beginChangeHandler = changeHandler)?.BeginChange();
 
-            if (beginChangeHandler != null)
+            if (beginChangeHandler is not null)
                 beginChangeHandler.OnStateChange += OnStateChange;
         }
 

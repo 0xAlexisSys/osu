@@ -28,9 +28,9 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Evaluators
             TaikoDifficultyHitObject? previousMono = taikoCurrent.PreviousMono(availableFingersFor(taikoCurrent) - 1);
 
             double objectStrain = 0.5; // Add a base strain to all objects
-            if (taikoPrevious == null) return objectStrain;
+            if (taikoPrevious is null) return objectStrain;
 
-            if (previousMono != null)
+            if (previousMono is not null)
                 objectStrain += speedBonus(taikoCurrent.StartTime - previousMono.StartTime) + 0.5 * speedBonus(taikoCurrent.StartTime - taikoPrevious.StartTime);
 
             return objectStrain;
@@ -58,12 +58,12 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Evaluators
             DifficultyHitObject? previousColourChange = hitObject.ColourData.PreviousColourChange;
             DifficultyHitObject? nextColourChange = hitObject.ColourData.NextColourChange;
 
-            if (previousColourChange != null && hitObject.StartTime - previousColourChange.StartTime < 300)
+            if (previousColourChange is not null && hitObject.StartTime - previousColourChange.StartTime < 300)
             {
                 return 2;
             }
 
-            if (nextColourChange != null && nextColourChange.StartTime - hitObject.StartTime < 300)
+            if (nextColourChange is not null && nextColourChange.StartTime - hitObject.StartTime < 300)
             {
                 return 2;
             }

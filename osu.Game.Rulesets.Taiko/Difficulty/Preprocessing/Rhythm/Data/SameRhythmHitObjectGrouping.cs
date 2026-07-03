@@ -80,7 +80,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Preprocessing.Rhythm.Data
                 : 1.0;
 
             // Calculate the interval from the previous group's start time
-            if (previous != null)
+            if (previous is not null)
             {
                 if (Math.Abs(StartTime - previous.StartTime) <= snap_tolerance)
                     Interval = 0;

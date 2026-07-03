@@ -285,7 +285,7 @@ namespace osu.Game.Screens.Select
 
             private void updateDifficultyStatistics() => Scheduler.AddOnce(() =>
             {
-                if (beatmap.IsDefault || ruleset.Value == null)
+                if (beatmap.IsDefault || ruleset.Value is null)
                 {
                     difficultyStatisticsDisplay.Statistics = Array.Empty<StatisticDifficulty.Data>();
                     return;

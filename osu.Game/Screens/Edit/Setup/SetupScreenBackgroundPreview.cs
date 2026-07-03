@@ -50,7 +50,7 @@ namespace osu.Game.Screens.Edit.Setup
                 FillMode = FillMode.Fill,
             }, background =>
             {
-                if (background.Texture != null)
+                if (background.Texture is not null)
                     content.Child = background;
                 else
                 {

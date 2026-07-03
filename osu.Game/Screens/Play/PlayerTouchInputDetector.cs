@@ -47,7 +47,7 @@ namespace osu.Game.Screens.Play
                 return;
 
             var touchDeviceMod = gameplayState.Ruleset.GetTouchDeviceMod();
-            if (touchDeviceMod == null)
+            if (touchDeviceMod is null)
                 return;
 
             var candidateMods = player.Score.ScoreInfo.Mods.Append(touchDeviceMod).ToArray();

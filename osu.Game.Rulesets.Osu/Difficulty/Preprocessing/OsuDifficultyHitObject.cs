@@ -171,7 +171,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Preprocessing
         /// </summary>
         public double GetDoubletapness(OsuDifficultyHitObject? osuNextObj)
         {
-            if (osuNextObj != null)
+            if (osuNextObj is not null)
             {
                 double currDeltaTime = Math.Max(1, DeltaTime);
                 double nextDeltaTime = Math.Max(1, osuNextObj.DeltaTime);
@@ -200,13 +200,13 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Preprocessing
             // We will scale distances by this factor, so we can assume a uniform CircleSize among beatmaps.
             float scalingFactor = NORMALISED_RADIUS / (float)BaseObject.Radius;
 
-            Vector2 lastCursorPosition = lastDifficultyObject != null ? getEndCursorPosition(lastDifficultyObject) : LastObject.StackedPosition;
+            Vector2 lastCursorPosition = lastDifficultyObject is not null ? getEndCursorPosition(lastDifficultyObject) : LastObject.StackedPosition;
 
             LazyJumpDistance = (BaseObject.StackedPosition * scalingFactor - lastCursorPosition * scalingFactor).Length;
             MinimumJumpTime = AdjustedDeltaTime;
             MinimumJumpDistance = LazyJumpDistance;
 
-            if (LastObject is Slider lastSlider && lastDifficultyObject != null)
+            if (LastObject is Slider lastSlider && lastDifficultyObject is not null)
             {
                 double lastTravelTime = Math.Max(lastDifficultyObject.LazyTravelTime / clockRate, MIN_DELTA_TIME);
                 MinimumJumpTime = Math.Max(AdjustedDeltaTime - lastTravelTime, MIN_DELTA_TIME);
@@ -237,7 +237,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Preprocessing
                 MinimumJumpDistance = Math.Max(0, Math.Min(LazyJumpDistance - (maximum_slider_radius - assumed_slider_radius), tailJumpDistance - maximum_slider_radius));
             }
 
-            if (lastLastDifficultyObject != null && lastLastDifficultyObject.BaseObject is not Spinner)
+            if (lastLastDifficultyObject is not null && lastLastDifficultyObject.BaseObject is not Spinner)
             {
                 Vector2 lastLastCursorPosition = getEndCursorPosition(lastLastDifficultyObject);
 
@@ -256,7 +256,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Preprocessing
             if (BaseObject is not Slider slider)
                 return;
 
-            if (LazyEndPosition != null)
+            if (LazyEndPosition is not null)
                 return;
 
             // TODO: This commented version is actually correct by the new lazer implementation, but intentionally held back from

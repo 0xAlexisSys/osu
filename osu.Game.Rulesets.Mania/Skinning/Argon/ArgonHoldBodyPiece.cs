@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Argon
                 hittingLayer = new ArgonHoldNoteHittingLayer()
             };
 
-            if (drawableObject != null)
+            if (drawableObject is not null)
             {
                 var holdNote = (DrawableHoldNote)drawableObject;
 

@@ -35,7 +35,7 @@ namespace osu.Game.Skinning.Components
         [BackgroundDependencyLoader]
         private void load()
         {
-            if (gameplayState != null)
+            if (gameplayState is not null)
                 text.Text = gameplayState.Score.ScoreInfo.User.Username;
         }
 

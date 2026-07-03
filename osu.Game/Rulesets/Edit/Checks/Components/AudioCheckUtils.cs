@@ -49,7 +49,7 @@ namespace osu.Game.Rulesets.Edit.Checks.Components
             var beatmapSet = context.CurrentDifficulty.Playable.BeatmapInfo.BeatmapSet;
             var audioFile = beatmapSet?.GetFile(filename);
 
-            if (beatmapSet == null || audioFile == null)
+            if (beatmapSet is null || audioFile is null)
                 return ChannelType.Unknown;
 
             using (Stream data = context.CurrentDifficulty.Working.GetStream(audioFile.File.GetStoragePath()))

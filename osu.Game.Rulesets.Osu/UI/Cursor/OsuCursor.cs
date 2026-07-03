@@ -104,7 +104,7 @@ namespace osu.Game.Rulesets.Osu.UI.Cursor
         {
             float scale = userCursorScale.Value * ModScaleAdjust.Value;
 
-            if (autoCursorScale.Value && state != null)
+            if (autoCursorScale.Value && state is not null)
             {
                 // if we have a beatmap available, let's get its circle size to figure out an automatic cursor scale modifier.
                 scale *= GetScaleForCircleSize(state.Beatmap.Difficulty.CircleSize);

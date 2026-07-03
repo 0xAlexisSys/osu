@@ -131,11 +131,11 @@ namespace osu.Game.Screens.Play
             // not ready if the user is hovering one of the panes (logo is excluded), unless they are idle.
             (IsHovered || osuLogo?.IsHovered == true || idleTracker.IsIdle.Value)
             // not ready if the user is dragging a slider or otherwise.
-            && (inputManager.DraggedDrawable == null || inputManager.DraggedDrawable is OsuLogo)
+            && (inputManager.DraggedDrawable is null || inputManager.DraggedDrawable is OsuLogo)
             // not ready if a focused overlay is visible, like settings.
             && inputManager.FocusedDrawable is not OsuFocusedOverlayContainer
             // or if a child of a focused overlay is focused, like settings' search textbox.
-            && inputManager.FocusedDrawable?.FindClosestParent<OsuFocusedOverlayContainer>() == null;
+            && inputManager.FocusedDrawable?.FindClosestParent<OsuFocusedOverlayContainer>() is null;
 
         private bool holdForMenuExitButton => !AllowUserExit;
 
@@ -363,7 +363,7 @@ namespace osu.Game.Screens.Play
         {
             base.OnResuming(e);
 
-            Debug.Assert(CurrentPlayer != null);
+            Debug.Assert(CurrentPlayer is not null);
 
             endHighPerformance();
 
@@ -507,7 +507,7 @@ namespace osu.Game.Screens.Play
         private Player consumePlayer()
         {
             Debug.Assert(!playerConsumed);
-            Debug.Assert(CurrentPlayer != null);
+            Debug.Assert(CurrentPlayer is not null);
 
             playerConsumed = true;
             return CurrentPlayer;
@@ -659,7 +659,7 @@ namespace osu.Game.Screens.Play
 
             // if a push has already been scheduled, no further action is required.
             // this value is reset via cancelLoad() to allow a second usage of the same PlayerLoader screen.
-            if (scheduledPushPlayer != null)
+            if (scheduledPushPlayer is not null)
                 return;
 
             // Now that everything's been loaded, we can safely switch to a higher performance session without incurring too much overhead.
@@ -799,7 +799,7 @@ namespace osu.Game.Screens.Play
 
         private void showBatteryWarningIfNeeded()
         {
-            if (batteryInfo == null) return;
+            if (batteryInfo is null) return;
 
             if (!batteryWarningShownOnce.Value)
             {

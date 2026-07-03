@@ -279,7 +279,7 @@ namespace osu.Game.Screens.Edit.Timing
                     breakPoint = i;
             }
 
-            if (breakPoint != null)
+            if (breakPoint is not null)
             {
                 bpmText.Text = text.Substring(0, breakPoint.Value);
                 bpmText.AddText(text.Substring(breakPoint.Value), cp => cp.Alpha = reachedFinalNumber ? 0.5f : 0.2f);
@@ -294,7 +294,7 @@ namespace osu.Game.Screens.Edit.Timing
         {
             base.Update();
 
-            if (BeatSyncSource.ControlPoints == null)
+            if (BeatSyncSource.ControlPoints is null)
                 return;
 
             metronomeClock.Rate = IsBeatSyncedWithTrack ? BeatSyncSource.Clock.Rate : 1;

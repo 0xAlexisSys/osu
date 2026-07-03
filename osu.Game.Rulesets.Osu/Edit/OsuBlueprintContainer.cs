@@ -102,7 +102,7 @@ namespace osu.Game.Rulesets.Osu.Edit
 
                 var positionalResult = Composer.TrySnapToNearbyObjects(testPosition);
 
-                if (positionalResult == null || positionalResult.ScreenSpacePosition == testPosition) continue;
+                if (positionalResult is null || positionalResult.ScreenSpacePosition == testPosition) continue;
 
                 var delta = positionalResult.ScreenSpacePosition - currentPositions[i];
 

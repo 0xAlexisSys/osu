@@ -72,7 +72,7 @@ namespace osu.Game.Rulesets.Osu.Skinning
 
         public void UpdateProgress(double completionProgress)
         {
-            if (drawableSlider.HitObject == null)
+            if (drawableSlider.HitObject is null)
                 return;
 
             Slider slider = drawableSlider.HitObject;
@@ -101,7 +101,7 @@ namespace osu.Game.Rulesets.Osu.Skinning
 
         public void Refresh()
         {
-            if (drawableSlider.HitObject == null)
+            if (drawableSlider.HitObject is null)
                 return;
 
             // Generate the entire curve

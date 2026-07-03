@@ -137,7 +137,7 @@ namespace osu.Game.Overlays.Mods
 
             Header.MoveToY(0, fade_in_duration, Easing.OutQuint);
 
-            if (footer != null)
+            if (footer is not null)
             {
                 activeOverlayRegistration = footer.RegisterActiveOverlayContainer(this, out var footerContent);
                 DisplayedFooterContent = footerContent;
@@ -158,7 +158,7 @@ namespace osu.Game.Overlays.Mods
 
             Header.MoveToY(-Header.DrawHeight, fade_out_duration, Easing.OutQuint);
 
-            if (footer != null)
+            if (footer is not null)
             {
                 activeOverlayRegistration?.Dispose();
                 activeOverlayRegistration = null;

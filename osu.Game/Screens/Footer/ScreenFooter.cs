@@ -71,7 +71,7 @@ namespace osu.Game.Screens.Footer
             Anchor = Anchor.BottomLeft;
             Origin = Anchor.BottomLeft;
 
-            if (receptor == null)
+            if (receptor is null)
                 Add(receptor = new BackReceptor());
 
             receptor.OnBackPressed = () => BackButton.TriggerClick();
@@ -213,7 +213,7 @@ namespace osu.Game.Screens.Footer
             {
                 var newButton = buttons[i];
 
-                if (newButton.Overlay != null)
+                if (newButton.Overlay is not null)
                 {
                     newButton.Action = () => showOverlay(newButton.Overlay);
                     overlays.Add(newButton.Overlay);
@@ -243,7 +243,7 @@ namespace osu.Game.Screens.Footer
 
         public IDisposable RegisterActiveOverlayContainer(ShearedOverlayContainer overlay, out VisibilityContainer? overlayContent)
         {
-            if (ActiveOverlay != null)
+            if (ActiveOverlay is not null)
             {
                 throw new InvalidOperationException(@"Cannot set overlay content while one is already present. " +
                                                     $@"The previous overlay ({ActiveOverlay.GetType().Name}) should be hidden first.");
@@ -255,7 +255,7 @@ namespace osu.Game.Screens.Footer
 
             var targetButton = buttonsFlow.SingleOrDefault(b => b.Overlay == overlay);
 
-            temporarilyHiddenButtons.AddRange(targetButton != null
+            temporarilyHiddenButtons.AddRange(targetButton is not null
                 ? buttonsFlow.SkipWhile(b => b != targetButton).Skip(1)
                 : buttonsFlow);
 
@@ -275,7 +275,7 @@ namespace osu.Game.Screens.Footer
             activeOverlayContent = overlayContent;
             var content = overlayContent;
 
-            if (content != null)
+            if (content is not null)
                 overlayContentContainer.Child = content;
 
             if (temporarilyHiddenButtons.Count > 0)
@@ -288,10 +288,10 @@ namespace osu.Game.Screens.Footer
 
         private void clearActiveOverlayContainer()
         {
-            if (ActiveOverlay == null)
+            if (ActiveOverlay is null)
                 return;
 
-            Debug.Assert(activeOverlayContent != null);
+            Debug.Assert(activeOverlayContent is not null);
 
             activeOverlayContent.Hide();
             activeOverlayContent.Expire();
@@ -362,7 +362,7 @@ namespace osu.Game.Screens.Footer
 
         private void onBackPressed()
         {
-            if (ActiveOverlay != null)
+            if (ActiveOverlay is not null)
             {
                 if (ActiveOverlay.OnBackButton())
                     return;

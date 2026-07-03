@@ -65,7 +65,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         protected override void OnControlPointChanged(ValueChangedEvent<TimingControlPoint?> point)
         {
-            if (point.NewValue != null)
+            if (point.NewValue is not null)
             {
                 isRebinding = true;
 

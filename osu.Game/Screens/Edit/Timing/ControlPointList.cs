@@ -116,7 +116,7 @@ namespace osu.Game.Screens.Edit.Timing
                 },
             };
 
-            if (editorChangeHandler != null)
+            if (editorChangeHandler is not null)
                 editorChangeHandler.OnStateChange += onUndoRedo;
         }
 
@@ -126,9 +126,9 @@ namespace osu.Game.Screens.Edit.Timing
 
             selectedGroup.BindValueChanged(selected =>
             {
-                deleteButton.Enabled.Value = selected.NewValue != null;
+                deleteButton.Enabled.Value = selected.NewValue is not null;
 
-                addButton.Text = selected.NewValue != null
+                addButton.Text = selected.NewValue is not null
                     ? "+ Clone to current time"
                     : "+ Add at current time";
             }, true);
@@ -150,7 +150,7 @@ namespace osu.Game.Screens.Edit.Timing
 
         private void delete()
         {
-            if (selectedGroup.Value == null)
+            if (selectedGroup.Value is null)
                 return;
 
             Beatmap.ControlPointInfo.RemoveGroup(selectedGroup.Value);
@@ -171,7 +171,7 @@ namespace osu.Game.Screens.Edit.Timing
                 // Try and create matching types from the currently selected control point.
                 var selected = selectedGroup.Value;
 
-                if (selected != null && !ReferenceEquals(selected, group))
+                if (selected is not null && !ReferenceEquals(selected, group))
                 {
                     foreach (var controlPoint in selected.ControlPoints)
                     {
@@ -187,7 +187,7 @@ namespace osu.Game.Screens.Edit.Timing
         {
             // Best effort. We have no tracking of control points through undo/redo changes.
             // If we don't deselect, things like offset changes could spawn groups to be added from previous states (see https://github.com/ppy/osu/issues/31098).
-            if (selectedGroup.Value != null && !Beatmap.ControlPointInfo.Groups.Contains(selectedGroup.Value))
+            if (selectedGroup.Value is not null && !Beatmap.ControlPointInfo.Groups.Contains(selectedGroup.Value))
                 selectedGroup.Value = null;
         }
 
@@ -195,7 +195,7 @@ namespace osu.Game.Screens.Edit.Timing
         {
             base.Dispose(isDisposing);
 
-            if (editorChangeHandler != null)
+            if (editorChangeHandler is not null)
                 editorChangeHandler.OnStateChange -= onUndoRedo;
         }
     }

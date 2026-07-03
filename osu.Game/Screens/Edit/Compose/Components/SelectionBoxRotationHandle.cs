@@ -64,7 +64,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             if (e.Button != MouseButton.Left)
                 return false;
 
-            if (rotationHandler == null) return false;
+            if (rotationHandler is null) return false;
 
             if (rotationHandler.OperationInProgress.Value)
                 return false;
@@ -77,7 +77,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         {
             base.OnDrag(e);
 
-            if (rotationHandler == null || !rotationHandler.OperationInProgress.Value) return;
+            if (rotationHandler is null || !rotationHandler.OperationInProgress.Value) return;
 
             rawCumulativeRotation += convertDragEventToAngleOfRotation(e);
 

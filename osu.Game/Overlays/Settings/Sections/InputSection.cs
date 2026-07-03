@@ -40,7 +40,7 @@ namespace osu.Game.Overlays.Settings.Sections
             {
                 var handlerSection = game.CreateSettingsSubsectionFor(handler);
 
-                if (handlerSection != null)
+                if (handlerSection is not null)
                     Add(handlerSection);
             }
         }

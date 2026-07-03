@@ -62,7 +62,7 @@ namespace osu.Game.Graphics.Cursor
             base.Update();
 
             var lastMouseSource = inputManager.CurrentState.Mouse.LastSource;
-            bool hasValidInput = lastMouseSource != null && (showDuringTouch.Value || lastMouseSource is not ISourcedFromTouch);
+            bool hasValidInput = lastMouseSource is not null && (showDuringTouch.Value || lastMouseSource is not ISourcedFromTouch);
 
             if (!hasValidInput || !ShowCursor)
             {

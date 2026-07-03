@@ -64,7 +64,7 @@ namespace osu.Game.Screens.Play.HUD
         {
             Clear();
 
-            if (current.Value == null) return;
+            if (current.Value is null) return;
 
             Spacing = new Vector2(0, -12 * iconScale);
 

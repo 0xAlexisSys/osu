@@ -52,7 +52,7 @@ namespace osu.Game.Graphics.Containers
 
         public override void Add(T drawable)
         {
-            Debug.Assert(drawable != null);
+            Debug.Assert(drawable is not null);
 
             base.Add(drawable);
 

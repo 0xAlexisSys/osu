@@ -31,10 +31,10 @@ namespace osu.Game.Rulesets.Objects
         /// </summary>
         public T Value
         {
-            get => backingBindable != null ? backingBindable.Value : backingValue;
+            get => backingBindable is not null ? backingBindable.Value : backingValue;
             set
             {
-                if (backingBindable != null)
+                if (backingBindable is not null)
                     backingBindable.Value = value;
                 else
                     backingValue = value;

@@ -45,7 +45,7 @@ namespace osu.Game.Input.Bindings
             this.ruleset = ruleset;
             this.variant = variant;
 
-            if (ruleset != null && variant == null)
+            if (ruleset is not null && variant is null)
                 throw new InvalidOperationException($"{nameof(variant)} can not be null when a non-null {nameof(ruleset)} is provided.");
         }
 

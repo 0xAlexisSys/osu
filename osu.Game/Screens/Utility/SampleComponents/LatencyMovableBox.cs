@@ -42,7 +42,7 @@ namespace osu.Game.Screens.Utility.SampleComponents
                 return;
             }
 
-            if (lastFrameTime != null)
+            if (lastFrameTime is not null)
             {
                 float movementAmount = (float)(Clock.CurrentTime - lastFrameTime) / 400;
 

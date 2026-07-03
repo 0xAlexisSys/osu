@@ -57,7 +57,7 @@ namespace osu.Game.Database
                      // things up.
                      var existingBeatmap = d.Realm!.Find<BeatmapInfo>(beatmap.ID);
 
-                     if (existingBeatmap != null)
+                     if (existingBeatmap is not null)
                      {
                          // As above, reattach if it happens to not be in the set's beatmaps.
                          if (!d.Beatmaps.Contains(existingBeatmap))
@@ -303,7 +303,7 @@ namespace osu.Game.Database
 
                     // Realm might coalesce the initial callback, meaning we never receive a `ChangeSet` of `null` marking the first callback.
                     // Let's decouple it for simplicity in handling.
-                    if (changes != null)
+                    if (changes is not null)
                     {
                         callback(sender, null);
                         return;

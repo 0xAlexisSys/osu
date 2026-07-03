@@ -75,7 +75,7 @@ namespace osu.Game.Rulesets.Catch.Objects
                     newEditorAutoBank.GetOr(EditorAutoBank), newUseBeatmapSamples.GetOr(UseBeatmapSamples));
 
             public bool Equals(BananaHitSampleInfo? other)
-                => other != null;
+                => other is not null;
 
             public override bool Equals(object? obj)
                 => obj is BananaHitSampleInfo other && Equals(other);

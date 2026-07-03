@@ -124,7 +124,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
                 }
             };
 
-            if (editor != null)
+            if (editor is not null)
                 composerFocusMode.BindTo(editor.ComposerFocusMode);
         }
 

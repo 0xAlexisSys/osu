@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Edit.Checks
 
                     string currentDifficultyName = beatmap.Playable.BeatmapInfo.DifficultyName;
 
-                    if (matchingPoint == null)
+                    if (matchingPoint is null)
                     {
                         yield return new IssueTemplateMissingTimingPoint(this).Create(referencePoint.Time, currentDifficultyName);
                     }
@@ -61,7 +61,7 @@ namespace osu.Game.Rulesets.Edit.Checks
                         }
 
                         // Check for exact timing match (decimal precision)
-                        if (exactMatchingPoint == null)
+                        if (exactMatchingPoint is null)
                         {
                             yield return new IssueTemplateMissingTimingPointMinor(this).Create(referencePoint.Time, currentDifficultyName);
                         }
@@ -74,11 +74,11 @@ namespace osu.Game.Rulesets.Edit.Checks
                     var matchingReferencePoint = TimingCheckUtils.FindMatchingTimingPoint(referenceTimingPoints, timingPoint.Time);
                     var exactMatchingReferencePoint = TimingCheckUtils.FindExactMatchingTimingPoint(referenceTimingPoints, timingPoint.Time);
 
-                    if (matchingReferencePoint == null)
+                    if (matchingReferencePoint is null)
                     {
                         yield return new IssueTemplateExtraTimingPoint(this).Create(timingPoint.Time, beatmap.Playable.BeatmapInfo.DifficultyName);
                     }
-                    else if (exactMatchingReferencePoint == null)
+                    else if (exactMatchingReferencePoint is null)
                     {
                         yield return new IssueTemplateMissingTimingPointMinor(this).Create(timingPoint.Time, beatmap.Playable.BeatmapInfo.DifficultyName);
                     }

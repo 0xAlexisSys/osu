@@ -71,7 +71,7 @@ namespace osu.Game.Scoring
         {
             ScoreInfo? databasedScoreInfo = getDatabasedScoreInfo(scoreInfo);
 
-            return databasedScoreInfo == null ? null : scoreImporter.GetScore(databasedScoreInfo);
+            return databasedScoreInfo is null ? null : scoreImporter.GetScore(databasedScoreInfo);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace osu.Game.Scoring
                     databasedScoreInfo = Query(s => s.Hash == scoreInfo.Hash);
             }
 
-            if (databasedScoreInfo == null)
+            if (databasedScoreInfo is null)
             {
                 Logger.Log("The requested score could not be found locally.", LoggingTarget.Information);
                 return null;
@@ -167,7 +167,7 @@ namespace osu.Game.Scoring
                 var items = r.All<ScoreInfo>()
                              .Where(s => !s.DeletePending);
 
-                if (filter != null)
+                if (filter is not null)
                     items = items.Where(filter);
 
                 Delete(items.ToList(), silent);
@@ -204,7 +204,7 @@ namespace osu.Game.Scoring
         {
             ScoreInfo? databasedScoreInfo = getDatabasedScoreInfo(scoreInfo);
 
-            return databasedScoreInfo == null ? Task.CompletedTask : scoreExporter.ExportAsync(databasedScoreInfo.ToLive(Realm));
+            return databasedScoreInfo is null ? Task.CompletedTask : scoreExporter.ExportAsync(databasedScoreInfo.ToLive(Realm));
         }
 
         public Task<Live<ScoreInfo>?> ImportAsUpdate(ProgressNotification notification, ImportTask task, ScoreInfo original) => scoreImporter.ImportAsUpdate(notification, task, original);
@@ -219,7 +219,7 @@ namespace osu.Game.Scoring
         /// <param name="score">The score to populate the statistics of.</param>
         public void PopulateMaximumStatistics(ScoreInfo score)
         {
-            Debug.Assert(score.BeatmapInfo != null);
+            Debug.Assert(score.BeatmapInfo is not null);
             LegacyScoreDecoder.PopulateMaximumStatistics(score, beatmaps().GetWorkingBeatmap(score.BeatmapInfo.Detach()));
         }
 

@@ -111,7 +111,7 @@ namespace osu.Game.Screens.Play.HUD
             DisplayOrder.BindTo(score.DisplayOrder);
             GetDisplayScore = score.GetDisplayScore;
 
-            if (score.TeamColour != null)
+            if (score.TeamColour is not null)
                 BackgroundColour = score.TeamColour.Value;
 
             RelativeSizeAxes = Axes.X;

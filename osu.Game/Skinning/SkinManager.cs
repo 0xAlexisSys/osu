@@ -112,7 +112,7 @@ namespace osu.Game.Skinning
             {
                 foreach (var skin in defaultSkins)
                 {
-                    if (r.Find<SkinInfo>(skin.SkinInfo.ID) == null)
+                    if (r.Find<SkinInfo>(skin.SkinInfo.ID) is null)
                         r.Add(skin.SkinInfo.Value);
                 }
             });
@@ -270,7 +270,7 @@ namespace osu.Game.Skinning
                     ImportImmediately = true // to avoid possible deadlocks when editing skin during gameplay.
                 });
 
-                if (result != null)
+                if (result is not null)
                 {
                     // save once to ensure the required json content is populated.
                     // currently this only happens on save.
@@ -412,7 +412,7 @@ namespace osu.Game.Skinning
             {
                 var items = r.All<SkinInfo>()
                              .Where(s => !s.Protected && !s.DeletePending);
-                if (filter != null)
+                if (filter is not null)
                     items = items.Where(filter);
 
                 // check the removed skin is not the current user choice. if it is, switch back to default.
@@ -441,7 +441,7 @@ namespace osu.Game.Skinning
             if (Guid.TryParse(guidString, out var guid))
                 skinInfo = Query(s => s.ID == guid);
 
-            if (skinInfo == null)
+            if (skinInfo is null)
             {
                 if (guid == SkinInfo.CLASSIC_SKIN)
                     skinInfo = DefaultClassicSkin.SkinInfo;

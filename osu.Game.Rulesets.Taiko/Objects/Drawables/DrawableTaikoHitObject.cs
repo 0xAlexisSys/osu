@@ -151,12 +151,12 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
 
         protected virtual void RecreatePieces()
         {
-            if (MainPiece != null)
+            if (MainPiece is not null)
                 Content.Remove(MainPiece, true);
 
             MainPiece = CreateMainPiece();
 
-            if (MainPiece != null)
+            if (MainPiece is not null)
                 Content.Add(MainPiece);
         }
 

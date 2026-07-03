@@ -174,7 +174,7 @@ namespace osu.Game.Database
 
                 var beatmap = realmAccess.Run(r => r.Find<BeatmapInfo>(id)?.Detach());
 
-                if (beatmap == null)
+                if (beatmap is null)
                     return;
 
                 try
@@ -182,7 +182,7 @@ namespace osu.Game.Database
                     var working = beatmapManager.GetWorkingBeatmap(beatmap);
                     var ruleset = getRuleset(working.BeatmapInfo.Ruleset);
 
-                    Debug.Assert(ruleset != null);
+                    Debug.Assert(ruleset is not null);
 
                     var calculator = ruleset.CreateDifficultyCalculator(working);
 
@@ -240,7 +240,7 @@ namespace osu.Game.Database
                 {
                     var beatmap = r.Find<BeatmapInfo>(id);
 
-                    if (beatmap != null)
+                    if (beatmap is not null)
                     {
                         try
                         {
@@ -269,7 +269,7 @@ namespace osu.Game.Database
             {
                 foreach (var score in r.All<ScoreInfo>().Where(s => !s.BackgroundReprocessingFailed))
                 {
-                    if (score.BeatmapInfo != null
+                    if (score.BeatmapInfo is not null
                         && score.Statistics.Sum(kvp => kvp.Value) > 0
                         && score.MaximumStatistics.Sum(kvp => kvp.Value) == 0)
                     {
@@ -301,7 +301,7 @@ namespace osu.Game.Database
                 {
                     var score = scoreManager.Query(s => s.ID == id);
 
-                    if (score != null)
+                    if (score is not null)
                     {
                         scoreManager.PopulateMaximumStatistics(score);
 
@@ -401,7 +401,7 @@ namespace osu.Game.Database
                     realmAccess.Write(r =>
                     {
                         ScoreInfo s = r.Find<ScoreInfo>(id)!;
-                        if (s.BeatmapInfo == null)
+                        if (s.BeatmapInfo is null)
                             return;
 
                         StandardisedScoreMigrationTools.UpdateToLatestScoreMultipliers(s, s.BeatmapInfo.Difficulty);
@@ -550,7 +550,7 @@ namespace osu.Game.Database
 
         private void updateNotificationProgress(ProgressNotification? notification, int processedCount, int totalCount)
         {
-            if (notification == null)
+            if (notification is null)
                 return;
 
             notification.Text = notification.Text.ToString().Split('(').First().TrimEnd() + $" ({processedCount} of {totalCount})";
@@ -562,7 +562,7 @@ namespace osu.Game.Database
 
         private void completeNotification(ProgressNotification? notification, int processedCount, int totalCount, int? failedCount = null)
         {
-            if (notification == null)
+            if (notification is null)
                 return;
 
             if (totalCount == 0)
@@ -589,7 +589,7 @@ namespace osu.Game.Database
 
         private ProgressNotification? showProgressNotification(int totalCount, string running, string completed)
         {
-            if (notificationOverlay == null)
+            if (notificationOverlay is null)
                 return null;
 
             if (totalCount < 10)

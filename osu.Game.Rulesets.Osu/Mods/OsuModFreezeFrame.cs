@@ -38,7 +38,7 @@ namespace osu.Game.Rulesets.Osu.Mods
         public void ApplyToBeatmap(IBeatmap beatmap)
         {
             var firstHitObject = beatmap.HitObjects.OfType<OsuHitObject>().FirstOrDefault();
-            if (firstHitObject == null)
+            if (firstHitObject is null)
                 return;
 
             double lastNewComboTime = 0;

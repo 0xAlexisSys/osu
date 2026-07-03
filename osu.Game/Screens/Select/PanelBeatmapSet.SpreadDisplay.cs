@@ -93,7 +93,7 @@ namespace osu.Game.Screens.Select
                     }
                 });
 
-                if (songSelect != null)
+                if (songSelect is not null)
                     scopedBeatmapSet.BindTo(songSelect.ScopedBeatmapSet);
 
                 configManager.BindWith(OsuSetting.ShowConvertedBeatmaps, showConvertedBeatmaps);
@@ -115,7 +115,7 @@ namespace osu.Game.Screens.Select
 
             private void updateBeatmapSet()
             {
-                if (BeatmapSet.Value == null)
+                if (BeatmapSet.Value is null)
                 {
                     this.FadeOut(transition_duration, Easing.OutQuint);
                     return;
@@ -133,7 +133,7 @@ namespace osu.Game.Screens.Select
                 if (beatmaps.Count == 0)
                     return;
 
-                bool showVisible = VisibleBeatmaps.Value == null || VisibleBeatmaps.Value?.Count <= max_difficulties_before_collapsing;
+                bool showVisible = VisibleBeatmaps.Value is null || VisibleBeatmaps.Value?.Count <= max_difficulties_before_collapsing;
                 bool showHidden = beatmaps.Count <= max_difficulties_before_collapsing;
 
                 var beatmapsByRuleset = beatmaps.GroupBy(beatmap => beatmap.Ruleset.ID).OrderBy(group => group.Key);
@@ -166,7 +166,7 @@ namespace osu.Game.Screens.Select
                                 Anchor = Anchor.CentreLeft,
                                 Origin = Anchor.CentreLeft,
                                 Colour = colours.ForStarDifficulty(beatmap.StarRating),
-                                Margin = new MarginPadding { Left = lastBeatmapVisible != null && lastBeatmapVisible != visible ? 1 : 0 }
+                                Margin = new MarginPadding { Left = lastBeatmapVisible is not null && lastBeatmapVisible != visible ? 1 : 0 }
                             };
                             flow.Add(circle);
 
@@ -211,7 +211,7 @@ namespace osu.Game.Screens.Select
 
             private void updateEnabled()
             {
-                Enabled.Value = Expanded.Value && !scopedBeatmapSet.Disabled && scopedBeatmapSet.Value == null;
+                Enabled.Value = Expanded.Value && !scopedBeatmapSet.Disabled && scopedBeatmapSet.Value is null;
             }
 
             protected override bool OnMouseDown(MouseDownEvent e)

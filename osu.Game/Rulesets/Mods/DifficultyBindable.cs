@@ -117,7 +117,7 @@ namespace osu.Game.Rulesets.Mods
             set
             {
                 // Ensure that in the case serialisation runs in the wrong order (and limit extensions aren't applied yet) the deserialised value is still propagated.
-                if (value != null)
+                if (value is not null)
                 {
                     CurrentNumber.MinValue = Math.Clamp(MathF.Min(CurrentNumber.MinValue, value.Value), ExtendedMinValue ?? MinValue, MinValue);
                     CurrentNumber.MaxValue = Math.Clamp(MathF.Max(CurrentNumber.MaxValue, value.Value), MaxValue, ExtendedMaxValue ?? MaxValue);
@@ -131,8 +131,8 @@ namespace osu.Game.Rulesets.Mods
 
         private void updateExtents()
         {
-            CurrentNumber.MinValue = ExtendedLimits.Value && extendedMinValue != null ? extendedMinValue.Value : minValue;
-            CurrentNumber.MaxValue = ExtendedLimits.Value && extendedMaxValue != null ? extendedMaxValue.Value : maxValue;
+            CurrentNumber.MinValue = ExtendedLimits.Value && extendedMinValue is not null ? extendedMinValue.Value : minValue;
+            CurrentNumber.MaxValue = ExtendedLimits.Value && extendedMaxValue is not null ? extendedMaxValue.Value : maxValue;
         }
 
         public override void CopyTo(Bindable<float?> them)

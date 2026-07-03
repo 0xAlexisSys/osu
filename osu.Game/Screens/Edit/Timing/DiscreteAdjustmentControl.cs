@@ -106,7 +106,7 @@ namespace osu.Game.Screens.Edit.Timing
 
             lastHovered = hoveredBox;
 
-            if (lastHovered != null)
+            if (lastHovered is not null)
             {
                 incrementText
                     .MoveToX(Math.Sign(lastHovered.Multiplier) * Math.Abs(lastHovered.Index), 400, Easing.OutQuint)

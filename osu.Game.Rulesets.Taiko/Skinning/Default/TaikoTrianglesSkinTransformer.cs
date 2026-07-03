@@ -23,7 +23,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
                 case GlobalSkinnableContainerLookup containerLookup:
                 {
                     // Only handle per ruleset defaults here.
-                    if (containerLookup.Ruleset == null)
+                    if (containerLookup.Ruleset is null)
                         return base.GetDrawableComponent(lookup);
 
                     switch (containerLookup.Lookup)
@@ -33,7 +33,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
                             {
                                 var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
-                                if (leaderboard != null)
+                                if (leaderboard is not null)
                                 {
                                     leaderboard.Position = new Vector2(40, -100);
                                     leaderboard.Height = 180;

@@ -78,7 +78,7 @@ namespace osu.Game.Screens.Edit.Components
 
             editorClock.AudioAdjustments.AddAdjustment(AdjustableProperty.Tempo, tempoAdjustment);
 
-            if (editor != null)
+            if (editor is not null)
                 currentScreenMode.BindTo(editor.Mode);
         }
 

@@ -59,7 +59,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
         [BackgroundDependencyLoader]
         private void load()
         {
-            if (parentObject != null)
+            if (parentObject is not null)
                 accentColour.BindTo(parentObject.AccentColour);
         }
 
@@ -72,7 +72,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
                 fill.Colour = ColourInfo.GradientVertical(colour.NewValue, colour.NewValue.Darken(0.5f));
             }, true);
 
-            if (parentObject != null)
+            if (parentObject is not null)
             {
                 parentObject.ApplyCustomUpdateState += updateStateTransforms;
                 updateStateTransforms(parentObject, parentObject.State.Value);
@@ -118,7 +118,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
         {
             base.Dispose(isDisposing);
 
-            if (parentObject != null)
+            if (parentObject is not null)
                 parentObject.ApplyCustomUpdateState -= updateStateTransforms;
         }
     }

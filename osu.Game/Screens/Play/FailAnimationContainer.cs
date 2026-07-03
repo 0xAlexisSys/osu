@@ -173,7 +173,7 @@ namespace osu.Game.Screens.Play
 
             track.RemoveAdjustment(AdjustableProperty.Volume, volumeAdjustment);
 
-            if (filters.Parent == null)
+            if (filters.Parent is null)
                 return;
 
             RemoveInternal(filters, true);

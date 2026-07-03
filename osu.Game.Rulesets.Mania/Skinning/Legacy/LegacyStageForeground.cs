@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
 
             sprite = skin.GetAnimation(bottomImage, true, true)?.With(d => d.Scale = new Vector2(1.6f));
 
-            if (sprite != null)
+            if (sprite is not null)
                 InternalChild = sprite;
 
             direction.BindTo(scrollingInfo.Direction);
@@ -39,7 +39,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Legacy
 
         private void onDirectionChanged(ValueChangedEvent<ScrollingDirection> direction)
         {
-            if (sprite == null)
+            if (sprite is null)
                 return;
 
             if (direction.NewValue == ScrollingDirection.Up)

@@ -53,7 +53,7 @@ namespace osu.Game.Screens.Edit.Compose
             composer = ruleset?.CreateHitObjectComposer();
 
             // make the composer available to the timeline and other components in this screen.
-            if (composer != null)
+            if (composer is not null)
                 dependencies.CacheAs(composer);
 
             return dependencies;
@@ -61,15 +61,15 @@ namespace osu.Game.Screens.Edit.Compose
 
         protected override Drawable CreateMainContent()
         {
-            if (ruleset == null || composer == null)
-                return new ScreenWhiteBox.UnderConstructionMessage(ruleset == null ? "This beatmap" : $"{ruleset.Description}'s composer");
+            if (ruleset is null || composer is null)
+                return new ScreenWhiteBox.UnderConstructionMessage(ruleset is null ? "This beatmap" : $"{ruleset.Description}'s composer");
 
             return wrapSkinnableContent(composer);
         }
 
         protected override Drawable CreateTimelineContent()
         {
-            if (ruleset == null || composer == null)
+            if (ruleset is null || composer is null)
                 return base.CreateTimelineContent();
 
             TimelineBreakDisplay breakDisplay = new TimelineBreakDisplay
@@ -96,7 +96,7 @@ namespace osu.Game.Screens.Edit.Compose
 
         private Drawable wrapSkinnableContent(Drawable content)
         {
-            Debug.Assert(ruleset != null);
+            Debug.Assert(ruleset is not null);
 
             return new EditorSkinProvidingContainer(EditorBeatmap).WithChild(content);
         }
@@ -112,7 +112,7 @@ namespace osu.Game.Screens.Edit.Compose
             base.LoadComplete();
 
             // May be null in the case of a ruleset that doesn't have editor support, see CreateMainContent().
-            if (composer == null)
+            if (composer is null)
                 return;
 
             EditorBeatmap.SelectedHitObjects.BindCollectionChanged((_, _) => updateClipboardActionAvailability());
@@ -178,7 +178,7 @@ namespace osu.Game.Screens.Edit.Compose
 
         private string getTimestamp()
         {
-            if (composer == null)
+            if (composer is null)
                 return string.Empty;
 
             double displayTime = EditorBeatmap.SelectedHitObjects.MinBy(h => h.StartTime)?.StartTime ?? clock.CurrentTime;

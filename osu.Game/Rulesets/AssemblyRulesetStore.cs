@@ -37,7 +37,7 @@ namespace osu.Game.Rulesets
         {
             List<Ruleset> instances = LoadedAssemblies.Values
                                                       .Select(r => Activator.CreateInstance(r) as Ruleset)
-                                                      .Where(r => r != null)
+                                                      .Where(r => r is not null)
                                                       .Select(r => r.AsNonNull())
                                                       .ToList();
 

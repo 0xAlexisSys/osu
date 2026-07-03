@@ -37,25 +37,25 @@ namespace osu.Game.Rulesets
 
                 List<Ruleset> instances = LoadedAssemblies.Values
                                                           .Select(r => Activator.CreateInstance(r) as Ruleset)
-                                                          .Where(r => r != null)
+                                                          .Where(r => r is not null)
                                                           .Select(r => r.AsNonNull())
                                                           .ToList();
 
                 // add all legacy rulesets first to ensure they have exclusive choice of primary key.
                 foreach (var r in instances.Where(r => r is ILegacyRuleset))
                 {
-                    if (realm.All<RulesetInfo>().FirstOrDefault(rr => rr.ID == r.RulesetInfo.ID) == null)
+                    if (realm.All<RulesetInfo>().FirstOrDefault(rr => rr.ID == r.RulesetInfo.ID) is null)
                         realm.Add(new RulesetInfo(r.RulesetInfo.ShortName, r.RulesetInfo.Name, r.RulesetInfo.InstantiationInfo, r.RulesetInfo.ID));
                 }
 
                 // add any other rulesets which have assemblies present but are not yet in the database.
                 foreach (var r in instances.Where(r => !(r is ILegacyRuleset)))
                 {
-                    if (rulesets.FirstOrDefault(ri => ri.InstantiationInfo.Equals(r.RulesetInfo.InstantiationInfo, StringComparison.Ordinal)) == null)
+                    if (rulesets.FirstOrDefault(ri => ri.InstantiationInfo.Equals(r.RulesetInfo.InstantiationInfo, StringComparison.Ordinal)) is null)
                     {
                         var existingSameShortName = rulesets.FirstOrDefault(ri => ri.ShortName == r.RulesetInfo.ShortName);
 
-                        if (existingSameShortName != null)
+                        if (existingSameShortName is not null)
                         {
                             // even if a matching InstantiationInfo was not found, there may be an existing ruleset with the same ShortName.
                             // this generally means the user or ruleset provider has renamed their dll but the underlying ruleset is *likely* the same one.
@@ -76,7 +76,7 @@ namespace osu.Game.Rulesets
                     {
                         var resolvedType = Type.GetType(r.InstantiationInfo);
 
-                        if (resolvedType == null)
+                        if (resolvedType is null)
                         {
                             // ruleset DLL was probably deleted.
                             r.Available = false;
@@ -158,7 +158,7 @@ namespace osu.Game.Rulesets
 
         private void informUserAboutBrokenRulesets()
         {
-            if (RulesetStorage == null)
+            if (RulesetStorage is null)
                 return;
 
             foreach (string brokenRulesetDll in RulesetStorage.GetFiles(@".", @"*.dll.broken"))
@@ -177,7 +177,7 @@ namespace osu.Game.Rulesets
                 foreach (var frame in stackTrace.GetFrames())
                 {
                     var declaringAssembly = frame.GetMethod()?.DeclaringType?.Assembly;
-                    if (declaringAssembly == null)
+                    if (declaringAssembly is null)
                         continue;
 
                     if (UserRulesetAssemblies.Contains(declaringAssembly))

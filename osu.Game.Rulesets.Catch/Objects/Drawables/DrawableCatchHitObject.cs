@@ -60,9 +60,9 @@ namespace osu.Game.Rulesets.Catch.Objects.Drawables
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)
         {
-            if (CheckPosition == null) return;
+            if (CheckPosition is null) return;
 
-            if (timeOffset >= 0 && Result != null)
+            if (timeOffset >= 0 && Result is not null)
             {
                 if (CheckPosition.Invoke(HitObject))
                     ApplyMaxResult();

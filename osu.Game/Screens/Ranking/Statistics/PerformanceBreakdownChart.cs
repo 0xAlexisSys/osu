@@ -159,14 +159,14 @@ namespace osu.Game.Screens.Ranking.Statistics
         private async Task<PerformanceBreakdown?> computePerformance(CancellationToken token)
         {
             var performanceCalculator = score.Ruleset.CreateInstance().CreatePerformanceCalculator();
-            if (performanceCalculator == null)
+            if (performanceCalculator is null)
                 return null;
 
             var starsTask = difficultyCache.GetDifficultyAsync(score.BeatmapInfo!, score.Ruleset, score.Mods, token).ConfigureAwait(false);
             if (await starsTask is not StarDifficulty stars)
                 return null;
 
-            if (stars.DifficultyAttributes == null || stars.PerformanceAttributes == null)
+            if (stars.DifficultyAttributes is null || stars.PerformanceAttributes is null)
                 return null;
 
             return new PerformanceBreakdown(
@@ -196,7 +196,7 @@ namespace osu.Game.Screens.Ranking.Statistics
 
                 var row = createAttributeRow(attr, perfectDisplayAttributes.First(a => a.PropertyName == attr.PropertyName));
 
-                if (row != null)
+                if (row is not null)
                 {
                     rows.Add(row);
                     rowDimensions.Add(new Dimension(GridSizeMode.AutoSize));

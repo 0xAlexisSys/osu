@@ -40,7 +40,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         public OsuLegacySkinTransformer(ISkin skin)
             : base(skin)
         {
-            hasHitCircle = new Lazy<bool>(() => GetTexture("hitcircle") != null);
+            hasHitCircle = new Lazy<bool>(() => GetTexture("hitcircle") is not null);
         }
 
         public override Drawable? GetDrawableComponent(ISkinComponentLookup lookup)
@@ -49,7 +49,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
             {
                 case GlobalSkinnableContainerLookup containerLookup:
                     // Only handle per ruleset defaults here.
-                    if (containerLookup.Ruleset == null)
+                    if (containerLookup.Ruleset is null)
                         return base.GetDrawableComponent(lookup);
 
                     // we don't have enough assets to display these components (this is especially the case on a "beatmap" skin).
@@ -64,7 +64,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                             {
                                 var keyCounter = container.OfType<LegacyKeyCounterDisplay>().FirstOrDefault();
 
-                                if (keyCounter != null)
+                                if (keyCounter is not null)
                                 {
                                     // set the anchor to top right so that it won't squash to the return button to the top
                                     keyCounter.Anchor = Anchor.CentreRight;
@@ -77,7 +77,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
 
                                 Vector2 pos = new Vector2();
 
-                                if (combo != null)
+                                if (combo is not null)
                                 {
                                     combo.Anchor = Anchor.BottomLeft;
                                     combo.Origin = Anchor.BottomLeft;
@@ -86,7 +86,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                                     pos += new Vector2(10, -(combo.DrawHeight * 1.56f + 20) * combo.Scale.X);
                                 }
 
-                                if (leaderboard != null)
+                                if (leaderboard is not null)
                                 {
                                     leaderboard.Anchor = Anchor.BottomLeft;
                                     leaderboard.Origin = Anchor.BottomLeft;
@@ -123,7 +123,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                         case HitResult.IgnoreMiss:
                             if (getSliderPointTexture(resultComponent.Component == HitResult.LargeTickMiss
                                     ? HitResult.LargeTickHit
-                                    : HitResult.SliderTailHit) != null)
+                                    : HitResult.SliderTailHit) is not null)
                                 return base.GetDrawableComponent(lookup) ?? Drawable.Empty();
 
                             break;
@@ -153,13 +153,13 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
 
                         case OsuSkinComponents.SliderFollowCircle:
                             var followCircleContent = this.GetAnimation("sliderfollowcircle", true, true, true, maxSize: MAX_FOLLOW_CIRCLE_AREA_SIZE);
-                            if (followCircleContent != null)
+                            if (followCircleContent is not null)
                                 return new LegacyFollowCircle(followCircleContent);
 
                             return null;
 
                         case OsuSkinComponents.SliderBall:
-                            if (GetTexture("sliderb") != null || GetTexture("sliderb0") != null)
+                            if (GetTexture("sliderb") is not null || GetTexture("sliderb0") is not null)
                                 return new LegacySliderBall(this);
 
                             return null;
@@ -195,19 +195,19 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                             return null;
 
                         case OsuSkinComponents.Cursor:
-                            if (GetTexture("cursor") != null)
+                            if (GetTexture("cursor") is not null)
                                 return new LegacyCursor(this);
 
                             return null;
 
                         case OsuSkinComponents.CursorTrail:
-                            if (GetTexture("cursortrail") != null)
+                            if (GetTexture("cursortrail") is not null)
                                 return new LegacyCursorTrail(this);
 
                             return null;
 
                         case OsuSkinComponents.CursorRipple:
-                            if (GetTexture("cursor-ripple") != null)
+                            if (GetTexture("cursor-ripple") is not null)
                             {
                                 var ripple = this.GetAnimation("cursor-ripple", false, false);
 
@@ -217,7 +217,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                                 // But if no one complains I'd rather fix this in lazer. Wiki documentation doesn't mention size,
                                 // so we might be okay.
                                 //
-                                // if (ripple != null)
+                                // if (ripple is not null)
                                 // {
                                 //     ripple.Scale = new Vector2(0.5f);
                                 //     ripple.Alpha = 0.2f;
@@ -229,13 +229,13 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                             return null;
 
                         case OsuSkinComponents.CursorParticles:
-                            if (GetTexture("star2") != null)
+                            if (GetTexture("star2") is not null)
                                 return new LegacyCursorParticles();
 
                             return null;
 
                         case OsuSkinComponents.CursorSmoke:
-                            if (GetTexture("cursor-smoke") != null)
+                            if (GetTexture("cursor-smoke") is not null)
                                 return new LegacySmokeSegment();
 
                             return null;
@@ -253,9 +253,9 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                             };
 
                         case OsuSkinComponents.SpinnerBody:
-                            bool hasBackground = GetTexture("spinner-background") != null;
+                            bool hasBackground = GetTexture("spinner-background") is not null;
 
-                            if (GetTexture("spinner-top") != null && !hasBackground)
+                            if (GetTexture("spinner-top") is not null && !hasBackground)
                                 return new LegacyNewStyleSpinner();
                             else if (hasBackground)
                                 return new LegacyOldStyleSpinner();
@@ -263,7 +263,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                             return null;
 
                         case OsuSkinComponents.ApproachCircle:
-                            if (GetTexture(@"approachcircle") != null)
+                            if (GetTexture(@"approachcircle") is not null)
                                 return new LegacyApproachCircle();
 
                             return null;

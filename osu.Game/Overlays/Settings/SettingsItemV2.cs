@@ -108,7 +108,7 @@ namespace osu.Game.Overlays.Settings
 
         #region ISettingsItem
 
-        public bool HasClassicDefault => ApplyClassicDefault != null;
+        public bool HasClassicDefault => ApplyClassicDefault is not null;
 
         /// <summary>
         /// If set, this setting is considered as having a "classic" default value,

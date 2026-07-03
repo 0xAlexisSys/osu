@@ -72,7 +72,7 @@ namespace osu.Game.Screens.Footer
         {
             set
             {
-                if (value == null)
+                if (value is null)
                     base.Action = null;
                 else
                 {
@@ -190,7 +190,7 @@ namespace osu.Game.Screens.Footer
         {
             base.LoadComplete();
 
-            if (Overlay != null)
+            if (Overlay is not null)
                 OverlayState.BindTo(Overlay.State);
 
             OverlayState.BindValueChanged(_ => UpdateDisplay());

@@ -69,7 +69,7 @@ namespace osu.Game.Graphics
             if (!Active.Value || !CanSpawnParticles)
                 return;
 
-            if (lastParticleAdded == null)
+            if (lastParticleAdded is null)
             {
                 lastParticleAdded = Time.Current;
                 spawnParticle();
@@ -86,7 +86,7 @@ namespace osu.Game.Graphics
                 return;
             }
 
-            Debug.Assert(lastParticleAdded != null);
+            Debug.Assert(lastParticleAdded is not null);
 
             for (int i = 0; i < timeElapsed / timeBetweenSpawns; i++)
             {
@@ -97,7 +97,7 @@ namespace osu.Game.Graphics
 
         private void spawnParticle()
         {
-            Debug.Assert(lastParticleAdded != null);
+            Debug.Assert(lastParticleAdded is not null);
 
             var newParticle = CreateParticle();
 

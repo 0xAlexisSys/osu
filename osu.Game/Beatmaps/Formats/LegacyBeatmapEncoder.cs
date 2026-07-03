@@ -44,7 +44,7 @@ namespace osu.Game.Beatmaps.Formats
             this.beatmap = beatmap;
             this.skin = skin;
 
-            if (storyboard != null)
+            if (storyboard is not null)
                 storyboardEncoder = new LegacyStoryboardEncoder(storyboard);
 
             rulesetID = beatmap.BeatmapInfo.Ruleset.ID;
@@ -110,7 +110,7 @@ namespace osu.Game.Beatmaps.Formats
             if (rulesetID == 3)
                 writer.WriteLine(FormattableString.Invariant($"SpecialStyle: {(beatmap.SpecialStyle ? '1' : '0')}"));
 
-            if (storyboardEncoder != null)
+            if (storyboardEncoder is not null)
                 storyboardEncoder.EncodeGeneralToBeatmap(writer);
             else
                 writer.WriteLine(FormattableString.Invariant($"WidescreenStoryboard: {(beatmap.WidescreenStoryboard ? '1' : '0')}"));
@@ -164,7 +164,7 @@ namespace osu.Game.Beatmaps.Formats
         {
             writer.WriteLine("[Events]");
 
-            if (storyboardEncoder != null)
+            if (storyboardEncoder is not null)
             {
                 storyboardEncoder.EncodeEventsToBeatmap(writer);
             }
@@ -219,10 +219,10 @@ namespace osu.Game.Beatmaps.Formats
             foreach (var group in legacyControlPoints.Groups)
             {
                 var groupTimingPoint = group.ControlPoints.OfType<TimingControlPoint>().FirstOrDefault();
-                var controlPointProperties = getLegacyControlPointProperties(group, groupTimingPoint != null);
+                var controlPointProperties = getLegacyControlPointProperties(group, groupTimingPoint is not null);
 
                 // If the group contains a timing control point, it needs to be output separately.
-                if (groupTimingPoint != null)
+                if (groupTimingPoint is not null)
                 {
                     writer.Write(FormattableString.Invariant($"{groupTimingPoint.Time},"));
                     writer.Write(FormattableString.Invariant($"{groupTimingPoint.BeatLength},"));
@@ -401,7 +401,7 @@ namespace osu.Game.Beatmaps.Formats
         {
             var colours = skin?.GetConfig<GlobalSkinColours, IReadOnlyList<Color4>>(GlobalSkinColours.ComboColours)?.Value;
 
-            if (colours == null || colours.Count == 0)
+            if (colours is null || colours.Count == 0)
                 return;
 
             writer.WriteLine("[Colours]");
@@ -511,7 +511,7 @@ namespace osu.Game.Beatmaps.Formats
 
                 // Note that lazer's encoding format supports specifying multiple curve types for a slider path, which is not supported by stable.
                 // Backwards compatibility with stable is handled by `LegacyBeatmapExporter` and `BezierConverter.ConvertToModernBezier()`.
-                if (point.Type != null)
+                if (point.Type is not null)
                 {
                     switch (point.Type?.Type)
                     {
@@ -545,7 +545,7 @@ namespace osu.Game.Beatmaps.Formats
             writer.Write(FormattableString.Invariant($"{(curveData?.RepeatCount ?? 0) + 1},"));
             writer.Write(FormattableString.Invariant($"{pathData.Path.ExpectedDistance.Value ?? pathData.Path.Distance},"));
 
-            if (curveData != null)
+            if (curveData is not null)
             {
                 for (int i = 0; i < curveData.SpanCount() + 1; i++)
                 {

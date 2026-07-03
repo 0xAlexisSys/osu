@@ -87,7 +87,7 @@ namespace osu.Game.Rulesets.Taiko.Scoring
 
         private static double classicMultiplier(ScoreInfo? score)
         {
-            if (score != null && score.TotalScoreVersion < 30000017)
+            if (score is not null && score.TotalScoreVersion < 30000017)
                 return 0.96;
 
             return 1;

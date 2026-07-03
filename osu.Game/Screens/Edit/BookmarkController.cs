@@ -115,7 +115,7 @@ namespace osu.Game.Screens.Edit
                 ? bookmarks.Cast<int?>().LastOrDefault(b => b < clock.CurrentTimeAccurate - seekLenience)
                 : bookmarks.Cast<int?>().FirstOrDefault(b => b > clock.CurrentTimeAccurate);
 
-            if (targetBookmark != null)
+            if (targetBookmark is not null)
                 clock.SeekSmoothlyTo(targetBookmark.Value);
         }
 

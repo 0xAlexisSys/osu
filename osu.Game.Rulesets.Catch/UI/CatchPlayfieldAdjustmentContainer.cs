@@ -63,7 +63,7 @@ namespace osu.Game.Rulesets.Catch.UI
         [BackgroundDependencyLoader]
         private void load(OsuGame? osuGame)
         {
-            if (osuGame != null)
+            if (osuGame is not null)
             {
                 // on mobile platforms where the base aspect ratio is wider, the catch playfield
                 // needs to be scaled down to remain playable.

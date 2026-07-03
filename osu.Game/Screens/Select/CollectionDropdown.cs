@@ -67,7 +67,7 @@ namespace osu.Game.Screens.Select
 
         private void collectionsChanged(IRealmCollection<BeatmapCollection> collections, ChangeSet? changes)
         {
-            if (changes == null)
+            if (changes is null)
             {
                 filters.Clear();
                 filters.Add(allBeatmapsItem);
@@ -191,7 +191,7 @@ namespace osu.Game.Screens.Select
             {
                 base.LoadComplete();
 
-                if (collection != null)
+                if (collection is not null)
                 {
                     beatmap.BindValueChanged(_ =>
                     {
@@ -228,7 +228,7 @@ namespace osu.Game.Screens.Select
 
             private void updateButtonVisibility()
             {
-                if (collection == null)
+                if (collection is null)
                     addOrRemoveButton.Alpha = 0;
                 else
                     addOrRemoveButton.Alpha = IsHovered || IsPreSelected || beatmapInCollection ? 1 : 0;
@@ -236,7 +236,7 @@ namespace osu.Game.Screens.Select
 
             private void addOrRemove()
             {
-                Debug.Assert(collection != null);
+                Debug.Assert(collection is not null);
 
                 Task.Run(() => collection.PerformWrite(c =>
                 {

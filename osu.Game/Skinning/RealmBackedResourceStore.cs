@@ -29,7 +29,7 @@ namespace osu.Game.Skinning
             liveSource = source;
 
             invalidateCache();
-            Debug.Assert(fileToStoragePathMapping != null);
+            Debug.Assert(fileToStoragePathMapping is not null);
 
             // Required local for iOS. Will cause runtime crash if inlined.
             Guid id = source.ID;
@@ -50,7 +50,7 @@ namespace osu.Game.Skinning
             foreach (string filename in base.GetFilenames(name))
             {
                 string? path = getPathForFile(filename.ToStandardisedPath());
-                if (path != null)
+                if (path is not null)
                     yield return path;
             }
         }

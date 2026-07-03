@@ -205,11 +205,11 @@ namespace osu.Game.Rulesets.Objects
             var slidingSamples = new List<HitSampleInfo>();
 
             var normalSample = Samples.FirstOrDefault(s => s.Name == HitSampleInfo.HIT_NORMAL);
-            if (normalSample != null)
+            if (normalSample is not null)
                 slidingSamples.Add(normalSample.With("sliderslide"));
 
             var whistleSample = Samples.FirstOrDefault(s => s.Name == HitSampleInfo.HIT_WHISTLE);
-            if (whistleSample != null)
+            if (whistleSample is not null)
                 slidingSamples.Add(whistleSample.With("sliderwhistle"));
 
             return slidingSamples;

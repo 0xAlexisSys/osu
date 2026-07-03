@@ -53,7 +53,7 @@ namespace osu.Game.Overlays.Mods
         {
             AccentColour = colours.Orange1;
 
-            if (Index != null)
+            if (Index is not null)
             {
                 SwitchContainer.Child = shortcutKeyText = new OsuSpriteText
                 {

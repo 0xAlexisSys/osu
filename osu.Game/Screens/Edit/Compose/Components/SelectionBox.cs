@@ -173,10 +173,10 @@ namespace osu.Game.Screens.Edit.Compose.Components
                 }
             };
 
-            if (rotationHandler != null)
+            if (rotationHandler is not null)
                 canRotate.BindTo(rotationHandler.CanRotateAroundSelectionOrigin);
 
-            if (scaleHandler != null)
+            if (scaleHandler is not null)
             {
                 canScaleX.BindTo(scaleHandler.CanScaleX);
                 canScaleY.BindTo(scaleHandler.CanScaleY);
@@ -201,21 +201,21 @@ namespace osu.Game.Screens.Edit.Compose.Components
             switch (e.Key)
             {
                 case Key.G:
-                    if (!CanReverse || reverseButton == null)
+                    if (!CanReverse || reverseButton is null)
                         return false;
 
                     reverseButton.TriggerAction();
                     return true;
 
                 case Key.Comma:
-                    if (!canRotate.Value || rotateCounterClockwiseButton == null)
+                    if (!canRotate.Value || rotateCounterClockwiseButton is null)
                         return false;
 
                     rotateCounterClockwiseButton.TriggerAction();
                     return true;
 
                 case Key.Period:
-                    if (!canRotate.Value || rotateClockwiseButton == null)
+                    if (!canRotate.Value || rotateClockwiseButton is null)
                         return false;
 
                     rotateClockwiseButton.TriggerAction();
@@ -398,7 +398,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void unfreezeButtonPosition()
         {
-            if (frozenButtonsPosition != null)
+            if (frozenButtonsPosition is not null)
             {
                 frozenButtonsPosition = null;
                 ensureButtonsOnScreen(true);
@@ -407,7 +407,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         private void ensureButtonsOnScreen(bool animated = false)
         {
-            if (frozenButtonsPosition != null)
+            if (frozenButtonsPosition is not null)
             {
                 buttons.Anchor = Anchor.TopLeft;
                 buttons.Origin = Anchor.TopLeft;

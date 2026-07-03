@@ -56,7 +56,7 @@ namespace osu.Game.Screens.Utility
             // We want to generate a few hit objects ahead of the current time (to allow them to animate).
             double generateUpTo = (nextBeat + 2) * beatLength;
 
-            while (lastGeneratedBeatTime == null || lastGeneratedBeatTime < generateUpTo)
+            while (lastGeneratedBeatTime is null || lastGeneratedBeatTime < generateUpTo)
             {
                 double time = ++nextBeat * beatLength;
 
@@ -172,7 +172,7 @@ namespace osu.Game.Screens.Utility
 
             protected override bool OnMouseDown(MouseDownEvent e)
             {
-                if (HitEvent != null)
+                if (HitEvent is not null)
                     return false;
 
                 if (Math.Abs(Clock.CurrentTime - HitTime) > duration)
@@ -197,7 +197,7 @@ namespace osu.Game.Screens.Utility
 
             protected override void UpdateAtLimitedRate(InputState inputState)
             {
-                if (HitEvent == null)
+                if (HitEvent is null)
                 {
                     double preempt = (float)IBeatmapDifficultyInfo.DifficultyRange(SampleApproachRate.Value, 1800, 1200, 450);
 
@@ -211,7 +211,7 @@ namespace osu.Game.Screens.Utility
 
             private void attemptHit() => Schedule(() =>
             {
-                if (HitEvent != null)
+                if (HitEvent is not null)
                     return;
 
                 // in case it was hit outside of display range, show immediately

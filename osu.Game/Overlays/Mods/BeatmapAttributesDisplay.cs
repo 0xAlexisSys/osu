@@ -137,7 +137,7 @@ namespace osu.Game.Overlays.Mods
         {
             cancellationSource?.Cancel();
 
-            if (BeatmapInfo.Value == null)
+            if (BeatmapInfo.Value is null)
                 return;
 
             starDifficulty = difficultyCache.GetBindableDifficulty(BeatmapInfo.Value, (cancellationSource = new CancellationTokenSource()).Token);
@@ -175,7 +175,7 @@ namespace osu.Game.Overlays.Mods
 
         private void updateValues() => Scheduler.AddOnce(() =>
         {
-            if (BeatmapInfo.Value == null)
+            if (BeatmapInfo.Value is null)
                 return;
 
             double rate = ModUtils.CalculateRateWithMods(Mods.Value);

@@ -90,7 +90,7 @@ namespace osu.Game.Skinning
                         {
                             case GlobalSkinColours.ComboColours:
                                 var comboColours = Configuration.ComboColours;
-                                if (comboColours != null)
+                                if (comboColours is not null)
                                     return SkinUtils.As<TValue>(new Bindable<IReadOnlyList<Color4>>(comboColours));
 
                                 break;
@@ -112,7 +112,7 @@ namespace osu.Game.Skinning
                             break;
 
                         var result = lookupForMania<TValue>(maniaLookup);
-                        if (result != null)
+                        if (result is not null)
                             return result;
 
                         break;
@@ -141,7 +141,7 @@ namespace osu.Game.Skinning
             switch (maniaLookup.Lookup)
             {
                 case LegacyManiaSkinConfigurationLookups.ColumnWidth:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(new Bindable<float>(existing.ColumnWidth[maniaLookup.ColumnIndex.Value]));
 
                 case LegacyManiaSkinConfigurationLookups.WidthForNoteHeightScale:
@@ -175,11 +175,11 @@ namespace osu.Game.Skinning
                     return SkinUtils.As<TValue>(getCustomColour(existing, "ColourJudgementLine"));
 
                 case LegacyManiaSkinConfigurationLookups.ColumnBackgroundColour:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getCustomColour(existing, $"Colour{maniaLookup.ColumnIndex + 1}"));
 
                 case LegacyManiaSkinConfigurationLookups.ColumnLightColour:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getCustomColour(existing, $"ColourLight{maniaLookup.ColumnIndex + 1}"));
 
                 case LegacyManiaSkinConfigurationLookups.ComboBreakColour:
@@ -196,7 +196,7 @@ namespace osu.Game.Skinning
 
                 case LegacyManiaSkinConfigurationLookups.NoteBodyStyle:
 
-                    if (existing.NoteBodyStyle != null)
+                    if (existing.NoteBodyStyle is not null)
                         return SkinUtils.As<TValue>(new Bindable<LegacyManiaSkinConfiguration.LegacyNoteBodyStyle>(existing.NoteBodyStyle.Value));
 
                     if (GetConfig<SkinConfiguration.LegacySetting, decimal>(SkinConfiguration.LegacySetting.Version)?.Value < 2.5m)
@@ -205,30 +205,30 @@ namespace osu.Game.Skinning
                     return SkinUtils.As<TValue>(new Bindable<LegacyManiaSkinConfiguration.LegacyNoteBodyStyle>(LegacyManiaSkinConfiguration.LegacyNoteBodyStyle.RepeatBottom));
 
                 case LegacyManiaSkinConfigurationLookups.NoteImage:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getManiaImage(existing, $"NoteImage{maniaLookup.ColumnIndex}"));
 
                 case LegacyManiaSkinConfigurationLookups.HoldNoteHeadImage:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getManiaImage(existing, $"NoteImage{maniaLookup.ColumnIndex}H"));
 
                 case LegacyManiaSkinConfigurationLookups.HoldNoteTailImage:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getManiaImage(existing, $"NoteImage{maniaLookup.ColumnIndex}T"));
 
                 case LegacyManiaSkinConfigurationLookups.HoldNoteBodyImage:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getManiaImage(existing, $"NoteImage{maniaLookup.ColumnIndex}L"));
 
                 case LegacyManiaSkinConfigurationLookups.HoldNoteLightImage:
                     return SkinUtils.As<TValue>(getManiaImage(existing, "LightingL"));
 
                 case LegacyManiaSkinConfigurationLookups.KeyImage:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getManiaImage(existing, $"KeyImage{maniaLookup.ColumnIndex}"));
 
                 case LegacyManiaSkinConfigurationLookups.KeyImageDown:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(getManiaImage(existing, $"KeyImage{maniaLookup.ColumnIndex}D"));
 
                 case LegacyManiaSkinConfigurationLookups.LeftStageImage:
@@ -261,29 +261,29 @@ namespace osu.Game.Skinning
                     return SkinUtils.As<TValue>(new Bindable<int>(existing.LightFramePerSecond));
 
                 case LegacyManiaSkinConfigurationLookups.LeftColumnSpacing:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     if (maniaLookup.ColumnIndex == 0)
                         return SkinUtils.As<TValue>(new Bindable<float>());
 
                     return SkinUtils.As<TValue>(new Bindable<float>(existing.ColumnSpacing[maniaLookup.ColumnIndex.Value - 1] / 2));
 
                 case LegacyManiaSkinConfigurationLookups.RightColumnSpacing:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     if (maniaLookup.ColumnIndex == existing.ColumnSpacing.Length)
                         return SkinUtils.As<TValue>(new Bindable<float>());
 
                     return SkinUtils.As<TValue>(new Bindable<float>(existing.ColumnSpacing[maniaLookup.ColumnIndex.Value] / 2));
 
                 case LegacyManiaSkinConfigurationLookups.LeftLineWidth:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(new Bindable<float>(existing.ColumnLineWidth[maniaLookup.ColumnIndex.Value]));
 
                 case LegacyManiaSkinConfigurationLookups.RightLineWidth:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
                     return SkinUtils.As<TValue>(new Bindable<float>(existing.ColumnLineWidth[maniaLookup.ColumnIndex.Value + 1]));
 
                 case LegacyManiaSkinConfigurationLookups.ExplosionScale:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
 
                     if (GetConfig<SkinConfiguration.LegacySetting, decimal>(SkinConfiguration.LegacySetting.Version)?.Value < 2.5m)
                         return SkinUtils.As<TValue>(new Bindable<float>(1));
@@ -294,7 +294,7 @@ namespace osu.Game.Skinning
                     return SkinUtils.As<TValue>(new Bindable<float>(existing.ColumnWidth[maniaLookup.ColumnIndex.Value] / LegacyManiaSkinConfiguration.DEFAULT_COLUMN_SIZE));
 
                 case LegacyManiaSkinConfigurationLookups.HoldNoteLightScale:
-                    Debug.Assert(maniaLookup.ColumnIndex != null);
+                    Debug.Assert(maniaLookup.ColumnIndex is not null);
 
                     if (GetConfig<SkinConfiguration.LegacySetting, decimal>(SkinConfiguration.LegacySetting.Version)?.Value < 2.5m)
                         return SkinUtils.As<TValue>(new Bindable<float>(1));
@@ -360,7 +360,7 @@ namespace osu.Game.Skinning
                     }
 
                     var bindable = new Bindable<TValue>();
-                    if (val != null)
+                    if (val is not null)
                         bindable.Parse(val, CultureInfo.InvariantCulture);
                     return bindable;
                 }
@@ -380,21 +380,21 @@ namespace osu.Game.Skinning
                     switch (containerLookup.Lookup)
                     {
                         case GlobalSkinnableContainers.MainHUDComponents:
-                            if (containerLookup.Ruleset != null)
+                            if (containerLookup.Ruleset is not null)
                             {
                                 return new DefaultSkinComponentsContainer(container =>
                                 {
                                     var combo = container.OfType<LegacyDefaultComboCounter>().FirstOrDefault();
                                     var leaderboard = container.OfType<DrawableGameplayLeaderboard>().FirstOrDefault();
 
-                                    if (combo != null)
+                                    if (combo is not null)
                                     {
                                         combo.Anchor = Anchor.BottomLeft;
                                         combo.Origin = Anchor.BottomLeft;
                                         combo.Scale = new Vector2(1.28f);
                                     }
 
-                                    if (leaderboard != null)
+                                    if (leaderboard is not null)
                                     {
                                         leaderboard.Anchor = Anchor.CentreLeft;
                                         leaderboard.Origin = Anchor.CentreLeft;
@@ -418,14 +418,14 @@ namespace osu.Game.Skinning
                                 var score = container.OfType<LegacyScoreCounter>().FirstOrDefault();
                                 var accuracy = container.OfType<GameplayAccuracyCounter>().FirstOrDefault();
 
-                                if (score != null && accuracy != null)
+                                if (score is not null && accuracy is not null)
                                 {
                                     accuracy.Y = container.ToLocalSpace(score.ScreenSpaceDrawQuad.BottomRight).Y;
                                 }
 
                                 var songProgress = container.OfType<LegacySongProgress>().FirstOrDefault();
 
-                                if (songProgress != null && accuracy != null)
+                                if (songProgress is not null && accuracy is not null)
                                 {
                                     songProgress.Anchor = Anchor.TopRight;
                                     songProgress.Origin = Anchor.CentreRight;
@@ -435,7 +435,7 @@ namespace osu.Game.Skinning
 
                                 var hitError = container.OfType<HitErrorMeter>().FirstOrDefault();
 
-                                if (hitError != null)
+                                if (hitError is not null)
                                 {
                                     hitError.Anchor = Anchor.BottomCentre;
                                     hitError.Origin = Anchor.CentreLeft;
@@ -462,14 +462,14 @@ namespace osu.Game.Skinning
                 case SkinComponentLookup<HitResult> resultComponent:
 
                     // kind of wasteful that we throw this away, but should do for now.
-                    if (getJudgementAnimation(resultComponent.Component) != null)
+                    if (getJudgementAnimation(resultComponent.Component) is not null)
                     {
                         // TODO: this should be inside the judgement pieces.
                         Func<Drawable> createDrawable = () => getJudgementAnimation(resultComponent.Component).AsNonNull();
 
                         var particle = getParticleTexture(resultComponent.Component);
 
-                        if (particle != null)
+                        if (particle is not null)
                             return new LegacyJudgementPieceNew(resultComponent.Component, createDrawable, particle);
 
                         return new LegacyJudgementPieceOld(resultComponent.Component, createDrawable);
@@ -556,7 +556,7 @@ namespace osu.Game.Skinning
 
                 texture = Textures?.Get(twoTimesFilename, wrapModeS, wrapModeT);
 
-                if (texture != null)
+                if (texture is not null)
                     ratio = 2;
             }
 
@@ -580,7 +580,7 @@ namespace osu.Game.Skinning
             {
                 var sample = Samples?.Get(lookup);
 
-                if (sample != null)
+                if (sample is not null)
                 {
                     return sample;
                 }

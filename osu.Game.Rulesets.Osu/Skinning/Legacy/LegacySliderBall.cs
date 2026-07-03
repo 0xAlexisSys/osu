@@ -71,7 +71,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                 },
             };
 
-            if (parentObject != null)
+            if (parentObject is not null)
                 parentObject.HitObjectApplied += onHitObjectApplied;
 
             onHitObjectApplied(parentObject);
@@ -83,7 +83,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             base.LoadComplete();
 
-            if (parentObject != null)
+            if (parentObject is not null)
             {
                 parentObject.ApplyCustomUpdateState += updateStateTransforms;
                 updateStateTransforms(parentObject, parentObject.State.Value);
@@ -111,7 +111,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             double frameDelay;
 
-            if (drawableObject?.HitObject != null)
+            if (drawableObject?.HitObject is not null)
             {
                 DrawableSlider drawableSlider = (DrawableSlider)drawableObject;
 
@@ -146,7 +146,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             base.Dispose(isDisposing);
 
-            if (parentObject != null)
+            if (parentObject is not null)
             {
                 parentObject.HitObjectApplied -= onHitObjectApplied;
                 parentObject.ApplyCustomUpdateState -= updateStateTransforms;

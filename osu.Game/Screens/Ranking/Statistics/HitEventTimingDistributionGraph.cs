@@ -114,7 +114,7 @@ namespace osu.Game.Screens.Ranking.Statistics
                 }
             }
 
-            if (barDrawables == null)
+            if (barDrawables is null)
                 createBarDrawables();
             else
             {
@@ -283,7 +283,7 @@ namespace osu.Game.Screens.Ranking.Statistics
             {
                 if (invalidation.HasFlag(Invalidation.DrawSize))
                 {
-                    if (lastDrawHeight != null && lastDrawHeight != DrawHeight)
+                    if (lastDrawHeight is not null && lastDrawHeight != DrawHeight)
                         Scheduler.AddOnce(updateMetrics, false);
                 }
 
@@ -294,7 +294,7 @@ namespace osu.Game.Screens.Ranking.Statistics
             {
                 bool hasAdjustment = adjustment != totalValue;
 
-                if (boxAdjustment == null)
+                if (boxAdjustment is null)
                 {
                     if (!hasAdjustment)
                         return;
@@ -331,7 +331,7 @@ namespace osu.Game.Screens.Ranking.Statistics
                     offsetValue -= value;
                 }
 
-                if (boxAdjustment != null)
+                if (boxAdjustment is not null)
                     drawAdjustmentBar();
 
                 if (!animate)

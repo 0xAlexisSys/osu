@@ -32,7 +32,7 @@ namespace osu.Game.Audio
         }
 
         public bool Equals(SampleInfo? other)
-            => other != null && sampleNames.SequenceEqual(other.sampleNames);
+            => other is not null && sampleNames.SequenceEqual(other.sampleNames);
 
         public override bool Equals(object? obj)
             => obj is SampleInfo other && Equals(other);

@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.Edit.Checks
 
             // If the file is set, also make sure it still exists.
             string? storagePath = context.CurrentDifficulty.Playable.BeatmapInfo.BeatmapSet?.GetPathForFile(filename);
-            if (storagePath != null)
+            if (storagePath is not null)
                 yield break;
 
             yield return new IssueTemplateDoesNotExist(this).Create(TypeOfFile, filename);

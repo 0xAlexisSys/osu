@@ -156,7 +156,7 @@ namespace osu.Game.Database
             if (!ThreadSafety.IsUpdateThread)
                 throw new InvalidOperationException(@$"Use {nameof(getRealmInstance)} when performing realm operations from a non-update thread");
 
-            if (updateRealm == null)
+            if (updateRealm is null)
             {
                 updateRealm = getRealmInstance();
                 hasInitialisedOnce = true;
@@ -168,7 +168,7 @@ namespace osu.Game.Database
                     registerSubscription(action);
             }
 
-            Debug.Assert(updateRealm != null);
+            Debug.Assert(updateRealm is not null);
 
             return updateRealm;
         }
@@ -654,7 +654,7 @@ namespace osu.Game.Database
                 var model = Run(modelAccessor);
                 var propLookupCompiled = propertyLookup.Compile();
 
-                if (model == null)
+                if (model is null)
                     return null;
 
                 model.PropertyChanged += onPropertyChanged;
@@ -695,7 +695,7 @@ namespace osu.Game.Database
         /// <returns>An <see cref="IDisposable"/> which should be disposed to unsubscribe any inner subscription.</returns>
         public IDisposable RegisterCustomSubscription(Func<Realm, IDisposable?> action)
         {
-            if (updateThreadSyncContext == null)
+            if (updateThreadSyncContext is null)
                 throw new InvalidOperationException("Attempted to register a realm subscription before update thread registration.");
 
             total_subscriptions.Value++;
@@ -741,7 +741,7 @@ namespace osu.Game.Database
             // cyclic invocations of the subscription callback.
             var realm = Realm;
 
-            Debug.Assert(!customSubscriptionsResetMap.TryGetValue(action, out var found) || found == null);
+            Debug.Assert(!customSubscriptionsResetMap.TryGetValue(action, out var found) || found is null);
 
             current_thread_subscriptions_allowed.Value = true;
             customSubscriptionsResetMap[action] = action(realm);
@@ -836,7 +836,7 @@ namespace osu.Game.Database
                 using (var source = storage.GetStream(Filename, mode: FileMode.Open))
                 {
                     // source may not exist.
-                    if (source == null)
+                    if (source is null)
                         return;
 
                     using (var destination = storage.GetStream(backupFilename, FileAccess.Write, FileMode.CreateNew))
@@ -952,7 +952,7 @@ namespace osu.Game.Database
                 Logger.Log(@"Restoring realm operations.", LoggingTarget.Database);
                 realmRetrievalLock.Release();
 
-                if (syncContext == null) return;
+                if (syncContext is null) return;
 
                 ManualResetEventSlim updateRealmReestablished = new ManualResetEventSlim();
 

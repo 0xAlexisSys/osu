@@ -31,7 +31,7 @@ namespace osu.Game.Tests.Visual
         {
             AddUntilStep("test passed", () =>
             {
-                if (CurrentTestData == null)
+                if (CurrentTestData is null)
                     return true;
 
                 return CurrentTestData.PassCondition?.Invoke() ?? false;
@@ -46,7 +46,7 @@ namespace osu.Game.Tests.Visual
         {
             var mods = new List<Mod>(SelectedMods.Value);
 
-            if (CurrentTestData.Mods != null)
+            if (CurrentTestData.Mods is not null)
                 mods.AddRange(CurrentTestData.Mods);
             if (CurrentTestData.Autoplay)
                 mods.Add(ruleset.GetAutoplayMod());
@@ -77,7 +77,7 @@ namespace osu.Game.Tests.Visual
                 if (currentTestData.Autoplay && currentTestData.ReplayFrames?.Count > 0)
                     throw new InvalidOperationException(@$"{nameof(ModTestData.Autoplay)} must be false when {nameof(ModTestData.ReplayFrames)} is specified.");
 
-                if (currentTestData.ReplayFrames != null)
+                if (currentTestData.ReplayFrames is not null)
                 {
                     DrawableRuleset?.SetReplayScore(new Score
                     {

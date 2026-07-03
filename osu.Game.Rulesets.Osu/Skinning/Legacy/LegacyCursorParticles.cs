@@ -66,13 +66,13 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
                 },
             };
 
-            if (player != null)
+            if (player is not null)
                 ((IBindable<bool>)breakSpewer.Active).BindTo(player.IsBreakTime);
         }
 
         protected override void Update()
         {
-            if (playfield == null || gameplayState == null) return;
+            if (playfield is null || gameplayState is null) return;
 
             DrawableHitObject? kiaiHitObject = null;
 
@@ -80,7 +80,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
             if (gameplayState.Beatmap.ControlPointInfo.EffectPointAt(Time.Current).KiaiMode)
                 kiaiHitObject = playfield.HitObjectContainer.AliveObjects.FirstOrDefault(isTracking);
 
-            kiaiSpewer.Active.Value = kiaiHitObject != null;
+            kiaiSpewer.Active.Value = kiaiHitObject is not null;
         }
 
         private bool isTracking(DrawableHitObject h)
@@ -164,7 +164,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
 
             protected override bool OnMouseMove(MouseMoveEvent e)
             {
-                if (cursorScreenPosition == null)
+                if (cursorScreenPosition is null)
                 {
                     cursorScreenPosition = e.ScreenSpaceMousePosition;
                     return base.OnMouseMove(e);

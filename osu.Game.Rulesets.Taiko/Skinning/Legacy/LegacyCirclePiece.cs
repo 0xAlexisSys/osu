@@ -69,7 +69,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
 
             foregroundLayer = getDrawableFor("circleoverlay", true);
 
-            if (foregroundLayer != null)
+            if (foregroundLayer is not null)
             {
                 foregroundLayer.Anchor = Anchor.Centre;
                 foregroundLayer.Origin = Anchor.Centre;
@@ -87,7 +87,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Legacy
                 timingPoint = beatSyncProvider?.ControlPoints?.TimingPointAt(startTime.NewValue) ?? TimingControlPoint.DEFAULT;
             }, true);
 
-            if (gameplayState != null)
+            if (gameplayState is not null)
                 currentCombo.BindTo(gameplayState.ScoreProcessor.Combo);
         }
 

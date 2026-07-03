@@ -125,18 +125,18 @@ namespace osu.Game.Screens.Menu
                     {
                         var found = usableBeatmapSets[RNG.Next(0, setCount - 1)].Beatmaps.FirstOrDefault();
 
-                        if (found != null)
+                        if (found is not null)
                             initialBeatmap = beatmaps.GetWorkingBeatmap(found);
                     }
                 });
             }
 
             // we generally want a song to be playing on startup, so use the intro music even if a user has specified not to if no other track is available.
-            if (initialBeatmap == null)
+            if (initialBeatmap is null)
             {
                 // Intro beatmaps are generally made using the osu! ruleset.
                 // It might not be present in test projects for other rulesets.
-                bool osuRulesetPresent = rulesets.GetRuleset(0) != null;
+                bool osuRulesetPresent = rulesets.GetRuleset(0) is not null;
 
                 if (!loadThemedIntro() && osuRulesetPresent)
                 {
@@ -154,7 +154,7 @@ namespace osu.Game.Screens.Menu
             {
                 var setInfo = beatmaps.QueryBeatmapSet(b => b.Protected && b.Hash == BeatmapHash);
 
-                if (setInfo == null)
+                if (setInfo is null)
                     return false;
 
                 setInfo.PerformRead(s =>
@@ -172,7 +172,7 @@ namespace osu.Game.Screens.Menu
                     initialBeatmap = working;
                 });
 
-                return UsingThemedIntro = initialBeatmap != null;
+                return UsingThemedIntro = initialBeatmap is not null;
             }
 
             AddInternal(new GlobalScrollAdjustsVolume());
@@ -193,7 +193,7 @@ namespace osu.Game.Screens.Menu
             {
                 using (var str = working.GetStream(f.File.GetStoragePath()))
                 {
-                    if (str == null)
+                    if (str is null)
                         return false;
                 }
             }
@@ -243,7 +243,7 @@ namespace osu.Game.Screens.Menu
             // we also handle the exit transition.
             if (MenuVoice.Value)
             {
-                if (skinnableSeeya != null)
+                if (skinnableSeeya is not null)
                 {
                     // resuming a screen (i.e. calling OnResume) happens before the screen itself becomes alive,
                     // therefore skinnable samples may not be updated yet with the recently selected skin.
@@ -319,7 +319,7 @@ namespace osu.Game.Screens.Menu
             {
                 // generally this can never be null
                 // an exception is running ruleset tests, where the osu! ruleset may not be present (causing importing the intro to fail).
-                if (initialBeatmap != null)
+                if (initialBeatmap is not null)
                     beatmap.Value = initialBeatmap;
                 Track = beatmap.Value.Track;
 
@@ -348,12 +348,12 @@ namespace osu.Game.Screens.Menu
 
         protected void PrepareMenuLoad()
         {
-            if (nextScreen != null)
+            if (nextScreen is not null)
                 return;
 
             nextScreen = createNextScreen?.Invoke();
 
-            if (nextScreen != null)
+            if (nextScreen is not null)
                 LoadComponentAsync(nextScreen);
         }
 
@@ -365,7 +365,7 @@ namespace osu.Game.Screens.Menu
             beatmap.Return();
 
             DidLoadMenu = true;
-            if (nextScreen != null)
+            if (nextScreen is not null)
                 this.Push(nextScreen);
         }
     }

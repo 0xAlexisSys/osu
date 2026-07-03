@@ -58,7 +58,7 @@ namespace osu.Game.Skinning
         public SkinProvidingContainer(ISkin? skin)
             : this()
         {
-            if (skin != null)
+            if (skin is not null)
                 SetSources(new[] { skin });
         }
 
@@ -75,7 +75,7 @@ namespace osu.Game.Skinning
             var dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
             ParentSource = dependencies.Get<ISkinSource>();
-            if (ParentSource != null)
+            if (ParentSource is not null)
                 ParentSource.SourceChanged += TriggerSourceChanged;
 
             dependencies.CacheAs<ISkinSource>(this);
@@ -106,7 +106,7 @@ namespace osu.Game.Skinning
                 foreach (var i in skinSources)
                     yield return i.skin;
 
-                if (AllowFallingBackToParent && ParentSource != null)
+                if (AllowFallingBackToParent && ParentSource is not null)
                 {
                     foreach (var skin in ParentSource.AllSources)
                         yield return skin;
@@ -119,7 +119,7 @@ namespace osu.Game.Skinning
             foreach (var (_, lookupWrapper) in skinSources)
             {
                 Drawable? sourceDrawable;
-                if ((sourceDrawable = lookupWrapper.GetDrawableComponent(lookup)) != null)
+                if ((sourceDrawable = lookupWrapper.GetDrawableComponent(lookup)) is not null)
                     return sourceDrawable;
             }
 
@@ -134,7 +134,7 @@ namespace osu.Game.Skinning
             foreach (var (_, lookupWrapper) in skinSources)
             {
                 Texture? sourceTexture;
-                if ((sourceTexture = lookupWrapper.GetTexture(componentName, wrapModeS, wrapModeT)) != null)
+                if ((sourceTexture = lookupWrapper.GetTexture(componentName, wrapModeS, wrapModeT)) is not null)
                     return sourceTexture;
             }
 
@@ -149,7 +149,7 @@ namespace osu.Game.Skinning
             foreach (var (_, lookupWrapper) in skinSources)
             {
                 ISample? sourceSample;
-                if ((sourceSample = lookupWrapper.GetSample(sampleInfo)) != null)
+                if ((sourceSample = lookupWrapper.GetSample(sampleInfo)) is not null)
                     return sourceSample;
             }
 
@@ -170,7 +170,7 @@ namespace osu.Game.Skinning
                 foreach (var (_, lookupWrapper) in skinSources)
                 {
                     IBindable<TValue>? bindable;
-                    if ((bindable = lookupWrapper.GetConfig<TLookup, TValue>(lookup)) != null)
+                    if ((bindable = lookupWrapper.GetConfig<TLookup, TValue>(lookup)) is not null)
                         return bindable;
                 }
 
@@ -236,7 +236,7 @@ namespace osu.Game.Skinning
 
             base.Dispose(isDisposing);
 
-            if (ParentSource != null)
+            if (ParentSource is not null)
                 ParentSource.SourceChanged -= TriggerSourceChanged;
 
             foreach (var i in skinSources)

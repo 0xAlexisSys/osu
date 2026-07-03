@@ -72,7 +72,7 @@ namespace osu.Game.Rulesets.UI
                 }
             };
 
-            if (mod.Icon != null)
+            if (mod.Icon is not null)
             {
                 contentFlow.Insert(-1, modIcon = new SpriteIcon
                 {

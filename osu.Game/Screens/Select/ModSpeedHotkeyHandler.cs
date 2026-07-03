@@ -71,11 +71,11 @@ namespace osu.Game.Screens.Select
                     : availableMods.OfType<ModDoubleTime>().SingleOrDefault();
             }
 
-            if (targetMod == null)
+            if (targetMod is null)
                 return false;
 
             // preserve other settings from latest rate adjust mod instance seen
-            if (lastActiveRateAdjustMod != null)
+            if (lastActiveRateAdjustMod is not null)
             {
                 foreach (var (_, sourceProperty) in lastActiveRateAdjustMod.GetSettingsSourceProperties())
                 {
@@ -84,7 +84,7 @@ namespace osu.Game.Screens.Select
 
                     var targetProperty = targetMod.GetType().GetProperty(sourceProperty.Name);
 
-                    if (targetProperty == null)
+                    if (targetProperty is null)
                         continue;
 
                     var targetBindable = (IBindable)targetProperty.GetValue(targetMod)!;

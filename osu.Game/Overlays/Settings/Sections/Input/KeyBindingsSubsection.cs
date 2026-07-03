@@ -105,7 +105,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
             if (AutoAdvanceTarget && args.CanAdvanceToNextBinding)
             {
                 var next = Children.SkipWhile(c => c != sender).Skip(1).FirstOrDefault();
-                if (next != null)
+                if (next is not null)
                     GetContainingFocusManager()?.ChangeFocus(next);
             }
         }

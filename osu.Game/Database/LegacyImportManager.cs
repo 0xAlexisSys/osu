@@ -66,7 +66,7 @@ namespace osu.Game.Database
         /// </param>
         public bool IsUsableForStableImport(DirectoryInfo? directory, [NotNullWhen(true)] out DirectoryInfo? stableRoot)
         {
-            if (directory == null)
+            if (directory is null)
             {
                 stableRoot = null;
                 return false;
@@ -89,7 +89,7 @@ namespace osu.Game.Database
             }
 
             // The user may have traversed *inside* their songs or skins folders.
-            if (directory.Parent != null && (directory.Name == @"Songs" || directory.Name == @"Skins"))
+            if (directory.Parent is not null && (directory.Name == @"Songs" || directory.Name == @"Skins"))
             {
                 stableRoot = directory.Parent;
                 return true;
@@ -103,7 +103,7 @@ namespace osu.Game.Database
         {
             var stableStorage = GetCurrentStableStorage();
 
-            if (stableStorage == null || gameHost is not DesktopGameHost desktopGameHost)
+            if (stableStorage is null || gameHost is not DesktopGameHost desktopGameHost)
                 return false;
 
             string testExistingPath = stableStorage.GetSongStorage().GetFullPath(string.Empty);
@@ -116,7 +116,7 @@ namespace osu.Game.Database
         {
             var stableStorage = GetCurrentStableStorage();
 
-            if (stableStorage == null)
+            if (stableStorage is null)
                 return 0;
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -144,7 +144,7 @@ namespace osu.Game.Database
         {
             var stableStorage = GetCurrentStableStorage();
 
-            if (stableStorage == null)
+            if (stableStorage is null)
             {
                 if (!interactiveLocateIfNotFound)
                     return;
@@ -157,7 +157,7 @@ namespace osu.Game.Database
                 stableStorage = GetCurrentStableStorage();
             }
 
-            if (stableStorage == null)
+            if (stableStorage is null)
                 return;
 
             var importTasks = new List<Task>();
@@ -187,11 +187,11 @@ namespace osu.Game.Database
 
         public StableStorage? GetCurrentStableStorage()
         {
-            if (cachedStorage != null)
+            if (cachedStorage is not null)
                 return cachedStorage;
 
             var stableStorage = game?.GetStorageForStableInstall();
-            if (stableStorage != null)
+            if (stableStorage is not null)
                 return cachedStorage = stableStorage;
 
             return null;

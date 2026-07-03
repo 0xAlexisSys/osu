@@ -279,7 +279,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
                 },
             };
 
-            if (game != null)
+            if (game is not null)
                 currentLanguage.BindTo(game.CurrentLanguage);
         }
 

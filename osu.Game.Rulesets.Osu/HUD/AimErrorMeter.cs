@@ -302,7 +302,7 @@ namespace osu.Game.Rulesets.Osu.HUD
         {
             if (judgement is not OsuHitCircleJudgementResult circleJudgement) return;
 
-            if (circleJudgement.CursorPositionAtHit == null) return;
+            if (circleJudgement.CursorPositionAtHit is null) return;
 
             if (hitPositionMarkerContainer.Count > max_concurrent_judgements)
             {
@@ -311,7 +311,7 @@ namespace osu.Game.Rulesets.Osu.HUD
                 // check with a bit of lenience to avoid precision error in comparison.
                 var old = hitPositionMarkerContainer.FirstOrDefault(j => j.LifetimeEnd > Clock.CurrentTime + quick_fade_time * 1.1);
 
-                if (old != null)
+                if (old is not null)
                 {
                     old.ClearTransforms();
                     old.FadeOut(quick_fade_time).Expire();
@@ -320,7 +320,7 @@ namespace osu.Game.Rulesets.Osu.HUD
 
             Vector2 hitPosition;
 
-            if (PositionDisplayStyle.Value == PositionDisplay.Normalised && lastObjectPosition != null)
+            if (PositionDisplayStyle.Value == PositionDisplay.Normalised && lastObjectPosition is not null)
             {
                 hitPosition = AccuracyHeatmap.FindRelativeHitPosition(lastObjectPosition.Value, ((OsuHitObject)circleJudgement.HitObject).StackedEndPosition,
                     circleJudgement.CursorPositionAtHit.Value, objectRadius, 45) * (inner_portion / 2);

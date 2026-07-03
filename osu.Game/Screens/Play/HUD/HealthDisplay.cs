@@ -36,7 +36,7 @@ namespace osu.Game.Screens.Play.HUD
 
         private BindableNumber<double> health = null!;
 
-        protected bool InitialAnimationPlaying => initialIncrease != null;
+        protected bool InitialAnimationPlaying => initialIncrease is not null;
 
         private ScheduledDelegate? initialIncrease;
 
@@ -60,7 +60,7 @@ namespace osu.Game.Screens.Play.HUD
             // Don't bind directly so we can animate the startup procedure.
             health = HealthProcessor.Health.GetBoundCopy();
 
-            if (hudOverlay != null)
+            if (hudOverlay is not null)
                 showHealthBar.BindTo(hudOverlay.ShowHealthBar);
 
             // this probably shouldn't be operating on `this.`
@@ -85,7 +85,7 @@ namespace osu.Game.Screens.Play.HUD
             {
                 Current.Value = health.Value;
 
-                if (initialIncrease != null)
+                if (initialIncrease is not null)
                     FinishInitialAnimation(Current.Value);
             }
 
@@ -124,7 +124,7 @@ namespace osu.Game.Screens.Play.HUD
 
         protected virtual void FinishInitialAnimation(double value)
         {
-            if (initialIncrease == null)
+            if (initialIncrease is null)
                 return;
 
             initialIncrease.Cancel();

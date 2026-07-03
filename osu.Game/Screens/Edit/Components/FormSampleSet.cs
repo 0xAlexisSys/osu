@@ -142,9 +142,9 @@ namespace osu.Game.Screens.Edit.Components
             var set = valueChangedEvent.NewValue;
 
             caption.Caption = set?.Name ?? default(LocalisableString);
-            Alpha = set != null && set.SampleSetIndex > 0 ? 1 : 0;
+            Alpha = set is not null && set.SampleSetIndex > 0 ? 1 : 0;
 
-            if (set != null)
+            if (set is not null)
             {
                 foreach (var (sample, button) in buttons)
                 {
@@ -237,7 +237,7 @@ namespace osu.Game.Screens.Edit.Components
 
                 Action = () =>
                 {
-                    if (ActualFilename.Value == null)
+                    if (ActualFilename.Value is null)
                     {
                         selectedFile.Value = null;
                         this.ShowPopover();
@@ -246,7 +246,7 @@ namespace osu.Game.Screens.Edit.Components
                         sample?.Play();
                 };
 
-                if (editorBeatmap?.BeatmapSkin != null)
+                if (editorBeatmap?.BeatmapSkin is not null)
                     editorBeatmap.BeatmapSkin.BeatmapSkinChanged += recycleSamples;
             }
 
@@ -270,9 +270,9 @@ namespace osu.Game.Screens.Edit.Components
 
             private void updateState()
             {
-                BackgroundColour = ActualFilename.Value == null ? overlayColourProvider.Background3 : overlayColourProvider.Colour3;
+                BackgroundColour = ActualFilename.Value is null ? overlayColourProvider.Background3 : overlayColourProvider.Colour3;
                 triangleGradientSecondColour = BackgroundColour.Lighten(0.2f);
-                icon.Icon = ActualFilename.Value == null ? FontAwesome.Solid.Plus : FontAwesome.Solid.Play;
+                icon.Icon = ActualFilename.Value is null ? FontAwesome.Solid.Plus : FontAwesome.Solid.Play;
 
                 recycleSamples();
 
@@ -287,14 +287,14 @@ namespace osu.Game.Screens.Edit.Components
                     hoverSounds = null;
                 }
 
-                AddInternal(hoverSounds = (ActualFilename.Value == null ? new HoverClickSounds(HoverSampleSet.Button) : new HoverSounds(HoverSampleSet.Button)));
+                AddInternal(hoverSounds = (ActualFilename.Value is null ? new HoverClickSounds(HoverSampleSet.Button) : new HoverSounds(HoverSampleSet.Button)));
 
-                sample = ActualFilename.Value != null ? editorBeatmap?.BeatmapSkin?.Skin.Samples?.Get(ActualFilename.Value) : null;
+                sample = ActualFilename.Value is not null ? editorBeatmap?.BeatmapSkin?.Skin.Samples?.Get(ActualFilename.Value) : null;
             });
 
             protected override bool OnHover(HoverEvent e)
             {
-                Debug.Assert(triangleGradientSecondColour != null);
+                Debug.Assert(triangleGradientSecondColour is not null);
 
                 Background.FadeColour(triangleGradientSecondColour.Value, 300, Easing.OutQuint);
                 return base.OnHover(e);
@@ -308,7 +308,7 @@ namespace osu.Game.Screens.Edit.Components
 
             private void addSample()
             {
-                if (selectedFile.Value == null)
+                if (selectedFile.Value is null)
                     return;
 
                 this.HidePopover();
@@ -318,25 +318,25 @@ namespace osu.Game.Screens.Edit.Components
 
             private void deleteSample()
             {
-                if (ActualFilename.Value == null)
+                if (ActualFilename.Value is null)
                     return;
 
                 SampleRemoveRequested?.Invoke(ActualFilename.Value);
                 ActualFilename.Value = null;
             }
 
-            public Popover? GetPopover() => ActualFilename.Value == null
+            public Popover? GetPopover() => ActualFilename.Value is null
                 ? new FormFileSelector.FileChooserPopover(SupportedExtensions.AUDIO_EXTENSIONS, selectedFile, LastSelectedFileDirectory.Value?.FullName, allowClear: false)
                 : null;
 
             public MenuItem[]? ContextMenuItems =>
-                ActualFilename.Value != null
+                ActualFilename.Value is not null
                     ? [new OsuMenuItem(CommonStrings.ButtonsDelete, MenuItemType.Destructive, deleteSample)]
                     : null;
 
             protected override void Dispose(bool isDisposing)
             {
-                if (editorBeatmap?.BeatmapSkin != null)
+                if (editorBeatmap?.BeatmapSkin is not null)
                     editorBeatmap.BeatmapSkin.BeatmapSkinChanged -= recycleSamples;
                 base.Dispose(isDisposing);
             }

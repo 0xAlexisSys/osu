@@ -105,7 +105,7 @@ namespace osu.Game.Rulesets.Osu.Objects
         {
             var referenceSample = Samples.FirstOrDefault();
 
-            if (referenceSample == null)
+            if (referenceSample is null)
                 return Array.Empty<HitSampleInfo>();
 
             return new[]

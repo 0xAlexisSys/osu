@@ -166,7 +166,7 @@ namespace osu.Game.Graphics.UserInterface
             }
             else
             {
-                Debug.Assert(trianglesMasking != null);
+                Debug.Assert(trianglesMasking is not null);
                 trianglesMasking.CornerRadius = MainContents.DrawWidth / 2;
             }
         }

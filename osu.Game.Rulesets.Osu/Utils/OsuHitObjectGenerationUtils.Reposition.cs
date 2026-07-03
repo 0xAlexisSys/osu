@@ -129,7 +129,7 @@ namespace osu.Game.Rulesets.Osu.Utils
         {
             float previousAbsoluteAngle = 0f;
 
-            if (previous != null)
+            if (previous is not null)
             {
                 if (previous.HitObject is Slider s)
                 {

@@ -55,7 +55,7 @@ namespace osu.Game.Rulesets.Objects.Types
                         return "Catmull";
 
                     case SplineType.BSpline:
-                        return Degree == null ? "Bezier" : "B-spline";
+                        return Degree is null ? "Bezier" : "B-spline";
 
                     case SplineType.Linear:
                         return "Linear";

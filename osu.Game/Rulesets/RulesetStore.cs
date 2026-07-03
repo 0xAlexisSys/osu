@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets
             AppDomain.CurrentDomain.AssemblyResolve += resolveRulesetDependencyAssembly;
 
             RulesetStorage = storage?.GetStorageForDirectory(@"rulesets");
-            if (RulesetStorage != null)
+            if (RulesetStorage is not null)
                 loadUserRulesets(RulesetStorage);
         }
 
@@ -74,13 +74,13 @@ namespace osu.Game.Rulesets
                                           .Where(a =>
                                           {
                                               string? name = a.GetName().Name;
-                                              if (name == null)
+                                              if (name is null)
                                                   return false;
 
                                               return args.Name.Contains(name, StringComparison.Ordinal);
                                           }).MaxBy(a => a.GetName().Version);
 
-            if (domainAssembly != null)
+            if (domainAssembly is not null)
                 return domainAssembly;
 
             return LoadedAssemblies.Keys.FirstOrDefault(a => a.FullName == asm.FullName);
@@ -92,7 +92,7 @@ namespace osu.Game.Rulesets
             {
                 string? rulesetName = ruleset.GetName().Name;
 
-                if (rulesetName == null)
+                if (rulesetName is null)
                     continue;
 
                 if (!rulesetName.StartsWith(ruleset_library_prefix, StringComparison.InvariantCultureIgnoreCase) || rulesetName.Contains(@"Tests"))
@@ -109,7 +109,7 @@ namespace osu.Game.Rulesets
             foreach (string? ruleset in rulesets.Where(f => !f.Contains(@"Tests")))
             {
                 var assembly = loadRulesetFromFile(rulesetStorage.GetFullPath(ruleset));
-                if (assembly != null)
+                if (assembly is not null)
                     UserRulesetAssemblies.Add(assembly);
             }
         }

@@ -60,7 +60,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
 
         private void onHitObjectApplied(DrawableHitObject obj)
         {
-            if (obj.HitObject == null)
+            if (obj.HitObject is null)
                 return;
 
             triangles.Reset((int)obj.HitObject.StartTime);

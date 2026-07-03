@@ -22,7 +22,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
 
         protected override void OnSliderPress()
         {
-            Debug.Assert(DrawableObject != null);
+            Debug.Assert(DrawableObject is not null);
 
             double remainingTime = Math.Max(0, DrawableObject.HitStateUpdateTime - Time.Current);
 

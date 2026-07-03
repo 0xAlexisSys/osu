@@ -32,7 +32,7 @@ namespace osu.Game.Screens.Edit.Components.Timelines.Summary.Parts
                         break;
 
                     case NotifyCollectionChangedAction.Add:
-                        Debug.Assert(args.NewItems != null);
+                        Debug.Assert(args.NewItems is not null);
 
                         foreach (var group in args.NewItems.OfType<ControlPointGroup>())
                         {
@@ -48,13 +48,13 @@ namespace osu.Game.Screens.Edit.Components.Timelines.Summary.Parts
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        Debug.Assert(args.OldItems != null);
+                        Debug.Assert(args.OldItems is not null);
 
                         foreach (var group in args.OldItems.OfType<ControlPointGroup>())
                         {
                             var matching = Children.SingleOrDefault(gv => ReferenceEquals(gv.Group, group));
 
-                            if (matching != null)
+                            if (matching is not null)
                                 matching.Expire();
                             else
                             {

@@ -210,7 +210,7 @@ namespace osu.Game.Screens.Footer
                 stack.ScreenPushed -= onParentScreenChanged;
                 stack.ScreenExited -= onParentScreenChanged;
 
-                if (subScreenTracker != null)
+                if (subScreenTracker is not null)
                 {
                     subScreenTracker.ScreenChanged -= onSubScreenScreenChanged;
                     subScreenTracker.Dispose();

@@ -71,11 +71,11 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
             //
             // Of note, this consideration should only be used to decide whether to continue looking up the prefixed name or not.
             // The final lookups must still run on the full skin hierarchy as per usual in order to correctly handle fallback cases.
-            var provider = skin.FindProvider(s => s.GetTexture(base_lookup) != null) ?? skin;
+            var provider = skin.FindProvider(s => s.GetTexture(base_lookup) is not null) ?? skin;
 
             // if a base texture for the specified prefix exists, continue using it for subsequent lookups.
             // otherwise fall back to the default prefix "hitcircle".
-            string circleName = (priorityLookupPrefix != null && provider.GetTexture(priorityLookupPrefix) != null) ? priorityLookupPrefix : base_lookup;
+            string circleName = (priorityLookupPrefix is not null && provider.GetTexture(priorityLookupPrefix) is not null) ? priorityLookupPrefix : base_lookup;
 
             Vector2 maxSize = OsuHitObject.OBJECT_DIMENSIONS * 2;
 
@@ -119,7 +119,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
             if (overlayAboveNumber)
                 OverlayLayer.ChangeChildDepth(OverlaySprite, float.MinValue);
 
-            if (drawableOsuObject != null)
+            if (drawableOsuObject is not null)
             {
                 accentColour.BindTo(drawableOsuObject.AccentColour);
                 indexInCurrentCombo.BindTo(drawableOsuObject.IndexInCurrentComboBindable);
@@ -148,7 +148,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
             if (hasNumber)
                 indexInCurrentCombo.BindValueChanged(index => hitCircleText.Text = (index.NewValue + 1).ToString(), true);
 
-            if (drawableObject != null)
+            if (drawableObject is not null)
             {
                 drawableObject.ApplyCustomUpdateState += updateStateTransforms;
                 updateStateTransforms(drawableObject, drawableObject.State.Value);
@@ -194,7 +194,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             base.Dispose(isDisposing);
 
-            if (drawableObject != null)
+            if (drawableObject is not null)
                 drawableObject.ApplyCustomUpdateState -= updateStateTransforms;
         }
     }

@@ -99,7 +99,7 @@ namespace osu.Game.Overlays
         {
             flow.Clear();
 
-            if (createContent == null)
+            if (createContent is null)
                 return;
 
             flow.Add(mainContent = createContent());

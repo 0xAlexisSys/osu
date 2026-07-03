@@ -93,7 +93,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             foreach (var grid in grids)
                 grid.Clear();
 
-            if (selectionTimeRange == null)
+            if (selectionTimeRange is null)
                 return;
 
             var range = selectionTimeRange.Value;

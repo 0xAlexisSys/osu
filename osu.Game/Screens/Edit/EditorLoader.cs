@@ -143,7 +143,7 @@ namespace osu.Game.Screens.Edit
 
             this.Push(editor);
 
-            if (state != null)
+            if (state is not null)
                 editor.RestoreState(state);
 
             ValidForResume = false;

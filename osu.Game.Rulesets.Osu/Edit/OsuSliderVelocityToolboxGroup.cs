@@ -236,7 +236,7 @@ namespace osu.Game.Rulesets.Osu.Edit
                                      .OfType<Slider>()
                                      .LastOrDefault(h => h.StartTime <= editorClock.CurrentTime);
 
-                    if (lastSlider == null)
+                    if (lastSlider is null)
                     {
                         useLastSliderButton.Enabled.Value = false;
                         useLastSliderButton.ExpandedLabelText = "No sliders to get velocity from";

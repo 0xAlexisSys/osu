@@ -53,7 +53,7 @@ namespace osu.Game.Rulesets.Mania.Beatmaps.Patterns
         {
             prepareStorage();
 
-            if (other.hitObjects != null)
+            if (other.hitObjects is not null)
             {
                 hitObjects.AddRange(other.hitObjects);
 

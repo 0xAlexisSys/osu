@@ -156,7 +156,7 @@ namespace osu.Game.Screens.Import
             importAllButton.Enabled.Value =
                 // this will be `null` if the user clicked the "Computer" option (showing drives)
                 // handling that is difficult due to platform differences, and nobody sane wants that to work with the "import all" button anyway
-                newDirectory != null
+                newDirectory is not null
                 // extra safety against various I/O errors (lack of access, deleted directory, etc.)
                 && newDirectory.Exists
                 // there must be at least one file in the current directory for the game to import (non-recursive)
@@ -165,7 +165,7 @@ namespace osu.Game.Screens.Import
 
         private void fileChanged(ValueChangedEvent<FileInfo> selectedFile)
         {
-            importButton.Enabled.Value = selectedFile.NewValue != null;
+            importButton.Enabled.Value = selectedFile.NewValue is not null;
             currentFileText.Text = selectedFile.NewValue?.Name ?? DebugSettingsStrings.SelectFile;
         }
 

@@ -102,7 +102,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         public async Task<Task> Begin(SkinInfo skinInfo)
         {
-            if (taskCompletionSource != null)
+            if (taskCompletionSource is not null)
                 throw new InvalidOperationException("Cannot start multiple concurrent external edits!");
 
             Show();
@@ -177,7 +177,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         private void openDirectory()
         {
-            if (editOperation == null)
+            if (editOperation is null)
                 return;
 
             gameHost.OpenFileExternally(editOperation.MountedPath.TrimDirectorySeparator() + Path.DirectorySeparatorChar);
@@ -185,7 +185,7 @@ namespace osu.Game.Overlays.SkinEditor
 
         private void tryFinishOnExit()
         {
-            if (editOperation != null && !finishingEdit)
+            if (editOperation is not null && !finishingEdit)
             {
                 Task.Run(finish).ContinueWith(t =>
                 {
@@ -202,7 +202,7 @@ namespace osu.Game.Overlays.SkinEditor
 
             finishingEdit = true;
 
-            Debug.Assert(taskCompletionSource != null);
+            Debug.Assert(taskCompletionSource is not null);
 
             showSpinner(EditorStrings.ExternalEditCleaningUp);
             await Task.Delay(500).ConfigureAwait(true);
@@ -271,7 +271,7 @@ namespace osu.Game.Overlays.SkinEditor
             {
                 case GlobalAction.Back:
                 case GlobalAction.Select:
-                    if (editOperation == null)
+                    if (editOperation is null)
                         return false;
 
                     Task.Run(finish);

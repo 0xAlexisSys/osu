@@ -57,7 +57,7 @@ namespace osu.Game.Screens.Edit.Setup
         {
             var video = working.Value.Storyboard.PrimaryVideo;
 
-            if (video == null)
+            if (video is null)
             {
                 displayPlaceholder();
                 return;
@@ -65,7 +65,7 @@ namespace osu.Game.Screens.Edit.Setup
 
             var stream = textureStore.GetStream(video.Path);
 
-            if (stream == null)
+            if (stream is null)
             {
                 displayPlaceholder();
                 return;

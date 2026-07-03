@@ -130,7 +130,7 @@ namespace osu.Game.Rulesets.Osu.Edit
 
         private void updatePositionSnapGrid(ValueChangedEvent<PositionSnapGridType> obj)
         {
-            if (positionSnapGrid != null)
+            if (positionSnapGrid is not null)
                 LayerBelowRuleset.Remove(positionSnapGrid, true);
 
             switch (obj.NewValue)
@@ -197,7 +197,7 @@ namespace osu.Game.Rulesets.Osu.Edit
 
                 OsuHitObject current = remainingHitObjects.FirstOrDefault(h => h.IndexInCurrentCombo + 1 == combo);
 
-                if (current == null)
+                if (current is null)
                     continue;
 
                 EditorBeatmap.SelectedHitObjects.Add(current);
@@ -238,7 +238,7 @@ namespace osu.Game.Rulesets.Osu.Edit
             if (!snapToVisibleBlueprints(screenSpacePosition, out var snapResult))
                 return null;
 
-            if (DistanceSnapProvider.DistanceSnapToggle.Value != TernaryState.True || distanceSnapGrid == null)
+            if (DistanceSnapProvider.DistanceSnapToggle.Value != TernaryState.True || distanceSnapGrid is null)
                 return snapResult;
 
             // In the case of snapping to nearby objects, a time value is not provided.
@@ -355,7 +355,7 @@ namespace osu.Game.Rulesets.Osu.Edit
                     break;
             }
 
-            if (distanceSnapGrid != null)
+            if (distanceSnapGrid is not null)
             {
                 distanceSnapGridContainer.Add(distanceSnapGrid);
                 distanceSnapGridCache.Validate();

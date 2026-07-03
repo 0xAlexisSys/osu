@@ -53,9 +53,9 @@ namespace osu.Game.Screens.Select
 
         public static bool CheckCriteriaMatch(BeatmapInfo beatmap, FilterCriteria criteria)
         {
-            bool match = criteria.Ruleset == null || beatmap.AllowGameplayWithRuleset(criteria.Ruleset!, criteria.AllowConvertedBeatmaps);
+            bool match = criteria.Ruleset is null || beatmap.AllowGameplayWithRuleset(criteria.Ruleset!, criteria.AllowConvertedBeatmaps);
 
-            if (criteria.SelectedBeatmapSet != null)
+            if (criteria.SelectedBeatmapSet is not null)
             {
                 // only check ruleset equality or convertability for selected beatmap
                 return beatmap.BeatmapSet?.Equals(criteria.SelectedBeatmapSet) == true && match;
@@ -105,7 +105,7 @@ namespace osu.Game.Screens.Select
             if (!match) return false;
 
             match &= criteria.CollectionBeatmapMD5Hashes?.Contains(beatmap.MD5Hash) ?? true;
-            if (match && criteria.RulesetCriteria != null)
+            if (match && criteria.RulesetCriteria is not null)
                 match &= criteria.RulesetCriteria.Matches(beatmap, criteria);
 
             return match;

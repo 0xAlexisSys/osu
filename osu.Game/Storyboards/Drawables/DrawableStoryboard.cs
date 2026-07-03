@@ -83,7 +83,7 @@ namespace osu.Game.Storyboards.Drawables
         [BackgroundDependencyLoader]
         private void load(IGameplayClock? clock, CancellationToken? cancellationToken, GameplayState? gameplayState)
         {
-            if (clock != null)
+            if (clock is not null)
                 Clock = clock;
 
             dependencies.CacheAs(typeof(TextureStore),
@@ -116,7 +116,7 @@ namespace osu.Game.Storyboards.Drawables
         protected override void Update()
         {
             base.Update();
-            hasStoryboardEnded.Value = lastEventEndTime == null || Time.Current >= lastEventEndTime;
+            hasStoryboardEnded.Value = lastEventEndTime is null || Time.Current >= lastEventEndTime;
         }
 
         public DrawableStoryboardLayer OverlayLayer => Children.Single(layer => layer.Name == "Overlay");

@@ -86,7 +86,7 @@ namespace osu.Game.Rulesets.Catch.Objects
             foreach (var e in SliderEventGenerator.Generate(StartTime, SpanDuration, Velocity, TickDistance, Path.Distance, this.SpanCount(), cancellationToken))
             {
                 // generate tiny droplets since the last point
-                if (lastEvent != null)
+                if (lastEvent is not null)
                 {
                     double sinceLastTick = (int)e.Time - (int)lastEvent.Value.Time;
 

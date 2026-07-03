@@ -96,7 +96,7 @@ namespace osu.Game.Beatmaps.Drawables
 
         public void SetContent(DifficultyIconTooltipContent content)
         {
-            if (displayedContent != null)
+            if (displayedContent is not null)
                 starRating.Current.UnbindFrom(displayedContent.Difficulty);
 
             displayedContent = content;
@@ -115,7 +115,7 @@ namespace osu.Game.Beatmaps.Drawables
             miscFillFlowContainer.Show();
 
             double rate = 1;
-            if (displayedContent.Mods != null)
+            if (displayedContent.Mods is not null)
                 rate = ModUtils.CalculateRateWithMods(displayedContent.Mods);
 
             double bpmAdjusted = displayedContent.BeatmapInfo.BPM * rate;

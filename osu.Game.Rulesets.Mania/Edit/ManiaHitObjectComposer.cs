@@ -81,7 +81,7 @@ namespace osu.Game.Rulesets.Mania.Edit
 
                 ManiaHitObject? current = remainingHitObjects.FirstOrDefault(h => Precision.AlmostEquals(h.StartTime, time, 0.5) && h.Column == column);
 
-                if (current == null)
+                if (current is null)
                     continue;
 
                 EditorBeatmap.SelectedHitObjects.Add(current);
@@ -95,7 +95,7 @@ namespace osu.Game.Rulesets.Mania.Edit
         {
             base.Update();
 
-            if (screenWithTimeline?.TimelineArea.Timeline != null)
+            if (screenWithTimeline?.TimelineArea.Timeline is not null)
                 drawableRuleset.TimelineTimeRange = EditorClock.TrackLength / screenWithTimeline.TimelineArea.Timeline.CurrentZoom.Value / 2;
         }
     }

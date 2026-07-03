@@ -104,7 +104,7 @@ namespace osu.Game.Beatmaps
 
                 var converted = ConvertHitObject(obj, beatmap, cancellationToken);
 
-                if (objectConverted != null)
+                if (objectConverted is not null)
                 {
                     converted = converted.ToList();
                     objectConverted.Invoke(obj, converted);
@@ -112,7 +112,7 @@ namespace osu.Game.Beatmaps
 
                 foreach (var c in converted)
                 {
-                    if (c != null)
+                    if (c is not null)
                         result.Add(c);
                 }
             }

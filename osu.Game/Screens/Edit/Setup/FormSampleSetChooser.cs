@@ -37,7 +37,7 @@ namespace osu.Game.Screens.Edit.Setup
             base.LoadComplete();
 
             populateItems();
-            if (beatmapSkin != null)
+            if (beatmapSkin is not null)
                 beatmapSkin.BeatmapSkinChanged += scheduleItemPopulation;
 
             Current.Value = Items.First(i => i?.SampleSetIndex > 0);
@@ -59,7 +59,7 @@ namespace osu.Game.Screens.Edit.Setup
 
         protected override LocalisableString GenerateItemText(EditorBeatmapSkin.SampleSet? item)
         {
-            if (item == null)
+            if (item is null)
                 return string.Empty;
 
             return base.GenerateItemText(item);
@@ -69,7 +69,7 @@ namespace osu.Game.Screens.Edit.Setup
             Items.Any(i => i?.SampleSetIndex > 0) ? Items.Max(i => i!.SampleSetIndex) : 0,
             idx =>
             {
-                if (idx == null)
+                if (idx is null)
                 {
                     Current.Value = Items.FirstOrDefault(i => i?.SampleSetIndex > 0);
                     return;
@@ -90,7 +90,7 @@ namespace osu.Game.Screens.Edit.Setup
 
         protected override void Dispose(bool isDisposing)
         {
-            if (beatmapSkin != null)
+            if (beatmapSkin is not null)
                 beatmapSkin.BeatmapSkinChanged -= scheduleItemPopulation;
 
             base.Dispose(isDisposing);
@@ -133,7 +133,7 @@ namespace osu.Game.Screens.Edit.Setup
             {
                 base.OnFocus(e);
                 // avoids infinite refocus loop
-                if (committedIndex == null)
+                if (committedIndex is null)
                     GetContainingFocusManager()?.ChangeFocus(numberBox);
             }
 

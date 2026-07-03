@@ -117,7 +117,7 @@ namespace osu.Game.Graphics.Containers
 
             protected override void Update()
             {
-                if (game != null)
+                if (game is not null)
                     TargetDrawSize = game.ScalingContainerTargetDrawSize;
                 Scale = new Vector2(CurrentScale);
                 Size = new Vector2(1 / CurrentScale);
@@ -175,7 +175,7 @@ namespace osu.Game.Graphics.Containers
                 // the top level scaling container manages the background to be displayed while scaling.
                 if (requiresBackgroundVisible)
                 {
-                    if (backgroundStack == null)
+                    if (backgroundStack is null)
                     {
                         AddInternal(backgroundStack = new BackgroundScreenStack
                         {
@@ -196,13 +196,13 @@ namespace osu.Game.Graphics.Containers
 
             RectangleF targetRect = new RectangleF(Vector2.Zero, Vector2.One);
 
-            if (customRect != null)
+            if (customRect is not null)
             {
                 sizableContainer.RelativePositionAxes = customRectIsRelativePosition ? Axes.Both : Axes.None;
 
                 targetRect = customRect.Value;
             }
-            else if (targetMode == null || scalingMode.Value == targetMode)
+            else if (targetMode is null || scalingMode.Value == targetMode)
             {
                 sizableContainer.RelativePositionAxes = Axes.Both;
 
@@ -230,7 +230,7 @@ namespace osu.Game.Graphics.Containers
                             .OnComplete(_ => { sizableContainer.Masking = requiresMasking; });
 
             // when "everything" scaling mode is active, tablets are expected to constrain output area to the scaled size of the game
-            if (tabletHandler != null)
+            if (tabletHandler is not null)
             {
                 tabletHandler.OutputAreaSize.Value = scalingMode.Value == ScalingMode.Everything ? new Vector2(sizeX.Value, sizeY.Value) : Vector2.One;
                 tabletHandler.OutputAreaOffset.Value = scalingMode.Value == ScalingMode.Everything ? new Vector2(posX.Value, posY.Value) : new Vector2(0.5f);
@@ -290,7 +290,7 @@ namespace osu.Game.Graphics.Containers
 
             private void updateHostCursorConfineRect()
             {
-                if (host.Window == null) return;
+                if (host.Window is null) return;
 
                 bool coversWholeScreen = Size == Vector2.One && (!config.Get<bool>(OsuSetting.SafeAreaConsiderations) || safeArea.SafeAreaPadding.Value.Total == Vector2.Zero);
                 host.Window.CursorConfineRect = coversWholeScreen ? null : ToScreenSpace(DrawRectangle).AABBFloat;

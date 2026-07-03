@@ -210,7 +210,7 @@ namespace osu.Game.Screens.Ranking.Contracted
         }
 
         private Drawable createStatistic(HitResultDisplayStatistic result)
-            => createStatistic(result.DisplayName, result.MaxCount == null ? $"{result.Count}" : $"{result.Count}/{result.MaxCount}");
+            => createStatistic(result.DisplayName, result.MaxCount is null ? $"{result.Count}" : $"{result.Count}/{result.MaxCount}");
 
         private Drawable createStatistic(LocalisableString key, string value) => new Container
         {

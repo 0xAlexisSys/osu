@@ -53,7 +53,7 @@ namespace osu.Game.Skinning
         /// </remarks>
         protected void FlushPendingSkinChanges()
         {
-            if (pendingSkinChange == null)
+            if (pendingSkinChange is null)
                 return;
 
             pendingSkinChange.RunTask();

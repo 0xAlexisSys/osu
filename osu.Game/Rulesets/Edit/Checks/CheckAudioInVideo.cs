@@ -47,7 +47,7 @@ namespace osu.Game.Rulesets.Edit.Checks
             {
                 string? storagePath = beatmapSet?.GetPathForFile(filename);
 
-                if (storagePath == null)
+                if (storagePath is null)
                 {
                     // There's an element in the storyboard that requires this resource, so it being missing is worth warning about.
                     yield return new IssueTemplateMissingFile(this).Create(filename);

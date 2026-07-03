@@ -235,7 +235,7 @@ namespace osu.Game
 
         IDisposable IOverlayManager.RegisterBlockingOverlay(OverlayContainer overlayContainer)
         {
-            if (overlayContainer.Parent != null)
+            if (overlayContainer.Parent is not null)
                 throw new ArgumentException($@"Overlays registered via {nameof(IOverlayManager.RegisterBlockingOverlay)} should not be added to the scene graph.");
 
             if (externalOverlays.Contains(overlayContainer))
@@ -315,7 +315,7 @@ namespace osu.Game
         {
             base.SetHost(host);
 
-            if (host.Window != null)
+            if (host.Window is not null)
             {
                 host.Window.CursorState |= CursorState.Hidden;
                 host.Window.DragDrop += onWindowDragDrop;
@@ -473,7 +473,7 @@ namespace osu.Game
         {
             var databasedSkin = SkinManager.Query(s => s.ID == skin.ID);
 
-            if (databasedSkin == null)
+            if (databasedSkin is null)
             {
                 Logger.Log("The requested skin could not be loaded.", LoggingTarget.Information);
                 return;
@@ -566,16 +566,16 @@ namespace osu.Game
                 return;
             }
 
-            if (databasedScore == null) return;
+            if (databasedScore is null) return;
 
-            if (databasedScore.Replay == null)
+            if (databasedScore.Replay is null)
             {
                 Logger.Log("The loaded score has no replay data.", LoggingTarget.Information, LogLevel.Important);
                 return;
             }
 
             var databasedBeatmap = databasedScore.ScoreInfo.BeatmapInfo;
-            Debug.Assert(databasedBeatmap != null);
+            Debug.Assert(databasedBeatmap is not null);
 
             // This should be able to be performed from song select always, but that is disabled for now
             // due to the weird decoupled ruleset logic (which can cause a crash in certain filter scenarios).
@@ -609,12 +609,12 @@ namespace osu.Game
 
                 var currentLeaderboard = LeaderboardManager.CurrentCriteria;
 
-                bool leaderboardBeatmapMatches = currentLeaderboard != null && databasedBeatmap.Equals(currentLeaderboard.Beatmap);
-                bool leaderboardRulesetMatches = currentLeaderboard != null && databasedScore.ScoreInfo.Ruleset.Equals(currentLeaderboard.Ruleset);
+                bool leaderboardBeatmapMatches = currentLeaderboard is not null && databasedBeatmap.Equals(currentLeaderboard.Beatmap);
+                bool leaderboardRulesetMatches = currentLeaderboard is not null && databasedScore.ScoreInfo.Ruleset.Equals(currentLeaderboard.Ruleset);
 
                 if (!leaderboardBeatmapMatches || !leaderboardRulesetMatches)
                 {
-                    var newLeaderboard = currentLeaderboard != null
+                    var newLeaderboard = currentLeaderboard is not null
                         ? currentLeaderboard with { Beatmap = databasedBeatmap, Ruleset = databasedScore.ScoreInfo.Ruleset }
                         : new LeaderboardCriteria(databasedBeatmap, databasedScore.ScoreInfo.Ruleset, null);
                     LeaderboardManager.FetchWithCriteria(newLeaderboard);
@@ -668,7 +668,7 @@ namespace osu.Game
 
         private void updateWindowTitle()
         {
-            if (Host.Window == null)
+            if (Host.Window is null)
                 return;
 
             string newTitle;
@@ -734,7 +734,7 @@ namespace osu.Game
         {
             var instance = retrieveInstance();
 
-            if (ScreenStack == null || ScreenStack.CurrentScreen is StartupScreen || instance?.IsLoaded != true)
+            if (ScreenStack is null || ScreenStack.CurrentScreen is StartupScreen || instance?.IsLoaded != true)
                 Schedule(() => waitForReady(retrieveInstance, action));
             else
                 action(instance);
@@ -748,7 +748,7 @@ namespace osu.Game
 
             base.Dispose(isDisposing);
 
-            if (Host?.Window != null)
+            if (Host?.Window is not null)
                 Host.Window.DragDrop -= onWindowDragDrop;
 
             Logger.NewEntry -= forwardGeneralLogToNotifications;
@@ -887,7 +887,7 @@ namespace osu.Game
                 {
                     CloseAllOverlays(false);
 
-                    if (menuScreen?.GetChildScreen() != null)
+                    if (menuScreen?.GetChildScreen() is not null)
                         menuScreen.MakeCurrent();
                 },
             }, topMostOverlayContent.Add);
@@ -999,7 +999,7 @@ namespace osu.Game
                 var mouseHandler = Host?.AvailableInputHandlers.OfType<MouseHandler>().SingleOrDefault();
                 var penHandler = Host?.AvailableInputHandlers.OfType<PenHandler>().SingleOrDefault();
 
-                if (penHandler != null && mouseHandler != null && penHandler.Sensitivity.IsDefault)
+                if (penHandler is not null && mouseHandler is not null && penHandler.Sensitivity.IsDefault)
                     penHandler.Sensitivity.Value = mouseHandler.Sensitivity.Value;
             }
 
@@ -1060,7 +1060,7 @@ namespace osu.Game
 
         private void forwardGeneralLogToNotifications(LogEntry entry)
         {
-            if (entry.Level < LogLevel.Important || entry.Target > LoggingTarget.Database || entry.Target == null) return;
+            if (entry.Level < LogLevel.Important || entry.Target > LoggingTarget.Database || entry.Target is null) return;
 
             const int short_term_display_limit = 3;
 
@@ -1068,7 +1068,7 @@ namespace osu.Game
             {
                 LocalisableString message;
 
-                if (entry.Exception != null && IsDeployedBuild)
+                if (entry.Exception is not null && IsDeployedBuild)
                     message = LocalisableString.Interpolate($"{entry.Message.Truncate(256)}\n\n{NotificationsStrings.ErrorAutomaticallyReported}");
                 else
                     message = entry.Message.Truncate(256);
@@ -1178,7 +1178,7 @@ namespace osu.Game
                 // chain with existing load stream
                 asyncLoadStream = Task.Run(async () =>
                 {
-                    if (previousLoadStream != null)
+                    if (previousLoadStream is not null)
                         await previousLoadStream.ConfigureAwait(false);
 
                     try
@@ -1199,7 +1199,7 @@ namespace osu.Game
                         if (IsDisposed)
                             return;
 
-                        Debug.Assert(task != null);
+                        Debug.Assert(task is not null);
 
                         await task.ConfigureAwait(false);
 
@@ -1228,7 +1228,7 @@ namespace osu.Game
                 return false;
 
             // Wait until we're loaded at least to the intro before allowing various interactions.
-            if (introScreen == null) return false;
+            if (introScreen is null) return false;
 
             switch (e.Action)
             {
@@ -1393,7 +1393,7 @@ namespace osu.Game
                     break;
             }
 
-            if (current != null)
+            if (current is not null)
             {
                 OverlayActivationMode.UnbindFrom(current.OverlayActivationMode);
                 configUserActivity.UnbindFrom(current.Activity);
@@ -1423,7 +1423,7 @@ namespace osu.Game
         {
             ScreenChanged((OsuScreen)lastScreen, (OsuScreen)newScreen);
 
-            if (newScreen == null)
+            if (newScreen is null)
                 Exit();
         }
     }

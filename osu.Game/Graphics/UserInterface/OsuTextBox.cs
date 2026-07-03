@@ -302,7 +302,7 @@ namespace osu.Game.Graphics.UserInterface
 
             SampleChannel? channel = getSampleChannel(feedbackSample);
 
-            if (channel == null) return;
+            if (channel is null) return;
 
             double pitch = 0.98 + RNG.NextDouble(0.04);
 
@@ -344,9 +344,9 @@ namespace osu.Game.Graphics.UserInterface
 
             public override void DisplayAt(Vector2 position, float? selectionWidth)
             {
-                beatSync.HasSelection = selectionWidth != null;
+                beatSync.HasSelection = selectionWidth is not null;
 
-                if (selectionWidth != null)
+                if (selectionWidth is not null)
                 {
                     this.MoveTo(new Vector2(position.X, position.Y), 60, Easing.Out);
                     this.ResizeWidthTo(selectionWidth.Value + CaretWidth / 2, caret_move_time, Easing.Out);

@@ -124,7 +124,7 @@ namespace osu.Game.Scoring.Legacy
                     {
                         LegacyReplayScoreInfo readScore = JsonConvert.DeserializeObject<LegacyReplayScoreInfo>(reader.ReadToEnd());
 
-                        Debug.Assert(readScore != null);
+                        Debug.Assert(readScore is not null);
 
                         score.ScoreInfo.Statistics = readScore.Statistics;
                         score.ScoreInfo.MaximumStatistics = readScore.MaximumStatistics;
@@ -150,7 +150,7 @@ namespace osu.Game.Scoring.Legacy
 
             StandardisedScoreMigrationTools.UpdateToLatestScoring(score.ScoreInfo, workingBeatmap);
 
-            if (decodedRank != null)
+            if (decodedRank is not null)
                 score.ScoreInfo.Rank = decodedRank.Value;
 
             // before returning for database import, we must restore the database-sourced BeatmapInfo.
@@ -195,7 +195,7 @@ namespace osu.Game.Scoring.Legacy
         /// <param name="workingBeatmap">The corresponding <see cref="WorkingBeatmap"/>.</param>
         public static void PopulateMaximumStatistics(ScoreInfo score, WorkingBeatmap workingBeatmap)
         {
-            Debug.Assert(score.BeatmapInfo != null);
+            Debug.Assert(score.BeatmapInfo is not null);
 
             if (score.MaximumStatistics.Select(kvp => kvp.Value).Sum() > 0)
                 return;
@@ -252,7 +252,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static void PopulateTotalScoreWithoutMods(ScoreInfo score)
         {
-            Debug.Assert(score.BeatmapInfo != null);
+            Debug.Assert(score.BeatmapInfo is not null);
 
             var ruleset = score.Ruleset.CreateInstance();
             var scoreMultiplierCalculator = ruleset.CreateScoreMultiplierCalculator(new ScoreMultiplierContext(score.BeatmapInfo!.Difficulty, score));
@@ -340,7 +340,7 @@ namespace osu.Game.Scoring.Legacy
                 // this handles frames with negative delta.
                 // this doesn't match stable 100% as stable will do something similar to adding an interpolated "intermediate frame"
                 // at the point wherein time flow changes from backwards to forwards, but it'll do for now.
-                if (currentFrame != null && legacyFrame.Time < currentFrame.Time)
+                if (currentFrame is not null && legacyFrame.Time < currentFrame.Time)
                     continue;
 
                 replay.Frames.Add(currentFrame = convertFrame(legacyFrame, currentFrame));
@@ -350,7 +350,7 @@ namespace osu.Game.Scoring.Legacy
         private ReplayFrame convertFrame(LegacyReplayFrame currentFrame, ReplayFrame lastFrame)
         {
             var convertible = currentRuleset.CreateConvertibleReplayFrame();
-            if (convertible == null)
+            if (convertible is null)
                 throw new InvalidOperationException($"Legacy replay cannot be converted for the ruleset: {currentRuleset.Description}");
 
             convertible.FromLegacy(currentFrame, currentBeatmap, lastFrame);

@@ -28,7 +28,7 @@ namespace osu.Game.Overlays.Toolbar
 
                 overlayState.UnbindBindings();
 
-                if (field != null)
+                if (field is not null)
                 {
                     Action = field.ToggleVisibility;
                     overlayState.BindTo(field.State);

@@ -26,7 +26,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
             base.LoadComplete();
             proxiedOverlayLayer = OverlayLayer.CreateProxy();
 
-            if (drawableHitObject != null)
+            if (drawableHitObject is not null)
             {
                 drawableHitObject.HitObjectApplied += onHitObjectApplied;
                 onHitObjectApplied(drawableHitObject);
@@ -35,7 +35,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
 
         private void onHitObjectApplied(DrawableHitObject drawableObject)
         {
-            Debug.Assert(proxiedOverlayLayer.Parent == null);
+            Debug.Assert(proxiedOverlayLayer.Parent is null);
 
             // see logic in LegacyReverseArrow.
             (drawableObject as DrawableSliderHead)?.DrawableSlider
@@ -46,7 +46,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             base.Dispose(isDisposing);
 
-            if (drawableHitObject != null)
+            if (drawableHitObject is not null)
                 drawableHitObject.HitObjectApplied -= onHitObjectApplied;
         }
     }

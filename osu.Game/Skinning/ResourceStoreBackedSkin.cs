@@ -36,7 +36,7 @@ namespace osu.Game.Skinning
             foreach (string lookup in sampleInfo.LookupNames)
             {
                 ISample? sample = samples.Get(lookup);
-                if (sample != null)
+                if (sample is not null)
                     return sample;
             }
 

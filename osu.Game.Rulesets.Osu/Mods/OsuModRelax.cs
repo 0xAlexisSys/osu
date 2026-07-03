@@ -54,11 +54,11 @@ namespace osu.Game.Rulesets.Osu.Mods
 
         public void ApplyToPlayer(Player player)
         {
-            if (osuInputManager.ReplayInputHandler != null)
+            if (osuInputManager.ReplayInputHandler is not null)
             {
                 hasReplay = true;
 
-                Debug.Assert(ruleset.ReplayScore != null);
+                Debug.Assert(ruleset.ReplayScore is not null);
                 legacyReplay = ruleset.ReplayScore.ScoreInfo.IsLegacyScore;
 
                 pressHandler = legacyReplay ? new LegacyReplayPressHandler(this) : new PressHandler(this);
@@ -126,7 +126,7 @@ namespace osu.Game.Rulesets.Osu.Mods
                 if (!circle.HitArea.IsHovered)
                     return;
 
-                Debug.Assert(circle.HitObject.HitWindows != null);
+                Debug.Assert(circle.HitObject.HitWindows is not null);
                 requiresHit |= circle.HitObject.HitWindows.CanBeHit(time - circle.HitObject.StartTime);
             }
 

@@ -174,7 +174,7 @@ namespace osu.Game.Screens.Ranking
             };
 
             // only show flair / animation when arriving after watching a play that isn't autoplay.
-            bool shouldFlair = player != null && Score.User.ID != User.BOT_USER_ID;
+            bool shouldFlair = player is not null && Score.User.ID != User.BOT_USER_ID;
 
             ScorePanelList.AddScore(Score, shouldFlair);
 
@@ -204,7 +204,7 @@ namespace osu.Game.Screens.Ranking
                 allowHotkeyRetry = player is ReplayPlayer;
             }
 
-            if (player != null && AllowRetry)
+            if (player is not null && AllowRetry)
             {
                 buttons.Add(new RetryButton { Width = 300 });
                 allowHotkeyRetry = true;
@@ -224,10 +224,10 @@ namespace osu.Game.Screens.Ranking
                 });
             }
 
-            if (Score.BeatmapInfo != null)
+            if (Score.BeatmapInfo is not null)
                 buttons.Add(new CollectionButton(Score.BeatmapInfo));
 
-            if (Score.BeatmapInfo?.BeatmapSet != null)
+            if (Score.BeatmapInfo?.BeatmapSet is not null)
                 buttons.Add(new FavouriteButton(Score.BeatmapInfo.BeatmapSet));
         }
 
@@ -325,7 +325,7 @@ namespace osu.Game.Screens.Ranking
         /// </summary>
         protected async Task<ScoreInfo[]> FetchScores()
         {
-            Debug.Assert(Score != null);
+            Debug.Assert(Score is not null);
 
             // sort mode intentionally omitted to default to score - results screen only supports sorting by score, so don't pass any other to avoid confusion
             var criteria = new LeaderboardCriteria(
@@ -334,13 +334,13 @@ namespace osu.Game.Screens.Ranking
                 leaderboardManager.CurrentCriteria?.ExactMods
             );
 
-            Debug.Assert(requestTaskSource == null || requestTaskSource.Task.IsCompleted);
+            Debug.Assert(requestTaskSource is null || requestTaskSource.Task.IsCompleted);
 
             requestTaskSource = new TaskCompletionSource<LeaderboardScores>();
 
             globalScores.BindValueChanged(_ =>
             {
-                if (globalScores.Value != null && leaderboardManager.CurrentCriteria?.Equals(criteria) == true)
+                if (globalScores.Value is not null && leaderboardManager.CurrentCriteria?.Equals(criteria) == true)
                     requestTaskSource.TrySetResult(globalScores.Value);
             });
 
@@ -348,7 +348,7 @@ namespace osu.Game.Screens.Ranking
 
             var result = await requestTaskSource.Task.ConfigureAwait(false);
 
-            if (result.FailState != null)
+            if (result.FailState is not null)
             {
                 Logger.Log($@"Failed to fetch scores (beatmap: {Score.BeatmapInfo}, ruleset: {Score.Ruleset}): {result.FailState}");
                 return [];
@@ -378,7 +378,7 @@ namespace osu.Game.Screens.Ranking
                 foreach (var s in scores)
                 {
                     var panel = ScorePanelList.AddScore(s);
-                    if (detachedPanel != null)
+                    if (detachedPanel is not null)
                         panel.Alpha = 0;
                 }
 
@@ -444,7 +444,7 @@ namespace osu.Game.Screens.Ranking
         {
             if (state.NewValue == Visibility.Visible)
             {
-                Debug.Assert(SelectedScore.Value != null);
+                Debug.Assert(SelectedScore.Value is not null);
                 // Detach the panel in its original location, and move into the desired location in the local container.
                 var expandedPanel = ScorePanelList.GetPanelForScore(SelectedScore.Value);
                 var screenSpacePos = expandedPanel.ScreenSpaceDrawQuad.TopLeft;
@@ -469,7 +469,7 @@ namespace osu.Game.Screens.Ranking
 
                 detachedPanel = expandedPanel;
             }
-            else if (detachedPanel != null)
+            else if (detachedPanel is not null)
             {
                 var screenSpacePos = detachedPanel.ScreenSpaceDrawQuad.TopLeft;
 
@@ -512,7 +512,7 @@ namespace osu.Game.Screens.Ranking
                     break;
 
                 case GlobalAction.Select:
-                    if (SelectedScore.Value != null)
+                    if (SelectedScore.Value is not null)
                         StatisticsPanel.ToggleVisibility();
                     return true;
             }

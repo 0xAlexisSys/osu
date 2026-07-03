@@ -350,7 +350,7 @@ namespace osu.Game
             dependencies.CacheAs<IRulesetConfigCache>(rulesetConfigCache = new RulesetConfigCache(realm, RulesetStore));
 
             var powerStatus = CreateBatteryInfo();
-            if (powerStatus != null)
+            if (powerStatus is not null)
                 dependencies.CacheAs(powerStatus);
 
             dependencies.Cache(SessionStatics = new SessionStatics());
@@ -510,7 +510,7 @@ namespace osu.Game
                     Logger.Error(ex, $"Could not load localisations for language \"{cultureCode}\"");
                     return null;
                 }
-            }).Where(m => m != null);
+            }).Where(m => m is not null);
 
             Localisation.AddLocaleMappings(localeMappings);
         }
@@ -694,7 +694,7 @@ namespace osu.Game
                 }
             }
 
-            if (instance == null)
+            if (instance is null)
             {
                 // reject the change if the ruleset is not available.
                 revertRulesetChange();
@@ -710,7 +710,7 @@ namespace osu.Game
                     dict[type] = instance.GetModsFor(type)
                                          // Rulesets should never return null mods, but let's be defensive just in case.
                                          // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-                                         .Where(mod => mod != null)
+                                         .Where(mod => mod is not null)
                                          .ToList();
                 }
             }
@@ -731,7 +731,7 @@ namespace osu.Game
                 var newMod = instance.CreateModFromAcronym(mod.Acronym);
                 newMod?.CopyCommonSettingsFrom(mod);
                 return newMod;
-            }).Where(newMod => newMod != null).ToList();
+            }).Where(newMod => newMod is not null).ToList();
 
             if (!ModUtils.CheckValidForGameplay(convertedMods, out var invalid))
                 invalid.ForEach(newMod => convertedMods.Remove(newMod));
@@ -772,7 +772,7 @@ namespace osu.Game
 
             realm?.Dispose();
 
-            if (Host != null)
+            if (Host is not null)
                 Host.ExceptionThrown -= onExceptionThrown;
 
             RestartOnExitAction?.Invoke();

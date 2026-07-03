@@ -40,7 +40,7 @@ namespace osu.Game.Rulesets.Mania.Edit.Blueprints
         {
             var result = base.UpdateTimeAndPosition(screenSpacePosition, referenceTime);
 
-            if (result.Playfield != null)
+            if (result.Playfield is not null)
             {
                 piece.Width = result.Playfield.DrawWidth;
                 piece.Position = ToLocalSpace(result.ScreenSpacePosition);

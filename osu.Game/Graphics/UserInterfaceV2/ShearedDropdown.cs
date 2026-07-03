@@ -250,7 +250,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
             private void updateChevron()
             {
-                Debug.Assert(Dropdown != null);
+                Debug.Assert(Dropdown is not null);
                 bool open = Dropdown.Menu.State == MenuState.Open;
                 chevron.ScaleTo(open ? new Vector2(1f, -1f) : Vector2.One, 300, Easing.OutQuint);
             }

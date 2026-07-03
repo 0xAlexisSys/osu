@@ -51,7 +51,7 @@ namespace osu.Game.Screens.Play.HUD
 
         private ScheduledDelegate? resetMissBarDelegate;
 
-        private bool displayingMiss => resetMissBarDelegate != null;
+        private bool displayingMiss => resetMissBarDelegate is not null;
 
         private double glowBarValue;
 

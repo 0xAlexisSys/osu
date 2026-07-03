@@ -71,7 +71,7 @@ namespace osu.Game.Rulesets.UI
             CacheAs(ShaderManager = new RulesetShaderManager(host.Renderer, new NamespacedResourceStore<byte[]>(resources, @"Shaders"), parent.Get<ShaderManager>()));
 
             RulesetConfigManager = parent.Get<IRulesetConfigCache>().GetConfigFor(ruleset);
-            if (RulesetConfigManager != null)
+            if (RulesetConfigManager is not null)
                 Cache(RulesetConfigManager);
         }
 

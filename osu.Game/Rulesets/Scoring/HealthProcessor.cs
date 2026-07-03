@@ -89,7 +89,7 @@ namespace osu.Game.Rulesets.Scoring
             if (CheckDefaultFailCondition(result))
                 return true;
 
-            if (FailConditions != null)
+            if (FailConditions is not null)
             {
                 foreach (var condition in FailConditions.GetInvocationList())
                 {

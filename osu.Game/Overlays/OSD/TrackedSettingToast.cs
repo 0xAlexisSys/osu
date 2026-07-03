@@ -114,7 +114,7 @@ namespace osu.Game.Overlays.OSD
             }
             else
             {
-                if (sampleChange == null) return;
+                if (sampleChange is null) return;
 
                 sampleChange.Frequency.Value = 1 + (double)selectedOption / (optionCount - 1) * 0.25f;
                 sampleChange.Play();

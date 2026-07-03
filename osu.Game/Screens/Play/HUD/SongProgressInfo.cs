@@ -65,7 +65,7 @@ namespace osu.Game.Screens.Play.HUD
         [BackgroundDependencyLoader(true)]
         private void load(OsuColour colours, IGameplayClock clock)
         {
-            if (clock != null)
+            if (clock is not null)
                 gameplayClock = clock;
 
             AutoSizeAxes = Axes.Y;

@@ -40,7 +40,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         private void updateColour()
         {
-            if (targetJudgement == null || targetResult == null)
+            if (targetJudgement is null || targetResult is null)
                 Colour = Color4.White;
             else
                 Colour = targetResult.IsHit && !targetResult.Type.IsTick() ? targetJudgement.AccentColour : Color4.Transparent;

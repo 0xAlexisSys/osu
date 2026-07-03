@@ -156,7 +156,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
                 // For gameplay bindings, users care about being able to use both left / right shift as different bindings.
                 // For global bindings, it's better to combine both of these into a virtual key which covers both side modifiers.
-                var combination = KeyBinding.Value.RulesetName == null
+                var combination = KeyBinding.Value.RulesetName is null
                     ? keys.Select(k => k.GetVirtualKey() ?? k).ToArray()
                     : keys;
 
@@ -165,7 +165,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
 
             public void UpdateKeyCombination(KeyCombination newCombination)
             {
-                if (KeyBinding.Value.RulesetName != null && !RealmKeyBindingStore.CheckValidForGameplay(newCombination))
+                if (KeyBinding.Value.RulesetName is not null && !RealmKeyBindingStore.CheckValidForGameplay(newCombination))
                     return;
 
                 KeyBinding.Value.KeyCombination = newCombination;

@@ -44,19 +44,19 @@ namespace osu.Game.IO
                 configurationFiles.FirstOrDefault(f => f.Contains(Environment.UserName, StringComparison.Ordinal))
                 ?? configurationFiles.FirstOrDefault();
 
-            if (usableConfigFile != null)
+            if (usableConfigFile is not null)
             {
                 using (var stream = GetStream(usableConfigFile))
                 using (var textReader = new StreamReader(stream))
                 {
                     string line;
 
-                    while ((line = textReader.ReadLine()) != null)
+                    while ((line = textReader.ReadLine()) is not null)
                     {
                         if (!line.StartsWith("BeatmapDirectory", StringComparison.OrdinalIgnoreCase)) continue;
 
                         string customDirectory = line.Split('=').LastOrDefault()?.Trim();
-                        if (customDirectory != null && Path.IsPathFullyQualified(customDirectory))
+                        if (customDirectory is not null && Path.IsPathFullyQualified(customDirectory))
                             return customDirectory;
 
                         break;

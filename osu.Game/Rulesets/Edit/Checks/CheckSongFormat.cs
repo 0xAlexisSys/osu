@@ -30,8 +30,8 @@ namespace osu.Game.Rulesets.Edit.Checks
             var beatmapSet = context.CurrentDifficulty.Playable.BeatmapInfo.BeatmapSet;
             var audioFile = beatmapSet?.GetFile(context.CurrentDifficulty.Playable.Metadata.AudioFile);
 
-            if (beatmapSet == null) yield break;
-            if (audioFile == null) yield break;
+            if (beatmapSet is null) yield break;
+            if (audioFile is null) yield break;
 
             var audioFormat = AudioCheckUtils.GetAudioFormatFromFile(context, context.CurrentDifficulty.Playable.Metadata.AudioFile);
 

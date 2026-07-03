@@ -52,7 +52,7 @@ namespace osu.Game.Database
 
             statistics.Value.MissCount++;
 
-            if (computed != null || CacheNullValues)
+            if (computed is not null || CacheNullValues)
             {
                 cache[lookup] = computed;
                 statistics.Value.Usage = cache.Count;

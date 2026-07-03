@@ -80,7 +80,7 @@ namespace osu.Game.Rulesets.Mania.Replays
                 releaseDelay = 1;
             }
 
-            bool canDelayKeyUpFully = nextObject == null ||
+            bool canDelayKeyUpFully = nextObject is null ||
                                       nextObject.StartTime > endTime + releaseDelay;
 
             return endTime + (canDelayKeyUpFully ? releaseDelay : (nextObject.AsNonNull().StartTime - endTime) * 0.9);

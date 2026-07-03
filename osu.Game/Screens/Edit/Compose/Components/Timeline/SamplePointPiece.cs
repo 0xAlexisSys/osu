@@ -63,7 +63,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
             LabelContainer.AutoSizeAxes = Axes.None;
             updateText();
 
-            if (editor != null)
+            if (editor is not null)
                 editor.ShowSampleEditPopoverRequested += onShowSampleEditPopoverRequested;
         }
 
@@ -75,7 +75,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
             HitObject.DefaultsApplied += onDefaultsApplied;
 
-            if (timelineBlueprintContainer != null)
+            if (timelineBlueprintContainer is not null)
                 contracted.BindTo(timelineBlueprintContainer.SamplePointContracted);
 
             contracted.BindValueChanged(v =>
@@ -106,7 +106,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
         {
             base.Dispose(isDisposing);
 
-            if (editor != null)
+            if (editor is not null)
                 editor.ShowSampleEditPopoverRequested -= onShowSampleEditPopoverRequested;
 
             HitObject.DefaultsApplied -= onDefaultsApplied;
@@ -164,7 +164,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
         public static string? GetAdditionBankValue(IEnumerable<HitSampleInfo> samples)
         {
             var firstAddition = samples.FirstOrDefault(o => o.Name != HitSampleInfo.HIT_NORMAL);
-            if (firstAddition == null)
+            if (firstAddition is null)
                 return null;
 
             return firstAddition.EditorAutoBank ? EditorSelectionHandler.HIT_BANK_AUTO : firstAddition.Bank;
@@ -290,7 +290,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
                 // even if there are multiple objects selected, we can still display sample volume or bank if they all have the same value.
                 int? commonVolume = getCommonVolume();
-                if (commonVolume != null)
+                if (commonVolume is not null)
                     volume.Current.Value = commonVolume.Value;
 
                 updatePrimaryBankState();
@@ -319,7 +319,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
                 volume.Current.BindValueChanged(val =>
                 {
-                    if (val.NewValue != null)
+                    if (val.NewValue is not null)
                         setVolume(val.NewValue.Value);
                 });
 
@@ -330,7 +330,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
             private Drawable createSampleSetContent()
             {
-                if (beatmap.BeatmapSkin == null)
+                if (beatmap.BeatmapSkin is null)
                     return Empty();
 
                 var sampleSets = beatmap.BeatmapSkin.GetAvailableSampleSets().ToList();
@@ -418,13 +418,13 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
                 foreach (var sample in allRelevantSamples.SelectMany(h => h.samples))
                 {
-                    if (sample.Suffix == null)
+                    if (sample.Suffix is null)
                         activeSets.Add(sample.UseBeatmapSamples ? 1 : 0);
                     else if (int.TryParse(sample.Suffix, out int suffix))
                         activeSets.Add(suffix);
                 }
 
-                if (sampleSetsFlow != null)
+                if (sampleSetsFlow is not null)
                 {
                     var onState = activeSets.Count > 1 ? TernaryState.Indeterminate : TernaryState.True;
 

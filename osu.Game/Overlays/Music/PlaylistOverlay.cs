@@ -88,7 +88,7 @@ namespace osu.Game.Overlays.Music
 
         private void beatmapsChanged(IRealmCollection<BeatmapSetInfo> sender, ChangeSet? changes)
         {
-            if (changes == null)
+            if (changes is null)
             {
                 beatmapSets.Clear();
                 // must use AddRange to avoid RearrangeableList sort overhead per add op.

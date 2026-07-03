@@ -113,7 +113,7 @@ namespace osu.Game.Audio
                 newEditorAutoBank.GetOr(EditorAutoBank), newUseBeatmapSamples.GetOr(UseBeatmapSamples));
 
         public virtual bool Equals(HitSampleInfo? other)
-            => other != null && Name == other.Name && Bank == other.Bank && Suffix == other.Suffix && UseBeatmapSamples == other.UseBeatmapSamples;
+            => other is not null && Name == other.Name && Bank == other.Bank && Suffix == other.Suffix && UseBeatmapSamples == other.UseBeatmapSamples;
 
         public override bool Equals(object? obj)
             => obj is HitSampleInfo other && Equals(other);

@@ -107,7 +107,7 @@ namespace osu.Game.Rulesets.Catch.Edit
 
             var firstBlueprint = SelectedBlueprints.FirstOrDefault();
 
-            if (firstBlueprint == null)
+            if (firstBlueprint is null)
                 return false;
 
             moveSelection(deltaX);

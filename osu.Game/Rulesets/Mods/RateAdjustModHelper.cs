@@ -54,7 +54,7 @@ namespace osu.Game.Rulesets.Mods
         /// <exception cref="InvalidOperationException">If this method is called before <see cref="HandleAudioAdjustments"/>.</exception>
         public void ApplyToTrack(IAdjustableAudioComponent track)
         {
-            if (adjustPitch == null)
+            if (adjustPitch is null)
                 throw new InvalidOperationException($"Must call {nameof(HandleAudioAdjustments)} first");
 
             this.track = track;

@@ -44,7 +44,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
         [BackgroundDependencyLoader]
         private void load()
         {
-            if (parentObject != null)
+            if (parentObject is not null)
                 accentColour.BindTo(parentObject.AccentColour);
         }
 

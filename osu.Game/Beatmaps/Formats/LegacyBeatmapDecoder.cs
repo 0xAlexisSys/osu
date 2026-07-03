@@ -65,7 +65,7 @@ namespace osu.Game.Beatmaps.Formats
         public LegacyBeatmapDecoder(int version = LATEST_VERSION)
             : base(version)
         {
-            if (RulesetStore == null)
+            if (RulesetStore is null)
             {
                 Logger.Log($"A {nameof(RulesetStore)} was not provided via {nameof(Decoder)}.{nameof(RegisterDependencies)}; falling back to default {nameof(AssemblyRulesetStore)}.");
                 RulesetStore = new AssemblyRulesetStore();

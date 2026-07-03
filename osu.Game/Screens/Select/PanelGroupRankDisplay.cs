@@ -143,7 +143,7 @@ namespace osu.Game.Screens.Select
         {
             base.PrepareForUse();
 
-            Debug.Assert(Item != null);
+            Debug.Assert(Item is not null);
 
             var group = (RankDisplayGroupDefinition)Item.Model;
             ScoreRank rank = group.Rank;
@@ -213,7 +213,7 @@ namespace osu.Game.Screens.Select
         {
             get
             {
-                if (Item == null)
+                if (Item is null)
                     return Array.Empty<MenuItem>();
 
                 return new MenuItem[]

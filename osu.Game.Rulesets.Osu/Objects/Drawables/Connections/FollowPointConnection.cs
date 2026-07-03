@@ -44,13 +44,13 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables.Connections
 
         private void scheduleRefresh() => Scheduler.AddOnce(() =>
         {
-            Debug.Assert(Pool != null);
+            Debug.Assert(Pool is not null);
 
             ClearInternal(false);
 
             var entry = Entry;
 
-            if (entry?.End == null) return;
+            if (entry?.End is null) return;
 
             OsuHitObject start = entry.Start;
             OsuHitObject end = entry.End;

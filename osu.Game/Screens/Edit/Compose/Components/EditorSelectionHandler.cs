@@ -457,7 +457,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                 {
                     var hitSample = h.CreateHitSampleInfo(sampleName);
 
-                    if (forcedBank != null && forcedBank != HIT_BANK_AUTO)
+                    if (forcedBank is not null && forcedBank != HIT_BANK_AUTO)
                         hitSample = hitSample.With(newBank: forcedBank, newEditorAutoBank: false);
 
                     h.Samples.Add(hitSample);
@@ -473,7 +473,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                         var hitSample = h.CreateHitSampleInfo(sampleName);
 
                         HitSampleInfo? existingAddition = node.FirstOrDefault(s => s.Name != HitSampleInfo.HIT_NORMAL);
-                        if (existingAddition != null)
+                        if (existingAddition is not null)
                             hitSample = hitSample.With(newBank: existingAddition.Bank, newEditorAutoBank: existingAddition.EditorAutoBank);
 
                         node.Add(hitSample);
@@ -517,7 +517,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
             {
                 var comboInfo = h as IHasComboInformation;
 
-                if (comboInfo == null || comboInfo.NewCombo == state) return;
+                if (comboInfo is null || comboInfo.NewCombo == state) return;
 
                 comboInfo.NewCombo = state;
             });

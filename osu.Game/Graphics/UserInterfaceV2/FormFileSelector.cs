@@ -205,11 +205,11 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
         private void onFileSelected()
         {
-            if (Current.Value != null || AllowClear)
+            if (Current.Value is not null || AllowClear)
                 this.HidePopover();
 
             initialChooserPath = Current.Value?.DirectoryName;
-            placeholderText.Alpha = Current.Value == null ? 1 : 0;
+            placeholderText.Alpha = Current.Value is null ? 1 : 0;
             if (Current.Value is not null)
                 filenameText.Text = !showFullPath ? Current.Value.Name : Current.Value.FullName;
             else
@@ -238,7 +238,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
         private void updateState()
         {
             caption.Colour = Current.Disabled ? colourProvider.Foreground1 : colourProvider.Content2;
-            filenameText.Colour = Current.Disabled || Current.Value == null ? colourProvider.Foreground1 : colourProvider.Content1;
+            filenameText.Colour = Current.Disabled || Current.Value is null ? colourProvider.Foreground1 : colourProvider.Content1;
 
             if (Current.Disabled)
                 background.VisualStyle = VisualStyle.Disabled;
@@ -318,7 +318,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
                                 {
                                     Text = CommonStrings.ButtonsClear,
                                     Action = () => OnFileSelected(null),
-                                    Enabled = { Value = current.Value != null },
+                                    Enabled = { Value = current.Value is not null },
                                     Padding = new MarginPadding(5),
                                     Anchor = Anchor.CentreRight,
                                     Origin = Anchor.CentreRight,
@@ -359,7 +359,7 @@ namespace osu.Game.Graphics.UserInterfaceV2
 
                 FileSelector.CurrentFile.ValueChanged += f =>
                 {
-                    if (f.NewValue != null)
+                    if (f.NewValue is not null)
                         OnFileSelected(f.NewValue);
                 };
             }

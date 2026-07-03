@@ -65,7 +65,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Preprocessing.Colour.Data
         /// </summary>
         public void FindRepetitionInterval()
         {
-            if (Previous == null)
+            if (Previous is null)
             {
                 RepetitionInterval = max_repetition_interval + 1;
                 return;
@@ -83,7 +83,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Preprocessing.Colour.Data
                 }
 
                 other = other.Previous;
-                if (other == null) break;
+                if (other is null) break;
 
                 ++interval;
             }

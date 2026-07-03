@@ -494,7 +494,7 @@ namespace osu.Game.Screens.Edit
         {
             Mode = Mode.Value,
             Time = clock.CurrentTimeAccurate,
-            ClipboardContent = nextRuleset == null || editorBeatmap.BeatmapInfo.Ruleset.ShortName == nextRuleset.ShortName ? Clipboard.Content.Value : string.Empty
+            ClipboardContent = nextRuleset is null || editorBeatmap.BeatmapInfo.Ruleset.ShortName == nextRuleset.ShortName ? Clipboard.Content.Value : string.Empty
         };
 
         /// <summary>
@@ -649,7 +649,7 @@ namespace osu.Game.Screens.Edit
                     // Seek to first object time, or track start if already there.
                     double? firstObjectTime = editorBeatmap.HitObjects.FirstOrDefault()?.StartTime;
 
-                    if (firstObjectTime == null || clock.CurrentTime == firstObjectTime)
+                    if (firstObjectTime is null || clock.CurrentTime == firstObjectTime)
                         clock.Seek(0);
                     else
                         clock.Seek(firstObjectTime.Value);
@@ -827,7 +827,7 @@ namespace osu.Game.Screens.Edit
             if (!ExitConfirmed)
             {
                 // dialog overlay may not be available in visual tests.
-                if (dialogOverlay == null)
+                if (dialogOverlay is null)
                 {
                     confirmExit();
                     return true;
@@ -903,7 +903,7 @@ namespace osu.Game.Screens.Edit
             if (isNewBeatmap)
             {
                 // confirming exit without save means we should delete the new beatmap completely.
-                if (playableBeatmap.BeatmapInfo.BeatmapSet != null)
+                if (playableBeatmap.BeatmapInfo.BeatmapSet is not null)
                     beatmapManager.Delete(playableBeatmap.BeatmapInfo.BeatmapSet);
 
                 // eagerly clear contents before restoring default beatmap to prevent value change callbacks from firing.
@@ -1008,7 +1008,7 @@ namespace osu.Game.Screens.Edit
             {
                 double targetTime = 0;
 
-                if (editorBeatmap.BeatmapInfo.EditorTimestamp != null)
+                if (editorBeatmap.BeatmapInfo.EditorTimestamp is not null)
                 {
                     targetTime = editorBeatmap.BeatmapInfo.EditorTimestamp.Value;
                 }
@@ -1041,7 +1041,7 @@ namespace osu.Game.Screens.Edit
 
             try
             {
-                if ((currentScreen = screenContainer.SingleOrDefault(s => s.Type == e.NewValue)) != null)
+                if ((currentScreen = screenContainer.SingleOrDefault(s => s.Type == e.NewValue)) is not null)
                 {
                     screenContainer.ChangeChildDepth(currentScreen, lastScreen?.Depth + 1 ?? 0);
 
@@ -1117,7 +1117,7 @@ namespace osu.Game.Screens.Edit
             bool shouldDisableSamples = clock.SeekingOrStopped.Value
                                         || currentScreen is not ComposeScreen
                                         || editorBeatmap.UpdateInProgress.Value
-                                        || dialogOverlay?.CurrentDialog != null;
+                                        || dialogOverlay?.CurrentDialog is not null;
 
             playbackDisabledDebounce?.Cancel();
 
@@ -1143,7 +1143,7 @@ namespace osu.Game.Screens.Edit
                 ? editorBeatmap.ControlPointInfo.AllControlPoints.LastOrDefault(p => p.Time < clock.CurrentTime - seekLenience)
                 : editorBeatmap.ControlPointInfo.AllControlPoints.FirstOrDefault(p => p.Time > clock.CurrentTime);
 
-            if (found != null)
+            if (found is not null)
                 clock.Seek(found.Time);
         }
 
@@ -1153,7 +1153,7 @@ namespace osu.Game.Screens.Edit
                 ? editorBeatmap.HitObjects.LastOrDefault(p => p.StartTime < clock.CurrentTimeAccurate)
                 : editorBeatmap.HitObjects.FirstOrDefault(p => p.StartTime > clock.CurrentTimeAccurate);
 
-            if (found != null)
+            if (found is not null)
                 clock.SeekSmoothlyTo(found.StartTime);
         }
 
@@ -1166,7 +1166,7 @@ namespace osu.Game.Screens.Edit
                 ? editorBeatmap.HitObjects.LastOrDefault(p => p is IHasRepeats r && p.StartTime < currentTime && r.EndTime >= currentTime)
                 : editorBeatmap.HitObjects.LastOrDefault(p => p is IHasRepeats r && p.StartTime <= currentTime && r.EndTime > currentTime);
 
-            if (current != null)
+            if (current is not null)
             {
                 // Find the next node sample point
                 var r = (IHasRepeats)current;
@@ -1192,13 +1192,13 @@ namespace osu.Game.Screens.Edit
                 if (direction < 1)
                 {
                     current = editorBeatmap.HitObjects.LastOrDefault(p => p.StartTime < currentTime);
-                    if (current != null)
+                    if (current is not null)
                         clock.SeekSmoothlyTo(current is IHasRepeats r ? r.EndTime : current.StartTime);
                 }
                 else
                 {
                     current = editorBeatmap.HitObjects.FirstOrDefault(p => p.StartTime > currentTime);
-                    if (current != null)
+                    if (current is not null)
                         clock.SeekSmoothlyTo(current.StartTime);
                 }
             }
@@ -1327,7 +1327,7 @@ namespace osu.Game.Screens.Edit
 
         private void deleteDifficulty()
         {
-            if (dialogOverlay == null)
+            if (dialogOverlay is null)
                 delete();
             else
                 dialogOverlay.Push(new DeleteDifficultyConfirmationDialog(playableBeatmap.BeatmapInfo.DifficultyName, editorBeatmap.HitObjects.Count, delete));
@@ -1503,7 +1503,7 @@ namespace osu.Game.Screens.Edit
             // Seek to the next closest HitObject instead
             HitObject nextObject = editorBeatmap.HitObjects.FirstOrDefault(x => x.StartTime >= position);
 
-            if (nextObject != null)
+            if (nextObject is not null)
                 position = nextObject.StartTime;
 
             clock.SeekSmoothlyTo(position);

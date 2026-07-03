@@ -4,7 +4,6 @@
 using System.Threading.Tasks;
 using osu.Framework.Allocation;
 using osu.Framework.Extensions.Color4Extensions;
-using osu.Framework.Graphics;
 using osu.Framework.Localisation;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
@@ -25,18 +24,12 @@ namespace osu.Game.Overlays.Settings.Sections.General
         [Resolved(CanBeNull = true)]
         private FirstRunSetupOverlay? firstRunSetupOverlay { get; set; }
 
-        [Resolved(CanBeNull = true)]
-        private GameHost? host { get; set; }
-
-        [Resolved(CanBeNull = true)]
-        private OsuGame? game { get; set; }
-
         protected override LocalisableString Header => GeneralSettingsStrings.QuickActionsHeader;
 
         [BackgroundDependencyLoader]
         private void load(OsuColour colours, Storage storage)
         {
-            AddRange(new Drawable[]
+            Children = new[]
             {
                 new SettingsButtonV2
                 {
@@ -47,27 +40,12 @@ namespace osu.Game.Overlays.Settings.Sections.General
                 },
                 new SettingsButtonV2
                 {
-                    Text = GeneralSettingsStrings.LearnMoreAboutLazer,
-                    TooltipText = GeneralSettingsStrings.LearnMoreAboutLazerTooltip,
-                    BackgroundColour = colours.YellowDark,
-                    Action = () => game?.ShowWiki(@"Help_centre/Upgrading_to_lazer"),
+                    Text = GeneralSettingsStrings.ExportLogs,
+                    BackgroundColour = colours.YellowDarker.Darken(0.5f),
+                    Keywords = new[] { @"bug", @"report", @"logs", @"files" },
+                    Action = () => Task.Run(exportLogs),
                 },
-                new SettingsButtonV2
-                {
-                    Text = GeneralSettingsStrings.ReportIssue,
-                    TooltipText = GeneralSettingsStrings.ReportIssueTooltip,
-                    BackgroundColour = colours.YellowDarker,
-                    Action = () => host?.OpenUrlExternally(@"https://osu.ppy.sh/community/forums/topics/create?forum_id=5"),
-                },
-            });
-
-            Add(new SettingsButtonV2
-            {
-                Text = GeneralSettingsStrings.ExportLogs,
-                BackgroundColour = colours.YellowDarker.Darken(0.5f),
-                Keywords = new[] { @"bug", "report", "logs", "files" },
-                Action = () => Task.Run(exportLogs),
-            });
+            };
 
             exportStorage = (storage as OsuStorage)?.GetExportStorage() ?? storage.GetStorageForDirectory(@"exports");
         }
@@ -87,7 +65,7 @@ namespace osu.Game.Overlays.Settings.Sections.General
 
             notifications?.Post(notification);
 
-            const string archive_filename = "compressed-logs.zip";
+            const string archive_filename = @"compressed-logs.zip";
 
             try
             {

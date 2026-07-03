@@ -99,26 +99,6 @@ namespace osu.Game.Localisation
         /// </summary>
         public static LocalisableString RunSetupWizard => new TranslatableString(getKey(@"run_setup_wizard"), @"Run setup wizard");
 
-        /// <summary>
-        /// "Learn more about lazer"
-        /// </summary>
-        public static LocalisableString LearnMoreAboutLazer => new TranslatableString(getKey(@"learn_more_about_lazer"), @"Learn more about lazer");
-
-        /// <summary>
-        /// "Check out the feature comparison and FAQ"
-        /// </summary>
-        public static LocalisableString LearnMoreAboutLazerTooltip => new TranslatableString(getKey(@"check_out_the_feature_comparison"), @"Check out the feature comparison and FAQ");
-
-        /// <summary>
-        /// "Report an issue"
-        /// </summary>
-        public static LocalisableString ReportIssue => new TranslatableString(getKey(@"report_issue"), @"Report an issue");
-
-        /// <summary>
-        /// "Report a problem with the game to the developers."
-        /// </summary>
-        public static LocalisableString ReportIssueTooltip => new TranslatableString(getKey(@"report_issue_tooltip"), @"Report a problem with the game to the developers.");
-
         private static string getKey(string key) => $@"{prefix}:{key}";
     }
 }

@@ -230,7 +230,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
         {
             base.Update();
 
-            if (!(tablet.Value?.Size is Vector2 size))
+            if (tablet.Value?.Size is not Vector2 size)
                 return;
 
             float maxDimension = size.LengthFast;

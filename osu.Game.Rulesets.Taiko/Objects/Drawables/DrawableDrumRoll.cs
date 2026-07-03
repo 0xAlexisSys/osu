@@ -139,7 +139,7 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
 
         private void onNewResult(DrawableHitObject obj, JudgementResult result)
         {
-            if (!(obj is DrawableDrumRollTick))
+            if (obj is not DrawableDrumRollTick)
                 return;
 
             if (result.IsHit)

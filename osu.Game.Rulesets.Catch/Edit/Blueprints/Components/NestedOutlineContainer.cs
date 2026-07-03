@@ -25,7 +25,7 @@ namespace osu.Game.Rulesets.Catch.Edit.Blueprints.Components
             nestedHitObjects.Clear();
             nestedHitObjects.AddRange(parentHitObject.NestedHitObjects
                                                      .OfType<CatchHitObject>()
-                                                     .Where(h => !(h is TinyDroplet)));
+                                                     .Where(h => h is not TinyDroplet));
 
             while (nestedHitObjects.Count < InternalChildren.Count)
                 RemoveInternal(InternalChildren[^1], true);

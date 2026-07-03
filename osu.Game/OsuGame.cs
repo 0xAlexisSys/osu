@@ -1025,7 +1025,7 @@ namespace osu.Game
             // TODO: this is SUPER SUPER bad.
             // It can potentially exit the wrong screen if screens are not loaded yet.
             // ScreenFooter / ScreenBackButton should be aware of which screen it is currently being handled by.
-            if (!(ScreenStack.CurrentScreen is IOsuScreen currentScreen)) return;
+            if (ScreenStack.CurrentScreen is not IOsuScreen currentScreen) return;
 
             if (!((Drawable)currentScreen).IsLoaded || (currentScreen.AllowUserExit && !currentScreen.OnBackButton())) ScreenStack.Exit();
         }
@@ -1329,7 +1329,7 @@ namespace osu.Game
             if (ScreenStack.CurrentScreen is Loader)
                 return false;
 
-            if (introScreen?.DidLoadMenu == true && !(ScreenStack.CurrentScreen is IntroScreen))
+            if (introScreen?.DidLoadMenu == true && ScreenStack.CurrentScreen is not IntroScreen)
             {
                 Scheduler.Add(introScreen.MakeCurrent);
                 return true;

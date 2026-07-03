@@ -520,7 +520,7 @@ namespace osu.Game.Rulesets.Edit
 
             BlueprintContainer.CurrentTool = tool;
 
-            if (!(tool is SelectTool))
+            if (tool is not SelectTool)
                 EditorBeatmap.SelectedHitObjects.Clear();
         }
 

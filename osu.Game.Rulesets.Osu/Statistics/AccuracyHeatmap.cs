@@ -218,7 +218,7 @@ namespace osu.Game.Rulesets.Osu.Statistics
 
             float radius = OsuHitObject.OBJECT_RADIUS * LegacyRulesetExtensions.CalculateScaleFromCircleSize(playableBeatmap.Difficulty.CircleSize, true);
 
-            foreach (var e in score.HitEvents.Where(e => e.HitObject is HitCircle && !(e.HitObject is SliderTailCircle)))
+            foreach (var e in score.HitEvents.Where(e => e.HitObject is HitCircle && e.HitObject is not SliderTailCircle))
             {
                 if (e.LastHitObject is null || e.Position is null)
                     continue;

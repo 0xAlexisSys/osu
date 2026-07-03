@@ -148,7 +148,7 @@ namespace osu.Game.Rulesets.Catch.Edit
 
         private PalpableCatchHitObject? getLastSnappableHitObject(double time)
         {
-            var hitObject = EditorBeatmap.HitObjects.OfType<CatchHitObject>().LastOrDefault(h => h.GetEndTime() < time && !(h is BananaShower));
+            var hitObject = EditorBeatmap.HitObjects.OfType<CatchHitObject>().LastOrDefault(h => h.GetEndTime() < time && h is not BananaShower);
 
             switch (hitObject)
             {
@@ -156,7 +156,7 @@ namespace osu.Game.Rulesets.Catch.Edit
                     return fruit;
 
                 case JuiceStream juiceStream:
-                    return juiceStream.NestedHitObjects.OfType<PalpableCatchHitObject>().LastOrDefault(h => !(h is TinyDroplet));
+                    return juiceStream.NestedHitObjects.OfType<PalpableCatchHitObject>().LastOrDefault(h => h is not TinyDroplet);
 
                 default:
                     return null;

@@ -49,7 +49,7 @@ namespace osu.Game.Rulesets
                 }
 
                 // add any other rulesets which have assemblies present but are not yet in the database.
-                foreach (var r in instances.Where(r => !(r is ILegacyRuleset)))
+                foreach (var r in instances.Where(r => r is not ILegacyRuleset))
                 {
                     if (rulesets.FirstOrDefault(ri => ri.InstantiationInfo.Equals(r.RulesetInfo.InstantiationInfo, StringComparison.Ordinal)) is null)
                     {

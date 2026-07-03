@@ -136,13 +136,13 @@ namespace osu.Game.Beatmaps.Formats
 
             if (isCombo)
             {
-                if (!(output is IHasComboColours tHasComboColours)) return;
+                if (output is not IHasComboColours tHasComboColours) return;
 
                 tHasComboColours.CustomComboColours.Add(colour);
             }
             else
             {
-                if (!(output is IHasCustomColours tHasCustomColours)) return;
+                if (output is not IHasCustomColours tHasCustomColours) return;
 
                 tHasCustomColours.CustomColours[pair.Key] = colour;
             }

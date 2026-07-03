@@ -67,7 +67,7 @@ namespace osu.Game.Screens.Edit
             base.LoadComplete();
 
             // will be restored via lease, see `DisallowExternalBeatmapRulesetChanges`.
-            if (!(Beatmap.Value is DummyWorkingBeatmap))
+            if (Beatmap.Value is not DummyWorkingBeatmap)
                 Ruleset.Value = Beatmap.Value.BeatmapInfo.Ruleset;
             Mods.Value = Array.Empty<Mod>();
         }

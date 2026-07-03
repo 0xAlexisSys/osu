@@ -32,7 +32,7 @@ namespace osu.Game.Rulesets.Catch.Mods
 
         protected override void ApplyNormalVisibilityState(DrawableHitObject hitObject, ArmedState state)
         {
-            if (!(hitObject is DrawableCatchHitObject catchDrawable))
+            if (hitObject is not DrawableCatchHitObject catchDrawable)
                 return;
 
             if (catchDrawable.NestedHitObjects.Count != 0)

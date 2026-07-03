@@ -41,11 +41,11 @@ namespace osu.Game.Rulesets.Catch.Edit.Checks
 
             for (int i = 0; i < hitObjects.Count - 1; ++i)
             {
-                if (!(hitObjects[i] is BananaShower bananaShower))
+                if (hitObjects[i] is not BananaShower bananaShower)
                     continue;
 
                 // Skip if the previous hitobject is a banana shower, consecutive spinners are allowed
-                if (i != 0 && hitObjects[i - 1] is CatchHitObject previousHitObject && !(previousHitObject is BananaShower))
+                if (i != 0 && hitObjects[i - 1] is CatchHitObject previousHitObject && previousHitObject is not BananaShower)
                 {
                     double spinnerStartDelta = bananaShower.StartTime - previousHitObject.GetEndTime();
 
@@ -57,7 +57,7 @@ namespace osu.Game.Rulesets.Catch.Edit.Checks
                 }
 
                 // Skip if the next hitobject is a banana shower, consecutive spinners are allowed
-                if (hitObjects[i + 1] is CatchHitObject nextHitObject && !(nextHitObject is BananaShower))
+                if (hitObjects[i + 1] is CatchHitObject nextHitObject && nextHitObject is not BananaShower)
                 {
                     double spinnerEndDelta = nextHitObject.StartTime - bananaShower.EndTime;
 

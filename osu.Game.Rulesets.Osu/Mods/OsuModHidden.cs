@@ -59,7 +59,7 @@ namespace osu.Game.Rulesets.Osu.Mods
 
         private void applyHiddenState(DrawableHitObject drawableObject, bool increaseVisibility)
         {
-            if (!(drawableObject is DrawableOsuHitObject drawableOsuObject))
+            if (drawableObject is not DrawableOsuHitObject drawableOsuObject)
                 return;
 
             OsuHitObject hitObject = drawableOsuObject.HitObject;

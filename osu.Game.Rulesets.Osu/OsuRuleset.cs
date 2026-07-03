@@ -331,7 +331,7 @@ namespace osu.Game.Rulesets.Osu
 
         public override StatisticItem[] CreateStatisticsForScore(ScoreInfo score, IBeatmap playableBeatmap)
         {
-            var timedHitEvents = score.HitEvents.Where(e => e.HitObject is HitCircle && !(e.HitObject is SliderTailCircle)).ToList();
+            var timedHitEvents = score.HitEvents.Where(e => e.HitObject is HitCircle && e.HitObject is not SliderTailCircle).ToList();
 
             return new[]
             {

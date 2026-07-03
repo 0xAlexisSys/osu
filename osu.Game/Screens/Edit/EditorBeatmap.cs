@@ -153,7 +153,7 @@ namespace osu.Game.Screens.Edit
             // ensure we are not working with legacy control points.
             // if we leave the legacy points around they will be applied over any local changes on
             // ApplyDefaults calls. this should eventually be removed once the default logic is moved to the decoder/converter.
-            if (!(incoming is LegacyControlPointInfo))
+            if (incoming is not LegacyControlPointInfo)
                 return incoming;
 
             var newControlPoints = new ControlPointInfo();

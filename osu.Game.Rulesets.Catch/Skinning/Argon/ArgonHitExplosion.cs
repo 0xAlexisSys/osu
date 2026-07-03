@@ -97,7 +97,7 @@ namespace osu.Game.Rulesets.Catch.Skinning.Argon
             {
                 this.FadeOutFromOne(400);
 
-                if (!(entry.HitObject is Droplet))
+                if (entry.HitObject is not Droplet)
                 {
                     float scale = Math.Clamp(entry.JudgementResult.ComboAtJudgement / 200f, 0.35f, 1.125f);
 

@@ -84,7 +84,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             base.UpdateStateTransforms(drawableHitObject, state);
 
-            if (!(drawableHitObject is DrawableSpinner d))
+            if (drawableHitObject is not DrawableSpinner d)
                 return;
 
             Spinner spinner = d.HitObject;

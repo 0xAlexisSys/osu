@@ -117,26 +117,26 @@ namespace osu.Game.Rulesets.Osu.Replays
             // Make the cursor stay at a hitObject as long as possible (mainly for autopilot).
             if (h.StartTime - hitWindows.WindowFor(HitResult.Miss) > endTime + hitWindows.WindowFor(HitResult.Meh) + 50)
             {
-                if (!(prev is Spinner) && h.StartTime - endTime < 1000)
+                if (prev is not Spinner && h.StartTime - endTime < 1000)
                     AddFrameToReplay(new OsuReplayFrame(endTime + hitWindows.WindowFor(HitResult.Meh), new Vector2(prev.StackedEndPosition.X, prev.StackedEndPosition.Y)));
 
-                if (!(h is Spinner))
+                if (h is not Spinner)
                     AddFrameToReplay(new OsuReplayFrame(h.StartTime - hitWindows.WindowFor(HitResult.Miss), new Vector2(h.StackedPosition.X, h.StackedPosition.Y)));
             }
             else if (h.StartTime - hitWindows.WindowFor(HitResult.Meh) > endTime + hitWindows.WindowFor(HitResult.Meh) + 50)
             {
-                if (!(prev is Spinner) && h.StartTime - endTime < 1000)
+                if (prev is not Spinner && h.StartTime - endTime < 1000)
                     AddFrameToReplay(new OsuReplayFrame(endTime + hitWindows.WindowFor(HitResult.Meh), new Vector2(prev.StackedEndPosition.X, prev.StackedEndPosition.Y)));
 
-                if (!(h is Spinner))
+                if (h is not Spinner)
                     AddFrameToReplay(new OsuReplayFrame(h.StartTime - hitWindows.WindowFor(HitResult.Meh), new Vector2(h.StackedPosition.X, h.StackedPosition.Y)));
             }
             else if (h.StartTime - hitWindows.WindowFor(HitResult.Ok) > endTime + hitWindows.WindowFor(HitResult.Ok) + 50)
             {
-                if (!(prev is Spinner) && h.StartTime - endTime < 1000)
+                if (prev is not Spinner && h.StartTime - endTime < 1000)
                     AddFrameToReplay(new OsuReplayFrame(endTime + hitWindows.WindowFor(HitResult.Ok), new Vector2(prev.StackedEndPosition.X, prev.StackedEndPosition.Y)));
 
-                if (!(h is Spinner))
+                if (h is not Spinner)
                     AddFrameToReplay(new OsuReplayFrame(h.StartTime - hitWindows.WindowFor(HitResult.Ok), new Vector2(h.StackedPosition.X, h.StackedPosition.Y)));
             }
         }

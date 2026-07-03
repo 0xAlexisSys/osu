@@ -178,7 +178,7 @@ namespace osu.Game.Rulesets.UI
 
         protected override int Compare(Drawable x, Drawable y)
         {
-            if (!(x is DrawableHitObject xObj) || !(y is DrawableHitObject yObj))
+            if (x is not DrawableHitObject xObj || y is not DrawableHitObject yObj)
                 return base.Compare(x, y);
 
             // Put earlier hitobjects towards the end of the list, so they handle input first

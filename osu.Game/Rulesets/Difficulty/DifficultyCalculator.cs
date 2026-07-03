@@ -248,7 +248,7 @@ namespace osu.Game.Rulesets.Difficulty
             // Flattens a mod hierarchy (through MultiMod) as an IEnumerable<Mod>
             static (IEnumerable<Mod> set, int count) flatten(Mod mod)
             {
-                if (!(mod is MultiMod multi))
+                if (mod is not MultiMod multi)
                     return (mod.Yield(), 1);
 
                 IEnumerable<Mod> set = Enumerable.Empty<Mod>();

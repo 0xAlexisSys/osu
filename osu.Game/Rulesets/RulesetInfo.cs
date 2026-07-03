@@ -61,7 +61,7 @@ namespace osu.Game.Rulesets
 
         public int CompareTo(IRulesetInfo? other)
         {
-            if (!(other is RulesetInfo ruleset))
+            if (other is not RulesetInfo ruleset)
                 throw new ArgumentException($@"Object is not of type {nameof(RulesetInfo)}.", nameof(other));
 
             return CompareTo(ruleset);

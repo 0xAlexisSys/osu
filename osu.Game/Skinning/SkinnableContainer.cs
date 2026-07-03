@@ -84,7 +84,7 @@ namespace osu.Game.Skinning
             if (content is null)
                 throw new NotSupportedException("Attempting to add a new component to a target container which is not supported by the current skin.");
 
-            if (!(component is Drawable drawable))
+            if (component is not Drawable drawable)
                 throw new ArgumentException($"Provided argument must be of type {nameof(Drawable)}.", nameof(component));
 
             content.Add(drawable);
@@ -99,7 +99,7 @@ namespace osu.Game.Skinning
             if (content is null)
                 throw new NotSupportedException("Attempting to remove a new component from a target container which is not supported by the current skin.");
 
-            if (!(component is Drawable drawable))
+            if (component is not Drawable drawable)
                 throw new ArgumentException($"Provided argument must be of type {nameof(Drawable)}.", nameof(component));
 
             content.Remove(drawable, disposeImmediately);

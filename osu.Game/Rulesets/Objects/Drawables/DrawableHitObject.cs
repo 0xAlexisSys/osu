@@ -569,7 +569,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
 
         protected void UpdateComboColour()
         {
-            if (!(HitObject is IHasComboInformation combo)) return;
+            if (HitObject is not IHasComboInformation combo) return;
 
             Color4 colour = combo.GetComboColour(CurrentSkin);
 

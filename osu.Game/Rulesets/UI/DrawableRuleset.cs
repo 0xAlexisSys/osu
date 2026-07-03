@@ -123,7 +123,7 @@ namespace osu.Game.Rulesets.UI
         {
             ArgumentNullException.ThrowIfNull(beatmap);
 
-            if (!(beatmap is Beatmap<TObject> tBeatmap))
+            if (beatmap is not Beatmap<TObject> tBeatmap)
                 throw new ArgumentException($"{GetType()} expected the beatmap to contain hitobjects of type {typeof(TObject)}.", nameof(beatmap));
 
             Beatmap = tBeatmap;
@@ -278,7 +278,7 @@ namespace osu.Game.Rulesets.UI
 
         public sealed override void SetRecordTarget(Score score)
         {
-            if (!(KeyBindingInputManager is IHasRecordingHandler recordingInputManager))
+            if (KeyBindingInputManager is not IHasRecordingHandler recordingInputManager)
                 throw new InvalidOperationException($"A {nameof(KeyBindingInputManager)} which supports recording is not available");
 
             if (score is null)
@@ -303,7 +303,7 @@ namespace osu.Game.Rulesets.UI
 
         public override void SetReplayScore(Score replayScore)
         {
-            if (!(KeyBindingInputManager is IHasReplayHandler replayInputManager))
+            if (KeyBindingInputManager is not IHasReplayHandler replayInputManager)
                 throw new InvalidOperationException($"A {nameof(KeyBindingInputManager)} which supports replay loading is not available");
 
             var handler = (ReplayScore = replayScore) is not null ? CreateReplayInputHandler(replayScore.Replay) : null;

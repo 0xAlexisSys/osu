@@ -104,7 +104,7 @@ namespace osu.Game.Rulesets.Osu.Utils
                     for (int j = i - 1; j >= i - preceding_hitobjects_to_shift && j >= 0; j--)
                     {
                         // only shift hit circles
-                        if (!(workingObjects[j].HitObject is HitCircle)) break;
+                        if (workingObjects[j].HitObject is not HitCircle) break;
 
                         toBeShifted.Add(workingObjects[j].HitObject);
                     }
@@ -156,7 +156,7 @@ namespace osu.Game.Rulesets.Osu.Utils
 
             current.PositionModified = lastEndPosition + posRelativeToPrev;
 
-            if (!(current.HitObject is Slider slider))
+            if (current.HitObject is not Slider slider)
                 return;
 
             absoluteAngle = MathF.Atan2(posRelativeToPrev.Y, posRelativeToPrev.X);

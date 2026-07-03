@@ -137,7 +137,7 @@ namespace osu.Game.Rulesets.Mods
 
         public override void CopyTo(Bindable<float?> them)
         {
-            if (!(them is DifficultyBindable otherDifficultyBindable))
+            if (them is not DifficultyBindable otherDifficultyBindable)
                 throw new InvalidOperationException($"Cannot copy to a non-{nameof(DifficultyBindable)}.");
 
             base.CopyTo(them);
@@ -153,7 +153,7 @@ namespace osu.Game.Rulesets.Mods
 
         public override void BindTo(Bindable<float?> them)
         {
-            if (!(them is DifficultyBindable otherDifficultyBindable))
+            if (them is not DifficultyBindable otherDifficultyBindable)
                 throw new InvalidOperationException($"Cannot bind to a non-{nameof(DifficultyBindable)}.");
 
             // ensure that MaxValue and ExtendedMaxValue are copied across first before continuing.
@@ -173,7 +173,7 @@ namespace osu.Game.Rulesets.Mods
 
         public override void UnbindFrom(IUnbindable them)
         {
-            if (!(them is DifficultyBindable otherDifficultyBindable))
+            if (them is not DifficultyBindable otherDifficultyBindable)
                 throw new InvalidOperationException($"Cannot unbind from a non-{nameof(DifficultyBindable)}.");
 
             base.UnbindFrom(them);

@@ -194,7 +194,7 @@ namespace osu.Game.Rulesets.Catch.UI
         /// </summary>
         public bool CanCatch(CatchHitObject hitObject)
         {
-            if (!(hitObject is PalpableCatchHitObject fruit))
+            if (hitObject is not PalpableCatchHitObject fruit)
                 return false;
 
             float halfCatchWidth = CatchWidth * 0.5f;
@@ -209,7 +209,7 @@ namespace osu.Game.Rulesets.Catch.UI
             catchResult.CatcherHyperDash = HyperDashing;
 
             // Ignore JuiceStreams and BananaShowers
-            if (!(drawableObject is DrawablePalpableCatchHitObject palpableObject)) return;
+            if (drawableObject is not DrawablePalpableCatchHitObject palpableObject) return;
 
             var hitObject = palpableObject.HitObject;
 

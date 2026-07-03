@@ -54,7 +54,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators
 
                 cumulativeStrainTime += lastObj.AdjustedDeltaTime;
 
-                if (!(currentObj.BaseObject is Spinner))
+                if (currentObj.BaseObject is not Spinner)
                 {
                     double jumpDistance = (osuHitObject.StackedPosition - currentHitObject.StackedEndPosition).Length;
 

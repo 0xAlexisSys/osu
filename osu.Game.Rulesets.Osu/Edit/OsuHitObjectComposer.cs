@@ -219,7 +219,7 @@ namespace osu.Game.Rulesets.Osu.Edit
         {
             base.Update();
 
-            if (!(BlueprintContainer.CurrentTool is SelectTool))
+            if (BlueprintContainer.CurrentTool is not SelectTool)
             {
                 if (EditorClock.CurrentTime != lastDistanceSnapGridTime)
                 {

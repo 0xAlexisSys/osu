@@ -425,7 +425,7 @@ namespace osu.Game.Database
             }
             catch (Exception e)
             {
-                if (!(e is TaskCanceledException))
+                if (e is not TaskCanceledException)
                     LogForModel(item, @"Database import or population failed and has been rolled back.", e);
 
                 throw;

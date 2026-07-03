@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.Catch.Edit.Blueprints
 
             base.UpdateTimeAndPosition(result.ScreenSpacePosition, result.Time ?? fallbackTime);
 
-            if (!(result.Time is double time)) return result;
+            if (result.Time is not double time) return result;
 
             switch (PlacementActive)
             {

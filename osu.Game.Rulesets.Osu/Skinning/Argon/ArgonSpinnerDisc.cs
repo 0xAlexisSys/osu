@@ -220,7 +220,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
 
         private void updateStateTransforms(DrawableHitObject drawableHitObject, ArmedState state)
         {
-            if (!(drawableHitObject is DrawableSpinner))
+            if (drawableHitObject is not DrawableSpinner)
                 return;
 
             Spinner spinner = drawableSpinner.HitObject;

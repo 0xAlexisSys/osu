@@ -82,10 +82,10 @@ namespace osu.Game.Rulesets.Osu.Edit.Checks
 
             for (int i = 0; i < hitObjects.Count - 1; ++i)
             {
-                if (!(hitObjects[i] is OsuHitObject hitObject) || hitObject is Spinner)
+                if (hitObjects[i] is not OsuHitObject hitObject || hitObject is Spinner)
                     continue;
 
-                if (!(hitObjects[i + 1] is OsuHitObject nextHitObject) || nextHitObject is Spinner)
+                if (hitObjects[i + 1] is not OsuHitObject nextHitObject || nextHitObject is Spinner)
                     continue;
 
                 double deltaTime = nextHitObject.StartTime - hitObject.GetEndTime();

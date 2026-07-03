@@ -879,7 +879,7 @@ namespace osu.Game.Screens.Edit
             // (which are not propagated outwards to a potentially cached WorkingBeatmap).
             var refetchedBeatmap = beatmapManager.GetWorkingBeatmap(Beatmap.Value.BeatmapInfo, true);
 
-            if (!(refetchedBeatmap is DummyWorkingBeatmap))
+            if (refetchedBeatmap is not DummyWorkingBeatmap)
             {
                 Logger.Log(@"Editor providing re-fetched beatmap post edit session");
                 Beatmap.Value = refetchedBeatmap;

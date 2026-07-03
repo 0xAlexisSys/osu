@@ -335,7 +335,7 @@ namespace osu.Game.Database
         {
             // Subscribing to non-managed instances doesn't work.
             // In this usage, the instance may be non-managed in tests.
-            if (!(list is IRealmCollection<T> realmCollection))
+            if (list is not IRealmCollection<T> realmCollection)
                 return null;
 
             return QueryAsyncWithNotifications(realmCollection, callback);
@@ -362,7 +362,7 @@ namespace osu.Game.Database
         {
             // Subscribing to non-managed instances doesn't work.
             // In this usage, the instance may be non-managed in tests.
-            if (!(list is IRealmCollection<T> realmCollection))
+            if (list is not IRealmCollection<T> realmCollection)
                 return null;
 
             return QueryAsyncWithNotifications(realmCollection, callback);

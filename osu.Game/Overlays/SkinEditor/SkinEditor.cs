@@ -437,7 +437,7 @@ namespace osu.Game.Overlays.SkinEditor
 
             void requestPlacement(Type type)
             {
-                if (!(Activator.CreateInstance(type) is ISerialisableDrawable component))
+                if (Activator.CreateInstance(type) is not ISerialisableDrawable component)
                     throw new InvalidOperationException($"Attempted to instantiate a component for placement which was not an {typeof(ISerialisableDrawable)}.");
 
                 SelectedComponents.Clear();

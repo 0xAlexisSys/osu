@@ -131,7 +131,7 @@ namespace osu.Game.Rulesets.Osu.Mods
 
         protected override void ApplyNormalVisibilityState(DrawableHitObject drawable, ArmedState state)
         {
-            if (!(drawable is DrawableHitCircle circle)) return;
+            if (drawable is not DrawableHitCircle circle) return;
 
             double startTime = circle.HitObject.StartTime;
             double preempt = circle.HitObject.TimePreempt;
@@ -409,7 +409,7 @@ namespace osu.Game.Rulesets.Osu.Mods
                 if (almostEquals(time, hitObject.StartTime))
                     return true;
 
-                if (!(hitObject is IHasRepeats s))
+                if (hitObject is not IHasRepeats s)
                     return false;
                 // If time is outside the duration of the IHasRepeats,
                 // then this hitObject isn't the one we want

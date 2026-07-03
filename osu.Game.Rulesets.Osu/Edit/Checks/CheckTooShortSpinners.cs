@@ -28,7 +28,7 @@ namespace osu.Game.Rulesets.Osu.Edit.Checks
 
             foreach (var hitObject in context.CurrentDifficulty.Playable.HitObjects)
             {
-                if (!(hitObject is Spinner spinner))
+                if (hitObject is not Spinner spinner)
                     continue;
 
                 if (spinner.Duration < problemThreshold)

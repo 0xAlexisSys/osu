@@ -119,7 +119,7 @@ namespace osu.Game.Screens.Backgrounds
 
         public override bool Equals(BackgroundScreen other)
         {
-            if (!(other is BackgroundScreenBeatmap otherBeatmapBackground)) return false;
+            if (other is not BackgroundScreenBeatmap otherBeatmapBackground) return false;
 
             return base.Equals(other) && beatmap == otherBeatmapBackground.Beatmap;
         }

@@ -116,7 +116,7 @@ namespace osu.Game.Utils
 
             // checking compatibility of multi mods would try to flatten them and return incompatible mods.
             // in gameplay context, we never want MultiMod selected in the first place, therefore check against it first.
-            if (!checkValid(mods, m => !(m is MultiMod), out invalidMods))
+            if (!checkValid(mods, m => m is not MultiMod, out invalidMods))
                 return false;
 
             if (!CheckCompatibleSet(mods, out invalidMods))

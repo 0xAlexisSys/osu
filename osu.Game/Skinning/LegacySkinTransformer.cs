@@ -25,7 +25,7 @@ namespace osu.Game.Skinning
 
         public override ISample? GetSample(ISampleInfo sampleInfo)
         {
-            if (!(sampleInfo is ConvertHitObjectParser.LegacyHitSampleInfo legacySample))
+            if (sampleInfo is not ConvertHitObjectParser.LegacyHitSampleInfo legacySample)
                 return Skin.GetSample(sampleInfo);
 
             var playLayeredHitSounds = GetConfig<LegacySetting, bool>(LegacySetting.LayeredHitSounds);

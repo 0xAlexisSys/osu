@@ -81,7 +81,7 @@ namespace osu.Game.Rulesets.Catch.Edit.Blueprints.Components
             if (sliderPath.ControlPoints.Any(p => p.Type is not null && p.Type != PathType.LINEAR))
             {
                 path.ResampleVertices(hitObject.NestedHitObjects
-                                               .Skip(1).TakeWhile(h => !(h is Fruit)) // Only droplets in the first span are used.
+                                               .Skip(1).TakeWhile(h => h is not Fruit) // Only droplets in the first span are used.
                                                .Select(h => h.StartTime - hitObject.StartTime));
             }
 

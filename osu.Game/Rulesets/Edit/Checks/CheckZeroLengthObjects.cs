@@ -26,7 +26,7 @@ namespace osu.Game.Rulesets.Edit.Checks
         {
             foreach (var hitObject in context.CurrentDifficulty.Playable.HitObjects)
             {
-                if (!(hitObject is IHasDuration hasDuration))
+                if (hitObject is not IHasDuration hasDuration)
                     continue;
 
                 if (hasDuration.Duration < leniency)

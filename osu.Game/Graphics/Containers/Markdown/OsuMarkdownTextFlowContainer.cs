@@ -48,7 +48,7 @@ namespace osu.Game.Graphics.Containers.Markdown
 
         protected override void AddCustomComponent(CustomContainerInline inline)
         {
-            if (!(inline.FirstChild is LiteralInline literal))
+            if (inline.FirstChild is not LiteralInline literal)
             {
                 base.AddCustomComponent(inline);
                 return;

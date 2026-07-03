@@ -227,7 +227,7 @@ namespace osu.Game.Rulesets.Osu.Beatmaps
             {
                 OsuHitObject currHitObject = hitObjects[i];
 
-                if (currHitObject.StackHeight != 0 && !(currHitObject is Slider))
+                if (currHitObject.StackHeight != 0 && currHitObject is not Slider)
                     continue;
 
                 double startTime = currHitObject.GetEndTime();

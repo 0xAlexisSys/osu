@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.Edit.Checks
             {
                 foreach (var element in layer.Elements)
                 {
-                    if (!(element is StoryboardVideo video))
+                    if (element is not StoryboardVideo video)
                         continue;
 
                     // Ensures we don't check the same video file multiple times in case of multiple elements using it.

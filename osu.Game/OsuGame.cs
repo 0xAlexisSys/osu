@@ -1000,7 +1000,7 @@ namespace osu.Game
 
         private void handleStartupImport()
         {
-            if (args?.Length != 0)
+            if (args is { Length: not 0 })
             {
                 string[] paths = args.Where(a => !a.StartsWith('-')).ToArray();
 

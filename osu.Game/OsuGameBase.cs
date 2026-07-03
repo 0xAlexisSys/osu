@@ -298,7 +298,7 @@ namespace osu.Game
             CurrentLanguage.BindValueChanged(val => frameworkLocale.Value = val.NewValue.ToCultureCode());
 
             string username = LocalConfig.Get<string>(OsuSetting.Username);
-            string userAvatar = LocalConfig.Get<string>(OsuSetting.Avatar);
+            string userAvatar = LocalConfig.Get<string>(OsuSetting.UserAvatar);
 
             if (string.IsNullOrWhiteSpace(username))
             {

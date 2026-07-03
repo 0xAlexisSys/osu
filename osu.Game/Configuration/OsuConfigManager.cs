@@ -34,7 +34,7 @@ namespace osu.Game.Configuration
         protected override void InitialiseDefaults()
         {
             SetDefault(OsuSetting.Username, User.DEFAULT_PERSONAL_USERNAME);
-            SetDefault(OsuSetting.Avatar, string.Empty);
+            SetDefault(OsuSetting.UserAvatar, string.Empty);
 
             // UI/selection defaults
             SetDefault(OsuSetting.Ruleset, string.Empty);
@@ -258,7 +258,7 @@ namespace osu.Game.Configuration
     public enum OsuSetting
     {
         Username,
-        Avatar,
+        UserAvatar,
         Ruleset,
         MenuCursorSize,
         GameplayCursorSize,

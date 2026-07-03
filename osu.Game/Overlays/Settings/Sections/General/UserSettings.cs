@@ -34,7 +34,7 @@ namespace osu.Game.Overlays.Settings.Sections.General
                 {
                     Keywords = keywords,
                 },
-                new SettingsItemV2(userAvatarFileSelector = new FormFileSelector(true, setting: OsuSetting.Avatar, handledExtensions: SupportedExtensions.IMAGE_EXTENSIONS)
+                new SettingsItemV2(userAvatarFileSelector = new FormFileSelector(true, setting: OsuSetting.UserAvatar, handledExtensions: SupportedExtensions.IMAGE_EXTENSIONS)
                 {
                     Caption = GeneralSettingsStrings.Avatar,
                     PlaceholderText = CommonStrings.Default,

@@ -98,9 +98,7 @@ namespace osu.Game.Rulesets
             if (type is null)
                 throw new RulesetLoadException(@"Type lookup failure");
 
-            var ruleset = Activator.CreateInstance(type) as Ruleset;
-
-            if (ruleset is null)
+            if (Activator.CreateInstance(type) is not Ruleset ruleset)
                 throw new RulesetLoadException(@"Instantiation failure");
 
             // overwrite the pre-populated RulesetInfo with a potentially database attached copy.

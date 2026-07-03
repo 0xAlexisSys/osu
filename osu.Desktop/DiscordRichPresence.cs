@@ -135,7 +135,7 @@ namespace osu.Desktop
             }
 
             // small image
-            presence.Assets.SmallImageKey = ruleset.Value.IsLegacyRuleset() ? $"mode_{ruleset.Value.OnlineID}" : "mode_custom";
+            presence.Assets.SmallImageKey = ruleset.Value.IsLegacyRuleset() ? $"mode_{ruleset.Value.ID}" : "mode_custom";
             presence.Assets.SmallImageText = ruleset.Value.Name;
         }
 

@@ -5,11 +5,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Threading;
 using osu.Framework.Extensions;
 using osu.Game.Beatmaps;
 using osu.Game.IO;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 
@@ -17,9 +15,6 @@ namespace osu.Game.Tests.Beatmaps
 {
     public class TestBeatmap : Beatmap
     {
-        private static int onlineSetID;
-        private static int onlineBeatmapID;
-
         public TestBeatmap(RulesetInfo ruleset, bool withHitObjects = true)
         {
             var baseBeatmap = CreateBeatmap();
@@ -48,13 +43,10 @@ namespace osu.Game.Tests.Beatmaps
             BeatmapInfo.Length = 75000;
             BeatmapInfo.BPM = 123;
             BeatmapInfo.StarRating = 4.32;
-            BeatmapInfo.OnlineInfo = new APIBeatmap();
-            BeatmapInfo.OnlineID = Interlocked.Increment(ref onlineBeatmapID);
 
             Debug.Assert(BeatmapInfo.BeatmapSet != null);
 
             BeatmapInfo.BeatmapSet.Beatmaps.Add(BeatmapInfo);
-            BeatmapInfo.BeatmapSet.OnlineID = Interlocked.Increment(ref onlineSetID);
         }
 
         protected virtual Beatmap CreateBeatmap() => createTestBeatmap();
@@ -68,7 +60,6 @@ namespace osu.Game.Tests.Beatmaps
                     var b = Decoder.GetDecoder<Beatmap>(reader).Decode(reader);
 
                     b.BeatmapInfo.MD5Hash = test_beatmap_hash.Value.md5;
-                    b.BeatmapInfo.OnlineMD5Hash = test_beatmap_hash.Value.md5;
                     b.BeatmapInfo.Hash = test_beatmap_hash.Value.sha2;
 
                     return b;

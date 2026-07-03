@@ -62,7 +62,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty
             totalDifficultHits = totalHits * taikoAttributes.ConsistencyFactor;
 
             // Converts and the classic mod are detected and omitted from mod-specific bonuses due to the scope of current difficulty calculation.
-            bool isConvert = score.BeatmapInfo!.Ruleset.OnlineID != 1;
+            bool isConvert = score.BeatmapInfo!.Ruleset.ID != 1;
             bool isClassic = score.Mods.Any(m => m is ModClassic);
 
             double difficultyValue = computeDifficultyValue(score, taikoAttributes, isConvert, isClassic) * 1.08;

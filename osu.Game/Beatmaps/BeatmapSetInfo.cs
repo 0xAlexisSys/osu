@@ -22,9 +22,6 @@ namespace osu.Game.Beatmaps
         [PrimaryKey]
         public Guid ID { get; set; }
 
-        [Indexed]
-        public int OnlineID { get; set; } = -1;
-
         public DateTimeOffset DateAdded { get; set; }
 
         [JsonIgnore]

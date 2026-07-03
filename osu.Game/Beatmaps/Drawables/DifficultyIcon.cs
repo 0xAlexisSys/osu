@@ -125,9 +125,7 @@ namespace osu.Game.Beatmaps.Drawables
 
         private Drawable getRulesetIcon()
         {
-            int? onlineID = ruleset.OnlineID;
-
-            if (onlineID >= 0 && rulesets.GetRuleset(onlineID.Value)?.CreateInstance() is Ruleset rulesetInstance)
+            if (ruleset.ID >= 0 && rulesets.GetRuleset(ruleset.ID)?.CreateInstance() is Ruleset rulesetInstance)
                 return rulesetInstance.CreateIcon();
 
             return new SpriteIcon { Icon = FontAwesome.Regular.QuestionCircle };

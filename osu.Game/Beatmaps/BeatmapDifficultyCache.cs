@@ -346,7 +346,7 @@ namespace osu.Game.Beatmaps
             catch (BeatmapInvalidForRulesetException invalidForRuleset)
             {
                 if (rulesetInfo.Equals(beatmapInfo.Ruleset))
-                    Logger.Error(invalidForRuleset, $"Failed to convert {beatmapInfo.OnlineID} to the beatmap's default ruleset ({beatmapInfo.Ruleset}).");
+                    Logger.Error(invalidForRuleset, $"Failed to convert {beatmapInfo.ID} to the beatmap's default ruleset ({beatmapInfo.Ruleset}).");
 
                 return null;
             }

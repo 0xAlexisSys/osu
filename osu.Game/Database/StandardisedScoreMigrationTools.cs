@@ -173,7 +173,7 @@ namespace osu.Game.Database
 
             long convertedTotalScoreWithoutMods;
 
-            switch (score.Ruleset.OnlineID)
+            switch (score.Ruleset.ID)
             {
                 case 0:
                     if (score.MaxCombo == 0 || score.Accuracy == 0)

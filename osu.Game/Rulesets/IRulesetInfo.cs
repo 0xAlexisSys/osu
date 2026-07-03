@@ -2,15 +2,19 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using osu.Game.Database;
 
 namespace osu.Game.Rulesets
 {
     /// <summary>
     /// A representation of a ruleset's metadata.
     /// </summary>
-    public interface IRulesetInfo : IHasOnlineID<int>, IEquatable<IRulesetInfo>, IComparable<IRulesetInfo>
+    public interface IRulesetInfo : IEquatable<IRulesetInfo>, IComparable<IRulesetInfo>
     {
+        /// <summary>
+        /// The internal ID of this ruleset.
+        /// </summary>
+        int ID { get; }
+
         /// <summary>
         /// The user-exposed name of this ruleset.
         /// </summary>

@@ -493,13 +493,10 @@ namespace osu.Game
             Logger.Log($"Beginning {nameof(PresentBeatmap)} with beatmap {beatmap}");
             Live<BeatmapSetInfo> databasedSet = null;
 
-            if (beatmap.OnlineID > 0)
-                databasedSet = BeatmapManager.QueryBeatmapSet(s => s.OnlineID == beatmap.OnlineID && !s.DeletePending);
-
             if (beatmap is BeatmapSetInfo localBeatmap)
-                databasedSet ??= BeatmapManager.QueryBeatmapSet(s => s.Hash == localBeatmap.Hash && !s.DeletePending);
+                databasedSet = BeatmapManager.QueryBeatmapSet(s => s.Hash == localBeatmap.Hash && !s.DeletePending);
 
-            if (databasedSet == null)
+            if (databasedSet is null)
             {
                 Logger.Log("The requested beatmap could not be loaded.", LoggingTarget.Information);
                 return;
@@ -527,7 +524,7 @@ namespace osu.Game
                     // Don't change the local ruleset if the user is on another ruleset and is showing converted beatmaps at song select.
                     // Eventually we probably want to check whether conversion is actually possible for the current ruleset.
                     bool requiresRulesetSwitch = !selection.Ruleset.Equals(Ruleset.Value)
-                                                 && (selection.Ruleset.OnlineID > 0 || !LocalConfig.Get<bool>(OsuSetting.ShowConvertedBeatmaps));
+                                                 && (selection.Ruleset.ID > 0 || !LocalConfig.Get<bool>(OsuSetting.ShowConvertedBeatmaps));
 
                     if (requiresRulesetSwitch)
                     {

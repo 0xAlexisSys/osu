@@ -18,7 +18,6 @@ using osu.Framework.Platform;
 using osu.Framework.Statistics;
 using osu.Framework.Threading;
 using osu.Game.Beatmaps;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
 using osu.Game.Skinning;
@@ -814,18 +813,6 @@ namespace osu.Game.Database
 
             stopwatch.Stop();
             Logger.Log($"Migration completed in {stopwatch.ElapsedMilliseconds}ms");
-        }
-
-        private string? getRulesetShortNameFromLegacyID(long rulesetId)
-        {
-            try
-            {
-                return new APIBeatmap.APIRuleset { OnlineID = (int)rulesetId }.ShortName;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         /// <summary>

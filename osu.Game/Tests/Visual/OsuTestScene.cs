@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -25,7 +24,6 @@ using osu.Framework.Timing;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Graphics;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
@@ -213,88 +211,6 @@ namespace osu.Game.Tests.Visual
         protected virtual Ruleset CreateRuleset() => null;
 
         protected virtual IBeatmap CreateBeatmap(RulesetInfo ruleset) => new TestBeatmap(ruleset);
-
-        /// <summary>
-        /// Returns a sample API beatmap with a populated beatmap set.
-        /// </summary>
-        /// <param name="ruleset">The ruleset to create the sample model using. osu! ruleset will be used if not specified.</param>
-        protected APIBeatmap CreateAPIBeatmap(RulesetInfo ruleset = null) => CreateAPIBeatmap(CreateBeatmap(ruleset ?? Ruleset.Value).BeatmapInfo);
-
-        /// <summary>
-        /// Constructs a sample API beatmap set containing a beatmap.
-        /// </summary>
-        /// <param name="ruleset">The ruleset to create the sample model using. osu! ruleset will be used if not specified.</param>
-        protected APIBeatmapSet CreateAPIBeatmapSet(RulesetInfo ruleset = null) => CreateAPIBeatmapSet(CreateBeatmap(ruleset ?? Ruleset.Value).BeatmapInfo);
-
-        /// <summary>
-        /// Constructs a sample API beatmap with a populated beatmap set from a given source beatmap.
-        /// </summary>
-        /// <param name="original">The source beatmap.</param>
-        public static APIBeatmap CreateAPIBeatmap(IBeatmapInfo original)
-        {
-            var beatmapSet = CreateAPIBeatmapSet(original);
-
-            // Avoid circular reference.
-            var beatmap = beatmapSet.Beatmaps.First();
-            beatmapSet.Beatmaps = Array.Empty<APIBeatmap>();
-
-            // Populate the set as that's generally what we expect from the API.
-            beatmap.BeatmapSet = beatmapSet;
-
-            return beatmap;
-        }
-
-        /// <summary>
-        /// Constructs a sample API beatmap set containing a beatmap from a given source beatmap.
-        /// </summary>
-        /// <param name="original">The source beatmap.</param>
-        public static APIBeatmapSet CreateAPIBeatmapSet(IBeatmapInfo original)
-        {
-            Debug.Assert(original.BeatmapSet != null);
-
-            var result = new APIBeatmapSet
-            {
-                OnlineID = original.BeatmapSet.OnlineID,
-                Title = original.Metadata.Title,
-                TitleUnicode = original.Metadata.TitleUnicode,
-                Artist = original.Metadata.Artist,
-                ArtistUnicode = original.Metadata.ArtistUnicode,
-                Author = original.Metadata.Author,
-                Source = original.Metadata.Source,
-                Tags = original.Metadata.Tags,
-                BPM = original.BPM,
-                HasFavourited = false,
-                Ratings = Enumerable.Range(0, 11).ToArray(),
-                Beatmaps = new[]
-                {
-                    new APIBeatmap
-                    {
-                        OnlineID = original.OnlineID,
-                        OnlineBeatmapSetID = original.BeatmapSet.OnlineID,
-                        Checksum = original.MD5Hash,
-                        RulesetID = original.Ruleset.OnlineID,
-                        StarRating = original.StarRating,
-                        DifficultyName = original.DifficultyName,
-                        CircleSize = original.Difficulty.CircleSize,
-                        DrainRate = original.Difficulty.DrainRate,
-                        OverallDifficulty = original.Difficulty.OverallDifficulty,
-                        ApproachRate = original.Difficulty.ApproachRate,
-                        Length = original.Length,
-                        HitLength = original.Length,
-                        CircleCount = 111,
-                        SliderCount = 12,
-                        PlayCount = 222,
-                        BPM = original.BPM,
-                        PassCount = 21,
-                    }
-                }
-            };
-
-            foreach (var beatmap in result.Beatmaps)
-                beatmap.BeatmapSet = result;
-
-            return result;
-        }
 
         protected WorkingBeatmap CreateWorkingBeatmap(RulesetInfo ruleset) =>
             CreateWorkingBeatmap(CreateBeatmap(ruleset));

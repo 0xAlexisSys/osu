@@ -315,18 +315,6 @@ namespace osu.Game.Beatmaps
              .FirstOrDefault()?.Detach());
 
         /// <summary>
-        /// Perform a lookup query on available <see cref="BeatmapInfo"/>s for a specific online ID.
-        /// </summary>
-        /// <returns>A matching local beatmap info if existing and in a valid state.</returns>
-        public BeatmapInfo? QueryOnlineBeatmapId(int id) => Realm.Run(r =>
-            r.All<BeatmapInfo>()
-             .ForOnlineId(id)
-             // See https://github.com/ppy/osu/issues/36234 for why this isn't a SingleOrDefault().
-             .FirstOrDefault()
-             ?.Detach()
-        );
-
-        /// <summary>
         /// A default representation of a WorkingBeatmap to use when no beatmap is available.
         /// </summary>
         public IWorkingBeatmap DefaultBeatmap => workingBeatmapCache.DefaultBeatmap;
@@ -645,7 +633,7 @@ namespace osu.Game.Beatmaps
         {
             return Realm.Run(r => r.All<BeatmapInfo>()
                                    .Filter($@"{nameof(BeatmapInfo.BeatmapSet)}.{nameof(BeatmapSetInfo.DeletePending)} == false")
-                                   .Filter($@"{nameof(BeatmapInfo.OnlineID)} == $0 AND {nameof(BeatmapInfo.MD5Hash)} == {nameof(BeatmapInfo.OnlineMD5Hash)}", model.OnlineID)
+                                   .Filter($@"{nameof(BeatmapInfo.Hash)} == $0", model.Hash)
                                    .Any());
         }
 

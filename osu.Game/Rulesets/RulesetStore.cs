@@ -53,7 +53,7 @@ namespace osu.Game.Rulesets
         /// </summary>
         /// <param name="id">The ruleset's internal ID.</param>
         /// <returns>A ruleset, if available, else null.</returns>
-        public RulesetInfo? GetRuleset(int id) => AvailableRulesets.FirstOrDefault(r => r.OnlineID == id);
+        public RulesetInfo? GetRuleset(int id) => AvailableRulesets.FirstOrDefault(r => r.ID == id);
 
         /// <summary>
         /// Retrieve a ruleset using a known short name.

@@ -50,9 +50,6 @@ namespace osu.Game.Screens.Select
         public RulesetInfo? Ruleset;
         public IReadOnlyList<Mod>? Mods;
         public bool AllowConvertedBeatmaps;
-        public int? BeatmapSetId;
-
-        public bool? HasOnlineID;
 
         private string searchText = string.Empty;
 

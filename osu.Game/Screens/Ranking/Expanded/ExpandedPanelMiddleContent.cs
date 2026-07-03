@@ -102,7 +102,7 @@ namespace osu.Game.Screens.Ranking.Expanded
                         Direction = FillDirection.Vertical,
                         Children = new Drawable[]
                         {
-                            new ClickableMetadata(beatmap.OnlineID, metadata),
+                            new ClickableMetadata(metadata),
                             new Container
                             {
                                 Anchor = Anchor.TopCentre,
@@ -266,10 +266,7 @@ namespace osu.Game.Screens.Ranking.Expanded
 
         internal partial class ClickableMetadata : OsuHoverContainer
         {
-            [Resolved]
-            private OsuGame? game { get; set; }
-
-            public ClickableMetadata(int beatmapId, IBeatmapMetadataInfo metadata)
+            public ClickableMetadata(IBeatmapMetadataInfo metadata)
             {
                 AutoSizeAxes = Axes.Both;
 

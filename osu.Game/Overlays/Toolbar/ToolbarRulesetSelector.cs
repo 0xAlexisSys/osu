@@ -134,7 +134,7 @@ namespace osu.Game.Overlays.Toolbar
             channel.Play();
 
             // Longer unduck delay for Mania sample
-            int unduckDelay = r.NewValue.OnlineID == 3 ? 750 : 500;
+            int unduckDelay = r.NewValue.ID == 3 ? 750 : 500;
             musicController?.DuckMomentarily(unduckDelay, new DuckParameters { DuckDuration = 0 });
         }
 

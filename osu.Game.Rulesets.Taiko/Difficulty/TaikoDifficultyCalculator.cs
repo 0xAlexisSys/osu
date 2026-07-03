@@ -46,7 +46,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty
             HitWindows hitWindows = new TaikoHitWindows();
             hitWindows.SetDifficulty(beatmap.Difficulty.OverallDifficulty);
 
-            isConvert = beatmap.BeatmapInfo.Ruleset.OnlineID == 0;
+            isConvert = beatmap.BeatmapInfo.Ruleset.ID == 0;
             isRelax = mods.Any(h => h is TaikoModRelax);
 
             return new Skill[]

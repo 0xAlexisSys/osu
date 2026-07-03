@@ -12,7 +12,7 @@ using osu.Game.Skinning;
 namespace osu.Game.Beatmaps
 {
     /// <summary>
-    /// A <see cref="WorkingBeatmap"/> which can be constructed directly from an .osu file (via <see cref="FlatWorkingBeatmap(string, int?)"/>)
+    /// A <see cref="WorkingBeatmap"/> which can be constructed directly from an .osu file (via <see cref="FlatWorkingBeatmap(string)"/>)
     /// or an <see cref="IBeatmap"/> instance (via <see cref="FlatWorkingBeatmap(IBeatmap)"/>,
     /// providing an implementation for
     /// <see cref="WorkingBeatmap.GetPlayableBeatmap(osu.Game.Rulesets.IRulesetInfo,System.Collections.Generic.IReadOnlyList{osu.Game.Rulesets.Mods.Mod})"/>.
@@ -21,11 +21,9 @@ namespace osu.Game.Beatmaps
     {
         private readonly IBeatmap beatmap;
 
-        public FlatWorkingBeatmap(string file, int? beatmapId = null)
+        public FlatWorkingBeatmap(string file)
             : this(readFromFile(file))
         {
-            if (beatmapId.HasValue)
-                beatmap.BeatmapInfo.OnlineID = beatmapId.Value;
         }
 
         public FlatWorkingBeatmap(IBeatmap beatmap)

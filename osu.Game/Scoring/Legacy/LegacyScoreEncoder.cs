@@ -91,7 +91,7 @@ namespace osu.Game.Scoring.Legacy
         {
             using (SerializationWriter sw = new SerializationWriter(stream, leaveOpen))
             {
-                sw.Write((byte)(score.ScoreInfo.Ruleset.OnlineID));
+                sw.Write((byte)(score.ScoreInfo.Ruleset.ID));
                 sw.Write(score.ScoreInfo.TotalScoreVersion);
                 sw.Write(score.ScoreInfo.BeatmapInfo!.MD5Hash);
                 sw.Write(score.ScoreInfo.User.Username);

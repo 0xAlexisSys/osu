@@ -11,10 +11,10 @@ namespace osu.Game.Scoring.Legacy
     public static class ScoreInfoExtensions
     {
         public static long GetDisplayScore(this ScoreProcessor scoreProcessor, ScoringMode mode)
-            => getDisplayScore(scoreProcessor.Ruleset.RulesetInfo.OnlineID, scoreProcessor.TotalScore.Value, mode, scoreProcessor.MaximumStatistics);
+            => getDisplayScore(scoreProcessor.Ruleset.RulesetInfo.ID, scoreProcessor.TotalScore.Value, mode, scoreProcessor.MaximumStatistics);
 
         public static long GetDisplayScore(this ScoreInfo scoreInfo, ScoringMode mode)
-            => getDisplayScore(scoreInfo.Ruleset.OnlineID, scoreInfo.TotalScore, mode, scoreInfo.MaximumStatistics);
+            => getDisplayScore(scoreInfo.Ruleset.ID, scoreInfo.TotalScore, mode, scoreInfo.MaximumStatistics);
 
         private static long getDisplayScore(int rulesetId, long score, ScoringMode mode, IReadOnlyDictionary<HitResult, int> maximumStatistics)
         {
@@ -62,7 +62,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static int? GetCountGeki(this ScoreInfo scoreInfo)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 case 1:
                     return getCount(scoreInfo, HitResult.LargeBonus);
@@ -76,7 +76,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static void SetCountGeki(this ScoreInfo scoreInfo, int value)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 // For legacy scores, Geki indicates hit300 + perfect strong note hit.
                 // Lazer only has one result for a perfect strong note hit (LargeBonus).
@@ -96,7 +96,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static int? GetCountKatu(this ScoreInfo scoreInfo)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 // For taiko, Katu is bundled into Geki.
                 case 1:
@@ -114,7 +114,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static void SetCountKatu(this ScoreInfo scoreInfo, int value)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 // For legacy scores, Katu indicates hit100 + perfect strong note hit.
                 // Lazer only has one result for a perfect strong note hit (LargeBonus).
@@ -134,7 +134,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static int? GetCount100(this ScoreInfo scoreInfo)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 case 0:
                 case 1:
@@ -150,7 +150,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static void SetCount100(this ScoreInfo scoreInfo, int value)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 case 0:
                 case 1:
@@ -166,7 +166,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static int? GetCount50(this ScoreInfo scoreInfo)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 case 0:
                 case 3:
@@ -181,7 +181,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static void SetCount50(this ScoreInfo scoreInfo, int value)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 case 0:
                 case 3:
@@ -196,7 +196,7 @@ namespace osu.Game.Scoring.Legacy
 
         public static int? GetCountMiss(this ScoreInfo scoreInfo)
         {
-            switch (scoreInfo.Ruleset.OnlineID)
+            switch (scoreInfo.Ruleset.ID)
             {
                 case 0:
                 case 1:

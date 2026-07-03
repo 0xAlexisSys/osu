@@ -191,7 +191,7 @@ namespace osu.Game.Beatmaps
             if (!base.CanSkipImport(existing, import))
                 return false;
 
-            return existing.Beatmaps.Any(b => b.OnlineID > 0);
+            return true;
         }
 
         protected override bool CanReuseExisting(BeatmapSetInfo existing, BeatmapSetInfo import)
@@ -199,11 +199,11 @@ namespace osu.Game.Beatmaps
             if (!base.CanReuseExisting(existing, import))
                 return false;
 
-            var existingIds = existing.Beatmaps.Select(b => b.OnlineID).Order();
-            var importIds = import.Beatmaps.Select(b => b.OnlineID).Order();
+            var existingHashes = existing.Beatmaps.Select(b => b.Hash).Order();
+            var importHashes = import.Beatmaps.Select(b => b.Hash).Order();
 
             // force re-import if we are not in a sane state.
-            return existing.OnlineID == import.OnlineID && existingIds.SequenceEqual(importIds);
+            return existing.Hash == import.Hash && existingHashes.SequenceEqual(importHashes);
         }
 
         protected override void UndeleteForReuse(BeatmapSetInfo existing)
@@ -224,27 +224,16 @@ namespace osu.Game.Beatmaps
 
             if (string.IsNullOrEmpty(mapName))
             {
-                Logger.Log($"No beatmap files found in the beatmap archive ({reader.Name}).", LoggingTarget.Database);
+                Logger.Log($@"No beatmap files found in the beatmap archive ({reader.Name}).", LoggingTarget.Database);
                 return null;
             }
 
-            Beatmap beatmap;
+            using var stream = new LineBufferedReader(reader.GetStream(mapName));
 
-            using (var stream = new LineBufferedReader(reader.GetStream(mapName)))
-            {
-                if (stream.PeekLine() == null)
-                {
-                    Logger.Log($"No content found in first .osu file of beatmap archive ({reader.Name} / {mapName})", LoggingTarget.Database);
-                    return null;
-                }
+            if (stream.PeekLine() != null) return new BeatmapSetInfo();
 
-                beatmap = Decoder.GetDecoder<Beatmap>(stream).Decode(stream);
-            }
-
-            return new BeatmapSetInfo
-            {
-                OnlineID = beatmap.BeatmapInfo.BeatmapSet?.OnlineID ?? -1,
-            };
+            Logger.Log($@"No content found in first .osu file of beatmap archive ({reader.Name} / {mapName})", LoggingTarget.Database);
+            return null;
         }
 
         /// <summary>
@@ -313,11 +302,11 @@ namespace osu.Game.Beatmaps
                     var decodedInfo = decoded.BeatmapInfo;
                     var decodedDifficulty = decodedInfo.Difficulty;
 
-                    var ruleset = realm.All<RulesetInfo>().FirstOrDefault(r => r.OnlineID == decodedInfo.Ruleset.OnlineID);
+                    var ruleset = realm.All<RulesetInfo>().FirstOrDefault(r => r.ID == decodedInfo.Ruleset.ID);
 
                     if (ruleset?.Available != true)
                     {
-                        LogForModel(beatmapSet, $"Skipping import of {file.Filename} due to missing local ruleset {decodedInfo.Ruleset.OnlineID}.");
+                        LogForModel(beatmapSet, $"Skipping import of {file.Filename} due to missing local ruleset {decodedInfo.Ruleset.ID}.");
                         continue;
                     }
 
@@ -349,7 +338,6 @@ namespace osu.Game.Beatmaps
                     {
                         Hash = hash,
                         DifficultyName = decodedInfo.DifficultyName,
-                        OnlineID = decodedInfo.OnlineID,
                         BeatDivisor = decodedInfo.BeatDivisor,
                         MD5Hash = memoryStream.ComputeMD5Hash(),
                         EndTimeObjectCount = decoded.HitObjects.Count(h => h is IHasDuration),

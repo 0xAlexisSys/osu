@@ -28,7 +28,7 @@ namespace osu.Game.Beatmaps.Formats
         private readonly ISkin? skin;
         private readonly LegacyStoryboardEncoder? storyboardEncoder;
 
-        private readonly int onlineRulesetID;
+        private readonly int rulesetID;
 
         /// <summary>
         /// Creates a new <see cref="LegacyBeatmapEncoder"/>.
@@ -47,9 +47,9 @@ namespace osu.Game.Beatmaps.Formats
             if (storyboard != null)
                 storyboardEncoder = new LegacyStoryboardEncoder(storyboard);
 
-            onlineRulesetID = beatmap.BeatmapInfo.Ruleset.OnlineID;
+            rulesetID = beatmap.BeatmapInfo.Ruleset.ID;
 
-            if (onlineRulesetID < 0 || onlineRulesetID > 3)
+            if (rulesetID is < 0 or > 3)
                 throw new ArgumentException("Only beatmaps in the osu, taiko, catch, or mania rulesets can be encoded to the legacy beatmap format.", nameof(beatmap));
         }
 
@@ -93,7 +93,7 @@ namespace osu.Game.Beatmaps.Formats
             writer.WriteLine(FormattableString.Invariant(
                 $"SampleSet: {toLegacySampleBank(((beatmap.ControlPointInfo as LegacyControlPointInfo)?.SamplePoints.FirstOrDefault() ?? SampleControlPoint.DEFAULT).SampleBank)}"));
             writer.WriteLine(FormattableString.Invariant($"StackLeniency: {beatmap.StackLeniency}"));
-            writer.WriteLine(FormattableString.Invariant($"Mode: {onlineRulesetID}"));
+            writer.WriteLine(FormattableString.Invariant($"Mode: {rulesetID}"));
             writer.WriteLine(FormattableString.Invariant($"LetterboxInBreaks: {(beatmap.LetterboxInBreaks ? '1' : '0')}"));
             // if (beatmap.BeatmapInfo.UseSkinSprites)
             //     writer.WriteLine(@"UseSkinSprites: 1");
@@ -107,7 +107,7 @@ namespace osu.Game.Beatmaps.Formats
                 writer.WriteLine(@"EpilepsyWarning: 1");
             if (beatmap.CountdownOffset > 0)
                 writer.WriteLine(FormattableString.Invariant($@"CountdownOffset: {beatmap.CountdownOffset}"));
-            if (onlineRulesetID == 3)
+            if (rulesetID == 3)
                 writer.WriteLine(FormattableString.Invariant($"SpecialStyle: {(beatmap.SpecialStyle ? '1' : '0')}"));
 
             if (storyboardEncoder != null)
@@ -143,8 +143,8 @@ namespace osu.Game.Beatmaps.Formats
             writer.WriteLine(FormattableString.Invariant($"Version: {beatmap.BeatmapInfo.DifficultyName}"));
             if (!string.IsNullOrEmpty(beatmap.Metadata.Source)) writer.WriteLine(FormattableString.Invariant($"Source: {beatmap.Metadata.Source}"));
             if (!string.IsNullOrEmpty(beatmap.Metadata.Tags)) writer.WriteLine(FormattableString.Invariant($"Tags: {beatmap.Metadata.Tags}"));
-            if (beatmap.BeatmapInfo.OnlineID > 0) writer.WriteLine(FormattableString.Invariant($"BeatmapID: {beatmap.BeatmapInfo.OnlineID}"));
-            if (beatmap.BeatmapInfo.BeatmapSet?.OnlineID > 0) writer.WriteLine(FormattableString.Invariant($"BeatmapSetID: {beatmap.BeatmapInfo.BeatmapSet.OnlineID}"));
+            writer.WriteLine(FormattableString.Invariant($"BeatmapID: -1"));
+            writer.WriteLine(FormattableString.Invariant($"BeatmapSetID: -1"));
         }
 
         private void handleDifficulty(TextWriter writer)
@@ -192,7 +192,7 @@ namespace osu.Game.Beatmaps.Formats
 
             // In osu!taiko and osu!mania, a scroll speed is stored as "slider velocity" in legacy formats.
             // In that case, a scrolling speed change is a global effect and per-hit object difficulty control points are ignored.
-            bool scrollSpeedEncodedAsSliderVelocity = onlineRulesetID == 1 || onlineRulesetID == 3;
+            bool scrollSpeedEncodedAsSliderVelocity = rulesetID == 1 || rulesetID == 3;
 
             // iterate over hitobjects and pull out all required sample and difficulty changes
             extractDifficultyControlPoints(beatmap.HitObjects);
@@ -434,7 +434,7 @@ namespace osu.Game.Beatmaps.Formats
         {
             Vector2 position = new Vector2(256, 192);
 
-            switch (onlineRulesetID)
+            switch (rulesetID)
             {
                 case 0:
                 case 2:
@@ -489,7 +489,7 @@ namespace osu.Game.Beatmaps.Formats
                     break;
 
                 case IHasDuration:
-                    if (onlineRulesetID == 3)
+                    if (rulesetID == 3)
                         type |= LegacyHitObjectType.Hold;
                     else
                         type |= LegacyHitObjectType.Spinner;
@@ -593,7 +593,7 @@ namespace osu.Game.Beatmaps.Formats
 
                 // We want to ignore custom sample banks and volume when not encoding to the mania game mode,
                 // because they cause unexpected results in the editor and are already satisfied by the control points.
-                if (onlineRulesetID != 3)
+                if (rulesetID != 3)
                 {
                     customSampleBank = 0;
                     volume = 0;

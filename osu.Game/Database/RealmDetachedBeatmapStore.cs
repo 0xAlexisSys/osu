@@ -94,7 +94,7 @@ namespace osu.Game.Database
                     // move the deleted set to the index occupied by the new one and then replace it in-place.
                     // due to this, the operation can be presented to consumer in a manner that permits them to actually handle this as a replace operation
                     // and not trigger any set removal logic that may result in selections changing or similar undesirable side effects.
-                    if (deletedSet.OnlineID == insertedSet.OnlineID)
+                    if (deletedSet.Hash == insertedSet.Hash)
                     {
                         pendingOperations.Enqueue(new OperationArgs
                         {

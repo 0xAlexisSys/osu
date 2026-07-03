@@ -71,7 +71,7 @@ namespace osu.Game.Beatmaps
             if (beatmap.Ruleset.ShortName == ruleset.ShortName)
                 return true;
 
-            if (allowConversion && beatmap.Ruleset.OnlineID == 0 && ruleset.OnlineID != 0)
+            if (allowConversion && ruleset.ID != 0)
                 return true;
 
             return false;

@@ -229,7 +229,7 @@ namespace osu.Game.Rulesets
             {
                 Name = Description,
                 ShortName = ShortName,
-                OnlineID = (this as ILegacyRuleset)?.LegacyID ?? -1,
+                ID = (this as ILegacyRuleset)?.LegacyID ?? -1,
                 InstantiationInfo = GetType().GetInvariantInstantiationInfo(),
                 Available = true,
             };

@@ -240,8 +240,6 @@ namespace osu.Game.Beatmaps
                     b.BeatmapInfo.ID = BeatmapInfo.ID;
                     b.BeatmapInfo.UserSettings = BeatmapInfo.UserSettings;
                     b.BeatmapInfo.BeatmapSet = BeatmapInfo.BeatmapSet;
-                    b.BeatmapInfo.OnlineID = BeatmapInfo.OnlineID;
-                    b.BeatmapInfo.OnlineMD5Hash = BeatmapInfo.OnlineMD5Hash;
                     b.BeatmapInfo.LastUpdate = BeatmapInfo.LastUpdate;
                     b.BeatmapInfo.LastPlayed = BeatmapInfo.LastPlayed;
                     b.BeatmapInfo.EditorTimestamp = BeatmapInfo.EditorTimestamp;

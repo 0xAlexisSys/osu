@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using osu.Game.Collections;
 using osu.Game.Database;
 using osu.Game.Models;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
 using Realms;
@@ -49,7 +48,6 @@ namespace osu.Game.Beatmaps
             ID = Guid.NewGuid();
             Ruleset = ruleset ?? new RulesetInfo
             {
-                OnlineID = 0,
                 ShortName = @"osu",
                 Name = @"null placeholder ruleset"
             };
@@ -68,9 +66,6 @@ namespace osu.Game.Beatmaps
         [Ignored]
         public RealmNamedFileUsage? File => BeatmapSet?.Files.FirstOrDefault(f => f.File.Hash == Hash);
 
-        [Indexed]
-        public int OnlineID { get; set; } = -1;
-
         public double Length { get; set; }
 
         public double BPM { get; set; }
@@ -85,8 +80,6 @@ namespace osu.Game.Beatmaps
 
         [Indexed]
         public string MD5Hash { get; set; } = string.Empty;
-
-        public string OnlineMD5Hash { get; set; } = string.Empty;
 
         /// <summary>
         /// The last time of a modification.
@@ -191,9 +184,6 @@ namespace osu.Game.Beatmaps
 
         [Ignored]
         public string? Path => File?.Filename;
-
-        [Ignored]
-        public APIBeatmap? OnlineInfo { get; set; }
 
         public BeatmapInfo Clone() => (BeatmapInfo)this.Detach().MemberwiseClone();
 

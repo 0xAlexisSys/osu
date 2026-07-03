@@ -44,8 +44,8 @@ namespace osu.Game.Rulesets
                 // add all legacy rulesets first to ensure they have exclusive choice of primary key.
                 foreach (var r in instances.Where(r => r is ILegacyRuleset))
                 {
-                    if (realm.All<RulesetInfo>().FirstOrDefault(rr => rr.OnlineID == r.RulesetInfo.OnlineID) == null)
-                        realm.Add(new RulesetInfo(r.RulesetInfo.ShortName, r.RulesetInfo.Name, r.RulesetInfo.InstantiationInfo, r.RulesetInfo.OnlineID));
+                    if (realm.All<RulesetInfo>().FirstOrDefault(rr => rr.ID == r.RulesetInfo.ID) == null)
+                        realm.Add(new RulesetInfo(r.RulesetInfo.ShortName, r.RulesetInfo.Name, r.RulesetInfo.InstantiationInfo, r.RulesetInfo.ID));
                 }
 
                 // add any other rulesets which have assemblies present but are not yet in the database.
@@ -63,14 +63,14 @@ namespace osu.Game.Rulesets
                             existingSameShortName.InstantiationInfo = r.RulesetInfo.InstantiationInfo;
                         }
                         else
-                            realm.Add(new RulesetInfo(r.RulesetInfo.ShortName, r.RulesetInfo.Name, r.RulesetInfo.InstantiationInfo, r.RulesetInfo.OnlineID));
+                            realm.Add(new RulesetInfo(r.RulesetInfo.ShortName, r.RulesetInfo.Name, r.RulesetInfo.InstantiationInfo, r.RulesetInfo.ID));
                     }
                 }
 
                 List<RulesetInfo> detachedRulesets = new List<RulesetInfo>();
 
                 // perform a consistency check and detach final rulesets from realm for cross-thread runtime usage.
-                foreach (var r in rulesets.OrderBy(r => r.OnlineID))
+                foreach (var r in rulesets.OrderBy(r => r.ID))
                 {
                     try
                     {
@@ -93,11 +93,11 @@ namespace osu.Game.Rulesets
                                 $"Ruleset API version is too old (was {instance.RulesetAPIVersionSupported}, expected {Ruleset.CURRENT_RULESET_API_VERSION})");
                         }
 
-                        if (r.OnlineID != instanceInfo.OnlineID)
-                            throw new InvalidOperationException($@"Online ID mismatch for ruleset {r.ShortName}: database has {r.OnlineID}, constructed instance has {instanceInfo.OnlineID}");
+                        if (r.ID != instanceInfo.ID)
+                            throw new InvalidOperationException($@"ID mismatch for ruleset {r.ShortName}: database has {r.ID}, constructed instance has {instanceInfo.ID}");
 
-                        if (r.OnlineID > 0 && rulesets.Any(otherRuleset => otherRuleset.ShortName != r.ShortName && otherRuleset.OnlineID == r.OnlineID))
-                            throw new InvalidOperationException($@"Ruleset {r.ShortName} shares online ID {r.OnlineID} with another ruleset");
+                        if (r.ID > 0 && rulesets.Any(otherRuleset => otherRuleset.ShortName != r.ShortName && otherRuleset.ID == r.ID))
+                            throw new InvalidOperationException($@"Ruleset {r.ShortName} shares ID {r.ID} with another ruleset");
 
                         // If a ruleset isn't up-to-date with the API, it could cause a crash at an arbitrary point of execution.
                         // To eagerly handle cases of missing implementations, enumerate all types here and mark as non-available on throw.

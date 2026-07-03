@@ -136,7 +136,7 @@ namespace osu.Game.Screens.Select
                 bool showVisible = VisibleBeatmaps.Value == null || VisibleBeatmaps.Value?.Count <= max_difficulties_before_collapsing;
                 bool showHidden = beatmaps.Count <= max_difficulties_before_collapsing;
 
-                var beatmapsByRuleset = beatmaps.GroupBy(beatmap => beatmap.Ruleset.OnlineID).OrderBy(group => group.Key);
+                var beatmapsByRuleset = beatmaps.GroupBy(beatmap => beatmap.Ruleset.ID).OrderBy(group => group.Key);
 
                 foreach (var rulesetGrouping in beatmapsByRuleset)
                 {

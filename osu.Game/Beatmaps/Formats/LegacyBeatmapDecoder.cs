@@ -119,7 +119,7 @@ namespace osu.Game.Beatmaps.Formats
             difficulty.DrainRate = Math.Clamp(difficulty.DrainRate, 0, 10);
 
             // mania uses "circle size" for key count, thus different allowable range
-            difficulty.CircleSize = beatmap.BeatmapInfo.Ruleset.OnlineID != 3
+            difficulty.CircleSize = beatmap.BeatmapInfo.Ruleset.ID != 3
                 ? Math.Clamp(difficulty.CircleSize, 0, 10)
                 : Math.Clamp(difficulty.CircleSize, 1, MAX_MANIA_KEY_COUNT);
 
@@ -379,12 +379,8 @@ namespace osu.Game.Beatmaps.Formats
                     metadata.Tags = pair.Value;
                     break;
 
-                case @"BeatmapID":
-                    beatmap.BeatmapInfo.OnlineID = Parsing.ParseInt(pair.Value);
-                    break;
-
                 case @"BeatmapSetID":
-                    beatmap.BeatmapInfo.BeatmapSet = new BeatmapSetInfo { OnlineID = Parsing.ParseInt(pair.Value) };
+                    beatmap.BeatmapInfo.BeatmapSet = new BeatmapSetInfo();
                     break;
             }
         }
@@ -532,8 +528,6 @@ namespace osu.Game.Beatmaps.Formats
                 addControlPoint(time, controlPoint, true);
             }
 
-            int onlineRulesetID = beatmap.BeatmapInfo.Ruleset.OnlineID;
-
             addControlPoint(time, new DifficultyControlPoint
             {
                 GenerateTicks = !double.IsNaN(beatLength),
@@ -546,7 +540,7 @@ namespace osu.Game.Beatmaps.Formats
             };
 
             // osu!taiko and osu!mania use effect points rather than difficulty points for scroll speed adjustments.
-            if (onlineRulesetID == 1 || onlineRulesetID == 3)
+            if (beatmap.BeatmapInfo.Ruleset.ID is 1 or 3)
                 effectPoint.ScrollSpeed = speedMultiplier;
 
             addControlPoint(time, effectPoint, timingChange);

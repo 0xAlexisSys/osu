@@ -63,18 +63,7 @@ namespace osu.Game.Screens.Select
 
             if (!match) return false;
 
-            if (criteria.SearchTerms.Length > 0)
-            {
-                match = beatmap.Match(criteria.SearchTerms);
-
-                // if a match wasn't found via text matching of terms, do a second catch-all check matching against online IDs.
-                // this should be done after text matching so we can prioritise matching numbers in metadata.
-                if (!match && criteria.SearchNumber.HasValue)
-                {
-                    match = (beatmap.OnlineID == criteria.SearchNumber.Value) ||
-                            (beatmap.BeatmapSet?.OnlineID == criteria.SearchNumber.Value);
-                }
-            }
+            if (criteria.SearchTerms.Length > 0) match = beatmap.Match(criteria.SearchTerms);
 
             if (!match) return false;
 
@@ -118,12 +107,6 @@ namespace osu.Game.Screens.Select
             match &= criteria.CollectionBeatmapMD5Hashes?.Contains(beatmap.MD5Hash) ?? true;
             if (match && criteria.RulesetCriteria != null)
                 match &= criteria.RulesetCriteria.Matches(beatmap, criteria);
-
-            if (match && criteria.HasOnlineID == true)
-                match &= beatmap.OnlineID >= 0;
-
-            if (match && criteria.BeatmapSetId != null)
-                match &= criteria.BeatmapSetId == beatmap.BeatmapSet?.OnlineID;
 
             return match;
         }

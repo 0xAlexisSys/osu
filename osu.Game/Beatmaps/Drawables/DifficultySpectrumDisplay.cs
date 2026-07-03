@@ -71,7 +71,7 @@ namespace osu.Game.Beatmaps.Drawables
 
             foreach (var rulesetGrouping in beatmapSet.Beatmaps.GroupBy(beatmap => beatmap.Ruleset).OrderBy(group => group.Key))
             {
-                int rulesetId = rulesetGrouping.Key.OnlineID;
+                int rulesetId = rulesetGrouping.Key.ID;
 
                 var group = flow.SingleOrDefault(rg => rg.RulesetId == rulesetId);
 

@@ -98,8 +98,6 @@ namespace osu.Game
         /// </summary>
         private const double global_track_volume_adjust = 0.8;
 
-        public virtual bool UseDevelopmentServer => DebugUtils.IsDebugBuild;
-
         public virtual Version AssemblyVersion => Assembly.GetEntryAssembly()?.GetName().Version ?? new Version();
 
         /// <summary>
@@ -525,7 +523,7 @@ namespace osu.Game
             // may be non-null for certain tests
             Storage ??= host.Storage;
 
-            LocalConfig ??= UseDevelopmentServer
+            LocalConfig ??= DebugUtils.IsDebugBuild
                 ? new DevelopmentOsuConfigManager(Storage)
                 : new OsuConfigManager(Storage);
 

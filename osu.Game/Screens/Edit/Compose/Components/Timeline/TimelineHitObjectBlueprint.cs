@@ -417,7 +417,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
                 {
                     if (item == hitObject || item is not IHasDuration durationItem) continue;
 
-                    if (Precision.AlmostEquals(durationItem.Duration, (hitObject as IHasDuration)!.Duration, 1) &&
+                    if (Precision.AlmostEquals(durationItem.Duration, ((IHasDuration)hitObject!).Duration, 1) &&
                         Precision.AlmostEquals(item.StartTime, hitObject!.StartTime, 1))
                     {
                         objsToAdjust.Add(item);
@@ -481,7 +481,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
 
                                 foreach (var obj in objsToAdjust)
                                 {
-                                    (obj as IHasDuration)!.Duration = snappedTime - obj.StartTime;
+                                    ((IHasDuration)obj).Duration = snappedTime - obj.StartTime;
                                     beatmap.Update(obj);
                                 }
 

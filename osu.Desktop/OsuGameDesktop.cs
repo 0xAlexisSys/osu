@@ -96,8 +96,6 @@ namespace osu.Desktop
                 return key?.OpenSubKey(WindowsAssociationManager.SHELL_OPEN_COMMAND)?.GetValue(string.Empty)?.ToString()?.Split('"')[1].Replace("osu!.exe", "");
         }
 
-        public static bool IsPackageManaged => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("OSU_EXTERNAL_UPDATE_PROVIDER"));
-
         protected override void LoadComplete()
         {
             base.LoadComplete();
@@ -110,8 +108,8 @@ namespace osu.Desktop
                     LoadComponentAsync(new GameplayWinKeyBlocker(), Add);
                     break;
 
-                case RuntimeInfo.Platform.macOS when !IsPackageManaged && IsDeployedBuild:
-                    if (!IsPackageManaged && IsDeployedBuild)
+                case RuntimeInfo.Platform.macOS when IsDeployedBuild:
+                    if (IsDeployedBuild)
                         LoadComponentAsync(new MacOSAppLocationChecker(), Add);
                     break;
             }

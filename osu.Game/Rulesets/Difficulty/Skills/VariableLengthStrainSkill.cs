@@ -110,7 +110,7 @@ namespace osu.Game.Rulesets.Difficulty.Skills
             else
             {
                 // Empty the queue of smaller elements as they won't be relevant to difficulty
-                while (queuedStrains.Count > 0 && queuedStrains[^1].StrainValue < currentStrain)
+                while (queuedStrains.Count != 0 && queuedStrains[^1].StrainValue < currentStrain)
                     queuedStrains.RemoveAt(queuedStrains.Count - 1);
 
                 queuedStrains.Add((currentStrain, current.StartTime));
@@ -136,7 +136,7 @@ namespace osu.Game.Rulesets.Difficulty.Skills
                 currentSectionBegin = currentSectionEnd;
 
                 // If we have any strains queued, then we will use those until the object falls into the new section.
-                if (queuedStrains.Count > 0)
+                if (queuedStrains.Count != 0)
                 {
                     (double strain, double startTime) = queuedStrains[0];
                     queuedStrains.RemoveAt(0);
@@ -168,7 +168,7 @@ namespace osu.Game.Rulesets.Difficulty.Skills
         /// </summary>
         private void saveCurrentPeak(double sectionLength)
         {
-            if (finalPeak != null)
+            if (finalPeak is not null)
             {
                 strainPeaks.Remove(finalPeak.Value);
                 finalPeak = null;
@@ -216,7 +216,7 @@ namespace osu.Game.Rulesets.Difficulty.Skills
         /// </summary>
         public IEnumerable<StrainPeak> GetCurrentStrainPeaks()
         {
-            if (finalPeak == null)
+            if (finalPeak is null)
             {
                 finalPeak = new StrainPeak(currentSectionPeak, currentSectionEnd - currentSectionBegin);
                 strainPeaks.AddInPlace(finalPeak.Value);

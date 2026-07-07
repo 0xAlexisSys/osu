@@ -156,7 +156,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty
                     // https://github.com/peppy/osu-stable-reference/blob/c34a74fb61c17c5667486a12548485d1f03baa2e/osu!/GameplayElements/HitObjects/Taiko/SliderTaiko.cs#L157
                     // https://github.com/peppy/osu-stable-reference/blob/c34a74fb61c17c5667486a12548485d1f03baa2e/osu!/GameplayElements/HitObjects/Taiko/SliderTaiko.cs#L225-L228
                     double? nextObjectHittableStartTime = nextHitObject is DrumRoll nextDrumRoll ? nextDrumRoll.StartTime - getSliderTaikoMinHitDelay(nextDrumRoll) : nextHitObject?.StartTime;
-                    bool endpointHittable = nextObjectHittableStartTime == null || nextObjectHittableStartTime - (drumRoll.EndTime + (int)minHitDelay) > (int)minHitDelay;
+                    bool endpointHittable = nextObjectHittableStartTime is null || nextObjectHittableStartTime - (drumRoll.EndTime + (int)minHitDelay) > (int)minHitDelay;
                     double hittableEndTime = endpointHittable ? drumRoll.EndTime + (int)minHitDelay : drumRoll.EndTime;
 
                     // https://github.com/peppy/osu-stable-reference/blob/c34a74fb61c17c5667486a12548485d1f03baa2e/osu!/GameplayElements/HitObjects/Taiko/SliderTaiko.cs#L288

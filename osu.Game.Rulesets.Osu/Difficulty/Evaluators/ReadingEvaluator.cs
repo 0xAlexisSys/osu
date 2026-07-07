@@ -64,7 +64,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators
             // Consider future densities too because it can make the path the cursor takes less clear
             double futureObjectDifficultyInfluence = Math.Sqrt(currentVisibleObjectDensity);
 
-            if (nextObj != null)
+            if (nextObj is not null)
             {
                 // Reduce difficulty if movement to next object is small
                 futureObjectDifficultyInfluence *= DiffUtils.Smootherstep(nextObj.LazyJumpDistance, 15, distance_influence_threshold);
@@ -169,7 +169,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators
             {
                 OsuDifficultyHitObject hitObject = (OsuDifficultyHitObject)current.Previous(i);
 
-                if (hitObject == null ||
+                if (hitObject is null ||
                     current.StartTime - hitObject.StartTime > reading_window_size ||
                     hitObject.StartTime < current.StartTime - current.Preempt) // Current object not visible at the time object needs to be clicked
                     break;
@@ -185,7 +185,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators
 
             OsuDifficultyHitObject? hitObject = (OsuDifficultyHitObject)current.Next(0);
 
-            while (hitObject != null)
+            while (hitObject is not null)
             {
                 if (hitObject.StartTime - current.StartTime > reading_window_size ||
                     current.StartTime < hitObject.StartTime - hitObject.Preempt) // Object not visible at the time current object needs to be clicked.
@@ -222,18 +222,18 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators
             {
                 var loopObj = (OsuDifficultyHitObject)current.Previous(index);
 
-                if (loopObj == null)
+                if (loopObj is null)
                     break;
 
                 // Account less for objects that are close to the time limit.
                 double longIntervalFactor = 1 - DiffUtils.ReverseLerp(loopObj.AdjustedDeltaTime, maximum_angle_relevancy_time, minimum_angle_relevancy_time);
 
-                if (loopObj.Angle != null && current.Angle != null)
+                if (loopObj.Angle is not null && current.Angle is not null)
                 {
                     double angleDifference = Math.Abs(current.Angle.Value - loopObj.Angle.Value);
                     double angleDifferenceAlternating = Math.PI;
 
-                    if (loopObjPrev0.Angle != null && loopObjPrev1?.Angle != null && loopObjPrev2?.Angle != null)
+                    if (loopObjPrev0.Angle is not null && loopObjPrev1?.Angle is not null && loopObjPrev2?.Angle is not null)
                     {
                         angleDifferenceAlternating = Math.Abs(loopObjPrev1.Angle.Value - loopObj.Angle.Value);
                         angleDifferenceAlternating += Math.Abs(loopObjPrev2.Angle.Value - loopObjPrev0.Angle.Value);

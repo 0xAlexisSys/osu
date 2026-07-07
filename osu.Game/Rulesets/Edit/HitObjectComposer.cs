@@ -111,7 +111,7 @@ namespace osu.Game.Rulesets.Edit
         {
             autoSeekOnPlacement = config.GetBindable<bool>(OsuSetting.EditorAutoSeekOnPlacement);
 
-            if (editor != null)
+            if (editor is not null)
                 composerFocusMode.BindTo(editor.ComposerFocusMode);
 
             Config = Dependencies.Get<IRulesetConfigCache>().GetConfigFor(Ruleset);
@@ -401,7 +401,7 @@ namespace osu.Game.Rulesets.Edit
             {
                 var item = toolboxCollection.Items.ElementAtOrDefault(leftIndex);
 
-                if (item != null)
+                if (item is not null)
                 {
                     if (!item.Selected.Disabled)
                         item.Select();

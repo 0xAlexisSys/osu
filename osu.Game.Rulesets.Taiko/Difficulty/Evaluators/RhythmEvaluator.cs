@@ -133,7 +133,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty.Evaluators
         /// </summary>
         private static double longGapPenalty(SameRhythmHitObjectGrouping? previous)
         {
-            if (previous == null)
+            if (previous is null)
                 return 1.0;
 
             double gapInterval = previous.FirstHitObject.DeltaTime;

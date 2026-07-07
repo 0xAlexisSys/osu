@@ -59,7 +59,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators.Aim
             // Penalize angle repetition.
             snapDifficulty *= vectorAngleRepetition(osuCurrObj, osuLastObj);
 
-            if (osuCurrObj.Angle != null && osuLastObj.Angle != null)
+            if (osuCurrObj.Angle is not null && osuLastObj.Angle is not null)
             {
                 double currAngle = osuCurrObj.Angle.Value;
                 double lastAngle = osuLastObj.Angle.Value;
@@ -99,7 +99,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators.Aim
 
                 wideAngleBonus *= Math.Min(wideAngleCurrVelocity, wideAnglePrevVelocity);
 
-                if (osuLast2Obj != null)
+                if (osuLast2Obj is not null)
                 {
                     // If objects just go back and forth through a middle point - don't give as much wide bonus
                     // Use Previous(2) and Previous(0) because angles calculation is done prevprev-prev-curr, so any object's angle's center point is always the previous object
@@ -171,7 +171,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators.Aim
 
         private static double vectorAngleRepetition(OsuDifficultyHitObject current, OsuDifficultyHitObject previous)
         {
-            if (current.Angle == null || previous.Angle == null)
+            if (current.Angle is null || previous.Angle is null)
                 return 1;
 
             const double note_limit = 6;
@@ -184,14 +184,14 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Evaluators.Aim
             {
                 OsuDifficultyHitObject? prevObj = (OsuDifficultyHitObject)current.Previous(index);
 
-                if (prevObj == null)
+                if (prevObj is null)
                     break;
 
                 // Only consider vectors in the same jump section, stopping to change rhythm ruins momentum
                 if (Math.Max(current.AdjustedDeltaTime, prevObj.AdjustedDeltaTime) > 1.1 * Math.Min(current.AdjustedDeltaTime, prevObj.AdjustedDeltaTime))
                     break;
 
-                if (prevObj.NormalisedVectorAngle != null && current.NormalisedVectorAngle != null)
+                if (prevObj.NormalisedVectorAngle is not null && current.NormalisedVectorAngle is not null)
                 {
                     double angleDifference = Math.Abs(current.NormalisedVectorAngle.Value - prevObj.NormalisedVectorAngle.Value);
                     // Refer to this desmos for tuning, constants need to be precise so that values stay within the range of 0 and 1.

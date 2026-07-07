@@ -234,6 +234,11 @@ namespace osu.Game.Localisation
         /// </summary>
         public static LocalisableString MatchesCount(int quantity) => new PluralisableString(new TranslatableString(getKey(@"matches_count"), @"{0:#,0} match|{0:#,0} matches", quantity), quantity, '|');
 
+        /// <summary>
+        /// "Opens beatconnect.io in an external web browser."
+        /// </summary>
+        public static LocalisableString OpensBeatmapSiteExternally => new TranslatableString(getKey(@"opens_beatmap_site_externally"), @"Opens beatconnect.io in an external web browser.");
+
         private static string getKey(string key) => $@"{prefix}:{key}";
     }
 }

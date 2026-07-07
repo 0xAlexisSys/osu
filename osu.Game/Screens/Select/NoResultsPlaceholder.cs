@@ -144,9 +144,9 @@ namespace osu.Game.Screens.Select
             if (beatmaps.QueryBeatmapSet(s => !s.Protected && !s.DeletePending) is null)
             {
                 addBulletPoint();
-                textFlow.AddText(@"Consider running the """);
-                textFlow.AddLink(FirstRunSetupOverlayStrings.FirstRunSetupTitle, action: () => firstRunSetupOverlay?.Show());
-                textFlow.AddText(@""" to download or import some beatmaps!");
+                textFlow.AddText(@"Consider ");
+                textFlow.AddLink(@"searching online", url: @"https://beatconnect.io/", tooltipText: SongSelectStrings.OpensBeatmapSiteExternally);
+                textFlow.AddText(@" for beatmaps!");
             }
             else
             {
@@ -192,7 +192,7 @@ namespace osu.Game.Screens.Select
             {
                 addBulletPoint();
                 textFlow.AddText(@"Try ");
-                textFlow.AddLink(@"searching online", action: () => host.OpenUrlExternally($@"https://beatconnect.io/?q={filter.SearchText}"));
+                textFlow.AddLink(@"searching online", url: $@"https://beatconnect.io/?q={filter.SearchText}", tooltipText: SongSelectStrings.OpensBeatmapSiteExternally);
                 textFlow.AddText($@" for ""{filter.SearchText}"".");
             }
             // TODO: add clickable link to reset criteria.

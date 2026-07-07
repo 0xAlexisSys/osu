@@ -559,7 +559,7 @@ namespace osu.Game
             IEnumerable<Type> validScreens =
                 Beatmap.Value.BeatmapInfo.Equals(databasedBeatmap) && Ruleset.Value.Equals(databasedScore.ScoreInfo.Ruleset)
                     ? new[] { typeof(SongSelect) }
-                    : Array.Empty<Type>();
+                    : [];
 
             PerformFromScreen(screen =>
             {

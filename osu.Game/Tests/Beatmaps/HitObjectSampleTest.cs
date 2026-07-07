@@ -175,7 +175,7 @@ namespace osu.Game.Tests.Beatmaps
             public byte[] Get(string name)
             {
                 markLookup(name);
-                return Array.Empty<byte>();
+                return [];
             }
 
             public Task<byte[]> GetAsync(string name, CancellationToken cancellationToken = default)

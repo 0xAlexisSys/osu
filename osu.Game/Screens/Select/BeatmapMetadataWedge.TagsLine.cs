@@ -31,7 +31,7 @@ namespace osu.Game.Screens.Select
         {
             private readonly LayoutValue drawSizeLayout = new LayoutValue(Invalidation.DrawSize);
 
-            private string[] tags = Array.Empty<string>();
+            private string[] tags = [];
 
             private TagsOverflowButton? overflowButton;
             private readonly Bindable<int> tagsShownCount = new Bindable<int>();

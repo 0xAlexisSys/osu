@@ -96,7 +96,7 @@ namespace osu.Game.Rulesets.Mods
         /// The mods this mod cannot be enabled with.
         /// </summary>
         [JsonIgnore]
-        public virtual Type[] IncompatibleMods => Array.Empty<Type>();
+        public virtual Type[] IncompatibleMods => [];
 
         /// <summary>
         /// All <see cref="IBindable"/> settings within this mod.

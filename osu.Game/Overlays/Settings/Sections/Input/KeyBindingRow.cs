@@ -55,7 +55,7 @@ namespace osu.Game.Overlays.Settings.Sections.Input
         /// <summary>
         /// The default key bindings for this row.
         /// </summary>
-        public IEnumerable<KeyCombination> Defaults { get; init; } = Array.Empty<KeyCombination>();
+        public IEnumerable<KeyCombination> Defaults { get; init; } = [];
 
         #region IFilterable
 

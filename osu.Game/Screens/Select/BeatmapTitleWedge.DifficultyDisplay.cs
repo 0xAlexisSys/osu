@@ -287,7 +287,7 @@ namespace osu.Game.Screens.Select
             {
                 if (beatmap.IsDefault || ruleset.Value is null)
                 {
-                    difficultyStatisticsDisplay.Statistics = Array.Empty<StatisticDifficulty.Data>();
+                    difficultyStatisticsDisplay.Statistics = [];
                     return;
                 }
 

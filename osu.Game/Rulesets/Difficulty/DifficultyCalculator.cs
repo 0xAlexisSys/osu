@@ -265,7 +265,7 @@ namespace osu.Game.Rulesets.Difficulty
         /// <summary>
         /// Retrieves all <see cref="Mod"/>s which adjust the <see cref="Beatmaps.Beatmap"/> difficulty.
         /// </summary>
-        protected virtual Mod[] DifficultyAdjustmentMods => Array.Empty<Mod>();
+        protected virtual Mod[] DifficultyAdjustmentMods => [];
 
         /// <summary>
         /// Creates <see cref="DifficultyAttributes"/> to describe beatmap's calculated difficulty.

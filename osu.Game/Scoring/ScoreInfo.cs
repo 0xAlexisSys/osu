@@ -267,7 +267,7 @@ namespace osu.Game.Scoring
                 if (mods is not null)
                     jsonMods ??= mods.Select(m => new JsonMod(m)).ToArray();
 
-                return jsonMods ?? Array.Empty<JsonMod>();
+                return jsonMods ?? [];
             }
             set
             {

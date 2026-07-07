@@ -51,7 +51,7 @@ namespace osu.Game.Skinning
         /// <summary>
         /// A dictionary mapping each <see cref="ISkin"/> source to a wrapper which handles lookup allowances.
         /// </summary>
-        private (ISkin skin, DisableableSkinSource wrapped)[] skinSources = Array.Empty<(ISkin skin, DisableableSkinSource wrapped)>();
+        private (ISkin skin, DisableableSkinSource wrapped)[] skinSources = [];
 
         /// <summary>
         /// Constructs a new <see cref="SkinProvidingContainer"/> initialised with a single skin source.

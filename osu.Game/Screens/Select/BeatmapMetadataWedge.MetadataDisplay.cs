@@ -106,7 +106,7 @@ namespace osu.Game.Screens.Select
             {
                 contentText.Text = string.Empty;
                 contentClickableText.Text = string.Empty;
-                contentTags.Tags = Array.Empty<string>();
+                contentTags.Tags = [];
             }
 
             private void setText(LocalisableString text)

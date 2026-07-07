@@ -47,7 +47,7 @@ namespace osu.Game.Rulesets.Edit.Checks
         private bool mapHasHitsounds;
         private int objectsWithoutHitsounds;
         private double lastHitsoundTime;
-        private IReadOnlyList<(double StartTime, double EndTime)> excludedTimeRanges = Array.Empty<(double StartTime, double EndTime)>();
+        private IReadOnlyList<(double StartTime, double EndTime)> excludedTimeRanges = [];
 
         public IEnumerable<Issue> Run(BeatmapVerifierContext context)
         {

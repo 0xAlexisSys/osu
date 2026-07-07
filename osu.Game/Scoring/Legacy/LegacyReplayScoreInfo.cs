@@ -20,7 +20,7 @@ namespace osu.Game.Scoring.Legacy
     public class LegacyReplayScoreInfo
     {
         [JsonProperty("mods")]
-        public JsonMod[] Mods { get; set; } = Array.Empty<JsonMod>();
+        public JsonMod[] Mods { get; set; } = [];
 
         [JsonProperty("statistics")]
         public Dictionary<HitResult, int> Statistics { get; set; } = new Dictionary<HitResult, int>();

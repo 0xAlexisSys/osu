@@ -45,7 +45,7 @@ namespace osu.Game.Screens.Select
             IsUpperInclusive = true
         };
 
-        public OptionalTextFilter[] SearchTerms = Array.Empty<OptionalTextFilter>();
+        public OptionalTextFilter[] SearchTerms = [];
 
         public RulesetInfo? Ruleset;
         public IReadOnlyList<Mod>? Mods;

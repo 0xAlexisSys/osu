@@ -12,7 +12,6 @@ using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Platform;
 using osu.Game;
 using osu.Game.Screens;
-using osu.Game.Updater;
 using osu.Game.Utils;
 using osuTK;
 
@@ -86,8 +85,6 @@ namespace osu.Android
             base.SetHost(host);
             host.Window.CursorState |= CursorState.Hidden;
         }
-
-        protected override UpdateManager CreateUpdateManager() => new MobileUpdateNotifier();
 
         protected override BatteryInfo CreateBatteryInfo() => new AndroidBatteryInfo();
 

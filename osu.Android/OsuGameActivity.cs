@@ -49,11 +49,9 @@ namespace osu.Android
         "application/x-osu-skin-archive",
         "application/x-osu-replay",
     })]
-    [IntentFilter(new[] { Intent.ActionView }, Categories = new[] { Intent.CategoryBrowsable, Intent.CategoryDefault }, DataSchemes = new[] { "osu", "osump" })]
+    [IntentFilter(new[] { Intent.ActionView }, Categories = new[] { Intent.CategoryBrowsable, Intent.CategoryDefault }, DataSchemes = new[] { "osu" })]
     public class OsuGameActivity : AndroidGameActivity
     {
-        private static readonly string[] osu_url_schemes = { "osu", "osump" };
-
         /// <summary>
         /// The default screen orientation.
         /// </summary>
@@ -131,11 +129,6 @@ namespace osu.Android
                     {
                         if (intent.Data != null)
                             handleImportFromUris(intent.Data);
-                    }
-                    else if (osu_url_schemes.Contains(intent.Scheme))
-                    {
-                        if (intent.DataString != null)
-                            game.HandleLink(intent.DataString);
                     }
 
                     break;

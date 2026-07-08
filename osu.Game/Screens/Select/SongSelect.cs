@@ -93,18 +93,6 @@ namespace osu.Game.Screens.Select
         /// </summary>
         protected bool ControlGlobalMusic { get; init; } = true;
 
-        /// <summary>
-        /// Whether this song select instance should allow scoping down to a specific beatmap set,
-        /// exposing other difficulties that are otherwise hidden by filter criteria.
-        /// </summary>
-        protected bool SupportScoping { init => scopedBeatmapSet.Disabled = !value; }
-
-        /// <summary>
-        /// Additional padding to be added to the title wedge.
-        /// Generally set to show external content in this space.
-        /// </summary>
-        public float TopPadding { get; init; }
-
         private ModSelectOverlay modSelectOverlay = null!;
         private ModSpeedHotkeyHandler modSpeedHotkeyHandler = null!;
 
@@ -112,18 +100,14 @@ namespace osu.Game.Screens.Select
         private readonly OverlayColourProvider colourProvider = new OverlayColourProvider(OverlayColourScheme.Purple);
 
         private BeatmapCarousel carousel = null!;
-
-        protected FilterControl FilterControl { get; private set; } = null!;
-
+        private FilterControl filterControl = null!;
         private BeatmapTitleWedge titleWedge = null!;
         private BeatmapDetailsArea detailsArea = null!;
         private FillFlowContainer wedgesContainer = null!;
         private Box rightGradientBackground = null!;
         private Container mainContent = null!;
         private SkinnableContainer skinnableContent = null!;
-
         private GridContainer mainGridContainer = null!;
-
         private NoResultsPlaceholder noResultsPlaceholder = null!;
 
         public override bool? ApplyModTrackAdjustments => true;
@@ -236,10 +220,7 @@ namespace osu.Game.Screens.Select
                                                         Direction = FillDirection.Vertical,
                                                         Children = new Drawable[]
                                                         {
-                                                            new ShearAligningWrapper(titleWedge = new BeatmapTitleWedge
-                                                            {
-                                                                TopPadding = TopPadding,
-                                                            }),
+                                                            new ShearAligningWrapper(titleWedge = new BeatmapTitleWedge()),
                                                             new ShearAligningWrapper(detailsArea = new BeatmapDetailsArea()),
                                                         },
                                                     },
@@ -280,11 +261,11 @@ namespace osu.Game.Screens.Select
                                                             },
                                                             noResultsPlaceholder = new NoResultsPlaceholder
                                                             {
-                                                                RequestClearFilterText = () => FilterControl.Search(string.Empty)
+                                                                RequestClearFilterText = () => filterControl.Search(string.Empty)
                                                             }
                                                         }
                                                     },
-                                                    FilterControl = new FilterControl
+                                                    filterControl = new FilterControl
                                                     {
                                                         Anchor = Anchor.TopRight,
                                                         Origin = Anchor.TopRight,
@@ -439,7 +420,7 @@ namespace osu.Game.Screens.Select
 
             inputManager = GetContainingInputManager()!;
 
-            FilterControl.CriteriaChanged += criteriaChanged;
+            filterControl.CriteriaChanged += criteriaChanged;
 
             modSelectOverlay.State.BindValueChanged(v =>
             {
@@ -908,13 +889,13 @@ namespace osu.Game.Screens.Select
             {
                 titleWedge.Hide();
                 detailsArea.Hide();
-                FilterControl.Hide();
+                filterControl.Hide();
             }
             else
             {
                 titleWedge.Show();
                 detailsArea.Show();
-                FilterControl.Show();
+                filterControl.Show();
             }
         }
 
@@ -975,7 +956,7 @@ namespace osu.Game.Screens.Select
 
             updateNoResultsPlaceholder();
 
-            FilterControl.StatusText = SongSelectStrings.MatchesCount(carousel.MatchedBeatmapsCount);
+            filterControl.StatusText = SongSelectStrings.MatchesCount(carousel.MatchedBeatmapsCount);
 
             // If there's already a selection update in progress, let's not interrupt it.
             // Interrupting could cause the debounce interval to be reduced.
@@ -1164,7 +1145,7 @@ namespace osu.Game.Screens.Select
 
         #region Implementation of ISongSelect
 
-        void ISongSelect.Search(string query) => FilterControl.Search(query);
+        void ISongSelect.Search(string query) => filterControl.Search(query);
 
         bool ISongSelect.CanPresentScore => true;
 
@@ -1274,6 +1255,7 @@ namespace osu.Game.Screens.Select
         private GroupedBeatmap? beforeScopedSelection;
 
         private readonly Bindable<BeatmapSetInfo?> scopedBeatmapSet = new Bindable<BeatmapSetInfo?>();
+
         public IBindable<BeatmapSetInfo?> ScopedBeatmapSet => scopedBeatmapSet;
 
         public void ScopeToBeatmapSet(BeatmapSetInfo beatmapSet)

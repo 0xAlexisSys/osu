@@ -465,12 +465,6 @@ namespace osu.Game.Screens.Select
             }
         }
 
-        private (CaseTransformableString, LocalisableString DisplayAccuracy)[] getStatistics(ScoreInfo model) => new[]
-        {
-            (BeatmapsetsStrings.ShowScoreboardHeadersCombo.ToUpper(), model.MaxCombo.ToString().Insert(model.MaxCombo.ToString().Length, "x")),
-            (BeatmapsetsStrings.ShowScoreboardHeadersAccuracy.ToUpper(), model.DisplayAccuracy),
-        };
-
         protected override bool OnHover(HoverEvent e)
         {
             updateState();

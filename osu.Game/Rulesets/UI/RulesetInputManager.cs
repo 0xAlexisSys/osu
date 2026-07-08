@@ -17,7 +17,6 @@ using osu.Game.Configuration;
 using osu.Game.Input;
 using osu.Game.Input.Bindings;
 using osu.Game.Input.Handlers;
-using osu.Game.Rulesets.Scoring;
 using osu.Game.Screens.Play.HUD;
 using osu.Game.Screens.Play.HUD.ClicksPerSecond;
 using osuTK;
@@ -32,9 +31,6 @@ namespace osu.Game.Rulesets.UI
 
         public readonly KeyBindingContainer<T> KeyBindingContainer;
 
-        [Resolved]
-        private ScoreProcessor? scoreProcessor { get; set; }
-
         public ReplayRecorder? Recorder
         {
             get;
@@ -44,7 +40,7 @@ namespace osu.Game.Rulesets.UI
                     return;
 
                 if (value is not null && field is not null)
-                    throw new InvalidOperationException("Cannot attach more than one recorder");
+                    throw new InvalidOperationException(@"Cannot attach more than one recorder");
 
                 field?.Expire();
                 field = value;

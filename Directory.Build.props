@@ -28,7 +28,7 @@
 
     <EmbeddedResource Include="Resources/**/*.*" />
 
-    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="5.6.0" PrivateAssets="all" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)CodeAnalysis/BannedSymbols.txt" />
 
     <!-- Rider compatibility: .globalconfig needs to be explicitly referenced instead of using the global file name. -->

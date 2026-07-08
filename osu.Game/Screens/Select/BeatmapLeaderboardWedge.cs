@@ -262,10 +262,10 @@ namespace osu.Game.Screens.Select
             if (scores.FailState is not null)
                 setState((LeaderboardState)scores.FailState);
             else
-                setScores(scores.TopScores, scores.UserScore, scores.TotalScores);
+                setScores(scores.AllScores, scores.PersonalBestScore, scores.ScoreCount);
         }
 
-        private void setScores(IEnumerable<ScoreInfo> scores, ScoreInfo? userScore = null, int? totalCount = null)
+        private void setScores(ScoreInfo[] scores, ScoreInfo? personalBestScore = null, int? totalCount = null)
         {
             cancellationTokenSource?.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
@@ -273,7 +273,7 @@ namespace osu.Game.Screens.Select
             clearScores();
             setState(LeaderboardState.Success);
 
-            if (!scores.Any())
+            if (scores.Length == 0)
             {
                 setState(LeaderboardState.NoScores);
                 return;
@@ -335,21 +335,21 @@ namespace osu.Game.Screens.Select
                 }
             }, cancellation: cancellationTokenSource.Token);
 
-            if (userScore is not null)
+            if (personalBestScore is not null)
             {
                 personalBestDisplay.MoveToX(0, 600, Easing.OutQuint);
                 personalBestDisplay.FadeIn(600, Easing.OutQuint);
-                personalBestScoreContainer.Child = new BeatmapLeaderboardScore(userScore)
+                personalBestScoreContainer.Child = new BeatmapLeaderboardScore(personalBestScore)
                 {
-                    Rank = userScore.Position,
+                    Rank = -1,
                     SelectedMods = { BindTarget = mods },
-                    Action = () => onLeaderboardScoreClicked(userScore),
+                    Action = () => onLeaderboardScoreClicked(personalBestScore),
                 };
 
                 scoresScroll.TransformTo(nameof(scoresScroll.Padding), new MarginPadding { Bottom = personal_best_height }, 300, Easing.OutQuint);
 
-                if (totalCount is not null && userScore.Position is not null)
-                    personalBestText.Text = BeatmapLeaderboardWedgeStrings.PersonalBestWithPosition(userScore.Position.Value, totalCount.Value);
+                if (totalCount is not null && personalBestScore.Position is not null)
+                    personalBestText.Text = BeatmapLeaderboardWedgeStrings.PersonalBestWithPosition(personalBestScore.Position.Value, totalCount.Value);
                 else
                     personalBestText.Text = BeatmapLeaderboardWedgeStrings.PersonalBest;
             }

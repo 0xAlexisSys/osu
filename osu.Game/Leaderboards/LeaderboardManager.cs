@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using osu.Framework.Allocation;
@@ -14,6 +13,7 @@ using osu.Game.Database;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
+using osu.Game.Users;
 using Realms;
 
 namespace osu.Game.Leaderboards
@@ -33,6 +33,9 @@ namespace osu.Game.Leaderboards
 
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
+
+        [Resolved]
+        private Session session { get; set; } = null!;
 
         /// <summary>
         /// Fetch leaderboard content with the new criteria specified in the background.
@@ -57,10 +60,10 @@ namespace osu.Game.Leaderboards
             }
 
             localScoreSubscription = realm.RegisterForNotifications(r =>
-                r.All<ScoreInfo>().Filter($"{nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.ID)} == $0"
-                                          + $" AND {nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.Hash)} == {nameof(ScoreInfo.BeatmapHash)}"
-                                          + $" AND {nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $1"
-                                          + $" AND {nameof(ScoreInfo.DeletePending)} == false"
+                r.All<ScoreInfo>().Filter($@"{nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.ID)} == $0"
+                                          + $@" AND {nameof(ScoreInfo.BeatmapInfo)}.{nameof(BeatmapInfo.Hash)} == {nameof(ScoreInfo.BeatmapHash)}"
+                                          + $@" AND {nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $1"
+                                          + $@" AND {nameof(ScoreInfo.DeletePending)} == false"
                     , newCriteria.Beatmap.ID, newCriteria.Ruleset.ShortName), localScoresChanged);
         }
 
@@ -95,7 +98,9 @@ namespace osu.Game.Leaderboards
             newScores = newScores.Detach().OrderByCriteria(CurrentCriteria.Sorting);
 
             var newScoresArray = newScores.ToArray();
-            scores.Value = LeaderboardScores.Success(newScoresArray, scoresRequested: newScoresArray.Length, totalScores: newScoresArray.Length, null);
+            scores.Value = LeaderboardScores.Success(newScoresArray, newScoresArray.Where(s => s.User.ID == session.User.ID && s.Rank != ScoreRank.F)
+                                                                                   .OrderByTotalScore()
+                                                                                   .FirstOrDefault());
         }
 
         protected override void Dispose(bool isDisposing)
@@ -118,58 +123,36 @@ namespace osu.Game.Leaderboards
         /// <summary>
         /// The collection of all scores received through the leaderboard lookup.
         /// </summary>
-        public ICollection<ScoreInfo> TopScores { get; }
-
-        /// <summary>
-        /// The number of scores which was requested.
-        /// Used to determine whether the returned leaderboard can be judged to be a partial or full leaderboard
-        /// (i.e. whether <see cref="TopScores"/> contains all scores that it could ever contain).
-        /// </summary>
-        public int ScoresRequested { get; }
+        public ScoreInfo[] AllScores { get; }
 
         /// <summary>
         /// The number of all scores that exist on the leaderboard.
         /// </summary>
-        public int TotalScores { get; }
-
-        public bool IsPartial => ScoresRequested < TotalScores;
+        public int ScoreCount { get; }
 
         /// <summary>
         /// The local user's best score.
         /// </summary>
-        public ScoreInfo? UserScore { get; }
+        public ScoreInfo? PersonalBestScore { get; }
 
         /// <summary>
         /// The failure state that occurred when attempting to retrieve the leaderboard.
         /// </summary>
         public LeaderboardFailState? FailState { get; }
 
-        public IEnumerable<ScoreInfo> AllScores
+        private LeaderboardScores(ScoreInfo[] allScores, ScoreInfo? personalBestScore, LeaderboardFailState? failState)
         {
-            get
-            {
-                foreach (var score in TopScores)
-                    yield return score;
-
-                if (UserScore is not null && TopScores.All(topScore => !topScore.Equals(UserScore)))
-                    yield return UserScore;
-            }
-        }
-
-        private LeaderboardScores(ICollection<ScoreInfo> topScores, int scoresRequested, int totalScores, ScoreInfo? userScore, LeaderboardFailState? failState)
-        {
-            TopScores = topScores;
-            ScoresRequested = scoresRequested;
-            TotalScores = totalScores;
-            UserScore = userScore;
+            AllScores = allScores;
+            ScoreCount = allScores.Length;
+            PersonalBestScore = personalBestScore;
             FailState = failState;
         }
 
-        public static LeaderboardScores Success(ICollection<ScoreInfo> topScores, int scoresRequested, int totalScores, ScoreInfo? userScore)
-            => new LeaderboardScores(topScores, scoresRequested, totalScores, userScore, null);
+        public static LeaderboardScores Success(ScoreInfo[] allScores, ScoreInfo? userScore)
+            => new LeaderboardScores(allScores, userScore, null);
 
         public static LeaderboardScores Failure(LeaderboardFailState failState)
-            => new LeaderboardScores([], scoresRequested: 0, totalScores: 0, null, failState);
+            => new LeaderboardScores([], null, failState);
     }
 
     public enum LeaderboardFailState

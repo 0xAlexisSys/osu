@@ -32,7 +32,7 @@ namespace osu.Game.Screens.Play.Leaderboards
 
             var globalScores = leaderboardManager?.Scores.Value;
 
-            isPartial = globalScores is null || globalScores.IsPartial;
+            isPartial = globalScores is null;
 
             List<GameplayLeaderboardScore> newScores = new List<GameplayLeaderboardScore>();
 

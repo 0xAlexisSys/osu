@@ -55,6 +55,7 @@ namespace osu.Game.Screens.Select
         public Func<Mod, bool> IsValidMod { get; set; } = _ => true;
 
         public int? Rank { get; init; }
+        public bool IsRankHidden => Rank < 0;
         public Action<ScoreInfo>? ShowReplay { get; init; }
 
         [Resolved]
@@ -426,6 +427,13 @@ namespace osu.Game.Screens.Select
                     }
                 }
             };
+
+            if (IsRankHidden)
+            {
+                rankLabelStandalone.Alpha = 0.0f;
+                rankLabelOverlay.Alpha = 0.0f;
+            }
+
             innerAvatar.OnLoadComplete += d => d.FadeInFromZero(200);
         }
 
@@ -486,10 +494,13 @@ namespace osu.Game.Screens.Select
             totalScoreBackground.FadeColour(IsHovered ? lightenedGradient : totalScoreBackgroundGradient, transition_duration, Easing.OutQuint);
             highlightGradient.FadeColour(Colour4.White, transition_duration, Easing.OutQuint);
 
-            if (IsHovered && currentMode != DisplayMode.Full)
-                rankLabelOverlay.FadeIn(transition_duration, Easing.OutQuint);
-            else
-                rankLabelOverlay.FadeOut(transition_duration, Easing.OutQuint);
+            if (!IsRankHidden)
+            {
+                if (IsHovered && currentMode != DisplayMode.Full)
+                    rankLabelOverlay.FadeIn(transition_duration, Easing.OutQuint);
+                else
+                    rankLabelOverlay.FadeOut(transition_duration, Easing.OutQuint);
+            }
         }
 
         private DisplayMode? currentMode;
@@ -505,7 +516,7 @@ namespace osu.Game.Screens.Select
 
             centreContent.Padding = new MarginPadding
             {
-                Left = rankLabelStandalone.DrawWidth,
+                Left = !IsRankHidden ? rankLabelStandalone.DrawWidth : 0.0f,
                 Right = rightContent.DrawWidth,
             };
         }
@@ -513,10 +524,14 @@ namespace osu.Game.Screens.Select
         private void updateDisplayMode(DisplayMode mode)
         {
             double duration = currentMode is null ? 0 : transition_duration;
-            if (mode >= DisplayMode.Full)
-                rankLabelStandalone.FadeIn(duration, Easing.OutQuint).ResizeWidthTo(rank_label_width, duration, Easing.OutQuint);
-            else
-                rankLabelStandalone.FadeOut(duration, Easing.OutQuint).ResizeWidthTo(0, duration, Easing.OutQuint);
+
+            if (!IsRankHidden)
+            {
+                if (mode >= DisplayMode.Full)
+                    rankLabelStandalone.FadeIn(duration, Easing.OutQuint).ResizeWidthTo(rank_label_width, duration, Easing.OutQuint);
+                else
+                    rankLabelStandalone.FadeOut(duration, Easing.OutQuint).ResizeWidthTo(0, duration, Easing.OutQuint);
+            }
 
             if (mode >= DisplayMode.Regular)
             {

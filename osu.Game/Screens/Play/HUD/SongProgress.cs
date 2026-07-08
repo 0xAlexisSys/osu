@@ -81,13 +81,11 @@ namespace osu.Game.Screens.Play.HUD
         protected virtual void UpdateObjects(IEnumerable<HitObject> objects) { }
 
         [BackgroundDependencyLoader]
-        private void load(DrawableRuleset? drawableRuleset, Player? player)
+        private void load(DrawableRuleset? drawableRuleset)
         {
             if (drawableRuleset is not null)
             {
-                if (player?.Configuration.AllowUserInteraction == true)
-                    ((IBindable<bool>)Interactive).BindTo(drawableRuleset.HasReplayLoaded);
-
+                ((IBindable<bool>)Interactive).BindTo(drawableRuleset.HasReplayLoaded);
                 Objects = drawableRuleset.Objects;
             }
         }

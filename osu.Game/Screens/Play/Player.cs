@@ -318,8 +318,8 @@ namespace osu.Game.Screens.Play
                 },
                 FailOverlay = new FailOverlay
                 {
-                    SaveReplay = Configuration.AllowUserInteraction ? async () => await prepareAndImportScoreAsync(true).ConfigureAwait(false) : null,
-                    OnRetry = Configuration.AllowUserInteraction ? () => Restart() : null,
+                    SaveReplay = async () => await prepareAndImportScoreAsync(true).ConfigureAwait(false),
+                    OnRetry = () => Restart(),
                     OnQuit = () => PerformExitWithConfirmation(),
                 },
             });

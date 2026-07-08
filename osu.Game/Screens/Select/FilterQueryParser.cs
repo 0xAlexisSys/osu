@@ -14,17 +14,16 @@ namespace osu.Game.Screens.Select
     /// <summary>
     /// Utility class used for parsing song select filter queries entered via the search box.
     /// </summary>
-    public static class FilterQueryParser
+    public static partial class FilterQueryParser
     {
-        private static readonly Regex query_syntax_regex = new Regex(
-            @"\b(?<key>\w+)(?<op>(!?(:|=)|(>|<)(:|=)?))(?<value>("".*?""[!]?)|(\S*))",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        [GeneratedRegex(@"\b(?<key>\w+)(?<op>(!?(:|=)|(>|<)(:|=)?))(?<value>("".*?""[!]?)|(\S*))", RegexOptions.IgnoreCase)]
+        private static partial Regex querySyntaxRegex { get; }
 
         internal static void ApplyQueries(FilterCriteria criteria, string query)
         {
             try
             {
-                foreach (Match match in query_syntax_regex.Matches(query))
+                foreach (Match match in querySyntaxRegex.Matches(query))
                 {
                     string key = match.Groups["key"].Value.ToLowerInvariant();
                     var op = parseOperator(match.Groups["op"].Value);

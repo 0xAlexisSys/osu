@@ -229,11 +229,12 @@ namespace osu.Game.Rulesets.Catch.Edit
                                              .Select(h => (h.IndexInCurrentCombo + 1).ToString(CultureInfo.InvariantCulture)));
 
         // 1,2,3,4 ...
-        private static readonly Regex selection_regex = new Regex(@"^\d+(,\d+)*$", RegexOptions.Compiled);
+        [GeneratedRegex(@"^\d+(,\d+)*$")]
+        private static partial Regex selectionRegex { get; }
 
         public override void SelectFromTimestamp(double timestamp, string objectDescription)
         {
-            if (!selection_regex.IsMatch(objectDescription))
+            if (!selectionRegex.IsMatch(objectDescription))
                 return;
 
             List<CatchHitObject> remainingHitObjects = EditorBeatmap.HitObjects.Cast<CatchHitObject>().Where(h => h.StartTime >= timestamp).ToList();

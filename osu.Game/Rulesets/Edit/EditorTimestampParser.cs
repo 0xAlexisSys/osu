@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace osu.Game.Rulesets.Edit
 {
-    public static class EditorTimestampParser
+    public static partial class EditorTimestampParser
     {
         /// <summary>
         /// Used for editor-specific context wherein we want to try as hard as we can to process user input as a timestamp.
@@ -23,10 +23,8 @@ namespace osu.Game.Rulesets.Edit
         /// <item>1:02:300 (1,2,3) - parses to 01:02:300 with selection</item>
         /// </list>
         /// </example>
-        private static readonly Regex time_regex_lenient = new Regex(
-            @"^(((?<minutes>\d{1,3}):(?<seconds>([0-5]?\d))([:.](?<milliseconds>\d{0,3}))?)(?<selection>\s\([^)]+\))?)(?<suffix>\s-.*)?$",
-            RegexOptions.Compiled | RegexOptions.Singleline
-        );
+        [GeneratedRegex(@"^(((?<minutes>\d{1,3}):(?<seconds>([0-5]?\d))([:.](?<milliseconds>\d{0,3}))?)(?<selection>\s\([^)]+\))?)(?<suffix>\s-.*)?$", RegexOptions.Singleline)]
+        private static partial Regex timeRegexLenient { get; }
 
         public static bool TryParse(string timestamp, [NotNullWhen(true)] out TimeSpan? parsedTime, out string? parsedSelection)
         {
@@ -37,7 +35,7 @@ namespace osu.Game.Rulesets.Edit
                 return true;
             }
 
-            Match match = time_regex_lenient.Match(timestamp);
+            Match match = timeRegexLenient.Match(timestamp);
 
             if (!match.Success)
             {

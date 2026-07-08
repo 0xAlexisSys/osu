@@ -60,11 +60,12 @@ namespace osu.Game.Rulesets.Mania.Edit
                                              .Select(h => FormattableString.Invariant($"{Math.Round(h.StartTime)}|{h.Column}")));
 
         // 123|0,456|1,789|2 ...
-        private static readonly Regex selection_regex = new Regex(@"^\d+\|\d+(,\d+\|\d+)*$", RegexOptions.Compiled);
+        [GeneratedRegex(@"^\d+\|\d+(,\d+\|\d+)*$")]
+        private static partial Regex selectionRegex { get; }
 
         public override void SelectFromTimestamp(double timestamp, string objectDescription)
         {
-            if (!selection_regex.IsMatch(objectDescription))
+            if (!selectionRegex.IsMatch(objectDescription))
                 return;
 
             List<ManiaHitObject> remainingHitObjects = EditorBeatmap.HitObjects.Cast<ManiaHitObject>().Where(h => h.StartTime >= timestamp).ToList();

@@ -99,7 +99,7 @@ namespace osu.Game.Skinning
                           .Where(f => SupportedExtensions.IMAGE_EXTENSIONS.Contains(Path.GetExtension(f.Filename).ToLowerInvariant()))
                           .Select(f => f.Filename).Distinct()).ToArray();
 
-                if (availableFiles?.Length != 0)
+                if (availableFiles is { Length: not 0 })
                     Items = availableFiles;
 
                 static ISkin? getHighestPriorityUserSkin(IEnumerable<ISkin> skins)

@@ -27,7 +27,7 @@ namespace osu.Game.Rulesets.Edit.Checks
                 {
                     using (Stream data = context.CurrentDifficulty.Working.GetStream(file.File.GetStoragePath()))
                     {
-                        if (data?.Length == 0)
+                        if (data is { Length: 0 })
                             yield return new IssueTemplateZeroBytes(this).Create(file.Filename);
                     }
                 }

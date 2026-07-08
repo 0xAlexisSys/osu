@@ -151,7 +151,7 @@ namespace osu.Game.Screens.Select
                                 {
                                     RelativeSizeAxes = Axes.X,
                                     AutoSizeAxes = Axes.Y,
-                                    Padding = new MarginPadding { Top = 5f, Bottom = 5f, Left = 70f, Right = 10f },
+                                    Padding = new MarginPadding { Top = 5f, Bottom = 5f, Left = 70f, Right = 25f },
                                     Children = new Drawable[]
                                     {
                                         personalBestText = new OsuSpriteText

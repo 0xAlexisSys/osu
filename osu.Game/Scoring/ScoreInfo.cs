@@ -171,7 +171,7 @@ namespace osu.Game.Scoring
             clone.User = new User
             {
                 ID = User.ID,
-                Username = User.Username,
+                Name = User.Name,
                 AvatarPath = User.AvatarPath,
             };
 

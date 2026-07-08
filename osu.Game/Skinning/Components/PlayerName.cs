@@ -36,7 +36,7 @@ namespace osu.Game.Skinning.Components
         private void load()
         {
             if (gameplayState is not null)
-                text.Text = gameplayState.Score.ScoreInfo.User.Username;
+                text.Text = gameplayState.Score.ScoreInfo.User.Name;
         }
 
         protected override void SetFont(FontUsage font) => text.Font = font.With(size: 40);

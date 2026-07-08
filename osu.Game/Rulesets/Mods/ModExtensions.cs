@@ -25,7 +25,7 @@ namespace osu.Game.Rulesets.Mods
                     User = new User
                     {
                         ID = replayData.User.ID,
-                        Username = replayData.User.Username,
+                        Name = replayData.User.Name,
                     }
                 }
             };

@@ -67,7 +67,7 @@ namespace osu.Game.Scoring.Legacy
                 if (workingBeatmap is DummyWorkingBeatmap)
                     throw new BeatmapNotFoundException(beatmapHash);
 
-                scoreInfo.User = new User { Username = sr.ReadString() };
+                scoreInfo.User = new User { Name = sr.ReadString() };
 
                 // MD5Hash
                 sr.ReadString();

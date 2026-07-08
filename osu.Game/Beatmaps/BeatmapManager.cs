@@ -98,7 +98,7 @@ namespace osu.Game.Beatmaps
         /// </summary>
         public WorkingBeatmap CreateNew(RulesetInfo ruleset, User user)
         {
-            var metadata = new BeatmapMetadata { Author = user.Username };
+            var metadata = new BeatmapMetadata { Author = user.Name };
 
             var beatmapSet = new BeatmapSetInfo
             {

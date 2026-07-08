@@ -13,6 +13,6 @@ namespace osu.Game.Rulesets.Mania.Mods
     public class ManiaModAutoplay : ModAutoplay
     {
         public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-            => new ModReplayData(new ManiaAutoGenerator((ManiaBeatmap)beatmap).Generate(), new User { ID = User.BOT_USER_ID, Username = "osu!topus" });
+            => new ModReplayData(new ManiaAutoGenerator((ManiaBeatmap)beatmap).Generate(), new User { ID = User.BOT_USER_ID, Name = "osu!topus" });
     }
 }

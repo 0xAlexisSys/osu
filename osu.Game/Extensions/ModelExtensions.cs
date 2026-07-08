@@ -58,7 +58,7 @@ namespace osu.Game.Extensions
                     break;
 
                 case User user:
-                    result = user.Username;
+                    result = user.Name;
                     break;
             }
 

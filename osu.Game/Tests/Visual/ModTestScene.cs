@@ -82,7 +82,7 @@ namespace osu.Game.Tests.Visual
                     DrawableRuleset?.SetReplayScore(new Score
                     {
                         Replay = new Replay { Frames = currentTestData.ReplayFrames },
-                        ScoreInfo = new ScoreInfo { User = new User { ID = User.BOT_USER_ID, Username = @"Test" } },
+                        ScoreInfo = new ScoreInfo { User = new User { ID = User.BOT_USER_ID, Name = @"Test" } },
                     });
                 }
 

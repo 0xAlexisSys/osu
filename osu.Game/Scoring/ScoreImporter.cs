@@ -109,7 +109,7 @@ namespace osu.Game.Scoring
                 //                at the cost of slowing down imports.
                 try
                 {
-                    var responseTask = session.HttpClient.GetAsync($@"https://osu.ppy.sh/users/{model.User.Username}");
+                    var responseTask = session.HttpClient.GetAsync($@"https://osu.ppy.sh/users/{model.User.Name}");
 
                     if (Task.WaitAny([responseTask], legacy_score_user_id_get_timeout) == -1)
                         throw new TimeoutException();

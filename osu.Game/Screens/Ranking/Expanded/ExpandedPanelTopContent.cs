@@ -65,7 +65,7 @@ namespace osu.Game.Screens.Ranking.Expanded
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Text = user.Username,
+                        Text = user.Name,
                         Font = OsuFont.Torus.With(size: 16, weight: FontWeight.SemiBold),
                     },
                 }

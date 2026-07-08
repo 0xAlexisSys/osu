@@ -45,7 +45,7 @@ namespace osu.Game.Rulesets.Mods
         public ModReplayData(Replay replay, User? user = null)
         {
             Replay = replay;
-            User = user ?? new User { ID = User.BOT_USER_ID, Username = string.Empty };
+            User = user ?? new User { ID = User.BOT_USER_ID, Name = string.Empty };
         }
     }
 }

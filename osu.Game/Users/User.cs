@@ -15,7 +15,7 @@ namespace osu.Game.Users
         public const int BOT_USER_ID = 1;
 
         public int ID { get; set; } = OTHER_USER_ID;
-        public string Username { get; set; } = @"???";
+        public string Name { get; set; } = @"???";
         public string AvatarPath { get; set; } = DEFAULT_AVATAR_PATH;
 
         public UserStatistics Statistics
@@ -27,6 +27,6 @@ namespace osu.Game.Users
         [Ignored]
         public Dictionary<string, UserStatistics>? RulesetsStatistics { get; set; }
 
-        public override string ToString() => Username;
+        public override string ToString() => Name;
     }
 }

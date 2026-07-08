@@ -16,7 +16,7 @@ namespace osu.Game.Users
             User = new User
             {
                 ID = User.PERSONAL_USER_ID,
-                Username = username,
+                Name = username,
                 AvatarPath = avatarPath,
             };
         }

@@ -21,6 +21,7 @@ using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Scoring;
 using osu.Game.Skinning;
+using osu.Game.Users;
 using osu.Game.Utils;
 using Realms;
 using Realms.Exceptions;
@@ -89,8 +90,9 @@ namespace osu.Game.Database
         /// 50   2025-07-11    Add UserTags to BeatmapMetadata.
         /// 51   2025-07-22    Add ScoreInfo.Pauses.
         /// 52   2026-06-25    First tracked fork version.
+        /// 53   2026-07-08    Rename User.Username to User.Name.
         /// </summary>
-        private const int schema_version = 52;
+        private const int schema_version = 53;
 
         /// <summary>
         /// Lock object which is held during <see cref="BlockAllOperations"/> sections, blocking realm retrieval during blocking periods.
@@ -812,6 +814,13 @@ namespace osu.Game.Database
         {
             Logger.Log($"Running realm migration to version {targetVersion}...");
             Stopwatch stopwatch = Stopwatch.StartNew();
+
+            switch (targetVersion)
+            {
+                case 53:
+                    migration.RenameProperty(nameof(User), @"Username", @"Name");
+                    break;
+            }
 
             stopwatch.Stop();
             Logger.Log($"Migration completed in {stopwatch.ElapsedMilliseconds}ms");

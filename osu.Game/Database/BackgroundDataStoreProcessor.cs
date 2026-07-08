@@ -341,8 +341,8 @@ namespace osu.Game.Database
                     // [alexis] Must use AsEnumerable here, or Realm will throw a NotSupportedException.
                     foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == session.User.ID))
                     {
-                        if (score.User.Username != session.User.Username)
-                            score.User.Username = session.User.Username;
+                        if (score.User.Name != session.User.Name)
+                            score.User.Name = session.User.Name;
 
                         if (score.User.AvatarPath != session.User.AvatarPath)
                             score.User.AvatarPath = session.User.AvatarPath;

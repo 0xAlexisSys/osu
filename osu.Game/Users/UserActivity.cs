@@ -69,7 +69,7 @@ namespace osu.Game.Users
 
             public WatchingReplay(ScoreInfo score)
             {
-                playerName = score.User.Username;
+                playerName = score.User.Name;
                 beatmapDisplayTitle = score.BeatmapInfo?.GetDisplayTitle();
             }
 

@@ -14,7 +14,7 @@ namespace osu.Game.Rulesets.Taiko.Mods
     public class TaikoModAutoplay : ModAutoplay
     {
         public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-            => new ModReplayData(new TaikoAutoGenerator(beatmap).Generate(), new User { ID = User.BOT_USER_ID, Username = "mekkadosu!" });
+            => new ModReplayData(new TaikoAutoGenerator(beatmap).Generate(), new User { ID = User.BOT_USER_ID, Name = "mekkadosu!" });
 
         public override Type[] IncompatibleMods => base.IncompatibleMods.Concat(new[] { typeof(TaikoModSingleTap) }).ToArray();
     }

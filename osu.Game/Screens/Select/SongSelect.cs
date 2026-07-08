@@ -131,7 +131,7 @@ namespace osu.Game.Screens.Select
         private BeatmapManager beatmaps { get; set; } = null!;
 
         [Resolved]
-        private INotificationOverlay? notifications { get; set; }
+        private NotificationOverlay? notifications { get; set; }
 
         [Resolved]
         private ManageCollectionsDialog? collectionsDialog { get; set; }

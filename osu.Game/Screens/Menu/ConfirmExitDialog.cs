@@ -29,7 +29,7 @@ namespace osu.Game.Screens.Menu
         }
 
         [BackgroundDependencyLoader]
-        private void load(INotificationOverlay notifications)
+        private void load(NotificationOverlay notifications)
         {
             HeaderText = DialogStrings.ConfirmExitHeaderText;
 

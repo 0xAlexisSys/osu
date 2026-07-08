@@ -51,7 +51,7 @@ namespace osu.Game.Overlays.Settings.Sections.General
         }
 
         [Resolved]
-        private INotificationOverlay? notifications { get; set; }
+        private NotificationOverlay? notifications { get; set; }
 
         private Storage exportStorage = null!;
 

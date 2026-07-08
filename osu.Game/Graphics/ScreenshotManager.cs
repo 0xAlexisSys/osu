@@ -44,7 +44,7 @@ namespace osu.Game.Graphics
         private Clipboard clipboard { get; set; } = null!;
 
         [Resolved]
-        private INotificationOverlay notificationOverlay { get; set; } = null!;
+        private NotificationOverlay notificationOverlay { get; set; } = null!;
 
         [Resolved]
         private OsuConfigManager config { get; set; } = null!;

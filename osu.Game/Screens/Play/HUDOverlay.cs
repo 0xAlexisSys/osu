@@ -184,7 +184,7 @@ namespace osu.Game.Screens.Play
         }
 
         [BackgroundDependencyLoader(true)]
-        private void load(OsuConfigManager config, RealmKeyBindingStore keyBindingStore, INotificationOverlay notificationOverlay)
+        private void load(OsuConfigManager config, RealmKeyBindingStore keyBindingStore, NotificationOverlay notificationOverlay)
         {
             if (drawableRuleset is not null)
             {

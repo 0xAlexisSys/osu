@@ -185,7 +185,7 @@ namespace osu.Game.Screens.Menu
         }
 
         [Resolved]
-        private INotificationOverlay notifications { get; set; }
+        private NotificationOverlay notifications { get; set; }
 
         private bool hasAllFiles(WorkingBeatmap working)
         {

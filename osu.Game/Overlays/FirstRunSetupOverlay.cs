@@ -21,7 +21,7 @@ namespace osu.Game.Overlays
         private IPerformFromScreenRunner performer { get; set; } = null!;
 
         [Resolved]
-        private INotificationOverlay notificationOverlay { get; set; } = null!;
+        private NotificationOverlay notificationOverlay { get; set; } = null!;
 
         [Resolved]
         private OsuConfigManager config { get; set; } = null!;

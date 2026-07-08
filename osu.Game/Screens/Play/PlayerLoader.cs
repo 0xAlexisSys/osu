@@ -169,7 +169,7 @@ namespace osu.Game.Screens.Play
         private IDisposable? highPerformanceSession;
 
         [Resolved]
-        private INotificationOverlay? notificationOverlay { get; set; }
+        private NotificationOverlay? notificationOverlay { get; set; }
 
         [Resolved]
         private VolumeOverlay? volumeOverlay { get; set; }
@@ -764,7 +764,7 @@ namespace osu.Game.Screens.Play
             }
 
             [BackgroundDependencyLoader]
-            private void load(OsuColour colours, AudioManager audioManager, INotificationOverlay notificationOverlay, VolumeOverlay volumeOverlay)
+            private void load(OsuColour colours, AudioManager audioManager, NotificationOverlay notificationOverlay, VolumeOverlay volumeOverlay)
             {
                 Icon = FontAwesome.Solid.VolumeMute;
                 IconContent.Colour = colours.RedDark;
@@ -819,7 +819,7 @@ namespace osu.Game.Screens.Play
             }
 
             [BackgroundDependencyLoader]
-            private void load(OsuColour colours, INotificationOverlay notificationOverlay)
+            private void load(OsuColour colours, NotificationOverlay notificationOverlay)
             {
                 Icon = FontAwesome.Solid.BatteryQuarter;
                 IconContent.Colour = colours.RedDark;

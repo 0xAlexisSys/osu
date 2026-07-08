@@ -37,7 +37,7 @@ namespace osu.Game.Overlays.Toolbar
         }
 
         [BackgroundDependencyLoader]
-        private void load(INotificationOverlay notificationOverlay)
+        private void load(NotificationOverlay notificationOverlay)
         {
             StateContainer = notificationOverlay as NotificationOverlay;
 

@@ -47,7 +47,7 @@ namespace osu.Game.Database
         private GameHost gameHost { get; set; } = null!;
 
         [Resolved]
-        private INotificationOverlay? notifications { get; set; }
+        private NotificationOverlay? notifications { get; set; }
 
         private StableStorage? cachedStorage;
 

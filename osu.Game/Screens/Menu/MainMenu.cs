@@ -63,7 +63,7 @@ namespace osu.Game.Screens.Menu
         private GameHost host { get; set; }
 
         [Resolved]
-        private INotificationOverlay notifications { get; set; }
+        private NotificationOverlay notifications { get; set; }
 
         [Resolved]
         private MusicController musicController { get; set; }

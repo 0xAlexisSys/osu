@@ -19,7 +19,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
         private RealmAccess realm { get; set; } = null!;
 
         [Resolved]
-        private INotificationOverlay? notificationOverlay { get; set; }
+        private NotificationOverlay? notificationOverlay { get; set; }
 
         [BackgroundDependencyLoader]
         private void load(IDialogOverlay? dialogOverlay)

@@ -871,7 +871,7 @@ namespace osu.Game
 
             loadComponentSingleFile(onScreenDisplay, Add, true);
 
-            loadComponentSingleFile<INotificationOverlay>(Notifications.With(d =>
+            loadComponentSingleFile<NotificationOverlay>(Notifications.With(d =>
             {
                 d.Anchor = Anchor.TopRight;
                 d.Origin = Anchor.TopRight;

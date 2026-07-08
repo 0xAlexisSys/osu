@@ -106,7 +106,7 @@ namespace osu.Game.Screens.Edit
         private IDialogOverlay dialogOverlay { get; set; }
 
         [Resolved(canBeNull: true)]
-        private INotificationOverlay notifications { get; set; }
+        private NotificationOverlay notifications { get; set; }
 
         [Resolved]
         private RealmAccess realm { get; set; }

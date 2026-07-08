@@ -57,7 +57,7 @@ namespace osu.Game.Database
         private IHighPerformanceSessionManager? highPerformanceSessionManager { get; set; }
 
         [Resolved]
-        private INotificationOverlay? notificationOverlay { get; set; }
+        private NotificationOverlay? notificationOverlay { get; set; }
 
         [Resolved]
         private Session session { get; set; } = null!;

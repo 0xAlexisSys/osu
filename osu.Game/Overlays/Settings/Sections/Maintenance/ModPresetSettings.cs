@@ -23,7 +23,7 @@ namespace osu.Game.Overlays.Settings.Sections.Maintenance
         private RealmAccess realm { get; set; } = null!;
 
         [Resolved]
-        private INotificationOverlay? notificationOverlay { get; set; }
+        private NotificationOverlay? notificationOverlay { get; set; }
 
         private SettingsButtonV2 undeleteButton = null!;
         private SettingsButtonV2 deleteAllButton = null!;

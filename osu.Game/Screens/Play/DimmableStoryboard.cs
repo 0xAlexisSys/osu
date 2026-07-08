@@ -110,7 +110,7 @@ namespace osu.Game.Screens.Play
         private void onStoryboardCreated(DrawableStoryboard storyboard)
         {
             Add(storyboard);
-            OverlayLayerContainer.Add(storyboard.OverlayLayer.CreateProxy());
+            if (storyboard.OverlayLayer is not null) OverlayLayerContainer.Add(storyboard.OverlayLayer.CreateProxy());
         }
     }
 }

@@ -118,7 +118,7 @@ namespace osu.Game.Storyboards.Drawables
             hasStoryboardEnded.Value = lastEventEndTime is null || Time.Current >= lastEventEndTime;
         }
 
-        public DrawableStoryboardLayer OverlayLayer => Children.Single(layer => layer.Name == "Overlay");
+        public DrawableStoryboardLayer? OverlayLayer => Children.Count != 0 ? Children.Single(layer => layer.Name == @"Overlay") : null;
 
         private void updateLayerVisibility()
         {

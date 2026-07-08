@@ -45,11 +45,6 @@ namespace osu.Game.Localisation
         public static LocalisableString Avatar => new TranslatableString(getKey(@"avatar"), @"Avatar");
 
         /// <summary>
-        /// "Use default avatar"
-        /// </summary>
-        public static LocalisableString UseDefaultAvatar => new TranslatableString(getKey(@"use_default_avatar"), @"Use default avatar");
-
-        /// <summary>
         /// "Discord Rich Presence"
         /// </summary>
         public static LocalisableString DiscordRichPresence => new TranslatableString(getKey(@"discord_rich_presence"), @"Discord Rich Presence");

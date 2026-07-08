@@ -18,8 +18,6 @@ namespace osu.Game.Overlays.Settings.Sections.General
 
         protected override LocalisableString Header => GeneralSettingsStrings.UserHeader;
 
-        private FormFileSelector userAvatarFileSelector = null!;
-
         [BackgroundDependencyLoader]
         private void load(OsuConfigManager config)
         {
@@ -34,7 +32,7 @@ namespace osu.Game.Overlays.Settings.Sections.General
                 {
                     Keywords = keywords,
                 },
-                new SettingsItemV2(userAvatarFileSelector = new FormFileSelector(true, setting: OsuSetting.UserAvatar, handledExtensions: SupportedExtensions.IMAGE_EXTENSIONS)
+                new SettingsItemV2(new FormFileSelector(true, setting: OsuSetting.UserAvatar, handledExtensions: SupportedExtensions.IMAGE_EXTENSIONS)
                 {
                     Caption = GeneralSettingsStrings.Avatar,
                     PlaceholderText = CommonStrings.Default,
@@ -50,12 +48,6 @@ namespace osu.Game.Overlays.Settings.Sections.General
                 })
                 {
                     Keywords = keywords,
-                },
-                new SettingsButtonV2
-                {
-                    Text = GeneralSettingsStrings.UseDefaultAvatar,
-                    Keywords = keywords,
-                    Action = () => userAvatarFileSelector.Current.Value = null,
                 },
             };
         }

@@ -10,16 +10,6 @@ namespace osu.Game.Rulesets.Edit
     public static class EditorTimestampParser
     {
         /// <summary>
-        /// Used for parsing in contexts where we don't want e.g. normal times of day to be parsed as timestamps (e.g. chat)
-        /// Original osu-web regex:
-        /// https://github.com/ppy/osu-web/blob/3b1698639244cfdaf0b41c68bfd651ea729ec2e3/resources/js/utils/beatmapset-discussion-helper.ts#L78
-        /// </summary>
-        /// <example>
-        /// 00:00:000 (...) - test
-        /// </example>
-        public static readonly Regex TIME_REGEX_STRICT = new Regex(@"\b(((?<minutes>\d{2,}):(?<seconds>[0-5]\d)[:.](?<milliseconds>\d{3}))(?<selection>\s\([^)]+\))?)", RegexOptions.Compiled);
-
-        /// <summary>
         /// Used for editor-specific context wherein we want to try as hard as we can to process user input as a timestamp.
         /// </summary>
         /// <example>

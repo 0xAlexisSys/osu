@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.Collections.Generic;
 using Realms;
 
 namespace osu.Game.Users
@@ -17,15 +16,6 @@ namespace osu.Game.Users
         public int ID { get; set; } = OTHER_USER_ID;
         public string Name { get; set; } = @"???";
         public string AvatarPath { get; set; } = DEFAULT_AVATAR_PATH;
-
-        public UserStatistics Statistics
-        {
-            get => field ??= new UserStatistics();
-            set;
-        }
-
-        [Ignored]
-        public Dictionary<string, UserStatistics>? RulesetsStatistics { get; set; }
 
         public override string ToString() => Name;
     }

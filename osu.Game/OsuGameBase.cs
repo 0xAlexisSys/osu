@@ -143,6 +143,8 @@ namespace osu.Game
 
         protected ScoreManager ScoreManager { get; private set; }
 
+        protected StatisticsManager StatisticsManager { get; private set; }
+
         protected MedalEvaluator MedalEvaluator { get; private set; }
 
         protected SkinManager SkinManager { get; private set; }
@@ -339,6 +341,9 @@ namespace osu.Game
 
             dependencies.CacheAs(MedalEvaluator = new MedalEvaluator());
             base.Content.Add(MedalEvaluator);
+
+            dependencies.Cache(StatisticsManager = new StatisticsManager());
+            base.Content.Add(StatisticsManager);
 
             // TODO: OsuGame or OsuGameBase?
             dependencies.CacheAs(beatmapUpdater = new BeatmapUpdater(BeatmapManager, difficultyCache));

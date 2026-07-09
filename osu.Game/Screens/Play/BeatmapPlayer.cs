@@ -4,6 +4,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using osu.Framework.Allocation;
@@ -14,11 +15,13 @@ using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.Medals;
+using osu.Game.Rulesets.Judgements;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
 using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Screens.Ranking;
+using osu.Game.Users;
 
 namespace osu.Game.Screens.Play
 {
@@ -27,6 +30,9 @@ namespace osu.Game.Screens.Play
     /// </summary>
     public partial class BeatmapPlayer : Player
     {
+        private int hitCount;
+        private int missCount;
+
         [Cached(typeof(IGameplayLeaderboardProvider))]
         private readonly SoloGameplayLeaderboardProvider leaderboardProvider = new SoloGameplayLeaderboardProvider();
 
@@ -67,6 +73,18 @@ namespace osu.Game.Screens.Play
             AddInternal(leaderboardProvider);
         }
 
+        protected override void LoadComplete()
+        {
+            base.LoadComplete();
+            ScoreProcessor.NewJudgement += onNewHitJudgement;
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            ScoreProcessor.NewJudgement -= onNewHitJudgement;
+            base.Dispose(isDisposing);
+        }
+
         protected override GameplayClockContainer CreateGameplayClockContainer(WorkingBeatmap beatmap, double gameplayStart) => new MasterGameplayClockContainer(beatmap, gameplayStart)
         {
             ShouldValidatePlaybackRate = true,
@@ -101,6 +119,9 @@ namespace osu.Game.Screens.Play
         [Resolved]
         private RealmAccess realm { get; set; }
 
+        [Resolved]
+        private StatisticsManager statisticsManager { get; set; }
+
         protected override void StartGameplay()
         {
             base.StartGameplay();
@@ -109,7 +130,15 @@ namespace osu.Game.Screens.Play
             realm.WriteAsync(r =>
             {
                 var realmBeatmap = r.Find<BeatmapInfo>(Beatmap.Value.BeatmapInfo.ID);
-                realmBeatmap?.LastPlayed = DateTimeOffset.Now;
+
+                if (realmBeatmap is not null)
+                {
+                    realmBeatmap.LastPlayed = DateTimeOffset.Now;
+
+                    var statistics = StatisticsManager.GetForRuleset(r, Ruleset.Value);
+                    statistics.BeatmapPlayCounts.TryAdd(Beatmap.Value.BeatmapInfo.Hash, 0);
+                    ++statistics.BeatmapPlayCounts[Beatmap.Value.BeatmapInfo.Hash];
+                }
             });
         }
 
@@ -125,15 +154,45 @@ namespace osu.Game.Screens.Play
             return paused;
         }
 
+        protected override void ConcludeFailedScore(Score score)
+        {
+            base.ConcludeFailedScore(score);
+            statisticsManager.WriteToRuleset(score.ScoreInfo.Ruleset, new StatisticsChanges
+            {
+                AddedHitCount = hitCount,
+                AddedMissCount = missCount,
+                Accuracy = score.ScoreInfo.Accuracy,
+                RankString = score.ScoreInfo.RankString,
+            });
+        }
+
         public override bool OnExiting(ScreenExitEvent e)
         {
             bool exiting = base.OnExiting(e);
-            statics.SetValue(Static.LastLocalUserScore, Score?.ScoreInfo.DeepClone());
+            statics.SetValue(Static.LastLocalUserScore, Score.ScoreInfo.DeepClone());
+
+            if (GameplayState.HasQuit)
+            {
+                statisticsManager.WriteToRuleset(Score.ScoreInfo.Ruleset, new StatisticsChanges
+                {
+                    AddedHitCount = hitCount,
+                    AddedMissCount = missCount,
+                });
+            }
+
             return exiting;
         }
 
         protected override ResultsScreen CreateResults(ScoreInfo score)
         {
+            statisticsManager.WriteToRuleset(score.Ruleset, new StatisticsChanges
+            {
+                AddedHitCount = hitCount,
+                AddedMissCount = missCount,
+                Accuracy = score.Accuracy,
+                RankString = score.RankString,
+            });
+
             if (score.Mods.Length == 0 && score.Rank == ScoreRank.D && score.TotalScore >= 100000)
                 medalEvaluator.AddToQueue(@"secret-all-consolation_prize");
 
@@ -299,6 +358,18 @@ namespace osu.Game.Screens.Play
             medalEvaluator.AddToQueue($@"skill-{score.Ruleset.ShortName}-pass_{starRating}_star");
             if (score.MaxCombo == score.GetMaximumAchievableCombo())
                 medalEvaluator.AddToQueue($@"skill-{score.Ruleset.ShortName}-fc_{starRating}_star");
+        }
+
+        private void onNewHitJudgement(JudgementResult result)
+        {
+            if (result.IsHit)
+            {
+                ++hitCount;
+            }
+            else
+            {
+                ++missCount;
+            }
         }
     }
 }

@@ -53,6 +53,7 @@ namespace osu.Game.Screens.Select
         internal string DisplayedTitle { get; private set; } = string.Empty;
         internal string DisplayedArtist { get; private set; } = string.Empty;
 
+        private StatisticPlayCount playCount = null!;
         private FavouriteButton favouriteButton = null!;
         private Statistic lengthStatistic = null!;
         private Statistic bpmStatistic = null!;
@@ -134,6 +135,10 @@ namespace osu.Game.Screens.Select
                             Spacing = new Vector2(2f, 0f),
                             Children = new Drawable[]
                             {
+                                playCount = new StatisticPlayCount(background: true, leftPadding: SongSelect.WEDGE_CONTENT_MARGIN, minSize: 50.0f)
+                                {
+                                    Margin = new MarginPadding { Left = -SongSelect.WEDGE_CONTENT_MARGIN },
+                                },
                                 favouriteButton = new FavouriteButton(),
                                 lengthStatistic = new Statistic(OsuIcon.Clock),
                                 bpmStatistic = new Statistic(OsuIcon.Metronome)
@@ -217,6 +222,7 @@ namespace osu.Game.Screens.Select
             DisplayedArtist = artistText.ToString();
 
             updateLengthAndBpmStatistics();
+            playCount.UpdateText(working.Value.BeatmapInfo, ruleset.Value.ShortName);
             favouriteButton.UpdateFavouriteState(working.Value.BeatmapSetInfo);
         }
 

@@ -18,7 +18,9 @@ using osu.Framework.Platform;
 using osu.Framework.Statistics;
 using osu.Framework.Threading;
 using osu.Game.Beatmaps;
+using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
 using osu.Game.Skinning;
 using osu.Game.Users;
@@ -91,8 +93,9 @@ namespace osu.Game.Database
         /// 51   2025-07-22    Add ScoreInfo.Pauses.
         /// 52   2026-06-25    First tracked fork version.
         /// 53   2026-07-08    Rename User.Username to User.Name.
+        /// 54   2026-07-08    Add Statistics.
         /// </summary>
-        private const int schema_version = 53;
+        private const int schema_version = 54;
 
         /// <summary>
         /// Lock object which is held during <see cref="BlockAllOperations"/> sections, blocking realm retrieval during blocking periods.
@@ -812,7 +815,7 @@ namespace osu.Game.Database
 
         private void applyMigrationsForVersion(Migration migration, ulong targetVersion)
         {
-            Logger.Log($"Running realm migration to version {targetVersion}...");
+            Logger.Log($@"Running realm migration to version {targetVersion}...");
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             switch (targetVersion)
@@ -820,10 +823,53 @@ namespace osu.Game.Database
                 case 53:
                     migration.RenameProperty(nameof(User), @"Username", @"Name");
                     break;
+
+                case 54:
+                    foreach (var ruleset in migration.NewRealm.All<RulesetInfo>())
+                    {
+                        var statistics = new Statistics { RulesetName = ruleset.ShortName };
+
+                        foreach (var beatmap in migration.NewRealm.All<BeatmapInfo>())
+                        {
+                            var scores = beatmap.Scores.Filter($"""
+                                                                        ({nameof(ScoreInfo.DeletePending)} == false &&
+                                                                        {nameof(ScoreInfo.User)}.{nameof(User.ID)} == {User.PERSONAL_USER_ID} &&
+                                                                        {nameof(ScoreInfo.Ruleset)}.{nameof(RulesetInfo.ShortName)} == $0)
+                                                                        """, ruleset.ShortName).ToArray();
+
+                            // [alexis] For bumping play counts, LastPlayed is not checked as it is the same across
+                            //          all rulesets.
+                            if (scores.Length != 0) statistics.BeatmapPlayCounts.Add(beatmap.Hash, scores.Length);
+
+                            foreach (var score in scores)
+                            {
+                                foreach (var (result, count) in score.Statistics)
+                                {
+                                    if (result.IsHit())
+                                    {
+                                        statistics.HitCount += count;
+                                    }
+                                    else if (result.IsMiss())
+                                    {
+                                        statistics.MissCount += count;
+                                    }
+                                }
+
+                                statistics.AccuracySamples.Add(score.Accuracy);
+
+                                statistics.ScoreRankCounts.TryAdd(score.RankString, 0);
+                                ++statistics.ScoreRankCounts[score.RankString];
+                            }
+                        }
+
+                        migration.NewRealm.Add(statistics);
+                    }
+
+                    break;
             }
 
             stopwatch.Stop();
-            Logger.Log($"Migration completed in {stopwatch.ElapsedMilliseconds}ms");
+            Logger.Log($@"Migration completed in {stopwatch.ElapsedMilliseconds}ms");
         }
 
         /// <summary>

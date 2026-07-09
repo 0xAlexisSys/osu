@@ -26,6 +26,8 @@ namespace osu.Game.Scoring
     [MapTo("Score")]
     public class ScoreInfo : RealmObject, IHasGuidPrimaryKey, IHasRealmFiles, ISoftDelete, IEquatable<ScoreInfo>
     {
+        private static readonly Dictionary<int, string> rank_strings = [];
+
         [PrimaryKey]
         public Guid ID { get; set; }
 
@@ -146,6 +148,21 @@ namespace osu.Game.Scoring
         {
             get => (ScoreRank)RankInt;
             set => RankInt = (int)value;
+        }
+
+        [Ignored]
+        public string RankString
+        {
+            get
+            {
+                if (!rank_strings.TryGetValue(RankInt, out string? rankString))
+                {
+                    rankString = ((ScoreRank)RankInt).ToString();
+                    rank_strings.Add(RankInt, rankString);
+                }
+
+                return rankString;
+            }
         }
 
         [MapTo(nameof(Rank))]

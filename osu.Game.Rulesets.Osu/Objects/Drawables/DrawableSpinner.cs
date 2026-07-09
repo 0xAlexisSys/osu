@@ -22,6 +22,7 @@ using osu.Game.Rulesets.Osu.Scoring;
 using osu.Game.Rulesets.Osu.Skinning;
 using osu.Game.Rulesets.Osu.Skinning.Default;
 using osu.Game.Rulesets.Scoring;
+using osu.Game.Screens.Play;
 using osu.Game.Screens.Ranking;
 using osu.Game.Skinning;
 
@@ -68,6 +69,9 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
         /// The number of spins per minute this spinner is spinning at, for display purposes.
         /// </summary>
         public readonly IBindable<double> SpinsPerMinute = new BindableDouble();
+
+        [Resolved(canBeNull: true)]
+        private Player player { get; set; }
 
         [Resolved]
         private MedalEvaluator medalEvaluator { get; set; }
@@ -331,7 +335,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             if (Time.Current <= HitObject.EndTime)
             {
                 spmCalculator.SetRotation(Result.TotalRotation);
-                if (SpinsPerMinute.Value >= 477.0d)
+                if (player is BeatmapPlayer && SpinsPerMinute.Value >= 477.0d)
                     medalEvaluator.AddToQueue(@"skill-osu-reach_477_spm");
             }
 

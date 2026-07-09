@@ -164,6 +164,7 @@ namespace osu.Game.Screens.Play
                 Accuracy = score.ScoreInfo.Accuracy,
                 RankString = score.ScoreInfo.RankString,
             });
+            medalEvaluator.ProcessQueue();
         }
 
         public override bool OnExiting(ScreenExitEvent e)
@@ -178,6 +179,7 @@ namespace osu.Game.Screens.Play
                     AddedHitCount = hitCount,
                     AddedMissCount = missCount,
                 });
+                medalEvaluator.ProcessQueue();
             }
 
             return exiting;

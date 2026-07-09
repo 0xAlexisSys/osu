@@ -371,7 +371,7 @@ namespace osu.Game.Screens.Select
                 }
                 else
                 {
-                    player = new BeatmapPlayer();
+                    player = new GameplayPlayer();
                 }
 
                 return player;

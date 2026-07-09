@@ -335,7 +335,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             if (Time.Current <= HitObject.EndTime)
             {
                 spmCalculator.SetRotation(Result.TotalRotation);
-                if (player is BeatmapPlayer && SpinsPerMinute.Value >= 477.0d)
+                if (player is GameplayPlayer && SpinsPerMinute.Value >= 477.0d)
                     medalEvaluator.AddToQueue(@"skill-osu-reach_477_spm");
             }
 

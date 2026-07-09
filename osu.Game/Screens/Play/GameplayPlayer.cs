@@ -28,7 +28,7 @@ namespace osu.Game.Screens.Play
     /// <summary>
     /// A player instance which supports submitting scores to an online store.
     /// </summary>
-    public partial class BeatmapPlayer : Player
+    public partial class GameplayPlayer : Player
     {
         private int hitCount;
         private int missCount;
@@ -42,7 +42,7 @@ namespace osu.Game.Screens.Play
         [Resolved]
         private MedalEvaluator medalEvaluator { get; set; }
 
-        public BeatmapPlayer(PlayerConfiguration configuration = null)
+        public GameplayPlayer(PlayerConfiguration configuration = null)
             : base(configuration)
         {
             Configuration.ShowLeaderboard = true;

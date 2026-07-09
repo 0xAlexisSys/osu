@@ -19,7 +19,7 @@ namespace osu.Game.Tests.Visual
     /// <summary>
     /// A player that exposes many components that would otherwise not be available, for testing purposes.
     /// </summary>
-    public partial class TestPlayer : BeatmapPlayer
+    public partial class TestPlayer : GameplayPlayer
     {
         protected override bool PauseOnFocusLost { get; }
 

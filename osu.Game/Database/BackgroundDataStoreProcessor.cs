@@ -22,6 +22,7 @@ using osu.Game.Scoring;
 using osu.Game.Scoring.Legacy;
 using osu.Game.Screens.Play;
 using osu.Game.Users;
+using Realms;
 
 namespace osu.Game.Database
 {
@@ -338,8 +339,7 @@ namespace osu.Game.Database
             {
                 realmAccess.Write(r =>
                 {
-                    // [alexis] Must use AsEnumerable here, or Realm will throw a NotSupportedException.
-                    foreach (var score in r.All<ScoreInfo>().AsEnumerable().Where(s => s.User.ID == session.User.ID))
+                    foreach (var score in r.All<ScoreInfo>().Filter($@"({nameof(ScoreInfo.User)}.{nameof(User.ID)} == $0)", session.User.ID))
                     {
                         if (score.User.Name != session.User.Name)
                             score.User.Name = session.User.Name;

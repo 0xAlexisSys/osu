@@ -87,7 +87,7 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
 
         public override bool OnPressed(KeyBindingPressEvent<TaikoAction> e)
         {
-            JudgementType = e.Action == TaikoAction.LeftRim || e.Action == TaikoAction.RightRim ? HitType.Rim : HitType.Centre;
+            JudgementType = e.Action is TaikoAction.LeftRim or TaikoAction.RightRim ? HitType.Rim : HitType.Centre;
             return UpdateResult(true);
         }
 

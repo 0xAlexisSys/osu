@@ -99,7 +99,7 @@ namespace osu.Game.Beatmaps.Formats
 
             foreach (char c in line)
             {
-                if (c == ' ' || c == '_')
+                if (c is ' ' or '_')
                     depth++;
                 else
                     break;

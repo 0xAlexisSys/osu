@@ -204,7 +204,7 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
             if (AllJudged)
                 return false;
 
-            bool isCentre = e.Action == TaikoAction.LeftCentre || e.Action == TaikoAction.RightCentre;
+            bool isCentre = e.Action is TaikoAction.LeftCentre or TaikoAction.RightCentre;
 
             // Ensure alternating centre and rim hits
             if (lastWasCentre == isCentre && MustAlternate)

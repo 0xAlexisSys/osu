@@ -63,11 +63,11 @@ namespace osu.Game.Rulesets.Mania.Beatmaps.Patterns.Legacy
         /// <returns>The amount of notes to be generated.</returns>
         protected int GetRandomNoteCount(double p2, double p3, double p4 = 0, double p5 = 0, double p6 = 0)
         {
-            if (p2 < 0 || p2 > 1) throw new ArgumentOutOfRangeException(nameof(p2));
-            if (p3 < 0 || p3 > 1) throw new ArgumentOutOfRangeException(nameof(p3));
-            if (p4 < 0 || p4 > 1) throw new ArgumentOutOfRangeException(nameof(p4));
-            if (p5 < 0 || p5 > 1) throw new ArgumentOutOfRangeException(nameof(p5));
-            if (p6 < 0 || p6 > 1) throw new ArgumentOutOfRangeException(nameof(p6));
+            if (p2 is < 0 or > 1) throw new ArgumentOutOfRangeException(nameof(p2));
+            if (p3 is < 0 or > 1) throw new ArgumentOutOfRangeException(nameof(p3));
+            if (p4 is < 0 or > 1) throw new ArgumentOutOfRangeException(nameof(p4));
+            if (p5 is < 0 or > 1) throw new ArgumentOutOfRangeException(nameof(p5));
+            if (p6 is < 0 or > 1) throw new ArgumentOutOfRangeException(nameof(p6));
 
             double val = Random.NextDouble();
             if (val >= 1 - p6)

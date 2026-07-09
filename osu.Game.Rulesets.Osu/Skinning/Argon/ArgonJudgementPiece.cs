@@ -62,7 +62,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
         /// </remarks>
         public virtual void PlayAnimation()
         {
-            if (Result == HitResult.IgnoreMiss || Result == HitResult.LargeTickMiss)
+            if (Result is HitResult.IgnoreMiss or HitResult.LargeTickMiss)
             {
                 this.RotateTo(-45);
                 this.ScaleTo(1.6f);

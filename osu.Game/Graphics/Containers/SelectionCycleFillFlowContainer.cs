@@ -32,7 +32,7 @@ namespace osu.Game.Graphics.Containers
 
         public void SelectPrevious()
         {
-            if (!selectedIndex.HasValue || selectedIndex == 0)
+            if (selectedIndex is null or 0)
                 setSelected(Count - 1);
             else
                 setSelected(selectedIndex.Value - 1);

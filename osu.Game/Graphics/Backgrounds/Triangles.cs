@@ -356,13 +356,13 @@ namespace osu.Game.Graphics.Backgrounds
             {
                 Vector2 clampedTopLeft = topLeft;
 
-                if (clampAxes == Axes.X || clampAxes == Axes.Both)
+                if (clampAxes is Axes.X or Axes.Both)
                 {
                     clampedTopLeft.X = Math.Clamp(topLeft.X, 0f, 1f);
                     size.X = Math.Clamp(topLeft.X + size.X, 0f, 1f) - clampedTopLeft.X;
                 }
 
-                if (clampAxes == Axes.Y || clampAxes == Axes.Both)
+                if (clampAxes is Axes.Y or Axes.Both)
                 {
                     clampedTopLeft.Y = Math.Clamp(topLeft.Y, 0f, 1f);
                     size.Y = Math.Clamp(topLeft.Y + size.Y, 0f, 1f) - clampedTopLeft.Y;

@@ -164,7 +164,7 @@ namespace osu.Game.Graphics.Containers
             sizableContainer.FinishTransforms();
         }
 
-        private bool requiresBackgroundVisible => (scalingMode.Value == ScalingMode.Everything || scalingMode.Value == ScalingMode.ExcludeOverlays)
+        private bool requiresBackgroundVisible => scalingMode.Value is ScalingMode.Everything or ScalingMode.ExcludeOverlays
                                                   && (sizeX.Value != 1 || sizeY.Value != 1)
                                                   && scalingMenuBackgroundDim.Value < 1;
 

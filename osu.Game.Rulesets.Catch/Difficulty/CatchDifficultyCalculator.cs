@@ -62,7 +62,7 @@ namespace osu.Game.Rulesets.Catch.Difficulty
             foreach (var hitObject in CatchBeatmap.GetPalpableObjects(beatmap.HitObjects))
             {
                 // We want to only consider fruits that contribute to the combo.
-                if (hitObject is Banana || hitObject is TinyDroplet)
+                if (hitObject is Banana or TinyDroplet)
                     continue;
 
                 if (lastObject is not null)

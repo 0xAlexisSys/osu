@@ -225,7 +225,7 @@ namespace osu.Game.Rulesets.Mania.Beatmaps
                 if (conversion is HitCirclePatternGenerator circleGenerator)
                     lastStair = circleGenerator.StairType;
 
-                if (conversion is HitCirclePatternGenerator || conversion is SliderPatternGenerator)
+                if (conversion is HitCirclePatternGenerator or SliderPatternGenerator)
                     lastPattern = newPattern;
 
                 foreach (var obj in newPattern.HitObjects)

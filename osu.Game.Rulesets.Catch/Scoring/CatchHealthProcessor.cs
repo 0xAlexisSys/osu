@@ -18,7 +18,7 @@ namespace osu.Game.Rulesets.Catch.Scoring
         {
         }
 
-        protected override IEnumerable<HitObject> EnumerateTopLevelHitObjects() => EnumerateHitObjects(Beatmap).Where(h => h is Fruit || h is Droplet || h is Banana);
+        protected override IEnumerable<HitObject> EnumerateTopLevelHitObjects() => EnumerateHitObjects(Beatmap).Where(h => h is Fruit or Droplet or Banana);
 
         protected override IEnumerable<HitObject> EnumerateNestedHitObjects(HitObject hitObject) => Enumerable.Empty<HitObject>();
 

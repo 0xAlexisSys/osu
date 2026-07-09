@@ -36,7 +36,7 @@ namespace osu.Game.Screens.Edit
         /// <returns>Whether the divisor was successfully set.</returns>
         public bool SetArbitraryDivisor(int divisor, bool preferKnownPresets = false)
         {
-            if (divisor < MINIMUM_DIVISOR || divisor > MAXIMUM_DIVISOR)
+            if (divisor is < MINIMUM_DIVISOR or > MAXIMUM_DIVISOR)
                 return false;
 
             // If the current valid divisor range doesn't contain the proposed value, attempt to find one which does.

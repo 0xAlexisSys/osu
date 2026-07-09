@@ -88,7 +88,7 @@ namespace osu.Game.Database
             }
 
             // The user may have traversed *inside* their songs or skins folders.
-            if (directory.Parent is not null && (directory.Name == @"Songs" || directory.Name == @"Skins"))
+            if (directory.Parent is not null && directory.Name is @"Songs" or @"Skins")
             {
                 stableRoot = directory.Parent;
                 return true;

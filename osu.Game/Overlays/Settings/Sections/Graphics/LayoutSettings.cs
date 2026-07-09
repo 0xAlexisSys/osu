@@ -339,7 +339,7 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
                     FormSliderBar<float> slider = (FormSliderBar<float>)item.Control;
 
                     if (slider == dimSlider)
-                        item.CanBeShown.Value = scalingMode.Value == ScalingMode.Everything || scalingMode.Value == ScalingMode.ExcludeOverlays;
+                        item.CanBeShown.Value = scalingMode.Value is ScalingMode.Everything or ScalingMode.ExcludeOverlays;
                     else
                     {
                         slider.TransferValueOnCommit = scalingMode.Value == ScalingMode.Everything;

@@ -58,7 +58,7 @@ namespace osu.Game.Screens.Select
 
             ModRateAdjust? targetMod;
 
-            if (lastActiveRateAdjustMod is ModDaycore || lastActiveRateAdjustMod is ModNightcore)
+            if (lastActiveRateAdjustMod is ModDaycore or ModNightcore)
             {
                 targetMod = targetSpeed < 1
                     ? availableMods.OfType<ModDaycore>().SingleOrDefault()

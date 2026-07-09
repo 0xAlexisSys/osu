@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Catch.Beatmaps
             // This is normally enforced by the legacy decoder, but is not enforced by the editor.
             foreach (var obj in Beatmap.HitObjects.OfType<IHasComboInformation>())
             {
-                if (obj is not BananaShower && (lastObj is null || lastObj is BananaShower))
+                if (obj is not BananaShower && lastObj is null or BananaShower)
                     obj.NewCombo = true;
                 lastObj = obj;
             }

@@ -254,7 +254,7 @@ namespace osu.Game.Screens.Ranking.Expanded.Accuracy
                 }
 
                 // The final gap between 99.999...% (S) and 100% (SS) is exaggerated by `virtual_ss_percentage`. We don't want to land there either.
-                if (score.Rank == ScoreRank.X || score.Rank == ScoreRank.XH)
+                if (score.Rank is ScoreRank.X or ScoreRank.XH)
                     targetAccuracy = 1;
                 else
                     targetAccuracy = Math.Min(accuracyX - VIRTUAL_SS_PERCENTAGE - GRADE_SPACING_PERCENTAGE / 2, targetAccuracy);

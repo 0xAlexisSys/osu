@@ -86,7 +86,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
 
         protected override bool OnKeyDown(KeyDownEvent e)
         {
-            if (IsDragged && (e.Key == Key.ShiftLeft || e.Key == Key.ShiftRight))
+            if (IsDragged && e.Key is Key.ShiftLeft or Key.ShiftRight)
             {
                 applyRotation(shouldSnap: true);
                 return true;
@@ -99,7 +99,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
         {
             base.OnKeyUp(e);
 
-            if (IsDragged && (e.Key == Key.ShiftLeft || e.Key == Key.ShiftRight))
+            if (IsDragged && e.Key is Key.ShiftLeft or Key.ShiftRight)
                 applyRotation(shouldSnap: false);
         }
 

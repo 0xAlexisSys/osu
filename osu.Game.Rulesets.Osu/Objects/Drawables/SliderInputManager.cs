@@ -158,7 +158,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
                     //
                     // This covers the edge case where the lenience may allow the tail to activate before
                     // the last tick, changing ordering of score/combo awarding.
-                    var lastTick = slider.NestedHitObjects.LastOrDefault(o => o.HitObject is SliderTick || o.HitObject is SliderRepeat);
+                    var lastTick = slider.NestedHitObjects.LastOrDefault(o => o.HitObject is SliderTick or SliderRepeat);
                     if (lastTick?.Judged == false)
                         return;
 
@@ -286,7 +286,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             if (hitAction.HasValue && (!timeToAcceptAnyKeyAfter.HasValue || Time.Current <= timeToAcceptAnyKeyAfter.Value))
                 return action == hitAction;
 
-            return action == OsuAction.LeftButton || action == OsuAction.RightButton;
+            return action is OsuAction.LeftButton or OsuAction.RightButton;
         }
 
         private void resetState(DrawableHitObject obj)

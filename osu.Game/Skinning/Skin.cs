@@ -308,9 +308,7 @@ namespace osu.Game.Skinning
                         break;
 
                     var comboCounters = globalHUDComponents.Where(c =>
-                        c.Type.Name == nameof(LegacyDefaultComboCounter) ||
-                        c.Type.Name == nameof(DefaultComboCounter) ||
-                        c.Type.Name == nameof(ArgonComboCounter)).ToArray();
+                        c.Type.Name is nameof(LegacyDefaultComboCounter) or nameof(DefaultComboCounter) or nameof(ArgonComboCounter)).ToArray();
 
                     layout.Update(null, globalHUDComponents.Except(comboCounters).ToArray());
 

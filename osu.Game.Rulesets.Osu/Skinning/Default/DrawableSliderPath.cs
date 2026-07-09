@@ -50,7 +50,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Default
                 if (field == value)
                     return;
 
-                if (value < border_min_size || value > border_max_size)
+                if (value is < border_min_size or > border_max_size)
                     return;
 
                 field = value;

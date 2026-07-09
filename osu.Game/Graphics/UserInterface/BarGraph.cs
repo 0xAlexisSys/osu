@@ -142,8 +142,8 @@ namespace osu.Game.Graphics.UserInterface
 
                 for (int i = 0; i < lengths.Count; i++)
                 {
-                    float barHeight = drawSize.Y * ((direction == BarDirection.TopToBottom || direction == BarDirection.BottomToTop) ? lengths[i] : barBreadth);
-                    float barWidth = drawSize.X * ((direction == BarDirection.LeftToRight || direction == BarDirection.RightToLeft) ? lengths[i] : barBreadth);
+                    float barHeight = drawSize.Y * (direction is BarDirection.TopToBottom or BarDirection.BottomToTop ? lengths[i] : barBreadth);
+                    float barWidth = drawSize.X * (direction is BarDirection.LeftToRight or BarDirection.RightToLeft ? lengths[i] : barBreadth);
 
                     if (barHeight == 0 || barWidth == 0)
                         continue;

@@ -24,7 +24,7 @@ namespace osu.Game.Rulesets.Edit.Checks
         /// </summary>
         protected bool OutOfRange(string setting, float value, [NotNullWhen(true)] out Issue? issue)
         {
-            bool hasIssue = value < 0f || value > 10f;
+            bool hasIssue = value is < 0f or > 10f;
             issue = hasIssue ? new IssueTemplateOutOfRange(this).Create(setting, value) : null;
             return hasIssue;
         }

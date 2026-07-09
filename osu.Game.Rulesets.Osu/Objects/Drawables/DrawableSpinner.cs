@@ -316,7 +316,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
             foreach (var action in OsuActionInputManager.PressedActions)
             {
-                if (action == OsuAction.LeftButton || action == OsuAction.RightButton)
+                if (action is OsuAction.LeftButton or OsuAction.RightButton)
                     return true;
             }
 

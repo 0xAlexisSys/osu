@@ -373,7 +373,7 @@ namespace osu.Game.Screens.Select
                 public override bool OnPressed(KeyBindingPressEvent<PlatformAction> e)
                 {
                     // Conflicts with default group navigation keys (shift-left shift-right).
-                    if (e.Action == PlatformAction.SelectBackwardChar || e.Action == PlatformAction.SelectForwardChar)
+                    if (e.Action is PlatformAction.SelectBackwardChar or PlatformAction.SelectForwardChar)
                         return false;
 
                     // the "cut" platform key binding (shift-delete) conflicts with the beatmap deletion action.

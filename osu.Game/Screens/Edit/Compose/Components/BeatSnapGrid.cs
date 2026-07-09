@@ -208,7 +208,7 @@ namespace osu.Game.Screens.Edit.Compose.Components
                         break;
                 }
 
-                bool isHorizontal = direction.NewValue == ScrollingDirection.Left || direction.NewValue == ScrollingDirection.Right;
+                bool isHorizontal = direction.NewValue is ScrollingDirection.Left or ScrollingDirection.Right;
 
                 if (isHorizontal)
                 {

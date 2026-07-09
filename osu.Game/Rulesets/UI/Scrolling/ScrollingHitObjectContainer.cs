@@ -27,7 +27,7 @@ namespace osu.Game.Rulesets.UI.Scrolling
         /// <summary>
         /// Whether the scrolling direction is horizontal or vertical.
         /// </summary>
-        private Direction scrollingAxis => direction.Value == ScrollingDirection.Left || direction.Value == ScrollingDirection.Right ? Direction.Horizontal : Direction.Vertical;
+        private Direction scrollingAxis => direction.Value is ScrollingDirection.Left or ScrollingDirection.Right ? Direction.Horizontal : Direction.Vertical;
 
         /// <summary>
         /// The scrolling axis is inverted if objects temporally farther in the future have a smaller position value across the scrolling axis.
@@ -36,7 +36,7 @@ namespace osu.Game.Rulesets.UI.Scrolling
         /// <see cref="ScrollingDirection.Down"/> is inverted, because given two objects, one of which is at the current time and one of which is 1000ms in the future,
         /// in the current time instant the future object is spatially above the current object, and therefore has a smaller value of the Y coordinate of its position.
         /// </example>
-        private bool axisInverted => direction.Value == ScrollingDirection.Down || direction.Value == ScrollingDirection.Right;
+        private bool axisInverted => direction.Value is ScrollingDirection.Down or ScrollingDirection.Right;
 
         /// <summary>
         /// A set of top-level <see cref="DrawableHitObject"/>s which have an up-to-date layout.

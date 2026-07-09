@@ -366,7 +366,7 @@ namespace osu.Game.Rulesets.Mania.Beatmaps.Patterns.Legacy
                     break;
             }
 
-            static bool isDoubleSample(HitSampleInfo sample) => sample.Name == HitSampleInfo.HIT_CLAP || sample.Name == HitSampleInfo.HIT_FINISH;
+            static bool isDoubleSample(HitSampleInfo sample) => sample.Name is HitSampleInfo.HIT_CLAP or HitSampleInfo.HIT_FINISH;
 
             bool canGenerateTwoNotes = !convertType.HasFlag(PatternType.LowProbability);
             canGenerateTwoNotes &= HitObject.Samples.Any(isDoubleSample) || sampleInfoListAt(StartTime).Any(isDoubleSample);
@@ -448,7 +448,7 @@ namespace osu.Game.Rulesets.Mania.Beatmaps.Patterns.Legacy
                 noteCount = 0;
             noteCount = Math.Min(TotalColumns - 1, noteCount);
 
-            bool ignoreHead = !sampleInfoListAt(startTime).Any(s => s.Name == HitSampleInfo.HIT_WHISTLE || s.Name == HitSampleInfo.HIT_FINISH || s.Name == HitSampleInfo.HIT_CLAP);
+            bool ignoreHead = !sampleInfoListAt(startTime).Any(s => s.Name is HitSampleInfo.HIT_WHISTLE or HitSampleInfo.HIT_FINISH or HitSampleInfo.HIT_CLAP);
 
             var rowPattern = new Pattern();
 

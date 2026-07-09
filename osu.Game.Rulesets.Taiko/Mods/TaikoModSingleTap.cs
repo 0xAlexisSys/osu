@@ -91,14 +91,14 @@ namespace osu.Game.Rulesets.Taiko.Mods
                 && hitObject is not DrumRoll)
                 return true;
 
-            if ((action == TaikoAction.LeftCentre || action == TaikoAction.RightCentre)
+            if (action is TaikoAction.LeftCentre or TaikoAction.RightCentre
                 && (lastAcceptedCentreAction is null || lastAcceptedCentreAction == action))
             {
                 lastAcceptedCentreAction = action;
                 return true;
             }
 
-            if ((action == TaikoAction.LeftRim || action == TaikoAction.RightRim)
+            if (action is TaikoAction.LeftRim or TaikoAction.RightRim
                 && (lastAcceptedRimAction is null || lastAcceptedRimAction == action))
             {
                 lastAcceptedRimAction = action;

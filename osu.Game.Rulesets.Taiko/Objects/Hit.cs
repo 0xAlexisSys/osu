@@ -50,7 +50,7 @@ namespace osu.Game.Rulesets.Taiko.Objects
         /// <summary>
         /// Returns an array of any samples which would cause this object to be a "rim" type hit.
         /// </summary>
-        private HitSampleInfo[] getRimSamples() => Samples.Where(s => s.Name == HitSampleInfo.HIT_CLAP || s.Name == HitSampleInfo.HIT_WHISTLE).ToArray();
+        private HitSampleInfo[] getRimSamples() => Samples.Where(s => s.Name is HitSampleInfo.HIT_CLAP or HitSampleInfo.HIT_WHISTLE).ToArray();
 
         private void updateSamplesFromType()
         {

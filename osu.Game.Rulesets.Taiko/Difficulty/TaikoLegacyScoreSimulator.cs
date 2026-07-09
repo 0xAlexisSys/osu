@@ -236,7 +236,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty
             if (playableBeatmap.BeatmapVersion >= 8)
             {
                 double sliderTickRate = playableBeatmap.Difficulty.SliderTickRate;
-                if (sliderTickRate == 3 || sliderTickRate == 6 || sliderTickRate == 1.5d)
+                if (sliderTickRate is 3 or 6 or 1.5d)
                     maxRate = beatLength / 6;
                 else
                     maxRate = beatLength / 8;

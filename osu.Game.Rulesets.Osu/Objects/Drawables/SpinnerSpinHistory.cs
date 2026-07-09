@@ -136,7 +136,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
             public CompletedSpin(double completionTime, int direction)
             {
-                Debug.Assert(direction == -1 || direction == 1);
+                Debug.Assert(direction is -1 or 1);
 
                 CompletionTime = completionTime;
                 Direction = direction;

@@ -439,7 +439,7 @@ namespace osu.Game.Rulesets.Edit
 
         private bool checkToolboxMappingFromKey(Key key, out int index)
         {
-            if (key < Key.Number1 || key > Key.Number9)
+            if (key is < Key.Number1 or > Key.Number9)
             {
                 index = -1;
                 return false;

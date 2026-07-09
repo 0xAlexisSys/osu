@@ -34,7 +34,7 @@ namespace osu.Game.Rulesets.Osu.Beatmaps
             // This is normally enforced by the legacy decoder, but is not enforced by the editor.
             foreach (var obj in Beatmap.HitObjects.OfType<IHasComboInformation>())
             {
-                if (obj is not Spinner && (lastObj is null || lastObj is Spinner))
+                if (obj is not Spinner && lastObj is null or Spinner)
                     obj.NewCombo = true;
                 lastObj = obj;
             }

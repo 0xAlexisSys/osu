@@ -286,11 +286,6 @@ namespace osu.Game.Screens.Play
                 }
             }
 
-            queueGetComboMedalUnlock(score, 500);
-            queueGetComboMedalUnlock(score, 750);
-            queueGetComboMedalUnlock(score, 1000);
-            queueGetComboMedalUnlock(score, 2000);
-
             switch (Beatmap.Value.BeatmapInfo.StarRating)
             {
                 case < 2.0d:
@@ -342,11 +337,7 @@ namespace osu.Game.Screens.Play
             };
         }
 
-        private void queueGetComboMedalUnlock(ScoreInfo score, int maxCombo)
-        {
-            if (score.MaxCombo >= maxCombo)
-                medalEvaluator.AddToQueue($@"skill-all-reach_combo_{maxCombo}");
-        }
+        private void queueReachComboMedalUnlock(int maxCombo) => medalEvaluator.AddToQueue($@"skill-all-reach_combo_{maxCombo}");
 
         private void queuePassStarMedalUnlock(ScoreInfo score, int starRating)
         {
@@ -367,6 +358,16 @@ namespace osu.Game.Screens.Play
             if (result.IsHit)
             {
                 ++hitCount;
+
+                switch (Score.ScoreInfo.MaxCombo)
+                {
+                    case 500:
+                    case 750:
+                    case 1000:
+                    case 2000:
+                        queueReachComboMedalUnlock(Score.ScoreInfo.MaxCombo);
+                        break;
+                }
             }
             else
             {

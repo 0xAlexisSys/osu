@@ -54,6 +54,8 @@ namespace osu.Game.Medals
 
         public void ProcessQueue()
         {
+            if (queuedMedalUnlocks.Count == 0) return;
+
             realm.Write(r =>
             {
                 HashSet<string> unlockedMedalSlugs = r.All<RealmMedal>().AsEnumerable().Select(m => m.Slug).ToHashSet();

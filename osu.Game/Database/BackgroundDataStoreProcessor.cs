@@ -14,6 +14,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Logging;
 using osu.Game.Beatmaps;
 using osu.Game.Extensions;
+using osu.Game.Medals;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Performance;
@@ -41,6 +42,9 @@ namespace osu.Game.Database
 
         [Resolved]
         private ScoreManager scoreManager { get; set; } = null!;
+
+        [Resolved]
+        private MedalEvaluator medalEvaluator { get; set; } = null!;
 
         [Resolved]
         private RealmAccess realmAccess { get; set; } = null!;
@@ -84,6 +88,7 @@ namespace osu.Game.Database
                 upgradeModMultipliers();
                 convertLegacyTotalScoreToStandardised();
                 upgradeScoreRanks();
+                unlockEligibleStatisticsMedals();
             }, TaskCreationOptions.LongRunning).ContinueWith(t =>
             {
                 if (t.Exception?.InnerException is ObjectDisposedException)
@@ -546,6 +551,34 @@ namespace osu.Game.Database
             }
 
             completeNotification(notification, processedCount, scoreIds.Count, failedCount);
+        }
+
+        private void unlockEligibleStatisticsMedals()
+        {
+            Logger.Log($@"Querying for eligible medals with non-null {nameof(Medal.StatisticsCanUnlock)} to unlock...");
+
+            try
+            {
+                realmAccess.Run(r =>
+                {
+                    var allStatistics = r.All<Statistics>();
+
+                    foreach (Statistics statistics in allStatistics)
+                    {
+                        foreach (Medal medal in Medal.DEFINITIONS.Where(medal => medal.StatisticsCanUnlock is not null && medal.StatisticsCanUnlock.Invoke(statistics)))
+                            medalEvaluator.AddToQueue(medal.Slug);
+                    }
+                });
+                medalEvaluator.ProcessQueue();
+            }
+            catch (ObjectDisposedException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                Logger.Log($@"Failed to query for eligible medals with non-null {nameof(Medal.StatisticsCanUnlock)}: {e}");
+            }
         }
 
         private void updateNotificationProgress(ProgressNotification? notification, int processedCount, int totalCount)

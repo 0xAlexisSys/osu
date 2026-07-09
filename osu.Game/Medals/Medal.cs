@@ -1,6 +1,9 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
+using osu.Game.Users;
+
 namespace osu.Game.Medals
 {
     public partial record Medal
@@ -34,6 +37,8 @@ namespace osu.Game.Medals
         /// Whether this is an official osu! medal or not.
         /// </summary>
         public required bool IsCustom { get; init; }
+
+        public Func<Statistics, bool>? StatisticsCanUnlock { get; init; }
 
         public string Icon => $@"Medals/{Slug}";
     }

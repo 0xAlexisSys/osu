@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Game.Database;
+using osu.Game.Medals;
 using osu.Game.Rulesets;
 using Realms;
 
@@ -12,6 +13,9 @@ namespace osu.Game.Users
 {
     public partial class StatisticsManager : Component
     {
+        [Resolved]
+        private MedalEvaluator medalEvaluator { get; set; } = null!;
+
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
 
@@ -59,6 +63,11 @@ namespace osu.Game.Users
                 {
                     statistics.ScoreRankCounts.TryAdd(changes.RankString, 0);
                     ++statistics.ScoreRankCounts[changes.RankString];
+                }
+
+                foreach (Medal medal in Medal.DEFINITIONS)
+                {
+                    if (medal.StatisticsCanUnlock is not null && medal.StatisticsCanUnlock.Invoke(statistics)) medalEvaluator.AddToQueue(medal.Slug);
                 }
             });
         }

@@ -303,6 +303,158 @@ namespace osu.Game.Medals
 
             #endregion Mod Introduction
 
+            #region Dedication
+
+            new Medal
+            {
+                Slug = @"dedication-all-1000_plays",
+                Title = @"1,000 Plays",
+                Description = @"There's a lot more where that came from.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.PlayCount >= 1000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-all-3000_plays",
+                Title = @"3,000 Plays",
+                Description = @"Must... click.. circles...",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.PlayCount >= 3000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-all-5000_plays",
+                Title = @"5,000 Plays",
+                Description = @"There's no going back.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.PlayCount >= 5000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-all-10000_plays",
+                Title = @"10,000 Plays",
+                Description = @"You're here forever.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.PlayCount >= 10000,
+            },
+
+            new Medal
+            {
+                Slug = @"dedication-taiko-15000_hits",
+                Title = @"15,000 Drum Hits",
+                Description = @"Did that drum have a face?",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"taiko" && statistics.HitCount >= 15000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-taiko-150000_hits",
+                Title = @"150,000 Drum Hits",
+                Description = @"The rhythm never stops.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"taiko" && statistics.HitCount >= 150000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-taiko-1500000_hits",
+                Title = @"1,500,000 Drum Hits",
+                Description = @"Truly, the Don of dons.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"taiko" && statistics.HitCount >= 1500000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-taiko-15000000_hits",
+                Title = @"15,000,000 Drum Hits",
+                Description = @"Your rhythm, eternal.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"taiko" && statistics.HitCount >= 15000000,
+            },
+
+            new Medal
+            {
+                Slug = @"dedication-fruits-10000_hits",
+                Title = @"10,000 Fruits Caught",
+                Description = @"That is a lot of dietary fiber.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"fruits" && statistics.HitCount >= 10000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-fruits-100000_hits",
+                Title = @"100,000 Fruits Caught",
+                Description = @"So, I heard you like fruits...",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"fruits" && statistics.HitCount >= 100000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-fruits-1000000_hits",
+                Title = @"1,000,000 Fruits Caught",
+                Description = @"Downright healthy.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"fruits" && statistics.HitCount >= 1000000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-fruits-10000000_hits",
+                Title = @"10,000,000 Fruits Caught",
+                Description = @"Nothing left behind.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"fruits" && statistics.HitCount >= 10000000,
+            },
+
+            new Medal
+            {
+                Slug = @"dedication-mania-20000_hits",
+                Title = @"20,000 Keys",
+                Description = @"Just the start of the rainbow.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"mania" && statistics.HitCount >= 20000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-mania-200000_hits",
+                Title = @"200,000 Keys",
+                Description = @"Four hundred thousand and still not even close.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"mania" && statistics.HitCount >= 200000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-mania-2000000_hits",
+                Title = @"2,000,000 Keys",
+                Description = @"Is this the end of the rainbow?",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"mania" && statistics.HitCount >= 2000000,
+            },
+            new Medal
+            {
+                Slug = @"dedication-mania-20000000_hits",
+                Title = @"20,000,000 Keys",
+                Description = @"When someone asks which keys you play, the answer is now 'yes'.",
+                Category = category_skill_and_dedication,
+                IsCustom = false,
+                StatisticsCanUnlock = statistics => statistics.RulesetName == @"mania" && statistics.HitCount >= 20000000,
+            },
+
+            #endregion Dedication
+
             #region Skill
 
             #region osu!standard-only

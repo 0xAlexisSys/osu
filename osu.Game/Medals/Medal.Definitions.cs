@@ -14,6 +14,8 @@ namespace osu.Game.Medals
 
         public static readonly ImmutableArray<Medal> DEFINITIONS =
         [
+            #region Hush-Hush
+
             new Medal
             {
                 Slug = @"secret-all-consolation_prize",
@@ -95,6 +97,10 @@ namespace osu.Game.Medals
                 IsCustom = false,
             },
 
+            #endregion Hush-Hush
+
+            #region Hush-Hush (Expert)
+
             new Medal
             {
                 Slug = @"secret-all-perseverance",
@@ -135,6 +141,10 @@ namespace osu.Game.Medals
                 Category = category_hush_hush_expert,
                 IsCustom = false,
             },
+
+            #endregion Hush-Hush (Expert)
+
+            #region Mod Introduction
 
             new Medal
             {
@@ -290,6 +300,10 @@ namespace osu.Game.Medals
                 Category = category_skill_and_dedication,
                 IsCustom = false,
             },
+
+            #endregion Mod Introduction
+
+            #region Skill
 
             #region osu!standard-only
 
@@ -936,6 +950,8 @@ namespace osu.Game.Medals
             },
 
             #endregion osu!mania-only
+
+            #endregion Skill
         ];
     }
 }

@@ -646,7 +646,7 @@ namespace osu.Game.Medals
                 Slug = @"skill-osu-reach_477_spm",
                 Title = @"Cyclone",
                 Description = @"Clockwise or anticlockwise, that is the question.",
-                TooltipText = @"in osu!standard, reach 477 spins per minute on a spinner",
+                TooltipText = @"in osu!standard, reach at least 477 spins per minute on a spinner",
                 Category = category_skill_and_dedication,
                 IsCustom = false,
             },

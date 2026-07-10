@@ -40,7 +40,7 @@ namespace osu.Game.Screens.Play
         private SessionStatics statics { get; set; }
 
         [Resolved]
-        private MedalEvaluator medalEvaluator { get; set; }
+        private MedalManager medalManager { get; set; }
 
         public GameplayPlayer(PlayerConfiguration configuration = null)
             : base(configuration)
@@ -57,7 +57,7 @@ namespace osu.Game.Screens.Play
                 return;
             }
 
-            medalEvaluator.ClearQueue();
+            medalManager.ClearQueue();
 
             AddInternal(new PlayerTouchInputDetector());
 
@@ -164,7 +164,7 @@ namespace osu.Game.Screens.Play
                 Accuracy = score.ScoreInfo.Accuracy,
                 RankString = score.ScoreInfo.RankString,
             });
-            medalEvaluator.ProcessQueue();
+            medalManager.ProcessQueue();
         }
 
         public override bool OnExiting(ScreenExitEvent e)
@@ -179,7 +179,7 @@ namespace osu.Game.Screens.Play
                     AddedHitCount = hitCount,
                     AddedMissCount = missCount,
                 });
-                medalEvaluator.ProcessQueue();
+                medalManager.ProcessQueue();
             }
 
             return exiting;
@@ -196,16 +196,16 @@ namespace osu.Game.Screens.Play
             });
 
             if (score.Mods.Length == 0 && score.Rank == ScoreRank.D && score.TotalScore >= 100000)
-                medalEvaluator.AddToQueue(@"secret-all-consolation_prize");
+                medalManager.AddToQueue(@"secret-all-consolation_prize");
 
             if (score.MaxCombo == score.GetMaximumAchievableCombo() && score.Accuracy <= 0.85d)
-                medalEvaluator.AddToQueue(@"secret-all-stumbler");
+                medalManager.AddToQueue(@"secret-all-stumbler");
 
             if (score.Mods.Any(m => m is ModNoFail) && score.MaxCombo == score.GetMaximumAchievableCombo())
-                medalEvaluator.AddToQueue(@"secret-all-prepared");
+                medalManager.AddToQueue(@"secret-all-prepared");
 
             if (score.MaxCombo == score.GetMaximumAchievableCombo() - 1)
-                medalEvaluator.AddToQueue(@"secret-all-the_sum_of_all_fears");
+                medalManager.AddToQueue(@"secret-all-the_sum_of_all_fears");
 
             if (score.Ruleset.ShortName == @"osu")
             {
@@ -232,56 +232,56 @@ namespace osu.Game.Screens.Play
                 }
 
                 if (greatCount >= 15 && greatCount == okCount && greatCount == mehCount)
-                    medalEvaluator.AddToQueue(@"secret-osu-equilibrium");
+                    medalManager.AddToQueue(@"secret-osu-equilibrium");
             }
 
             // [alexis] According to Osekai, a max combo equal to the user ID's last three digits is
             //          required. Since online accounts are not a thing, the new requirement is based on
             //          the default username "Player".
             if (score.MaxCombo == 288)
-                medalEvaluator.AddToQueue(@"secret-all-value_your_identity");
+                medalManager.AddToQueue(@"secret-all-value_your_identity");
 
             if (score.Mods.FirstOrDefault(m => m is ModAccuracyChallenge) is ModAccuracyChallenge ac && Precision.AlmostEquals(score.Accuracy, ac.MinimumAccuracy.Value))
-                medalEvaluator.AddToQueue(@"secret-all-by_the_skin_of_the_teeth");
+                medalManager.AddToQueue(@"secret-all-by_the_skin_of_the_teeth");
 
             if (score.Mods.Length >= 15)
-                medalEvaluator.AddToQueue(@"secret-all-meticulous_mayhem");
+                medalManager.AddToQueue(@"secret-all-meticulous_mayhem");
 
             if (Beatmap.Value.BeatmapInfo.Length >= 420000.0d)
             {
-                medalEvaluator.AddToQueue(@"secret-all-perseverance");
+                medalManager.AddToQueue(@"secret-all-perseverance");
                 if (score.MaxCombo == score.GetMaximumAchievableCombo())
-                    medalEvaluator.AddToQueue(@"secret-all-feel_the_burn");
+                    medalManager.AddToQueue(@"secret-all-feel_the_burn");
             }
 
             if (Beatmap.Value.Beatmap.Difficulty.ApproachRate >= 10.0f
                 && Beatmap.Value.Beatmap.Difficulty.OverallDifficulty >= 10.0f
                 && Beatmap.Value.Beatmap.Difficulty.DrainRate >= 10.0f
                 && score.MaxCombo == score.GetMaximumAchievableCombo())
-                medalEvaluator.AddToQueue(@"secret-all-up_for_the_challenge");
+                medalManager.AddToQueue(@"secret-all-up_for_the_challenge");
 
             if (score.Ruleset.ShortName == @"osu")
             {
                 if (score.Mods.Any(m => m.Type == ModType.DifficultyIncrease) && score.Accuracy <= 0.65d)
-                    medalEvaluator.AddToQueue(@"secret-osu-overconfident");
+                    medalManager.AddToQueue(@"secret-osu-overconfident");
 
                 if (score.Mods.Any(m => m is ModFlashlight) && score.Accuracy <= 0.65d)
-                    medalEvaluator.AddToQueue(@"secret-osu-spooked");
+                    medalManager.AddToQueue(@"secret-osu-spooked");
             }
 
             foreach (Mod mod in score.Mods)
             {
                 if (mod.MedalSlug is not null)
-                    medalEvaluator.AddToQueue(mod.MedalSlug);
+                    medalManager.AddToQueue(mod.MedalSlug);
 
                 switch (mod.Type)
                 {
                     case ModType.Conversion:
-                        medalEvaluator.AddToQueue(@"mods-all-any_conversion");
+                        medalManager.AddToQueue(@"mods-all-any_conversion");
                         break;
 
                     case ModType.Fun:
-                        medalEvaluator.AddToQueue(@"mods-all-any_fun");
+                        medalManager.AddToQueue(@"mods-all-any_fun");
                         break;
                 }
             }
@@ -329,7 +329,7 @@ namespace osu.Game.Screens.Play
                     break;
             }
 
-            medalEvaluator.ProcessQueue();
+            medalManager.ProcessQueue();
 
             return new ResultsScreen(score)
             {
@@ -337,7 +337,7 @@ namespace osu.Game.Screens.Play
             };
         }
 
-        private void queueReachComboMedalUnlock(int maxCombo) => medalEvaluator.AddToQueue($@"skill-all-reach_combo_{maxCombo}");
+        private void queueReachComboMedalUnlock(int maxCombo) => medalManager.AddToQueue($@"skill-all-reach_combo_{maxCombo}");
 
         private void queuePassStarMedalUnlock(ScoreInfo score, int starRating)
         {
@@ -348,9 +348,9 @@ namespace osu.Game.Screens.Play
             if (score.Ruleset.ShortName != @"osu" && starRating > 8)
                 starRating = 8;
 
-            medalEvaluator.AddToQueue($@"skill-{score.Ruleset.ShortName}-pass_{starRating}_star");
+            medalManager.AddToQueue($@"skill-{score.Ruleset.ShortName}-pass_{starRating}_star");
             if (score.MaxCombo == score.GetMaximumAchievableCombo())
-                medalEvaluator.AddToQueue($@"skill-{score.Ruleset.ShortName}-fc_{starRating}_star");
+                medalManager.AddToQueue($@"skill-{score.Ruleset.ShortName}-fc_{starRating}_star");
         }
 
         private void onNewHitJudgement(JudgementResult result)

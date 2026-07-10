@@ -291,7 +291,7 @@ namespace osu.Game.Overlays.Notifications
             private readonly Notification notification;
 
             [Resolved]
-            private MedalEvaluator medalEvaluator { get; set; } = null!;
+            private MedalManager medalManager { get; set; } = null!;
 
             public DragContainer(Notification notification)
             {
@@ -337,7 +337,7 @@ namespace osu.Game.Overlays.Notifications
                 if (notification.AllowFlingDismiss && (Rotation < -10 || velocity.X < -0.3f))
                 {
                     if (velocity.X <= -2.4f)
-                        medalEvaluator.Unlock(@"secret-ui-courier_catapult");
+                        medalManager.Unlock(@"secret-ui-courier_catapult");
                     notification.Close(true);
                 }
                 else if (X > 30 || velocity.X > 0.3f)

@@ -6,16 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Graphics;
 using osu.Framework.Allocation;
+using osu.Framework.Logging;
 using osu.Game.Database;
 using osu.Game.Models;
+using Realms;
 
 namespace osu.Game.Medals
 {
-    public partial class MedalEvaluator : Component
+    public partial class MedalManager : Component
     {
         public event Action<Medal>? MedalUnlocked;
 
-        private readonly HashSet<string> queuedMedalUnlocks = new HashSet<string>();
+        private readonly HashSet<string> queuedMedalUnlocks = [];
 
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
@@ -24,33 +26,19 @@ namespace osu.Game.Medals
         {
             realm.Write(r =>
             {
-                HashSet<string> unlockedMedalSlugs = r.All<RealmMedal>().AsEnumerable().Select(m => m.Slug).ToHashSet();
+                var unlockedMedalSlugs = r.All<RealmMedal>().AsEnumerable().Select(m => m.Slug).ToHashSet();
 
                 if (unlockedMedalSlugs.Contains(medalSlug)) return;
 
                 Medal? medal = Medal.DEFINITIONS.FirstOrDefault(m => m.Slug == medalSlug);
 
-                if (medal is null) return;
-
-                r.Add(new RealmMedal
-                {
-                    ID = Guid.NewGuid(),
-                    Slug = medal.Slug,
-                    UnlockedAt = DateTimeOffset.UtcNow,
-                });
-                MedalUnlocked?.Invoke(medal);
+                if (medal is not null) addMedalToRealm(r, medal);
             });
         }
 
-        public void AddToQueue(string medalSlug)
-        {
-            queuedMedalUnlocks.Add(medalSlug);
-        }
+        public void AddToQueue(string medalSlug) => queuedMedalUnlocks.Add(medalSlug);
 
-        public void ClearQueue()
-        {
-            queuedMedalUnlocks.Clear();
-        }
+        public void ClearQueue() => queuedMedalUnlocks.Clear();
 
         public void ProcessQueue()
         {
@@ -58,7 +46,7 @@ namespace osu.Game.Medals
 
             realm.Write(r =>
             {
-                HashSet<string> unlockedMedalSlugs = r.All<RealmMedal>().AsEnumerable().Select(m => m.Slug).ToHashSet();
+                var unlockedMedalSlugs = r.All<RealmMedal>().AsEnumerable().Select(m => m.Slug).ToHashSet();
 
                 foreach (string medalSlug in queuedMedalUnlocks)
                 {
@@ -66,20 +54,27 @@ namespace osu.Game.Medals
 
                     Medal? medal = Medal.DEFINITIONS.FirstOrDefault(m => m.Slug == medalSlug);
 
-                    if (medal is null) continue;
-
-                    r.Add(new RealmMedal
+                    if (medal is not null)
                     {
-                        ID = Guid.NewGuid(),
-                        Slug = medal.Slug,
-                        UnlockedAt = DateTimeOffset.UtcNow,
-                    });
-                    unlockedMedalSlugs.Add(medal.Slug);
-                    MedalUnlocked?.Invoke(medal);
+                        addMedalToRealm(r, medal);
+                        unlockedMedalSlugs.Add(medal.Slug);
+                    }
                 }
 
                 ClearQueue();
             });
+        }
+
+        private void addMedalToRealm(Realm r, Medal medal)
+        {
+            Logger.Log($@"Unlocked medal ""{medal.Slug}""!", LoggingTarget.Database);
+            r.Add(new RealmMedal
+            {
+                ID = Guid.NewGuid(),
+                Slug = medal.Slug,
+                UnlockedAt = DateTimeOffset.UtcNow,
+            });
+            MedalUnlocked?.Invoke(medal);
         }
     }
 }

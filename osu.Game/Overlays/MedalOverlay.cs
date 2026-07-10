@@ -27,7 +27,7 @@ namespace osu.Game.Overlays
         private readonly Queue<MedalAnimation> queuedMedals = new Queue<MedalAnimation>();
 
         [Resolved]
-        private MedalEvaluator medalEvaluator { get; set; } = null!;
+        private MedalManager medalManager { get; set; } = null!;
 
         private Container<Drawable> medalContainer = null!;
         private MedalAnimation? currentMedalDisplay;
@@ -37,7 +37,7 @@ namespace osu.Game.Overlays
         {
             RelativeSizeAxes = Axes.Both;
 
-            medalEvaluator.MedalUnlocked += handleMedal;
+            medalManager.MedalUnlocked += handleMedal;
 
             Add(medalContainer = new Container
             {
@@ -122,7 +122,7 @@ namespace osu.Game.Overlays
 
         protected override void Dispose(bool isDisposing)
         {
-            medalEvaluator.MedalUnlocked -= handleMedal;
+            medalManager.MedalUnlocked -= handleMedal;
 
             base.Dispose(isDisposing);
         }

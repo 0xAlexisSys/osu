@@ -14,7 +14,7 @@ namespace osu.Game.Users
     public partial class StatisticsManager : Component
     {
         [Resolved]
-        private MedalEvaluator medalEvaluator { get; set; } = null!;
+        private MedalManager medalManager { get; set; } = null!;
 
         [Resolved]
         private RealmAccess realm { get; set; } = null!;
@@ -67,7 +67,7 @@ namespace osu.Game.Users
 
                 foreach (Medal medal in Medal.DEFINITIONS)
                 {
-                    if (medal.StatisticsCanUnlock is not null && medal.StatisticsCanUnlock.Invoke(statistics)) medalEvaluator.AddToQueue(medal.Slug);
+                    if (medal.StatisticsCanUnlock is not null && medal.StatisticsCanUnlock.Invoke(statistics)) medalManager.AddToQueue(medal.Slug);
                 }
             });
         }

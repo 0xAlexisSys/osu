@@ -44,7 +44,7 @@ namespace osu.Game.Database
         private ScoreManager scoreManager { get; set; } = null!;
 
         [Resolved]
-        private MedalEvaluator medalEvaluator { get; set; } = null!;
+        private MedalManager medalManager { get; set; } = null!;
 
         [Resolved]
         private RealmAccess realmAccess { get; set; } = null!;
@@ -566,10 +566,10 @@ namespace osu.Game.Database
                     foreach (Statistics statistics in allStatistics)
                     {
                         foreach (Medal medal in Medal.DEFINITIONS.Where(medal => medal.StatisticsCanUnlock is not null && medal.StatisticsCanUnlock.Invoke(statistics)))
-                            medalEvaluator.AddToQueue(medal.Slug);
+                            medalManager.AddToQueue(medal.Slug);
                     }
                 });
-                medalEvaluator.ProcessQueue();
+                medalManager.ProcessQueue();
             }
             catch (ObjectDisposedException)
             {

@@ -74,7 +74,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
         private Player player { get; set; }
 
         [Resolved]
-        private MedalEvaluator medalEvaluator { get; set; }
+        private MedalManager medalManager { get; set; }
 
         private const double fade_out_duration = 240;
 
@@ -336,7 +336,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             {
                 spmCalculator.SetRotation(Result.TotalRotation);
                 if (player is GameplayPlayer && SpinsPerMinute.Value >= 477.0d)
-                    medalEvaluator.AddToQueue(@"skill-osu-reach_477_spm");
+                    medalManager.AddToQueue(@"skill-osu-reach_477_spm");
             }
 
             updateBonusScore();

@@ -73,7 +73,7 @@ namespace osu.Game.Graphics.Cursor
         private OsuGame? game { get; set; }
 
         [Resolved]
-        private MedalEvaluator? medalEvaluator { get; set; }
+        private MedalManager? medalEvaluator { get; set; }
 
         private readonly IBindable<bool> lastInputWasMouse = new BindableBool();
         private readonly IBindable<bool> gameActive = new BindableBool(true);

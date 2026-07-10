@@ -145,7 +145,7 @@ namespace osu.Game
 
         protected StatisticsManager StatisticsManager { get; private set; }
 
-        protected MedalEvaluator MedalEvaluator { get; private set; }
+        protected MedalManager MedalManager { get; private set; }
 
         protected SkinManager SkinManager { get; private set; }
 
@@ -339,8 +339,8 @@ namespace osu.Game
             // Add after all the above cache operations as it depends on them.
             base.Content.Add(difficultyCache);
 
-            dependencies.CacheAs(MedalEvaluator = new MedalEvaluator());
-            base.Content.Add(MedalEvaluator);
+            dependencies.CacheAs(MedalManager = new MedalManager());
+            base.Content.Add(MedalManager);
 
             dependencies.Cache(StatisticsManager = new StatisticsManager());
             base.Content.Add(StatisticsManager);

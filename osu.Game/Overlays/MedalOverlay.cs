@@ -7,73 +7,58 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osu.Framework.Logging;
+using osu.Framework.Screens;
 using osu.Game.Graphics.Containers;
 using osu.Game.Input.Bindings;
 using osu.Game.Medals;
+using osu.Game.Screens.Play;
+using osu.Game.Screens.Ranking;
+using osu.Game.Screens.Ranking.Expanded.Accuracy;
+using osu.Game.Screens.Select;
 
 namespace osu.Game.Overlays
 {
     public partial class MedalOverlay : OsuFocusedOverlayContainer
     {
+        public override bool IsPresent => base.IsPresent || Scheduler.HasPendingTasks;
+
         protected override string? PopInSampleName => null;
         protected override string? PopOutSampleName => null;
 
-        public override bool IsPresent => base.IsPresent || Scheduler.HasPendingTasks;
+        private readonly Container<Drawable> medalContainer;
+        private MedalAnimation? currentMedalDisplay;
+        private bool scheduledShow;
+        private readonly Queue<MedalAnimation> queuedMedalDisplays = [];
 
-        protected override void PopIn() => this.FadeIn();
-
-        protected override void PopOut() => this.FadeOut();
-
-        private readonly Queue<MedalAnimation> queuedMedals = new Queue<MedalAnimation>();
+        [Resolved]
+        private OsuGame game { get; set; } = null!;
 
         [Resolved]
         private MedalManager medalManager { get; set; } = null!;
 
-        private Container<Drawable> medalContainer = null!;
-        private MedalAnimation? currentMedalDisplay;
-
-        [BackgroundDependencyLoader]
-        private void load()
+        public MedalOverlay()
         {
             RelativeSizeAxes = Axes.Both;
-
-            medalManager.MedalUnlocked += handleMedal;
-
-            Add(medalContainer = new Container
-            {
-                RelativeSizeAxes = Axes.Both
-            });
+            Child = medalContainer = new Container { RelativeSizeAxes = Axes.Both };
         }
 
         protected override void LoadComplete()
         {
             base.LoadComplete();
+            game.ScreenStack.ScreenPushed += onScreenPushed;
+            medalManager.MedalUnlocked += onMedalUnlocked;
+        }
 
-            OverlayActivationMode.BindValueChanged(_ => showNextMedal(), true);
+        protected override void Dispose(bool isDisposing)
+        {
+            base.Dispose(isDisposing);
+            game.ScreenStack.ScreenPushed -= onScreenPushed;
+            medalManager.MedalUnlocked -= onMedalUnlocked;
         }
 
         public override void Hide()
         {
             // don't allow hiding the overlay via any method other than our own.
-        }
-
-        private void handleMedal(Medal medal)
-        {
-            var medalAnimation = new MedalAnimation(medal);
-
-            Logger.Log($"Queueing medal unlock for \"{medal.Title}\" ({queuedMedals.Count} to display)");
-
-            Schedule(() => LoadComponentAsync(medalAnimation, m =>
-            {
-                queuedMedals.Enqueue(m);
-                showNextMedal();
-            }));
-        }
-
-        protected override bool OnClick(ClickEvent e)
-        {
-            progressDisplayByUser();
-            return true;
         }
 
         public override bool OnPressed(KeyBindingPressEvent<GlobalAction> e)
@@ -85,6 +70,44 @@ namespace osu.Game.Overlays
             }
 
             return base.OnPressed(e);
+        }
+
+        protected override bool OnClick(ClickEvent e)
+        {
+            progressDisplayByUser();
+            return true;
+        }
+
+        protected override void PopIn() => this.FadeIn();
+
+        protected override void PopOut() => this.FadeOut();
+
+        private void onScreenPushed(IScreen lastScreen, IScreen newScreen)
+        {
+            if (!queuedMedalDisplays.TryPeek(out _))
+            {
+                switch (lastScreen)
+                {
+                    case GameplayPlayer when newScreen is ResultsScreen:
+                        scheduleShow(AccuracyCircle.TOTAL_DURATION + 1000.0d);
+                        break;
+
+                    case PlayerLoader when newScreen is SongSelect:
+                        scheduleShow(500.0d);
+                        break;
+                }
+            }
+        }
+
+        private void onMedalUnlocked(Medal medal)
+        {
+            Logger.Log($@"Queueing medal ""{medal.Slug}"" to display");
+
+            Schedule(() => LoadComponentAsync(new MedalAnimation(medal), m =>
+            {
+                queuedMedalDisplays.Enqueue(m);
+                if (game.ScreenStack.CurrentScreen is not (ResultsScreen or PlayerLoader)) showNextMedal();
+            }));
         }
 
         private void progressDisplayByUser()
@@ -107,24 +130,30 @@ namespace osu.Game.Overlays
             if (currentMedalDisplay is not null)
                 return;
 
-            if (queuedMedals.TryDequeue(out currentMedalDisplay))
+            if (queuedMedalDisplays.TryDequeue(out currentMedalDisplay))
             {
-                Logger.Log($"Displaying \"{currentMedalDisplay.Medal.Title}\"");
+                Logger.Log($@"Displaying medal ""{currentMedalDisplay.Medal.Slug}""");
                 medalContainer.Add(currentMedalDisplay);
                 Show();
             }
             else if (State.Value == Visibility.Visible)
             {
-                Logger.Log("All queued medals have been displayed, hiding overlay!");
+                Logger.Log(@"All queued medals have been displayed, hiding overlay!");
                 base.Hide();
             }
         }
 
-        protected override void Dispose(bool isDisposing)
+        private void scheduleShow(double delayTime)
         {
-            medalManager.MedalUnlocked -= handleMedal;
-
-            base.Dispose(isDisposing);
+            if (!scheduledShow)
+            {
+                scheduledShow = true;
+                Scheduler.AddDelayed(() =>
+                {
+                    showNextMedal();
+                    scheduledShow = false;
+                }, delayTime);
+            }
         }
     }
 }

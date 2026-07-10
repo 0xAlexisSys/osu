@@ -31,7 +31,6 @@ using osu.Game.Overlays;
 using osu.Game.Overlays.Volume;
 using osu.Game.Scoring;
 using osu.Game.Screens.Play;
-using osu.Game.Screens.Ranking.Expanded.Accuracy;
 using osu.Game.Screens.Ranking.Statistics;
 using osu.Game.Skinning;
 using osu.Game.Users;
@@ -48,8 +47,6 @@ namespace osu.Game.Screens.Ranking
 
         public override bool DisallowExternalBeatmapRulesetChanges => true;
         public override bool? AllowGlobalTrackControl => true;
-
-        protected override OverlayActivation InitialOverlayActivationMode => OverlayActivation.UserTriggered;
 
         /// <summary>
         /// Whether the user can retry the beatmap from the results screen.
@@ -177,11 +174,6 @@ namespace osu.Game.Screens.Ranking
             bool shouldFlair = player is not null && Score.User.ID != User.BOT_USER_ID;
 
             ScorePanelList.AddScore(Score, shouldFlair);
-
-            // this is mostly for medal display.
-            // we don't want the medal animation to trample on the results screen animation, so we (ab)use `OverlayActivationMode`
-            // to give the results screen enough time to play the animation out before the medals can be shown.
-            Scheduler.AddDelayed(() => OverlayActivationMode.Value = OverlayActivation.All, shouldFlair ? AccuracyCircle.TOTAL_DURATION + 1000 : 0);
 
             bool allowHotkeyRetry = false;
 

@@ -144,6 +144,8 @@ namespace osu.Game.Beatmaps
 
         public int[] Bookmarks { get; set; } = [];
 
+        public double[] SliderVelocityPresets { get; set; } = [0.75, 1, 1.5];
+
         public int BeatmapVersion { get; set; } = LegacyBeatmapEncoder.FIRST_LAZER_VERSION;
 
         IBeatmap IBeatmap.Clone() => Clone();

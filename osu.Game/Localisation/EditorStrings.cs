@@ -210,16 +210,6 @@ namespace osu.Game.Localisation
         public static LocalisableString ResetBookmarks => new TranslatableString(getKey(@"reset_bookmarks"), @"Reset bookmarks");
 
         /// <summary>
-        /// "Open beatmap info page"
-        /// </summary>
-        public static LocalisableString OpenInfoPage => new TranslatableString(getKey(@"open_info_page"), @"Open beatmap info page");
-
-        /// <summary>
-        /// "Open beatmap discussion page"
-        /// </summary>
-        public static LocalisableString OpenDiscussionPage => new TranslatableString(getKey(@"open_discussion_page"), @"Open beatmap discussion page");
-
-        /// <summary>
         /// "Current difficulty"
         /// </summary>
         public static LocalisableString CheckCurrentDifficulty => new TranslatableString(getKey(@"check_current_difficulty"), @"Current difficulty");

@@ -75,11 +75,6 @@ namespace osu.Game.Localisation
         public static LocalisableString SongSelectHeader => new TranslatableString(getKey(@"song_select_header"), @"Song Select");
 
         /// <summary>
-        /// "Right mouse drag to absolute scroll"
-        /// </summary>
-        public static LocalisableString RightMouseScroll => new TranslatableString(getKey(@"right_mouse_scroll"), @"Right mouse drag to absolute scroll");
-
-        /// <summary>
         /// "Show converts"
         /// </summary>
         public static LocalisableString ShowConverts => new TranslatableString(getKey(@"show_converts"), @"Show converts");
@@ -88,16 +83,6 @@ namespace osu.Game.Localisation
         /// "Show converted beatmaps"
         /// </summary>
         public static LocalisableString ShowConvertedBeatmaps => new TranslatableString(getKey(@"show_converted_beatmaps"), @"Show converted beatmaps");
-
-        /// <summary>
-        /// "Display beatmaps from"
-        /// </summary>
-        public static LocalisableString StarsMinimum => new TranslatableString(getKey(@"stars_minimum"), @"Display beatmaps from");
-
-        /// <summary>
-        /// "up to"
-        /// </summary>
-        public static LocalisableString StarsMaximum => new TranslatableString(getKey(@"stars_maximum"), @"up to");
 
         /// <summary>
         /// "Random selection algorithm"
@@ -173,16 +158,6 @@ namespace osu.Game.Localisation
         /// "Show hidden"
         /// </summary>
         public static LocalisableString ShowHidden => new TranslatableString(getKey(@"show_hidden"), @"Show hidden");
-
-        /// <summary>
-        /// "Currently online"
-        /// </summary>
-        public static LocalisableString CurrentlyOnline => new TranslatableString(getKey(@"currently_online"), @"Currently online");
-
-        /// <summary>
-        /// "User search"
-        /// </summary>
-        public static LocalisableString UserSearch => new TranslatableString(getKey(@"user_search"), @"User search");
 
         private static string getKey(string key) => $@"{prefix}:{key}";
     }

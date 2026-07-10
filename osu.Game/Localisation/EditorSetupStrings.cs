@@ -240,11 +240,6 @@ namespace osu.Game.Localisation
         public static LocalisableString RulesetHeader(string arg0) => new TranslatableString(getKey(@"ruleset"), @"Ruleset ({0})", arg0);
 
         /// <summary>
-        /// "Combo"
-        /// </summary>
-        public static LocalisableString ComboColourPrefix => new TranslatableString(getKey(@"combo_colour_prefix"), @"Combo");
-
-        /// <summary>
         /// "Artist"
         /// </summary>
         public static LocalisableString Artist => new TranslatableString(getKey(@"artist"), @"Artist");

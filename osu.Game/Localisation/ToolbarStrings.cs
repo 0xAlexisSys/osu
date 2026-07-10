@@ -10,21 +10,6 @@ namespace osu.Game.Localisation
         private const string prefix = @"osu.Game.Resources.Localisation.Toolbar";
 
         /// <summary>
-        /// "Connection interrupted, will try to reconnect..."
-        /// </summary>
-        public static LocalisableString AttemptingToReconnect => new TranslatableString(getKey(@"attempting_to_reconnect"), @"Connection interrupted, will try to reconnect...");
-
-        /// <summary>
-        /// "Connecting..."
-        /// </summary>
-        public static LocalisableString Connecting => new TranslatableString(getKey(@"connecting"), @"Connecting...");
-
-        /// <summary>
-        /// "Verification required"
-        /// </summary>
-        public static LocalisableString VerificationRequired => new TranslatableString(getKey(@"verification_required"), @"Verification required");
-
-        /// <summary>
         /// "home"
         /// </summary>
         public static LocalisableString HomeHeaderTitle => new TranslatableString(getKey(@"home_header_title"), @"home");

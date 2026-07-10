@@ -141,7 +141,7 @@ namespace osu.Game.Screens.Menu
                             {
                                 skinEditor?.Show();
                             },
-                            OnPlay = loadSongSelect, // [alexis] Since multiplayer is not preserved, this leads straight to the song select menu.
+                            OnPlay = loadSongSelect,
                             OnExit = e =>
                             {
                                 exitConfirmedViaHoldOrClick = e is MouseEvent;

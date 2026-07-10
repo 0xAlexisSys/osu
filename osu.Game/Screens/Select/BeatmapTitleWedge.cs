@@ -138,6 +138,7 @@ namespace osu.Game.Screens.Select
                                 playCount = new StatisticPlayCount(background: true, leftPadding: SongSelect.WEDGE_CONTENT_MARGIN, minSize: 50.0f)
                                 {
                                     Margin = new MarginPadding { Left = -SongSelect.WEDGE_CONTENT_MARGIN },
+                                    TooltipText = SongSelectStrings.TotalPlays,
                                 },
                                 favouriteButton = new FavouriteButton(),
                                 lengthStatistic = new Statistic(OsuIcon.Clock),

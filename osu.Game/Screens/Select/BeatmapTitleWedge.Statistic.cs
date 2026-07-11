@@ -10,7 +10,6 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Localisation;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Graphics.UserInterface;
 using osu.Game.Overlays;
 using osuTK;
 using osuTK.Graphics;
@@ -27,7 +26,6 @@ namespace osu.Game.Screens.Select
             private readonly float? minSize;
 
             private OsuSpriteText valueText = null!;
-            private LoadingSpinner loading = null!;
 
             private LocalisableString? text;
 
@@ -95,13 +93,6 @@ namespace osu.Game.Screens.Select
                                 Height = 20,
                                 Children = new Drawable[]
                                 {
-                                    loading = new LoadingSpinner
-                                    {
-                                        Anchor = Anchor.Centre,
-                                        Origin = Anchor.Centre,
-                                        Size = new Vector2(14f),
-                                        State = { Value = Visibility.Visible },
-                                    },
                                     new GridContainer
                                     {
                                         Anchor = Anchor.CentreLeft,
@@ -143,8 +134,6 @@ namespace osu.Game.Screens.Select
 
             private void updateDisplay()
             {
-                loading.State.Value = text is not null ? Visibility.Hidden : Visibility.Visible;
-
                 if (text is not null)
                 {
                     valueText.Text = text.Value;

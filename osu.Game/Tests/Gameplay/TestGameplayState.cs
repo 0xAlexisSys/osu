@@ -1,7 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.Collections.Generic;
 using osu.Framework.Bindables;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
@@ -19,7 +18,7 @@ namespace osu.Game.Tests.Gameplay
         /// <summary>
         /// Creates a correctly-initialised <see cref="GameplayState"/> instance for use in testing.
         /// </summary>
-        public static GameplayState Create(Ruleset ruleset, IReadOnlyList<Mod>? mods = null, Score? score = null, IBindable<LocalUserPlayingState>? playState = null)
+        public static GameplayState Create(Ruleset ruleset, Mod[]? mods = null, Score? score = null, Bindable<LocalUserPlayingState>? playState = null)
         {
             var beatmap = new TestBeatmap(ruleset.RulesetInfo);
             var workingBeatmap = new TestWorkingBeatmap(beatmap);

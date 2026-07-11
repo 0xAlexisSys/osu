@@ -22,7 +22,7 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
                     .MoveToY(-0.6f)
                     .MoveToY(-1.5f, 500);
 
-                JudgementText
+                Label
                     .ScaleTo(0.9f)
                     .ScaleTo(1, 500, Easing.OutElastic);
 

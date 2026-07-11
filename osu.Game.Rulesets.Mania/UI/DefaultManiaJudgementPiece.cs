@@ -39,7 +39,7 @@ namespace osu.Game.Rulesets.Mania.UI
         {
             base.LoadComplete();
 
-            JudgementText.Font = JudgementText.Font.With(size: 25);
+            Label.Font = Label.Font.With(size: 25);
         }
 
         public override void PlayAnimation()

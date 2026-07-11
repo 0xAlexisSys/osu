@@ -87,7 +87,11 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
             {
                 this.FadeOutFromOne(800);
 
-                JudgementText
+                var newPropertyPair = TryGetPropertyPairForSpecialJudgement();
+
+                Label.Colour = newPropertyPair.colour;
+                Label.Text = newPropertyPair.text;
+                Label
                     .FadeInFromZero(300, Easing.OutQuint)
                     .ScaleTo(Vector2.One)
                     .ScaleTo(new Vector2(1.2f), 1800, Easing.OutQuint);
@@ -96,7 +100,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Argon
             ringExplosion?.PlayAnimation();
         }
 
-        public Drawable? GetAboveHitObjectsProxiedContent() => JudgementText.CreateProxy();
+        public Drawable? GetAboveHitObjectsProxiedContent() => Label.CreateProxy();
 
         private partial class RingExplosion : CompositeDrawable
         {

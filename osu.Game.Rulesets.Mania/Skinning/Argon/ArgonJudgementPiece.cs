@@ -81,7 +81,7 @@ namespace osu.Game.Rulesets.Mania.Skinning.Argon
             switch (Result)
             {
                 default:
-                    JudgementText
+                    Label
                         .ScaleTo(Vector2.One)
                         .ScaleTo(new Vector2(1.4f), 1800, Easing.OutQuint);
                     break;

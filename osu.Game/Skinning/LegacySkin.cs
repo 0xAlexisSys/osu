@@ -19,6 +19,7 @@ using osu.Game.Audio;
 using osu.Game.Beatmaps.Formats;
 using osu.Game.Extensions;
 using osu.Game.IO;
+using osu.Game.Rulesets.Judgements;
 using osu.Game.Rulesets.Objects.Types;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Screens.Play.HUD;
@@ -28,7 +29,7 @@ using osuTK.Graphics;
 
 namespace osu.Game.Skinning
 {
-    public class LegacySkin : Skin
+    public partial class LegacySkin : Skin
     {
         protected virtual bool AllowManiaConfigLookups => true;
 
@@ -472,10 +473,14 @@ namespace osu.Game.Skinning
 
                         var particle = getParticleTexture(resultComponent.Component);
 
-                        if (particle is not null)
-                            return new LegacyJudgementPieceNew(resultComponent.Component, createDrawable, particle);
+                        IAnimatableJudgement regularPiece;
 
-                        return new LegacyJudgementPieceOld(resultComponent.Component, createDrawable);
+                        if (particle is not null)
+                            regularPiece = new LegacyJudgementPieceNew(resultComponent.Component, createDrawable, particle);
+                        else
+                            regularPiece = new LegacyJudgementPieceOld(resultComponent.Component, createDrawable);
+
+                        return new LegacyJudgementPiece(resultComponent.Component, regularPiece, animName => this.GetAnimation(animName, true, false), particle);
                     }
 
                     return null;

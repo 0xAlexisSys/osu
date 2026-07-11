@@ -69,10 +69,10 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
             switch (Result)
             {
                 default:
-                    JudgementText.MoveToY(-0.6f)
+                    Label.MoveToY(-0.6f)
                                  .MoveToY(-1.0f, duration, Easing.OutQuint);
 
-                    JudgementText
+                    Label
                         .ScaleTo(Vector2.One)
                         .ScaleTo(new Vector2(1.4f), duration, Easing.OutQuint);
                     break;
@@ -81,8 +81,8 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Argon
                     this.ScaleTo(1.6f);
                     this.ScaleTo(1, 100, Easing.In);
 
-                    JudgementText.MoveTo(Vector2.Zero);
-                    JudgementText.MoveToOffset(new Vector2(0, 100), duration, Easing.InQuint);
+                    Label.MoveTo(Vector2.Zero);
+                    Label.MoveToOffset(new Vector2(0, 100), duration, Easing.InQuint);
 
                     this.RotateTo(0);
                     this.RotateTo(40, duration, Easing.InQuint);

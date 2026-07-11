@@ -282,7 +282,8 @@ namespace osu.Game.Screens.Play
             Score.ScoreInfo.Ruleset = ruleset.RulesetInfo;
             Score.ScoreInfo.Mods = gameplayMods;
 
-            dependencies.CacheAs(GameplayState = new GameplayState(playableBeatmap, ruleset, gameplayMods, Score, ScoreProcessor, HealthProcessor, Beatmap.Value.Storyboard, PlayingState));
+            dependencies.CacheAs(GameplayState = new GameplayState(playableBeatmap, ruleset, gameplayMods, Score, ScoreProcessor, HealthProcessor, Beatmap.Value.Storyboard,
+                (Bindable<LocalUserPlayingState>)PlayingState));
 
             var rulesetSkinProvider = new RulesetSkinProvidingContainer(ruleset, playableBeatmap, Beatmap.Value.Skin);
             config.BindWith(OsuSetting.BeatmapSkins, rulesetSkinProvider.BeatmapSkins);
@@ -405,6 +406,7 @@ namespace osu.Game.Screens.Play
             {
                 HealthProcessor.RevertResult(r);
                 ScoreProcessor.RevertResult(r);
+                GameplayState.RevertResult(r);
             };
 
             DimmableStoryboard.HasStoryboardEnded.ValueChanged += _ => checkScoreCompleted();

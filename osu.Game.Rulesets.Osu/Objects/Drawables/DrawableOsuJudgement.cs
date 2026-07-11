@@ -104,7 +104,11 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             {
                 if (Result != HitResult.Miss)
                 {
-                    JudgementText
+                    var newPropertyPair = TryGetPropertyPairForSpecialJudgement();
+
+                    Label.Colour = newPropertyPair.colour;
+                    Label.Text = newPropertyPair.text;
+                    Label
                         .ScaleTo(new Vector2(0.8f, 1))
                         .ScaleTo(new Vector2(1.2f, 1), 1800, Easing.OutQuint);
                 }

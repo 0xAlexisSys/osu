@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using osu.Framework.Allocation;
+using osu.Framework.Localisation;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Graphics;
@@ -15,10 +16,12 @@ namespace osu.Game.Screens.Select
     {
         public partial class StatisticPlayCount : Statistic
         {
-            [Resolved]
-            private RealmAccess realm { get; set; } = null!;
+            private static readonly LocalisableString zero_text = @"0";
 
             private IDisposable? realmSubscription;
+
+            [Resolved]
+            private RealmAccess realm { get; set; } = null!;
 
             public StatisticPlayCount(bool background = false, float leftPadding = 10.0f, float? minSize = null)
                 : base(OsuIcon.Play, background, leftPadding, minSize) { }
@@ -30,8 +33,11 @@ namespace osu.Game.Screens.Select
                 {
                     if (sender.Count != 0)
                     {
-                        sender[0].BeatmapPlayCounts.TryGetValue(beatmap.Hash, out int playCount);
-                        Text = playCount.ToString();
+                        Text = sender[0].BeatmapPlayCounts.TryGetValue(beatmap.Hash, out int playCount) ? playCount.ToString() : zero_text;
+                    }
+                    else
+                    {
+                        Text = zero_text;
                     }
                 });
             }

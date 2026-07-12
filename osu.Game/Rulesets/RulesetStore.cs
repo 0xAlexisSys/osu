@@ -191,9 +191,9 @@ namespace osu.Game.Rulesets
 
         #region Implementation of IRulesetStore
 
-        IRulesetInfo? IRulesetStore.GetRuleset(int id) => GetRuleset(id);
-        IRulesetInfo? IRulesetStore.GetRuleset(string shortName) => GetRuleset(shortName);
-        IEnumerable<IRulesetInfo> IRulesetStore.AvailableRulesets => AvailableRulesets;
+        RulesetInfo? IRulesetStore.GetRuleset(int id) => GetRuleset(id);
+        RulesetInfo? IRulesetStore.GetRuleset(string shortName) => GetRuleset(shortName);
+        IEnumerable<RulesetInfo> IRulesetStore.AvailableRulesets => AvailableRulesets;
 
         #endregion
     }

@@ -353,7 +353,7 @@ namespace osu.Game.Beatmaps
 
             public override Stream GetStream(string storagePath) => resources.Files.GetStream(storagePath);
 
-            private string getMainStoryboardFilename(IBeatmapMetadataInfo metadata)
+            private string getMainStoryboardFilename(BeatmapMetadata metadata)
             {
                 // Matches stable implementation, because it's probably simpler than trying to do anything else.
                 // This may need to be reconsidered after we begin storing storyboards in the new editor.

@@ -8,17 +8,32 @@ using Realms;
 
 namespace osu.Game.Rulesets
 {
+    /// <summary>
+    /// A representation of a ruleset's metadata.
+    /// </summary>
     [MapTo("Ruleset")]
-    public class RulesetInfo : RealmObject, IEquatable<RulesetInfo>, IComparable<RulesetInfo>, IRulesetInfo
+    public class RulesetInfo : RealmObject, IEquatable<RulesetInfo>, IComparable<RulesetInfo>
     {
+        /// <summary>
+        /// An acronym defined by the ruleset that can be used as a permanent identifier.
+        /// </summary>
         [PrimaryKey]
         public string ShortName { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The internal ID of this ruleset.
+        /// </summary>
         [Indexed]
         public int ID { get; set; } = -1;
 
+        /// <summary>
+        /// The user-exposed name of this ruleset.
+        /// </summary>
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// A string representation of this ruleset, to be used with reflection to instantiate the ruleset represented by this metadata.
+        /// </summary>
         public string InstantiationInfo { get; set; } = string.Empty;
 
         /// <summary>
@@ -49,22 +64,12 @@ namespace osu.Game.Rulesets
             return ShortName == other.ShortName;
         }
 
-        public bool Equals(IRulesetInfo? other) => other is RulesetInfo r && Equals(r);
-
         public int CompareTo(RulesetInfo? other)
         {
             if (ID >= 0 && other?.ID >= 0)
                 return ID.CompareTo(other.ID);
 
             return string.Compare(ShortName, other?.ShortName, StringComparison.Ordinal);
-        }
-
-        public int CompareTo(IRulesetInfo? other)
-        {
-            if (other is not RulesetInfo ruleset)
-                throw new ArgumentException($@"Object is not of type {nameof(RulesetInfo)}.", nameof(other));
-
-            return CompareTo(ruleset);
         }
 
         public override int GetHashCode()

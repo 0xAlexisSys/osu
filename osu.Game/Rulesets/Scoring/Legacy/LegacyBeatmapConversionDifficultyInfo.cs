@@ -15,7 +15,7 @@ namespace osu.Game.Rulesets.Scoring.Legacy
         /// <summary>
         /// The beatmap's ruleset.
         /// </summary>
-        public IRulesetInfo SourceRuleset { get; set; } = new RulesetInfo();
+        public RulesetInfo SourceRuleset { get; set; } = new RulesetInfo();
 
         /// <summary>
         /// The beatmap drain rate.
@@ -64,7 +64,7 @@ namespace osu.Game.Rulesets.Scoring.Legacy
             TotalObjectCount = beatmap.HitObjects.Count
         };
 
-        public static LegacyBeatmapConversionDifficultyInfo FromBeatmapInfo(IBeatmapInfo beatmapInfo) => new LegacyBeatmapConversionDifficultyInfo
+        public static LegacyBeatmapConversionDifficultyInfo FromBeatmapInfo(BeatmapInfo beatmapInfo) => new LegacyBeatmapConversionDifficultyInfo
         {
             SourceRuleset = beatmapInfo.Ruleset,
             DrainRate = beatmapInfo.Difficulty.DrainRate,

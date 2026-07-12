@@ -383,7 +383,7 @@ namespace osu.Game.Rulesets.Osu
 
         /// <seealso cref="OsuHitObject.ApplyDefaultsToSelf"/>
         /// <seealso cref="OsuHitWindows"/>
-        public override BeatmapDifficulty GetAdjustedDisplayDifficulty(IBeatmapInfo difficulty, IReadOnlyCollection<Mod> mods)
+        public override BeatmapDifficulty GetAdjustedDisplayDifficulty(BeatmapInfo difficulty, IReadOnlyCollection<Mod> mods)
         {
             BeatmapDifficulty adjustedDifficulty = base.GetAdjustedDisplayDifficulty(difficulty, mods);
             double rate = ModUtils.CalculateRateWithMods(mods);
@@ -399,7 +399,7 @@ namespace osu.Game.Rulesets.Osu
             return adjustedDifficulty;
         }
 
-        public override IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(IBeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
+        public override IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(BeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
         {
             var originalDifficulty = beatmapInfo.Difficulty;
             // `modAdjustedDifficulty` contains only the direct effect of mods.

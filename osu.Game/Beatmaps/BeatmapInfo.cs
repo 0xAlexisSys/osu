@@ -24,17 +24,29 @@ namespace osu.Game.Beatmaps
     /// </remarks>
     [Serializable]
     [MapTo("Beatmap")]
-    public class BeatmapInfo : RealmObject, IHasGuidPrimaryKey, IBeatmapInfo, IEquatable<BeatmapInfo>
+    public class BeatmapInfo : RealmObject, IHasGuidPrimaryKey, IEquatable<BeatmapInfo>
     {
         [PrimaryKey]
         public Guid ID { get; set; }
 
+        /// <summary>
+        /// The user-specified name given to this beatmap.
+        /// </summary>
         public string DifficultyName { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The ruleset this beatmap was made for.
+        /// </summary>
         public RulesetInfo Ruleset { get; set; } = null!;
 
+        /// <summary>
+        /// The difficulty settings for this beatmap.
+        /// </summary>
         public BeatmapDifficulty Difficulty { get; set; } = null!;
 
+        /// <summary>
+        /// The metadata representing this beatmap. May be shared between multiple beatmaps.
+        /// </summary>
         public BeatmapMetadata Metadata { get; set; } = null!;
 
         [JsonIgnore]
@@ -61,15 +73,27 @@ namespace osu.Game.Beatmaps
         {
         }
 
+        /// <summary>
+        /// The beatmap set this beatmap is part of.
+        /// </summary>
         public BeatmapSetInfo? BeatmapSet { get; set; }
 
         [Ignored]
         public RealmNamedFileUsage? File => BeatmapSet?.Files.FirstOrDefault(f => f.File.Hash == Hash);
 
+        /// <summary>
+        /// The total length in milliseconds of this beatmap.
+        /// </summary>
         public double Length { get; set; }
 
+        /// <summary>
+        /// The most common BPM of this beatmap.
+        /// </summary>
         public double BPM { get; set; }
 
+        /// <summary>
+        /// The SHA-256 hash representing this beatmap's contents.
+        /// </summary>
         public string Hash { get; set; } = string.Empty;
 
         /// <summary>
@@ -78,6 +102,9 @@ namespace osu.Game.Beatmaps
         /// </summary>
         public double StarRating { get; set; } = -1;
 
+        /// <summary>
+        /// MD5 is kept for legacy support (matching against replays etc.).
+        /// </summary>
         [Indexed]
         public string MD5Hash { get; set; } = string.Empty;
 
@@ -89,8 +116,19 @@ namespace osu.Game.Beatmaps
         [JsonIgnore]
         public bool Hidden { get; set; }
 
+        /// <summary>
+        /// The number of hitobjects in the beatmap with a distinct end time.
+        /// Defaults to -1 (meaning not-yet-calculated).
+        /// </summary>
+        /// <remarks>
+        /// Canonically, these are hitobjects are either sliders or spinners.
+        /// </remarks>
         public int EndTimeObjectCount { get; set; } = -1;
 
+        /// <summary>
+        /// The total number of hitobjects in the beatmap.
+        /// Defaults to -1 (meaning not-yet-calculated).
+        /// </summary>
         public int TotalObjectCount { get; set; } = -1;
 
         /// <summary>
@@ -113,8 +151,6 @@ namespace osu.Game.Beatmaps
             return ID == other.ID;
         }
 
-        public bool Equals(IBeatmapInfo? other) => other is BeatmapInfo b && Equals(b);
-
         public override int GetHashCode()
         {
             // ReSharper disable once NonReadonlyMemberInGetHashCode
@@ -131,7 +167,7 @@ namespace osu.Game.Beatmaps
                                                             && other.BeatmapSet is not null
                                                             && compareFiles(this, other, m => m.BackgroundFile);
 
-        private static bool compareFiles(BeatmapInfo x, BeatmapInfo y, Func<IBeatmapMetadataInfo, string> getFilename)
+        private static bool compareFiles(BeatmapInfo x, BeatmapInfo y, Func<BeatmapMetadata, string> getFilename)
         {
             Debug.Assert(x.BeatmapSet is not null);
             Debug.Assert(y.BeatmapSet is not null);
@@ -174,11 +210,6 @@ namespace osu.Game.Beatmaps
             foreach (var score in realm.All<ScoreInfo>().Where(s => s.BeatmapHash == Hash))
                 score.BeatmapInfo = this;
         }
-
-        IBeatmapMetadataInfo IBeatmapInfo.Metadata => Metadata;
-        IBeatmapSetInfo? IBeatmapInfo.BeatmapSet => BeatmapSet;
-        IRulesetInfo IBeatmapInfo.Ruleset => Ruleset;
-        IBeatmapDifficultyInfo IBeatmapInfo.Difficulty => Difficulty;
 
         #region Compatibility properties
 

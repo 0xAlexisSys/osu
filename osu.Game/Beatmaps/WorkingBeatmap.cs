@@ -254,7 +254,7 @@ namespace osu.Game.Beatmaps
 
         #region Playable beatmap
 
-        public IBeatmap GetPlayableBeatmap(IRulesetInfo ruleset, IReadOnlyList<Mod> mods = null)
+        public IBeatmap GetPlayableBeatmap(RulesetInfo ruleset, IReadOnlyList<Mod> mods = null)
         {
             try
             {
@@ -270,7 +270,7 @@ namespace osu.Game.Beatmaps
             }
         }
 
-        public virtual IBeatmap GetPlayableBeatmap(IRulesetInfo ruleset, IReadOnlyList<Mod> mods, CancellationToken token)
+        public virtual IBeatmap GetPlayableBeatmap(RulesetInfo ruleset, IReadOnlyList<Mod> mods, CancellationToken token)
         {
             var rulesetInstance = ruleset.CreateInstance();
 
@@ -361,7 +361,7 @@ namespace osu.Game.Beatmaps
 
         public abstract Stream GetStream(string storagePath);
 
-        IBeatmapInfo IWorkingBeatmap.BeatmapInfo => BeatmapInfo;
+        BeatmapInfo IWorkingBeatmap.BeatmapInfo => BeatmapInfo;
 
         private class BeatmapLoadTimeoutException : TimeoutException
         {

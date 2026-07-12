@@ -35,9 +35,9 @@ namespace osu.Game.Beatmaps.Drawables
         /// </summary>
         public DifficultyIconTooltipType TooltipType { get; set; } = DifficultyIconTooltipType.StarRating;
 
-        private readonly IBeatmapInfo? beatmap;
+        private readonly BeatmapInfo? beatmap;
 
-        private readonly IRulesetInfo ruleset;
+        private readonly RulesetInfo ruleset;
 
         private readonly Mod[]? mods;
 
@@ -66,7 +66,7 @@ namespace osu.Game.Beatmaps.Drawables
         /// <param name="beatmap">The beatmap to be displayed in the tooltip, and to be used for the initial star rating value.</param>
         /// <param name="mods">An array of mods to account for in the calculations</param>
         /// <param name="ruleset">An optional ruleset to be used for the icon display, in place of the beatmap's ruleset.</param>
-        public DifficultyIcon(IBeatmapInfo beatmap, IRulesetInfo? ruleset = null, Mod[]? mods = null)
+        public DifficultyIcon(BeatmapInfo beatmap, RulesetInfo? ruleset = null, Mod[]? mods = null)
         {
             this.beatmap = beatmap;
             this.mods = mods;

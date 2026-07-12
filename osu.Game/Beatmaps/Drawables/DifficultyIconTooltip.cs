@@ -145,13 +145,13 @@ namespace osu.Game.Beatmaps.Drawables
 
     internal class DifficultyIconTooltipContent
     {
-        public readonly IBeatmapInfo BeatmapInfo;
+        public readonly BeatmapInfo BeatmapInfo;
         public readonly IBindable<StarDifficulty> Difficulty;
-        public readonly IRulesetInfo Ruleset;
+        public readonly RulesetInfo Ruleset;
         public readonly Mod[]? Mods;
         public readonly DifficultyIconTooltipType TooltipType;
 
-        public DifficultyIconTooltipContent(IBeatmapInfo beatmapInfo, IBindable<StarDifficulty> difficulty, IRulesetInfo rulesetInfo, Mod[]? mods, DifficultyIconTooltipType tooltipType)
+        public DifficultyIconTooltipContent(BeatmapInfo beatmapInfo, IBindable<StarDifficulty> difficulty, RulesetInfo rulesetInfo, Mod[]? mods, DifficultyIconTooltipType tooltipType)
         {
             if (tooltipType == DifficultyIconTooltipType.None)
                 throw new ArgumentOutOfRangeException(nameof(tooltipType), tooltipType, "Cannot instantiate a tooltip without a type");

@@ -35,7 +35,7 @@ namespace osu.Game.Overlays.Mods
         private StarRatingDisplay starRatingDisplay = null!;
         private BPMDisplay bpmDisplay = null!;
 
-        public Bindable<IBeatmapInfo?> BeatmapInfo { get; } = new Bindable<IBeatmapInfo?>();
+        public Bindable<BeatmapInfo?> BeatmapInfo { get; } = new Bindable<BeatmapInfo?>();
 
         public Bindable<IReadOnlyList<Mod>> Mods { get; } = new Bindable<IReadOnlyList<Mod>>();
 

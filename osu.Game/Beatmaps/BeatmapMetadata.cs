@@ -1,6 +1,7 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using osu.Game.Utils;
 using Realms;
 
@@ -17,15 +18,41 @@ namespace osu.Game.Beatmaps
     ///
     /// Note that difficulty name is not stored in this metadata but in <see cref="BeatmapInfo"/>.
     /// </remarks>
-    [MapTo("BeatmapMetadata")]
-    public class BeatmapMetadata : RealmObject, IBeatmapMetadataInfo, IDeepCloneable<BeatmapMetadata>
+    public class BeatmapMetadata : RealmObject, IEquatable<BeatmapMetadata>, IDeepCloneable<BeatmapMetadata>
     {
+        /// <summary>
+        /// The romanised title of this beatmap.
+        /// </summary>
         public string Title { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The unicode title of this beatmap.
+        /// </summary>
         public string TitleUnicode { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The romanised artist of this beatmap.
+        /// </summary>
         public string Artist { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The unicode artist of this beatmap.
+        /// </summary>
         public string ArtistUnicode { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The author of this beatmap.
+        /// </summary>
         public string Author { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The source of this beatmap.
+        /// </summary>
         public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The tags of this beatmap.
+        /// </summary>
         public string Tags { get; set; } = string.Empty;
 
         /// <summary>
@@ -34,7 +61,14 @@ namespace osu.Game.Beatmaps
         /// </summary>
         public int PreviewTime { get; set; } = -1;
 
+        /// <summary>
+        /// The filename of the audio file consumed by this beatmap.
+        /// </summary>
         public string AudioFile { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The filename of the background image file consumed by this beatmap.
+        /// </summary>
         public string BackgroundFile { get; set; } = string.Empty;
 
         public override string ToString() => this.GetDisplayTitle();
@@ -52,5 +86,22 @@ namespace osu.Game.Beatmaps
             AudioFile = AudioFile,
             BackgroundFile = BackgroundFile
         };
+
+        bool IEquatable<BeatmapMetadata>.Equals(BeatmapMetadata? other)
+        {
+            if (other is null)
+                return false;
+
+            return Title == other.Title
+                   && TitleUnicode == other.TitleUnicode
+                   && Artist == other.Artist
+                   && ArtistUnicode == other.ArtistUnicode
+                   && Author == other.Author
+                   && Source == other.Source
+                   && Tags == other.Tags
+                   && PreviewTime == other.PreviewTime
+                   && AudioFile == other.AudioFile
+                   && BackgroundFile == other.BackgroundFile;
+        }
     }
 }

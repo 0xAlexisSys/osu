@@ -12,18 +12,18 @@ namespace osu.Game.Rulesets
         /// </summary>
         /// <param name="id">The ruleset's internal ID.</param>
         /// <returns>A ruleset, if available, else null.</returns>
-        IRulesetInfo? GetRuleset(int id);
+        RulesetInfo? GetRuleset(int id);
 
         /// <summary>
         /// Retrieve a ruleset using a known short name.
         /// </summary>
         /// <param name="shortName">The ruleset's short name.</param>
         /// <returns>A ruleset, if available, else null.</returns>
-        IRulesetInfo? GetRuleset(string shortName);
+        RulesetInfo? GetRuleset(string shortName);
 
         /// <summary>
         /// All available rulesets.
         /// </summary>
-        IEnumerable<IRulesetInfo> AvailableRulesets { get; }
+        IEnumerable<RulesetInfo> AvailableRulesets { get; }
     }
 }

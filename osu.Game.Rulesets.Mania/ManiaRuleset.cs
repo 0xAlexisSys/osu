@@ -424,7 +424,7 @@ namespace osu.Game.Rulesets.Mania
         };
 
         /// <seealso cref="ManiaHitWindows"/>
-        public override BeatmapDifficulty GetAdjustedDisplayDifficulty(IBeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
+        public override BeatmapDifficulty GetAdjustedDisplayDifficulty(BeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
         {
             BeatmapDifficulty adjustedDifficulty = base.GetAdjustedDisplayDifficulty(beatmapInfo, mods);
 
@@ -450,7 +450,7 @@ namespace osu.Game.Rulesets.Mania
             return adjustedDifficulty;
         }
 
-        public override IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(IBeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
+        public override IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(BeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
         {
             // a special touch-up of key count is required to the original difficulty, since key conversion mods are not `IApplicableToDifficulty`
             var originalDifficulty = new BeatmapDifficulty(beatmapInfo.Difficulty)
@@ -500,10 +500,10 @@ namespace osu.Game.Rulesets.Mania
             new DesignSection(),
         ];
 
-        public int GetKeyCount(IBeatmapInfo beatmapInfo, IReadOnlyList<Mod>? mods = null)
+        public int GetKeyCount(BeatmapInfo beatmapInfo, IReadOnlyList<Mod>? mods = null)
             => ManiaBeatmapConverter.GetColumnCount(LegacyBeatmapConversionDifficultyInfo.FromBeatmapInfo(beatmapInfo), mods);
 
-        public override int GetVariantForBeatmap(IBeatmapInfo beatmapInfo, IReadOnlyList<Mod>? mods = null)
+        public override int GetVariantForBeatmap(BeatmapInfo beatmapInfo, IReadOnlyList<Mod>? mods = null)
             => GetKeyCount(beatmapInfo, mods);
     }
 

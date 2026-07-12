@@ -15,7 +15,7 @@ namespace osu.Game.Beatmaps
     /// A <see cref="WorkingBeatmap"/> which can be constructed directly from an .osu file (via <see cref="FlatWorkingBeatmap(string)"/>)
     /// or an <see cref="IBeatmap"/> instance (via <see cref="FlatWorkingBeatmap(IBeatmap)"/>,
     /// providing an implementation for
-    /// <see cref="WorkingBeatmap.GetPlayableBeatmap(osu.Game.Rulesets.IRulesetInfo,System.Collections.Generic.IReadOnlyList{osu.Game.Rulesets.Mods.Mod})"/>.
+    /// <see cref="WorkingBeatmap.GetPlayableBeatmap(osu.Game.Rulesets.RulesetInfo,System.Collections.Generic.IReadOnlyList{osu.Game.Rulesets.Mods.Mod})"/>.
     /// </summary>
     public class FlatWorkingBeatmap : WorkingBeatmap
     {

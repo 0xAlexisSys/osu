@@ -6,20 +6,20 @@ using osu.Game.Screens.Select;
 
 namespace osu.Game.Beatmaps
 {
-    public static class BeatmapMetadataInfoExtensions
+    public static class BeatmapMetadataExtensions
     {
-        public static bool Match(IBeatmapMetadataInfo metadataInfo, FilterCriteria.OptionalTextFilter filter) => filter.Matches(metadataInfo.Author)
-                                                                                                                 || filter.Matches(metadataInfo.Artist)
-                                                                                                                 || filter.Matches(metadataInfo.ArtistUnicode)
-                                                                                                                 || filter.Matches(metadataInfo.Title)
-                                                                                                                 || filter.Matches(metadataInfo.TitleUnicode)
-                                                                                                                 || filter.Matches(metadataInfo.Source)
-                                                                                                                 || filter.Matches(metadataInfo.Tags);
+        public static bool Match(BeatmapMetadata metadataInfo, FilterCriteria.OptionalTextFilter filter) => filter.Matches(metadataInfo.Author)
+                                                                                                            || filter.Matches(metadataInfo.Artist)
+                                                                                                            || filter.Matches(metadataInfo.ArtistUnicode)
+                                                                                                            || filter.Matches(metadataInfo.Title)
+                                                                                                            || filter.Matches(metadataInfo.TitleUnicode)
+                                                                                                            || filter.Matches(metadataInfo.Source)
+                                                                                                            || filter.Matches(metadataInfo.Tags);
 
         /// <summary>
         /// A user-presentable display title representing this metadata.
         /// </summary>
-        public static string GetDisplayTitle(this IBeatmapMetadataInfo metadataInfo)
+        public static string GetDisplayTitle(this BeatmapMetadata metadataInfo)
         {
             string author = string.IsNullOrEmpty(metadataInfo.Author) ? string.Empty : $" ({metadataInfo.Author})";
 
@@ -32,7 +32,7 @@ namespace osu.Game.Beatmaps
         /// <summary>
         /// A user-presentable display title representing this beatmap, with localisation handling for potentially romanisable fields.
         /// </summary>
-        public static RomanisableString GetDisplayTitleRomanisable(this IBeatmapMetadataInfo metadataInfo, bool includeCreator = true)
+        public static RomanisableString GetDisplayTitleRomanisable(this BeatmapMetadata metadataInfo, bool includeCreator = true)
         {
             string author = !includeCreator || string.IsNullOrEmpty(metadataInfo.Author) ? string.Empty : $"({metadataInfo.Author})";
             string artistUnicode = string.IsNullOrEmpty(metadataInfo.ArtistUnicode) ? metadataInfo.Artist : metadataInfo.ArtistUnicode;

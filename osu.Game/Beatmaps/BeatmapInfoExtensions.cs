@@ -25,12 +25,12 @@ namespace osu.Game.Beatmaps
         /// <summary>
         /// A user-presentable display title representing this beatmap.
         /// </summary>
-        public static string GetDisplayTitle(this IBeatmapInfo beatmapInfo) => $"{beatmapInfo.Metadata.GetDisplayTitle()} {getVersionString(beatmapInfo)}".Trim();
+        public static string GetDisplayTitle(this BeatmapInfo beatmapInfo) => $"{beatmapInfo.Metadata.GetDisplayTitle()} {getVersionString(beatmapInfo)}".Trim();
 
         /// <summary>
         /// A user-presentable display title representing this beatmap, with localisation handling for potentially romanisable fields.
         /// </summary>
-        public static RomanisableString GetDisplayTitleRomanisable(this IBeatmapInfo beatmapInfo, bool includeDifficultyName = true, bool includeCreator = true)
+        public static RomanisableString GetDisplayTitleRomanisable(this BeatmapInfo beatmapInfo, bool includeDifficultyName = true, bool includeCreator = true)
         {
             var metadata = beatmapInfo.Metadata.GetDisplayTitleRomanisable(includeCreator);
 
@@ -43,14 +43,14 @@ namespace osu.Game.Beatmaps
             return new RomanisableString($"{metadata.GetPreferred(true)}".Trim(), $"{metadata.GetPreferred(false)}".Trim());
         }
 
-        public static bool Match(this IBeatmapInfo beatmapInfo, params FilterCriteria.OptionalTextFilter[] filters)
+        public static bool Match(this BeatmapInfo beatmapInfo, params FilterCriteria.OptionalTextFilter[] filters)
         {
             foreach (var filter in filters)
             {
                 if (filter.Matches(beatmapInfo.DifficultyName))
                     continue;
 
-                if (BeatmapMetadataInfoExtensions.Match(beatmapInfo.Metadata, filter))
+                if (BeatmapMetadataExtensions.Match(beatmapInfo.Metadata, filter))
                     continue;
 
                 // failed to match a single filter at all - fail the whole match.
@@ -61,12 +61,12 @@ namespace osu.Game.Beatmaps
             return true;
         }
 
-        private static string getVersionString(IBeatmapInfo beatmapInfo) => string.IsNullOrEmpty(beatmapInfo.DifficultyName) ? string.Empty : $"[{beatmapInfo.DifficultyName}]";
+        private static string getVersionString(BeatmapInfo beatmapInfo) => string.IsNullOrEmpty(beatmapInfo.DifficultyName) ? string.Empty : $"[{beatmapInfo.DifficultyName}]";
 
         /// <summary>
         /// Whether gameplay is allowed for this beatmap with the provided ruleset (via conversion or direct compatibility).
         /// </summary>
-        public static bool AllowGameplayWithRuleset(this IBeatmapInfo beatmap, RulesetInfo ruleset, bool allowConversion)
+        public static bool AllowGameplayWithRuleset(this BeatmapInfo beatmap, RulesetInfo ruleset, bool allowConversion)
         {
             if (beatmap.Ruleset.ShortName == ruleset.ShortName)
                 return true;

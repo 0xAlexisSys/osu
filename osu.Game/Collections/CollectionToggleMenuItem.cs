@@ -10,7 +10,7 @@ namespace osu.Game.Collections
 {
     public class CollectionToggleMenuItem : ToggleMenuItem
     {
-        public CollectionToggleMenuItem(Live<BeatmapCollection> collection, IBeatmapInfo beatmap)
+        public CollectionToggleMenuItem(Live<BeatmapCollection> collection, BeatmapInfo beatmap)
             : base(collection.PerformRead(c => c.Name), MenuItemType.Standard, state => Task.Run(() =>
             {
                 collection.PerformWrite(c =>

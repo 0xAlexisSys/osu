@@ -266,7 +266,7 @@ namespace osu.Game.Screens.Ranking.Expanded
 
         internal partial class ClickableMetadata : OsuHoverContainer
         {
-            public ClickableMetadata(IBeatmapMetadataInfo metadata)
+            public ClickableMetadata(BeatmapMetadata metadata)
             {
                 AutoSizeAxes = Axes.Both;
 

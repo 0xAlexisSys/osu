@@ -333,7 +333,7 @@ namespace osu.Game.Rulesets
         /// <summary>
         /// Returns the ID of the variant that is applicable for the given <paramref name="beatmapInfo"/>, given the current active <paramref name="mods"/>.
         /// </summary>
-        public virtual int GetVariantForBeatmap(IBeatmapInfo beatmapInfo, IReadOnlyList<Mod>? mods = null) => 0;
+        public virtual int GetVariantForBeatmap(BeatmapInfo beatmapInfo, IReadOnlyList<Mod>? mods = null) => 0;
 
         /// <summary>
         /// For rulesets which support legacy (osu-stable) replay conversion, this method will create an empty replay frame
@@ -406,10 +406,10 @@ namespace osu.Game.Rulesets
         ///
         /// It is also not always correct, and arguably is never correct depending on your frame of mind.
         /// </summary>
-        /// <param name="beatmapInfo">The <see cref="IBeatmapInfo"/> for which to display the adjusted difficulty.</param>
+        /// <param name="beatmapInfo">The <see cref="BeatmapInfo"/> for which to display the adjusted difficulty.</param>
         /// <param name="mods">The active mods.</param>
         /// <returns>The adjusted difficulty attributes.</returns>
-        public virtual BeatmapDifficulty GetAdjustedDisplayDifficulty(IBeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
+        public virtual BeatmapDifficulty GetAdjustedDisplayDifficulty(BeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
         {
             BeatmapDifficulty adjustedDifficulty = new BeatmapDifficulty(beatmapInfo.Difficulty);
 
@@ -424,7 +424,7 @@ namespace osu.Game.Rulesets
         /// The returned data includes both material changes to difficulty from <see cref="IApplicableToDifficulty"/> mods,
         /// as well as "effective" adjustments coming from <see cref="GetAdjustedDisplayDifficulty"/>.
         /// </summary>
-        public virtual IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(IBeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
+        public virtual IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(BeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
         {
             var originalDifficulty = beatmapInfo.Difficulty;
             var adjustedDifficulty = GetAdjustedDisplayDifficulty(beatmapInfo, mods);

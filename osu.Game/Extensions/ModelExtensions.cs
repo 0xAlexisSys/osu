@@ -37,15 +37,15 @@ namespace osu.Game.Extensions
 
             switch (model)
             {
-                case IBeatmapSetInfo beatmapSetInfo:
+                case BeatmapSetInfo beatmapSetInfo:
                     result = beatmapSetInfo.Metadata.GetDisplayTitle();
                     break;
 
-                case IBeatmapInfo beatmapInfo:
+                case BeatmapInfo beatmapInfo:
                     result = beatmapInfo.GetDisplayTitle();
                     break;
 
-                case IBeatmapMetadataInfo metadataInfo:
+                case BeatmapMetadata metadataInfo:
                     result = metadataInfo.GetDisplayTitle();
                     break;
 
@@ -53,7 +53,7 @@ namespace osu.Game.Extensions
                     result = scoreInfo.GetDisplayTitle();
                     break;
 
-                case IRulesetInfo rulesetInfo:
+                case RulesetInfo rulesetInfo:
                     result = rulesetInfo.Name;
                     break;
 
@@ -68,9 +68,9 @@ namespace osu.Game.Extensions
         }
 
         /// <summary>
-        /// Check whether this <see cref="IRulesetInfo"/>'s online ID is within the range that defines it as a legacy ruleset (ie. either osu!, osu!taiko, osu!catch or osu!mania).
+        /// Check whether this <see cref="RulesetInfo"/>'s online ID is within the range that defines it as a legacy ruleset (ie. either osu!, osu!taiko, osu!catch or osu!mania).
         /// </summary>
-        public static bool IsLegacyRuleset(this IRulesetInfo ruleset) => ruleset.ID >= 0 && ruleset.ID <= ILegacyRuleset.MAX_LEGACY_RULESET_ID;
+        public static bool IsLegacyRuleset(this RulesetInfo ruleset) => ruleset.ID >= 0 && ruleset.ID <= ILegacyRuleset.MAX_LEGACY_RULESET_ID;
 
         // intentionally chosen to match stable.
         // see https://referencesource.microsoft.com/#mscorlib/system/io/path.cs,88

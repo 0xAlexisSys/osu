@@ -626,10 +626,10 @@ namespace osu.Game.Beatmaps
 
         public override bool IsAvailableLocally(BeatmapSetInfo model)
         {
-            throw new InvalidOperationException($"Use overload with {nameof(IBeatmapInfo)} parameter instead.");
+            throw new InvalidOperationException($"Use overload with {nameof(BeatmapInfo)} parameter instead.");
         }
 
-        public bool IsAvailableLocally(IBeatmapInfo model)
+        public bool IsAvailableLocally(BeatmapInfo model)
         {
             return Realm.Run(r => r.All<BeatmapInfo>()
                                    .Filter($@"{nameof(BeatmapInfo.BeatmapSet)}.{nameof(BeatmapSetInfo.DeletePending)} == false")

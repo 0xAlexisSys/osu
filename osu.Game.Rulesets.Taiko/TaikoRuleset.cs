@@ -277,7 +277,7 @@ namespace osu.Game.Rulesets.Taiko
         }
 
         /// <seealso cref="TaikoHitWindows"/>
-        public override BeatmapDifficulty GetAdjustedDisplayDifficulty(IBeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
+        public override BeatmapDifficulty GetAdjustedDisplayDifficulty(BeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
         {
             BeatmapDifficulty adjustedDifficulty = base.GetAdjustedDisplayDifficulty(beatmapInfo, mods);
             double rate = ModUtils.CalculateRateWithMods(mods);
@@ -289,7 +289,7 @@ namespace osu.Game.Rulesets.Taiko
             return adjustedDifficulty;
         }
 
-        public override IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(IBeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
+        public override IEnumerable<RulesetBeatmapAttribute> GetBeatmapAttributesForDisplay(BeatmapInfo beatmapInfo, IReadOnlyCollection<Mod> mods)
         {
             var originalDifficulty = beatmapInfo.Difficulty;
             // `modAdjustedDifficulty` contains only the direct effect of mods.

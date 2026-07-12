@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Mania.Difficulty
 
         public override int Version => 20241007;
 
-        public ManiaDifficultyCalculator(IRulesetInfo ruleset, IWorkingBeatmap beatmap)
+        public ManiaDifficultyCalculator(RulesetInfo ruleset, IWorkingBeatmap beatmap)
             : base(ruleset, beatmap)
         {
             isForCurrentRuleset = beatmap.BeatmapInfo.Ruleset.ID == ruleset.ID;

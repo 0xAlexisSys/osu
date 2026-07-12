@@ -25,7 +25,7 @@ namespace osu.Game.Users
             private string rulesetPlayingVerb { get; } // TODO: i'm going with this for now, but this is wasteful
             private string beatmapDisplayTitle { get; }
 
-            public PlayingBeatmap(IBeatmapInfo beatmapInfo, IRulesetInfo ruleset)
+            public PlayingBeatmap(BeatmapInfo beatmapInfo, RulesetInfo ruleset)
             {
                 rulesetPlayingVerb = ruleset.CreateInstance().PlayingVerb;
                 beatmapDisplayTitle = beatmapInfo.GetDisplayTitle();
@@ -37,7 +37,7 @@ namespace osu.Game.Users
 
         public class TestingBeatmap : EditingBeatmap
         {
-            public TestingBeatmap(IBeatmapInfo beatmapInfo)
+            public TestingBeatmap(BeatmapInfo beatmapInfo)
                 : base(beatmapInfo)
             {
             }
@@ -49,7 +49,7 @@ namespace osu.Game.Users
         {
             private string beatmapDisplayTitle { get; }
 
-            public EditingBeatmap(IBeatmapInfo info)
+            public EditingBeatmap(BeatmapInfo info)
             {
                 beatmapDisplayTitle = info.GetDisplayTitle();
             }

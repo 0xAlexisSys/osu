@@ -35,7 +35,7 @@ namespace osu.Game.Rulesets.Taiko.Difficulty
 
         public override int Version => 20260706;
 
-        public TaikoDifficultyCalculator(IRulesetInfo ruleset, IWorkingBeatmap beatmap)
+        public TaikoDifficultyCalculator(RulesetInfo ruleset, IWorkingBeatmap beatmap)
             : base(ruleset, beatmap)
         {
         }

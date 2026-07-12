@@ -12,7 +12,7 @@ WINDOWS_DIST_DIR = $(DIST_DIR)/Windows
 WINDOWS_OUTPUT_FILE = $(WINDOWS_DIST_DIR)/$(NAME)-$(VERSION)-windows-x86_64.zip
 
 windows:
-	-dotnet publish "osu.Desktop.slnf" --configuration Release --runtime win-x64 --self-contained -p:Version="$(VERSION)"
+	dotnet publish "osu.Desktop.slnf" --configuration Release --runtime win-x64 --self-contained -p:Version="$(VERSION)"
 
 # [alexis] The dot and asterisk are needed at the start and end of the source path so
 #          7-Zip doesn't preserve the leading directories.
@@ -32,7 +32,7 @@ LINUX_APPIMAGE_APPRUN_FILE = $(LINUX_APPIMAGE_DIR)/AppRun
 LINUX_OUTPUT_FILE = $(LINUX_DIST_DIR)/$(NAME)-$(VERSION)-linux-x86_64.AppImage
 
 linux:
-	-dotnet publish "osu.Desktop.slnf" --configuration Release --runtime linux-x64 --self-contained -p:Version="$(VERSION)"
+	dotnet publish "osu.Desktop.slnf" --configuration Release --runtime linux-x64 --self-contained -p:Version="$(VERSION)"
 
 linux-pkg:
 	rm -rf "$(LINUX_APPIMAGE_DIR)"

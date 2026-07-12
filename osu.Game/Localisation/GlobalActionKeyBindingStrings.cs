@@ -10,16 +10,6 @@ namespace osu.Game.Localisation
         private const string prefix = @"osu.Game.Resources.Localisation.GlobalActionKeyBinding";
 
         /// <summary>
-        /// "Toggle chat overlay"
-        /// </summary>
-        public static LocalisableString ToggleChat => new TranslatableString(getKey(@"toggle_chat"), @"Toggle chat overlay");
-
-        /// <summary>
-        /// "Toggle social overlay"
-        /// </summary>
-        public static LocalisableString ToggleSocial => new TranslatableString(getKey(@"toggle_social"), @"Toggle social overlay");
-
-        /// <summary>
         /// "Reset input settings"
         /// </summary>
         public static LocalisableString ResetInputSettings => new TranslatableString(getKey(@"reset_input_settings"), @"Reset input settings");
@@ -33,11 +23,6 @@ namespace osu.Game.Localisation
         /// "Toggle settings"
         /// </summary>
         public static LocalisableString ToggleSettings => new TranslatableString(getKey(@"toggle_settings"), @"Toggle settings");
-
-        /// <summary>
-        /// "Toggle beatmap listing"
-        /// </summary>
-        public static LocalisableString ToggleBeatmapListing => new TranslatableString(getKey(@"toggle_beatmap_listing"), @"Toggle beatmap listing");
 
         /// <summary>
         /// "Increase volume"
@@ -163,11 +148,6 @@ namespace osu.Game.Localisation
         /// "Toggle notifications"
         /// </summary>
         public static LocalisableString ToggleNotifications => new TranslatableString(getKey(@"toggle_notifications"), @"Toggle notifications");
-
-        /// <summary>
-        /// "Toggle profile"
-        /// </summary>
-        public static LocalisableString ToggleProfile => new TranslatableString(getKey(@"toggle_profile"), @"Toggle profile");
 
         /// <summary>
         /// "Pause / resume gameplay"
@@ -368,11 +348,6 @@ namespace osu.Game.Localisation
         /// "Fast forward replay"
         /// </summary>
         public static LocalisableString FastForwardReplay => new TranslatableString(getKey(@"fast_forward_replay"), @"Fast forward replay");
-
-        /// <summary>
-        /// "Toggle chat focus"
-        /// </summary>
-        public static LocalisableString ToggleChatFocus => new TranslatableString(getKey(@"toggle_chat_focus"), @"Toggle chat focus");
 
         /// <summary>
         /// "Toggle replay settings"

@@ -73,7 +73,7 @@ namespace osu.Game.Input.Bindings
                     return editorTestPlayKeyBindings;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(category), category, $"Unexpected {nameof(GlobalActionCategory)}");
+                    throw new ArgumentOutOfRangeException(nameof(category), category, $@"Unexpected {nameof(GlobalActionCategory)}");
             }
         }
 
@@ -114,13 +114,9 @@ namespace osu.Game.Input.Bindings
 
         private static IEnumerable<KeyBinding> overlayKeyBindings => new[]
         {
-            new KeyBinding(InputKey.F8, GlobalAction.ToggleChat),
             new KeyBinding(InputKey.F6, GlobalAction.ToggleNowPlaying),
-            new KeyBinding(InputKey.F9, GlobalAction.ToggleSocial),
-            new KeyBinding(new[] { InputKey.Control, InputKey.B }, GlobalAction.ToggleBeatmapListing),
             new KeyBinding(new[] { InputKey.Control, InputKey.O }, GlobalAction.ToggleSettings),
             new KeyBinding(new[] { InputKey.Control, InputKey.N }, GlobalAction.ToggleNotifications),
-            new KeyBinding(new[] { InputKey.Control, InputKey.P }, GlobalAction.ToggleProfile),
         };
 
         private static IEnumerable<KeyBinding> editorKeyBindings => new[]
@@ -179,7 +175,6 @@ namespace osu.Game.Input.Bindings
             new KeyBinding(InputKey.Tab, GlobalAction.ToggleInGameLeaderboard),
             new KeyBinding(InputKey.MouseMiddle, GlobalAction.PauseGameplay),
             new KeyBinding(InputKey.Control, GlobalAction.HoldForHUD),
-            new KeyBinding(InputKey.Enter, GlobalAction.ToggleChatFocus),
             new KeyBinding(InputKey.F1, GlobalAction.SaveReplay),
             new KeyBinding(InputKey.F2, GlobalAction.ExportReplay),
             new KeyBinding(InputKey.Plus, GlobalAction.IncreaseOffset),
@@ -243,11 +238,11 @@ namespace osu.Game.Input.Bindings
     /// </remarks>
     public enum GlobalAction
     {
-        [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ToggleChat))]
-        ToggleChat,
+        // ReSharper disable once UnusedMember.Global
+        Unused1,
 
-        [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ToggleSocial))]
-        ToggleSocial,
+        // ReSharper disable once UnusedMember.Global
+        Unused2,
 
         [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ResetInputSettings))]
         ResetInputSettings,
@@ -258,8 +253,8 @@ namespace osu.Game.Input.Bindings
         [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ToggleSettings))]
         ToggleSettings,
 
-        [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ToggleBeatmapListing))]
-        ToggleBeatmapListing,
+        // ReSharper disable once UnusedMember.Global
+        Unused3,
 
         [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.IncreaseVolume))]
         IncreaseVolume,
@@ -384,8 +379,8 @@ namespace osu.Game.Input.Bindings
         [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.SeekReplayBackward))]
         SeekReplayBackward,
 
-        [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ToggleChatFocus))]
-        ToggleChatFocus,
+        // ReSharper disable once UnusedMember.Global
+        Unused4,
 
         [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.EditorCycleGridSpacing))]
         EditorCycleGridSpacing,
@@ -420,8 +415,8 @@ namespace osu.Game.Input.Bindings
         [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ToggleFPSCounter))]
         ToggleFPSDisplay,
 
-        [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.ToggleProfile))]
-        ToggleProfile,
+        // ReSharper disable once UnusedMember.Global
+        Unused5,
 
         [LocalisableDescription(typeof(GlobalActionKeyBindingStrings), nameof(GlobalActionKeyBindingStrings.EditorCloneSelection))]
         EditorCloneSelection,

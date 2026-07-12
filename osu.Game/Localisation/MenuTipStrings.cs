@@ -25,11 +25,6 @@ namespace osu.Game.Localisation
         public static LocalisableString DynamicSettings => new TranslatableString(getKey(@"dynamic_settings"), @"All settings are dynamic and take effect in real-time. Try changing the skin while watching autoplay!");
 
         /// <summary>
-        /// "New features are coming online every update. Make sure to stay up-to-date!"
-        /// </summary>
-        public static LocalisableString NewFeaturesAreComingOnline => new TranslatableString(getKey(@"new_features_are_coming_online"), @"New features are coming online every update. Make sure to stay up-to-date!");
-
-        /// <summary>
         /// "If you find the UI too large or small, try adjusting UI scale in settings!"
         /// </summary>
         public static LocalisableString UIScalingSettings => new TranslatableString(getKey(@"ui_scaling_settings"), @"If you find the UI too large or small, try adjusting UI scale in settings!");
@@ -38,11 +33,6 @@ namespace osu.Game.Localisation
         /// "Try adjusting the &quot;Screen Scaling&quot; mode to change your gameplay or UI area, even in fullscreen!"
         /// </summary>
         public static LocalisableString ScreenScalingSettings => new TranslatableString(getKey(@"screen_scaling_settings"), @"Try adjusting the ""Screen Scaling"" mode to change your gameplay or UI area, even in fullscreen!");
-
-        /// <summary>
-        /// "What used to be &quot;osu!direct&quot; is available to all users just like on the website. You can access it anywhere using {0}!"
-        /// </summary>
-        public static LocalisableString FreeOsuDirect(LocalisableString keybind) => new TranslatableString(getKey(@"free_osu_direct"), @"What used to be ""osu!direct"" is available to all users just like on the website. You can access it anywhere using {0}!", keybind);
 
         /// <summary>
         /// "Seeking in replays is available by dragging on the progress bar at the bottom of the screen or by using the left and right arrow keys!"
@@ -55,19 +45,9 @@ namespace osu.Game.Localisation
         public static LocalisableString TryNewMods => new TranslatableString(getKey(@"try_new_mods"), @"Try scrolling right in mod select to find a bunch of new fun mods!");
 
         /// <summary>
-        /// "Most of the web content (profiles, rankings, etc.) are available natively in-game from the icons on the toolbar!"
-        /// </summary>
-        public static LocalisableString EmbeddedWebContent => new TranslatableString(getKey(@"embedded_web_content"), @"Most of the web content (profiles, rankings, etc.) are available natively in-game from the icons on the toolbar!");
-
-        /// <summary>
         /// "Get more details, hide or delete a beatmap by right-clicking on its panel at song select!"
         /// </summary>
         public static LocalisableString BeatmapRightClick => new TranslatableString(getKey(@"beatmap_right_click"), @"Get more details, hide or delete a beatmap by right-clicking on its panel at song select!");
-
-        /// <summary>
-        /// "Check out the &quot;playlists&quot; system, which lets users create their own custom and permanent leaderboards!"
-        /// </summary>
-        public static LocalisableString DiscoverPlaylists => new TranslatableString(getKey(@"discover_playlists"), @"Check out the ""playlists"" system, which lets users create their own custom and permanent leaderboards!");
 
         /// <summary>
         /// "Toggle advanced frame / thread statistics with Ctrl-F11!"

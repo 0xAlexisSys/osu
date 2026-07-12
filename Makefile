@@ -78,11 +78,23 @@ ios:
 ios-pkg:
 	echo "ios-pkg is not implemented"
 
-android:
-	echo "android is not implemented"
+ANDROID_RUNTIME ?= ARM64
 
-android-pkg:
-	echo "android-pkg is not implemented"
+android:
+ifeq ("$(ANDROID_RUNTIME)", "X86_64")
+	dotnet publish "osu.Android.slnf" --configuration Release --runtime android-x64 -p:Version="$(VERSION)" -p:AndroidPackageFormat=apk
+else ifeq ("$(ANDROID_RUNTIME)", "ARM64")
+	dotnet publish "osu.Android.slnf" --configuration Release --runtime android-arm64 -p:Version="$(VERSION)" -p:AndroidPackageFormat=apk
+else ifeq ("$(ANDROID_RUNTIME)", "ALL")
+	dotnet publish "osu.Android.slnf" --configuration Release --runtime android-x64 -p:Version="$(VERSION)" -p:AndroidPackageFormat=apk
+	dotnet publish "osu.Android.slnf" --configuration Release --runtime android-arm64 -p:Version="$(VERSION)" -p:AndroidPackageFormat=apk
+else
+	@echo "Specified ANDROID_RUNTIME is invalid."
+	@echo "Valid options:\n"
+	@echo "1. X86_64 (android-x64)"
+	@echo "2. ARM64 (android-arm64)"
+	@echo "3. ALL (android-x64, android-arm64)"
+endif
 
 clean:
 	rm -rf "**/.build/"

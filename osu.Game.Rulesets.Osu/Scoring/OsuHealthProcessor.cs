@@ -15,8 +15,8 @@ namespace osu.Game.Rulesets.Osu.Scoring
     {
         private ComboResult currentComboResult = ComboResult.Perfect;
 
-        public OsuHealthProcessor(double drainStartTime, double drainLenience = 0)
-            : base(drainStartTime, drainLenience)
+        public OsuHealthProcessor(double drainStartTime)
+            : base(drainStartTime)
         {
         }
 

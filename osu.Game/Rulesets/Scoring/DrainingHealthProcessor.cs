@@ -47,9 +47,17 @@ namespace osu.Game.Rulesets.Scoring
         public double DrainRate { get; private set; }
 
         /// <summary>
-        /// An amount of lenience to apply to the drain rate.
+        /// An amount of lenience to apply to the drain rate.<br />
+        /// A value of 0 uses the default drain rate.<br />
+        /// A value of 0.5 halves the drain rate.<br />
+        /// A value of 1 completely removes drain.
         /// </summary>
         public double DrainLenience { get; set; }
+
+        /// <summary>
+        /// If <see langword="true"/>, it is possible to fail due to HP drain.
+        /// </summary>
+        public bool PassiveFailAllowed { get; set; }
 
         /// <summary>
         /// The beatmap.
@@ -72,29 +80,26 @@ namespace osu.Game.Rulesets.Scoring
         /// Creates a new <see cref="DrainingHealthProcessor"/>.
         /// </summary>
         /// <param name="drainStartTime">The time after which draining should begin.</param>
-        /// <param name="drainLenience">A lenience to apply to the default drain rate.<br />
-        /// A value of 0 uses the default drain rate.<br />
-        /// A value of 0.5 halves the drain rate.<br />
-        /// A value of 1 completely removes drain.</param>
-        public DrainingHealthProcessor(double drainStartTime, double drainLenience = 0)
+        public DrainingHealthProcessor(double drainStartTime)
         {
             DrainStartTime = drainStartTime;
-            DrainLenience = Math.Clamp(drainLenience, 0, 1);
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (noDrainPeriodTracker?.IsInAny(Time.Current) == true)
+            if (DrainLenience >= 1.0d || noDrainPeriodTracker?.IsInAny(Time.Current) == true)
                 return;
 
             // When jumping in and out of gameplay time within a single frame, health should only be drained for the period within the gameplay time
             double lastGameplayTime = Math.Clamp(Time.Current - Time.Elapsed, DrainStartTime, gameplayEndTime);
             double currentGameplayTime = Math.Clamp(Time.Current, DrainStartTime, gameplayEndTime);
 
-            if (DrainLenience < 1)
-                Health.Value -= DrainRate * (currentGameplayTime - lastGameplayTime);
+            Health.Value -= DrainRate * (currentGameplayTime - lastGameplayTime);
+            if (PassiveFailAllowed && Health.Value <= 0.0d)
+                TriggerFailure();
+
         }
 
         public override void ApplyBeatmap(IBeatmap beatmap)

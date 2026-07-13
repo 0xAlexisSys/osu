@@ -19,8 +19,8 @@ namespace osu.Game.Rulesets.Osu.Scoring
         public required double LargeBonusValue { get; init; }
         public required double SmallBonusValue { get; init; }
 
-        public OsuAdjustableHealthProcessor(double drainStartTime, double drainLenience = 0.0d)
-            : base(drainStartTime, drainLenience) { }
+        public OsuAdjustableHealthProcessor(double drainStartTime)
+            : base(drainStartTime) { }
 
         protected override double GetHealthIncreaseFor(JudgementResult result)
         {

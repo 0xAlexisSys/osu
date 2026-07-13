@@ -155,11 +155,11 @@ namespace osu.Game.Rulesets.Taiko.Tests.Skinning
                     {
                         Artist = "Unknown",
                         Title = "Sample Beatmap",
-                        Author = { Username = "Craftplacer" },
+                        Author = "Craftplacer",
                     },
-                    Ruleset = new TaikoRuleset().RulesetInfo
+                    Ruleset = new TaikoRuleset().RulesetInfo,
                 },
-                ControlPointInfo = controlPointInfo
+                ControlPointInfo = controlPointInfo,
             });
 
             scoreProcessor.ApplyBeatmap(Beatmap.Value.Beatmap);

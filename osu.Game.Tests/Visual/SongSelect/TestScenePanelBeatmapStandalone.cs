@@ -14,7 +14,7 @@ using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Graphics.Carousel;
 using osu.Game.Graphics.Cursor;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Osu;
@@ -41,9 +41,7 @@ namespace osu.Game.Tests.Visual.SongSelect
         [SetUp]
         public void SetUp() => Schedule(() =>
         {
-            var beatmapSet = beatmaps.GetAllUsableBeatmapSets().FirstOrDefault(b => b.OnlineID == 241526)
-                             ?? beatmaps.GetAllUsableBeatmapSets().FirstOrDefault(b => !b.Protected)
-                             ?? TestResources.CreateTestBeatmapSetInfo();
+            var beatmapSet = beatmaps.GetAllUsableBeatmapSets().FirstOrDefault(b => !b.Protected) ?? TestResources.CreateTestBeatmapSetInfo();
 
             beatmap = beatmapSet.Beatmaps.First();
         });

@@ -116,7 +116,7 @@ namespace osu.Game.Tests.Visual.UserInterface
 
         private void previewStarRating(double stars)
         {
-            difficultyCache.Difficulty = new StarDifficulty(stars, 0);
+            difficultyCache.Difficulty = new StarDifficulty(stars);
             panel.BeatmapInfo.TriggerChange();
         }
 

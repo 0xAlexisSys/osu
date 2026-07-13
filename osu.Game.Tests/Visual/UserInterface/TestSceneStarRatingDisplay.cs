@@ -36,7 +36,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                         AutoSizeAxes = Axes.Both,
                         Spacing = new Vector2(2f),
                         Direction = FillDirection.Vertical,
-                        ChildrenEnumerable = Enumerable.Range(0, 10).Select(j => new StarRatingDisplay(new StarDifficulty(i * (i >= 11 ? 25f : 1f) + j * 0.1f, 0), size)
+                        ChildrenEnumerable = Enumerable.Range(0, 10).Select(j => new StarRatingDisplay(new StarDifficulty(i * (i >= 11 ? 25f : 1f) + j * 0.1f), size)
                         {
                             Anchor = Anchor.Centre,
                             Origin = Anchor.Centre,
@@ -51,7 +51,7 @@ namespace osu.Game.Tests.Visual.UserInterface
         {
             StarRatingDisplay starRating = null;
 
-            AddStep("load display", () => Child = starRating = new StarRatingDisplay(new StarDifficulty(5.55, 1), animated: true)
+            AddStep("load display", () => Child = starRating = new StarRatingDisplay(new StarDifficulty(5.55), animated: true)
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
@@ -60,13 +60,12 @@ namespace osu.Game.Tests.Visual.UserInterface
 
             AddRepeatStep("set random value", () =>
             {
-                starRating.Current.Value = new StarDifficulty(RNG.NextDouble(0.0, 11.0), 1);
+                starRating.Current.Value = new StarDifficulty(RNG.NextDouble(0.0, 11.0));
             }, 10);
 
             AddSliderStep("set exact stars", 0.0, 11.0, 5.55, d =>
             {
-                if (starRating != null)
-                    starRating.Current.Value = new StarDifficulty(d, 1);
+                starRating?.Current.Value = new StarDifficulty(d);
             });
         }
     }

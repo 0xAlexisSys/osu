@@ -42,11 +42,11 @@ namespace osu.Game.Rulesets.Catch.Tests
                     {
                         Artist = @"Unknown",
                         Title = @"You're breathtaking",
-                        Author = { Username = @"Everyone" },
+                        Author = @"Everyone",
                     },
-                    Ruleset = new CatchRuleset().RulesetInfo
+                    Ruleset = new CatchRuleset().RulesetInfo,
                 },
-                ControlPointInfo = controlPointInfo
+                ControlPointInfo = controlPointInfo,
             });
 
             Child = new Container
@@ -54,10 +54,7 @@ namespace osu.Game.Rulesets.Catch.Tests
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativeSizeAxes = Axes.Both,
-                Children = new[]
-                {
-                    drawableRuleset = new DrawableCatchRuleset(new CatchRuleset(), beatmap.GetPlayableBeatmap(new CatchRuleset().RulesetInfo))
-                }
+                Child = drawableRuleset = new DrawableCatchRuleset(new CatchRuleset(), beatmap.GetPlayableBeatmap(new CatchRuleset().RulesetInfo)),
             };
         });
 

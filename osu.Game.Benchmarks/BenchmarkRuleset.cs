@@ -3,7 +3,6 @@
 
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
@@ -13,15 +12,15 @@ namespace osu.Game.Benchmarks
     public class BenchmarkRuleset : BenchmarkTest
     {
         private OsuRuleset ruleset = null!;
-        private APIMod apiModDoubleTime = null!;
-        private APIMod apiModDifficultyAdjust = null!;
+        private JsonMod jsonModDoubleTime = null!;
+        private JsonMod jsonModDifficultyAdjust = null!;
 
         public override void SetUp()
         {
             base.SetUp();
             ruleset = new OsuRuleset();
-            apiModDoubleTime = new APIMod { Acronym = "DT" };
-            apiModDifficultyAdjust = new APIMod { Acronym = "DA" };
+            jsonModDoubleTime = new JsonMod { Acronym = "DT" };
+            jsonModDifficultyAdjust = new JsonMod { Acronym = "DA" };
         }
 
         [Benchmark]
@@ -33,13 +32,13 @@ namespace osu.Game.Benchmarks
         [Benchmark]
         public void BenchmarkToModDoubleTime()
         {
-            apiModDoubleTime.ToMod(ruleset);
+            jsonModDoubleTime.ToMod(ruleset);
         }
 
         [Benchmark]
         public void BenchmarkToModDifficultyAdjust()
         {
-            apiModDifficultyAdjust.ToMod(ruleset);
+            jsonModDifficultyAdjust.ToMod(ruleset);
         }
 
         [Benchmark]

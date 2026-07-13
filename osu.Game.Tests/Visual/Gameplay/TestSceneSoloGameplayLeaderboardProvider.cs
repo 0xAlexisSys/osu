@@ -6,7 +6,7 @@ using NUnit.Framework;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Testing;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Scoring;
 using osu.Game.Screens.Play;
@@ -37,8 +37,6 @@ namespace osu.Game.Tests.Visual.Gameplay
                         TotalScore = 10_000 * (100 - i),
                         Position = i,
                     }).ToArray(),
-                    scoresRequested: 100,
-                    totalScores: 100,
                     null
                 );
             });
@@ -85,8 +83,6 @@ namespace osu.Game.Tests.Visual.Gameplay
                         TotalScore = 600_000 + 10_000 * (40 - i),
                         Position = i,
                     }).ToArray(),
-                    scoresRequested: 50,
-                    totalScores: 40,
                     null
                 );
             });
@@ -133,8 +129,6 @@ namespace osu.Game.Tests.Visual.Gameplay
                         TotalScore = 500_000 + 10_000 * (50 - i),
                         Position = i
                     }).ToArray(),
-                    scoresRequested: 50,
-                    totalScores: 1337,
                     new ScoreInfo { TotalScore = 200_000 }
                 );
             });

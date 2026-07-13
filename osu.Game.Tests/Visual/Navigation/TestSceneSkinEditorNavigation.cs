@@ -15,7 +15,6 @@ using osu.Framework.Input;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
 using osu.Framework.Threading;
-using osu.Game.Online.API;
 using osu.Game.Beatmaps;
 using osu.Game.Overlays.Mods;
 using osu.Game.Overlays.Settings;
@@ -27,9 +26,9 @@ using osu.Game.Screens.Edit.Components;
 using osu.Game.Screens.Play;
 using osu.Game.Screens.Play.HUD;
 using osu.Game.Screens.Play.HUD.HitErrorMeters;
-using osu.Game.Screens.Select;
 using osu.Game.Skinning;
 using osu.Game.Tests.Beatmaps.IO;
+using osu.Game.Users;
 using osuTK;
 using osuTK.Input;
 
@@ -37,7 +36,7 @@ namespace osu.Game.Tests.Visual.Navigation
 {
     public partial class TestSceneSkinEditorNavigation : OsuGameTestScene
     {
-        private SoloSongSelect songSelect;
+        private Screens.Select.SongSelect songSelect;
         private ModSelectOverlay modSelect => Game.ChildrenOfType<ModSelectOverlay>().First();
 
         private SkinEditor skinEditor => Game.ChildrenOfType<SkinEditor>().FirstOrDefault();
@@ -361,7 +360,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("set dummy beatmap", () => Game.Beatmap.SetDefault());
             advanceToSongSelect();
 
-            AddStep("create empty beatmap", () => Game.BeatmapManager.CreateNew(new OsuRuleset().RulesetInfo, new GuestUser()));
+            AddStep("create empty beatmap", () => Game.BeatmapManager.CreateNew(new OsuRuleset().RulesetInfo, new User()));
             AddUntilStep("wait for selected", () => !Game.Beatmap.IsDefault);
 
             openSkinEditor();
@@ -386,7 +385,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("import beatmap", () => beatmapSet = BeatmapImportHelper.LoadQuickOszIntoOsu(Game).GetResultSafely());
             AddStep($"select difficulty for ruleset w/ ID {rulesetId}", () =>
             {
-                var beatmap = beatmapSet.Beatmaps.First(b => b.Ruleset.OnlineID == rulesetId);
+                var beatmap = beatmapSet.Beatmaps.First(b => b.Ruleset.ID == rulesetId);
                 Game.Beatmap.Value = Game.BeatmapManager.GetWorkingBeatmap(beatmap);
             });
 
@@ -439,7 +438,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
         private void advanceToSongSelect()
         {
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
         }
 

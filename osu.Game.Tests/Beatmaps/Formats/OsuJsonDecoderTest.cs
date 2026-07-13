@@ -32,11 +32,10 @@ namespace osu.Game.Tests.Beatmaps.Formats
         {
             var beatmap = decodeAsJson(normal);
             var meta = beatmap.BeatmapInfo.Metadata;
-            ClassicAssert.AreEqual(241526, beatmap.BeatmapInfo.BeatmapSet?.OnlineID);
             ClassicAssert.AreEqual("Soleily", meta.Artist);
             ClassicAssert.AreEqual("Soleily", meta.ArtistUnicode);
             ClassicAssert.AreEqual("03. Renatus - Soleily 192kbps.mp3", meta.AudioFile);
-            ClassicAssert.AreEqual("Gamu", meta.Author.Username);
+            ClassicAssert.AreEqual("Gamu", meta.Author);
             ClassicAssert.AreEqual("machinetop_background.jpg", meta.BackgroundFile);
             ClassicAssert.AreEqual(164471, meta.PreviewTime);
             ClassicAssert.AreEqual(string.Empty, meta.Source);
@@ -53,7 +52,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
             ClassicAssert.AreEqual(0, beatmap.AudioLeadIn);
             ClassicAssert.AreEqual(0.7f, beatmap.StackLeniency);
             ClassicAssert.AreEqual(false, beatmap.SpecialStyle);
-            ClassicAssert.True(beatmapInfo.Ruleset.OnlineID == 0);
+            ClassicAssert.True(beatmapInfo.Ruleset.ID == 0);
             ClassicAssert.AreEqual(false, beatmap.LetterboxInBreaks);
             ClassicAssert.AreEqual(false, beatmap.WidescreenStoryboard);
             ClassicAssert.AreEqual(CountdownType.None, beatmap.Countdown);

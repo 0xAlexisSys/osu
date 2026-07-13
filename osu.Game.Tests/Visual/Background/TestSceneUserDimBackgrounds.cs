@@ -56,7 +56,7 @@ namespace osu.Game.Tests.Visual.Background
             BeatmapStore beatmapStore;
 
             Dependencies.Cache(rulesets = new RealmRulesetStore(Realm));
-            Dependencies.Cache(manager = new BeatmapManager(LocalStorage, Realm, null, audio, Resources, host, Beatmap.Default));
+            Dependencies.Cache(manager = new BeatmapManager(LocalStorage, Realm, audio, Resources, host, Beatmap.Default));
             Dependencies.Cache(new OsuConfigManager(LocalStorage));
             Dependencies.CacheAs(beatmapStore = new RealmDetachedBeatmapStore());
             Dependencies.Cache(Realm);
@@ -344,7 +344,7 @@ namespace osu.Game.Tests.Visual.Background
             rulesets?.Dispose();
         }
 
-        private partial class DummySongSelect : SoloSongSelect
+        private partial class DummySongSelect : Screens.Select.SongSelect
         {
             private FadeAccessibleBackground background;
 

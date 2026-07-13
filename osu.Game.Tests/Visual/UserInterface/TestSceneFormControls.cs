@@ -190,14 +190,25 @@ namespace osu.Game.Tests.Visual.UserInterface
                                             HintText = EditorSetupStrings.CountdownDescription,
                                             Current = { Disabled = true },
                                         },
-                                        new FormFileSelector
+                                        new FormFileSelector(false)
                                         {
-                                            Caption = "File selector",
+                                            Caption = "File selector (shows filename)",
                                             PlaceholderText = "Select a file",
                                         },
-                                        new FormFileSelector
+                                        new FormFileSelector(true)
                                         {
-                                            Caption = "File selector with deselection",
+                                            Caption = "File selector (shows file path)",
+                                            PlaceholderText = "Select a file",
+                                        },
+                                        new FormFileSelector(false)
+                                        {
+                                            Caption = "File selector with deselection (shows filename)",
+                                            PlaceholderText = "Select a file",
+                                            AllowClear = true,
+                                        },
+                                        new FormFileSelector(true)
+                                        {
+                                            Caption = "File selector with deselection (shows file path)",
                                             PlaceholderText = "Select a file",
                                             AllowClear = true,
                                         },
@@ -235,11 +246,6 @@ namespace osu.Game.Tests.Visual.UserInterface
                                     Padding = new MarginPadding(10),
                                     Children = new Drawable[]
                                     {
-                                        new FormPasswordTextBox
-                                        {
-                                            Caption = "Password",
-                                            TabbableContentContainer = this,
-                                        },
                                         new FormNumberBox(allowDecimals: true)
                                         {
                                             Caption = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -270,7 +276,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                                             Caption = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
                                             HintText = EditorSetupStrings.CountdownDescription,
                                         },
-                                        new FormFileSelector
+                                        new FormFileSelector(false)
                                         {
                                             Caption = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
                                             HintText = EditorSetupStrings.CountdownDescription,

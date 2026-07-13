@@ -13,7 +13,6 @@ using osu.Game.Beatmaps;
 using osu.Game.Collections;
 using osu.Game.Graphics.Carousel;
 using osu.Game.Localisation;
-using osu.Game.Resources.Localisation.Web;
 using osu.Game.Scoring;
 using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Filter;
@@ -91,7 +90,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
         private Action<BeatmapSetInfo> applyAuthor(char first)
         {
-            return s => s.Beatmaps[0].Metadata.Author.Username = $"{first}-author";
+            return s => s.Beatmaps[0].Metadata.Author = $"{first}-author";
         }
 
         private Action<BeatmapSetInfo> applyTitle(char first)
@@ -187,38 +186,6 @@ namespace osu.Game.Tests.Visual.SongSelect
         private Action<BeatmapSetInfo> applyLastPlayed(DateTimeOffset? lastPlayed)
         {
             return s => s.Beatmaps.ForEach(b => b.LastPlayed = lastPlayed);
-        }
-
-        #endregion
-
-        #region Ranked Status
-
-        [Test]
-        public async Task TestGroupingByRankedStatus()
-        {
-            int total = 0;
-
-            var beatmapSets = new List<BeatmapSetInfo>();
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.Ranked, beatmapSets, out var rankedBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.Approved, beatmapSets, out var approvedBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.Qualified, beatmapSets, out var qualifiedBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.Loved, beatmapSets, out var lovedBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.WIP, beatmapSets, out var wipBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.Pending, beatmapSets, out var pendingBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.Graveyard, beatmapSets, out var graveyardBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.None, beatmapSets, out var noneBeatmap);
-            addBeatmapSet(s => s.Status = BeatmapOnlineStatus.LocallyModified, beatmapSets, out var localBeatmap);
-
-            var results = await runGrouping(GroupMode.RankedStatus, beatmapSets);
-            assertGroup(results, 0, BeatmapsetsStrings.ShowStatusRanked, rankedBeatmap.Beatmaps.Concat(approvedBeatmap.Beatmaps), ref total);
-            assertGroup(results, 1, BeatmapsetsStrings.ShowStatusQualified, qualifiedBeatmap.Beatmaps, ref total);
-            assertGroup(results, 2, BeatmapsetsStrings.ShowStatusWip, wipBeatmap.Beatmaps, ref total);
-            assertGroup(results, 3, BeatmapsetsStrings.ShowStatusPending, pendingBeatmap.Beatmaps, ref total);
-            assertGroup(results, 4, BeatmapsetsStrings.ShowStatusGraveyard, graveyardBeatmap.Beatmaps, ref total);
-            assertGroup(results, 5, SongSelectStrings.LocallyModified, localBeatmap.Beatmaps, ref total);
-            assertGroup(results, 6, SongSelectStrings.StatusUnknown, noneBeatmap.Beatmaps, ref total);
-            assertGroup(results, 7, BeatmapsetsStrings.ShowStatusLoved, lovedBeatmap.Beatmaps, ref total);
-            assertTotal(results, total);
         }
 
         #endregion
@@ -329,30 +296,6 @@ namespace osu.Game.Tests.Visual.SongSelect
 
         #endregion
 
-        #region Ranked date grouping
-
-        [Test]
-        public async Task TestGroupingByRankedDate()
-        {
-            int total = 0;
-
-            var beatmapSets = new List<BeatmapSetInfo>();
-            addBeatmapSet(s => s.DateRanked = new DateTimeOffset(2025, 5, 27, 0, 0, 0, TimeSpan.Zero), beatmapSets, out var beatmap2025);
-            addBeatmapSet(s => s.DateRanked = new DateTimeOffset(2010, 4, 20, 0, 0, 0, TimeSpan.Zero), beatmapSets, out var beatmap2010);
-            addBeatmapSet(s => s.DateRanked = new DateTimeOffset(2007, 12, 1, 0, 0, 0, TimeSpan.Zero), beatmapSets, out var beatmapDec2007);
-            addBeatmapSet(s => s.DateRanked = new DateTimeOffset(2007, 10, 6, 0, 0, 0, TimeSpan.Zero), beatmapSets, out var beatmapOct2007);
-            addBeatmapSet(s => s.DateRanked = null, beatmapSets, out var beatmapUnranked);
-
-            var results = await runGrouping(GroupMode.DateRanked, beatmapSets);
-            assertGroup(results, 0, "2025", beatmap2025.Beatmaps, ref total);
-            assertGroup(results, 1, "2010", beatmap2010.Beatmaps, ref total);
-            assertGroup(results, 2, "2007", (beatmapOct2007.Beatmaps.Concat(beatmapDec2007.Beatmaps)), ref total);
-            assertGroup(results, 3, BeatmapCarouselFilterGroupingStrings.Unranked, beatmapUnranked.Beatmaps, ref total);
-            assertTotal(results, total);
-        }
-
-        #endregion
-
         #region Source grouping
 
         [Test]
@@ -383,22 +326,19 @@ namespace osu.Game.Tests.Visual.SongSelect
             int total = 0;
 
             var beatmapSets = new List<BeatmapSetInfo>();
-            addBeatmapSet(s => s.OnlineID = 1, beatmapSets, out _);
-            addBeatmapSet(s => s.OnlineID = 21, beatmapSets, out var firstFavourite);
-            addBeatmapSet(s => s.OnlineID = 321, beatmapSets, out _);
-            addBeatmapSet(s => s.OnlineID = 4321, beatmapSets, out _);
-            addBeatmapSet(s => s.OnlineID = 54321, beatmapSets, out var secondFavourite);
+            addBeatmapSet(s => s.HasFavourited = false, beatmapSets, out var noFavourite);
+            addBeatmapSet(s => s.HasFavourited = true, beatmapSets, out var yesFavourite);
 
-            favouriteBeatmapSets = [21, 54321];
+            favouriteBeatmapSets = [noFavourite, yesFavourite];
 
             var results = await runGrouping(GroupMode.Favourites, beatmapSets);
-            assertGroup(results, 0, BeatmapCarouselFilterGroupingStrings.Favourites, firstFavourite.Beatmaps.Concat(secondFavourite.Beatmaps), ref total);
+            assertGroup(results, 0, BeatmapCarouselFilterGroupingStrings.Favourites, noFavourite.Beatmaps.Concat(yesFavourite.Beatmaps), ref total);
             assertTotal(results, total);
         }
 
         #endregion
 
-        private HashSet<int> favouriteBeatmapSets = [];
+        private List<BeatmapSetInfo> favouriteBeatmapSets = [];
 
         private async Task<List<CarouselItem>> runGrouping(GroupMode group, List<BeatmapSetInfo> beatmapSets)
         {

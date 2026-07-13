@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using osu.Game.Beatmaps;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
@@ -89,7 +88,7 @@ namespace osu.Game.Tests.Mods
             applyDifficulty(new BeatmapDifficulty { OverallDifficulty = 4 });
             testMod.OverallDifficulty.Value = 4;
 
-            var result = (TestModDifficultyAdjust)new APIMod(testMod).ToMod(new TestRuleset());
+            var result = (TestModDifficultyAdjust)new JsonMod(testMod).ToMod(new TestRuleset());
 
             Assert.That(result.OverallDifficulty.Value, Is.EqualTo(4));
         }
@@ -121,7 +120,7 @@ namespace osu.Game.Tests.Mods
         [Test]
         public void TestDeserializeIncorrectRange()
         {
-            var apiMod = new APIMod
+            var jsonMod = new JsonMod
             {
                 Acronym = @"DA",
                 Settings = new Dictionary<string, object>
@@ -132,7 +131,7 @@ namespace osu.Game.Tests.Mods
             };
             var ruleset = new OsuRuleset();
 
-            var mod = (OsuModDifficultyAdjust)apiMod.ToMod(ruleset);
+            var mod = (OsuModDifficultyAdjust)jsonMod.ToMod(ruleset);
 
             Assert.Multiple(() =>
             {
@@ -144,7 +143,7 @@ namespace osu.Game.Tests.Mods
         [Test]
         public void TestDeserializeNegativeApproachRate()
         {
-            var apiMod = new APIMod
+            var jsonMod = new JsonMod
             {
                 Acronym = @"DA",
                 Settings = new Dictionary<string, object>
@@ -154,7 +153,7 @@ namespace osu.Game.Tests.Mods
             };
             var ruleset = new OsuRuleset();
 
-            var mod = (OsuModDifficultyAdjust)apiMod.ToMod(ruleset);
+            var mod = (OsuModDifficultyAdjust)jsonMod.ToMod(ruleset);
 
             Assert.That(mod.ApproachRate.Value, Is.GreaterThanOrEqualTo(-10).And.LessThanOrEqualTo(11));
             Assert.That(mod.ApproachRate.Value, Is.EqualTo(-9));

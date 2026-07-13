@@ -216,15 +216,15 @@ namespace osu.Game.Screens.Select
 
         public void RefetchScores()
         {
-            setScores(Array.Empty<ScoreInfo>());
+            SetScores([]);
 
             if (beatmap.IsDefault)
             {
-                setState(LeaderboardState.NoneSelected);
+                SetState(LeaderboardState.NoneSelected);
                 return;
             }
 
-            setState(LeaderboardState.Retrieving);
+            SetState(LeaderboardState.Retrieving);
 
             var fetchBeatmapInfo = beatmap.Value.BeatmapInfo;
             var fetchRuleset = ruleset.Value ?? fetchBeatmapInfo.Ruleset;
@@ -260,22 +260,22 @@ namespace osu.Game.Screens.Select
                 return;
 
             if (scores.FailState is not null)
-                setState((LeaderboardState)scores.FailState);
+                SetState((LeaderboardState)scores.FailState);
             else
-                setScores(scores.AllScores, scores.PersonalBestScore, scores.ScoreCount);
+                SetScores(scores.AllScores, scores.PersonalBestScore, scores.ScoreCount);
         }
 
-        private void setScores(ScoreInfo[] scores, ScoreInfo? personalBestScore = null, int? totalCount = null)
+        protected void SetScores(ScoreInfo[] scores, ScoreInfo? personalBestScore = null, int? totalCount = null)
         {
             cancellationTokenSource?.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
 
             clearScores();
-            setState(LeaderboardState.Success);
+            SetState(LeaderboardState.Success);
 
             if (scores.Length == 0)
             {
-                setState(LeaderboardState.NoScores);
+                SetState(LeaderboardState.NoScores);
                 return;
             }
 
@@ -390,7 +390,7 @@ namespace osu.Game.Screens.Select
 
         private ScheduledDelegate? loadingShowDelegate;
 
-        private void setState(LeaderboardState state)
+        protected void SetState(LeaderboardState state)
         {
             if (state == displayedState)
                 return;

@@ -33,11 +33,6 @@ namespace osu.Game.Tests.Visual.UserInterface
                     RelativeSizeAxes = Axes.X,
                     PlaceholderText = "Normal textbox",
                 },
-                new OsuPasswordTextBox
-                {
-                    RelativeSizeAxes = Axes.X,
-                    PlaceholderText = "Password textbox",
-                },
                 new OsuNumberBox
                 {
                     RelativeSizeAxes = Axes.X,

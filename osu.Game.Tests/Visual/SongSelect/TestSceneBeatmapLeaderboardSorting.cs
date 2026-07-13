@@ -7,7 +7,6 @@ using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
-using osu.Framework.Bindables;
 using osu.Framework.Extensions;
 using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
@@ -17,8 +16,7 @@ using osu.Framework.Testing;
 using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Graphics.Cursor;
-using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Osu;
@@ -44,17 +42,14 @@ namespace osu.Game.Tests.Visual.SongSelect
 
         private LeaderboardManager leaderboardManager = null!;
 
-        private readonly IBindable<Screens.Select.SongSelect.BeatmapSetLookupResult?> onlineLookupResult = new Bindable<Screens.Select.SongSelect.BeatmapSetLookupResult?>();
-
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent)
         {
             var dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
             dependencies.Cache(rulesetStore = new RealmRulesetStore(Realm));
-            dependencies.Cache(beatmapManager = new BeatmapManager(LocalStorage, Realm, null, dependencies.Get<AudioManager>(), Resources, dependencies.Get<GameHost>(), Beatmap.Default));
-            dependencies.Cache(scoreManager = new ScoreManager(rulesetStore, () => beatmapManager, LocalStorage, Realm, API));
+            dependencies.Cache(beatmapManager = new BeatmapManager(LocalStorage, Realm, dependencies.Get<AudioManager>(), Resources, dependencies.Get<GameHost>(), Beatmap.Default));
+            dependencies.Cache(scoreManager = new ScoreManager(rulesetStore, () => beatmapManager, LocalStorage, Realm, Session));
             dependencies.Cache(leaderboardManager = new LeaderboardManager());
-            dependencies.CacheAs(onlineLookupResult);
 
             Dependencies.Cache(Realm);
 
@@ -143,11 +138,10 @@ namespace osu.Game.Tests.Visual.SongSelect
                 Ruleset = new OsuRuleset().RulesetInfo,
                 BeatmapInfo = beatmapInfo,
                 BeatmapHash = beatmapInfo.Hash,
-                User = new APIUser
+                User = new User
                 {
-                    Id = 2,
-                    Username = @"peppy",
-                    CountryCode = CountryCode.JP,
+                    ID = 2,
+                    Name = @"peppy",
                 },
             });
         }

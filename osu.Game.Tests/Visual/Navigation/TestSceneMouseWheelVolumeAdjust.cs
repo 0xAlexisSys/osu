@@ -5,7 +5,6 @@ using NUnit.Framework;
 using osu.Framework.Extensions;
 using osu.Game.Configuration;
 using osu.Game.Screens.Play;
-using osu.Game.Screens.Select;
 using osu.Game.Tests.Beatmaps.IO;
 using osuTK.Input;
 
@@ -84,8 +83,8 @@ namespace osu.Game.Tests.Visual.Navigation
         private void loadToPlayerNonBreakTime()
         {
             Player? player = null;
-            SoloSongSelect songSelect = null!;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            Screens.Select.SongSelect songSelect = null!;
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game, virtualTrack: true).WaitSafely());

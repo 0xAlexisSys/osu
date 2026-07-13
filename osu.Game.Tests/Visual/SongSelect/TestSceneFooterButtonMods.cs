@@ -50,8 +50,15 @@ namespace osu.Game.Tests.Visual.SongSelect
             AddStep("modified", () => changeMods(new List<Mod> { new OsuModDoubleTime { SpeedChange = { Value = 1.2 } } }));
             AddStep("modified + one", () => changeMods(new List<Mod> { new OsuModHidden(), new OsuModDoubleTime { SpeedChange = { Value = 1.2 } } }));
             AddStep("modified + two", () => changeMods(new List<Mod> { new OsuModHidden(), new OsuModHardRock(), new OsuModDoubleTime { SpeedChange = { Value = 1.2 } } }));
-            AddStep("modified + five", () => changeMods(new List<Mod> { new OsuModHidden(), new OsuModHardRock(), new OsuModDoubleTime { SpeedChange = { Value = 1.2 } }, new OsuModClassic(), new OsuModDifficultyAdjust(), new OsuModRandom() }));
-            AddStep("modified + six", () => changeMods(new List<Mod> { new OsuModHidden(), new OsuModHardRock(), new OsuModDoubleTime { SpeedChange = { Value = 1.2 } }, new OsuModClassic(), new OsuModDifficultyAdjust(), new OsuModRandom(), new OsuModAlternate() }));
+            AddStep("modified + five",
+                () => changeMods(new List<Mod>
+                    { new OsuModHidden(), new OsuModHardRock(), new OsuModDoubleTime { SpeedChange = { Value = 1.2 } }, new OsuModClassic(), new OsuModDifficultyAdjust(), new OsuModRandom() }));
+            AddStep("modified + six",
+                () => changeMods(new List<Mod>
+                {
+                    new OsuModHidden(), new OsuModHardRock(), new OsuModDoubleTime { SpeedChange = { Value = 1.2 } }, new OsuModClassic(), new OsuModDifficultyAdjust(), new OsuModRandom(),
+                    new OsuModAlternate()
+                }));
 
             AddStep("clear mods", () => changeMods(Array.Empty<Mod>()));
             AddWaitStep("wait", 3);
@@ -151,22 +158,14 @@ namespace osu.Game.Tests.Visual.SongSelect
             assertModsMultiplier(0.75);
         }
 
-        [Test]
-        public void TestUnrankedBadge()
-        {
-            AddStep(@"Add unranked mod", () => changeMods(new[] { new OsuModDeflate() }));
-            AddUntilStep("Unranked badge shown", () => footerButtonMods.ChildrenOfType<FooterButtonMods.UnrankedBadge>().Single().Alpha == 1);
-            AddStep(@"Clear selected mod", () => changeMods(Array.Empty<Mod>()));
-            AddUntilStep("Unranked badge not shown", () => footerButtonMods.ChildrenOfType<FooterButtonMods.UnrankedBadge>().Single().Alpha == 0);
-        }
-
         private void changeMods(IReadOnlyList<Mod> mods) => footerButtonMods.Mods.Value = mods;
 
         private void assertModsMultiplier(double expectedMultiplier)
         {
             string expectedValue = ModUtils.FormatScoreMultiplier(expectedMultiplier).ToString();
 
-            AddAssert($"Displayed multiplier is {expectedValue}", () => footerButtonMods.ChildrenOfType<OsuSpriteText>().First(t => t.Text.ToString().Contains('x')).Text.ToString(), () => Is.EqualTo(expectedValue));
+            AddAssert($"Displayed multiplier is {expectedValue}", () => footerButtonMods.ChildrenOfType<OsuSpriteText>().First(t => t.Text.ToString().Contains('x')).Text.ToString(),
+                () => Is.EqualTo(expectedValue));
         }
 
         private partial class TestModSelectOverlay : UserModSelectOverlay

@@ -103,7 +103,7 @@ namespace osu.Game.Tests.Beatmaps
             AddStep("set computation function", () => difficultyCache.ComputeDifficulty = lookup =>
             {
                 var modRateAdjust = (ModRateAdjust)lookup.OrderedMods.SingleOrDefault(mod => mod is ModRateAdjust);
-                return new StarDifficulty(BASE_STARS + modRateAdjust?.SpeedChange.Value ?? 0, 0);
+                return new StarDifficulty(BASE_STARS + modRateAdjust?.SpeedChange.Value ?? 0);
             });
 
             AddStep("change selected mod to DT", () => SelectedMods.Value = new[] { dt = new OsuModDoubleTime { SpeedChange = { Value = 1.5 } } });
@@ -124,7 +124,7 @@ namespace osu.Game.Tests.Beatmaps
             AddStep("set computation function", () => difficultyCache.ComputeDifficulty = lookup =>
             {
                 var modRateAdjust = (ModRateAdjust)lookup.OrderedMods.SingleOrDefault(mod => mod is ModRateAdjust);
-                return new StarDifficulty(BASE_STARS + modRateAdjust?.SpeedChange.Value ?? 0, 0);
+                return new StarDifficulty(BASE_STARS + modRateAdjust?.SpeedChange.Value ?? 0);
             });
 
             AddStep("change selected mod to DT", () => SelectedMods.Value = new[] { dt = new OsuModDoubleTime { SpeedChange = { Value = 1.5 } } });
@@ -148,7 +148,7 @@ namespace osu.Game.Tests.Beatmaps
             AddStep("set computation function", () => difficultyCache.ComputeDifficulty = lookup =>
             {
                 var modDifficultyAdjust = (ModDifficultyAdjust)lookup.OrderedMods.SingleOrDefault(mod => mod is ModDifficultyAdjust);
-                return new StarDifficulty(BASE_STARS * (modDifficultyAdjust?.OverallDifficulty.Value ?? 1), 0);
+                return new StarDifficulty(BASE_STARS * (modDifficultyAdjust?.OverallDifficulty.Value ?? 1));
             });
 
             AddStep("change selected mod to DA", () => SelectedMods.Value = new[] { difficultyAdjust = new OsuModDifficultyAdjust() });
@@ -166,8 +166,8 @@ namespace osu.Game.Tests.Beatmaps
         [Test]
         public void TestKeyEqualsWithDifferentModInstances()
         {
-            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 }, new Mod[] { new OsuModHardRock(), new OsuModHidden() });
-            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 }, new Mod[] { new OsuModHardRock(), new OsuModHidden() });
+            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 }, new Mod[] { new OsuModHardRock(), new OsuModHidden() });
+            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 }, new Mod[] { new OsuModHardRock(), new OsuModHidden() });
 
             Assert.That(key1, Is.EqualTo(key2));
             Assert.That(key1.GetHashCode(), Is.EqualTo(key2.GetHashCode()));
@@ -176,8 +176,8 @@ namespace osu.Game.Tests.Beatmaps
         [Test]
         public void TestKeyEqualsWithDifferentModOrder()
         {
-            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 }, new Mod[] { new OsuModHardRock(), new OsuModHidden() });
-            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 }, new Mod[] { new OsuModHidden(), new OsuModHardRock() });
+            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 }, new Mod[] { new OsuModHardRock(), new OsuModHidden() });
+            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 }, new Mod[] { new OsuModHidden(), new OsuModHardRock() });
 
             Assert.That(key1, Is.EqualTo(key2));
             Assert.That(key1.GetHashCode(), Is.EqualTo(key2.GetHashCode()));
@@ -186,9 +186,9 @@ namespace osu.Game.Tests.Beatmaps
         [Test]
         public void TestKeyDoesntEqualWithDifferentModSettings()
         {
-            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 },
+            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 },
                 new Mod[] { new OsuModDoubleTime { SpeedChange = { Value = 1.1 } } });
-            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 },
+            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 },
                 new Mod[] { new OsuModDoubleTime { SpeedChange = { Value = 1.9 } } });
 
             Assert.That(key1, Is.Not.EqualTo(key2));
@@ -198,9 +198,9 @@ namespace osu.Game.Tests.Beatmaps
         [Test]
         public void TestKeyEqualWithMatchingModSettings()
         {
-            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 },
+            var key1 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 },
                 new Mod[] { new OsuModDoubleTime { SpeedChange = { Value = 1.25 } } });
-            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { OnlineID = 0 },
+            var key2 = new BeatmapDifficultyCache.DifficultyCacheLookup(new BeatmapInfo { ID = guid }, new RulesetInfo { ID = 0 },
                 new Mod[] { new OsuModDoubleTime { SpeedChange = { Value = 1.25 } } });
 
             Assert.That(key1, Is.EqualTo(key2));
@@ -236,7 +236,7 @@ namespace osu.Game.Tests.Beatmaps
 
             protected override Task<StarDifficulty?> ComputeValueAsync(DifficultyCacheLookup lookup, CancellationToken token = default)
             {
-                return Task.FromResult<StarDifficulty?>(ComputeDifficulty?.Invoke(lookup) ?? new StarDifficulty(BASE_STARS, 0));
+                return Task.FromResult<StarDifficulty?>(ComputeDifficulty?.Invoke(lookup) ?? new StarDifficulty(BASE_STARS));
             }
         }
     }

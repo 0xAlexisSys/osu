@@ -24,7 +24,7 @@ namespace osu.Game.Scoring
     /// A realm model containing metadata for a single score.
     /// </summary>
     [MapTo("Score")]
-    public class ScoreInfo : RealmObject, IHasGuidPrimaryKey, IHasRealmFiles, ISoftDelete, IEquatable<ScoreInfo>
+    public class ScoreInfo : RealmObject, IHasGuidPrimaryKey, IHasRealmFiles, ISoftDelete, IEquatable<ScoreInfo>, IScoreInfo
     {
         private static readonly Dictionary<int, string> rank_strings = [];
 
@@ -167,6 +167,10 @@ namespace osu.Game.Scoring
 
         [MapTo(nameof(Rank))]
         public int RankInt { get; set; }
+
+        IRulesetInfo IScoreInfo.Ruleset => Ruleset;
+        IBeatmapInfo? IScoreInfo.Beatmap => BeatmapInfo;
+        IUser IScoreInfo.User => User;
 
         #region Properties required to make things work with existing usages
 

@@ -7,8 +7,8 @@ using NUnit.Framework;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Platform;
 using osu.Game.Configuration;
-using osu.Game.Online.API;
 using osu.Game.Overlays.Notifications;
+using osu.Game.Users;
 
 namespace osu.Game.Tests.Visual.Navigation
 {
@@ -30,12 +30,12 @@ namespace osu.Game.Tests.Visual.Navigation
             AddAssert("notification posted", () => Game.Notifications.UnreadCount.Value == 1);
         }
 
-        protected override TestOsuGame CreateTestGame() => new FirstRunGame(LocalStorage, API);
+        protected override TestOsuGame CreateTestGame() => new FirstRunGame(LocalStorage, Session);
 
         private partial class FirstRunGame : TestOsuGame
         {
-            public FirstRunGame(Storage storage, IAPIProvider api, string[] args = null)
-                : base(storage, api, args)
+            public FirstRunGame(Storage storage, Session session, string[] args = null)
+                : base(storage, session, args)
             {
             }
 

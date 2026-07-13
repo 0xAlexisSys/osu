@@ -13,6 +13,7 @@ using osu.Game.Rulesets.Osu.Replays;
 using osu.Game.Rulesets.Osu.Scoring;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Tests.Visual;
+using osu.Game.Users;
 using osuTK;
 
 namespace osu.Game.Rulesets.Osu.Tests
@@ -64,7 +65,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         private class TestAutoMod : OsuModAutoplay
         {
             public override ModReplayData CreateReplayData(IBeatmap beatmap, IReadOnlyList<Mod> mods)
-                => new ModReplayData(new MissingAutoGenerator(beatmap, mods).Generate(), new ModCreatedUser { Username = "Autoplay" });
+                => new ModReplayData(new MissingAutoGenerator(beatmap, mods).Generate(), new User { ID = User.BOT_USER_ID, Name = "Autoplay" });
         }
 
         private class MissingAutoGenerator : OsuAutoGeneratorBase

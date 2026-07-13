@@ -31,7 +31,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             [new Mod[] { new OsuModNoFail() }, 0.5],
 
-            [new Mod[] { new OsuModNoDrainRate() }, 1.0],
+            [new Mod[] { new OsuModLifeBandage() }, 1.0],
 
             [new Mod[] { new OsuModHalfTime { SpeedChange = { Value = 0.50 } } }, 0.20],
             [new Mod[] { new OsuModHalfTime { SpeedChange = { Value = 0.55 } } }, 0.27],
@@ -134,6 +134,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             [new Mod[] { new OsuModTargetPractice() }, 0.01],
             [new Mod[] { new OsuModDifficultyAdjust() }, 1],
+            [new Mod[] { new OsuModHealthAdjust() }, 1],
 
             [new Mod[] { new OsuModClassic() }, 0.985],
             [new Mod[] { new OsuModClassic { ClassicNoteLock = { Value = false } } }, 0.96],

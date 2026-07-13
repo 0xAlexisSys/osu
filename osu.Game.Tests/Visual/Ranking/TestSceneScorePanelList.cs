@@ -10,11 +10,11 @@ using NUnit.Framework;
 using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osu.Framework.Utils;
-using osu.Game.Models;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
 using osu.Game.Screens.Ranking;
 using osu.Game.Tests.Resources;
+using osu.Game.Users;
 using osuTK.Input;
 
 namespace osu.Game.Tests.Visual.Ranking
@@ -162,10 +162,10 @@ namespace osu.Game.Tests.Visual.Ranking
         public void TestSelectMultipleScores()
         {
             var firstScore = TestResources.CreateTestScoreInfo();
-            firstScore.RealmUser = new RealmUser { Username = "A" };
+            firstScore.User = new User { Name = "A" };
 
             var secondScore = TestResources.CreateTestScoreInfo();
-            secondScore.RealmUser = new RealmUser { Username = "B" };
+            secondScore.User = new User { Name = "B" };
 
             createListStep(() => new ScorePanelList());
 
@@ -212,17 +212,14 @@ namespace osu.Game.Tests.Visual.Ranking
         public void TestKeyboardNavigation()
         {
             var lowestScore = TestResources.CreateTestScoreInfo();
-            lowestScore.OnlineID = 3;
             lowestScore.TotalScore = 0;
             lowestScore.Statistics = new Dictionary<HitResult, int>();
 
             var middleScore = TestResources.CreateTestScoreInfo();
-            middleScore.OnlineID = 2;
             middleScore.TotalScore = 0;
             middleScore.Statistics = new Dictionary<HitResult, int>();
 
             var highestScore = TestResources.CreateTestScoreInfo();
-            highestScore.OnlineID = 1;
             highestScore.TotalScore = 0;
             highestScore.Statistics = new Dictionary<HitResult, int>();
 

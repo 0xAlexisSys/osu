@@ -56,7 +56,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                             Children = new Drawable[]
                             {
                                 new OsuSpriteText { Text = "Sample content" },
-                                new RoundedButton { Text = "can't puush me", Width = 200, },
+                                new RoundedButton { Text = "can't puush me", Width = 200 },
                                 pressableButton = new PressableButton { Text = "puush me", Width = 200 },
                             }
                         },
@@ -157,7 +157,7 @@ namespace osu.Game.Tests.Visual.UserInterface
 
             public bool OnPressed(KeyBindingPressEvent<GlobalAction> e)
             {
-                if (e.Action == GlobalAction.ToggleChat)
+                if (e.Action == GlobalAction.ToggleNotifications)
                 {
                     Pressed = true;
                     return true;

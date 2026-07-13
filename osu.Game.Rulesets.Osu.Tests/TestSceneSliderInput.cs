@@ -54,8 +54,8 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(50, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start - 10 },
-                new OsuReplayFrame { Position = new Vector2(50, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 2000 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(50, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start - 10 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(50, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 2000 },
             }, new Slider
             {
                 StartTime = time_slider_start,
@@ -95,8 +95,8 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(10, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start - 10 },
-                new OsuReplayFrame { Position = new Vector2(10, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 2000 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(10, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start - 10 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(10, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 2000 },
             }, slider = new Slider
             {
                 StartTime = time_slider_start,
@@ -138,8 +138,8 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = Vector2.Zero, Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(finalPosition, slider_path_length * 3), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 20 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = Vector2.Zero, Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(finalPosition, slider_path_length * 3), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 20 },
             }, slider = new Slider
             {
                 StartTime = time_slider_start,
@@ -172,8 +172,8 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = Vector2.Zero, Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = Vector2.Zero, Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = Vector2.Zero, Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = Vector2.Zero, Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
             });
 
             assertAllMaxJudgements();
@@ -192,9 +192,9 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
             });
 
             assertMidSliderJudgementFail();
@@ -213,9 +213,9 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_during_slide_1 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_2 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_2 },
             });
 
             assertAllMaxJudgements();
@@ -234,9 +234,9 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
             });
 
             assertAllMaxJudgements();
@@ -255,9 +255,9 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
             });
 
             assertAllMaxJudgements();
@@ -275,7 +275,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
             });
 
             assertHeadMissTailTracked();
@@ -295,11 +295,11 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(150, 150), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
-                new OsuReplayFrame { Position = new Vector2(200, 200), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(150, 150), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(200, 200), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
             });
 
             assertMidSliderJudgements();
@@ -320,12 +320,12 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
-                new OsuReplayFrame { Position = new Vector2(200, 200), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(200, 200), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
             });
 
             assertMidSliderJudgementFail();
@@ -344,10 +344,10 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(150, 150), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
-                new OsuReplayFrame { Position = new Vector2(200, 200), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(150, 150), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(200, 200), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
             });
 
             assertMidSliderJudgements();
@@ -367,10 +367,10 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(100, 100), Time = time_during_slide_1 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(100, 100), Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_2 },
             });
 
             assertMidSliderJudgements();
@@ -381,10 +381,10 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(100, 100), Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_2 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_before_slider },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(100, 100), Actions = { OsuAction.RightButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.RightButton }, Time = time_during_slide_2 },
             });
 
             assertMidSliderJudgements();
@@ -405,11 +405,11 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(100, 100), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
-                new OsuReplayFrame { Position = new Vector2(100, 100), Time = time_during_slide_2 },
-                new OsuReplayFrame { Position = new Vector2(100, 100), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(100, 100), Actions = { OsuAction.LeftButton }, Time = time_during_slide_1 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(100, 100), Time = time_during_slide_2 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(100, 100), Actions = { OsuAction.LeftButton }, Time = time_during_slide_3 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_during_slide_4 },
             });
 
             assertMidSliderJudgements();
@@ -428,9 +428,9 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(0, OsuHitObject.OBJECT_RADIUS * 1.19f), Actions = { OsuAction.LeftButton }, Time = time_slider_start + 250 },
-                new OsuReplayFrame { Position = new Vector2(slider_path_length, OsuHitObject.OBJECT_RADIUS * 1.199f), Actions = { OsuAction.LeftButton }, Time = time_slider_end },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, OsuHitObject.OBJECT_RADIUS * 1.19f), Actions = { OsuAction.LeftButton }, Time = time_slider_start + 250 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(slider_path_length, OsuHitObject.OBJECT_RADIUS * 1.199f), Actions = { OsuAction.LeftButton }, Time = time_slider_end },
             });
 
             assertAllMaxJudgements();
@@ -449,9 +449,9 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(0, OsuHitObject.OBJECT_RADIUS * 1.21f), Actions = { OsuAction.LeftButton }, Time = time_slider_start + 250 },
-                new OsuReplayFrame { Position = new Vector2(slider_path_length, OsuHitObject.OBJECT_RADIUS * 1.201f), Actions = { OsuAction.LeftButton }, Time = time_slider_end },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0, OsuHitObject.OBJECT_RADIUS * 1.21f), Actions = { OsuAction.LeftButton }, Time = time_slider_start + 250 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(slider_path_length, OsuHitObject.OBJECT_RADIUS * 1.201f), Actions = { OsuAction.LeftButton }, Time = time_slider_end },
             });
 
             assertMidSliderJudgementFail();
@@ -462,9 +462,9 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             performTest(new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
-                new OsuReplayFrame { Position = new Vector2(175, 0), Actions = { OsuAction.LeftButton }, Time = 3250 },
-                new OsuReplayFrame { Position = new Vector2(175, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_end },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(175, 0), Actions = { OsuAction.LeftButton }, Time = 3250 },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(175, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_end },
             }, new Slider
             {
                 StartTime = time_slider_start,
@@ -500,8 +500,8 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(new List<ReplayFrame>
                 {
-                    new OsuReplayFrame { Position = Vector2.Zero, Actions = { OsuAction.LeftButton }, Time = time_slider_start },
-                    new OsuReplayFrame { Position = new Vector2(140, 0), Actions = { OsuAction.RightButton }, Time = last_tick_time + 20 },
+                    new OsuReplayFrame(0.0d, Vector2.Zero) { Position = Vector2.Zero, Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                    new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(140, 0), Actions = { OsuAction.RightButton }, Time = last_tick_time + 20 },
                 },
                 [
                     new Slider

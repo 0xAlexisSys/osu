@@ -26,7 +26,6 @@ using osu.Game.Screens.Edit;
 using osu.Game.Screens.Edit.GameplayTest;
 using osu.Game.Screens.Edit.Setup;
 using osu.Game.Screens.Menu;
-using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Filter;
 using osu.Game.Tests.Resources;
 using osuTK.Input;
@@ -91,8 +90,6 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for editor", () => Game.ScreenStack.CurrentScreen is Editor editor && editor.ReadyForUse);
 
             AddAssert("beatmapset changed", () => getEditor().Beatmap.Value.BeatmapSetInfo, () => Is.Not.EqualTo(beatmapSet));
-            AddAssert("beatmapset is locally modified", () => getEditor().Beatmap.Value.BeatmapSetInfo.Status, () => Is.EqualTo(BeatmapOnlineStatus.LocallyModified));
-            AddAssert("all difficulties are locally modified", () => getEditor().Beatmap.Value.BeatmapSetInfo.Beatmaps.All(b => b.Status == BeatmapOnlineStatus.LocallyModified));
             AddAssert("difficulty didn't change", () => getEditor().Beatmap.Value.BeatmapInfo.DifficultyName, () => Is.EqualTo(difficultyName));
             AddAssert("old beatmapset deleted", () => Game.BeatmapManager.QueryBeatmapSet(s => s.ID == beatmapSet.ID), () => Is.Null);
         }
@@ -110,7 +107,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddStep("exit", () => getEditor().Exit());
 
-            AddUntilStep("wait for song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect
+            AddUntilStep("wait for song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect songSelect
                                                        && songSelect.Beatmap.Value is DummyWorkingBeatmap);
         }
 
@@ -192,7 +189,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddStep("switch ruleset at song select", () => Game.Ruleset.Value = new ManiaRuleset().RulesetInfo);
 
-            AddStep("open editor", () => ((SoloSongSelect)Game.ScreenStack.CurrentScreen).Edit(beatmapSet.Beatmaps.First(beatmap => beatmap.Ruleset.OnlineID == 0)));
+            AddStep("open editor", () => ((Screens.Select.SongSelect)Game.ScreenStack.CurrentScreen).Edit(beatmapSet.Beatmaps.First(beatmap => beatmap.Ruleset.ID == 0)));
 
             AddUntilStep("wait for editor open", () => Game.ScreenStack.CurrentScreen is Editor editor && editor.ReadyForUse);
             AddAssert("editor ruleset is osu!", () => Game.Ruleset.Value, () => Is.EqualTo(new OsuRuleset().RulesetInfo));
@@ -208,8 +205,8 @@ namespace osu.Game.Tests.Visual.Navigation
             });
             AddAssert("gameplay ruleset is osu!", () => Game.Ruleset.Value, () => Is.EqualTo(new OsuRuleset().RulesetInfo));
 
-            AddStep("exit to song select", () => Game.PerformFromScreen(_ => { }, typeof(SoloSongSelect).Yield()));
-            AddUntilStep("wait for song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddStep("exit to song select", () => Game.PerformFromScreen(_ => { }, typeof(Screens.Select.SongSelect).Yield()));
+            AddUntilStep("wait for song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
             AddAssert("previous ruleset restored", () => Game.Ruleset.Value.Equals(new ManiaRuleset().RulesetInfo));
         }
 
@@ -310,8 +307,8 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("user request play", () => Game.MusicController.Play(requestedByUser: true));
             AddUntilStep("music still stopped", () => !Game.MusicController.IsPlaying);
 
-            AddStep("exit to song select", () => Game.PerformFromScreen(_ => { }, typeof(SoloSongSelect).Yield()));
-            AddUntilStep("wait for song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddStep("exit to song select", () => Game.PerformFromScreen(_ => { }, typeof(Screens.Select.SongSelect).Yield()));
+            AddUntilStep("wait for song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
 
             AddUntilStep("wait for music playing", () => Game.MusicController.IsPlaying);
             AddStep("user request stop", () => Game.MusicController.Stop(requestedByUser: true));
@@ -332,7 +329,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddUntilStep("selection retained on song select",
                 () => Game.Beatmap.Value.BeatmapInfo.ID,
-                () => Is.EqualTo(beatmapSet.Beatmaps.First(b => b.Ruleset.OnlineID == 0).ID));
+                () => Is.EqualTo(beatmapSet.Beatmaps.First(b => b.Ruleset.ID == 0).ID));
         }
 
         [Test]
@@ -373,13 +370,13 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("present beatmap", () => Game.PresentBeatmap(beatmapSet));
             AddUntilStep("wait for song select",
                 () => Game.Beatmap.Value.BeatmapSetInfo.Equals(beatmapSet)
-                      && Game.ScreenStack.CurrentScreen is SoloSongSelect songSelect
+                      && Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect songSelect
                       && songSelect.CarouselItemsPresented);
         }
 
         private void openEditor()
         {
-            AddStep("open editor", () => ((SoloSongSelect)Game.ScreenStack.CurrentScreen).Edit(beatmapSet.Beatmaps.First(beatmap => beatmap.Ruleset.OnlineID == 0)));
+            AddStep("open editor", () => ((Screens.Select.SongSelect)Game.ScreenStack.CurrentScreen).Edit(beatmapSet.Beatmaps.First(beatmap => beatmap.Ruleset.ID == 0)));
             AddUntilStep("wait for editor open", () => Game.ScreenStack.CurrentScreen is Editor editor && editor.ReadyForUse);
         }
 

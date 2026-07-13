@@ -13,7 +13,6 @@ using osu.Framework.Utils;
 using osu.Game.Configuration;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Overlays;
 using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Mods;
@@ -67,23 +66,9 @@ namespace osu.Game.Tests.Visual.SongSelect
 
                 foreach (var scoreInfo in getTestScores())
                 {
-                    BeatmapLeaderboardScore.HighlightType? highlightType = null;
-
-                    switch (scoreInfo.User.Id)
-                    {
-                        case 2:
-                            highlightType = BeatmapLeaderboardScore.HighlightType.Own;
-                            break;
-
-                        case 1541390:
-                            highlightType = BeatmapLeaderboardScore.HighlightType.Friend;
-                            break;
-                    }
-
                     fillFlow.Add(new BeatmapLeaderboardScore(scoreInfo)
                     {
                         Rank = scoreInfo.Position,
-                        Highlight = highlightType,
                         Shear = Vector2.Zero,
                     });
                 }
@@ -118,23 +103,9 @@ namespace osu.Game.Tests.Visual.SongSelect
 
                 foreach (var scoreInfo in getTestScores())
                 {
-                    BeatmapLeaderboardScore.HighlightType? highlightType = null;
-
-                    switch (scoreInfo.User.Id)
-                    {
-                        case 2:
-                            highlightType = BeatmapLeaderboardScore.HighlightType.Own;
-                            break;
-
-                        case 1541390:
-                            highlightType = BeatmapLeaderboardScore.HighlightType.Friend;
-                            break;
-                    }
-
                     fillFlow.Add(new BeatmapLeaderboardScore(scoreInfo, sheared: false)
                     {
                         Rank = scoreInfo.Position,
-                        Highlight = highlightType,
                     });
                 }
 
@@ -177,14 +148,12 @@ namespace osu.Game.Tests.Visual.SongSelect
                     MaxCombo = 244,
                     TotalScore = RNG.Next(1_800_000, 2_000_000),
                     MaximumStatistics = { { HitResult.Great, 3000 } },
-                    Mods = new Mod[] { new OsuModHidden(), new ModScoreV2(), },
+                    Mods = new Mod[] { new OsuModHidden(), new ModScoreV2() },
                     Ruleset = new OsuRuleset().RulesetInfo,
-                    User = new APIUser
+                    User = new User
                     {
-                        Id = 6602580,
-                        Username = @"waaiiru",
-                        CountryCode = CountryCode.ES,
-                        CoverUrl = TestResources.COVER_IMAGE_1,
+                        ID = 6602580,
+                        Name = @"waaiiru",
                     },
                     Date = DateTimeOffset.Now.AddYears(-2),
                 };
@@ -220,7 +189,7 @@ namespace osu.Game.Tests.Visual.SongSelect
         {
             base.UpdateAfterChildren();
 
-            if (drawWidthText != null) drawWidthText.Text = $"DrawWidth: {fillFlow?.DrawWidth}";
+            drawWidthText?.Text = $"DrawWidth: {fillFlow?.DrawWidth}";
         }
 
         private static ScoreInfo[] getTestScores()
@@ -236,12 +205,10 @@ namespace osu.Game.Tests.Visual.SongSelect
                     TotalScore = RNG.Next(1_800_000, 2_000_000),
                     MaximumStatistics = { { HitResult.Great, 3000 } },
                     Ruleset = new OsuRuleset().RulesetInfo,
-                    User = new APIUser
+                    User = new User
                     {
-                        Id = 6602580,
-                        Username = @"waaiiru",
-                        CountryCode = CountryCode.ES,
-                        CoverUrl = TestResources.COVER_IMAGE_1,
+                        ID = 6602580,
+                        Name = @"waaiiru",
                     },
                     Date = DateTimeOffset.Now.AddYears(-2),
                 },
@@ -254,12 +221,10 @@ namespace osu.Game.Tests.Visual.SongSelect
                     TotalScore = RNG.Next(1_200_000, 1_500_000),
                     MaximumStatistics = { { HitResult.Great, 3000 } },
                     Ruleset = new OsuRuleset().RulesetInfo,
-                    User = new APIUser
+                    User = new User
                     {
-                        Id = 1541390,
-                        Username = @"Toukai",
-                        CountryCode = CountryCode.CA,
-                        CoverUrl = TestResources.COVER_IMAGE_2,
+                        ID = 1541390,
+                        Name = @"Toukai",
                     },
                     Date = DateTimeOffset.Now.AddMonths(-6),
                 },
@@ -273,10 +238,9 @@ namespace osu.Game.Tests.Visual.SongSelect
                     TotalScore = RNG.Next(1_000_000, 1_200_000),
                     MaximumStatistics = { { HitResult.Great, 3000 } },
                     Ruleset = new ManiaRuleset().RulesetInfo,
-                    User = new APIUser
+                    User = new User
                     {
-                        Username = @"No cover",
-                        CountryCode = CountryCode.BR,
+                        Name = @"No cover",
                     },
                     Date = DateTimeOffset.Now,
                 },
@@ -289,11 +253,10 @@ namespace osu.Game.Tests.Visual.SongSelect
                     TotalScore = RNG.Next(500_000, 1_000_000),
                     MaximumStatistics = { { HitResult.Great, 3000 } },
                     Ruleset = new ManiaRuleset().RulesetInfo,
-                    User = new APIUser
+                    User = new User
                     {
-                        Id = 226597,
-                        Username = @"WWWWWWWWWWWWWWWWWWWW",
-                        CountryCode = CountryCode.US,
+                        ID = 226597,
+                        Name = @"WWWWWWWWWWWWWWWWWWWW",
                     },
                     Date = DateTimeOffset.Now,
                 },
@@ -306,7 +269,10 @@ namespace osu.Game.Tests.Visual.SongSelect
             scores[1].Mods = new Mod[] { new OsuModHidden(), new OsuModDoubleTime { SpeedChange = { Value = 2 } }, new OsuModHardRock(), new OsuModFlashlight() };
             scores[2].Mods = new Mod[] { new OsuModHidden(), new OsuModDoubleTime(), new OsuModHardRock(), new OsuModFlashlight(), new OsuModClassic() };
             scores[3].Mods = new Mod[]
-                { new OsuModHidden(), new OsuModDoubleTime(), new OsuModHardRock(), new OsuModFlashlight { ComboBasedSize = { Value = false } }, new OsuModClassic(), new OsuModDifficultyAdjust { CircleSize = { Value = 3.2f } } };
+            {
+                new OsuModHidden(), new OsuModDoubleTime(), new OsuModHardRock(), new OsuModFlashlight { ComboBasedSize = { Value = false } }, new OsuModClassic(),
+                new OsuModDifficultyAdjust { CircleSize = { Value = 3.2f } }
+            };
             scores[4].Mods = new ManiaRuleset().CreateAllMods().ToArray();
 
             return scores;

@@ -53,8 +53,8 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddUntilStep("avatar displayed", () => getAvatar() != null);
             AddAssert("avatar not clickable", () => getAvatar().ChildrenOfType<OsuClickableContainer>().First().Action == null);
 
-            ClickableAvatar getAvatar() => getResultsScreen()
-                                           .ChildrenOfType<ClickableAvatar>().FirstOrDefault();
+            UpdateableAvatar getAvatar() => getResultsScreen()
+                                            .ChildrenOfType<UpdateableAvatar>().FirstOrDefault();
 
             ResultsScreen getResultsScreen() => Stack.CurrentScreen as ResultsScreen;
         }

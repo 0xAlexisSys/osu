@@ -3,7 +3,6 @@
 
 using NUnit.Framework;
 using osu.Game.Beatmaps;
-using osu.Game.Models;
 
 namespace osu.Game.Tests.Beatmaps
 {
@@ -34,7 +33,7 @@ namespace osu.Game.Tests.Beatmaps
                 {
                     Artist = "artist",
                     Title = "title",
-                    Author = new RealmUser { Username = "creator" }
+                    Author = "creator",
                 }
             };
 
@@ -50,9 +49,9 @@ namespace osu.Game.Tests.Beatmaps
                 {
                     Artist = "artist",
                     Title = "title",
-                    Author = new RealmUser { Username = "creator" }
+                    Author = "creator",
                 },
-                DifficultyName = "difficulty"
+                DifficultyName = "difficulty",
             };
 
             Assert.That(beatmap.ToString(), Is.EqualTo("artist - title (creator) [difficulty]"));

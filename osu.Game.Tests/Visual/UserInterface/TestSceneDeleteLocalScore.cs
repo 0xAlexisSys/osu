@@ -15,15 +15,15 @@ using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
 using osu.Game.Graphics.UserInterface;
+using osu.Game.Leaderboards;
 using osu.Game.Models;
-using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Online.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Scoring;
 using osu.Game.Screens.Select;
 using osu.Game.Tests.Resources;
+using osu.Game.Users;
 using osuTK;
 using osuTK.Input;
 
@@ -70,8 +70,8 @@ namespace osu.Game.Tests.Visual.UserInterface
             var dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
             dependencies.Cache(rulesets = new RealmRulesetStore(Realm));
-            dependencies.Cache(beatmapManager = new BeatmapManager(LocalStorage, Realm, null, dependencies.Get<AudioManager>(), Resources, dependencies.Get<GameHost>(), Beatmap.Default));
-            dependencies.Cache(scoreManager = new ScoreManager(dependencies.Get<RulesetStore>(), () => beatmapManager, LocalStorage, Realm, API));
+            dependencies.Cache(beatmapManager = new BeatmapManager(LocalStorage, Realm, dependencies.Get<AudioManager>(), Resources, dependencies.Get<GameHost>(), Beatmap.Default));
+            dependencies.Cache(scoreManager = new ScoreManager(dependencies.Get<RulesetStore>(), () => beatmapManager, LocalStorage, Realm, Session));
             dependencies.Cache(leaderboardManager = new LeaderboardManager());
             Dependencies.Cache(Realm);
 
@@ -93,14 +93,13 @@ namespace osu.Game.Tests.Visual.UserInterface
                 {
                     var score = new ScoreInfo
                     {
-                        OnlineID = i,
                         BeatmapInfo = beatmapInfo,
                         BeatmapHash = beatmapInfo.Hash,
                         Accuracy = RNG.NextDouble(),
                         TotalScore = RNG.Next(1, 1000000),
                         MaxCombo = RNG.Next(1, 1000),
                         Rank = ScoreRank.XH,
-                        User = new APIUser { Username = "TestUser" },
+                        User = new User { Name = "TestUser" },
                         Ruleset = new OsuRuleset().RulesetInfo,
                         Files = { new RealmNamedFileUsage(new RealmFile { Hash = $"{i}" }, string.Empty) }
                     };
@@ -167,7 +166,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             });
 
             AddUntilStep("wait for fetch", () => scores.Any());
-            AddUntilStep("score removed from leaderboard", () => scores.All(s => s.OnlineID != scoreBeingDeleted.OnlineID));
+            AddUntilStep("score removed from leaderboard", () => scores.All(s => s.ID != scoreBeingDeleted.ID));
 
             // "Clean up"
             AddStep("release left mouse button", () => InputManager.ReleaseButton(MouseButton.Left));
@@ -178,7 +177,7 @@ namespace osu.Game.Tests.Visual.UserInterface
         {
             AddStep("delete top score", () => scoreManager.Delete(importedScores[0]));
             AddUntilStep("wait for fetch", () => scores.Any());
-            AddUntilStep("score removed from leaderboard", () => scores.All(s => s.OnlineID != importedScores[0].OnlineID));
+            AddUntilStep("score removed from leaderboard", () => scores.All(s => s.ID != importedScores[0].ID));
         }
 
         protected override void Dispose(bool isDisposing)

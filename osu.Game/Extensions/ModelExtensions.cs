@@ -49,7 +49,7 @@ namespace osu.Game.Extensions
                     result = metadataInfo.GetDisplayTitle();
                     break;
 
-                case ScoreInfo scoreInfo:
+                case IScoreInfo scoreInfo:
                     result = scoreInfo.GetDisplayTitle();
                     break;
 
@@ -57,7 +57,7 @@ namespace osu.Game.Extensions
                     result = rulesetInfo.Name;
                     break;
 
-                case User user:
+                case IUser user:
                     result = user.Name;
                     break;
             }

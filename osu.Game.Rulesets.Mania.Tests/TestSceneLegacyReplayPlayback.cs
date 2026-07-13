@@ -741,7 +741,7 @@ namespace osu.Game.Rulesets.Mania.Tests
                 },
                 BeatmapInfo =
                 {
-                    Ruleset = new RulesetInfo { OnlineID = 0 }
+                    Ruleset = new RulesetInfo { ID = 0 }
                 },
                 ControlPointInfo = cpi,
             };

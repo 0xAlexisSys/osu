@@ -6,16 +6,16 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Game.Graphics;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Screens.Play.HUD;
 using osu.Game.Screens.Play.Leaderboards;
+using osu.Game.Users;
 using osuTK.Graphics;
 
 namespace osu.Game.Tests.Visual.Gameplay
 {
     public partial class TestSceneDrawableGameplayLeaderboardScore : OsuTestScene
     {
-        private readonly APIUser user = new APIUser { Username = "user" };
+        private readonly User user = new User { Name = "user" };
         private readonly BindableLong totalScore = new BindableLong();
         private readonly Bindable<int?> position = new Bindable<int?>();
         private readonly BindableBool quit = new BindableBool();

@@ -69,7 +69,7 @@ namespace osu.Game.Tests.Visual.Colours
                                         Font = FontUsage.Default.With(size: 10),
                                         Text = $"Text: {textColour.ToHex()}",
                                     },
-                                    new StarRatingDisplay(new StarDifficulty(difficulty, 0))
+                                    new StarRatingDisplay(new StarDifficulty(difficulty))
                                     {
                                         Anchor = Anchor.TopCentre,
                                         Origin = Anchor.TopCentre,

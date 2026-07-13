@@ -24,7 +24,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             Ruleset = new RulesetInfo
             {
                 ShortName = "osu",
-                OnlineID = 0
+                ID = 0
             },
             StarRating = 4.0d,
             Difficulty = new BeatmapDifficulty
@@ -39,20 +39,14 @@ namespace osu.Game.Tests.NonVisual.Filtering
                 ArtistUnicode = "check unicode too",
                 Title = "Title goes here",
                 TitleUnicode = "TitleUnicode goes here",
-                Author = { Username = "The Author" },
+                Author = "The Author",
                 Source = "unit tests",
                 Tags = "look for tags too",
-                UserTags =
-                {
-                    "song representation/simple",
-                    "style/clean",
-                }
             },
             DifficultyName = "version as well",
             Length = 2500,
             BPM = 160,
             BeatDivisor = 12,
-            Status = BeatmapOnlineStatus.Loved
         };
 
         [Test]
@@ -84,7 +78,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             var exampleBeatmapInfo = getExampleBeatmap();
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true
             };
             var carouselItem = new CarouselBeatmap(exampleBeatmapInfo);
@@ -98,7 +92,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             var exampleBeatmapInfo = getExampleBeatmap();
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = -1 },
+                Ruleset = new RulesetInfo { ID = -1 },
                 AllowConvertedBeatmaps = true
             };
             var carouselItem = new CarouselBeatmap(exampleBeatmapInfo);
@@ -114,7 +108,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             var exampleBeatmapInfo = getExampleBeatmap();
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 ApproachRate = new FilterCriteria.OptionalRange<float>
                 {
@@ -135,7 +129,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             var exampleBeatmapInfo = getExampleBeatmap();
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 BPM = new FilterCriteria.OptionalRange<double>
                 {
@@ -161,7 +155,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             var exampleBeatmapInfo = getExampleBeatmap();
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 SearchText = terms
             };
@@ -190,7 +184,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             var exampleBeatmapInfo = getExampleBeatmap();
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 SearchText = terms
             };
@@ -230,7 +224,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             exampleBeatmapInfo.Metadata.Title = "the artist \"quoted words\"";
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 SearchText = terms
             };
@@ -250,7 +244,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
             exampleBeatmapInfo.Metadata.Title = "the artist ~quoted words~";
             var criteria = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 SearchText = terms
             };
@@ -322,23 +316,6 @@ namespace osu.Game.Tests.NonVisual.Filtering
             ClassicAssert.AreEqual(filtered, carouselItem.Filtered.Value);
         }
 
-        [TestCase("202010", true)]
-        [TestCase("20201010", false)]
-        [TestCase("153", true)]
-        [TestCase("1535", false)]
-        public void TestCriteriaMatchingBeatmapIDs(string query, bool filtered)
-        {
-            var beatmap = getExampleBeatmap();
-            beatmap.OnlineID = 20201010;
-            beatmap.BeatmapSet = new BeatmapSetInfo { OnlineID = 1535 };
-
-            var criteria = new FilterCriteria { SearchText = query };
-            var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.Filter(criteria);
-
-            ClassicAssert.AreEqual(filtered, carouselItem.Filtered.Value);
-        }
-
         [Test]
         [TestCase("artist")]
         [TestCase("unicode")]
@@ -351,104 +328,6 @@ namespace osu.Game.Tests.NonVisual.Filtering
             };
 
             var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.Filter(criteria);
-
-            ClassicAssert.True(carouselItem.Filtered.Value);
-        }
-
-        [TestCase("simple", false)]
-        [TestCase("\"style/clean\"", false)]
-        [TestCase("\"style/clean\"!", false)]
-        [TestCase("iNiS-style", true)]
-        [TestCase("\"reading/visually dense\"!", true)]
-        public void TestCriteriaMatchingUserTags(string query, bool filtered)
-        {
-            var beatmap = getExampleBeatmap();
-            var criteria = new FilterCriteria { UserTags = [new FilterCriteria.OptionalTextFilter { SearchTerm = query }] };
-            var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.Filter(criteria);
-
-            ClassicAssert.AreEqual(filtered, carouselItem.Filtered.Value);
-        }
-
-        [Test]
-        public void TestCriteriaMatchingMultipleTagsAtOnce()
-        {
-            var beatmap = getExampleBeatmap();
-            var criteria = new FilterCriteria
-            {
-                UserTags =
-                [
-                    new FilterCriteria.OptionalTextFilter { SearchTerm = "\"song representation/simple\"!" },
-                    new FilterCriteria.OptionalTextFilter { SearchTerm = "\"style/clean\"!" }
-                ]
-            };
-            var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.Filter(criteria);
-
-            ClassicAssert.AreEqual(false, carouselItem.Filtered.Value);
-        }
-
-        [Test]
-        public void TestCriteriaAllTagFiltersMustMatch()
-        {
-            var beatmap = getExampleBeatmap();
-            var criteria = new FilterCriteria
-            {
-                UserTags =
-                [
-                    new FilterCriteria.OptionalTextFilter { SearchTerm = "\"song representation/simple\"!" },
-                    new FilterCriteria.OptionalTextFilter { SearchTerm = "\"style/dirty\"!" }
-                ]
-            };
-            var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.Filter(criteria);
-
-            ClassicAssert.AreEqual(true, carouselItem.Filtered.Value);
-        }
-
-        [Test]
-        public void TestCriteriaMatchingTagExcluded()
-        {
-            var beatmap = getExampleBeatmap();
-            var criteria = new FilterCriteria
-            {
-                UserTags =
-                [
-                    new FilterCriteria.OptionalTextFilter { SearchTerm = "\"song representation/simple\"!", ExcludeTerm = true },
-                ]
-            };
-            var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.Filter(criteria);
-
-            ClassicAssert.AreEqual(true, carouselItem.Filtered.Value);
-        }
-
-        [Test]
-        public void TestCriteriaOneTagIncludedAndOneTagExcluded()
-        {
-            var beatmap = getExampleBeatmap();
-            var criteria = new FilterCriteria
-            {
-                UserTags =
-                [
-                    new FilterCriteria.OptionalTextFilter { SearchTerm = "\"song representation/simple\"!" },
-                    new FilterCriteria.OptionalTextFilter { SearchTerm = "\"style/clean\"!", ExcludeTerm = true }
-                ]
-            };
-            var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.Filter(criteria);
-
-            ClassicAssert.AreEqual(true, carouselItem.Filtered.Value);
-        }
-
-        [Test]
-        public void TestBeatmapMustHaveAtLeastOneTagIfUserTagFilterActive()
-        {
-            var beatmap = getExampleBeatmap();
-            var criteria = new FilterCriteria { UserTags = [new FilterCriteria.OptionalTextFilter { SearchTerm = "simple" }] };
-            var carouselItem = new CarouselBeatmap(beatmap);
-            carouselItem.BeatmapInfo.Metadata.UserTags.Clear();
             carouselItem.Filter(criteria);
 
             ClassicAssert.True(carouselItem.Filtered.Value);
@@ -532,38 +411,6 @@ namespace osu.Game.Tests.NonVisual.Filtering
             Assert.That(visibleBeatmaps, Is.EqualTo(new[] { 0, 2, 3, 5, 6 }));
         }
 
-        [TestCase("status!=ranked", new[] { 1, 2, 4, 5 })]
-        [TestCase("status!=r", new[] { 1, 2, 4, 5 })]
-        [TestCase("status!=loved", new[] { 0, 1, 2, 3, 4, 6 })]
-        [TestCase("status!=l", new[] { 0, 1, 2, 3, 4, 6 })]
-        [TestCase("status!=r,l", new[] { 1, 2, 4 })]
-        public void TestNotEqualSearchForEnumFilter(string query, int[] expectedBeatmapIndexes)
-        {
-            var carouselBeatmaps = new[]
-            {
-                BeatmapOnlineStatus.Ranked,
-                BeatmapOnlineStatus.Qualified,
-                BeatmapOnlineStatus.Approved,
-                BeatmapOnlineStatus.Ranked,
-                BeatmapOnlineStatus.Approved,
-                BeatmapOnlineStatus.Loved,
-                BeatmapOnlineStatus.Ranked
-            }.Select(info => new CarouselBeatmap(new BeatmapInfo
-            {
-                Status = info
-            })).ToList();
-
-            var criteria = new FilterCriteria();
-            FilterQueryParser.ApplyQueries(criteria, query);
-            carouselBeatmaps.ForEach(b => b.Filter(criteria));
-
-            int[] visibleBeatmaps = carouselBeatmaps
-                                    .Where(b => !b.Filtered.Value)
-                                    .Select(b => carouselBeatmaps.IndexOf(b)).ToArray();
-
-            Assert.That(visibleBeatmaps, Is.EqualTo(expectedBeatmapIndexes));
-        }
-
         [TestCase("played!=1", new[] { 1, 4, 5 })]
         [TestCase("played!=0", new[] { 0, 2, 3, 6, 7 })]
         public void TestNotEqualSearchForBooleanFilter(string query, int[] expectedBeatmapIndexes)
@@ -585,39 +432,6 @@ namespace osu.Game.Tests.NonVisual.Filtering
 
             var criteria = new FilterCriteria();
 
-            FilterQueryParser.ApplyQueries(criteria, query);
-            carouselBeatmaps.ForEach(b => b.Filter(criteria));
-
-            int[] visibleBeatmaps = carouselBeatmaps
-                                    .Where(b => !b.Filtered.Value)
-                                    .Select(b => carouselBeatmaps.IndexOf(b)).ToArray();
-
-            Assert.That(visibleBeatmaps, Is.EqualTo(expectedBeatmapIndexes));
-        }
-
-        [TestCase("ranked!=2012", new[] { 3, 4, 5, 6, 7 })]
-        [TestCase("ranked!=2012.11", new[] { 0, 1, 3, 4, 5, 6, 7 })]
-        [TestCase("ranked!=2012.10.21", new[] { 1, 2, 3, 4, 5, 6, 7 })]
-        public void TestNotEqualSearchForDateFilter(string query, int[] expectedBeatmapIndexes)
-        {
-            var carouselBeatmaps = new[]
-            {
-                new DateTimeOffset(2012, 10, 21, 13, 42, 13, TimeSpan.Zero),
-                new DateTimeOffset(2012, 10, 11, 2, 33, 43, TimeSpan.Zero),
-                new DateTimeOffset(2012, 11, 12, 10, 22, 32, TimeSpan.Zero),
-                new DateTimeOffset(2013, 2, 13, 5, 19, 0, TimeSpan.Zero),
-                new DateTimeOffset(2013, 2, 13, 11, 23, 35, TimeSpan.Zero),
-                new DateTimeOffset(2013, 3, 14, 9, 9, 1, TimeSpan.Zero),
-                new DateTimeOffset(2014, 1, 15, 10, 5, 0, TimeSpan.Zero),
-                new DateTimeOffset(2014, 11, 16, 23, 27, 0, TimeSpan.Zero),
-            }.Select(dateRanked => new CarouselBeatmap(new BeatmapInfo
-            {
-                BeatmapSet = new BeatmapSetInfo
-                {
-                    DateRanked = dateRanked,
-                }
-            })).ToList();
-            var criteria = new FilterCriteria();
             FilterQueryParser.ApplyQueries(criteria, query);
             carouselBeatmaps.ForEach(b => b.Filter(criteria));
 

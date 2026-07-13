@@ -9,15 +9,12 @@ using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Extensions;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Containers;
 using osu.Framework.Screens;
-using osu.Framework.Testing;
 using osu.Game.Overlays;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Screens;
 using osu.Game.Screens.Menu;
 using osu.Game.Screens.Play;
-using osu.Game.Screens.Select;
 using osu.Game.Tests.Beatmaps.IO;
 using osuTK.Input;
 
@@ -44,17 +41,17 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestPerformAtSongSelect()
         {
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
-            AddStep("perform immediately", () => Game.PerformFromScreen(_ => actionPerformed = true, new[] { typeof(SoloSongSelect) }));
+            AddStep("perform immediately", () => Game.PerformFromScreen(_ => actionPerformed = true, new[] { typeof(Screens.Select.SongSelect) }));
             AddAssert("did perform", () => actionPerformed);
-            AddAssert("screen didn't change", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddAssert("screen didn't change", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
         }
 
         [Test]
         public void TestPerformAtMenuFromSongSelect()
         {
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddStep("try to perform", () => Game.PerformFromScreen(_ => actionPerformed = true));
             AddUntilStep("returned to menu", () => Game.ScreenStack.CurrentScreen is MainMenu);
@@ -69,8 +66,8 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("Press enter", () => InputManager.Key(Key.Enter));
             AddUntilStep("Wait for new screen", () => Game.ScreenStack.CurrentScreen is PlayerLoader);
 
-            AddStep("try to perform", () => Game.PerformFromScreen(_ => actionPerformed = true, new[] { typeof(SoloSongSelect) }));
-            AddUntilStep("returned to song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddStep("try to perform", () => Game.PerformFromScreen(_ => actionPerformed = true, new[] { typeof(Screens.Select.SongSelect) }));
+            AddUntilStep("returned to song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
             AddAssert("did perform", () => actionPerformed);
         }
 
@@ -121,22 +118,6 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddStep("allow load", () => screen.LoadEvent.Set());
             AddUntilStep("action performed", () => actionPerformed);
-        }
-
-        [Test]
-        public void TestOverlaysAlwaysClosed()
-        {
-            ChatOverlay chat = null;
-            AddUntilStep("is at menu", () => Game.ScreenStack.CurrentScreen is MainMenu);
-            AddUntilStep("wait for chat load", () => (chat = Game.ChildrenOfType<ChatOverlay>().SingleOrDefault()) != null);
-
-            AddStep("show chat", () => InputManager.Key(Key.F8));
-
-            AddStep("try to perform", () => Game.PerformFromScreen(_ => actionPerformed = true));
-
-            AddUntilStep("still at menu", () => Game.ScreenStack.CurrentScreen is MainMenu);
-            AddAssert("did perform", () => actionPerformed);
-            AddAssert("chat closed", () => chat.State.Value == Visibility.Hidden);
         }
 
         [TestCase(true)]
@@ -257,8 +238,7 @@ namespace osu.Game.Tests.Visual.Navigation
         private void importAndWaitForSongSelect()
         {
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
-            PushAndConfirm(() => new SoloSongSelect());
-            AddUntilStep("beatmap updated", () => Game.Beatmap.Value.BeatmapSetInfo.OnlineID == 241526);
+            PushAndConfirm(() => new Screens.Select.SongSelect());
         }
 
         public partial class DialogBlockingScreen : OsuScreen

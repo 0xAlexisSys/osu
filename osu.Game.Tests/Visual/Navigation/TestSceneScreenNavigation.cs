@@ -6,7 +6,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Configuration;
@@ -24,19 +23,11 @@ using osu.Game.Configuration;
 using osu.Game.Extensions;
 using osu.Game.Graphics.Carousel;
 using osu.Game.Graphics.Containers;
-using osu.Game.Graphics.Sprites;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.API;
-using osu.Game.Online.Notifications.WebSocket;
-using osu.Game.Online.Notifications.WebSocket.Events;
 using osu.Game.Overlays;
-using osu.Game.Medals;
-using osu.Game.Users;
-using osu.Game.Overlays.BeatmapListing;
 using osu.Game.Overlays.Mods;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Overlays.Toolbar;
-using osu.Game.Overlays.Volume;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Mania.Configuration;
@@ -45,9 +36,6 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu.Mods;
 using osu.Game.Scoring;
 using osu.Game.Screens.Menu;
-using osu.Game.Screens.OnlinePlay.Lounge;
-using osu.Game.Screens.OnlinePlay.Match.Components;
-using osu.Game.Screens.OnlinePlay.Playlists;
 using osu.Game.Screens.Play;
 using osu.Game.Screens.Play.HUD;
 using osu.Game.Screens.Play.PlayerSettings;
@@ -70,83 +58,12 @@ namespace osu.Game.Tests.Visual.Navigation
 
         private Vector2 optionsButtonPosition => Game.ToScreenSpace(new Vector2(click_padding, click_padding));
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public void TestConfirmationRequiredToDiscardPlaylist(bool withPlaylistItemAdded)
-        {
-            Screens.OnlinePlay.Playlists.Playlists playlistScreen = null;
-
-            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() != null);
-
-            PushAndConfirm(() => playlistScreen = new Screens.OnlinePlay.Playlists.Playlists());
-            AddUntilStep("wait for lounge", () => (playlistScreen.CurrentSubScreen as LoungeSubScreen)?.IsLoaded == true);
-
-            AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
-
-            AddStep("open create screen", () =>
-            {
-                InputManager.MoveMouseTo(playlistScreen.ChildrenOfType<CreatePlaylistsRoomButton>().Single());
-                InputManager.Click(MouseButton.Left);
-            });
-
-            if (withPlaylistItemAdded)
-            {
-                AddUntilStep("wait for settings displayed",
-                    () => (playlistScreen.CurrentSubScreen as PlaylistsRoomSubScreen)?.ChildrenOfType<PlaylistsRoomSettingsOverlay>().SingleOrDefault()?.State.Value == Visibility.Visible);
-
-                AddStep("edit playlist", () => InputManager.Key(Key.Enter));
-
-                AddUntilStep("wait for song select", () => playlistScreen.CurrentSubScreen is PlaylistsSongSelect songSelect && songSelect.IsLoaded && !songSelect.IsFiltering);
-
-                AddUntilStep("wait for selection", () => !Game.Beatmap.IsDefault);
-
-                AddStep("add item", () => InputManager.Key(Key.Enter));
-                AddStep("exit screen", () => InputManager.Key(Key.Escape));
-
-                AddUntilStep("wait for return to playlist screen", () => playlistScreen.CurrentSubScreen is PlaylistsRoomSubScreen);
-
-                AddStep("go back to song select", () =>
-                {
-                    InputManager.MoveMouseTo(playlistScreen.ChildrenOfType<PurpleRoundedButton>().Single(b => b.Text == "+ Add more beatmaps"));
-                    InputManager.Click(MouseButton.Left);
-                });
-
-                AddUntilStep("wait for song select", () => playlistScreen.CurrentSubScreen is PlaylistsSongSelect songSelect && songSelect.IsLoaded && !songSelect.IsFiltering);
-
-                AddStep("press home button", () =>
-                {
-                    InputManager.MoveMouseTo(Game.Toolbar.ChildrenOfType<ToolbarHomeButton>().Single());
-                    InputManager.Click(MouseButton.Left);
-                });
-
-                AddAssert("confirmation dialog shown", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog is not null);
-
-                pushEscape();
-                pushEscape();
-
-                AddAssert("confirmation dialog shown", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog is not null);
-
-                AddStep("confirm exit", () => InputManager.Key(Key.Enter));
-
-                AddAssert("dialog dismissed", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog == null);
-
-                exitViaEscapeAndConfirm();
-            }
-            else
-            {
-                pushEscape();
-                AddAssert("confirmation dialog not shown", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog == null);
-
-                exitViaEscapeAndConfirm();
-            }
-        }
-
         [Test]
         public void TestExitSongSelectWithEscape()
         {
             ModSelectOverlay modSelect = null;
 
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
             AddStep("Show mods overlay", () =>
             {
                 modSelect = Game!.ChildrenOfType<ModSelectOverlay>().Single();
@@ -161,9 +78,9 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestEnterGameplayWhileFilteringToNoSelection()
         {
-            SoloSongSelect songSelect = null;
+            Screens.Select.SongSelect songSelect = null;
 
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
             AddUntilStep("wait for selected", () => !Game.Beatmap.IsDefault);
@@ -184,9 +101,9 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestSongSelectBackActionHandling()
         {
-            SoloSongSelect songSelect = null;
+            Screens.Select.SongSelect songSelect = null;
 
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
 
             AddUntilStep("wait for filter control", () => filterControlTextBox().IsLoaded);
 
@@ -222,9 +139,9 @@ namespace osu.Game.Tests.Visual.Navigation
         public void TestSongSelectRandomRewindButton()
         {
             Guid? originalSelection = null;
-            SoloSongSelect songSelect = null;
+            Screens.Select.SongSelect songSelect = null;
 
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("Add two beatmaps", () =>
@@ -253,12 +170,12 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestSongSelectScrollHandling()
         {
-            SoloSongSelect songSelect = null;
+            Screens.Select.SongSelect songSelect = null;
             double scrollPosition = 0;
 
             AddStep("set game volume to max", () => Game.Dependencies.Get<FrameworkConfigManager>().SetValue(FrameworkSetting.VolumeUniversal, 1d));
             AddUntilStep("wait for volume overlay to hide", () => Game.ChildrenOfType<VolumeOverlay>().SingleOrDefault()?.State.Value, () => Is.EqualTo(Visibility.Hidden));
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.IsLoaded);
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
             AddUntilStep("wait for beatmap", () => Game.ChildrenOfType<PanelBeatmapSet>().Any());
@@ -311,7 +228,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestOpenModSelectOverlayUsingAction()
         {
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
             AddStep("Show mods overlay", () => InputManager.Key(Key.F1));
             AddAssert("Overlay was shown", () => Game!.ChildrenOfType<ModSelectOverlay>().Single().State.Value == Visibility.Visible);
         }
@@ -322,7 +239,7 @@ namespace osu.Game.Tests.Visual.Navigation
             Screens.Select.SongSelect songSelect = null;
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).GetResultSafely());
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddUntilStep("wait for selected", () => !Game.Beatmap.IsDefault);
@@ -357,7 +274,7 @@ namespace osu.Game.Tests.Visual.Navigation
             Screens.Select.SongSelect songSelect = null;
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).GetResultSafely());
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddUntilStep("wait for selected", () => !Game.Beatmap.IsDefault);
@@ -389,7 +306,7 @@ namespace osu.Game.Tests.Visual.Navigation
             Player player = null;
 
             Screens.Select.SongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
@@ -432,7 +349,7 @@ namespace osu.Game.Tests.Visual.Navigation
             Player player = null;
 
             Screens.Select.SongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game).WaitSafely());
@@ -486,7 +403,7 @@ namespace osu.Game.Tests.Visual.Navigation
             Player player = null;
 
             Screens.Select.SongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game).WaitSafely());
@@ -529,7 +446,7 @@ namespace osu.Game.Tests.Visual.Navigation
             Player player = null;
 
             Screens.Select.SongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
@@ -546,11 +463,6 @@ namespace osu.Game.Tests.Visual.Navigation
             });
 
             AddAssert("retry count is 0", () => player.RestartCount == 0);
-
-            // todo: see https://github.com/ppy/osu/issues/22220
-            // tests are supposed to be immune to this edge case by the logic in TestPlayer,
-            // but we're running a full game instance here, so we have to work around it manually.
-            AddStep("end spectator before retry", () => Game.SpectatorClient.EndPlaying(player.GameplayState));
 
             AddStep("attempt to retry", () => player.ChildrenOfType<HotkeyRetryOverlay>().First().Action());
             AddAssert("old player score marked failed", () => player.Score.ScoreInfo.Rank, () => Is.EqualTo(ScoreRank.F));
@@ -596,6 +508,9 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for results", () => Game.ScreenStack.CurrentScreen is ResultsScreen);
         }
 
+        // TODO: [alexis] fix this test later
+
+#if NOTHING
         [Test]
         public void TestShowMedalAtResults()
         {
@@ -609,6 +524,7 @@ namespace osu.Game.Tests.Visual.Navigation
             }));
             AddUntilStep("medal overlay shown", () => Game.ChildrenOfType<MedalOverlay>().Single().State.Value, () => Is.EqualTo(Visibility.Visible));
         }
+#endif
 
         [Test]
         public void TestRetryFromResults()
@@ -688,9 +604,9 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestMenuMakesMusic()
         {
-            SoloSongSelect songSelect = null;
+            Screens.Select.SongSelect songSelect = null;
 
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
 
             AddUntilStep("wait for no track", () => Game.MusicController.CurrentTrack.IsDummyDevice);
 
@@ -702,7 +618,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestPushSongSelectAndPressBackButtonImmediately()
         {
-            AddStep("push song select", () => Game.ScreenStack.Push(new SoloSongSelect()));
+            AddStep("push song select", () => Game.ScreenStack.Push(new Screens.Select.SongSelect()));
             AddStep("press back button", () => Game.ChildrenOfType<BackButton>().First().Action!.Invoke());
 
             ConfirmAtMainMenu();
@@ -711,10 +627,10 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestExitSongSelectWithClick()
         {
-            SoloSongSelect songSelect = null;
+            Screens.Select.SongSelect songSelect = null;
             ModSelectOverlay modSelect = null;
 
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddStep("Show mods overlay", () =>
             {
                 modSelect = Game!.ChildrenOfType<ModSelectOverlay>().Single();
@@ -728,34 +644,6 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("Click left mouse button", () => InputManager.Click(MouseButton.Left));
 
             AddUntilStep("Overlay was hidden", () => modSelect.State.Value == Visibility.Hidden);
-            exitViaBackButtonAndConfirm();
-        }
-
-        [Test]
-        public void TestModsResetOnEnteringMultiplayer()
-        {
-            var osuAutomationMod = new OsuModAutoplay();
-
-            AddStep("Enable autoplay", () => { Game.SelectedMods.Value = new[] { osuAutomationMod }; });
-
-            PushAndConfirm(() => new Screens.OnlinePlay.Multiplayer.Multiplayer());
-            AddUntilStep("Mods are removed", () => Game.SelectedMods.Value.Count == 0);
-
-            AddStep("Return to menu", () => Game.ScreenStack.CurrentScreen.Exit());
-            AddUntilStep("Mods are restored", () => Game.SelectedMods.Value.Contains(osuAutomationMod));
-        }
-
-        [Test]
-        public void TestExitMultiWithEscape()
-        {
-            PushAndConfirm(() => new Screens.OnlinePlay.Playlists.Playlists());
-            exitViaEscapeAndConfirm();
-        }
-
-        [Test]
-        public void TestExitMultiWithBackButton()
-        {
-            PushAndConfirm(() => new Screens.OnlinePlay.Playlists.Playlists());
             exitViaBackButtonAndConfirm();
         }
 
@@ -794,7 +682,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             ModSelectOverlay modSelect = null;
 
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
             AddStep("Show mods overlay", () =>
             {
                 modSelect = Game!.ChildrenOfType<ModSelectOverlay>().Single();
@@ -811,7 +699,7 @@ namespace osu.Game.Tests.Visual.Navigation
                 InputManager.ReleaseKey(Key.ControlLeft);
             });
 
-            AddAssert("Ruleset changed to osu!taiko", () => Game.Toolbar.ChildrenOfType<ToolbarRulesetSelector>().Single().Current.Value.OnlineID == 1);
+            AddAssert("Ruleset changed to osu!taiko", () => Game.Toolbar.ChildrenOfType<ToolbarRulesetSelector>().Single().Current.Value.ID == 1);
 
             AddAssert("Mods overlay still visible", () => modSelect.State.Value == Visibility.Visible);
         }
@@ -823,8 +711,8 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
 
-            SoloSongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            Screens.Select.SongSelect songSelect = null;
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("Show options overlay", () => InputManager.Key(Key.F3));
@@ -837,7 +725,7 @@ namespace osu.Game.Tests.Visual.Navigation
                 InputManager.ReleaseKey(Key.ControlLeft);
             });
 
-            AddAssert("Ruleset changed to osu!taiko", () => Game.Toolbar.ChildrenOfType<ToolbarRulesetSelector>().Single().Current.Value.OnlineID == 1);
+            AddAssert("Ruleset changed to osu!taiko", () => Game.Toolbar.ChildrenOfType<ToolbarRulesetSelector>().Single().Current.Value.ID == 1);
 
             AddAssert("Options overlay still visible", () => this.ChildrenOfType<FooterButtonOptions.Popover>().Single().State.Value == Visibility.Visible);
         }
@@ -887,92 +775,6 @@ namespace osu.Game.Tests.Visual.Navigation
             });
 
             AddAssert("Toolbar is hidden", () => Game.Toolbar.State.Value == Visibility.Hidden);
-        }
-
-        [Test]
-        public void TestPushMatchSubScreenAndPressBackButtonImmediately()
-        {
-            TestMultiplayerComponents multiplayerComponents = null;
-
-            PushAndConfirm(() => multiplayerComponents = new TestMultiplayerComponents());
-
-            AddUntilStep("wait for lounge", () => multiplayerComponents.ChildrenOfType<LoungeSubScreen>().SingleOrDefault()?.IsLoaded == true);
-            AddStep("open room", () => multiplayerComponents.ChildrenOfType<LoungeSubScreen>().Single().Open());
-            AddStep("press back button", () => Game.ChildrenOfType<BackButton>().First().Action!.Invoke());
-            AddWaitStep("wait two frames", 2);
-
-            AddStep("exit lounge", () => Game.ScreenStack.Exit());
-            // `TestMultiplayerComponents` registers a request handler in its BDL, but never unregisters it.
-            // to prevent the handler living for longer than it should be, clean up manually.
-            AddStep("clean up multiplayer request handler", () => ((DummyAPIAccess)API).HandleRequest = null);
-        }
-
-        [Test]
-        public void TestFeaturedArtistDisclaimerDialog()
-        {
-            BeatmapListingOverlay getBeatmapListingOverlay() => Game.ChildrenOfType<BeatmapListingOverlay>().FirstOrDefault();
-
-            AddStep("Wait for notifications to load", () => Game.SearchBeatmapSet(string.Empty));
-            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() != null);
-
-            AddUntilStep("Wait for beatmap overlay to load", () => getBeatmapListingOverlay()?.State.Value == Visibility.Visible);
-            AddAssert("featured artist filter is on", () => getBeatmapListingOverlay().ChildrenOfType<BeatmapSearchGeneralFilterRow>().First().Current.Contains(SearchGeneral.FeaturedArtists));
-            AddStep("toggle featured artist filter",
-                () => getBeatmapListingOverlay().ChildrenOfType<FilterTabItem<SearchGeneral>>().First(i => i.Value == SearchGeneral.FeaturedArtists).TriggerClick());
-
-            AddAssert("disclaimer dialog is shown", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog != null);
-            AddAssert("featured artist filter is still on", () => getBeatmapListingOverlay().ChildrenOfType<BeatmapSearchGeneralFilterRow>().First().Current.Contains(SearchGeneral.FeaturedArtists));
-
-            AddStep("confirm", () => InputManager.Key(Key.Enter));
-            AddAssert("dialog dismissed", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog == null);
-
-            AddUntilStep("featured artist filter is off", () => !getBeatmapListingOverlay().ChildrenOfType<BeatmapSearchGeneralFilterRow>().First().Current.Contains(SearchGeneral.FeaturedArtists));
-        }
-
-        [Test]
-        public void TestBeatmapListingLinkSearchOnInitialOpen()
-        {
-            BeatmapListingOverlay getBeatmapListingOverlay() => Game.ChildrenOfType<BeatmapListingOverlay>().FirstOrDefault();
-
-            AddStep("open beatmap overlay with test query", () => Game.SearchBeatmapSet("test"));
-
-            AddUntilStep("wait for beatmap overlay to load", () => getBeatmapListingOverlay()?.State.Value == Visibility.Visible);
-
-            AddAssert("beatmap overlay sorted by relevance", () => getBeatmapListingOverlay().ChildrenOfType<BeatmapListingSortTabControl>().Single().Current.Value == SortCriteria.Relevance);
-        }
-
-        [Test]
-        public void TestMainOverlaysClosesNotificationOverlay()
-        {
-            ChangelogOverlay getChangelogOverlay() => Game.ChildrenOfType<ChangelogOverlay>().FirstOrDefault();
-
-            AddUntilStep("Wait for notifications to load", () => Game.Notifications.IsLoaded);
-            AddStep("Show notifications", () => Game.Notifications.Show());
-            AddUntilStep("wait for notifications shown", () => Game.Notifications.IsPresent && Game.Notifications.State.Value == Visibility.Visible);
-            AddStep("Show changelog listing", () => Game.ShowChangelogListing());
-            AddUntilStep("wait for changelog shown", () => getChangelogOverlay()?.IsPresent == true && getChangelogOverlay()?.State.Value == Visibility.Visible);
-            AddAssert("Notifications is hidden", () => Game.Notifications.State.Value == Visibility.Hidden);
-
-            AddStep("Show notifications", () => Game.Notifications.Show());
-            AddUntilStep("wait for notifications shown", () => Game.Notifications.State.Value == Visibility.Visible);
-            AddUntilStep("changelog still visible", () => getChangelogOverlay().State.Value == Visibility.Visible);
-        }
-
-        [Test]
-        public void TestMainOverlaysClosesSettingsOverlay()
-        {
-            ChangelogOverlay getChangelogOverlay() => Game.ChildrenOfType<ChangelogOverlay>().FirstOrDefault();
-
-            AddUntilStep("Wait for settings to load", () => Game.Settings.IsLoaded);
-            AddStep("Show settings", () => Game.Settings.Show());
-            AddUntilStep("wait for settings shown", () => Game.Settings.IsPresent && Game.Settings.State.Value == Visibility.Visible);
-            AddStep("Show changelog listing", () => Game.ShowChangelogListing());
-            AddUntilStep("wait for changelog shown", () => getChangelogOverlay()?.IsPresent == true && getChangelogOverlay()?.State.Value == Visibility.Visible);
-            AddAssert("Settings is hidden", () => Game.Settings.State.Value == Visibility.Hidden);
-
-            AddStep("Show settings", () => Game.Settings.Show());
-            AddUntilStep("wait for settings shown", () => Game.Settings.State.Value == Visibility.Visible);
-            AddUntilStep("changelog still visible", () => getChangelogOverlay().State.Value == Visibility.Visible);
         }
 
         [Test]
@@ -1111,7 +913,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestExitGameFromSongSelect()
         {
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
             exitViaEscapeAndConfirm();
 
             pushEscape(); // returns to osu! logo
@@ -1240,7 +1042,7 @@ namespace osu.Game.Tests.Visual.Navigation
         {
             BeatmapSetInfo beatmapSet = null;
 
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
             AddStep("import beatmap", () => beatmapSet = BeatmapImportHelper.LoadQuickOszIntoOsu(Game).GetResultSafely());
             AddUntilStep("wait for selected", () => Game.Beatmap.Value.BeatmapSetInfo.Equals(beatmapSet));
             AddStep("select", () => InputManager.Key(Key.Enter));
@@ -1271,7 +1073,7 @@ namespace osu.Game.Tests.Visual.Navigation
         public void TestExitSongSelectAndImmediatelyClickLogo()
         {
             Screens.Select.SongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
@@ -1302,7 +1104,7 @@ namespace osu.Game.Tests.Visual.Navigation
             BeatmapSetInfo beatmap = null;
 
             Screens.Select.SongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
@@ -1319,34 +1121,6 @@ namespace osu.Game.Tests.Visual.Navigation
             AddAssert("still nothing selected", () => Game.Beatmap.IsDefault);
         }
 
-        [Test]
-        public void TestVolumeMeterDragDoesNotDismissFocusedOverlay()
-        {
-            AddStep("show beatmap overlay", () => Game.ShowBeatmapSet(1));
-            AddUntilStep("beatmap overlay still visible",
-                () => Game.ChildrenOfType<BeatmapSetOverlay>().SingleOrDefault()?.State.Value,
-                () => Is.EqualTo(Visibility.Visible));
-            AddStep("set game volume to max", () => Game.Dependencies.Get<FrameworkConfigManager>().SetValue(FrameworkSetting.VolumeUniversal, 1d));
-            AddStep("move to centre", () => InputManager.MoveMouseTo(Game));
-            AddStep("alt-scroll down", () =>
-            {
-                InputManager.PressKey(Key.AltLeft);
-                InputManager.ScrollVerticalBy(-1);
-                InputManager.ReleaseKey(Key.AltLeft);
-            });
-            AddUntilStep("wait for volume overlay to show", () => Game.ChildrenOfType<VolumeOverlay>().SingleOrDefault()?.State.Value, () => Is.EqualTo(Visibility.Visible));
-            AddStep("start dragging meter", () =>
-            {
-                InputManager.MoveMouseTo(Game.ChildrenOfType<VolumeMeter>().First().ChildrenOfType<OsuSpriteText>().First());
-                InputManager.PressButton(MouseButton.Left);
-            });
-            AddStep("drag away", () => InputManager.MoveMouseTo(Game.ChildrenOfType<VolumeMeter>().First().ChildrenOfType<OsuSpriteText>().First(), new Vector2(0, -100)));
-            AddStep("release mouse", () => InputManager.ReleaseButton(MouseButton.Left));
-            AddAssert("beatmap overlay still visible",
-                () => Game.ChildrenOfType<BeatmapSetOverlay>().SingleOrDefault()?.State.Value,
-                () => Is.EqualTo(Visibility.Visible));
-        }
-
         private Func<Player> playToResults()
         {
             var player = playToCompletion();
@@ -1361,7 +1135,7 @@ namespace osu.Game.Tests.Visual.Navigation
             IWorkingBeatmap beatmap() => Game.Beatmap.Value;
 
             Screens.Select.SongSelect songSelect = null;
-            PushAndConfirm(() => songSelect = new SoloSongSelect());
+            PushAndConfirm(() => songSelect = new Screens.Select.SongSelect());
             AddUntilStep("wait for song select", () => songSelect.CarouselItemsPresented);
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());

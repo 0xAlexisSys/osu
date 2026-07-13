@@ -66,7 +66,7 @@ namespace osu.Game.Rulesets.Osu.Tests
                 },
             }, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Position = new Vector2(-circleRadius + 1, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(-circleRadius + 1, 0), Actions = { OsuAction.LeftButton }, Time = time_slider_start },
             });
 
             AddAssert("Tracking kept", assertMaxJudge);

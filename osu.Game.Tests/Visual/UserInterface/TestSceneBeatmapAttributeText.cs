@@ -13,7 +13,6 @@ using osu.Framework.Localisation;
 using osu.Framework.Testing;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
-using osu.Game.Models;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Difficulty.Preprocessing;
@@ -52,14 +51,13 @@ namespace osu.Game.Tests.Visual.UserInterface
                 {
                     BPM = 100,
                     DifficultyName = "_Difficulty",
-                    Status = BeatmapOnlineStatus.Loved,
                     Metadata =
                     {
                         Title = "_Title",
                         TitleUnicode = "_Title",
                         Artist = "_Artist",
                         ArtistUnicode = "_Artist",
-                        Author = new RealmUser { Username = "_Creator" },
+                        Author = "_Creator",
                         Source = "_Source",
                     },
                     Difficulty =
@@ -82,7 +80,6 @@ namespace osu.Game.Tests.Visual.UserInterface
         [TestCase(BeatmapAttribute.Creator, "Creator: _Creator")]
         [TestCase(BeatmapAttribute.DifficultyName, "Difficulty: _Difficulty")]
         [TestCase(BeatmapAttribute.Source, "Source: _Source")]
-        [TestCase(BeatmapAttribute.RankedStatus, "Beatmap Status: Loved")]
         public void TestAttributeDisplay(BeatmapAttribute attribute, string expectedText)
         {
             AddStep($"set attribute: {attribute}", () => text.Attribute.Value = attribute);
@@ -209,7 +206,11 @@ namespace osu.Game.Tests.Visual.UserInterface
             }
 
             protected override DifficultyAttributes CreateDifficultyAttributes(IBeatmap beatmap, Mod[] mods, Skill[] skills)
-                => new DifficultyAttributes(mods, mods.OfType<TestMod>().SingleOrDefault()?.Difficulty.Value ?? 0);
+                => new DifficultyAttributes
+                {
+                    Mods = mods,
+                    StarRating = mods.OfType<TestMod>().SingleOrDefault()?.Difficulty.Value ?? 0.0d,
+                };
 
             protected override IEnumerable<DifficultyHitObject> CreateDifficultyHitObjects(IBeatmap beatmap, Mod[] mods)
                 => Array.Empty<DifficultyHitObject>();

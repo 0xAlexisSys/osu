@@ -59,7 +59,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_first_circle - 100, Position = positionSecondCircle, Actions = { OsuAction.LeftButton } }
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_circle - 100, Position = positionSecondCircle, Actions = { OsuAction.LeftButton } }
             });
 
             addJudgementAssert(hitObjects[0], HitResult.Miss);
@@ -94,7 +94,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_first_circle, Position = positionSecondCircle, Actions = { OsuAction.LeftButton } }
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_circle, Position = positionSecondCircle, Actions = { OsuAction.LeftButton } }
             });
 
             addJudgementAssert(hitObjects[0], HitResult.Miss);
@@ -129,7 +129,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_first_circle + 100, Position = positionSecondCircle, Actions = { OsuAction.LeftButton } }
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_circle + 100, Position = positionSecondCircle, Actions = { OsuAction.LeftButton } }
             });
 
             addJudgementAssert(hitObjects[0], HitResult.Miss);
@@ -164,8 +164,8 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_first_circle - 200, Position = positionFirstCircle, Actions = { OsuAction.LeftButton } },
-                new OsuReplayFrame { Time = time_first_circle - 100, Position = positionSecondCircle, Actions = { OsuAction.RightButton } }
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_circle - 200, Position = positionFirstCircle, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_circle - 100, Position = positionSecondCircle, Actions = { OsuAction.RightButton } }
             });
 
             addJudgementAssert(hitObjects[0], HitResult.Great);
@@ -206,8 +206,8 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_slider, Position = positionCircle, Actions = { OsuAction.LeftButton } },
-                new OsuReplayFrame { Time = time_slider + 10, Position = positionSlider, Actions = { OsuAction.RightButton } }
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_slider, Position = positionCircle, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_slider + 10, Position = positionSlider, Actions = { OsuAction.RightButton } }
             });
 
             addJudgementAssert(hitObjects[0], HitResult.Great);
@@ -248,9 +248,9 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_slider, Position = positionSlider, Actions = { OsuAction.LeftButton } },
-                new OsuReplayFrame { Time = time_circle + late_miss_window - 100, Position = positionCircle, Actions = { OsuAction.RightButton } },
-                new OsuReplayFrame { Time = time_circle + late_miss_window - 90, Position = positionSlider, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_slider, Position = positionSlider, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_circle + late_miss_window - 100, Position = positionCircle, Actions = { OsuAction.RightButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_circle + late_miss_window - 90, Position = positionSlider, Actions = { OsuAction.LeftButton } },
             });
 
             addJudgementAssert(hitObjects[0], HitResult.Great);
@@ -286,7 +286,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             List<ReplayFrame> frames = new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_spinner - 100, Position = positionCircle, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_spinner - 100, Position = positionCircle, Actions = { OsuAction.LeftButton } },
             };
 
             frames.AddRange(new SpinFramesGenerator(time_spinner + 10)
@@ -328,9 +328,9 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_circle - 100, Position = positionSlider, Actions = { OsuAction.LeftButton } },
-                new OsuReplayFrame { Time = time_circle, Position = positionCircle, Actions = { OsuAction.RightButton } },
-                new OsuReplayFrame { Time = time_slider, Position = positionSlider, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_circle - 100, Position = positionSlider, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_circle, Position = positionCircle, Actions = { OsuAction.RightButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_slider, Position = positionSlider, Actions = { OsuAction.LeftButton } },
             });
 
             addJudgementAssert(hitObjects[0], HitResult.Great);
@@ -372,9 +372,9 @@ namespace osu.Game.Rulesets.Osu.Tests
 
             performTest(hitObjects, new List<ReplayFrame>
             {
-                new OsuReplayFrame { Time = time_first_slider, Position = midpoint, Actions = { OsuAction.RightButton } },
-                new OsuReplayFrame { Time = time_first_slider + 25, Position = midpoint, Actions = { OsuAction.LeftButton } },
-                new OsuReplayFrame { Time = time_first_slider + 50, Position = midpoint },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_slider, Position = midpoint, Actions = { OsuAction.RightButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_slider + 25, Position = midpoint, Actions = { OsuAction.LeftButton } },
+                new OsuReplayFrame(0.0d, Vector2.Zero) { Time = time_first_slider + 50, Position = midpoint },
             });
 
             addJudgementAssert("first slider head", () => ((Slider)hitObjects[0]).HeadCircle, HitResult.Great);

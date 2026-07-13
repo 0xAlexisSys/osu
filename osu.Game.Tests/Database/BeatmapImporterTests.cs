@@ -97,22 +97,16 @@ namespace osu.Game.Tests.Database
 
                     Debug.Assert(detachedBeatmapSet != null);
 
-                    var newUser = new RealmUser { Username = "peppy", OnlineID = 2 };
-
-                    detachedBeatmapSet.Beatmaps.First().Metadata.Artist = "New Artist";
-                    detachedBeatmapSet.Beatmaps.First().Metadata.Author = newUser;
-
-                    ClassicAssert.AreNotEqual(detachedBeatmapSet.Status, BeatmapOnlineStatus.Ranked);
-                    detachedBeatmapSet.Status = BeatmapOnlineStatus.Ranked;
+                    detachedBeatmapSet.Beatmaps[0].Metadata.Artist = "New Artist";
+                    detachedBeatmapSet.Beatmaps[0].Metadata.Author = "peppy";
 
                     beatmapSet.PerformWrite(detachedBeatmapSet.CopyChangesToRealm);
 
                     beatmapSet.PerformRead(s =>
                     {
                         // Check above changes explicitly.
-                        ClassicAssert.AreEqual(BeatmapOnlineStatus.Ranked, s.Status);
-                        ClassicAssert.AreEqual("New Artist", s.Beatmaps.First().Metadata.Artist);
-                        ClassicAssert.AreEqual(newUser, s.Beatmaps.First().Metadata.Author);
+                        ClassicAssert.AreEqual("New Artist", s.Beatmaps[0].Metadata.Artist);
+                        ClassicAssert.AreEqual("peppy", s.Beatmaps[0].Metadata.Author);
                         ClassicAssert.NotZero(s.Files.Count);
 
                         // Check nothing was lost in the copy operation.
@@ -443,7 +437,6 @@ namespace osu.Game.Tests.Database
                 {
                     BeatmapInfo beatmap = imported.Beatmaps.First();
                     beatmap.Hash = modified_hash;
-                    beatmap.ResetOnlineInfo();
                     beatmap.UpdateLocalScores(r);
                 });
 
@@ -458,7 +451,6 @@ namespace osu.Game.Tests.Database
                 {
                     BeatmapInfo beatmap = imported.Beatmaps.First();
                     beatmap.Hash = originalHash;
-                    beatmap.ResetOnlineInfo();
                     beatmap.UpdateLocalScores(r);
                 });
 
@@ -491,7 +483,6 @@ namespace osu.Game.Tests.Database
                 {
                     BeatmapInfo beatmap = imported.Beatmaps.First();
                     beatmap.Hash = "new_hash";
-                    beatmap.ResetOnlineInfo();
                     beatmap.UpdateLocalScores(r);
                 });
 
@@ -890,80 +881,6 @@ namespace osu.Game.Tests.Database
         }
 
         [Test]
-        public void TestImportThenDeleteThenImportWithOnlineIDsMissing()
-        {
-            RunTestWithRealmAsync(async (realm, storage) =>
-            {
-                var importer = new BeatmapImporter(storage, realm);
-                using var store = new RealmRulesetStore(realm, storage);
-
-                var imported = await LoadOszIntoStore(importer, realm.Realm);
-
-                await realm.Realm.WriteAsync(() =>
-                {
-                    foreach (var b in imported.Beatmaps)
-                        b.ResetOnlineInfo();
-                });
-
-                deleteBeatmapSet(imported, realm.Realm);
-
-                var importedSecondTime = await LoadOszIntoStore(importer, realm.Realm);
-
-                // check the newly "imported" beatmap has been reimported due to mismatch (even though hashes matched)
-                ClassicAssert.True(imported.ID != importedSecondTime.ID);
-                ClassicAssert.True(imported.Beatmaps.First().ID != importedSecondTime.Beatmaps.First().ID);
-            });
-        }
-
-        [Test]
-        public void TestImportWithDuplicateBeatmapIDs()
-        {
-            RunTestWithRealm((realm, storage) =>
-            {
-                var importer = new BeatmapImporter(storage, realm);
-                using var store = new RealmRulesetStore(realm, storage);
-
-                var metadata = new BeatmapMetadata
-                {
-                    Artist = "SomeArtist",
-                    Author =
-                    {
-                        Username = "SomeAuthor"
-                    }
-                };
-
-                var ruleset = realm.Realm.All<RulesetInfo>().First();
-
-                var toImport = new BeatmapSetInfo
-                {
-                    OnlineID = 1,
-                    Beatmaps =
-                    {
-                        new BeatmapInfo(ruleset, new BeatmapDifficulty(), metadata)
-                        {
-                            OnlineID = 2,
-                        },
-                        new BeatmapInfo(ruleset, new BeatmapDifficulty(), metadata)
-                        {
-                            OnlineID = 2,
-                            Status = BeatmapOnlineStatus.Loved,
-                        }
-                    }
-                };
-
-                var imported = importer.ImportModel(toImport);
-
-                realm.Run(r => r.Refresh());
-
-                ClassicAssert.NotNull(imported);
-                Debug.Assert(imported != null);
-
-                ClassicAssert.AreEqual(-1, imported.PerformRead(s => s.Beatmaps[0].OnlineID));
-                ClassicAssert.AreEqual(-1, imported.PerformRead(s => s.Beatmaps[1].OnlineID));
-            });
-        }
-
-        [Test]
         public void TestImportWhenFileOpen()
         {
             RunTestWithRealmAsync(async (realm, storage) =>
@@ -1223,9 +1140,8 @@ namespace osu.Game.Tests.Database
             {
                 realm.Add(new ScoreInfo
                 {
-                    OnlineID = 2,
                     BeatmapInfo = beatmap,
-                    BeatmapHash = beatmap.Hash
+                    BeatmapHash = beatmap.Hash,
                 });
             });
 
@@ -1267,13 +1183,13 @@ namespace osu.Game.Tests.Database
             waitForOrAssert(() =>
             {
                 realm.Refresh();
-                return (resultSets = realm.All<BeatmapSetInfo>().Where(s => !s.DeletePending && s.OnlineID == 241526)).Any();
+                return (resultSets = realm.All<BeatmapSetInfo>().Where(s => !s.DeletePending)).Any();
             }, @"BeatmapSet did not import to the database in allocated time.", timeout);
 
             // ensure we were stored to beatmap database backing...
             ClassicAssert.True(resultSets?.Count() == 1, $@"Incorrect result count found ({resultSets?.Count()} but should be 1).");
 
-            IEnumerable<BeatmapSetInfo> queryBeatmapSets() => realm.All<BeatmapSetInfo>().Where(s => !s.DeletePending && s.OnlineID == 241526);
+            IEnumerable<BeatmapSetInfo> queryBeatmapSets() => realm.All<BeatmapSetInfo>().Where(s => !s.DeletePending);
 
             var set = queryBeatmapSets().First();
 
@@ -1292,7 +1208,7 @@ namespace osu.Game.Tests.Database
                 $@"Incorrect database beatmap count post-import ({countBeatmaps} but should be {countBeatmapSetBeatmaps}).");
 
             foreach (BeatmapInfo b in set.Beatmaps)
-                ClassicAssert.True(set.Beatmaps.Any(c => c.OnlineID == b.OnlineID));
+                ClassicAssert.True(set.Beatmaps.Any(c => c.Hash == b.Hash));
             ClassicAssert.True(set.Beatmaps.Count > 0);
         }
 

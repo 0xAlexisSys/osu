@@ -12,7 +12,6 @@ using osu.Framework.Testing;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterfaceV2;
-using osu.Game.Online.API;
 using osu.Game.Overlays.Dialog;
 using osu.Game.Overlays.Mods;
 using osu.Game.Rulesets.Mods;
@@ -25,6 +24,7 @@ using osu.Game.Screens.Ranking;
 using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Filter;
 using osu.Game.Tests.Resources;
+using osu.Game.Users;
 using osuTK.Input;
 using BeatmapCarousel = osu.Game.Screens.Select.BeatmapCarousel;
 using FooterButtonMods = osu.Game.Screens.Select.FooterButtonMods;
@@ -54,7 +54,7 @@ namespace osu.Game.Tests.Visual.SongSelect
                     BeatmapHash = beatmapInfo.Hash,
                     BeatmapInfo = beatmapInfo,
                     Ruleset = new OsuRuleset().RulesetInfo,
-                    User = new GuestUser(),
+                    User = new User(),
                 });
             });
 
@@ -111,15 +111,15 @@ namespace osu.Game.Tests.Visual.SongSelect
             LoadSongSelect();
             AddStep("subscribe to screen pushed", () => Stack.ScreenPushed += onScreenPushed);
 
-            AddStep("change ruleset to taiko", () => Ruleset.Value = Rulesets.AvailableRulesets.Single(r => r.OnlineID == 1));
+            AddStep("change ruleset to taiko", () => Ruleset.Value = Rulesets.AvailableRulesets.Single(r => r.ID == 1));
 
             AddStep("disable converts", () => Config.SetValue(OsuSetting.ShowConvertedBeatmaps, false));
 
-            AddUntilStep("wait for taiko beatmap selected", () => Beatmap.Value.BeatmapInfo.Ruleset.OnlineID, () => Is.EqualTo(1));
+            AddUntilStep("wait for taiko beatmap selected", () => Beatmap.Value.BeatmapInfo.Ruleset.ID, () => Is.EqualTo(1));
 
             AddStep("change ruleset back and start gameplay immediately", () =>
             {
-                Ruleset.Value = Rulesets.AvailableRulesets.Single(r => r.OnlineID == 0);
+                Ruleset.Value = Rulesets.AvailableRulesets.Single(r => r.ID == 0);
 
                 InputManager.MoveMouseTo(this.ChildrenOfType<OsuLogo>().Single());
                 InputManager.Click(MouseButton.Left);
@@ -128,7 +128,7 @@ namespace osu.Game.Tests.Visual.SongSelect
             AddAssert("no screens pushed", () => screensPushed, () => Is.Empty);
             AddStep("unsubscribe from screen pushed", () => Stack.ScreenPushed -= onScreenPushed);
 
-            AddUntilStep("wait for osu beatmap selected", () => Beatmap.Value.BeatmapInfo.Ruleset.OnlineID, () => Is.EqualTo(0));
+            AddUntilStep("wait for osu beatmap selected", () => Beatmap.Value.BeatmapInfo.Ruleset.ID, () => Is.EqualTo(0));
 
             void onScreenPushed(IScreen lastScreen, IScreen newScreen) => screensPushed.Add(lastScreen);
         }

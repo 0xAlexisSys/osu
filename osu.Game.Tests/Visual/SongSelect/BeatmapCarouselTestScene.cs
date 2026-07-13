@@ -382,8 +382,8 @@ namespace osu.Game.Tests.Visual.SongSelect
                 {
                     // Create random metadata, then we can check if sorting works based on these
                     Artist = $"{randomCharacter}ome Artist " + RNG.Next(0, 9),
-                    Title = $"{randomCharacter}ome Song (set id {beatmapSetInfo.OnlineID:000}) {Guid.NewGuid()}",
-                    Author = { Username = $"{randomCharacter}ome Guy " + RNG.Next(0, 9) },
+                    Title = $"{randomCharacter}ome Song (set id {Guid.NewGuid()})",
+                    Author = $"{randomCharacter}ome Guy " + RNG.Next(0, 9),
                 };
 
                 foreach (var beatmap in beatmapSetInfo.Beatmaps)

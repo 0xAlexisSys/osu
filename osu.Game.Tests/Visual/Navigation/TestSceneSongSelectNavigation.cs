@@ -12,7 +12,7 @@ using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Mods;
 using osu.Game.Rulesets;
@@ -45,10 +45,10 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestPushSongSelectAndClickBottomLeftCorner()
         {
-            AddStep("push song select", () => Game.ScreenStack.Push(new SoloSongSelect()));
+            AddStep("push song select", () => Game.ScreenStack.Push(new Screens.Select.SongSelect()));
 
             // TODO: without this step, a critical bug will be hit, see inline comment in `OsuGame.handleBackButton`.
-            AddUntilStep("Wait for song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect select && select.IsLoaded);
+            AddUntilStep("Wait for song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect select && select.IsLoaded);
 
             AddStep("click in corner", () =>
             {
@@ -62,10 +62,10 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestPushSongSelectAndPressBackButtonImmediately()
         {
-            AddStep("push song select", () => Game.ScreenStack.Push(new SoloSongSelect()));
+            AddStep("push song select", () => Game.ScreenStack.Push(new Screens.Select.SongSelect()));
 
             // TODO: without this step, a critical bug will be hit, see inline comment in `OsuGame.handleBackButton`.
-            AddUntilStep("Wait for song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect select && select.IsLoaded);
+            AddUntilStep("Wait for song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect select && select.IsLoaded);
 
             AddStep("press back button", () => Game.ChildrenOfType<ScreenBackButton>().First().Action!.Invoke());
 
@@ -75,7 +75,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestEditBeatmap()
         {
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game, virtualTrack: true).WaitSafely());
 
@@ -93,7 +93,7 @@ namespace osu.Game.Tests.Visual.Navigation
             waitForScreen<Editor>();
 
             pushEscape();
-            waitForScreen<SoloSongSelect>();
+            waitForScreen<Screens.Select.SongSelect>();
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             IWorkingBeatmap beatmap() => Game.Beatmap.Value;
 
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game, virtualTrack: true).WaitSafely());
 
@@ -159,7 +159,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestAutoplayShortcutReturnsInitialModsOnExit()
         {
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game, virtualTrack: true).WaitSafely());
 
@@ -191,7 +191,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddAssert("only autoplay selected", () => Game.SelectedMods.Value.Single(), Is.TypeOf<OsuModAutoplay>);
 
             pushEscape();
-            waitForScreen<SoloSongSelect>();
+            waitForScreen<Screens.Select.SongSelect>();
 
             AddAssert("magnetised selected", () => Game.SelectedMods.Value.Single(), Is.TypeOf<OsuModMagnetised>);
             AddAssert("mod configured", () => ((OsuModMagnetised)Game.SelectedMods.Value.Single()).AttractionStrength.Value, () => Is.EqualTo(1.0f));
@@ -202,7 +202,7 @@ namespace osu.Game.Tests.Visual.Navigation
         {
             IWorkingBeatmap beatmap() => Game.Beatmap.Value;
 
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game, virtualTrack: true).WaitSafely());
 
@@ -224,7 +224,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestEnterKeyProgressesToGameplayEvenIfCarouselFilteredOut()
         {
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadOszIntoOsu(Game, virtualTrack: true).WaitSafely());
             AddUntilStep("wait for selected", () => !Game.Beatmap.IsDefault);
@@ -248,7 +248,7 @@ namespace osu.Game.Tests.Visual.Navigation
             BeatmapInfo selectedBeatmap = null!;
 
             AddStep("import beatmap", () => beatmapSet = BeatmapImportHelper.LoadOszIntoOsu(Game).GetResultSafely());
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddUntilStep("wait for selected", () => !Game.Beatmap.IsDefault);
 
@@ -261,13 +261,13 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("show converts", () => Game.LocalConfig.SetValue(OsuSetting.ShowConvertedBeatmaps, true));
             AddStep("select osu! beatmap", () =>
             {
-                selectedBeatmap = beatmapSet.Beatmaps.First(b => b.Ruleset.OnlineID == 0);
+                selectedBeatmap = beatmapSet.Beatmaps.First(b => b.Ruleset.ID == 0);
                 Game.Beatmap.Value = Game.BeatmapManager.GetWorkingBeatmap(selectedBeatmap);
             });
 
             pushEscape();
             AddUntilStep("went back to main menu", () => Game.ScreenStack.CurrentScreen is MainMenu);
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddUntilStep("selected beatmap is still osu! ruleset", () => Game.Beatmap.Value.BeatmapInfo, () => Is.EqualTo(selectedBeatmap));
         }
@@ -295,7 +295,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("set global beatmap", () => Game.Beatmap.Value = Game.BeatmapManager.GetWorkingBeatmap(beatmapToPlay.Beatmaps.First()));
             playToResults();
             AddStep("present beatmap from results", () => Game.PresentBeatmap(beatmapToPresent));
-            AddUntilStep("back at song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddUntilStep("back at song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
             AddUntilStep("presented beatmap is current", () => Game.Beatmap.Value.BeatmapSetInfo.Equals(beatmapToPresent));
         }
 
@@ -312,7 +312,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             IWorkingBeatmap beatmap() => Game.Beatmap.Value;
 
-            PushAndConfirm(() => new SoloSongSelect());
+            PushAndConfirm(() => new Screens.Select.SongSelect());
 
             AddStep("import beatmap", () => BeatmapImportHelper.LoadQuickOszIntoOsu(Game).WaitSafely());
 

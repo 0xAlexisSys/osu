@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using NUnit.Framework;
-using osu.Game.Beatmaps;
 using osu.Game.Graphics.UserInterfaceV2;
 
 namespace osu.Game.Tests.Visual.UserInterface
@@ -20,14 +19,6 @@ namespace osu.Game.Tests.Visual.UserInterface
                     @"Normal",
                     @"Double"
                 },
-                Description = @"This is a description"
-            });
-
-        [Test]
-        public void TestLabelledEnumDropdown()
-            => AddStep(@"create dropdown", () => Child = new LabelledEnumDropdown<BeatmapOnlineStatus>(true)
-            {
-                Label = @"Beatmap status",
                 Description = @"This is a description"
             });
     }

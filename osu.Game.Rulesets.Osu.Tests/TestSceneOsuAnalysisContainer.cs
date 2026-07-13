@@ -135,7 +135,7 @@ namespace osu.Game.Rulesets.Osu.Tests
                     actions.Remove(random.NextDouble() > 0.5 ? OsuAction.LeftButton : OsuAction.RightButton);
                 }
 
-                frames.Add(new OsuReplayFrame
+                frames.Add(new OsuReplayFrame(0.0d, Vector2.Zero)
                 {
                     Time = i * 15,
                     Position = new Vector2(posX, posY),

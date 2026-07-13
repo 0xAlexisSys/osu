@@ -9,7 +9,6 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mods;
@@ -19,6 +18,7 @@ using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
 using osu.Game.Screens.Ranking.Expanded.Accuracy;
 using osu.Game.Tests.Beatmaps;
+using osu.Game.Users;
 using osuTK;
 
 namespace osu.Game.Tests.Visual.Ranking
@@ -121,10 +121,10 @@ namespace osu.Game.Tests.Visual.Ranking
 
             return new ScoreInfo
             {
-                User = new APIUser
+                User = new User
                 {
-                    Id = 2,
-                    Username = "peppy",
+                    ID = 2,
+                    Name = "peppy",
                 },
                 BeatmapInfo = new TestBeatmap(new OsuRuleset().RulesetInfo).BeatmapInfo,
                 Ruleset = ruleset.RulesetInfo,

@@ -26,7 +26,7 @@ using NotificationsStrings = osu.Game.Localisation.NotificationsStrings;
 
 namespace osu.Game.Overlays
 {
-    public partial class NotificationOverlay : OsuFocusedOverlayContainer, INamedOverlayComponent
+    public partial class NotificationOverlay : OsuFocusedOverlayContainer, INamedOverlayComponent, INotificationOverlay
     {
         public const float WIDTH = 320;
         public const float TRANSITION_LENGTH = 600;
@@ -56,6 +56,8 @@ namespace osu.Game.Overlays
         /// Current number of unread notifications.
         /// </summary>
         public IBindable<int> UnreadCount => unreadCount;
+
+        public int ToastCount => toastTray.UnreadCount;
 
         public override bool IsPresent =>
             // Delegate presence as we need to consider the toast tray in addition to the main overlay.

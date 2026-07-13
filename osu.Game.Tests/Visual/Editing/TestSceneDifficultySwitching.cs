@@ -186,7 +186,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             AddAssert("ruleset is catch", () => Ruleset.Value.CreateInstance() is CatchRuleset);
 
-            AddStep("set taiko difficulty", () => targetDifficulty = importedBeatmapSet.Beatmaps.First(b => b.Ruleset.OnlineID == 1));
+            AddStep("set taiko difficulty", () => targetDifficulty = importedBeatmapSet.Beatmaps.First(b => b.Ruleset.ID == 1));
             switchToDifficulty(() => targetDifficulty);
             confirmEditingBeatmap(() => targetDifficulty);
 

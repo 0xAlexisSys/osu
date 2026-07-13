@@ -18,8 +18,6 @@ using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Database;
 using osu.Game.IO;
-using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Online.Spectator;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Rulesets.UI.Scrolling;
@@ -28,7 +26,7 @@ using osu.Game.Screens.Play;
 using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Skinning;
 using osu.Game.Tests.Gameplay;
-using osu.Game.Tests.Visual.Spectator;
+using osu.Game.Users;
 
 namespace osu.Game.Tests.Visual.Gameplay
 {
@@ -78,18 +76,6 @@ namespace osu.Game.Tests.Visual.Gameplay
 
                 var gameplayState = TestGameplayState.Create(ruleset);
                 ((Bindable<LocalUserPlayingState>)gameplayState.PlayingState).Value = LocalUserPlayingState.Playing;
-                var spectatorClient = new TestSpectatorClient();
-
-                for (int i = 0; i < 15; ++i)
-                {
-                    ((ISpectatorClient)spectatorClient).UserStartedWatching([
-                        new SpectatorUser
-                        {
-                            OnlineID = i,
-                            Username = $"User {i}"
-                        }
-                    ]);
-                }
 
                 GameplayClockContainer gameplayClock;
 
@@ -99,7 +85,6 @@ namespace osu.Game.Tests.Visual.Gameplay
                     (typeof(ScoreProcessor), gameplayState.ScoreProcessor),
                     (typeof(HealthProcessor), gameplayState.HealthProcessor),
                     (typeof(IGameplayClock), gameplayClock = new GameplayClockContainer(new TrackVirtual(60000), false, false)),
-                    (typeof(SpectatorClient), spectatorClient),
                     (typeof(IGameplayLeaderboardProvider), new TestGameplayLeaderboardProvider()),
                 ];
 
@@ -110,19 +95,15 @@ namespace osu.Game.Tests.Visual.Gameplay
                 {
                     RelativeSizeAxes = Axes.Both,
                     CachedDependencies = dependencies.ToArray(),
-                    Children = new Drawable[]
+                    Child = new SkinProvidingContainer(provider)
                     {
-                        spectatorClient,
-                        new SkinProvidingContainer(provider)
+                        RelativeSizeAxes = Axes.Both,
+                        Children = new Drawable[]
                         {
-                            RelativeSizeAxes = Axes.Both,
-                            Children = new Drawable[]
+                            drawableRuleset,
+                            new HUDOverlay(drawableRuleset, [], new PlayerConfiguration())
                             {
-                                drawableRuleset,
-                                new HUDOverlay(drawableRuleset, [], new PlayerConfiguration())
-                                {
-                                    RelativeSizeAxes = Axes.Both,
-                                }
+                                RelativeSizeAxes = Axes.Both,
                             }
                         }
                     }
@@ -143,7 +124,7 @@ namespace osu.Game.Tests.Visual.Gameplay
                 {
                     Scores.Add(new GameplayLeaderboardScore(new ScoreInfo
                     {
-                        User = new APIUser { Username = $"User {i}" },
+                        User = new User { Name = $"User {i}" },
                         TotalScore = (20 - i) * 50_000,
                         Accuracy = i * 0.05,
                         MaxCombo = i * 50,

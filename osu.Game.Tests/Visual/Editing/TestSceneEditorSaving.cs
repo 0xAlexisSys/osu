@@ -15,7 +15,6 @@ using osu.Game.Beatmaps.ControlPoints;
 using osu.Game.Overlays;
 using osu.Game.Screens.Edit;
 using osu.Game.Screens.Edit.Compose.Components.Timeline;
-using osu.Game.Screens.Select;
 using osuTK.Input;
 
 namespace osu.Game.Tests.Visual.Editing
@@ -39,7 +38,7 @@ namespace osu.Game.Tests.Visual.Editing
                 EditorBeatmap.BeatmapInfo.Metadata.Artist = "artist";
                 EditorBeatmap.BeatmapInfo.Metadata.Title = "title";
             });
-            AddStep("Set author", () => EditorBeatmap.BeatmapInfo.Metadata.Author.Username = "author");
+            AddStep("Set author", () => EditorBeatmap.BeatmapInfo.Metadata.Author = "author");
             AddStep("Set difficulty name", () => EditorBeatmap.BeatmapInfo.DifficultyName = "difficulty");
 
             SaveEditor();
@@ -47,14 +46,14 @@ namespace osu.Game.Tests.Visual.Editing
             AddAssert("Hash updated", () => !string.IsNullOrEmpty(EditorBeatmap.BeatmapInfo.BeatmapSet?.Hash));
 
             AddAssert("Beatmap has correct metadata", () => EditorBeatmap.BeatmapInfo.Metadata.Artist == "artist" && EditorBeatmap.BeatmapInfo.Metadata.Title == "title");
-            AddAssert("Beatmap has correct author", () => EditorBeatmap.BeatmapInfo.Metadata.Author.Username == "author");
+            AddAssert("Beatmap has correct author", () => EditorBeatmap.BeatmapInfo.Metadata.Author == "author");
             AddAssert("Beatmap has correct difficulty name", () => EditorBeatmap.BeatmapInfo.DifficultyName == "difficulty");
             AddAssert("Beatmap has correct .osu file path", () => EditorBeatmap.BeatmapInfo.Path == "artist - title (author) [difficulty].osu");
 
             ReloadEditorToSameBeatmap();
 
             AddAssert("Beatmap still has correct metadata", () => EditorBeatmap.BeatmapInfo.Metadata.Artist == "artist" && EditorBeatmap.BeatmapInfo.Metadata.Title == "title");
-            AddAssert("Beatmap still has correct author", () => EditorBeatmap.BeatmapInfo.Metadata.Author.Username == "author");
+            AddAssert("Beatmap still has correct author", () => EditorBeatmap.BeatmapInfo.Metadata.Author == "author");
             AddAssert("Beatmap still has correct difficulty name", () => EditorBeatmap.BeatmapInfo.DifficultyName == "difficulty");
             AddAssert("Beatmap still has correct .osu file path", () => EditorBeatmap.BeatmapInfo.Path == "artist - title (author) [difficulty].osu");
         }
@@ -190,7 +189,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddStep("Set tags again", () => EditorBeatmap.BeatmapInfo.Metadata.Tags = tags_to_discard);
 
             AddStep("Exit editor", () => Editor.Exit());
-            AddUntilStep("Wait for song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddUntilStep("Wait for song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
             AddAssert("Tags reverted correctly", () => Game.Beatmap.Value.BeatmapInfo.Metadata.Tags == tags_to_save);
         }
 

@@ -145,9 +145,9 @@ namespace osu.Game.Tests.Visual.Editing
                 EditorBeatmap.Clear();
                 EditorBeatmap.AddRange(new[]
                 {
-                    new HitCircle { StartTime = 1000, },
-                    new HitCircle { StartTime = 2250, },
-                    new HitCircle { StartTime = 3600, },
+                    new HitCircle { StartTime = 1000 },
+                    new HitCircle { StartTime = 2250 },
+                    new HitCircle { StartTime = 3600 },
                 });
             });
             AddStep("seek to 0", () => EditorClock.Seek(0));

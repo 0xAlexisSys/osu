@@ -4,7 +4,6 @@
 #nullable disable
 
 using System.Linq;
-using JetBrains.Annotations;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Extensions.Color4Extensions;
@@ -14,16 +13,12 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
 using osu.Game.Beatmaps;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Localisation;
-using osu.Game.Models;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
-using osu.Game.Rulesets.Osu.Mods;
 using osu.Game.Scoring;
 using osu.Game.Screens.Ranking;
 using osu.Game.Screens.Ranking.Expanded;
-using osu.Game.Screens.Ranking.Expanded.Statistics;
 using osu.Game.Tests.Beatmaps;
 using osu.Game.Tests.Resources;
 using osuTK;
@@ -38,9 +33,7 @@ namespace osu.Game.Tests.Visual.Ranking
         [Test]
         public void TestMapWithKnownMapper()
         {
-            var author = new RealmUser { Username = "mapper_name" };
-
-            AddStep("show example score", () => showPanel(TestResources.CreateTestScoreInfo(createTestBeatmap(author))));
+            AddStep("show example score", () => showPanel(TestResources.CreateTestScoreInfo(createTestBeatmap("mapper_name"))));
         }
 
         [Test]
@@ -48,9 +41,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             AddStep("show excess mods score", () =>
             {
-                var author = new RealmUser { Username = "mapper_name" };
-
-                var score = TestResources.CreateTestScoreInfo(createTestBeatmap(author));
+                var score = TestResources.CreateTestScoreInfo(createTestBeatmap("mapper_name"));
                 score.Mods = score.BeatmapInfo!.Ruleset.CreateInstance().CreateAllMods().ToArray();
 
                 showPanel(score);
@@ -62,61 +53,12 @@ namespace osu.Game.Tests.Visual.Ranking
         [Test]
         public void TestMapWithUnknownMapper()
         {
-            AddStep("show example score", () => showPanel(TestResources.CreateTestScoreInfo(createTestBeatmap(new RealmUser()))));
+            AddStep("show example score", () => showPanel(TestResources.CreateTestScoreInfo(createTestBeatmap(string.Empty))));
 
             AddAssert("mapped by text not present", () =>
                 this.ChildrenOfType<OsuSpriteText>().All(spriteText => !containsAny(spriteText.Text.ToString(), "mapped", "by")));
 
             AddAssert("play time displayed", () => this.ChildrenOfType<PlayedOnText>().Any());
-        }
-
-        [Test]
-        public void TestPPShownAsProvisionalWhenBeatmapHasNoLeaderboard()
-        {
-            AddStep("show example score", () =>
-            {
-                var beatmap = createTestBeatmap(new RealmUser());
-                beatmap.Status = BeatmapOnlineStatus.Graveyard;
-                showPanel(TestResources.CreateTestScoreInfo(beatmap));
-            });
-
-            AddUntilStep("pp display faded out", () =>
-            {
-                var ppDisplay = this.ChildrenOfType<PerformanceStatistic>().Single();
-                return ppDisplay.Alpha == 0.5 && ppDisplay.TooltipText == ResultsScreenStrings.NoPPForUnrankedBeatmaps;
-            });
-        }
-
-        [Test]
-        public void TestPPShownAsProvisionalWhenUnrankedModsArePresent()
-        {
-            AddStep("show example score", () =>
-            {
-                var score = TestResources.CreateTestScoreInfo(createTestBeatmap(new RealmUser()));
-                score.Mods = score.Mods.Append(new OsuModDifficultyAdjust()).ToArray();
-                showPanel(score);
-            });
-
-            AddUntilStep("pp display faded out", () =>
-            {
-                var ppDisplay = this.ChildrenOfType<PerformanceStatistic>().Single();
-                return ppDisplay.Alpha == 0.5 && ppDisplay.TooltipText == ResultsScreenStrings.NoPPForUnrankedMods;
-            });
-        }
-
-        [Test]
-        public void TestPPNotShownAsProvisionalIfClassicModIsPresentDueToLegacyScore()
-        {
-            AddStep("show example score", () =>
-            {
-                var score = TestResources.CreateTestScoreInfo(createTestBeatmap(new RealmUser()));
-                score.PP = 400;
-                score.Mods = score.Mods.Append(new OsuModClassic()).ToArray();
-                score.IsLegacyScore = true;
-                showPanel(score);
-            });
-
-            AddUntilStep("pp display faded out", () => this.ChildrenOfType<PerformanceStatistic>().Single().Alpha == 1);
         }
 
         [Test]
@@ -127,7 +69,7 @@ namespace osu.Game.Tests.Visual.Ranking
                 var ruleset = new OsuRuleset();
 
                 var mods = new Mod[] { ruleset.GetAutoplayMod() };
-                var beatmap = createTestBeatmap(new RealmUser());
+                var beatmap = createTestBeatmap(string.Empty);
 
                 var score = TestResources.CreateTestScoreInfo(beatmap);
 
@@ -145,7 +87,7 @@ namespace osu.Game.Tests.Visual.Ranking
         {
             AddStep("show failed S score", () =>
             {
-                var score = TestResources.CreateTestScoreInfo(createTestBeatmap(new RealmUser()));
+                var score = TestResources.CreateTestScoreInfo(createTestBeatmap(string.Empty));
                 score.Rank = ScoreRank.A;
                 score.Accuracy = 0.975;
                 showPanel(score, withFlair);
@@ -155,7 +97,7 @@ namespace osu.Game.Tests.Visual.Ranking
         private void showPanel(ScoreInfo score, bool withFlair = false) =>
             Child = new ExpandedPanelMiddleContentContainer(score, withFlair);
 
-        private BeatmapInfo createTestBeatmap([NotNull] RealmUser author)
+        private BeatmapInfo createTestBeatmap(string author)
         {
             var beatmap = new TestBeatmap(rulesetStore.GetRuleset(0)!).BeatmapInfo;
 

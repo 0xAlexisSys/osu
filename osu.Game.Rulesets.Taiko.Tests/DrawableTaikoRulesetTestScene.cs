@@ -55,11 +55,11 @@ namespace osu.Game.Rulesets.Taiko.Tests
                     {
                         Artist = @"Unknown",
                         Title = @"Sample Beatmap",
-                        Author = { Username = @"peppy" },
+                        Author = @"peppy",
                     },
-                    Ruleset = ruleset
+                    Ruleset = ruleset,
                 },
-                ControlPointInfo = controlPointInfo
+                ControlPointInfo = controlPointInfo,
             };
         }
     }

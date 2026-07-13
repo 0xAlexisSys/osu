@@ -14,15 +14,14 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
 using osu.Framework.Utils;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Scoring;
 using osu.Game.Screens.Play;
 using osu.Game.Screens.Play.HUD;
 using osu.Game.Screens.Play.Leaderboards;
 using osu.Game.Tests.Gameplay;
+using osu.Game.Users;
 using osuTK.Graphics;
 
 namespace osu.Game.Tests.Visual.Gameplay
@@ -42,7 +41,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             var localScore = new ScoreInfo
             {
-                User = new APIUser { Username = "You", Id = 3 }
+                User = new User { Name = "You", ID = 3 }
             };
 
             gameplayState = TestGameplayState.Create(new OsuRuleset(), null, new Score { ScoreInfo = localScore }, new Bindable<LocalUserPlayingState>(LocalUserPlayingState.Playing));
@@ -86,26 +85,14 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             AddStep("set scores", () =>
             {
-                var friend = new APIUser { Username = "Friend", Id = 1337 };
-
-                var api = (DummyAPIAccess)API;
-
-                api.LocalUserState.Friends.Clear();
-                api.LocalUserState.Friends.Add(new APIRelation
-                {
-                    Mutual = true,
-                    RelationType = RelationType.Friend,
-                    TargetID = friend.OnlineID,
-                    TargetUser = friend
-                });
-
+                var friend = new User { Name = "Friend", ID = 1337 };
                 // this is dodgy but anything less dodgy is a lot of work
                 ((Bindable<LeaderboardScores?>)leaderboardManager.Scores).Value = LeaderboardScores.Success(new[]
                 {
-                    new ScoreInfo { User = new APIUser { Username = "Top", Id = 2 }, TotalScore = 900_000, Accuracy = 0.99, MaxCombo = 999 },
-                    new ScoreInfo { User = new APIUser { Username = "Second", Id = 14 }, TotalScore = 800_000, Accuracy = 0.9, MaxCombo = 888 },
+                    new ScoreInfo { User = new User { Name = "Top", ID = 2 }, TotalScore = 900_000, Accuracy = 0.99, MaxCombo = 999 },
+                    new ScoreInfo { User = new User { Name = "Second", ID = 14 }, TotalScore = 800_000, Accuracy = 0.9, MaxCombo = 888 },
                     new ScoreInfo { User = friend, TotalScore = 700_000, Accuracy = 0.88, MaxCombo = 777 },
-                }, scoresRequested: 50, totalScores: 3, null);
+                }, null);
             });
 
             createLeaderboard();
@@ -125,26 +112,15 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             AddStep("set scores", () =>
             {
-                var friend = new APIUser { Username = "Friend", Id = 1337 };
-
-                var api = (DummyAPIAccess)API;
-
-                api.LocalUserState.Friends.Clear();
-                api.LocalUserState.Friends.Add(new APIRelation
-                {
-                    Mutual = true,
-                    RelationType = RelationType.Friend,
-                    TargetID = friend.OnlineID,
-                    TargetUser = friend
-                });
+                var friend = new User { Name = "Friend", ID = 1337 };
 
                 // this is dodgy but anything less dodgy is a lot of work
                 ((Bindable<LeaderboardScores?>)leaderboardManager.Scores).Value = LeaderboardScores.Success(new[]
                 {
-                    new ScoreInfo { User = new APIUser { Username = "Top", Id = 2 }, TotalScore = 900_000_000, Accuracy = 0.99, MaxCombo = 999999 },
-                    new ScoreInfo { User = new APIUser { Username = "Second", Id = 14 }, TotalScore = 800_000_000, Accuracy = 0.9, MaxCombo = 888888 },
+                    new ScoreInfo { User = new User { Name = "Top", ID = 2 }, TotalScore = 900_000_000, Accuracy = 0.99, MaxCombo = 999999 },
+                    new ScoreInfo { User = new User { Name = "Second", ID = 14 }, TotalScore = 800_000_000, Accuracy = 0.9, MaxCombo = 888888 },
                     new ScoreInfo { User = friend, TotalScore = 700_000_000, Accuracy = 0.88, MaxCombo = 777777 },
-                }, scoresRequested: 50, totalScores: 3, null);
+                }, null);
             });
 
             createLeaderboard();
@@ -167,10 +143,10 @@ namespace osu.Game.Tests.Visual.Gameplay
                 var scores = new List<ScoreInfo>();
 
                 for (int i = 0; i < 32; i++)
-                    scores.Add(new ScoreInfo { User = new APIUser { Username = $"Player {i + 1}" }, TotalScore = RNG.Next(700_000, 1_000_000) });
+                    scores.Add(new ScoreInfo { User = new User { Name = $"Player {i + 1}" }, TotalScore = RNG.Next(700_000, 1_000_000) });
 
                 // this is dodgy but anything less dodgy is a lot of work
-                ((Bindable<LeaderboardScores?>)leaderboardManager.Scores).Value = LeaderboardScores.Success(scores, scoresRequested: 50, scores.Count, null);
+                ((Bindable<LeaderboardScores?>)leaderboardManager.Scores).Value = LeaderboardScores.Success(scores.ToArray(), null);
                 gameplayState.ScoreProcessor.TotalScore.Value = 0;
             });
 
@@ -204,11 +180,11 @@ namespace osu.Game.Tests.Visual.Gameplay
                 // this is dodgy but anything less dodgy is a lot of work
                 ((Bindable<LeaderboardScores?>)leaderboardManager.Scores).Value = LeaderboardScores.Success(new[]
                 {
-                    new ScoreInfo { User = new APIUser { Username = "peppy", Id = 2 }, TotalScore = 900_000, Accuracy = 0.99, MaxCombo = 999 },
-                    new ScoreInfo { User = new APIUser { Username = "smoogipoo", Id = 1040328 }, TotalScore = 800_000, Accuracy = 0.9, MaxCombo = 888 },
-                    new ScoreInfo { User = new APIUser { Username = "flyte", Id = 3103765 }, TotalScore = 700_000, Accuracy = 0.9, MaxCombo = 888 },
-                    new ScoreInfo { User = new APIUser { Username = "frenzibyte", Id = 14210502 }, TotalScore = 600_000, Accuracy = 0.9, MaxCombo = 777 },
-                }, scoresRequested: 50, totalScores: 4, null);
+                    new ScoreInfo { User = new User { Name = "peppy", ID = 2 }, TotalScore = 900_000, Accuracy = 0.99, MaxCombo = 999 },
+                    new ScoreInfo { User = new User { Name = "smoogipoo", ID = 1040328 }, TotalScore = 800_000, Accuracy = 0.9, MaxCombo = 888 },
+                    new ScoreInfo { User = new User { Name = "flyte", ID = 3103765 }, TotalScore = 700_000, Accuracy = 0.9, MaxCombo = 888 },
+                    new ScoreInfo { User = new User { Name = "frenzibyte", ID = 14210502 }, TotalScore = 600_000, Accuracy = 0.9, MaxCombo = 777 },
+                }, null);
             });
 
             createLeaderboard();
@@ -222,15 +198,15 @@ namespace osu.Game.Tests.Visual.Gameplay
                 // this is dodgy but anything less dodgy is a lot of work
                 ((Bindable<LeaderboardScores?>)leaderboardManager.Scores).Value = LeaderboardScores.Success(new[]
                 {
-                    new ScoreInfo { User = new APIUser { Username = "Quit", Id = 3 }, TotalScore = 100_000, Accuracy = 0.99, MaxCombo = 999 },
-                }, scoresRequested: 50, totalScores: 1, null);
+                    new ScoreInfo { User = new User { Name = "Quit", ID = 3 }, TotalScore = 100_000, Accuracy = 0.99, MaxCombo = 999 },
+                }, null);
             });
 
             createLeaderboard();
 
             AddStep("mark score as quit", () =>
             {
-                var quitScore = this.ChildrenOfType<SoloGameplayLeaderboardProvider>().Single().Scores.Single(s => s.User.Username == "Quit");
+                var quitScore = this.ChildrenOfType<SoloGameplayLeaderboardProvider>().Single().Scores.Single(s => s.User.Name == "Quit");
                 quitScore.HasQuit.Value = true;
             });
         }

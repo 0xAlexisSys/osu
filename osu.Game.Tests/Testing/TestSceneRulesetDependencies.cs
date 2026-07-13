@@ -74,7 +74,7 @@ namespace osu.Game.Tests.Testing
             {
                 // temporary ID to let RulesetConfigCache pass our
                 // config manager to the ruleset dependencies.
-                RulesetInfo.OnlineID = -1;
+                RulesetInfo.ID = -1;
             }
 
             public override IResourceStore<byte[]> CreateResourceStore() => new NamespacedResourceStore<byte[]>(TestResources.GetStore(), @"Resources");

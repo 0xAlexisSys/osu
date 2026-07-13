@@ -2,7 +2,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using NUnit.Framework;
-using osu.Game.Online.API;
+using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Osu.Mods;
 
@@ -12,16 +12,16 @@ namespace osu.Game.Tests.Mods
     public class ModSettingsEqualityComparison
     {
         [Test]
-        public void TestAPIMod()
+        public void TestJsonMod()
         {
-            var apiMod1 = new APIMod(new OsuModDoubleTime { SpeedChange = { Value = 1.25 } });
-            var apiMod2 = new APIMod(new OsuModDoubleTime { SpeedChange = { Value = 1.26 } });
-            var apiMod3 = new APIMod(new OsuModDoubleTime { SpeedChange = { Value = 1.26 } });
+            var jsonMod1 = new JsonMod(new OsuModDoubleTime { SpeedChange = { Value = 1.25 } });
+            var jsonMod2 = new JsonMod(new OsuModDoubleTime { SpeedChange = { Value = 1.26 } });
+            var jsonMod3 = new JsonMod(new OsuModDoubleTime { SpeedChange = { Value = 1.26 } });
 
-            Assert.That(apiMod1, Is.Not.EqualTo(apiMod2));
-            Assert.That(apiMod2, Is.EqualTo(apiMod2));
-            Assert.That(apiMod2, Is.EqualTo(apiMod3));
-            Assert.That(apiMod3, Is.EqualTo(apiMod2));
+            Assert.That(jsonMod1, Is.Not.EqualTo(jsonMod2));
+            Assert.That(jsonMod2, Is.EqualTo(jsonMod2));
+            Assert.That(jsonMod2, Is.EqualTo(jsonMod3));
+            Assert.That(jsonMod3, Is.EqualTo(jsonMod2));
         }
 
         [Test]
@@ -33,9 +33,9 @@ namespace osu.Game.Tests.Mods
             var mod2 = new OsuModDoubleTime { SpeedChange = { Value = 1.26 } };
             var mod3 = new OsuModDoubleTime { SpeedChange = { Value = 1.26 } };
 
-            var doubleConvertedMod1 = new APIMod(mod1).ToMod(ruleset);
-            var doubleConvertedMod2 = new APIMod(mod2).ToMod(ruleset);
-            var doubleConvertedMod3 = new APIMod(mod3).ToMod(ruleset);
+            var doubleConvertedMod1 = new JsonMod(mod1).ToMod(ruleset);
+            var doubleConvertedMod2 = new JsonMod(mod2).ToMod(ruleset);
+            var doubleConvertedMod3 = new JsonMod(mod3).ToMod(ruleset);
 
             Assert.That(mod1, Is.Not.EqualTo(mod2));
             Assert.That(doubleConvertedMod1, Is.Not.EqualTo(doubleConvertedMod2));
@@ -59,9 +59,9 @@ namespace osu.Game.Tests.Mods
             var mod2 = new OsuModDifficultyAdjust { OverallDifficulty = { Value = 10 }, CircleSize = { Value = 6 } };
             var mod3 = new OsuModDifficultyAdjust { OverallDifficulty = { Value = 10 }, CircleSize = { Value = 6 } };
 
-            var doubleConvertedMod1 = new APIMod(mod1).ToMod(ruleset);
-            var doubleConvertedMod2 = new APIMod(mod2).ToMod(ruleset);
-            var doubleConvertedMod3 = new APIMod(mod3).ToMod(ruleset);
+            var doubleConvertedMod1 = new JsonMod(mod1).ToMod(ruleset);
+            var doubleConvertedMod2 = new JsonMod(mod2).ToMod(ruleset);
+            var doubleConvertedMod3 = new JsonMod(mod3).ToMod(ruleset);
 
             Assert.That(mod1, Is.Not.EqualTo(mod2));
             Assert.That(doubleConvertedMod1, Is.Not.EqualTo(doubleConvertedMod2));

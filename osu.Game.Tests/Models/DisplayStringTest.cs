@@ -5,7 +5,6 @@ using Moq;
 using NUnit.Framework;
 using osu.Game.Beatmaps;
 using osu.Game.Extensions;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
 using osu.Game.Users;
@@ -29,7 +28,7 @@ namespace osu.Game.Tests.Models
 
             mock.Setup(m => m.Metadata.Artist).Returns("artist");
             mock.Setup(m => m.Metadata.Title).Returns("title");
-            mock.Setup(m => m.Metadata.Author.Username).Returns("author");
+            mock.Setup(m => m.Metadata.Author).Returns("author");
 
             Assert.That(mock.Object.GetDisplayString(), Is.EqualTo("artist - title (author)"));
         }
@@ -41,7 +40,7 @@ namespace osu.Game.Tests.Models
 
             mock.Setup(m => m.Metadata.Artist).Returns("artist");
             mock.Setup(m => m.Metadata.Title).Returns("title");
-            mock.Setup(m => m.Metadata.Author.Username).Returns(string.Empty);
+            mock.Setup(m => m.Metadata.Author).Returns(string.Empty);
 
             Assert.That(mock.Object.GetDisplayString(), Is.EqualTo("artist - title"));
         }
@@ -63,7 +62,7 @@ namespace osu.Game.Tests.Models
 
             mock.Setup(m => m.Metadata.Artist).Returns("artist");
             mock.Setup(m => m.Metadata.Title).Returns("title");
-            mock.Setup(m => m.Metadata.Author.Username).Returns("author");
+            mock.Setup(m => m.Metadata.Author).Returns("author");
             mock.Setup(m => m.DifficultyName).Returns("difficulty");
 
             Assert.That(mock.Object.GetDisplayString(), Is.EqualTo("artist - title (author) [difficulty]"));
@@ -76,7 +75,7 @@ namespace osu.Game.Tests.Models
 
             mock.Setup(m => m.Artist).Returns("artist");
             mock.Setup(m => m.Title).Returns("title");
-            mock.Setup(m => m.Author.Username).Returns("author");
+            mock.Setup(m => m.Author).Returns("author");
 
             Assert.That(mock.Object.GetDisplayString(), Is.EqualTo("artist - title (author)"));
         }
@@ -86,10 +85,10 @@ namespace osu.Game.Tests.Models
         {
             var mock = new Mock<IScoreInfo>();
 
-            mock.Setup(m => m.User).Returns(new APIUser { Username = "user" }); // TODO: temporary.
+            mock.Setup(m => m.User).Returns(new User { Name = "user" }); // TODO: temporary.
             mock.Setup(m => m.Beatmap!.Metadata.Artist).Returns("artist");
             mock.Setup(m => m.Beatmap!.Metadata.Title).Returns("title");
-            mock.Setup(m => m.Beatmap!.Metadata.Author.Username).Returns("author");
+            mock.Setup(m => m.Beatmap!.Metadata.Author).Returns("author");
             mock.Setup(m => m.Beatmap!.DifficultyName).Returns("difficulty");
 
             Assert.That(mock.Object.GetDisplayString(), Is.EqualTo("user playing artist - title (author) [difficulty]"));
@@ -110,7 +109,7 @@ namespace osu.Game.Tests.Models
         {
             var mock = new Mock<IUser>();
 
-            mock.Setup(m => m.Username).Returns("user");
+            mock.Setup(m => m.Name).Returns("user");
 
             Assert.That(mock.Object.GetDisplayString(), Is.EqualTo("user"));
         }

@@ -5,7 +5,7 @@ using Realms;
 
 namespace osu.Game.Users
 {
-    public class User : EmbeddedObject
+    public class User : EmbeddedObject, IUser
     {
         public const string DEFAULT_AVATAR_PATH = @"Online/avatar-guest";
         public const string DEFAULT_PERSONAL_USERNAME = @"Player";

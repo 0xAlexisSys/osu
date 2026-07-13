@@ -33,9 +33,7 @@ namespace osu.Game.Tests.Visual.SongSelect
         [SetUp]
         public void SetUp() => Schedule(() =>
         {
-            beatmapSet = beatmaps.GetAllUsableBeatmapSets().FirstOrDefault(b => b.OnlineID == 241526)
-                         ?? beatmaps.GetAllUsableBeatmapSets().FirstOrDefault(b => !b.Protected)
-                         ?? TestResources.CreateTestBeatmapSetInfo();
+            beatmapSet = beatmaps.GetAllUsableBeatmapSets().FirstOrDefault(b => !b.Protected) ?? TestResources.CreateTestBeatmapSetInfo();
         });
 
         [Test]

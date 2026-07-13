@@ -1,22 +1,17 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using NUnit.Framework;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 using osu.Framework.Utils;
-using osu.Game.Database;
 using osu.Game.Graphics.Sprites;
-using osu.Game.Online.Multiplayer;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
-using osu.Game.Updater;
 using osuTK;
 using osuTK.Input;
 
@@ -32,8 +27,6 @@ namespace osu.Game.Tests.Visual.UserInterface
         private SpriteText displayedCount = null!;
 
         public double TimeToCompleteProgress { get; set; } = 2000;
-
-        private readonly UserLookupCache userLookupCache = new TestUserLookupCache();
 
         [SetUp]
         public void SetUp() => Schedule(() =>
@@ -491,35 +484,6 @@ namespace osu.Game.Tests.Visual.UserInterface
         }
 
         [Test]
-        public void TestUpdateNotificationFlow()
-        {
-            bool applyUpdate = false;
-
-            AddStep(@"post update", () =>
-            {
-                applyUpdate = false;
-
-                var updateNotification = new UpdateManager.UpdateDownloadProgressNotification(CancellationToken.None)
-                {
-                    CompletionClickAction = () => applyUpdate = true
-                };
-
-                notificationOverlay.Post(updateNotification);
-                progressingNotifications.Add(updateNotification);
-            });
-
-            checkProgressingCount(1);
-            waitForCompletion();
-
-            UpdateManager.UpdateReadyNotification? completionNotification = null;
-            AddUntilStep("wait for completion notification",
-                () => (completionNotification = notificationOverlay.ChildrenOfType<UpdateManager.UpdateReadyNotification>().SingleOrDefault()) != null);
-            AddStep("click notification", () => completionNotification?.TriggerClick());
-
-            AddUntilStep("wait for update applied", () => applyUpdate);
-        }
-
-        [Test]
         public void TestImportantWhileClosed()
         {
             AddStep(@"simple #1", sendHelloNotification);
@@ -574,14 +538,6 @@ namespace osu.Game.Tests.Visual.UserInterface
             AddRepeatStep("send barrage", sendBarrage, 10);
         }
 
-        [Test]
-        public void TestServerShuttingDownNotification()
-        {
-            AddStep("post with 5 seconds", () => notificationOverlay.Post(new ServerShutdownNotification(TimeSpan.FromSeconds(5))));
-            AddStep("post with 30 seconds", () => notificationOverlay.Post(new ServerShutdownNotification(TimeSpan.FromSeconds(30))));
-            AddStep("post with 6 hours", () => notificationOverlay.Post(new ServerShutdownNotification(TimeSpan.FromHours(6))));
-        }
-
         protected override void Update()
         {
             base.Update();
@@ -592,8 +548,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             {
                 var p = progressingNotifications.Find(n => n.State == ProgressNotificationState.Queued);
 
-                if (p != null)
-                    p.State = ProgressNotificationState.Active;
+                p?.State = ProgressNotificationState.Active;
             }
 
             foreach (var n in progressingNotifications.FindAll(n => n.State == ProgressNotificationState.Active))

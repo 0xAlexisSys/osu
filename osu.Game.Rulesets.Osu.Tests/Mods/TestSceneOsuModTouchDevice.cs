@@ -190,7 +190,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
             AddUntilStep("Wait until player is loaded", () => currentPlayer.IsCurrentScreen());
         }
 
-        private partial class ScoreAccessibleSoloPlayer : SoloPlayer
+        private partial class ScoreAccessibleSoloPlayer : GameplayPlayer
         {
             public new GameplayClockContainer GameplayClockContainer => base.GameplayClockContainer;
 

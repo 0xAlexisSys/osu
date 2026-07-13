@@ -16,12 +16,12 @@ using osu.Framework.Logging;
 using osu.Framework.Testing;
 using osu.Framework.Utils;
 using osu.Game.Beatmaps;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
+using osu.Game.Users;
 
 namespace osu.Game.Tests.Resources
 {
@@ -105,14 +105,13 @@ namespace osu.Game.Tests.Resources
                 // Create random metadata, then we can check if sorting works based on these
                 Artist = "Some Artist " + RNG.Next(0, 9),
                 Title = $"Some Song (set id {setId:000000}) {Guid.NewGuid()}",
-                Author = { Username = "Some Guy " + RNG.Next(0, 9) },
+                Author = "Some Guy " + RNG.Next(0, 9),
             };
 
             Logger.Log($"🛠️ Generating beatmap set \"{metadata}\" for test consumption.");
 
             var beatmapSet = new BeatmapSetInfo
             {
-                OnlineID = setId,
                 Hash = new MemoryStream(Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())).ComputeMD5Hash(),
                 DateAdded = DateTimeOffset.UtcNow,
             };
@@ -145,7 +144,6 @@ namespace osu.Game.Tests.Resources
 
                     yield return new BeatmapInfo
                     {
-                        OnlineID = beatmapId,
                         DifficultyName = $"{version} {beatmapId} (length {TimeSpan.FromMilliseconds(length):m\\:ss}, bpm {bpm:0.#})",
                         StarRating = diff,
                         Length = length,
@@ -179,11 +177,10 @@ namespace osu.Game.Tests.Resources
         /// <returns></returns>
         public static ScoreInfo CreateTestScoreInfo(BeatmapInfo beatmap) => new ScoreInfo
         {
-            User = new APIUser
+            User = new User
             {
-                Id = 2,
-                Username = "peppy",
-                CoverUrl = COVER_IMAGE_3,
+                ID = 2,
+                Name = "peppy",
             },
             BeatmapInfo = beatmap,
             BeatmapHash = beatmap.Hash,

@@ -330,7 +330,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
 
         private static IBeatmap convert(IBeatmap beatmap)
         {
-            switch (beatmap.BeatmapInfo.Ruleset.OnlineID)
+            switch (beatmap.BeatmapInfo.Ruleset.ID)
             {
                 case 0:
                     beatmap.BeatmapInfo.Ruleset = new OsuRuleset().RulesetInfo;

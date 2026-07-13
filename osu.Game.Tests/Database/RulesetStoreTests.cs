@@ -73,7 +73,7 @@ namespace osu.Game.Tests.Database
                 var ruleset = new LoadTestRuleset();
                 string rulesetShortName = ruleset.RulesetInfo.ShortName;
 
-                realm.Write(r => r.Add(new RulesetInfo(rulesetShortName, ruleset.RulesetInfo.Name, ruleset.RulesetInfo.InstantiationInfo, ruleset.RulesetInfo.OnlineID)
+                realm.Write(r => r.Add(new RulesetInfo(rulesetShortName, ruleset.RulesetInfo.Name, ruleset.RulesetInfo.InstantiationInfo, ruleset.RulesetInfo.ID)
                 {
                     Available = true,
                 }));
@@ -98,7 +98,7 @@ namespace osu.Game.Tests.Database
                 var ruleset = new LoadTestRuleset();
                 string rulesetShortName = ruleset.RulesetInfo.ShortName;
 
-                realm.Write(r => r.Add(new RulesetInfo(rulesetShortName, ruleset.RulesetInfo.Name, ruleset.RulesetInfo.InstantiationInfo, ruleset.RulesetInfo.OnlineID)
+                realm.Write(r => r.Add(new RulesetInfo(rulesetShortName, ruleset.RulesetInfo.Name, ruleset.RulesetInfo.InstantiationInfo, ruleset.RulesetInfo.ID)
                 {
                     Available = true,
                 }));
@@ -150,16 +150,16 @@ namespace osu.Game.Tests.Database
             {
                 LoadTestRuleset.HasImplementations = true;
                 LoadTestRuleset.Version = Ruleset.CURRENT_RULESET_API_VERSION;
-                LoadTestRuleset.OnlineID = 2;
+                LoadTestRuleset.ID = 2;
 
                 var first = new LoadTestRuleset();
                 var second = new CatchRuleset();
 
-                realm.Write(r => r.Add(new RulesetInfo(first.ShortName, first.RulesetInfo.Name, first.RulesetInfo.InstantiationInfo, first.RulesetInfo.OnlineID)
+                realm.Write(r => r.Add(new RulesetInfo(first.ShortName, first.RulesetInfo.Name, first.RulesetInfo.InstantiationInfo, first.RulesetInfo.ID)
                 {
                     Available = true,
                 }));
-                realm.Write(r => r.Add(new RulesetInfo(second.ShortName, second.RulesetInfo.Name, second.RulesetInfo.InstantiationInfo, second.RulesetInfo.OnlineID)
+                realm.Write(r => r.Add(new RulesetInfo(second.ShortName, second.RulesetInfo.Name, second.RulesetInfo.InstantiationInfo, second.RulesetInfo.ID)
                 {
                     Available = true,
                 }));
@@ -189,11 +189,11 @@ namespace osu.Game.Tests.Database
 
             public static string Version { get; set; } = CURRENT_RULESET_API_VERSION;
 
-            public static int OnlineID { get; set; } = -1;
+            public static int ID { get; set; } = -1;
 
             public LoadTestRuleset()
             {
-                RulesetInfo.OnlineID = OnlineID;
+                RulesetInfo.ID = ID;
             }
 
             public override IEnumerable<Mod> GetModsFor(ModType type)

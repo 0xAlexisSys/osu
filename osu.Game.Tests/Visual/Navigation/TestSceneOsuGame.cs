@@ -11,14 +11,11 @@ using osu.Framework.Bindables;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
-using osu.Game.Audio;
 using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Graphics;
 using osu.Game.Input;
 using osu.Game.Input.Bindings;
-using osu.Game.Online.API;
-using osu.Game.Online.Chat;
 using osu.Game.Overlays;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
@@ -40,16 +37,8 @@ namespace osu.Game.Tests.Visual.Navigation
             typeof(IdleTracker),
             typeof(OnScreenDisplay),
             typeof(INotificationOverlay),
-            typeof(BeatmapListingOverlay),
-            typeof(NewsOverlay),
-            typeof(ChannelManager),
-            typeof(ChatOverlay),
             typeof(SettingsOverlay),
-            typeof(UserProfileOverlay),
-            typeof(BeatmapSetOverlay),
-            typeof(LoginOverlay),
             typeof(MusicController),
-            typeof(AccountCreationOverlay),
             typeof(IDialogOverlay),
             typeof(ScreenshotManager)
         };
@@ -65,7 +54,6 @@ namespace osu.Game.Tests.Visual.Navigation
             typeof(OsuConfigManager),
             typeof(SkinManager),
             typeof(ISkinSource),
-            typeof(IAPIProvider),
             typeof(RulesetStore),
             typeof(ScoreManager),
             typeof(BeatmapManager),
@@ -74,7 +62,6 @@ namespace osu.Game.Tests.Visual.Navigation
             typeof(IBindable<WorkingBeatmap>),
             typeof(Bindable<WorkingBeatmap>),
             typeof(GlobalActionContainer),
-            typeof(PreviewTrackManager),
         };
 
         [Resolved]

@@ -8,7 +8,6 @@ using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using osu.Game.Beatmaps;
-using osu.Game.Extensions;
 using osu.Game.Models;
 using osu.Game.Tests.Resources;
 
@@ -17,16 +16,6 @@ namespace osu.Game.Tests.NonVisual
     [TestFixture]
     public class BeatmapSetInfoEqualityTest
     {
-        [Test]
-        public void TestOnlineWithOnline()
-        {
-            var ourInfo = new BeatmapSetInfo { OnlineID = 123 };
-            var otherInfo = new BeatmapSetInfo { OnlineID = 123 };
-
-            ClassicAssert.AreNotEqual(ourInfo, otherInfo);
-            ClassicAssert.True(ourInfo.MatchesOnlineID(otherInfo));
-        }
-
         [Test]
         public void TestAudioEqualityNoFile()
         {
@@ -130,16 +119,6 @@ namespace osu.Game.Tests.NonVisual
             var otherInfo = new BeatmapSetInfo { ID = guid };
 
             ClassicAssert.AreEqual(ourInfo, otherInfo);
-        }
-
-        [Test]
-        public void TestDatabasedWithOnline()
-        {
-            var ourInfo = new BeatmapSetInfo { ID = Guid.NewGuid(), OnlineID = 12 };
-            var otherInfo = new BeatmapSetInfo { OnlineID = 12 };
-
-            ClassicAssert.AreNotEqual(ourInfo, otherInfo);
-            ClassicAssert.True(ourInfo.MatchesOnlineID(otherInfo));
         }
 
         [Test]

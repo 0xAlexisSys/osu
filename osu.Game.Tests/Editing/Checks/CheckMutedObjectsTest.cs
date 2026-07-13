@@ -94,7 +94,7 @@ namespace osu.Game.Tests.Editing.Checks
             };
             sliderTick.ApplyDefaults(cpi, new BeatmapDifficulty());
 
-            var slider = new MockNestableHitObject(new List<HitObject> { sliderHead, sliderTick, }, startTime: 0, endTime: 500)
+            var slider = new MockNestableHitObject(new List<HitObject> { sliderHead, sliderTick }, startTime: 0, endTime: 500)
             {
                 Samples = new List<HitSampleInfo> { new HitSampleInfo(HitSampleInfo.HIT_NORMAL, volume: volume_regular) }
             };
@@ -120,7 +120,7 @@ namespace osu.Game.Tests.Editing.Checks
             };
             sliderTick.ApplyDefaults(cpi, new BeatmapDifficulty());
 
-            var slider = new MockNestableHitObject(new List<HitObject> { sliderHead, sliderTick, }, startTime: 0, endTime: 500)
+            var slider = new MockNestableHitObject(new List<HitObject> { sliderHead, sliderTick }, startTime: 0, endTime: 500)
             {
                 Samples = new List<HitSampleInfo> { new HitSampleInfo(HitSampleInfo.HIT_NORMAL, volume: volume_regular) } // Applies to the tail.
             };
@@ -146,7 +146,7 @@ namespace osu.Game.Tests.Editing.Checks
             };
             sliderTick.ApplyDefaults(cpi, new BeatmapDifficulty());
 
-            var slider = new MockNestableHitObject(new List<HitObject> { sliderHead, sliderTick, }, startTime: 0, endTime: 2500)
+            var slider = new MockNestableHitObject(new List<HitObject> { sliderHead, sliderTick }, startTime: 0, endTime: 2500)
             {
                 Samples = new List<HitSampleInfo> { new HitSampleInfo(HitSampleInfo.HIT_NORMAL, volume: volume_muted) } // Applies to the tail.
             };

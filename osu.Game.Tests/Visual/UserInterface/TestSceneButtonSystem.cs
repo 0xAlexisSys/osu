@@ -99,7 +99,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                         break;
 
                     case Key.D:
-                        buttons.OnBeatmapListing = action;
+                        buttons.OnPlay = action;
                         break;
 
                     case Key.Q:

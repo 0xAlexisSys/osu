@@ -16,10 +16,9 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
 using osu.Framework.Utils;
-using osu.Game.Beatmaps;
 using osu.Game.Configuration;
 using osu.Game.Graphics.UserInterface;
-using osu.Game.Online.Leaderboards;
+using osu.Game.Leaderboards;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Rulesets.Mods;
@@ -42,7 +41,6 @@ namespace osu.Game.Tests.Visual.Gameplay
         private TestPlayer player;
 
         private bool? epilepsyWarning;
-        private BeatmapOnlineStatus? onlineStatus;
 
         [Resolved]
         private AudioManager audioManager { get; set; }
@@ -68,8 +66,6 @@ namespace osu.Game.Tests.Visual.Gameplay
         [Cached]
         private readonly LeaderboardManager leaderboardManager;
 
-        private readonly ChangelogOverlay changelogOverlay;
-
         private double savedTrackVolume;
         private double savedMasterVolume;
         private bool savedMutedState;
@@ -89,7 +85,6 @@ namespace osu.Game.Tests.Visual.Gameplay
                     Anchor = Anchor.TopLeft,
                     Origin = Anchor.TopLeft,
                 },
-                changelogOverlay = new ChangelogOverlay(),
                 logo = new OsuLogo
                 {
                     Anchor = Anchor.BottomRight,
@@ -105,7 +100,6 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             player = null;
             epilepsyWarning = null;
-            onlineStatus = null;
         });
 
         [SetUpSteps]
@@ -145,7 +139,6 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             // Set up data for testing disclaimer display.
             workingBeatmap.Beatmap.EpilepsyWarning = epilepsyWarning ?? false;
-            workingBeatmap.BeatmapInfo.Status = onlineStatus ?? BeatmapOnlineStatus.Ranked;
 
             Beatmap.Value = workingBeatmap;
 
@@ -236,15 +229,11 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("load dummy beatmap", () => resetPlayer(false));
             AddUntilStep("wait for current", () => loader.IsCurrentScreen());
 
-            AddStep("show focused overlay", () => changelogOverlay.Show());
-            AddUntilStep("overlay visible", () => changelogOverlay.IsPresent);
-
             AddUntilStep("wait for load ready", () => player?.LoadState == LoadState.Ready);
             AddRepeatStep("twiddle thumbs", () => { }, 20);
 
             AddAssert("loader still active", () => loader.IsCurrentScreen());
 
-            AddStep("hide overlay", () => changelogOverlay.Hide());
             AddUntilStep("loads after idle", () => !loader.IsCurrentScreen());
         }
 
@@ -448,26 +437,6 @@ namespace osu.Game.Tests.Visual.Gameplay
             restoreVolumes();
         }
 
-        [TestCase(BeatmapOnlineStatus.Loved, 1)]
-        [TestCase(BeatmapOnlineStatus.Qualified, 1)]
-        [TestCase(BeatmapOnlineStatus.Graveyard, 0)]
-        public void TestStatusWarning(BeatmapOnlineStatus status, int expectedDisclaimerCount)
-        {
-            saveVolumes();
-            setFullVolume();
-
-            AddStep("enable storyboards", () => config.SetValue(OsuSetting.ShowStoryboard, true));
-            AddStep("disable epilepsy warning", () => epilepsyWarning = false);
-            AddStep("set beatmap status", () => onlineStatus = status);
-            AddStep("load dummy beatmap", () => resetPlayer(false));
-
-            AddUntilStep("wait for current", () => loader.IsCurrentScreen());
-
-            AddAssert($"disclaimer count is {expectedDisclaimerCount}", () => this.ChildrenOfType<PlayerLoaderDisclaimer>().Count(), () => Is.EqualTo(expectedDisclaimerCount));
-
-            restoreVolumes();
-        }
-
         [Test]
         public void TestCombinedWarnings()
         {
@@ -476,7 +445,6 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             AddStep("enable storyboards", () => config.SetValue(OsuSetting.ShowStoryboard, true));
             AddStep("disable epilepsy warning", () => epilepsyWarning = true);
-            AddStep("set beatmap status", () => onlineStatus = BeatmapOnlineStatus.Loved);
             AddStep("load dummy beatmap", () => resetPlayer(false));
 
             AddUntilStep("wait for current", () => loader.IsCurrentScreen());

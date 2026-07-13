@@ -21,7 +21,7 @@ namespace osu.Game.Rulesets.Mania.Tests
             var frame = new ManiaReplayFrame(0, actions);
             var legacyFrame = frame.ToLegacy(beatmap);
 
-            var decodedFrame = new ManiaReplayFrame();
+            var decodedFrame = new ManiaReplayFrame(0.0d);
             decodedFrame.FromLegacy(legacyFrame, beatmap);
 
             Assert.That(decodedFrame.Actions, Is.EquivalentTo(frame.Actions));
@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Mania.Tests
             var frame = new ManiaReplayFrame(0, actions);
             var legacyFrame = frame.ToLegacy(beatmap);
 
-            var decodedFrame = new ManiaReplayFrame();
+            var decodedFrame = new ManiaReplayFrame(0.0d);
             decodedFrame.FromLegacy(legacyFrame, beatmap);
 
             Assert.That(decodedFrame.Actions, Is.EquivalentTo(frame.Actions));

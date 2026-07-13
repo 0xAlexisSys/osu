@@ -68,10 +68,8 @@ namespace osu.Game.Tests.Visual.Editing
         [Test]
         public void TestCreateNewBeatmap()
         {
-            AddAssert("status is none", () => EditorBeatmap.BeatmapInfo.Status == BeatmapOnlineStatus.None);
             AddStep("save beatmap", () => Editor.Save());
             AddAssert("new beatmap in database", () => beatmapManager.QueryBeatmapSet(s => s.ID == currentBeatmapSetID)?.Value.DeletePending == false);
-            AddAssert("status is modified", () => EditorBeatmap.BeatmapInfo.Status == BeatmapOnlineStatus.LocallyModified);
         }
 
         [Test]
@@ -189,8 +187,6 @@ namespace osu.Game.Tests.Visual.Editing
             AddAssert("created difficulty has bookmarks", () => EditorBeatmap.Bookmarks.Count == 2);
             AddAssert("created difficulty has no objects", () => EditorBeatmap.HitObjects.Count == 0);
 
-            AddAssert("status is modified", () => EditorBeatmap.BeatmapInfo.Status == BeatmapOnlineStatus.LocallyModified);
-
             AddStep("set unique difficulty name", () => EditorBeatmap.BeatmapInfo.DifficultyName = secondDifficultyName);
             AddStep("save beatmap", () => Editor.Save());
             AddAssert("new beatmap persisted", () =>
@@ -202,7 +198,7 @@ namespace osu.Game.Tests.Visual.Editing
                        && beatmap.DifficultyName == secondDifficultyName
                        && set != null
                        && set.PerformRead(s =>
-                           s.Beatmaps.Count == 2 && s.Beatmaps.Any(b => b.DifficultyName == secondDifficultyName) && s.Beatmaps.All(b => s.Status == BeatmapOnlineStatus.LocallyModified));
+                           s.Beatmaps.Count == 2 && s.Beatmaps.Any(b => b.DifficultyName == secondDifficultyName));
             });
         }
 
@@ -364,11 +360,6 @@ namespace osu.Game.Tests.Visual.Editing
                     new Colour4(0, 0, 255, 255)
                 });
             });
-            AddStep("set status & online ID", () =>
-            {
-                EditorBeatmap.BeatmapInfo.OnlineID = 123456;
-                EditorBeatmap.BeatmapInfo.Status = BeatmapOnlineStatus.WIP;
-            });
 
             AddStep("save beatmap", () => Editor.Save());
             AddAssert("new beatmap persisted", () =>
@@ -408,9 +399,6 @@ namespace osu.Game.Tests.Visual.Editing
             AddAssert("combo colours correctly copied", () => EditorBeatmap.BeatmapSkin.AsNonNull().ComboColours.Count == 2);
 
             ensureEditorLoaded();
-            AddAssert("status is modified", () => EditorBeatmap.BeatmapInfo.Status == BeatmapOnlineStatus.LocallyModified);
-
-            AddAssert("online ID not copied", () => EditorBeatmap.BeatmapInfo.OnlineID == -1);
 
             AddStep("save beatmap", () => Editor.Save());
 

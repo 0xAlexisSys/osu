@@ -76,14 +76,12 @@ namespace osu.Game.Tests.Beatmaps.Formats
             using (var stream = new LineBufferedReader(resStream))
             {
                 var beatmap = decoder.Decode(stream);
-                var beatmapInfo = beatmap.BeatmapInfo;
                 var metadata = beatmap.Metadata;
 
                 ClassicAssert.AreEqual("03. Renatus - Soleily 192kbps.mp3", metadata.AudioFile);
                 ClassicAssert.AreEqual(0, beatmap.AudioLeadIn);
                 ClassicAssert.AreEqual(164471, metadata.PreviewTime);
                 ClassicAssert.AreEqual(0.7f, beatmap.StackLeniency);
-                ClassicAssert.True(beatmapInfo.Ruleset.OnlineID == 0);
                 ClassicAssert.False(beatmap.LetterboxInBreaks);
                 ClassicAssert.False(beatmap.SpecialStyle);
                 ClassicAssert.False(beatmap.WidescreenStoryboard);
@@ -135,12 +133,10 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 ClassicAssert.AreEqual("Renatus", metadata.TitleUnicode);
                 ClassicAssert.AreEqual("Soleily", metadata.Artist);
                 ClassicAssert.AreEqual("Soleily", metadata.ArtistUnicode);
-                ClassicAssert.AreEqual("Gamu", metadata.Author.Username);
+                ClassicAssert.AreEqual("Gamu", metadata.Author);
                 ClassicAssert.AreEqual("Insane", beatmapInfo.DifficultyName);
                 ClassicAssert.AreEqual(string.Empty, metadata.Source);
                 ClassicAssert.AreEqual("MBC7 Unisphere 地球ヤバイEP Chikyu Yabai", metadata.Tags);
-                ClassicAssert.AreEqual(557821, beatmapInfo.OnlineID);
-                ClassicAssert.AreEqual(241526, beatmapInfo.BeatmapSet?.OnlineID);
             }
         }
 
@@ -761,7 +757,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 Assert.DoesNotThrow(() => beatmap = decoder.Decode(stream));
                 ClassicAssert.NotNull(beatmap);
                 ClassicAssert.AreEqual("Beatmap with corrupted header", beatmap.Metadata.Title);
-                ClassicAssert.AreEqual("Evil Hacker", beatmap.Metadata.Author.Username);
+                ClassicAssert.AreEqual("Evil Hacker", beatmap.Metadata.Author);
             }
         }
 
@@ -779,7 +775,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 Assert.DoesNotThrow(() => beatmap = decoder.Decode(stream));
                 ClassicAssert.NotNull(beatmap);
                 ClassicAssert.AreEqual("Beatmap with no header", beatmap.Metadata.Title);
-                ClassicAssert.AreEqual("Incredibly Evil Hacker", beatmap.Metadata.Author.Username);
+                ClassicAssert.AreEqual("Incredibly Evil Hacker", beatmap.Metadata.Author);
             }
         }
 
@@ -797,7 +793,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 Assert.DoesNotThrow(() => beatmap = decoder.Decode(stream));
                 ClassicAssert.NotNull(beatmap);
                 ClassicAssert.AreEqual("Empty lines at start", beatmap.Metadata.Title);
-                ClassicAssert.AreEqual("Edge Case Hunter", beatmap.Metadata.Author.Username);
+                ClassicAssert.AreEqual("Edge Case Hunter", beatmap.Metadata.Author);
             }
         }
 
@@ -815,7 +811,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 Assert.DoesNotThrow(() => beatmap = decoder.Decode(stream));
                 ClassicAssert.NotNull(beatmap);
                 ClassicAssert.AreEqual("The dog ate the file header", beatmap.Metadata.Title);
-                ClassicAssert.AreEqual("Why does this keep happening", beatmap.Metadata.Author.Username);
+                ClassicAssert.AreEqual("Why does this keep happening", beatmap.Metadata.Author);
             }
         }
 
@@ -833,7 +829,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 Assert.DoesNotThrow(() => beatmap = decoder.Decode(stream));
                 ClassicAssert.NotNull(beatmap);
                 ClassicAssert.AreEqual("No empty line delimiting header from contents", beatmap.Metadata.Title);
-                ClassicAssert.AreEqual("Edge Case Hunter", beatmap.Metadata.Author.Username);
+                ClassicAssert.AreEqual("Edge Case Hunter", beatmap.Metadata.Author);
             }
         }
 
@@ -1032,7 +1028,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                     Assert.That(decoded.Countdown, Is.EqualTo(CountdownType.None));
                     Assert.That(decoded.CountdownOffset, Is.EqualTo(0));
                     Assert.That(decoded.BeatmapInfo.Metadata.PreviewTime, Is.EqualTo(-1));
-                    Assert.That(decoded.BeatmapInfo.Ruleset.OnlineID, Is.EqualTo(0));
+                    Assert.That(decoded.BeatmapInfo.Ruleset.ID, Is.EqualTo(0));
                 });
             }
         }

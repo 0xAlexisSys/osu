@@ -4,7 +4,6 @@
 using System.Linq;
 using NUnit.Framework;
 using osu.Game.Beatmaps;
-using osu.Game.Models;
 using osu.Game.Rulesets.Edit;
 using osu.Game.Rulesets.Edit.Checks;
 using osu.Game.Tests.Beatmaps;
@@ -163,14 +162,15 @@ namespace osu.Game.Tests.Editing.Checks
 
         private BeatmapMetadata createMetadata(string artist, string title, string source, string creator, string tags, string unicodeArtist = "", string unicodeTitle = "")
         {
-            return new BeatmapMetadata(new RealmUser { Username = creator })
+            return new BeatmapMetadata
             {
+                Author = creator,
                 Artist = artist,
                 Title = title,
                 Source = source,
                 Tags = tags,
                 ArtistUnicode = unicodeArtist,
-                TitleUnicode = unicodeTitle
+                TitleUnicode = unicodeTitle,
             };
         }
 

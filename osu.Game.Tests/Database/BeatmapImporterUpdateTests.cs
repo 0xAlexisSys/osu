@@ -11,11 +11,11 @@ using osu.Framework.Allocation;
 using osu.Game.Beatmaps;
 using osu.Game.Collections;
 using osu.Game.Database;
-using osu.Game.Models;
 using osu.Game.Overlays.Notifications;
 using osu.Game.Rulesets;
 using osu.Game.Scoring;
 using osu.Game.Tests.Resources;
+using osu.Game.Users;
 using Realms;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
@@ -78,7 +78,7 @@ namespace osu.Game.Tests.Database
         }
 
         /// <summary>
-        /// Regression test covering https://github.com/ppy/osu/issues/19369 (import potentially duplicating if original has no <see cref="BeatmapInfo.OnlineID"/>).
+        /// Regression test covering https://github.com/ppy/osu/issues/19369 (import potentially duplicating if original has no OnlineID).
         /// </summary>
         [Test]
         public void TestNewDifficultyAddedNoOnlineID()
@@ -99,14 +99,6 @@ namespace osu.Game.Tests.Database
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
                 Debug.Assert(importBeforeUpdate != null);
-
-                // This test is the same as TestNewDifficultyAdded except for this block.
-                importBeforeUpdate.PerformWrite(s =>
-                {
-                    s.OnlineID = -1;
-                    foreach (var beatmap in s.Beatmaps)
-                        beatmap.ResetOnlineInfo();
-                });
 
                 realm.Run(r => r.Refresh());
 
@@ -203,7 +195,6 @@ namespace osu.Game.Tests.Database
                 Debug.Assert(importBeforeUpdate != null);
 
                 Assert.That(importBeforeUpdate.Value.Beatmaps, Has.Count.EqualTo(count_beatmaps));
-                Assert.That(importBeforeUpdate.Value.Beatmaps.First().OnlineID, Is.GreaterThan(-1));
 
                 // Second import matches first but contains one extra .osu file.
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathMissingOneBeatmap), importBeforeUpdate.Value);
@@ -219,7 +210,6 @@ namespace osu.Game.Tests.Database
 
                 // previous set should contain the removed beatmap still.
                 Assert.That(importBeforeUpdate.Value.Beatmaps, Has.Count.EqualTo(1));
-                Assert.That(importBeforeUpdate.Value.Beatmaps.First().OnlineID, Is.EqualTo(-1));
 
                 // Previous beatmap set has no beatmaps so will be completely purged on the spot.
                 Assert.That(importAfterUpdate.Value.Beatmaps, Has.Count.EqualTo(count_beatmaps - 1));
@@ -290,7 +280,6 @@ namespace osu.Game.Tests.Database
                 checkCount<BeatmapInfo>(realm, count_beatmaps);
                 checkCount<BeatmapMetadata>(realm, count_beatmaps);
 
-                Assert.That(importBeforeUpdate.Value.Beatmaps.First().OnlineID, Is.GreaterThan(-1));
                 Assert.That(importBeforeUpdate.Value.DateAdded, Is.EqualTo(dateBefore));
                 Assert.That(importAfterUpdate.Value.DateAdded, Is.EqualTo(dateBefore));
                 Assert.That(importBeforeUpdate.ID, Is.EqualTo(importAfterUpdate.ID));
@@ -326,7 +315,6 @@ namespace osu.Game.Tests.Database
                 checkCount<BeatmapInfo>(realm, count_beatmaps);
                 checkCount<BeatmapMetadata>(realm, count_beatmaps);
 
-                Assert.That(importBeforeUpdate.Value.Beatmaps.First().OnlineID, Is.GreaterThan(-1));
                 Assert.That(importBeforeUpdate.Value.DateAdded, Is.EqualTo(dateBefore));
                 Assert.That(importAfterUpdate.Value.DateAdded, Is.EqualTo(dateBefore));
                 Assert.That(importBeforeUpdate.ID, Is.EqualTo(importAfterUpdate.ID));
@@ -365,7 +353,7 @@ namespace osu.Game.Tests.Database
                     var beatmapInfo = s.Beatmaps.First(b => b.File?.Filename != removedFilename);
 
                     scoreTargetBeatmapHash = beatmapInfo.Hash;
-                    s.Realm!.Add(new ScoreInfo(beatmapInfo, s.Realm.All<RulesetInfo>().First(), new RealmUser()));
+                    s.Realm!.Add(new ScoreInfo(beatmapInfo, s.Realm.All<RulesetInfo>().First(), new User()));
                 });
 
                 realm.Run(r => r.Refresh());
@@ -414,7 +402,7 @@ namespace osu.Game.Tests.Database
 
                     scoreTargetBeatmapHash = beatmapInfo.Hash;
 
-                    s.Realm!.Add(new ScoreInfo(beatmapInfo, s.Realm.All<RulesetInfo>().First(), new RealmUser()));
+                    s.Realm!.Add(new ScoreInfo(beatmapInfo, s.Realm.All<RulesetInfo>().First(), new User()));
                 });
 
                 // locally modify beatmap
@@ -424,7 +412,6 @@ namespace osu.Game.Tests.Database
                     var beatmapInfo = s.Beatmaps.First(b => b.Hash == scoreTargetBeatmapHash);
 
                     beatmapInfo.Hash = new_beatmap_hash;
-                    beatmapInfo.ResetOnlineInfo();
                     beatmapInfo.UpdateLocalScores(s.Realm!);
                 });
 
@@ -477,7 +464,7 @@ namespace osu.Game.Tests.Database
                 {
                     var beatmapInfo = s.Beatmaps.Last();
                     scoreTargetFilename = beatmapInfo.File?.Filename;
-                    s.Realm!.Add(new ScoreInfo(beatmapInfo, s.Realm.All<RulesetInfo>().First(), new RealmUser()));
+                    s.Realm!.Add(new ScoreInfo(beatmapInfo, s.Realm.All<RulesetInfo>().First(), new User()));
                 });
 
                 realm.Run(r => r.Refresh());

@@ -51,11 +51,7 @@ namespace osu.Game.Tests.Visual
 
         protected IResourceStore<byte[]> Resources;
 
-        /// <summary>
-        /// Whether this test scene requires real-world API access.
-        /// If true, this will bypass the local <see cref="Session"/> and use the <see cref="OsuGameBase"/> provided one.
-        /// </summary>
-        protected virtual bool UseOnlineAPI => false;
+        protected Session Session;
 
         /// <summary>
         /// A database context factory to be used by test runs. Can be isolated and reset by setting <see cref="UseFreshStoragePerRun"/> to <c>true</c>.
@@ -134,6 +130,10 @@ namespace osu.Game.Tests.Visual
             Ruleset.Value = CreateRuleset()?.RulesetInfo ?? parent.Get<RulesetStore>().AvailableRulesets.First();
 
             SelectedMods.SetDefault();
+
+            Session = new Session(string.Empty, string.Empty);
+            Dependencies.CacheAs(Session);
+            base.Content.Add(Session);
 
             return Dependencies;
         }

@@ -26,6 +26,7 @@ using osu.Game.Scoring;
 using osu.Game.Screens;
 using osu.Game.Screens.Menu;
 using osu.Game.Screens.Play;
+using osu.Game.Users;
 using osuTK.Graphics;
 using IntroSequence = osu.Game.Configuration.IntroSequence;
 
@@ -93,7 +94,7 @@ namespace osu.Game.Tests.Visual
             AddGame(Game = CreateTestGame());
         }
 
-        protected virtual TestOsuGame CreateTestGame() => new TestOsuGame(LocalStorage);
+        protected virtual TestOsuGame CreateTestGame() => new TestOsuGame(LocalStorage, Session);
 
         protected void PushAndConfirm(Func<Screen> newScreen)
         {
@@ -160,10 +161,11 @@ namespace osu.Game.Tests.Visual
 
             public new void PerformFromScreen(Action<IScreen> action, IEnumerable<Type> validScreens = null) => base.PerformFromScreen(action, validScreens);
 
-            public TestOsuGame(Storage storage, string[] args = null)
+            public TestOsuGame(Storage storage, Session session, string[] args = null)
                 : base(args)
             {
                 base.Storage = storage;
+                Session = session;
             }
 
             protected override void LoadComplete()

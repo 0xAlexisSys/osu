@@ -5,7 +5,6 @@ using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Testing;
 using osu.Game.Screens.Menu;
-using osu.Game.Screens.Select;
 using osuTK.Input;
 
 namespace osu.Game.Tests.Visual.Navigation
@@ -40,7 +39,7 @@ namespace osu.Game.Tests.Visual.Navigation
                 InputManager.Key(Key.P);
             });
 
-            AddAssert("entered song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddAssert("entered song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
         }
 
         [Test]
@@ -52,7 +51,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddAssert("state is top level", () => buttons.State == ButtonSystemState.TopLevel);
 
             AddStep("press P", () => InputManager.Key(Key.P));
-            AddAssert("entered song select", () => Game.ScreenStack.CurrentScreen is SoloSongSelect);
+            AddAssert("entered song select", () => Game.ScreenStack.CurrentScreen is Screens.Select.SongSelect);
         }
     }
 }

@@ -6,20 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using osu.Framework.Graphics.Containers;
 using osu.Framework.Testing;
 using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Collections;
 using osu.Game.Extensions;
 using osu.Game.Localisation;
-using osu.Game.Models;
-using osu.Game.Online.API;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Scoring;
 using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Filter;
 using osu.Game.Tests.Resources;
+using osu.Game.Users;
 
 namespace osu.Game.Tests.Visual.SongSelect
 {
@@ -30,9 +27,6 @@ namespace osu.Game.Tests.Visual.SongSelect
     public partial class TestSceneSongSelectGrouping : SongSelectTestScene
     {
         private BeatmapCarouselFilterGrouping grouping => Carousel.Filters.OfType<BeatmapCarouselFilterGrouping>().Single();
-
-        [SetUp]
-        public void SetUp() => Schedule(() => API.Logout());
 
         #region Collection grouping
 
@@ -47,7 +41,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
             AddStep("add collections", () =>
             {
-                beatmapSets = Beatmaps.GetAllUsableBeatmapSets().OrderBy(b => b.OnlineID).ToArray();
+                beatmapSets = Beatmaps.GetAllUsableBeatmapSets().ToArray();
 
                 Realm.Write(r =>
                 {
@@ -115,96 +109,6 @@ namespace osu.Game.Tests.Visual.SongSelect
 
         #endregion
 
-        #region My Maps grouping
-
-        [Test]
-        public void TestMyMapsGrouping()
-        {
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = "user1", 3, 0);
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = "user2", 3, 0);
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = "user3", 3, 0);
-
-            BeatmapSetInfo[] beatmapSets = null!;
-
-            AddStep("get beatmaps", () => beatmapSets = Beatmaps.GetAllUsableBeatmapSets().OrderBy(b => b.OnlineID).ToArray());
-
-            AddStep("log in", () =>
-            {
-                API.Login("user1", string.Empty);
-                API.AuthenticateSecondFactor("abcdefgh");
-            });
-
-            LoadSongSelect();
-            GroupBy(GroupMode.MyMaps);
-            WaitForFiltering();
-
-            assertGroupPresent("My maps", () => new[] { beatmapSets[0] });
-            assertGroupsCount(1);
-        }
-
-        [Test]
-        public void TestMyMapsGroupingRenamedUsername()
-        {
-            ImportBeatmapForRuleset(s =>
-            {
-                ((RealmUser)s.Metadata.Author).Username = "user1_old";
-                ((RealmUser)s.Metadata.Author).OnlineID = DummyAPIAccess.DUMMY_USER_ID;
-            }, 3, 0);
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = "user2", 3, 0);
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = "user3", 3, 0);
-
-            BeatmapSetInfo[] beatmapSets = null!;
-
-            AddStep("get beatmaps", () => beatmapSets = Beatmaps.GetAllUsableBeatmapSets().OrderBy(b => b.OnlineID).ToArray());
-
-            AddStep("log in", () =>
-            {
-                API.Login("user1", string.Empty);
-                API.AuthenticateSecondFactor("abcdefgh");
-            });
-
-            LoadSongSelect();
-            GroupBy(GroupMode.MyMaps);
-            WaitForFiltering();
-
-            assertGroupPresent("My maps", () => new[] { beatmapSets[0] });
-            assertGroupsCount(1);
-        }
-
-        [Test]
-        public void TestMyMapsGroupingUpdatesOnUserChange()
-        {
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = "user1", 3, 0);
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = "user2", 3, 0);
-            ImportBeatmapForRuleset(s => ((RealmUser)s.Metadata.Author).Username = new GuestUser().Username, 3, 0);
-
-            BeatmapSetInfo[] beatmapSets = null!;
-
-            AddStep("get beatmaps", () => beatmapSets = Beatmaps.GetAllUsableBeatmapSets().OrderBy(b => b.OnlineID).ToArray());
-
-            // stay logged out
-
-            LoadSongSelect();
-            GroupBy(GroupMode.MyMaps);
-            WaitForFiltering();
-
-            AddUntilStep("wait for placeholder visible", () => getPlaceholder()?.State.Value == Visibility.Visible);
-            checkMatchedBeatmaps(0);
-
-            AddStep("log in", () =>
-            {
-                API.Login("user2", string.Empty);
-                API.AuthenticateSecondFactor("abcdefgh");
-            });
-
-            WaitForFiltering();
-
-            assertGroupPresent("My maps", () => new[] { beatmapSets[1] });
-            assertGroupsCount(1);
-        }
-
-        #endregion
-
         #region Rank Achieved grouping
 
         [Test]
@@ -216,27 +120,21 @@ namespace osu.Game.Tests.Visual.SongSelect
             ImportBeatmapForRuleset(_ => { }, 1, 0);
             ImportBeatmapForRuleset(_ => { }, 1, 0);
 
-            AddStep("log in", () =>
-            {
-                API.Login("user1", string.Empty); // match username in test scores.
-                API.AuthenticateSecondFactor("abcdefgh");
-            });
-
             BeatmapSetInfo[] beatmapSets = null!;
 
             AddStep("add scores", () =>
             {
-                beatmapSets = Beatmaps.GetAllUsableBeatmapSets().OrderBy(b => b.OnlineID).ToArray();
+                beatmapSets = Beatmaps.GetAllUsableBeatmapSets().ToArray();
 
                 ScoreManager.Import(createTestScoreInfo(beatmapSets[0].Beatmaps[0], ScoreRank.SH));
                 ScoreManager.Import(createTestScoreInfo(beatmapSets[1].Beatmaps[0], ScoreRank.A));
                 ScoreManager.Import(createTestScoreInfo(beatmapSets[2].Beatmaps[0], ScoreRank.C));
 
                 // score belonging to another user on an unplayed beatmap.
-                ScoreManager.Import(createTestScoreInfo(beatmapSets[3].Beatmaps[0], ScoreRank.XH, s => s.User = new APIUser { Id = 1337, Username = "user2" }));
+                ScoreManager.Import(createTestScoreInfo(beatmapSets[3].Beatmaps[0], ScoreRank.XH, s => s.User = new User { ID = 1337, Name = "user2" }));
 
                 // score belonging to another user on a played beatmap.
-                ScoreManager.Import(createTestScoreInfo(beatmapSets[0].Beatmaps[0], ScoreRank.XH, s => s.User = new APIUser { Id = 1337, Username = "user2" }));
+                ScoreManager.Import(createTestScoreInfo(beatmapSets[0].Beatmaps[0], ScoreRank.XH, s => s.User = new User { ID = 1337, Name = "user2" }));
 
                 // score belonging to local user but with less rank.
                 ScoreManager.Import(createTestScoreInfo(beatmapSets[0].Beatmaps[0], ScoreRank.D));
@@ -264,12 +162,6 @@ namespace osu.Game.Tests.Visual.SongSelect
             const int sets_count = 100;
             const int diffs_count = 100;
 
-            AddStep("log in", () =>
-            {
-                API.Login("user1", string.Empty); // match username in test scores.
-                API.AuthenticateSecondFactor("abcdefgh");
-            });
-
             int count = 0;
 
             AddStep("populate database", () =>
@@ -285,7 +177,7 @@ namespace osu.Game.Tests.Visual.SongSelect
                         liveSet.PerformRead(s =>
                         {
                             foreach (var beatmap in s.Beatmaps
-                                                     .GroupBy(b => b.Ruleset.OnlineID)
+                                                     .GroupBy(b => b.Ruleset.ID)
                                                      .Select(g => g.OrderBy(_ => RNG.Next()).Take(4)) // take 4 difficulties from each ruleset randomly
                                                      .SelectMany(g => g))
                             {
@@ -331,7 +223,7 @@ namespace osu.Game.Tests.Visual.SongSelect
         private ScoreInfo createTestScoreInfo(BeatmapInfo beatmap, ScoreRank? rank = null, Action<ScoreInfo>? applyToScore = null)
         {
             var score = TestResources.CreateTestScoreInfo(beatmap);
-            score.User = API.LocalUser.Value;
+            score.User = Session.User;
             score.Rank = rank ?? Enum.GetValues<ScoreRank>().MinBy(_ => RNG.Next());
             score.TotalScore = (long)(((double)score.Rank + 1) / (Enum.GetValues<ScoreRank>().Length + 1) * 1000000);
             score.Date = DateTimeOffset.Now;

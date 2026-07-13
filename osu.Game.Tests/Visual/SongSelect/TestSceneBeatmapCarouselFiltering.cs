@@ -239,7 +239,7 @@ namespace osu.Game.Tests.Visual.SongSelect
                 var visibleBeatmapPanels = GetVisiblePanels<PanelBeatmap>();
 
                 return visibleBeatmapPanels.Count() == 1
-                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.OnlineID == 0) == 1;
+                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.ID == 0) == 1;
             });
 
             ApplyToFilterAndWaitForFilter("filter to taiko", c => c.Ruleset = rulesets.AvailableRulesets.ElementAt(1));
@@ -249,8 +249,8 @@ namespace osu.Game.Tests.Visual.SongSelect
                 var visibleBeatmapPanels = GetVisiblePanels<PanelBeatmap>();
 
                 return visibleBeatmapPanels.Count() == 2
-                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.OnlineID == 0) == 1
-                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.OnlineID == 1) == 1;
+                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.ID == 0) == 1
+                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.ID == 1) == 1;
             });
 
             ApplyToFilterAndWaitForFilter("filter to catch", c => c.Ruleset = rulesets.AvailableRulesets.ElementAt(2));
@@ -260,8 +260,8 @@ namespace osu.Game.Tests.Visual.SongSelect
                 var visibleBeatmapPanels = GetVisiblePanels<PanelBeatmap>();
 
                 return visibleBeatmapPanels.Count() == 2
-                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.OnlineID == 0) == 1
-                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.OnlineID == 2) == 1;
+                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.ID == 0) == 1
+                       && visibleBeatmapPanels.Count(p => ((GroupedBeatmap)p.Item!.Model).Beatmap.Ruleset.ID == 2) == 1;
             });
         }
 

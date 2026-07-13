@@ -39,55 +39,23 @@ namespace osu.Game.Tests.Visual.SongSelect
                     set.Beatmaps.ForEach(b => b.Metadata.Artist = zzz_lowercase);
 
                 if (i == 12)
-                    set.Beatmaps.ForEach(b => b.Metadata.Author.Username = zzz_uppercase);
+                    set.Beatmaps.ForEach(b => b.Metadata.Author = zzz_uppercase);
 
                 if (i == 16)
-                    set.Beatmaps.ForEach(b => b.Metadata.Author.Username = zzz_lowercase);
+                    set.Beatmaps.ForEach(b => b.Metadata.Author = zzz_lowercase);
 
                 beatmapSets.Add(set);
             }
 
             var results = await runSorting(SortMode.Author, beatmapSets);
 
-            Assert.That(results.Last().Metadata.Author.Username, Is.EqualTo(zzz_uppercase));
-            Assert.That(results.SkipLast(diff_count).Last().Metadata.Author.Username, Is.EqualTo(zzz_lowercase));
+            Assert.That(results.Last().Metadata.Author, Is.EqualTo(zzz_uppercase));
+            Assert.That(results.SkipLast(diff_count).Last().Metadata.Author, Is.EqualTo(zzz_lowercase));
 
             results = await runSorting(SortMode.Artist, beatmapSets);
 
             Assert.That(results.Last().Metadata.Artist, Is.EqualTo(zzz_uppercase));
             Assert.That(results.SkipLast(diff_count).Last().Metadata.Artist, Is.EqualTo(zzz_lowercase));
-        }
-
-        [Test]
-        public async Task TestSortingDateSubmitted()
-        {
-            List<BeatmapSetInfo> beatmapSets = new List<BeatmapSetInfo>();
-
-            const string zzz_string = "zzzzz";
-
-            for (int i = 0; i < 10; i++)
-            {
-                var set = TestResources.CreateTestBeatmapSetInfo(5);
-
-                // A total of 6 sets have date submitted (4 don't)
-                // A total of 5 sets have artist string (3 of which also have date submitted)
-
-                if (i >= 2 && i < 8) // i = 2, 3, 4, 5, 6, 7 have submitted date
-                    set.DateSubmitted = DateTimeOffset.Now.AddMinutes(i);
-                if (i < 5) // i = 0, 1, 2, 3, 4 have matching string
-                    set.Beatmaps.ForEach(b => b.Metadata.Artist = zzz_string);
-
-                set.Beatmaps.ForEach(b => b.Metadata.Title = $"submitted: {set.DateSubmitted}");
-
-                beatmapSets.Add(set);
-            }
-
-            var results = await runSorting(SortMode.DateSubmitted, beatmapSets);
-
-            Assert.That(results.Count(), Is.EqualTo(50));
-
-            Assert.That(results.Reverse().TakeWhile(b => b.BeatmapSet!.DateSubmitted == null).Count(), Is.EqualTo(20), () => "missing dates should be at the end");
-            Assert.That(results.TakeWhile(b => b.BeatmapSet!.DateSubmitted != null).Count(), Is.EqualTo(30), () => "non-missing dates should be at the start");
         }
 
         [Test]

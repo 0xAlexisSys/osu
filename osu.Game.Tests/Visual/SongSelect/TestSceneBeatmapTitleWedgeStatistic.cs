@@ -33,7 +33,7 @@ namespace osu.Game.Tests.Visual.SongSelect
             AddWaitStep("wait", 3);
             AddStep("set values", () =>
             {
-                playCount.Value = new BeatmapTitleWedge.StatisticPlayCount.Data(1234, 12);
+                playCount.Text = "1234";
                 statistic2.Text = "3,234";
                 statistic3.Text = "12:34";
                 statistic4.Text = "123";
@@ -41,7 +41,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
             AddStep("set large values", () =>
             {
-                playCount.Value = new BeatmapTitleWedge.StatisticPlayCount.Data(134587921, 502);
+                playCount.Text = "134587921";
                 statistic2.Text = "1,048,576";
                 statistic3.Text = "2:50:23";
                 statistic4.Text = "1238014";
@@ -58,7 +58,7 @@ namespace osu.Game.Tests.Visual.SongSelect
             {
                 playCount = new BeatmapTitleWedge.StatisticPlayCount(true, minSize: 50)
                 {
-                    Value = new BeatmapTitleWedge.StatisticPlayCount.Data(1234, 12),
+                    Text = "1234",
                 },
                 statistic2 = new BeatmapTitleWedge.Statistic(OsuIcon.Clock, true, minSize: 30)
                 {

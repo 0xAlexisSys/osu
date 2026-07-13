@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using osu.Game.Beatmaps;
-using osu.Game.Online.API.Requests.Responses;
 using osu.Game.Replays;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Objects;
@@ -15,6 +14,7 @@ using osu.Game.Rulesets.Osu.Scoring;
 using osu.Game.Rulesets.Replays;
 using osu.Game.Scoring;
 using osu.Game.Tests.Visual;
+using osu.Game.Users;
 using osuTK;
 
 namespace osu.Game.Rulesets.Osu.Tests.Mods
@@ -92,7 +92,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                 DrawableRuleset?.SetReplayScore(new Score
                 {
                     Replay = new Replay { Frames = currentTestData.ReplayFrames! },
-                    ScoreInfo = new ScoreInfo { User = new APIUser { Username = @"Test" }, IsLegacyScore = true, Mods = new Mod[] { new OsuModRelax() } },
+                    ScoreInfo = new ScoreInfo { User = new User { Name = @"Test" }, IsLegacyScore = true, Mods = new Mod[] { new OsuModRelax() } },
                 });
 
                 DrawableRuleset?.SetRecordTarget(Score);

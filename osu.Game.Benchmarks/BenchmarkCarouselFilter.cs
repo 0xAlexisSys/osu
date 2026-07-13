@@ -16,7 +16,7 @@ namespace osu.Game.Benchmarks
             Ruleset = new RulesetInfo
             {
                 ShortName = "osu",
-                OnlineID = 0
+                ID = 0
             },
             StarRating = 4.0d,
             Difficulty = new BeatmapDifficulty
@@ -31,7 +31,7 @@ namespace osu.Game.Benchmarks
                 ArtistUnicode = "check unicode too",
                 Title = "Title goes here",
                 TitleUnicode = "Title goes here",
-                Author = { Username = "The Author" },
+                Author = "The Author",
                 Source = "unit tests",
                 Tags = "look for tags too",
             },
@@ -39,7 +39,6 @@ namespace osu.Game.Benchmarks
             Length = 2500,
             BPM = 160,
             BeatDivisor = 12,
-            Status = BeatmapOnlineStatus.Loved
         };
 
         private FilterMatchingTest.CarouselBeatmap carouselBeatmap = null!;
@@ -53,8 +52,7 @@ namespace osu.Game.Benchmarks
         public override void SetUp()
         {
             var beatmap = getExampleBeatmap();
-            beatmap.OnlineID = 20201010;
-            beatmap.BeatmapSet = new BeatmapSetInfo { OnlineID = 1535 };
+            beatmap.BeatmapSet = new BeatmapSetInfo();
             carouselBeatmap = new FilterMatchingTest.CarouselBeatmap(beatmap);
             criteria1 = new FilterCriteria();
             criteria2 = new FilterCriteria
@@ -63,7 +61,7 @@ namespace osu.Game.Benchmarks
             };
             criteria3 = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 BPM = new FilterCriteria.OptionalRange<double>
                 {
@@ -73,7 +71,7 @@ namespace osu.Game.Benchmarks
             };
             criteria4 = new FilterCriteria
             {
-                Ruleset = new RulesetInfo { OnlineID = 6 },
+                Ruleset = new RulesetInfo { ID = 6 },
                 AllowConvertedBeatmaps = true,
                 SearchText = "an artist"
             };

@@ -22,4 +22,4 @@ The engine and main resources are NuGet packages, with local copies provided. In
 ## Building
 
 - The game is developed and tested on PC. Use `dotnet build osu.Desktop.slnf` to build the solution.
-- **Do not use the `Test` build configuration.** Unit tests are broken and there is no real motivation to fix them up after dropping dozens of nukes targeting online code.
+- Don't bother with the `Test` build configuration. While unit tests can be compiled, they went through a dirty fix and testing is done manually anyways.

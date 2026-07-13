@@ -51,6 +51,8 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         private PausableSkinnableSound maxBonusSample;
 
+        private float completeRotation => 360.0f * HitObject.SpinDifficulty;
+
         /// <summary>
         /// The amount of bonus score gained from spinning after the required number of spins, for display purposes.
         /// </summary>
@@ -246,7 +248,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
                     // these become implicitly hit.
                     return 1;
 
-                return Math.Clamp(Result.TotalRotation / 360 / HitObject.SpinsRequired, 0, 1);
+                return Math.Clamp(Result.TotalRotation / completeRotation / HitObject.SpinsRequired, 0, 1);
             }
         }
 
@@ -256,7 +258,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
         {
             if (Time.Current < HitObject.StartTime) return;
 
-            if (Progress >= 1)
+            if (Progress >= 1.0f)
                 Result.TimeCompleted ??= Time.Current;
 
             if (userTriggered || Time.Current < HitObject.EndTime)
@@ -269,14 +271,22 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             ApplyResult(static (r, hitObject) =>
             {
                 var spinner = (DrawableSpinner)hitObject;
-                if (spinner.Progress >= 1)
-                    r.Type = HitResult.Great;
-                else if (spinner.Progress > .9)
-                    r.Type = HitResult.Ok;
-                else if (spinner.Progress > .75)
-                    r.Type = HitResult.Meh;
-                else if (spinner.Time.Current >= spinner.HitObject.EndTime)
-                    r.Type = r.Judgement.MinResult;
+
+                if (!spinner.HitObject.FullClearRequired)
+                {
+                    if (spinner.Progress >= 1.0f)
+                        r.Type = HitResult.Great;
+                    else if (spinner.Progress > 0.9f)
+                        r.Type = HitResult.Ok;
+                    else if (spinner.Progress > 0.75f)
+                        r.Type = HitResult.Meh;
+                    else if (spinner.Time.Current >= spinner.HitObject.EndTime)
+                        r.Type = r.Judgement.MinResult;
+                }
+                else
+                {
+                    r.Type = spinner.Progress >= 1.0f ? r.Type = HitResult.Great : r.Judgement.MinResult;
+                }
             });
         }
 
@@ -349,7 +359,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
             if (ticks.Count == 0)
                 return;
 
-            int spins = (int)(Result.TotalRotation / 360);
+            int spins = (int)(Result.TotalRotation / completeRotation);
 
             if (spins < completedFullSpins.Value)
             {
@@ -378,17 +388,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         public class SpinnerBonusMaxSampleInfo : HitSampleInfo
         {
-            public override IEnumerable<string> LookupNames
-            {
-                get
-                {
-                    foreach (string name in base.LookupNames)
-                        yield return name;
-
-                    foreach (string name in base.LookupNames)
-                        yield return name.Replace("-max", string.Empty);
-                }
-            }
+            public override IEnumerable<string> LookupNames => base.LookupNames.Select(name => name.Replace("-max", string.Empty));
 
             public SpinnerBonusMaxSampleInfo(HitSampleInfo sampleInfo)
                 : base("spinnerbonus-max", sampleInfo.Bank, sampleInfo.Suffix, sampleInfo.Volume)

@@ -36,10 +36,14 @@ namespace osu.Game.Rulesets.Osu.Objects
 
         public double Duration { get; set; }
 
+        public bool FullClearRequired { get; set; }
+
+        public float SpinDifficulty { get; set; } = 1.0f;
+
         /// <summary>
         /// Number of spins required to finish the spinner without miss.
         /// </summary>
-        public int SpinsRequired { get; protected set; } = 1;
+        public int SpinsRequired { get; set; } = 1;
 
         /// <summary>
         /// The number of spins required to start receiving bonus score. The first bonus is awarded on this spin count.

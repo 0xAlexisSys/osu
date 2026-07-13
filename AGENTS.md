@@ -13,6 +13,7 @@ The engine and main resources are NuGet packages, with local copies provided. In
   - `is null`/`is not null` for null checking outside of expression trees.
   - Collection expressions (C# 12.0).
   - `System.Threading.Lock` objects (C# 13.0) for lock statements.
+- Use verbatim strings to avoid unwanted `OLOC001: "string" can be localised` suggestions.
 - If an injected dependency can be null (e.g., not set up in `OsuGameBase`/`OsuGame` but created at runtime), specify `canBeNull: true` in `ResolvedAttribute`.
 - Prefer Realm's `Filter` method which is **less error-prone** than LINQ methods, especially regarding property access.
 - Wrap multiple database operations in a single Realm transaction for **efficiency**.

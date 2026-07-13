@@ -127,7 +127,7 @@ namespace osu.Game.Tests.Beatmaps
             var hitCircle = new HitCircle();
 
             AddStep("add object", () => editorBeatmap.Add(hitCircle));
-            AddAssert("event not received", () => changedObject == null);
+            AddAssert("event not received", () => changedObject is null);
 
             AddStep("change start time", () => hitCircle.StartTime = 1000);
             AddAssert("event received", () => changedObject == hitCircle);

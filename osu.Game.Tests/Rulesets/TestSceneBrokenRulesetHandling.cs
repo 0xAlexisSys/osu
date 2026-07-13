@@ -33,7 +33,7 @@ namespace osu.Game.Tests.Rulesets
         public void TestNullModsReturnedByRulesetAreIgnored()
         {
             AddStep("set ruleset with null mods", () => Ruleset.Value = new TestRulesetWithNullMods().RulesetInfo);
-            AddAssert("no null mods in available mods", () => gameBase.AvailableMods.Value.SelectMany(kvp => kvp.Value).All(mod => mod != null));
+            AddAssert("no null mods in available mods", () => gameBase.AvailableMods.Value.SelectMany(kvp => kvp.Value).All(mod => mod is not null));
         }
 
         [Test]

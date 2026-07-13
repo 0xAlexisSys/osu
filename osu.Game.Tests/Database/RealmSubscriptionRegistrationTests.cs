@@ -57,7 +57,7 @@ namespace osu.Game.Tests.Database
             {
                 lastChanges = changes;
 
-                if (changes == null)
+                if (changes is null)
                     return;
 
                 if (changes.HasCollectionChanges())
@@ -215,7 +215,7 @@ namespace osu.Game.Tests.Database
 
             void onChanged(IRealmCollection<BeatmapSetInfo> sender, ChangeSet? changes)
             {
-                if (changes == null)
+                if (changes is null)
                     resolvedItems = sender;
 
                 lastChanges = changes;

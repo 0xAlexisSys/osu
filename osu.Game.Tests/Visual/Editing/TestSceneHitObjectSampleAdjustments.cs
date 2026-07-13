@@ -1242,7 +1242,7 @@ namespace osu.Game.Tests.Visual.Editing
         private void samplePopoverIsOpen() => AddUntilStep("sample popover is open", () =>
         {
             var popover = this.ChildrenOfType<SamplePointPiece.SampleEditPopover>().SingleOrDefault(o => o.IsPresent);
-            return popover != null;
+            return popover is not null;
         });
 
         private void samplePopoverHasNoFocus() => AddUntilStep("sample popover textbox not focused", () =>
@@ -1267,7 +1267,7 @@ namespace osu.Game.Tests.Visual.Editing
             var popover = this.ChildrenOfType<SamplePointPiece.SampleEditPopover>().SingleOrDefault();
             var slider = popover?.ChildrenOfType<IndeterminateSliderWithTextBoxInput<int>>().Single();
 
-            return slider != null && slider.Current.Value == null;
+            return slider is not null && slider.Current.Value is null;
         });
 
         private void samplePopoverHasSingleBank(string bank) => AddUntilStep($"sample popover has bank {bank}", () =>

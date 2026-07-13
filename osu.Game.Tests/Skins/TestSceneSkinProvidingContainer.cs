@@ -48,14 +48,14 @@ namespace osu.Game.Tests.Skins
 
             AddAssert("texture provided by expected skin", () =>
             {
-                return provider.FindProvider(s => s.GetTexture(TestSkin.TEXTURE_NAME) != null) == mostPrioritisedSource;
+                return provider.FindProvider(s => s.GetTexture(TestSkin.TEXTURE_NAME) is not null) == mostPrioritisedSource;
             });
 
             AddStep("trigger source change", () => provider.TriggerSourceChanged());
 
             AddAssert("texture still provided by expected skin", () =>
             {
-                return provider.FindProvider(s => s.GetTexture(TestSkin.TEXTURE_NAME) != null) == mostPrioritisedSource;
+                return provider.FindProvider(s => s.GetTexture(TestSkin.TEXTURE_NAME) is not null) == mostPrioritisedSource;
             });
         }
 

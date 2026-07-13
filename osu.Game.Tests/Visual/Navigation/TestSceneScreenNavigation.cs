@@ -468,7 +468,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddAssert("old player score marked failed", () => player.Score.ScoreInfo.Rank, () => Is.EqualTo(ScoreRank.F));
             AddUntilStep("wait for old player gone", () => Game.ScreenStack.CurrentScreen != player);
 
-            AddUntilStep("get new player", () => (player = Game.ScreenStack.CurrentScreen as Player) != null);
+            AddUntilStep("get new player", () => (player = Game.ScreenStack.CurrentScreen as Player) is not null);
             AddAssert("retry count is 1", () => player.RestartCount == 1);
         }
 
@@ -549,13 +549,13 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddStep("press back button", () => Game.ChildrenOfType<BackButton>().First().Action!.Invoke());
 
-            AddUntilStep("wait for score displayed", () => (scorePanel = Game.ChildrenOfType<BeatmapLeaderboardScore>().FirstOrDefault(s => s.Score.Equals(score))) != null);
+            AddUntilStep("wait for score displayed", () => (scorePanel = Game.ChildrenOfType<BeatmapLeaderboardScore>().FirstOrDefault(s => s.Score.Equals(score))) is not null);
 
             AddStep("Clear all scores", () => Game.Dependencies.Get<ScoreManager>().Delete());
 
             AddUntilStep("ensure score is pending deletion", () => Game.Realm.Run(r => r.Find<ScoreInfo>(score.ID)?.DeletePending == true));
 
-            AddUntilStep("wait for score panel removal", () => scorePanel.Parent == null);
+            AddUntilStep("wait for score panel removal", () => scorePanel.Parent is null);
         }
 
         [Test]
@@ -573,7 +573,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddStep("press back button", () => Game.ChildrenOfType<BackButton>().First().Action!.Invoke());
 
-            AddUntilStep("wait for score displayed", () => (scorePanel = Game.ChildrenOfType<BeatmapLeaderboardScore>().FirstOrDefault(s => s.Score.Equals(score))) != null);
+            AddUntilStep("wait for score displayed", () => (scorePanel = Game.ChildrenOfType<BeatmapLeaderboardScore>().FirstOrDefault(s => s.Score.Equals(score))) is not null);
 
             AddStep("right click panel", () =>
             {
@@ -592,13 +592,13 @@ namespace osu.Game.Tests.Visual.Navigation
             });
 
             AddUntilStep("wait for dialog display", () => ((Drawable)Game.Dependencies.Get<IDialogOverlay>()).IsLoaded);
-            AddUntilStep("wait for dialog", () => Game.Dependencies.Get<IDialogOverlay>().CurrentDialog != null);
+            AddUntilStep("wait for dialog", () => Game.Dependencies.Get<IDialogOverlay>().CurrentDialog is not null);
             AddStep("confirm deletion", () => InputManager.Key(Key.Number1));
-            AddUntilStep("wait for dialog dismissed", () => Game.Dependencies.Get<IDialogOverlay>().CurrentDialog == null);
+            AddUntilStep("wait for dialog dismissed", () => Game.Dependencies.Get<IDialogOverlay>().CurrentDialog is null);
 
             AddUntilStep("ensure score is pending deletion", () => Game.Realm.Run(r => r.Find<ScoreInfo>(score.ID)?.DeletePending == true));
 
-            AddUntilStep("wait for score panel removal", () => scorePanel.Parent == null);
+            AddUntilStep("wait for score panel removal", () => scorePanel.Parent is null);
         }
 
         [Test]
@@ -784,7 +784,7 @@ namespace osu.Game.Tests.Visual.Navigation
             // since most overlays use a scroll container that absorbs on mouse down
             NowPlayingOverlay nowPlayingOverlay = null;
 
-            AddUntilStep("Wait for now playing load", () => (nowPlayingOverlay = Game.ChildrenOfType<NowPlayingOverlay>().FirstOrDefault()) != null);
+            AddUntilStep("Wait for now playing load", () => (nowPlayingOverlay = Game.ChildrenOfType<NowPlayingOverlay>().FirstOrDefault()) is not null);
 
             AddStep("enter menu", () => InputManager.Key(Key.Enter));
             AddUntilStep("toolbar displayed", () => Game.Toolbar.State.Value == Visibility.Visible);
@@ -853,7 +853,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for dialog overlay", () =>
             {
                 x = 0;
-                return Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() != null;
+                return Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() is not null;
             });
 
             AddRepeatStep("start ongoing operation", () =>
@@ -872,7 +872,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("Release escape", () => InputManager.ReleaseKey(Key.Escape));
 
             AddStep("cancel exit", () => InputManager.Key(Key.Escape));
-            AddAssert("dialog dismissed", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog == null);
+            AddAssert("dialog dismissed", () => Game.ChildrenOfType<DialogOverlay>().Single().CurrentDialog is null);
 
             AddStep("complete operation", () =>
             {
@@ -887,14 +887,14 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("Wait for intro", () => Game.ScreenStack.CurrentScreen is IntroScreen);
             AddStep("Release escape", () => InputManager.ReleaseKey(Key.Escape));
 
-            AddUntilStep("Wait for game exit", () => Game.ScreenStack.CurrentScreen == null);
+            AddUntilStep("Wait for game exit", () => Game.ScreenStack.CurrentScreen is null);
         }
 
         [Test]
         public void TestForceExitWithOperationInProgress()
         {
             AddStep("set hold delay to 0", () => Game.LocalConfig.SetValue(OsuSetting.UIHoldActivationDelay, 0.0));
-            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() != null);
+            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() is not null);
 
             AddRepeatStep("start ongoing operation", () =>
             {
@@ -921,14 +921,14 @@ namespace osu.Game.Tests.Visual.Navigation
             AddStep("Hold escape", () => InputManager.PressKey(Key.Escape));
             AddUntilStep("Wait for intro", () => Game.ScreenStack.CurrentScreen is IntroScreen);
             AddStep("Release escape", () => InputManager.ReleaseKey(Key.Escape));
-            AddUntilStep("Wait for game exit", () => Game.ScreenStack.CurrentScreen == null);
+            AddUntilStep("Wait for game exit", () => Game.ScreenStack.CurrentScreen is null);
             AddStep("test dispose doesn't crash", () => Game.Dispose());
         }
 
         [Test]
         public void TestExitWithHoldDisabled()
         {
-            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() != null);
+            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() is not null);
 
             AddStep("set hold delay to 0", () => Game.LocalConfig.SetValue(OsuSetting.UIHoldActivationDelay, 0.0));
 
@@ -957,7 +957,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             Player player = null;
 
-            AddUntilStep("wait for player", () => (player = Game.ScreenStack.CurrentScreen as Player) != null);
+            AddUntilStep("wait for player", () => (player = Game.ScreenStack.CurrentScreen as Player) is not null);
             AddUntilStep("wait for gameplay still has health bar", () => player.ChildrenOfType<ArgonHealthDisplay>().Any());
         }
 
@@ -987,7 +987,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             Screens.Select.SongSelect songSelect = null;
             AddRepeatStep("go to solo", () => InputManager.Key(Key.P), 3);
-            AddUntilStep("wait for song select", () => (songSelect = Game.ScreenStack.CurrentScreen as Screens.Select.SongSelect) != null);
+            AddUntilStep("wait for song select", () => (songSelect = Game.ScreenStack.CurrentScreen as Screens.Select.SongSelect) is not null);
             AddUntilStep("wait for beatmap sets loaded", () => songSelect.CarouselItemsPresented);
 
             AddStep("switch to osu! ruleset", () =>
@@ -1052,7 +1052,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for player", () =>
             {
                 DismissAnyNotifications();
-                return (player = Game.ScreenStack.CurrentScreen as Player) != null;
+                return (player = Game.ScreenStack.CurrentScreen as Player) is not null;
             });
 
             AddUntilStep("wait for track playing", () => Game.Beatmap.Value.Track.IsRunning);
@@ -1149,7 +1149,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for player", () =>
             {
                 DismissAnyNotifications();
-                return (player = Game.ScreenStack.CurrentScreen as Player) != null;
+                return (player = Game.ScreenStack.CurrentScreen as Player) is not null;
             });
 
             AddUntilStep("wait for track playing", () => beatmap().Track.IsRunning);

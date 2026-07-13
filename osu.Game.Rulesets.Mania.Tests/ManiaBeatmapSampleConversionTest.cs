@@ -76,11 +76,11 @@ namespace osu.Game.Rulesets.Mania.Tests
 
         private static bool nodeSamplesEqual(ICollection<IList<string>> firstSampleList, ICollection<IList<string>> secondSampleList)
         {
-            if (firstSampleList == null && secondSampleList == null)
+            if (firstSampleList is null && secondSampleList is null)
                 return true;
 
             // both items can't be null now, so if any single one is, then they're not equal
-            if (firstSampleList == null || secondSampleList == null)
+            if (firstSampleList is null || secondSampleList is null)
                 return false;
 
             return firstSampleList.Count == secondSampleList.Count

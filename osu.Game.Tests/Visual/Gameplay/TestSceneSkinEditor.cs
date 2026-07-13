@@ -157,7 +157,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             {
                 AddStep("Add big black box", () =>
                 {
-                    skinEditor.ChildrenOfType<SkinComponentToolbox.ToolboxComponentButton>().First(b => b.ChildrenOfType<BigBlackBox>().FirstOrDefault() != null).TriggerClick();
+                    skinEditor.ChildrenOfType<SkinComponentToolbox.ToolboxComponentButton>().First(b => b.ChildrenOfType<BigBlackBox>().FirstOrDefault() is not null).TriggerClick();
                 });
 
                 AddStep("store box", () =>
@@ -397,10 +397,10 @@ namespace osu.Game.Tests.Visual.Gameplay
         }
 
         private SkinnableContainer globalHUDTarget => Player.ChildrenOfType<SkinnableContainer>()
-                                                            .Single(c => c.Lookup.Lookup == GlobalSkinnableContainers.MainHUDComponents && c.Lookup.Ruleset == null);
+                                                            .Single(c => c.Lookup.Lookup == GlobalSkinnableContainers.MainHUDComponents && c.Lookup.Ruleset is null);
 
         private SkinnableContainer rulesetHUDTarget => Player.ChildrenOfType<SkinnableContainer>()
-                                                             .Single(c => c.Lookup.Lookup == GlobalSkinnableContainers.MainHUDComponents && c.Lookup.Ruleset != null);
+                                                             .Single(c => c.Lookup.Lookup == GlobalSkinnableContainers.MainHUDComponents && c.Lookup.Ruleset is not null);
 
         [Test]
         public void TestMigrationArgon()
@@ -492,7 +492,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             AddStep("Right-click to open context menu", () =>
             {
-                if (selectedComponent != null)
+                if (selectedComponent is not null)
                     InputManager.MoveMouseTo(((Drawable)selectedComponent).ScreenSpaceDrawQuad.Centre);
                 InputManager.Click(MouseButton.Right);
             });

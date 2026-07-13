@@ -89,7 +89,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             PausableSkinnableSound spinSample = null;
 
             AddStep("Add spinner", () => SetContents(_ => testSingle(5, true, 4000)));
-            AddUntilStep("wait for spin sample", () => (spinSample = getSpinningSample()) != null);
+            AddUntilStep("wait for spin sample", () => (spinSample = getSpinningSample()) is not null);
             AddUntilStep("Pitch starts low", () => spinSample.Frequency.Value < 0.8);
             AddUntilStep("Pitch increases", () => spinSample.Frequency.Value > 0.8);
 

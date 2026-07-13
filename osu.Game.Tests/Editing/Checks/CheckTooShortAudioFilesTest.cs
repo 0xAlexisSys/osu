@@ -47,7 +47,7 @@ namespace osu.Game.Tests.Editing.Checks
         [Test]
         public void TestDifferentExtension()
         {
-            Debug.Assert(beatmap.BeatmapInfo.BeatmapSet != null);
+            Debug.Assert(beatmap.BeatmapInfo.BeatmapSet is not null);
 
             beatmap.BeatmapInfo.BeatmapSet.Files.Clear();
             beatmap.BeatmapInfo.BeatmapSet.Files.Add(CheckTestHelpers.CreateMockFile("jpg"));

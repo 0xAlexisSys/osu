@@ -60,7 +60,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             AddStep("exit editor", () => Stack.Exit());
             // ensure editor loader didn't resume.
-            AddAssert("stack empty", () => Stack.CurrentScreen == null);
+            AddAssert("stack empty", () => Stack.CurrentScreen is null);
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             AddStep("exit editor", () => Stack.Exit());
             // ensure editor loader didn't resume.
-            AddAssert("stack empty", () => Stack.CurrentScreen == null);
+            AddAssert("stack empty", () => Stack.CurrentScreen is null);
 
             AddStep("Revert user audio offset", () => config.SetValue(OsuSetting.AudioOffset, 0.0));
         }
@@ -118,7 +118,7 @@ namespace osu.Game.Tests.Visual.Editing
             }
 
             // ensure editor loader didn't resume.
-            AddAssert("stack empty", () => Stack.CurrentScreen == null);
+            AddAssert("stack empty", () => Stack.CurrentScreen is null);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddUntilStep("prompt for save dialog shown", () =>
             {
                 saveDialog = this.ChildrenOfType<PromptForSaveDialog>().Single();
-                return saveDialog != null;
+                return saveDialog is not null;
             });
             AddStep("continue editing", () =>
             {
@@ -147,7 +147,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             AddRepeatStep("exit editor forcefully", () => Stack.Exit(), 2);
             // ensure editor loader didn't resume.
-            AddAssert("stack empty", () => Stack.CurrentScreen == null);
+            AddAssert("stack empty", () => Stack.CurrentScreen is null);
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddUntilStep("prompt for save dialog shown", () =>
             {
                 saveDialog = this.ChildrenOfType<PromptForSaveDialog>().Single();
-                return saveDialog != null;
+                return saveDialog is not null;
             });
             AddStep("discard changes", () =>
             {
@@ -176,7 +176,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             AddStep("exit editor forcefully", () => Stack.Exit());
             // ensure editor loader didn't resume.
-            AddAssert("stack empty", () => Stack.CurrentScreen == null);
+            AddAssert("stack empty", () => Stack.CurrentScreen is null);
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             AddStep("exit editor forcefully", () => Stack.Exit());
             // ensure editor loader didn't resume.
-            AddAssert("stack empty", () => Stack.CurrentScreen == null);
+            AddAssert("stack empty", () => Stack.CurrentScreen is null);
         }
 
         private void switchToDifficulty(Func<BeatmapInfo> difficulty) => AddStep("switch to difficulty", () => Editor.SwitchToDifficulty(difficulty.Invoke()));

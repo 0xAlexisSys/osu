@@ -153,7 +153,7 @@ namespace osu.Game.Rulesets.Osu.Tests
                 d.Apply(result, null);
             });
 
-            if (judgement != null)
+            if (judgement is not null)
                 container.Add(judgement);
         }
     }

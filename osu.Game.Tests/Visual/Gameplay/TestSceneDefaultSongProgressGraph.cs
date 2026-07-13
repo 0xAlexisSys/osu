@@ -23,7 +23,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             AddStep("add new big graph", () =>
             {
-                if (graph != null)
+                if (graph is not null)
                 {
                     graph.Expire();
                     graph = null;

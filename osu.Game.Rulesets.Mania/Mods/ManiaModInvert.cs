@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Localisation;
-using osu.Game.Audio;
 using osu.Game.Beatmaps;
 using osu.Game.Graphics;
 using osu.Game.Rulesets.Mania.Beatmaps;
@@ -62,7 +61,11 @@ namespace osu.Game.Rulesets.Mania.Mods
                         Column = column.Key,
                         StartTime = locations[i].startTime,
                         Duration = duration,
-                        NodeSamples = new List<IList<HitSampleInfo>> { locations[i].samples, Array.Empty<HitSampleInfo>() }
+                        NodeSamples =
+                        [
+                            locations[i].samples,
+                            [],
+                        ],
                         // intentionally don't play sliding samples here, it doesn't work in this mod.
                     });
                 }

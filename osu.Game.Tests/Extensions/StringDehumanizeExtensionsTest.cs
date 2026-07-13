@@ -76,7 +76,7 @@ namespace osu.Game.Tests.Extensions
         {
             var storedCulture = CultureInfo.CurrentCulture;
 
-            if (cultureName != null)
+            if (cultureName is not null)
                 CultureInfo.CurrentCulture = new CultureInfo(cultureName);
 
             return new InvokeOnDisposal(() => CultureInfo.CurrentCulture = storedCulture);

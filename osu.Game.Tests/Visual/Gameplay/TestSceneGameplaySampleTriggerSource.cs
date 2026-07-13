@@ -109,7 +109,8 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             base.SetUpSteps();
 
-            AddStep("Add trigger source", () => Player.DrawableRuleset.FrameStableComponents.Add(sampleTriggerSource = new TestGameplaySampleTriggerSource(Player.DrawableRuleset.Playfield.HitObjectContainer)));
+            AddStep("Add trigger source",
+                () => Player.DrawableRuleset.FrameStableComponents.Add(sampleTriggerSource = new TestGameplaySampleTriggerSource(Player.DrawableRuleset.Playfield.HitObjectContainer)));
         }
 
         [Test]
@@ -128,7 +129,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             {
                 var next = getNextAliveObject();
 
-                if (next != null)
+                if (next is not null)
                 {
                     Debug.Assert(next.Entry?.Result?.HasResult != true);
 
@@ -200,7 +201,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
         private void waitForAliveObjectIndex(int? index)
         {
-            if (index == null)
+            if (index is null)
                 AddUntilStep("wait for no alive objects", getNextAliveObject, () => Is.Null);
             else
                 AddUntilStep($"wait for next alive to be {index}", () => getNextAliveObject()?.HitObject, () => Is.EqualTo(beatmap.HitObjects[index.Value]));

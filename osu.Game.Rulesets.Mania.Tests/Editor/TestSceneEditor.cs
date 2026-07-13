@@ -56,7 +56,7 @@ namespace osu.Game.Rulesets.Mania.Tests.Editor
             AddUntilStep("composer reloaded", () =>
             {
                 var composer = this.ChildrenOfType<HitObjectComposer>().SingleOrDefault();
-                return composer != null && composer != oldComposer;
+                return composer is not null && composer != oldComposer;
             });
 
             AddStep("store composer", () => oldComposer = this.ChildrenOfType<HitObjectComposer>().Single());
@@ -65,7 +65,7 @@ namespace osu.Game.Rulesets.Mania.Tests.Editor
             AddUntilStep("composer reloaded", () =>
             {
                 var composer = this.ChildrenOfType<HitObjectComposer>().SingleOrDefault();
-                return composer != null && composer != oldComposer;
+                return composer is not null && composer != oldComposer;
             });
         }
     }

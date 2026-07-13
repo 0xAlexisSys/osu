@@ -34,7 +34,7 @@ namespace osu.Game.Tests.Editing
         {
             reset();
 
-            if (eventBuffer != null)
+            if (eventBuffer is not null)
             {
                 eventBuffer.HitObjectUsageBegan -= onHitObjectUsageBegan;
                 eventBuffer.HitObjectUsageFinished -= onHitObjectUsageFinished;

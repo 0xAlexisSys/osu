@@ -43,10 +43,10 @@ namespace osu.iOS
 
         public UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
         {
-            if (orientations != null)
+            if (orientations is not null)
                 return orientations.Value;
 
-            if (defaultOrientationsMask == null)
+            if (defaultOrientationsMask is null)
             {
                 defaultOrientationsMask = 0;
                 var defaultOrientations = (NSArray)NSBundle.MainBundle.ObjectForInfoDictionary("UISupportedInterfaceOrientations");

@@ -45,7 +45,7 @@ namespace osu.Game.Tests.Visual
         protected Bindable<RulesetInfo> Ruleset { get; } = new Bindable<RulesetInfo>();
 
         [Cached]
-        protected Bindable<IReadOnlyList<Mod>> SelectedMods { get; } = new Bindable<IReadOnlyList<Mod>>(Array.Empty<Mod>());
+        protected Bindable<IReadOnlyList<Mod>> SelectedMods { get; } = new Bindable<IReadOnlyList<Mod>>([]);
 
         protected new DependencyContainer Dependencies { get; private set; }
 

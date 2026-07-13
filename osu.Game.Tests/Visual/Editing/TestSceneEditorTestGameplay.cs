@@ -69,7 +69,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
             AddStep("exit player", () => editorPlayer.Exit());
             AddUntilStep("current screen is editor", () => Stack.CurrentScreen is Editor);
             AddUntilStep("background is correct", () => this.ChildrenOfType<BackgroundScreenStack>().Single().CurrentScreen is EditorBackgroundScreen);
@@ -91,7 +91,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
             AddAssert("editor track stopped", () => !EditorClock.IsRunning);
             AddAssert("sample playback disabled", () => Editor.SamplePlaybackDisabled.Value);
 
@@ -123,7 +123,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
             AddAssert("editor track stopped", () => !EditorClock.IsRunning);
             AddAssert("track playback rate is 1x", () => Beatmap.Value.Track.AggregateTempo.Value, () => Is.EqualTo(1));
 
@@ -196,7 +196,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddStep("save changes", () => DialogOverlay.CurrentDialog!.PerformOkAction());
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
             AddUntilStep("track playing", () => Beatmap.Value.Track.IsRunning);
             AddAssert("beatmap has 1 object", () => editorPlayer.Beatmap.Value.Beatmap.HitObjects.Count == 1);
 
@@ -217,7 +217,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
 
             GameplayClockContainer gameplayClockContainer = null;
             AddStep("fetch gameplay clock", () => gameplayClockContainer = editorPlayer.ChildrenOfType<GameplayClockContainer>().First());
@@ -245,7 +245,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
             AddUntilStep("no replay active", () => editorPlayer.ChildrenOfType<DrawableRuleset>().Single().ReplayScore, () => Is.Null);
             AddStep("press Tab", () => InputManager.Key(Key.Tab));
             AddUntilStep("replay active", () => editorPlayer.ChildrenOfType<DrawableRuleset>().Single().ReplayScore, () => Is.Not.Null);
@@ -267,7 +267,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
             AddUntilStep("clock running", () => editorPlayer.ChildrenOfType<GameplayClockContainer>().Single().IsPaused.Value, () => Is.False);
             AddStep("press Ctrl-P", () =>
             {
@@ -300,7 +300,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
 
             GameplayClockContainer gameplayClockContainer = null;
             AddStep("fetch gameplay clock", () => gameplayClockContainer = editorPlayer.ChildrenOfType<GameplayClockContainer>().First());
@@ -328,7 +328,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             EditorPlayer editorPlayer = null;
-            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) != null);
+            AddUntilStep("player pushed", () => (editorPlayer = Stack.CurrentScreen as EditorPlayer) is not null);
 
             GameplayClockContainer gameplayClockContainer = null;
             AddStep("fetch gameplay clock", () => gameplayClockContainer = editorPlayer.ChildrenOfType<GameplayClockContainer>().First());

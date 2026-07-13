@@ -49,7 +49,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                 var slider = this.ChildrenOfType<DrawableSlider>().SingleOrDefault();
                 var playfield = this.ChildrenOfType<OsuPlayfield>().Single();
 
-                if (slider == null)
+                if (slider is null)
                     return false;
 
                 return Precision.AlmostEquals(playfield.ToLocalSpace(slider.HeadCircle.ScreenSpaceDrawQuad.Centre), slider.HitObject.Position)

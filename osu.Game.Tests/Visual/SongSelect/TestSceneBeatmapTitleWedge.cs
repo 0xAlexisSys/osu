@@ -223,7 +223,7 @@ namespace osu.Game.Tests.Visual.SongSelect
             beatmap.ControlPointInfo.Add(100, new TimingControlPoint { BeatLength = 60 * 1000 / otherBpm });
             beatmap.ControlPointInfo.Add(200, new TimingControlPoint { BeatLength = 60 * 1000 / commonBpm });
 
-            if (mod != null)
+            if (mod is not null)
                 AddStep($"select {mod}", () => SelectedMods.Value = new[] { Ruleset.Value.CreateInstance().CreateModFromAcronym(mod) });
 
             selectBeatmap(beatmap);
@@ -249,7 +249,7 @@ namespace osu.Game.Tests.Visual.SongSelect
         {
             AddStep($"select {b?.Metadata.Title ?? "null"} beatmap", () =>
             {
-                Beatmap.Value = b == null ? Beatmap.Default : CreateWorkingBeatmap(b);
+                Beatmap.Value = b is null ? Beatmap.Default : CreateWorkingBeatmap(b);
             });
         }
 

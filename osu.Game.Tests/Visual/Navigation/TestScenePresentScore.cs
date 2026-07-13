@@ -201,7 +201,7 @@ namespace osu.Game.Tests.Visual.Navigation
                 })!.Value;
             });
 
-            AddAssert($"import {i} succeeded", () => imported != null);
+            AddAssert($"import {i} succeeded", () => imported is not null);
 
             return () => imported!;
         }

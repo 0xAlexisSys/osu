@@ -50,7 +50,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             var ruleset = CreateRuleset();
 
-            Debug.Assert(ruleset != null);
+            Debug.Assert(ruleset is not null);
 
             scoreProcessor = new ScoreProcessor(ruleset);
             Child = dependencyContainer = new DependencyProvidingContainer

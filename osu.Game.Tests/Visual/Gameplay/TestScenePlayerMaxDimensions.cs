@@ -99,7 +99,7 @@ namespace osu.Game.Tests.Visual.Gameplay
                     var textureUpload = textureStore?.Get(name);
 
                     // NRT not enabled on framework side classes (IResourceStore / TextureLoaderStore), welp.
-                    if (textureUpload == null)
+                    if (textureUpload is null)
                         return null!;
 
                     return upscale(textureUpload);
@@ -108,12 +108,12 @@ namespace osu.Game.Tests.Visual.Gameplay
                 public async Task<TextureUpload> GetAsync(string name, CancellationToken cancellationToken = new CancellationToken())
                 {
                     // NRT not enabled on framework side classes (IResourceStore / TextureLoaderStore), welp.
-                    if (textureStore == null)
+                    if (textureStore is null)
                         return null!;
 
                     var textureUpload = await textureStore.GetAsync(name, cancellationToken).ConfigureAwait(false);
 
-                    if (textureUpload == null)
+                    if (textureUpload is null)
                         return null!;
 
                     return await Task.Run(() => upscale(textureUpload), cancellationToken).ConfigureAwait(false);
@@ -132,7 +132,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
                 public Stream? GetStream(string name) => textureStore?.GetStream(name);
 
-                public IEnumerable<string> GetAvailableResources() => textureStore?.GetAvailableResources() ?? Array.Empty<string>();
+                public IEnumerable<string> GetAvailableResources() => textureStore?.GetAvailableResources() ?? [];
             }
         }
     }

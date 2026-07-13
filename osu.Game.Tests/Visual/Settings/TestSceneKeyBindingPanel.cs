@@ -152,7 +152,7 @@ namespace osu.Game.Tests.Visual.Settings
                     if (++buttonClicks == 2)
                     {
                         // ReSharper disable once AccessToModifiedClosure
-                        Debug.Assert(clickDelegate != null);
+                        Debug.Assert(clickDelegate is not null);
                         // ReSharper disable once AccessToModifiedClosure
                         clickDelegate.Cancel();
                     }

@@ -273,7 +273,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
             CheckHasSelection();
             AddAssert("group expanded", () => Carousel.ExpandedGroup, () => Is.Not.Null);
-            AddAssert("has expanded set", () => Carousel.ExpandedBeatmapSet != null);
+            AddAssert("has expanded set", () => Carousel.ExpandedBeatmapSet is not null);
 
             AddAssert("has visible beatmaps", () => Carousel.GetCarouselItems()!.Count(item => item.Model is GroupedBeatmap && item.IsVisible), () => Is.EqualTo(3));
             AddAssert("has visually expanded set", () => Carousel.GetCarouselItems()!.Count(item => item.Model is GroupedBeatmapSet && item.IsExpanded && item.IsVisible), () => Is.EqualTo(1));
@@ -282,7 +282,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
             CheckHasSelection();
             AddAssert("group not expanded", () => Carousel.ExpandedGroup, () => Is.Null);
-            AddAssert("has expanded set", () => Carousel.ExpandedBeatmapSet != null);
+            AddAssert("has expanded set", () => Carousel.ExpandedBeatmapSet is not null);
 
             AddAssert("has no visible beatmaps", () => Carousel.GetCarouselItems()!.Count(item => item.Model is GroupedBeatmap && item.IsVisible), () => Is.Zero);
             AddAssert("has no visually expanded set", () => Carousel.GetCarouselItems()!.Count(item => item.Model is GroupedBeatmapSet && item.IsExpanded && item.IsVisible), () => Is.Zero);
@@ -295,7 +295,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
             CheckHasSelection();
             AddAssert("group expanded", () => Carousel.ExpandedGroup, () => Is.Not.Null);
-            AddAssert("has expanded set", () => Carousel.ExpandedBeatmapSet != null);
+            AddAssert("has expanded set", () => Carousel.ExpandedBeatmapSet is not null);
 
             AddAssert("has visible beatmaps", () => Carousel.GetCarouselItems()!.Count(item => item.Model is GroupedBeatmap && item.IsVisible), () => Is.EqualTo(3));
             AddAssert("has visually expanded set", () => Carousel.GetCarouselItems()!.Count(item => item.Model is GroupedBeatmapSet && item.IsExpanded && item.IsVisible), () => Is.EqualTo(1));

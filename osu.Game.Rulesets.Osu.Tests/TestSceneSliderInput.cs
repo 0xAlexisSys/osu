@@ -139,7 +139,8 @@ namespace osu.Game.Rulesets.Osu.Tests
             performTest(new List<ReplayFrame>
             {
                 new OsuReplayFrame(0.0d, Vector2.Zero) { Position = Vector2.Zero, Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start },
-                new OsuReplayFrame(0.0d, Vector2.Zero) { Position = new Vector2(finalPosition, slider_path_length * 3), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 20 },
+                new OsuReplayFrame(0.0d, Vector2.Zero)
+                    { Position = new Vector2(finalPosition, slider_path_length * 3), Actions = { OsuAction.LeftButton, OsuAction.RightButton }, Time = time_slider_start + 20 },
             }, slider = new Slider
             {
                 StartTime = time_slider_start,
@@ -572,7 +573,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             {
                 var cpi = new ControlPointInfo();
 
-                if (bpm != null)
+                if (bpm is not null)
                     cpi.Add(0, new TimingControlPoint { BeatLength = 60000 / bpm.Value });
 
                 Beatmap.Value = CreateWorkingBeatmap(new Beatmap<OsuHitObject>

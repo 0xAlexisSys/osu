@@ -220,7 +220,7 @@ namespace osu.Game.Tests.Visual.SongSelect
                 InputManager.Click(MouseButton.Left);
             });
 
-            AddAssert("dialog not displayed", () => dialogOverlay.CurrentDialog == null);
+            AddAssert("dialog not displayed", () => dialogOverlay.CurrentDialog is null);
             assertCollectionCount(1);
             assertCollectionName(0, "2");
 

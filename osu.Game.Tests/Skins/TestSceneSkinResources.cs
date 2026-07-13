@@ -37,7 +37,7 @@ namespace osu.Game.Tests.Skins
             ISkin skin = null!;
 
             AddStep("import skin", () => skin = importSkinFromArchives(@"ogg-skin.osk"));
-            AddAssert("sample is non-null", () => skin.GetSample(new SampleInfo(@"sample")) != null);
+            AddAssert("sample is non-null", () => skin.GetSample(new SampleInfo(@"sample")) is not null);
         }
 
         [Test]
@@ -46,8 +46,8 @@ namespace osu.Game.Tests.Skins
             ISkin skin = null!;
 
             AddStep("import skin", () => skin = importSkinFromArchives(@"conflicting-filenames-skin.osk"));
-            AddAssert("texture is non-null", () => skin.GetTexture(@"spinner-osu") != null);
-            AddAssert("sample is non-null", () => skin.GetSample(new SampleInfo(@"spinner-osu")) != null);
+            AddAssert("texture is non-null", () => skin.GetTexture(@"spinner-osu") is not null);
+            AddAssert("sample is non-null", () => skin.GetSample(new SampleInfo(@"spinner-osu")) is not null);
         }
 
         [Test]

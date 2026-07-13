@@ -45,7 +45,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         }
 
         [SetUp]
-        public void SetUp() => storyboardMods = Array.Empty<Mod>();
+        public void SetUp() => storyboardMods = [];
 
         [Test]
         public void TestStoryboardSamplesStopDuringPause()
@@ -124,7 +124,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             CreateTest();
 
-            AddAssert("storyboard loaded", () => Player.Beatmap.Value.Storyboard != null);
+            AddAssert("storyboard loaded", () => Player.Beatmap.Value.Storyboard is not null);
             waitUntilStoryboardSamplesPlay();
         }
 

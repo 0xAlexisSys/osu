@@ -715,7 +715,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
                 var circle = drawableTouches[(int)e.Touch.Source];
 
-                Debug.Assert(circle != null);
+                Debug.Assert(circle is not null);
 
                 AddInternal(new FadingCircle(circle));
                 circle.Position = e.Touch.Position;
@@ -725,7 +725,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             {
                 var circle = drawableTouches[(int)e.Touch.Source];
 
-                Debug.Assert(circle != null);
+                Debug.Assert(circle is not null);
 
                 circle.FadeOut(200, Easing.OutQuint).Expire();
                 drawableTouches[(int)e.Touch.Source] = null;

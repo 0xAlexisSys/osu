@@ -41,7 +41,7 @@ namespace osu.iOS
         {
             base.ScreenChanged(current, newScreen);
 
-            if (newScreen != null)
+            if (newScreen is not null)
                 updateOrientation();
         }
 

@@ -63,7 +63,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for player", () =>
             {
                 DismissAnyNotifications();
-                return player != null;
+                return player is not null;
             });
 
             AddUntilStep("wait for gameplay", () => player?.IsBreakTime.Value == false);

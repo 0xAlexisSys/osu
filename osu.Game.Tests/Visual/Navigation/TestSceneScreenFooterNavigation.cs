@@ -244,7 +244,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             AddUntilStep("Wait for new screen", () => screen.IsLoaded
                                                       && target().CurrentSubScreen != previousScreen
-                                                      && (previousScreen == null || previousScreen.GetChildScreen() == screen));
+                                                      && (previousScreen is null || previousScreen.GetChildScreen() == screen));
         }
 
         private partial class TestScreen : OsuScreen

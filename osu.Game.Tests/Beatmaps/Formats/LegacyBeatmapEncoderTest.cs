@@ -274,10 +274,10 @@ namespace osu.Game.Tests.Beatmaps.Formats
         private static bool areComboColoursEqual(IHasComboColours a, IHasComboColours b)
         {
             // equal to null, no need to SequenceEqual
-            if (a.ComboColours == null && b.ComboColours == null)
+            if (a.ComboColours is null && b.ComboColours is null)
                 return true;
 
-            if (a.ComboColours == null || b.ComboColours == null)
+            if (a.ComboColours is null || b.ComboColours is null)
                 return false;
 
             return a.ComboColours.SequenceEqual(b.ComboColours);

@@ -54,7 +54,7 @@ namespace osu.Game.Rulesets.Difficulty
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A structure describing the difficulty of the beatmap.</returns>
         public DifficultyAttributes Calculate(CancellationToken cancellationToken = default)
-            => Calculate(Array.Empty<Mod>(), cancellationToken);
+            => Calculate([], cancellationToken);
 
         /// <summary>
         /// Calculates the difficulty of the beatmap using a specific mod combination.
@@ -96,7 +96,7 @@ namespace osu.Game.Rulesets.Difficulty
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The set of <see cref="TimedDifficultyAttributes"/>.</returns>
         public List<TimedDifficultyAttributes> CalculateTimed(CancellationToken cancellationToken = default)
-            => CalculateTimed(Array.Empty<Mod>(), cancellationToken);
+            => CalculateTimed([], cancellationToken);
 
         /// <summary>
         /// Calculates the difficulty of the beatmap using a specific mod combination and returns a set of <see cref="TimedDifficultyAttributes"/> representing the difficulty at every relevant time value in the beatmap.
@@ -199,7 +199,7 @@ namespace osu.Game.Rulesets.Difficulty
         /// </summary>
         public Mod[] CreateDifficultyAdjustmentModCombinations()
         {
-            return createDifficultyAdjustmentModCombinations(DifficultyAdjustmentMods, Array.Empty<Mod>()).ToArray();
+            return createDifficultyAdjustmentModCombinations(DifficultyAdjustmentMods, []).ToArray();
 
             static IEnumerable<Mod> createDifficultyAdjustmentModCombinations(ReadOnlyMemory<Mod> remainingMods, IEnumerable<Mod> currentSet, int currentSetCount = 0)
             {

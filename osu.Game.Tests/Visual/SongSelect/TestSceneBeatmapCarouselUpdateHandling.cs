@@ -88,7 +88,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
             Panel panel = null!;
 
-            AddStep("find panel", () => panel = Carousel.ChildrenOfType<Panel>().First(p => p.Item != null && p.ChildrenOfType<OsuSpriteText>().Any(t => t.Text.ToString() == "beatmap")));
+            AddStep("find panel", () => panel = Carousel.ChildrenOfType<Panel>().First(p => p.Item is not null && p.ChildrenOfType<OsuSpriteText>().Any(t => t.Text.ToString() == "beatmap")));
 
             AddStep("select panel", () => panel.TriggerClick());
 

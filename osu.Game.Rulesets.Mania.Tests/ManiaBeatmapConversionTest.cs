@@ -113,7 +113,7 @@ namespace osu.Game.Rulesets.Mania.Tests
             Objects.Sort();
         }
 
-        public bool Equals(ManiaConvertMapping other) => other != null && RandomW == other.RandomW && RandomX == other.RandomX && RandomY == other.RandomY && RandomZ == other.RandomZ;
+        public bool Equals(ManiaConvertMapping other) => other is not null && RandomW == other.RandomW && RandomX == other.RandomX && RandomY == other.RandomY && RandomZ == other.RandomZ;
         public override bool Equals(ConvertMapping<ConvertValue> other) => base.Equals(other) && Equals(other as ManiaConvertMapping);
     }
 

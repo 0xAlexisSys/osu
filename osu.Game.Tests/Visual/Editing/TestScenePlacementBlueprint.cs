@@ -82,7 +82,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddAssert("circle at new coordinates", () =>
             {
                 var circle = (HitCircle)EditorBeatmap.HitObjects.Single();
-                return circle != null
+                return circle is not null
                        && Precision.AlmostEquals(circle.Position.X, replacementPosition.X)
                        && Precision.AlmostEquals(circle.Position.Y, replacementPosition.Y);
             });

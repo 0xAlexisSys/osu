@@ -88,7 +88,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Editor
             addContextMenuItemStep("Perfect curve");
 
             assertControlPointPathType(0, PathType.BEZIER);
-            AddAssert("point 3 is not inherited", () => slider.Path.ControlPoints[3].Type != null);
+            AddAssert("point 3 is not inherited", () => slider.Path.ControlPoints[3].Type is not null);
         }
 
         [Test]

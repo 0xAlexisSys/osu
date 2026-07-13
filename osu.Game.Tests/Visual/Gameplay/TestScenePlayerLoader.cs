@@ -153,8 +153,8 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddUntilStep("wait for current", () => loader.IsCurrentScreen());
             AddStep("exit loader", () => loader.Exit());
             AddUntilStep("wait for not current", () => !loader.IsCurrentScreen());
-            AddAssert("player did not load", () => player == null);
-            AddUntilStep("player disposed", () => loader.DisposalTask == null);
+            AddAssert("player did not load", () => player is null);
+            AddUntilStep("player disposed", () => loader.DisposalTask is null);
             AddAssert("mod rate still applied", () => Beatmap.Value.Track.Rate != 1);
         }
 
@@ -169,7 +169,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("load dummy beatmap", () => resetPlayer(false, () => SelectedMods.Value = new[] { new OsuModNightcore() }));
             AddUntilStep("wait for current", () => loader.IsCurrentScreen());
             AddAssert("mod rate applied", () => Beatmap.Value.Track.Rate != 1);
-            AddUntilStep("wait for non-null player", () => player != null);
+            AddUntilStep("wait for non-null player", () => player is not null);
             AddStep("exit loader", () => loader.Exit());
             AddUntilStep("wait for not current", () => !loader.IsCurrentScreen());
             AddAssert("player did not load", () => !player.IsLoaded);
@@ -524,13 +524,13 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("Restart map normally", () => getCurrentPlayer().Restart());
             AddUntilStep("wait for load", () => getCurrentPlayer()?.LoadedBeatmapSuccessfully == true);
 
-            AddUntilStep("restart completed", () => getCurrentPlayer() != null && getCurrentPlayer() != previousPlayer);
+            AddUntilStep("restart completed", () => getCurrentPlayer() is not null && getCurrentPlayer() != previousPlayer);
             AddStep("store previous player", () => previousPlayer = getCurrentPlayer());
 
             AddUntilStep("skip button visible", checkSkipButtonVisible);
 
             AddStep("press quick retry key", () => InputManager.PressKey(Key.Tilde));
-            AddUntilStep("restart completed", () => getCurrentPlayer() != null && getCurrentPlayer() != previousPlayer);
+            AddUntilStep("restart completed", () => getCurrentPlayer() is not null && getCurrentPlayer() != previousPlayer);
             AddStep("release quick retry key", () => InputManager.ReleaseKey(Key.Tilde));
 
             AddUntilStep("wait for player", () => getCurrentPlayer()?.LoadState >= LoadState.Ready);
@@ -543,7 +543,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             Notification notification = null;
 
-            AddUntilStep("wait for notification", () => (notification = notificationOverlay.ChildrenOfType<Notification>().FirstOrDefault()) != null);
+            AddUntilStep("wait for notification", () => (notification = notificationOverlay.ChildrenOfType<Notification>().FirstOrDefault()) is not null);
             AddStep("open notification overlay", () => notificationOverlay.Show());
             AddStep("click notification", () => notification.TriggerClick());
         }

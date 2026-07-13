@@ -27,7 +27,7 @@ namespace osu.Game.Tests.Beatmaps.IO
 
             var importedSet = await manager.Import(new ImportTask(temp)).ConfigureAwait(false);
 
-            Debug.Assert(importedSet != null);
+            Debug.Assert(importedSet is not null);
 
             ensureLoaded(osu);
 
@@ -44,7 +44,7 @@ namespace osu.Game.Tests.Beatmaps.IO
 
             var importedSet = await manager.Import(new ImportTask(temp)).ConfigureAwait(false);
 
-            Debug.Assert(importedSet != null);
+            Debug.Assert(importedSet is not null);
 
             ensureLoaded(osu);
 

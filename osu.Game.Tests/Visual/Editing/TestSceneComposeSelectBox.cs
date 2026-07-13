@@ -79,7 +79,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             public override void Begin()
             {
-                if (targetContainer != null)
+                if (targetContainer is not null)
                     throw new InvalidOperationException($"Cannot {nameof(Begin)} a rotate operation while another is in progress!");
 
                 targetContainer = getTargetContainer();
@@ -91,7 +91,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             public override void Update(float rotation, Vector2? origin = null)
             {
-                if (targetContainer == null)
+                if (targetContainer is null)
                     throw new InvalidOperationException($"Cannot {nameof(Update)} a rotate operation without calling {nameof(Begin)} first!");
 
                 // kinda silly and wrong, but just showing that the drag handles work.
@@ -100,7 +100,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             public override void Commit()
             {
-                if (targetContainer == null)
+                if (targetContainer is null)
                     throw new InvalidOperationException($"Cannot {nameof(Commit)} a rotate operation without calling {nameof(Begin)} first!");
 
                 targetContainer = null;
@@ -128,7 +128,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             public override void Begin()
             {
-                if (targetContainer != null)
+                if (targetContainer is not null)
                     throw new InvalidOperationException($"Cannot {nameof(Begin)} a scale operation while another is in progress!");
 
                 targetContainer = getTargetContainer();
@@ -137,7 +137,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             public override void Update(Vector2 scale, Vector2? origin = null, Axes adjustAxis = Axes.Both, float axisRotation = 0)
             {
-                if (targetContainer == null)
+                if (targetContainer is null)
                     throw new InvalidOperationException($"Cannot {nameof(Update)} a scale operation without calling {nameof(Begin)} first!");
 
                 Vector2 actualOrigin = origin ?? Vector2.Zero;
@@ -148,7 +148,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             public override void Commit()
             {
-                if (targetContainer == null)
+                if (targetContainer is null)
                     throw new InvalidOperationException($"Cannot {nameof(Commit)} a scale operation without calling {nameof(Begin)} first!");
 
                 targetContainer = null;

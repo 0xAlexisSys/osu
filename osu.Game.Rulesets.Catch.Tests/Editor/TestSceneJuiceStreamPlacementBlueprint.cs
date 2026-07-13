@@ -40,7 +40,7 @@ namespace osu.Game.Rulesets.Catch.Tests.Editor
             float[] positions = { 100, 200 };
             addPlacementSteps(times, positions);
 
-            AddAssert("juice stream is placed", () => lastObject != null);
+            AddAssert("juice stream is placed", () => lastObject is not null);
             AddAssert("start time is correct", () => Precision.AlmostEquals(lastObject.StartTime, times[0]));
             AddAssert("end time is correct", () => Precision.AlmostEquals(lastObject.EndTime, times[1]));
             AddAssert("start position is correct", () => Precision.AlmostEquals(lastObject.OriginalX, positions[0]));
@@ -54,7 +54,7 @@ namespace osu.Game.Rulesets.Catch.Tests.Editor
             addMoveAndClickSteps(100, 100);
             addMoveAndClickSteps(100, 100);
             addMoveAndClickSteps(100, 100, true);
-            AddAssert("juice stream not placed", () => lastObject == null);
+            AddAssert("juice stream not placed", () => lastObject is null);
         }
 
         [Test]

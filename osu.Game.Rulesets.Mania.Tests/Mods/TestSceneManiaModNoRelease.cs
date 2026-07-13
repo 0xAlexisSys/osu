@@ -574,7 +574,7 @@ namespace osu.Game.Rulesets.Mania.Tests.Mods
 
         private void performTest(List<ReplayFrame> frames, Beatmap<ManiaHitObject>? beatmap = null)
         {
-            if (beatmap == null)
+            if (beatmap is null)
             {
                 beatmap = new Beatmap<ManiaHitObject>
                 {

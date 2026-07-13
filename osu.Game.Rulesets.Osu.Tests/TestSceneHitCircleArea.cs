@@ -85,7 +85,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             });
             scheduleHit();
 
-            AddAssert($"hit {(expectedAction == null ? "not " : string.Empty)}registered", () => hitAreaReceptor.HitAction == expectedAction);
+            AddAssert($"hit {(expectedAction is null ? "not " : string.Empty)}registered", () => hitAreaReceptor.HitAction == expectedAction);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             AddStep("move mouse to top left corner of bounding box", () => InputManager.MoveMouseTo(hitAreaReceptor.ScreenSpaceDrawQuad.TopLeft));
             scheduleHit();
 
-            AddAssert("hit not registered", () => hitAreaReceptor.HitAction == null);
+            AddAssert("hit not registered", () => hitAreaReceptor.HitAction is null);
         }
 
         private void scheduleHit() => AddStep("schedule action", () =>

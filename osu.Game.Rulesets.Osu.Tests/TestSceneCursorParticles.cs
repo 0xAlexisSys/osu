@@ -64,7 +64,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             AddUntilStep("fetch cursor particles", () =>
             {
                 cursorParticles = this.ChildrenOfType<LegacyCursorParticles>().SingleOrDefault();
-                return cursorParticles != null;
+                return cursorParticles is not null;
             });
 
             AddStep("move mouse to centre", () => InputManager.MoveMouseTo(Player.ScreenSpaceDrawQuad.Centre));
@@ -137,7 +137,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             AddUntilStep("fetch cursor particles", () =>
             {
                 cursorParticles = this.ChildrenOfType<LegacyCursorParticles>().SingleOrDefault();
-                return cursorParticles != null;
+                return cursorParticles is not null;
             });
 
             AddUntilStep("wait for spinner tracking", () =>

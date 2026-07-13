@@ -120,7 +120,7 @@ namespace osu.Game.Tests.Visual.Navigation
             {
                 foreach (var type in requiredGameDependencies)
                 {
-                    if (Game.Dependencies.Get(type) == null)
+                    if (Game.Dependencies.Get(type) is null)
                         throw new InvalidOperationException($"{type} has not been cached");
                 }
 
@@ -131,7 +131,7 @@ namespace osu.Game.Tests.Visual.Navigation
             {
                 foreach (var type in requiredGameBaseDependencies)
                 {
-                    if (gameBase.Dependencies.Get(type) == null)
+                    if (gameBase.Dependencies.Get(type) is null)
                         throw new InvalidOperationException($"{type} has not been cached");
                 }
 

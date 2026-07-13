@@ -38,7 +38,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             base.Update();
 
-            if (path != null)
+            if (path is not null)
                 drawablePath.Vertices = path.CalculatedPath;
         }
 

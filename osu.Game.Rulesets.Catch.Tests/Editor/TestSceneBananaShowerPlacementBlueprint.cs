@@ -70,7 +70,7 @@ namespace osu.Game.Rulesets.Catch.Tests.Editor
             AddMoveStep(100, 0);
             AddClickStep(MouseButton.Left);
             AddClickStep(MouseButton.Right);
-            AddAssert("banana shower is not placed", () => LastObject == null);
+            AddAssert("banana shower is not placed", () => LastObject is null);
             AddAssert("state is waiting", () => CurrentBlueprint?.PlacementActive == PlacementBlueprint.PlacementState.Waiting);
         }
 

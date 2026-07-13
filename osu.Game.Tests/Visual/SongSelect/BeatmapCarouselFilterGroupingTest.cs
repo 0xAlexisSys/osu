@@ -357,7 +357,7 @@ namespace osu.Game.Tests.Visual.SongSelect
         {
             var groupItem = items.Where(i => i.Model is GroupDefinition).ElementAtOrDefault(index);
 
-            if (groupItem == null)
+            if (groupItem is null)
             {
                 Assert.Fail($"Expected group at index {index}, but that is out of bounds");
                 return;

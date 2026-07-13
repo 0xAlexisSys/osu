@@ -66,7 +66,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                                             })
             };
 
-            if (colourScheme != null)
+            if (colourScheme is not null)
             {
                 return new DependencyProvidingContainer
                 {

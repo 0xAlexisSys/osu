@@ -145,7 +145,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             {
                 if (blockCalculation)
                 {
-                    Debug.Assert(calculationBlocker != null);
+                    Debug.Assert(calculationBlocker is not null);
                     await calculationBlocker.Task.ConfigureAwait(false);
                 }
 

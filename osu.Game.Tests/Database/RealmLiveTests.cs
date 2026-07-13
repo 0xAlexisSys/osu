@@ -183,7 +183,7 @@ namespace osu.Game.Tests.Database
                     });
                 }, TaskCreationOptions.LongRunning | TaskCreationOptions.HideScheduler).WaitSafely();
 
-                Debug.Assert(liveBeatmap != null);
+                Debug.Assert(liveBeatmap is not null);
 
                 Task.Factory.StartNew(() =>
                 {
@@ -212,7 +212,7 @@ namespace osu.Game.Tests.Database
                     });
                 }, TaskCreationOptions.LongRunning | TaskCreationOptions.HideScheduler).WaitSafely();
 
-                Debug.Assert(liveBeatmap != null);
+                Debug.Assert(liveBeatmap is not null);
 
                 Task.Factory.StartNew(() =>
                 {
@@ -254,7 +254,7 @@ namespace osu.Game.Tests.Database
                     });
                 }, TaskCreationOptions.LongRunning | TaskCreationOptions.HideScheduler).WaitSafely();
 
-                Debug.Assert(liveBeatmap != null);
+                Debug.Assert(liveBeatmap is not null);
 
                 Task.Factory.StartNew(() =>
                 {
@@ -292,7 +292,7 @@ namespace osu.Game.Tests.Database
                     });
                 }, TaskCreationOptions.LongRunning | TaskCreationOptions.HideScheduler).WaitSafely();
 
-                Debug.Assert(liveBeatmap != null);
+                Debug.Assert(liveBeatmap is not null);
 
                 Task.Factory.StartNew(() =>
                 {
@@ -331,7 +331,7 @@ namespace osu.Game.Tests.Database
                         });
                     }, TaskCreationOptions.LongRunning | TaskCreationOptions.HideScheduler).WaitSafely();
 
-                    Debug.Assert(liveBeatmap != null);
+                    Debug.Assert(liveBeatmap is not null);
 
                     // not yet seen by main context
                     ClassicAssert.AreEqual(0, outerRealm.All<BeatmapInfo>().Count());

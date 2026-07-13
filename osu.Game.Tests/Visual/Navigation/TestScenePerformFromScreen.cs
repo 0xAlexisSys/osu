@@ -140,7 +140,7 @@ namespace osu.Game.Tests.Visual.Navigation
             if (confirmed)
             {
                 AddStep("accept dialog", () => InputManager.Key(Key.Number1));
-                AddUntilStep("wait for dialog dismissed", () => Game.Dependencies.Get<IDialogOverlay>().CurrentDialog == null);
+                AddUntilStep("wait for dialog dismissed", () => Game.Dependencies.Get<IDialogOverlay>().CurrentDialog is null);
                 AddUntilStep("did perform", () => actionPerformed);
             }
             else
@@ -279,7 +279,7 @@ namespace osu.Game.Tests.Visual.Navigation
 
             public override bool OnExiting(ScreenExitEvent e)
             {
-                if (SubScreenStack.CurrentScreen != null)
+                if (SubScreenStack.CurrentScreen is not null)
                 {
                     SubScreenStack.CurrentScreen.Exit();
                     return true;

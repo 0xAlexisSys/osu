@@ -102,7 +102,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             addRedoSteps();
             AddAssert("hitobject added", () => addedObject.StartTime == expectedObject.StartTime); // Can't compare via equality (new hitobject instance)
-            AddAssert("no hitobject removed", () => removedObject == null);
+            AddAssert("no hitobject removed", () => removedObject is null);
             AddAssert("unsaved changes", () => Editor.HasUnsavedChanges);
         }
 
@@ -139,7 +139,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             addUndoSteps();
             AddAssert("hitobject added", () => addedObject.StartTime == expectedObject.StartTime); // Can't compare via equality (new hitobject instance)
-            AddAssert("no hitobject removed", () => removedObject == null);
+            AddAssert("no hitobject removed", () => removedObject is null);
             AddAssert("unsaved changes", () => Editor.HasUnsavedChanges); // 2 steps performed, 1 undone
         }
 
@@ -168,7 +168,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             addRedoSteps();
             AddAssert("hitobject removed", () => removedObject.StartTime == expectedObject.StartTime); // Can't compare via equality (new hitobject instance after undo)
-            AddAssert("no hitobject added", () => addedObject == null);
+            AddAssert("no hitobject added", () => addedObject is null);
             AddAssert("no changes", () => !Editor.HasUnsavedChanges); // end result is empty beatmap, matching original state
         }
 

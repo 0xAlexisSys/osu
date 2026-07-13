@@ -109,7 +109,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
         private void loadStoryboard(Storyboard toLoad)
         {
-            if (storyboard != null)
+            if (storyboard is not null)
                 storyboardContainer.Remove(storyboard, true);
 
             storyboardContainer.Clock = new FramedClock(Beatmap.Value.Track);

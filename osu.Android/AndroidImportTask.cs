@@ -35,7 +35,7 @@ namespace osu.Android
 
             var cursor = contentResolver.Query(uri, null, null, null, null);
 
-            if (cursor == null)
+            if (cursor is null)
                 return null;
 
             if (!cursor.MoveToFirst())
@@ -51,7 +51,7 @@ namespace osu.Android
 
             using (var stream = contentResolver.OpenInputStream(uri))
             {
-                if (stream == null)
+                if (stream is null)
                     return null;
 
                 await stream.CopyToAsync(copy).ConfigureAwait(false);

@@ -87,13 +87,13 @@ namespace osu.Android
             // reference: https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)
             handleIntent(Intent);
 
-            Debug.Assert(Window != null);
+            Debug.Assert(Window is not null);
 
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.AddFlags(WindowManagerFlags.KeepScreenOn);
 
-            Debug.Assert(WindowManager?.DefaultDisplay != null);
-            Debug.Assert(Resources?.DisplayMetrics != null);
+            Debug.Assert(WindowManager?.DefaultDisplay is not null);
+            Debug.Assert(Resources?.DisplayMetrics is not null);
 
             Point displaySize = new Point();
 #pragma warning disable CA1422 // GetSize is deprecated
@@ -119,7 +119,7 @@ namespace osu.Android
 
         private void handleIntent(Intent? intent)
         {
-            if (intent == null)
+            if (intent is null)
                 return;
 
             switch (intent.Action)
@@ -127,7 +127,7 @@ namespace osu.Android
                 case Intent.ActionDefault:
                     if (intent.Scheme == ContentResolver.SchemeContent)
                     {
-                        if (intent.Data != null)
+                        if (intent.Data is not null)
                             handleImportFromUris(intent.Data);
                     }
 
@@ -136,7 +136,7 @@ namespace osu.Android
                 case Intent.ActionSend:
                 case Intent.ActionSendMultiple:
                 {
-                    if (intent.ClipData == null)
+                    if (intent.ClipData is null)
                         break;
 
                     var uris = new List<Uri>();
@@ -144,7 +144,7 @@ namespace osu.Android
                     for (int i = 0; i < intent.ClipData.ItemCount; i++)
                     {
                         var item = intent.ClipData.GetItemAt(i);
-                        if (item?.Uri != null)
+                        if (item?.Uri is not null)
                             uris.Add(item.Uri);
                     }
 
@@ -162,7 +162,7 @@ namespace osu.Android
             {
                 var task = await AndroidImportTask.Create(ContentResolver!, uri).ConfigureAwait(false);
 
-                if (task != null)
+                if (task is not null)
                 {
                     lock (tasks)
                     {

@@ -39,12 +39,12 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                 PassCondition = () =>
                 {
                     // Bind to the first spinner's results for further tracking.
-                    if (spinner == null)
+                    if (spinner is null)
                     {
                         // We only care about the first spinner we encounter for this test.
                         var nextSpinner = Player.ChildrenOfType<DrawableSpinner>().SingleOrDefault();
 
-                        if (nextSpinner == null)
+                        if (nextSpinner is null)
                             return false;
 
                         lastResult = null;
@@ -64,7 +64,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
         public void TestSpinRateUnaffectedByMods(Type? additionalModType)
         {
             var mods = new List<Mod> { new OsuModSpunOut() };
-            if (additionalModType != null)
+            if (additionalModType is not null)
                 mods.Add((Mod)Activator.CreateInstance(additionalModType)!);
 
             CreateModTest(new ModTestData
@@ -77,7 +77,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                     var counter = Player.ChildrenOfType<SpinnerSpmCalculator>().SingleOrDefault();
                     var spinner = Player.ChildrenOfType<DrawableSpinner>().FirstOrDefault();
 
-                    if (counter == null || spinner == null)
+                    if (counter is null || spinner is null)
                         return false;
 
                     // ignore cases where the spinner hasn't started as these lead to false-positives
@@ -105,12 +105,12 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                 PassCondition = () =>
                 {
                     // Bind to the first spinner's results for further tracking.
-                    if (spinner == null)
+                    if (spinner is null)
                     {
                         // We only care about the first spinner we encounter for this test.
                         var nextSpinner = Player.ChildrenOfType<DrawableSpinner>().SingleOrDefault();
 
-                        if (nextSpinner == null)
+                        if (nextSpinner is null)
                             return false;
 
                         spinner = nextSpinner;
@@ -120,7 +120,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                     }
 
                     // we should only be checking the bonus/progress after the spinner has fully completed.
-                    if (results.OfType<OsuSpinnerJudgementResult>().All(r => r.TimeCompleted == null))
+                    if (results.OfType<OsuSpinnerJudgementResult>().All(r => r.TimeCompleted is null))
                         return false;
 
                     return

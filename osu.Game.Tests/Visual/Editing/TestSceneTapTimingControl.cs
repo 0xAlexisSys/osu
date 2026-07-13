@@ -76,7 +76,7 @@ namespace osu.Game.Tests.Visual.Editing
         {
             base.Update();
 
-            if (selectedGroup.Value != null)
+            if (selectedGroup.Value is not null)
                 timingInfo.Text = $"offset: {selectedGroup.Value.Time:N2} bpm: {selectedGroup.Value.ControlPoints.OfType<TimingControlPoint>().First().BPM:N2}";
         }
 
@@ -97,7 +97,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             AddSliderStep("BPM", 30, 400, 128, bpm =>
             {
-                if (editorBeatmap == null)
+                if (editorBeatmap is null)
                     return;
 
                 editorBeatmap.ControlPointInfo.TimingPoints.First().BeatLength = 60000f / bpm;

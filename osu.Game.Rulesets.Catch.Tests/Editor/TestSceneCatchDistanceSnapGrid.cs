@@ -70,11 +70,11 @@ namespace osu.Game.Rulesets.Catch.Tests.Editor
 
             var result = distanceGrid.GetSnappedPosition(screenSpacePosition);
 
-            if (result != null)
+            if (result is not null)
             {
                 fruit.OriginalX = hitObjectContainer.ToLocalSpace(result.ScreenSpacePosition).X;
 
-                if (result.Time != null)
+                if (result.Time is not null)
                     fruit.StartTime = result.Time.Value;
             }
 

@@ -50,7 +50,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathMissingOneBeatmap));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -61,7 +61,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathOriginal), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -98,7 +98,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathMissingOneBeatmap));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -109,7 +109,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathOriginal), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -147,7 +147,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -158,7 +158,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathModified), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -192,7 +192,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 Assert.That(importBeforeUpdate.Value.Beatmaps, Has.Count.EqualTo(count_beatmaps));
 
@@ -200,7 +200,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathMissingOneBeatmap), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -234,7 +234,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathEmpty), importBeforeUpdate.Value);
                 Assert.That(importAfterUpdate, Is.Null);
@@ -267,14 +267,14 @@ namespace osu.Game.Tests.Database
                 var dateBefore = importBeforeUpdate.Value.DateAdded;
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathOriginalSecond), importBeforeUpdate.Value);
 
                 realm.Run(r => r.Refresh());
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 checkCount<BeatmapSetInfo>(realm, 1);
                 checkCount<BeatmapInfo>(realm, count_beatmaps);
@@ -302,14 +302,14 @@ namespace osu.Game.Tests.Database
                 var dateBefore = importBeforeUpdate!.Value.DateAdded;
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathOriginalSecond), importBeforeUpdate.Value);
 
                 realm.Run(r => r.Refresh());
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 checkCount<BeatmapSetInfo>(realm, 1);
                 checkCount<BeatmapInfo>(realm, count_beatmaps);
@@ -343,7 +343,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 string scoreTargetBeatmapHash = string.Empty;
 
@@ -363,7 +363,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathMissingOneBeatmap), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -391,7 +391,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 string scoreTargetBeatmapHash = string.Empty;
 
@@ -425,7 +425,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathOnlineCopy), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -456,7 +456,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 string? scoreTargetFilename = string.Empty;
 
@@ -484,7 +484,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathModified), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 realm.Run(r => r.Refresh());
 
@@ -518,12 +518,12 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathMissingOneBeatmap), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 Assert.That(importBeforeUpdate.ID, Is.Not.EqualTo(importAfterUpdate.ID));
                 Assert.That(importBeforeUpdate.Value.DateAdded, Is.EqualTo(importAfterUpdate.Value.DateAdded).Within(TimeSpan.FromSeconds(1)));
@@ -552,7 +552,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathMissingOneBeatmap));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 int beatmapsToAddToCollection = 0;
 
@@ -569,7 +569,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathOriginal), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 importAfterUpdate.PerformRead(updated =>
                 {
@@ -617,7 +617,7 @@ namespace osu.Game.Tests.Database
                 var importBeforeUpdate = await importer.Import(new ImportTask(pathOriginal));
 
                 Assert.That(importBeforeUpdate, Is.Not.Null);
-                Debug.Assert(importBeforeUpdate != null);
+                Debug.Assert(importBeforeUpdate is not null);
 
                 string originalHash = string.Empty;
 
@@ -633,7 +633,7 @@ namespace osu.Game.Tests.Database
                 var importAfterUpdate = await importer.ImportAsUpdate(new ProgressNotification(), new ImportTask(pathModified), importBeforeUpdate.Value);
 
                 Assert.That(importAfterUpdate, Is.Not.Null);
-                Debug.Assert(importAfterUpdate != null);
+                Debug.Assert(importAfterUpdate is not null);
 
                 importAfterUpdate.PerformRead(updated =>
                 {
@@ -654,7 +654,7 @@ namespace osu.Game.Tests.Database
         {
             var query = realm.Realm.All<T>();
 
-            if (condition != null)
+            if (condition is not null)
                 query = query.Where(condition);
 
             Assert.That(query, Has.Count.EqualTo(expected));

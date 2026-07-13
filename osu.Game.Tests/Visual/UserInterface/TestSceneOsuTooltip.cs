@@ -72,10 +72,10 @@ namespace osu.Game.Tests.Visual.UserInterface
             AddUntilStep("Wait for the tooltip shown", () =>
             {
                 tooltip = container.FindClosestParent<OsuTooltipContainer>().ChildrenOfType<OsuTooltipContainer.OsuTooltip>().FirstOrDefault();
-                return tooltip != null && tooltip.Alpha == 1;
+                return tooltip is not null && tooltip.Alpha == 1;
             });
 
-            AddAssert("Check tooltip is under width limit", () => tooltip != null && tooltip.Width <= 500);
+            AddAssert("Check tooltip is under width limit", () => tooltip is not null && tooltip.Width <= 500);
         }
 
         internal sealed partial class TestTooltipContainer : Container, IHasTooltip

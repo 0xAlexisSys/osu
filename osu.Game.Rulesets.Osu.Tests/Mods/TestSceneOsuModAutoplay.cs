@@ -32,7 +32,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                 Autoplay = true,
                 PassCondition = () =>
                     Player.ScoreProcessor.JudgedHits >= 1
-                    && Player.ScoreProcessor.HitEvents.Any(e => e.Position != null)
+                    && Player.ScoreProcessor.HitEvents.Any(e => e.Position is not null)
             });
         }
 
@@ -107,7 +107,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
             AddUntilStep("fetch SPM calculator", () =>
             {
                 spmCalculator = this.ChildrenOfType<SpinnerSpmCalculator>().SingleOrDefault();
-                return spmCalculator != null;
+                return spmCalculator is not null;
             });
 
             AddUntilStep("SPM is correct", () => Precision.AlmostEquals(spmCalculator.AsNonNull().Result.Value, 477, 5));

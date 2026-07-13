@@ -1,7 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Graphics.Containers;
@@ -179,7 +178,7 @@ namespace osu.Game.Tests.Visual.SongSelect
             AddAssert("filter count is 0", () => filterOperationsCount, () => Is.EqualTo(0));
 
             // Removing the mod should still not re-filter.
-            AddStep("remove non-filterable mod", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddStep("remove non-filterable mod", () => SelectedMods.Value = []);
             AddAssert("filter count is 0", () => filterOperationsCount, () => Is.EqualTo(0));
         }
 
@@ -215,7 +214,7 @@ namespace osu.Game.Tests.Visual.SongSelect
             AddAssert("filter count is 4", () => filterOperationsCount, () => Is.EqualTo(4));
 
             // Remove non-filterable mod. Should NOT re-filter.
-            AddStep("remove non-filterable mod", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddStep("remove non-filterable mod", () => SelectedMods.Value = []);
             AddAssert("filter count is 4", () => filterOperationsCount, () => Is.EqualTo(4));
 
             // Add filterable mod. Should re-filter.

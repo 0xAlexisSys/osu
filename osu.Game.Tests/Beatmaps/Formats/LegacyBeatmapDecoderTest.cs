@@ -17,7 +17,6 @@ using osu.Game.Rulesets;
 using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Catch.Beatmaps;
 using osu.Game.Rulesets.Mania;
-using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Objects;
 using osu.Game.Rulesets.Objects.Legacy;
 using osu.Game.Rulesets.Objects.Types;
@@ -45,7 +44,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
 
                 ClassicAssert.AreEqual(6, working.Beatmap.BeatmapVersion);
                 Assert.That(working.Beatmap.BeatmapInfo.Ruleset.Name, Is.Not.EqualTo("null placeholder ruleset"));
-                ClassicAssert.AreEqual(6, working.GetPlayableBeatmap(new OsuRuleset().RulesetInfo, Array.Empty<Mod>()).BeatmapVersion);
+                ClassicAssert.AreEqual(6, working.GetPlayableBeatmap(new OsuRuleset().RulesetInfo, []).BeatmapVersion);
             }
         }
 
@@ -61,7 +60,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 var working = new TestWorkingBeatmap(decoder.Decode(stream));
 
                 ClassicAssert.AreEqual(4, working.Beatmap.BeatmapVersion);
-                ClassicAssert.AreEqual(4, working.GetPlayableBeatmap(new OsuRuleset().RulesetInfo, Array.Empty<Mod>()).BeatmapVersion);
+                ClassicAssert.AreEqual(4, working.GetPlayableBeatmap(new OsuRuleset().RulesetInfo, []).BeatmapVersion);
 
                 ClassicAssert.AreEqual(-1, working.BeatmapInfo.Metadata.PreviewTime);
             }
@@ -382,7 +381,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
             {
                 var comboColors = decoder.Decode(stream).ComboColours;
 
-                Debug.Assert(comboColors != null);
+                Debug.Assert(comboColors is not null);
 
                 Color4[] expectedColors =
                 {
@@ -410,7 +409,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
             {
                 var comboColors = decoder.Decode(stream).ComboColours;
 
-                Debug.Assert(comboColors != null);
+                Debug.Assert(comboColors is not null);
 
                 Color4[] expectedColors =
                 {
@@ -738,7 +737,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
             {
                 ClassicAssert.AreEqual(normalBank, hitObject.Samples[0].Bank);
 
-                if (additionsBank != null)
+                if (additionsBank is not null)
                     ClassicAssert.AreEqual(additionsBank, hitObject.Samples[1].Bank);
             }
         }
@@ -962,14 +961,14 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 Assert.That(sixth.ControlPoints[0].Position, Is.EqualTo(Vector2.Zero));
                 Assert.That(sixth.ControlPoints[0].Type == PathType.BEZIER);
                 Assert.That(sixth.ControlPoints[1].Position, Is.EqualTo(new Vector2(75, 145)));
-                Assert.That(sixth.ControlPoints[1].Type == null);
+                Assert.That(sixth.ControlPoints[1].Type is null);
                 Assert.That(sixth.ControlPoints[2].Position, Is.EqualTo(new Vector2(170, 75)));
 
                 Assert.That(sixth.ControlPoints[2].Type == PathType.BEZIER);
                 Assert.That(sixth.ControlPoints[3].Position, Is.EqualTo(new Vector2(300, 145)));
-                Assert.That(sixth.ControlPoints[3].Type == null);
+                Assert.That(sixth.ControlPoints[3].Type is null);
                 Assert.That(sixth.ControlPoints[4].Position, Is.EqualTo(new Vector2(410, 20)));
-                Assert.That(sixth.ControlPoints[4].Type == null);
+                Assert.That(sixth.ControlPoints[4].Type is null);
 
                 // Explicit perfect-curve multi-segment(Should not convert to bezier)
                 var seventh = ((IHasPath)decoded.HitObjects[6]).Path;
@@ -977,14 +976,14 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 Assert.That(seventh.ControlPoints[0].Position, Is.EqualTo(Vector2.Zero));
                 Assert.That(seventh.ControlPoints[0].Type == PathType.PERFECT_CURVE);
                 Assert.That(seventh.ControlPoints[1].Position, Is.EqualTo(new Vector2(75, 145)));
-                Assert.That(seventh.ControlPoints[1].Type == null);
+                Assert.That(seventh.ControlPoints[1].Type is null);
                 Assert.That(seventh.ControlPoints[2].Position, Is.EqualTo(new Vector2(170, 75)));
 
                 Assert.That(seventh.ControlPoints[2].Type == PathType.PERFECT_CURVE);
                 Assert.That(seventh.ControlPoints[3].Position, Is.EqualTo(new Vector2(300, 145)));
-                Assert.That(seventh.ControlPoints[3].Type == null);
+                Assert.That(seventh.ControlPoints[3].Type is null);
                 Assert.That(seventh.ControlPoints[4].Position, Is.EqualTo(new Vector2(410, 20)));
-                Assert.That(seventh.ControlPoints[4].Type == null);
+                Assert.That(seventh.ControlPoints[4].Type is null);
             }
         }
 
@@ -1087,7 +1086,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 var controlPoints = ((IHasPath)decoded.HitObjects[0]).Path.ControlPoints;
 
                 Assert.That(controlPoints.Count, Is.EqualTo(6));
-                Assert.That(controlPoints.Single(c => c.Type != null).Type, Is.EqualTo(PathType.CATMULL));
+                Assert.That(controlPoints.Single(c => c.Type is not null).Type, Is.EqualTo(PathType.CATMULL));
             }
         }
 
@@ -1208,7 +1207,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
                 }
 
                 var working = new TestWorkingBeatmap(decoder.Decode(stream));
-                var playable = working.GetPlayableBeatmap(ruleset.RulesetInfo, Array.Empty<Mod>());
+                var playable = working.GetPlayableBeatmap(ruleset.RulesetInfo, []);
 
                 // There's no good way to figure out these values other than to compare (in code) with osu!stable...
 
@@ -1251,7 +1250,7 @@ namespace osu.Game.Tests.Beatmaps.Formats
 
                 var decoder = Decoder.GetDecoder<Beatmap>(stream);
                 var working = new TestWorkingBeatmap(decoder.Decode(stream));
-                IBeatmap beatmap = working.GetPlayableBeatmap(ruleset.RulesetInfo, Array.Empty<Mod>());
+                IBeatmap beatmap = working.GetPlayableBeatmap(ruleset.RulesetInfo, []);
 
                 Assert.That(beatmap.HitObjects[0].GetEndTime(), Is.EqualTo(3153));
             }

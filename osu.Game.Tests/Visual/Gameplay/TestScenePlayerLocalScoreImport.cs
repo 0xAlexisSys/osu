@@ -94,9 +94,9 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddUntilStep("fail screen displayed", () => Player.ChildrenOfType<FailOverlay>().First().State.Value == Visibility.Visible);
             AddUntilStep("wait for button clickable", () => Player.ChildrenOfType<SaveFailedScoreButton>().First().ChildrenOfType<OsuClickableContainer>().First().Enabled.Value);
 
-            AddUntilStep("score not in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) == null));
+            AddUntilStep("score not in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) is null));
             AddStep("click save button", () => Player.ChildrenOfType<SaveFailedScoreButton>().First().ChildrenOfType<OsuClickableContainer>().First().TriggerClick());
-            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) != null));
+            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) is not null));
         }
 
         [Test]
@@ -105,12 +105,12 @@ namespace osu.Game.Tests.Visual.Gameplay
             DateTimeOffset? getLastPlayed() => Realm.Run(r => r.Find<BeatmapInfo>(Beatmap.Value.BeatmapInfo.ID)?.LastPlayed);
 
             AddStep("reset last played", () => Realm.Write(r => r.Find<BeatmapInfo>(Beatmap.Value.BeatmapInfo.ID)!.LastPlayed = null));
-            AddAssert("last played is null", () => getLastPlayed() == null);
+            AddAssert("last played is null", () => getLastPlayed() is null);
 
             CreateTest();
 
             AddUntilStep("wait for track to start running", () => Beatmap.Value.Track.IsRunning);
-            AddUntilStep("wait for last played to update", () => getLastPlayed() != null);
+            AddUntilStep("wait for last played to update", () => getLastPlayed() is not null);
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddAssert("results screen score has copied mods", () => (Player.GetChildScreen() as ResultsScreen)?.Score?.Mods.First(), () => Is.Not.SameAs(playerMods.First()));
             AddAssert("results screen score has matching", () => (Player.GetChildScreen() as ResultsScreen)?.Score?.Mods.First(), () => Is.EqualTo(playerMods.First()));
 
-            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) != null));
+            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) is not null));
             AddUntilStep("databased score has correct mods", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID))!.Mods.First(), () => Is.EqualTo(playerMods.First()));
         }
 
@@ -154,7 +154,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("seek to completion", () => Player.GameplayClockContainer.Seek(Player.DrawableRuleset.Objects.Last().GetEndTime()));
 
             AddUntilStep("results displayed", () => Player.GetChildScreen() is ResultsScreen);
-            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) != null));
+            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) is not null));
             AddUntilStep("score has correct version", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID)!.ClientVersion), () => Is.EqualTo(osu.Version));
         }
 
@@ -192,7 +192,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("seek to completion", () => Player.GameplayClockContainer.Seek(Player.DrawableRuleset.Objects.Last().GetEndTime()));
 
             AddUntilStep("results displayed", () => Player.GetChildScreen() is ResultsScreen);
-            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) != null));
+            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) is not null));
             AddAssert("score is not associated with online user", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID))!.UserID == User.SYSTEM_USER_ID);
         }
 
@@ -206,7 +206,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("seek to completion", () => Player.GameplayClockContainer.Seek(Player.DrawableRuleset.Objects.Last().GetEndTime()));
 
             AddUntilStep("results displayed", () => (Player.GetChildScreen() as ResultsScreen)?.IsLoaded == true);
-            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) != null));
+            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) is not null));
 
             AddUntilStep("wait for button clickable", () => ((OsuScreen)Player.GetChildScreen())
                                                             .ChildrenOfType<ReplayDownloadButton>().FirstOrDefault()?
@@ -253,7 +253,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("seek to completion", () => Player.GameplayClockContainer.Seek(Player.DrawableRuleset.Objects.Last().GetEndTime()));
 
             AddUntilStep("results displayed", () => Player.GetChildScreen() is ResultsScreen);
-            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) != null));
+            AddUntilStep("score in database", () => Realm.Run(r => r.Find<ScoreInfo>(Player.Score.ScoreInfo.ID) is not null));
         }
 
         protected override void Dispose(bool isDisposing)

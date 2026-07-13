@@ -30,7 +30,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             var drawableHitObject = base.CreateDrawableHitCircle(circle, auto, hitOffset);
 
-            Debug.Assert(drawableHitObject.HitObject.HitWindows != null);
+            Debug.Assert(drawableHitObject.HitObject.HitWindows is not null);
 
             double delay = drawableHitObject.HitObject.StartTime - (drawableHitObject.HitObject.HitWindows.WindowFor(HitResult.Miss) + RNG.Next(0, 300)) - Time.Current;
             scheduledTasks.Add(Scheduler.AddDelayed(drawableHitObject.TriggerJudgement, delay));

@@ -50,7 +50,7 @@ namespace osu.Game.Tests.Gameplay
             AddStep("create skin", () => skin = new TestSkin("test-sample", this));
             AddStep("retrieve sample", () => channel = skin.GetSample(new SampleInfo("test-sample")));
 
-            AddAssert("sample is non-null", () => channel != null);
+            AddAssert("sample is non-null", () => channel is not null);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace osu.Game.Tests.Gameplay
             AddStep("create skin", () => skin = new TestSkin("folder/test-sample", this));
             AddStep("retrieve sample", () => channel = skin.GetSample(new SampleInfo("folder/test-sample")));
 
-            AddAssert("sample is non-null", () => channel != null);
+            AddAssert("sample is non-null", () => channel is not null);
         }
 
         [Test]

@@ -51,7 +51,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             AddSliderStep("current health", 0.0, 1.0, 1.0, val =>
             {
-                if (layer != null)
+                if (layer is not null)
                     healthProcessor.Health.Value = val;
             });
 

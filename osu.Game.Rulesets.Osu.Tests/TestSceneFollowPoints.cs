@@ -232,7 +232,7 @@ namespace osu.Game.Rulesets.Osu.Tests
                         throw new AssertionException($"Object {i} expected to be the start of group {i}.");
 
                     if (getEntry(i).End != expectedEnd?.HitObject)
-                        throw new AssertionException($"Object {(expectedEnd == null ? "null" : i.ToString())} expected to be the end of group {i}.");
+                        throw new AssertionException($"Object {(expectedEnd is null ? "null" : i.ToString())} expected to be the end of group {i}.");
                 }
 
                 return true;
@@ -248,7 +248,7 @@ namespace osu.Game.Rulesets.Osu.Tests
                     DrawableOsuHitObject expectedStart = getObject(i);
                     DrawableOsuHitObject expectedEnd = i < hitObjectContainer.Count - 1 ? getObject(i + 1) : null;
 
-                    if (expectedEnd == null)
+                    if (expectedEnd is null)
                         continue;
 
                     var manualClock = new ManualClock();

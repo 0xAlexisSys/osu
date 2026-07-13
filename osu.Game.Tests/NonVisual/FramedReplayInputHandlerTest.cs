@@ -351,7 +351,7 @@ namespace osu.Game.Tests.NonVisual
             for (int i = 0; i < 1000; i++)
             {
                 double? time = handler.SetFrameFromTime(destination);
-                if (time == null || time == destination)
+                if (time is null || time == destination)
                     return;
             }
 

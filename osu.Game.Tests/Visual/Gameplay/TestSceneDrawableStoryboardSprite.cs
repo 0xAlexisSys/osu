@@ -48,7 +48,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("create sprites", () => SetContents(_ => createSprite(lookup_name, Anchor.TopLeft, Vector2.Zero)));
 
             AddAssert("sprite didn't find texture", () =>
-                sprites.All(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture == null)));
+                sprites.All(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture is null)));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             // Only checking for at least one sprite that succeeded, as not all skins in this test provide the hitcircleoverlay texture.
             AddAssert("sprite found texture", () =>
-                sprites.Any(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture != null)));
+                sprites.Any(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture is not null)));
 
             assertStoryboardSourced();
         }
@@ -156,7 +156,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             // Only checking for at least one sprite that succeeded, as not all skins in this test provide the hitcircleoverlay texture.
             AddAssert("sprite found texture", () =>
-                sprites.Any(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture != null)));
+                sprites.Any(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture is not null)));
 
             assertSkinSourced();
         }
@@ -174,7 +174,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             // Only checking for at least one sprite that succeeded, as not all skins in this test provide the hitcircleoverlay texture.
             AddAssert("sprite found texture", () =>
-                sprites.Any(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture != null)));
+                sprites.Any(sprite => sprite.ChildrenOfType<Sprite>().All(s => s.Texture is not null)));
 
             assertSkinSourced();
         }

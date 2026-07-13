@@ -220,12 +220,12 @@ namespace osu.Game.Tests.Visual.Gameplay
 
         private float yScale => drawableRuleset.Playfield.HitObjectContainer.DrawHeight;
 
-        private void assertDead(int index) => AddAssert($"hitobject {index} is dead", () => getDrawableHitObject(index) == null);
+        private void assertDead(int index) => AddAssert($"hitobject {index} is dead", () => getDrawableHitObject(index) is null);
 
         private void assertHeight(int index) => AddAssert($"hitobject {index} height", () =>
         {
             var d = getDrawableHitObject(index);
-            return d != null && Precision.AlmostEquals(d.DrawHeight, yScale * (float)(d.HitObject.Duration / time_range), 0.1f);
+            return d is not null && Precision.AlmostEquals(d.DrawHeight, yScale * (float)(d.HitObject.Duration / time_range), 0.1f);
         });
 
         private void assertChildPosition(int index) => AddAssert($"hitobject {index} child position", () =>

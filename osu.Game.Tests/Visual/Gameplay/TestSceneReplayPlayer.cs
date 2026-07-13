@@ -67,7 +67,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddUntilStep("wait for first hit", () => Player.ScoreProcessor.TotalScore.Value > 0);
             AddAssert("ensure rank is not fail", () => Player.ScoreProcessor.Rank.Value, () => Is.Not.EqualTo(ScoreRank.F));
             AddStep("exit player", () => Player.Exit());
-            AddUntilStep("wait for exit", () => Player.Parent == null);
+            AddUntilStep("wait for exit", () => Player.Parent is null);
             AddAssert("ensure rank is not fail", () => Player.ScoreProcessor.Rank.Value, () => Is.Not.EqualTo(ScoreRank.F));
         }
 
@@ -254,7 +254,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
         protected void CreatePlayer(Ruleset ruleset, IBeatmap? beatmap = null)
         {
-            Beatmap.Value = beatmap != null
+            Beatmap.Value = beatmap is not null
                 ? CreateWorkingBeatmap(beatmap)
                 : CreateWorkingBeatmap(ruleset.RulesetInfo);
 

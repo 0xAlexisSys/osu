@@ -115,7 +115,7 @@ namespace osu.Game.Tests.Editing.Checks
                 }
             };
 
-            if (file != null)
+            if (file is not null)
                 beatmap.BeatmapInfo.BeatmapSet!.Files.Add(file);
 
             return beatmap;

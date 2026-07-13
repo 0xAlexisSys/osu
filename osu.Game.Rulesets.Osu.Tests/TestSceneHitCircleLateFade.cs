@@ -1,7 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Extensions.ObjectExtensions;
@@ -86,7 +85,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             AddStep("Create hit circle", () =>
             {
-                SelectedMods.Value = Array.Empty<Mod>();
+                SelectedMods.Value = [];
                 createCircle();
             });
 
@@ -99,7 +98,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             AddStep("Create hit circle", () =>
             {
-                SelectedMods.Value = Array.Empty<Mod>();
+                SelectedMods.Value = [];
                 createCircle(true);
             });
         }
@@ -122,7 +121,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             AddStep("Create slider", () =>
             {
-                SelectedMods.Value = Array.Empty<Mod>();
+                SelectedMods.Value = [];
                 createSlider();
             });
 

@@ -157,7 +157,7 @@ namespace osu.Game.Tests.Visual.Navigation
             {
                 var t = Game.ChildrenOfType<MetadataSection>().SingleOrDefault().ChildrenOfType<TextBox>().FirstOrDefault();
 
-                if (t == null)
+                if (t is null)
                     return false;
 
                 textbox = t;
@@ -230,7 +230,7 @@ namespace osu.Game.Tests.Visual.Navigation
             DelayedLoadEditorLoader loader = null!;
             AddStep("Push editor loader", () => Game.ScreenStack.Push(loader = new DelayedLoadEditorLoader()));
             AddUntilStep("Wait for loader current", () => Game.ScreenStack.CurrentScreen is EditorLoader);
-            AddUntilStep("wait for editor load start", () => loader.Editor != null);
+            AddUntilStep("wait for editor load start", () => loader.Editor is not null);
             AddStep("Close editor while loading", () => Game.ScreenStack.CurrentScreen.Exit());
             AddStep("allow editor load", () => loader.AllowLoad.Set());
             AddUntilStep("wait for editor ready", () => loader.Editor!.LoadState >= LoadState.Ready);
@@ -335,7 +335,7 @@ namespace osu.Game.Tests.Visual.Navigation
         [Test]
         public void TestCreateNewDifficultyOnNonExistentBeatmap()
         {
-            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() != null);
+            AddUntilStep("wait for dialog overlay", () => Game.ChildrenOfType<DialogOverlay>().SingleOrDefault() is not null);
 
             AddStep("open editor", () => Game.ChildrenOfType<ButtonSystem>().Single().OnEditBeatmap?.Invoke());
             AddUntilStep("wait for editor", () => Game.ScreenStack.CurrentScreen is Editor editor && editor.IsLoaded);

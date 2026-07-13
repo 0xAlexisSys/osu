@@ -117,7 +117,7 @@ namespace osu.Game.Tests.Visual.SongSelect
         [Test]
         public void TestPlaceholderStates()
         {
-            AddStep("ensure no scores displayed", () => leaderboard.SetScores(Array.Empty<ScoreInfo>()));
+            AddStep("ensure no scores displayed", () => leaderboard.SetScores([]));
 
             AddStep(@"Retrieving", () => leaderboard.SetState(LeaderboardState.Retrieving));
             AddStep(@"None selected", () => leaderboard.SetState(LeaderboardState.NoneSelected));

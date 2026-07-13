@@ -736,7 +736,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             {
                 mods = new List<Mod> { new OsuModClassic() };
 
-                if (extraMods != null)
+                if (extraMods is not null)
                     mods.AddRange(extraMods);
             });
 
@@ -788,7 +788,7 @@ namespace osu.Game.Rulesets.Osu.Tests
                 };
             });
 
-            if (exportLocation != null)
+            if (exportLocation is not null)
             {
                 AddStep("export beatmap", () =>
                 {

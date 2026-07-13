@@ -318,7 +318,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             AddStep("show second overlay", () => screenWithTwoOverlays.SecondOverlay.Show());
 
             AddAssert("ensure first is unchanged", () => SelectedMods.Value.OfType<OsuModDifficultyAdjust>().Single().CircleSize.Value == 8);
-            AddAssert("ensure second is default", () => selectedMods2.Value.OfType<OsuModDifficultyAdjust>().Single().CircleSize.Value == null);
+            AddAssert("ensure second is default", () => selectedMods2.Value.OfType<OsuModDifficultyAdjust>().Single().CircleSize.Value is null);
         }
 
         [Test]

@@ -244,7 +244,7 @@ namespace osu.Game.Tests.Visual.Editing
             var popover = this.ChildrenOfType<DifficultyPointPiece.DifficultyEditPopover>().SingleOrDefault();
             var control = popover?.ChildrenOfType<SliderVelocityAdjustmentControl>().Single();
 
-            return control != null && control.IsMultipleValues;
+            return control is not null && control.IsMultipleValues;
         });
 
         private void dismissPopover()

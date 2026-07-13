@@ -92,7 +92,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             }));
 
             AddAssert("second dialog displayed", () => overlay.CurrentDialog == secondDialog);
-            AddUntilStep("first dialog is not part of hierarchy", () => firstDialog.Parent == null);
+            AddUntilStep("first dialog is not part of hierarchy", () => firstDialog.Parent is null);
         }
 
         [Test]
@@ -200,8 +200,8 @@ namespace osu.Game.Tests.Visual.UserInterface
                 });
             });
 
-            AddAssert("no dialog pushed", () => overlay.CurrentDialog == null);
-            AddAssert("dialog is not part of hierarchy", () => testDialog.Parent == null);
+            AddAssert("no dialog pushed", () => overlay.CurrentDialog is null);
+            AddAssert("dialog is not part of hierarchy", () => testDialog.Parent is null);
         }
 
         [Test]
@@ -221,8 +221,8 @@ namespace osu.Game.Tests.Visual.UserInterface
                 testDialog.PerformOkAction();
             });
 
-            AddAssert("no dialog pushed", () => overlay.CurrentDialog == null);
-            AddUntilStep("dialog is not part of hierarchy", () => testDialog.Parent == null);
+            AddAssert("no dialog pushed", () => overlay.CurrentDialog is null);
+            AddUntilStep("dialog is not part of hierarchy", () => testDialog.Parent is null);
         }
 
         private partial class TestPopupDialog : PopupDialog

@@ -78,7 +78,7 @@ namespace osu.Game.Rulesets.Mania.Tests.Editor
 
         private bool checkSnapAndSelectColumn(double startTime, IReadOnlyCollection<(double, int)>? columnPairs = null)
         {
-            bool checkColumns = columnPairs != null
+            bool checkColumns = columnPairs is not null
                 ? EditorBeatmap.SelectedHitObjects.All(x => columnPairs.Any(col => isNoteAt(x, col.Item1, col.Item2)))
                 : !EditorBeatmap.SelectedHitObjects.Any();
 

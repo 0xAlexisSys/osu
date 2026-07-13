@@ -3,7 +3,6 @@
 
 #nullable disable
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -32,7 +31,7 @@ namespace osu.Game.Tests.Visual.Gameplay
     public partial class TestSceneScrollingHitObjects : OsuTestScene
     {
         [Cached(typeof(IReadOnlyList<Mod>))]
-        private IReadOnlyList<Mod> mods { get; set; } = Array.Empty<Mod>();
+        private IReadOnlyList<Mod> mods { get; set; } = [];
 
         private const int time_range = 5000;
         private const int spawn_rate = time_range / 10;
@@ -111,7 +110,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             AddStep("overlapping scroll", () => setScrollAlgorithm(ScrollVisualisationMethod.Overlapping));
             AddStep("sequential scroll", () => setScrollAlgorithm(ScrollVisualisationMethod.Sequential));
 
-            AddSliderStep("time range", 100, 10000, time_range, v => scrollContainers.Where(c => c != null).ForEach(c => c.TimeRange = v));
+            AddSliderStep("time range", 100, 10000, time_range, v => scrollContainers.Where(c => c is not null).ForEach(c => c.TimeRange = v));
 
             AddStep("add control points", () => addControlPoints(testControlPoints, Time.Current));
         }

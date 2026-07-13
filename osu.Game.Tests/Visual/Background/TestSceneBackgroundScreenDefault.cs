@@ -95,11 +95,11 @@ namespace osu.Game.Tests.Visual.Background
             AddUntilStep("wait for screen to load", () => nestedScreen.IsLoaded && nestedScreen.IsCurrentScreen());
             AddUntilStep("previous background hidden", () => !screen.IsAlive);
 
-            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() == null);
+            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() is null);
 
             AddStep("change beatmap", () => Beatmap.Value = createTestWorkingBeatmapWithUniqueBackground());
 
-            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() == null);
+            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() is null);
 
             AddStep("pop screen back to top level", () => screen.MakeCurrent());
 
@@ -128,7 +128,7 @@ namespace osu.Game.Tests.Visual.Background
             AddStep("change beatmap", () => Beatmap.Value = createTestWorkingBeatmapWithUniqueBackground());
             AddStep("change beatmap back", () => Beatmap.Value = originalWorking);
 
-            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() == null);
+            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() is null);
 
             AddStep("pop screen back to top level", () => screen.MakeCurrent());
 
@@ -163,7 +163,7 @@ namespace osu.Game.Tests.Visual.Background
             AddStep("change beatmap back", () => Beatmap.Value = originalWorking);
             AddStep("restart music", () => MusicController.Play());
 
-            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() == null);
+            AddAssert("top level background hasn't changed yet", () => screen.CheckLastLoadChange() is null);
 
             AddStep("pop screen back to top level", () => screen.MakeCurrent());
 

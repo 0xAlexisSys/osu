@@ -20,7 +20,7 @@ namespace osu.Game.Tests.Visual.UserInterface
 
             AddSliderStep("scale", 0.1, 2, 1, scale =>
             {
-                if (logo != null)
+                if (logo is not null)
                     Child.Scale = new Vector2(this.scale = (float)scale);
             });
         }

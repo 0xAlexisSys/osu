@@ -42,7 +42,7 @@ namespace osu.Game.Rulesets.Taiko.Tests.Editor
                     {
                         string? line;
 
-                        while ((line = reader.ReadLine()) != null)
+                        while ((line = reader.ReadLine()) is not null)
                         {
                             if (line.StartsWith("SliderMultiplier", StringComparison.Ordinal))
                             {

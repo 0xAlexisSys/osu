@@ -17,7 +17,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         {
             get
             {
-                if (content == null)
+                if (content is null)
                     base.Content.Add(content = new OsuInputManager(new OsuRuleset().RulesetInfo));
 
                 return content;

@@ -80,18 +80,19 @@ namespace osu.Game.Tests.Visual.UserInterface
                 gameplayClockContainer.Seek(-1000);
             });
 
-            AddUntilStep("wait for trigger", () => lastBeatIndex != null);
+            AddUntilStep("wait for trigger", () => lastBeatIndex is not null);
 
             if (!allowMistimed)
             {
                 AddAssert("trigger is near beat length",
-                    () => lastActuationTime != null && lastBeatIndex != null && Precision.AlmostEquals(lastTimingPoint.Time + lastBeatIndex.Value * lastTimingPoint.BeatLength, lastActuationTime.Value,
+                    () => lastActuationTime is not null && lastBeatIndex is not null && Precision.AlmostEquals(lastTimingPoint.Time + lastBeatIndex.Value * lastTimingPoint.BeatLength,
+                        lastActuationTime.Value,
                         BeatSyncedContainer.MISTIMED_ALLOWANCE));
             }
             else
             {
                 AddAssert("trigger is not near beat length",
-                    () => lastActuationTime != null && lastBeatIndex != null && !Precision.AlmostEquals(lastTimingPoint.Time + lastBeatIndex.Value * lastTimingPoint.BeatLength,
+                    () => lastActuationTime is not null && lastBeatIndex is not null && !Precision.AlmostEquals(lastTimingPoint.Time + lastBeatIndex.Value * lastTimingPoint.BeatLength,
                         lastActuationTime.Value, BeatSyncedContainer.MISTIMED_ALLOWANCE));
             }
         }
@@ -113,8 +114,8 @@ namespace osu.Game.Tests.Visual.UserInterface
                 gameplayClockContainer.Seek(-1000);
             });
 
-            AddUntilStep("wait for trigger", () => lastBpm != null);
-            AddAssert("bpm is from beatmap", () => lastBpm != null && Precision.AlmostEquals(lastBpm.Value, 128));
+            AddUntilStep("wait for trigger", () => lastBpm is not null);
+            AddAssert("bpm is from beatmap", () => lastBpm is not null && Precision.AlmostEquals(lastBpm.Value, 128));
             AddAssert("beat index is less than zero", () => lastBeatIndex < 0);
         }
 
@@ -128,8 +129,8 @@ namespace osu.Game.Tests.Visual.UserInterface
                 beatContainer.NewBeat = (_, timingControlPoint, _, _) => lastBpm = timingControlPoint.BPM;
             });
 
-            AddUntilStep("wait for trigger", () => lastBpm != null);
-            AddAssert("bpm is from beatmap", () => lastBpm != null && Precision.AlmostEquals(lastBpm.Value, 128));
+            AddUntilStep("wait for trigger", () => lastBpm is not null);
+            AddAssert("bpm is from beatmap", () => lastBpm is not null && Precision.AlmostEquals(lastBpm.Value, 128));
 
             AddStep("pause gameplay clock", () =>
             {
@@ -137,8 +138,8 @@ namespace osu.Game.Tests.Visual.UserInterface
                 gameplayClockContainer.Stop();
             });
 
-            AddUntilStep("wait for trigger", () => lastBpm != null);
-            AddAssert("bpm is default", () => lastBpm != null && Precision.AlmostEquals(lastBpm.Value, 60));
+            AddUntilStep("wait for trigger", () => lastBpm is not null);
+            AddAssert("bpm is default", () => lastBpm is not null && Precision.AlmostEquals(lastBpm.Value, 60));
         }
 
         [TestCase(true)]
@@ -165,9 +166,9 @@ namespace osu.Game.Tests.Visual.UserInterface
                 gameplayClockContainer.Seek(expectedEffectPoint.Time - earlyActivationMilliseconds);
             });
 
-            AddUntilStep("wait for effect point", () => actualEffectPoint != null);
+            AddUntilStep("wait for effect point", () => actualEffectPoint is not null);
 
-            AddAssert("effect has kiai", () => actualEffectPoint != null && ((EffectControlPoint)actualEffectPoint).KiaiMode);
+            AddAssert("effect has kiai", () => actualEffectPoint is not null && ((EffectControlPoint)actualEffectPoint).KiaiMode);
         }
 
         private partial class TestBeatSyncedContainer : BeatSyncedContainer

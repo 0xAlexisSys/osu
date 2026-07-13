@@ -88,7 +88,7 @@ namespace osu.Game.Rulesets.Mania.Tests.Mods
             Drawable? cover = this.ChildrenOfType<PlayfieldCoveringWrapper>().FirstOrDefault();
             Drawable? filledArea = cover?.ChildrenOfType<Box>().LastOrDefault();
 
-            if (filledArea == null)
+            if (filledArea is null)
                 return false;
 
             float scale = cover!.DrawHeight / (768 - Stage.HIT_TARGET_POSITION);

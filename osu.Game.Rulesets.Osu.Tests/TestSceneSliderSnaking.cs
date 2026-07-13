@@ -141,7 +141,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             AddStep("retrieve slider at index", () => slider = (Slider)beatmap.HitObjects[index]);
             addSeekStep(() => slider.StartTime);
             AddUntilStep("retrieve drawable slider", () =>
-                (drawableSlider = (DrawableSlider?)Player.DrawableRuleset.Playfield.AllHitObjects.SingleOrDefault(d => d.HitObject == slider)) != null);
+                (drawableSlider = (DrawableSlider?)Player.DrawableRuleset.Playfield.AllHitObjects.SingleOrDefault(d => d.HitObject == slider)) is not null);
         }
 
         private void addEnsureSnakingInSteps(Func<double> startTime) => addCheckPositionChangeSteps(startTime, getSliderEnd, positionIncreased);

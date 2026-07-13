@@ -86,12 +86,12 @@ namespace osu.Game.Rulesets.Osu.Tests
             {
                 var firstObject = Player.DrawableRuleset.Playfield.HitObjectContainer.AliveObjects.OfType<DrawableHitCircle>().FirstOrDefault();
 
-                if (firstObject == null)
+                if (firstObject is null)
                     return false;
 
                 var skinnable = firstObject.ApproachCircle;
 
-                if (skin == null && skinnable.Drawable is DefaultApproachCircle)
+                if (skin is null && skinnable.Drawable is DefaultApproachCircle)
                     // check for default skin provider
                     return true;
 

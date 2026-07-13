@@ -274,7 +274,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         [TestCase(null, 0.985)]
         public void TestClassicMultiplierVersioning(int? totalScoreVersion, double expectedMultiplier)
         {
-            var scoreInfo = totalScoreVersion != null ? new ScoreInfo { TotalScoreVersion = totalScoreVersion.Value } : null;
+            var scoreInfo = totalScoreVersion is not null ? new ScoreInfo { TotalScoreVersion = totalScoreVersion.Value } : null;
             var calculator = Ruleset.CreateScoreMultiplierCalculator(new ScoreMultiplierContext(new BeatmapDifficulty(), scoreInfo));
             Assert.That(calculator.CalculateFor([new OsuModClassic()]), Is.EqualTo(expectedMultiplier).Within(Precision.DOUBLE_EPSILON));
         }

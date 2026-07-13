@@ -1,7 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -11,7 +10,6 @@ using osu.Framework.Timing;
 using osu.Game.Beatmaps;
 using osu.Game.Replays;
 using osu.Game.Rulesets.Judgements;
-using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu.Mods;
 using osu.Game.Rulesets.Osu.Objects;
 using osu.Game.Rulesets.Osu.Objects.Drawables;
@@ -42,7 +40,7 @@ namespace osu.Game.Rulesets.Osu.Tests
 
         protected override WorkingBeatmap CreateWorkingBeatmap(IBeatmap beatmap, Storyboard? storyboard = null)
         {
-            return manualClock == null
+            return manualClock is null
                 ? base.CreateWorkingBeatmap(beatmap, storyboard)
                 : new ClockBackedTestWorkingBeatmap(beatmap, storyboard, new FramedClock(manualClock), Audio);
         }
@@ -51,7 +49,7 @@ namespace osu.Game.Rulesets.Osu.Tests
         public void Setup() => Schedule(() =>
         {
             manualClock = null;
-            SelectedMods.Value = Array.Empty<Mod>();
+            SelectedMods.Value = [];
         });
 
         /// <summary>
@@ -228,7 +226,7 @@ namespace osu.Game.Rulesets.Osu.Tests
             addSeekStep(frames.Last().Time);
 
             DrawableSpinner drawableSpinner = null!;
-            AddUntilStep("get spinner", () => (drawableSpinner = currentPlayer.ChildrenOfType<DrawableSpinner>().Single()) != null);
+            AddUntilStep("get spinner", () => (drawableSpinner = currentPlayer.ChildrenOfType<DrawableSpinner>().Single()) is not null);
 
             assertFinalRotationCorrect();
             assertTotalRotation(3750, 810);

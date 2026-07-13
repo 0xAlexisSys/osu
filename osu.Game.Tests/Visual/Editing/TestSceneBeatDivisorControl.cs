@@ -244,7 +244,7 @@ namespace osu.Game.Tests.Visual.Editing
 
             if (type == BeatDivisorType.Custom)
             {
-                Debug.Assert(maxDivisor != null);
+                Debug.Assert(maxDivisor is not null);
                 AddAssert($"max divisor is {maxDivisor}", () => bindableBeatDivisor.ValidDivisors.Value.Presets.Max() == maxDivisor.Value);
             }
         }
@@ -259,7 +259,7 @@ namespace osu.Game.Tests.Visual.Editing
             });
 
             BeatDivisorControl.CustomDivisorPopover? popover = null;
-            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<BeatDivisorControl.CustomDivisorPopover>().SingleOrDefault()) != null && popover.IsLoaded);
+            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<BeatDivisorControl.CustomDivisorPopover>().SingleOrDefault()) is not null && popover.IsLoaded);
             AddStep($"set divisor to {divisor}", () =>
             {
                 var textBox = popover.ChildrenOfType<TextBox>().Single();

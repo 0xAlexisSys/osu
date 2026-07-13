@@ -1,7 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -163,7 +162,7 @@ namespace osu.Game.Tests.Visual.UserInterface
         public void TestSoftDeleteSupport()
         {
             AddStep("set osu! ruleset", () => Ruleset.Value = rulesets.GetRuleset(0));
-            AddStep("clear mods", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddStep("clear mods", () => SelectedMods.Value = []);
             AddStep("create content", () => Child = new ModPresetColumn
             {
                 Anchor = Anchor.Centre,
@@ -200,7 +199,7 @@ namespace osu.Game.Tests.Visual.UserInterface
         {
             ModPresetColumn modPresetColumn = null!;
 
-            AddStep("clear mods", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddStep("clear mods", () => SelectedMods.Value = []);
             AddStep("create content", () => Child = modPresetColumn = new ModPresetColumn
             {
                 Anchor = Anchor.Centre,
@@ -226,7 +225,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             });
 
             OsuPopover? popover = null;
-            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) != null);
+            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) is not null);
             AddStep("attempt preset creation", () =>
             {
                 InputManager.MoveMouseTo(popover.ChildrenOfType<ShearedButton>().Single());
@@ -254,8 +253,8 @@ namespace osu.Game.Tests.Visual.UserInterface
                 InputManager.Click(MouseButton.Left);
             });
 
-            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) != null);
-            AddStep("clear mods", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) is not null);
+            AddStep("clear mods", () => SelectedMods.Value = []);
             AddUntilStep("popover closed", () => !this.ChildrenOfType<OsuPopover>().Any());
         }
 
@@ -293,7 +292,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                 InputManager.MoveMouseTo(confirmButton);
                 InputManager.PressButton(MouseButton.Left);
             });
-            AddUntilStep("wait for dialog to close", () => dialogOverlay.CurrentDialog == null);
+            AddUntilStep("wait for dialog to close", () => dialogOverlay.CurrentDialog is null);
             AddStep("release mouse", () => InputManager.ReleaseButton(MouseButton.Left));
             AddUntilStep("preset deletion occurred", () => this.ChildrenOfType<ModPresetPanel>().Count() == 2);
             AddAssert("preset soft-deleted", () => Realm.Run(r => r.All<ModPreset>().Count(preset => preset.DeletePending) == 1));
@@ -306,7 +305,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             string presetName = null!;
             ModPresetPanel panel = null!;
 
-            AddStep("clear mods", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddStep("clear mods", () => SelectedMods.Value = []);
             AddStep("create content", () => Child = modPresetColumn = new ModPresetColumn
             {
                 Anchor = Anchor.Centre,
@@ -331,7 +330,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             });
 
             OsuPopover? popover = null;
-            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) != null);
+            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) is not null);
             AddStep("clear preset name", () => popover.ChildrenOfType<LabelledTextBox>().First().Current.Value = "");
             AddStep("attempt preset edit", () =>
             {
@@ -355,7 +354,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             var mods = new Mod[] { new OsuModHidden(), new OsuModHardRock() };
             List<Mod> previousMod = null!;
 
-            AddStep("clear mods", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddStep("clear mods", () => SelectedMods.Value = []);
             AddStep("create content", () => Child = modPresetColumn = new ModPresetColumn
             {
                 Anchor = Anchor.Centre,
@@ -380,7 +379,7 @@ namespace osu.Game.Tests.Visual.UserInterface
             });
 
             OsuPopover? popover = null;
-            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) != null);
+            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) is not null);
             AddStep("click use current mods", () =>
             {
                 InputManager.MoveMouseTo(popover.ChildrenOfType<ShearedButton>().ElementAt(0));
@@ -411,7 +410,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                 InputManager.Click(MouseButton.Left);
             });
 
-            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) != null);
+            AddUntilStep("wait for popover", () => (popover = this.ChildrenOfType<OsuPopover>().FirstOrDefault()) is not null);
             AddStep("click use current mods", () =>
             {
                 InputManager.MoveMouseTo(popover.ChildrenOfType<ShearedButton>().ElementAt(0));
@@ -432,7 +431,7 @@ namespace osu.Game.Tests.Visual.UserInterface
         {
             ModPresetColumn modPresetColumn = null!;
 
-            AddStep("clear mods", () => SelectedMods.Value = Array.Empty<Mod>());
+            AddStep("clear mods", () => SelectedMods.Value = []);
             AddStep("create content", () => Child = modPresetColumn = new ModPresetColumn
             {
                 Anchor = Anchor.Centre,

@@ -55,7 +55,7 @@ namespace osu.Game.Tests.Visual.Menus
         }
 
         private void spinnerNotPresentOrHidden() =>
-            AddAssert("spinner did not display", () => loader.LoadingSpinner == null || loader.LoadingSpinner.Alpha == 0);
+            AddAssert("spinner did not display", () => loader.LoadingSpinner is null || loader.LoadingSpinner.Alpha == 0);
 
         [Test]
         public void TestDelayedLoad()

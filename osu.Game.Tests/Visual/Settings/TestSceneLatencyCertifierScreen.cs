@@ -80,10 +80,10 @@ namespace osu.Game.Tests.Visual.Settings
             {
                 var latencyArea = latencyCertifier
                                   .ChildrenOfType<LatencyArea>()
-                                  .SingleOrDefault(a => clickCorrect ? a.TargetFrameRate == null : a.TargetFrameRate != null);
+                                  .SingleOrDefault(a => clickCorrect ? a.TargetFrameRate is null : a.TargetFrameRate is not null);
 
                 // reached results
-                if (latencyArea == null)
+                if (latencyArea is null)
                     return true;
 
                 latencyArea.ChildrenOfType<OsuButton>().Single().TriggerClick();

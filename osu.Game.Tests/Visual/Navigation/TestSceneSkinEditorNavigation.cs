@@ -58,7 +58,7 @@ namespace osu.Game.Tests.Visual.Navigation
             {
                 var blueprint = skinEditor.ChildrenOfType<SkinBlueprint>().FirstOrDefault(b => b.Item is BarHitErrorMeter);
 
-                if (blueprint == null)
+                if (blueprint is null)
                     return false;
 
                 hitErrorMeter = (BarHitErrorMeter)blueprint.Item;
@@ -284,7 +284,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for selected", () => !Game.Beatmap.IsDefault);
             switchToGameplayScene();
 
-            AddUntilStep("wait for settings", () => getPlayerSettingsOverlay() != null);
+            AddUntilStep("wait for settings", () => getPlayerSettingsOverlay() is not null);
             AddAssert("settings not visible", () => getPlayerSettingsOverlay().DrawWidth, () => Is.EqualTo(0));
 
             AddStep("move cursor to right of screen", () => InputManager.MoveMouseTo(InputManager.ScreenSpaceDrawQuad.TopRight));
@@ -445,7 +445,7 @@ namespace osu.Game.Tests.Visual.Navigation
         private void openSkinEditor()
         {
             toggleSkinEditor();
-            AddUntilStep("skin editor loaded", () => skinEditor != null);
+            AddUntilStep("skin editor loaded", () => skinEditor is not null);
         }
 
         private void toggleSkinEditor()

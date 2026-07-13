@@ -172,7 +172,7 @@ namespace osu.Game.Tests.Visual.SongSelect
             makePanelSelected<PanelBeatmapSet>(2);
             makePanelSelected<PanelBeatmap>(2);
 
-            AddUntilStep("wait for beatmap to be selected", () => selectedBeatmapSet != null);
+            AddUntilStep("wait for beatmap to be selected", () => selectedBeatmapSet is not null);
 
             BeatmapSetInfo deletedSet = null!;
             AddStep("delete selected", () => Beatmaps.Delete(deletedSet = selectedBeatmapSet!));
@@ -290,6 +290,6 @@ namespace osu.Game.Tests.Visual.SongSelect
 
         private IEnumerable<T> allPanels<T>()
             where T : Panel
-            => Carousel.ChildrenOfType<T>().Where(p => p.Item != null).OrderBy(p => p.Y);
+            => Carousel.ChildrenOfType<T>().Where(p => p.Item is not null).OrderBy(p => p.Y);
     }
 }

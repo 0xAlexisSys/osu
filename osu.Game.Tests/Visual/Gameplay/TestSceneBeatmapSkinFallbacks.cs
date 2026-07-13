@@ -58,13 +58,13 @@ namespace osu.Game.Tests.Visual.Gameplay
             var targetContainer = Player.ChildrenOfType<SkinnableContainer>().First(s => s.Lookup.Lookup == target);
             var actualComponentsContainer = targetContainer.ChildrenOfType<Container>().SingleOrDefault(c => c.Parent == targetContainer);
 
-            if (actualComponentsContainer == null)
+            if (actualComponentsContainer is null)
                 return false;
 
             var actualInfo = actualComponentsContainer.CreateSerialisedInfo();
 
             var expectedComponentsContainer = expectedSource.GetDrawableComponent(new GlobalSkinnableContainerLookup(target)) as Container;
-            if (expectedComponentsContainer == null)
+            if (expectedComponentsContainer is null)
                 return false;
 
             var expectedComponentsAdjustmentContainer = new DependencyProvidingContainer
@@ -92,7 +92,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         }
 
         private static bool almostEqual(SerialisedDrawableInfo drawableInfo, SerialisedDrawableInfo? other) =>
-            other != null
+            other is not null
             && drawableInfo.Type == other.Type
             && drawableInfo.Anchor == other.Anchor
             && drawableInfo.Origin == other.Origin

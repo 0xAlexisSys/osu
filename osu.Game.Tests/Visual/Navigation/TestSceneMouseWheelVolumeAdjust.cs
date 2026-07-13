@@ -94,7 +94,7 @@ namespace osu.Game.Tests.Visual.Navigation
             AddUntilStep("wait for player", () =>
             {
                 DismissAnyNotifications();
-                return (player = Game.ScreenStack.CurrentScreen as Player) != null;
+                return (player = Game.ScreenStack.CurrentScreen as Player) is not null;
             });
 
             AddUntilStep("wait for play time active", () => player!.IsBreakTime.Value, () => Is.False);

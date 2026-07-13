@@ -35,7 +35,7 @@ namespace osu.Game.Rulesets.Catch.Tests
                 {
                     var catcher = Player.ChildrenOfType<Catcher>().FirstOrDefault();
 
-                    if (catcher == null)
+                    if (catcher is null)
                         return;
 
                     if (catcher.HyperDashing != inHyperDash)

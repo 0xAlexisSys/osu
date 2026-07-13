@@ -32,8 +32,8 @@ namespace osu.Game.Tests.Rulesets
         {
             setupProviderStep();
 
-            AddAssert("ruleset texture retrieved via skin", () => requester.GetTexture("test-image") != null);
-            AddAssert("ruleset sample retrieved via skin", () => requester.GetSample(new SampleInfo("test-sample")) != null);
+            AddAssert("ruleset texture retrieved via skin", () => requester.GetTexture("test-image") is not null);
+            AddAssert("ruleset sample retrieved via skin", () => requester.GetSample(new SampleInfo("test-sample")) is not null);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace osu.Game.Tests.Rulesets
                 };
             });
 
-            AddAssert("requester got correct initial texture", () => textureOnLoad != null);
+            AddAssert("requester got correct initial texture", () => textureOnLoad is not null);
         }
 
         private void setupProviderStep()

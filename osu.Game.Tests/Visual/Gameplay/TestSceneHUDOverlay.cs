@@ -12,7 +12,6 @@ using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osu.Game.Configuration;
 using osu.Game.Graphics.Containers;
-using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Screens.Play;
@@ -200,7 +199,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             createNew();
 
-            AddUntilStep("wait for song progress", () => getSongProgress() != null);
+            AddUntilStep("wait for song progress", () => getSongProgress() is not null);
 
             AddStep("bind seek", () =>
             {
@@ -208,7 +207,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
                 var progress = getSongProgress();
 
-                Debug.Assert(progress != null);
+                Debug.Assert(progress is not null);
 
                 progress.Interactive.Value = true;
                 progress.ChildrenOfType<ArgonSongProgressBar>().Single().OnSeek += _ => seeked = true;
@@ -269,7 +268,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             AddStep("create overlay", () =>
             {
-                hudOverlay = new HUDOverlay(null, Array.Empty<Mod>(), new PlayerConfiguration());
+                hudOverlay = new HUDOverlay(null, [], new PlayerConfiguration());
 
                 // Add any key just to display the key counter visually.
                 hudOverlay.InputCountController.Add(new KeyCounterKeyboardTrigger(Key.Space));
@@ -282,7 +281,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             });
 
             AddUntilStep("wait for hud load", () => hudOverlay.IsLoaded);
-            AddUntilStep("wait for components present", () => hudOverlay.ChildrenOfType<KeyCounterDisplay>().FirstOrDefault() != null);
+            AddUntilStep("wait for components present", () => hudOverlay.ChildrenOfType<KeyCounterDisplay>().FirstOrDefault() is not null);
         }
 
         protected override void Dispose(bool isDisposing)

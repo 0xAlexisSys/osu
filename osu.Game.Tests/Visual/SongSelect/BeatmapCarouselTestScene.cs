@@ -289,7 +289,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
                 GroupDefinition? groupDefinition = groupingFilter.GroupItems.Keys.ElementAtOrDefault(group);
 
-                if (groupDefinition == null)
+                if (groupDefinition is null)
                     return false;
 
                 // offset by one because the group itself is included in the items list.
@@ -301,7 +301,7 @@ namespace osu.Game.Tests.Visual.SongSelect
 
         protected void WaitForSetSelection(int set, int? diff = null)
         {
-            if (diff != null)
+            if (diff is not null)
             {
                 AddUntilStep($"selected is set{set} diff{diff.Value}",
                     () => Carousel.CurrentBeatmap,

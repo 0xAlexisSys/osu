@@ -1,7 +1,6 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -60,11 +59,11 @@ namespace osu.Game.Tests.Visual.SongSelect
                     new OsuModAlternate()
                 }));
 
-            AddStep("clear mods", () => changeMods(Array.Empty<Mod>()));
+            AddStep("clear mods", () => changeMods([]));
             AddWaitStep("wait", 3);
             AddStep("one mod", () => changeMods(new List<Mod> { new OsuModHidden() }));
 
-            AddStep("clear mods", () => changeMods(Array.Empty<Mod>()));
+            AddStep("clear mods", () => changeMods([]));
             AddWaitStep("wait", 3);
             AddStep("five mods", () => changeMods(new List<Mod> { new OsuModHidden(), new OsuModHardRock(), new OsuModDoubleTime(), new OsuModClassic(), new OsuModDifficultyAdjust() }));
         }

@@ -33,7 +33,7 @@ namespace osu.Game.Tests.Visual.Gameplay
                 slider = Player.ChildrenOfType<DrawableSlider>().MinBy(s => s.HitObject.StartTime);
                 samples = slider.ChildrenOfType<PoolableSkinnableSample>().ToArray();
 
-                return slider != null;
+                return slider is not null;
             });
 
             AddUntilStep("wait for slider sliding then seek", () =>

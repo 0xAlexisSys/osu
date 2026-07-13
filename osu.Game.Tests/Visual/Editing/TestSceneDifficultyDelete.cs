@@ -71,7 +71,7 @@ namespace osu.Game.Tests.Visual.Editing
                 else
                 {
                     AddStep("click delete", () => getDeleteMenuItem().TriggerClick());
-                    AddUntilStep("wait for dialog", () => DialogOverlay.CurrentDialog != null);
+                    AddUntilStep("wait for dialog", () => DialogOverlay.CurrentDialog is not null);
                     AddStep("confirm", () => InputManager.Key(Key.Number1));
 
                     AddAssert($"difficulty {i} is unattached from set",
@@ -111,13 +111,13 @@ namespace osu.Game.Tests.Visual.Editing
             AddStep("click File", () => this.ChildrenOfType<EditorMenuBar.DrawableEditorBarMenuItem>().First().TriggerClick());
 
             AddStep("click delete", () => getDeleteMenuItem().TriggerClick());
-            AddUntilStep("wait for dialog", () => DialogOverlay.CurrentDialog != null);
+            AddUntilStep("wait for dialog", () => DialogOverlay.CurrentDialog is not null);
             AddAssert("dialog is deletion confirmation dialog", () => DialogOverlay.CurrentDialog, Is.InstanceOf<DeleteDifficultyConfirmationDialog>);
             AddStep("confirm", () => InputManager.Key(Key.Number1));
 
-            AddUntilStep("no next dialog", () => DialogOverlay.CurrentDialog == null);
+            AddUntilStep("no next dialog", () => DialogOverlay.CurrentDialog is null);
             AddUntilStep("switched to different difficulty",
-                () => this.ChildrenOfType<EditorBeatmap>().SingleOrDefault() != null && EditorBeatmap.BeatmapInfo.ID != deletedDifficultyID);
+                () => this.ChildrenOfType<EditorBeatmap>().SingleOrDefault() is not null && EditorBeatmap.BeatmapInfo.ID != deletedDifficultyID);
 
             AddAssert("difficulty is unattached from set",
                 () => Beatmap.Value.BeatmapSetInfo.Beatmaps.Select(b => b.ID), () => Does.Not.Contain(deletedDifficultyID));

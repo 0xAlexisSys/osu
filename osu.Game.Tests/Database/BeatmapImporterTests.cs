@@ -44,7 +44,7 @@ namespace osu.Game.Tests.Database
                     var beatmapSet = await importer.Import(new ImportTask(TestResources.GetTestBeatmapStream(), "renatus.osz"));
 
                     ClassicAssert.NotNull(beatmapSet);
-                    Debug.Assert(beatmapSet != null);
+                    Debug.Assert(beatmapSet is not null);
 
                     BeatmapSetInfo? detachedBeatmapSet = null;
 
@@ -60,7 +60,7 @@ namespace osu.Game.Tests.Database
                         ClassicAssert.AreEqual(live.Metadata, detachedBeatmapSet.Metadata);
                     });
 
-                    Debug.Assert(detachedBeatmapSet != null);
+                    Debug.Assert(detachedBeatmapSet is not null);
 
                     // Check detached instances can all be accessed without throwing.
                     ClassicAssert.AreEqual(0, detachedBeatmapSet.Files.Count);
@@ -86,7 +86,7 @@ namespace osu.Game.Tests.Database
                     var beatmapSet = await importer.Import(new ImportTask(TestResources.GetTestBeatmapStream(), "renatus.osz"));
 
                     ClassicAssert.NotNull(beatmapSet);
-                    Debug.Assert(beatmapSet != null);
+                    Debug.Assert(beatmapSet is not null);
 
                     // Detach at the BeatmapInfo point, similar to what GetWorkingBeatmap does.
                     BeatmapInfo? detachedBeatmap = null;
@@ -95,7 +95,7 @@ namespace osu.Game.Tests.Database
 
                     BeatmapSetInfo? detachedBeatmapSet = detachedBeatmap?.BeatmapSet;
 
-                    Debug.Assert(detachedBeatmapSet != null);
+                    Debug.Assert(detachedBeatmapSet is not null);
 
                     detachedBeatmapSet.Beatmaps[0].Metadata.Artist = "New Artist";
                     detachedBeatmapSet.Beatmaps[0].Metadata.Author = "peppy";
@@ -138,13 +138,13 @@ namespace osu.Game.Tests.Database
                         var beatmapSet = await importer.Import(new ImportTask(TestResources.GetTestBeatmapStream(), "renatus.osz"));
 
                         ClassicAssert.NotNull(beatmapSet);
-                        Debug.Assert(beatmapSet != null);
+                        Debug.Assert(beatmapSet is not null);
 
                         // Intentionally detach on async thread as to not trigger a refresh on the main thread.
                         beatmapSet.PerformRead(s => detachedSet = s.Detach());
                     }).WaitSafely();
 
-                    Debug.Assert(detachedSet != null);
+                    Debug.Assert(detachedSet is not null);
                     manager.AddFile(detachedSet, new MemoryStream(), "test");
                 }
             });
@@ -165,7 +165,7 @@ namespace osu.Game.Tests.Database
                     ClassicAssert.AreEqual(1, realm.Realm.All<BeatmapSetInfo>().Count());
 
                     ClassicAssert.NotNull(imported);
-                    Debug.Assert(imported != null);
+                    Debug.Assert(imported is not null);
 
                     imported.PerformWrite(s => s.DeletePending = true);
 
@@ -241,7 +241,7 @@ namespace osu.Game.Tests.Database
                 }
 
                 ClassicAssert.NotNull(importedSet);
-                Debug.Assert(importedSet != null);
+                Debug.Assert(importedSet is not null);
 
                 ClassicAssert.True(File.Exists(tempPath), "Stream source file somehow went missing");
                 File.Delete(tempPath);
@@ -345,7 +345,7 @@ namespace osu.Game.Tests.Database
                     EnsureLoaded(realm.Realm);
 
                     ClassicAssert.NotNull(importedSecondTime);
-                    Debug.Assert(importedSecondTime != null);
+                    Debug.Assert(importedSecondTime is not null);
 
                     // but contents doesn't, so existing should still be used.
                     ClassicAssert.True(imported.ID == importedSecondTime.ID);
@@ -397,7 +397,7 @@ namespace osu.Game.Tests.Database
 
                     // check the newly "imported" beatmap is not the original.
                     ClassicAssert.NotNull(importedSecondTime);
-                    Debug.Assert(importedSecondTime != null);
+                    Debug.Assert(importedSecondTime is not null);
 
                     ClassicAssert.True(imported.ID != importedSecondTime.ID);
                     ClassicAssert.True(imported.Beatmaps.First().ID != importedSecondTime.PerformRead(s => s.Beatmaps.First().ID));
@@ -494,7 +494,7 @@ namespace osu.Game.Tests.Database
 
                 // check the newly "imported" beatmap is not the original.
                 ClassicAssert.NotNull(importedSecondTime);
-                Debug.Assert(importedSecondTime != null);
+                Debug.Assert(importedSecondTime is not null);
                 Assert.That(imported.ID != importedSecondTime.ID);
 
                 var importedFirstTimeBeatmap = imported.Beatmaps.First();
@@ -543,7 +543,7 @@ namespace osu.Game.Tests.Database
                     EnsureLoaded(realm.Realm);
 
                     ClassicAssert.NotNull(importedSecondTime);
-                    Debug.Assert(importedSecondTime != null);
+                    Debug.Assert(importedSecondTime is not null);
 
                     // check the newly "imported" beatmap is not the original.
                     ClassicAssert.True(imported.ID != importedSecondTime.ID);
@@ -591,7 +591,7 @@ namespace osu.Game.Tests.Database
                     EnsureLoaded(realm.Realm);
 
                     ClassicAssert.NotNull(importedSecondTime);
-                    Debug.Assert(importedSecondTime != null);
+                    Debug.Assert(importedSecondTime is not null);
 
                     // check the newly "imported" beatmap is not the original.
                     ClassicAssert.True(imported.ID != importedSecondTime.ID);
@@ -678,7 +678,7 @@ namespace osu.Game.Tests.Database
 
                 Logger.NewEntry += l =>
                 {
-                    if (l.Target == LoggingTarget.Database && l.Exception != null)
+                    if (l.Target == LoggingTarget.Database && l.Exception is not null)
                         Interlocked.Increment(ref loggedExceptionCount);
                 };
 
@@ -1005,7 +1005,7 @@ namespace osu.Game.Tests.Database
                     var imported = await importer.Import(new ImportTask(temp));
 
                     ClassicAssert.NotNull(imported);
-                    Debug.Assert(imported != null);
+                    Debug.Assert(imported is not null);
 
                     EnsureLoaded(realm.Realm);
 
@@ -1055,7 +1055,7 @@ namespace osu.Game.Tests.Database
                     var imported = await importer.Import(new ImportTask(temp));
 
                     ClassicAssert.NotNull(imported);
-                    Debug.Assert(imported != null);
+                    Debug.Assert(imported is not null);
 
                     EnsureLoaded(realm.Realm);
 
@@ -1116,7 +1116,7 @@ namespace osu.Game.Tests.Database
             var importedSet = await importer.Import(new ImportTask(temp), new ImportParameters { Batch = batchImport });
 
             ClassicAssert.NotNull(importedSet);
-            Debug.Assert(importedSet != null);
+            Debug.Assert(importedSet is not null);
 
             EnsureLoaded(realm);
 

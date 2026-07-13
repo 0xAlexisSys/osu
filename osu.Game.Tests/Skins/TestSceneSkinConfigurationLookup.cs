@@ -79,7 +79,7 @@ namespace osu.Game.Tests.Skins
         [Test]
         public void TestLookupFailure()
         {
-            AddAssert("Check lookup failure", () => requester.GetConfig<string, float>("Lookup") == null);
+            AddAssert("Check lookup failure", () => requester.GetConfig<string, float>("Lookup") is null);
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace osu.Game.Tests.Skins
             AddAssert("Check lookup null", () =>
             {
                 var bindable = requester.GetConfig<string, string>("Lookup");
-                return bindable != null && bindable.Value == null;
+                return bindable is not null && bindable.Value is null;
             });
         }
 
@@ -146,7 +146,7 @@ namespace osu.Game.Tests.Skins
             AddStep("Disallow default colours fallback in beatmap skin", () => beatmapSource.Configuration.AllowDefaultComboColoursFallback = false);
 
             AddAssert("Check retrieved combo colours from user skin", () =>
-                userSource.Configuration.ComboColours != null &&
+                userSource.Configuration.ComboColours is not null &&
                 (requester.GetConfig<GlobalSkinColours, IReadOnlyList<Color4>>(GlobalSkinColours.ComboColours)?.Value?.SequenceEqual(userSource.Configuration.ComboColours) ?? false));
         }
 

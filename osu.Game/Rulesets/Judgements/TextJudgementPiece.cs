@@ -22,7 +22,7 @@ namespace osu.Game.Rulesets.Judgements
     {
         private static readonly Dictionary<HitResult, PropertyPair> cached_regular_property_pairs = [];
 
-        private static readonly ImmutableArray<PropertyPair> cached_special_property_pairs =
+        private static readonly ImmutableArray<PropertyPair> cached_alternative_property_pairs =
         [
             (Color4Extensions.FromHex(@"b3d944"), HitResult.Good.GetDescription().ToUpperInvariant()), // Katu 100
             (Color4Extensions.FromHex(@"99eeff"), HitResult.Good.GetDescription().ToUpperInvariant()), // Katu 300
@@ -49,9 +49,9 @@ namespace osu.Game.Rulesets.Judgements
         {
             AddInternal(Label = CreateJudgementText().With(d =>
             {
-                var regularPropertyPair = getCachedRegularPropertyPair();
-                d.Colour = regularPropertyPair.colour;
-                d.Text = regularPropertyPair.text;
+                var propertyPair = getCachedRegularPropertyPair();
+                d.Colour = propertyPair.colour;
+                d.Text = propertyPair.text;
             }));
         }
 
@@ -71,24 +71,24 @@ namespace osu.Game.Rulesets.Judgements
                 SpecialJudgement.None => getCachedRegularPropertyPair(),
                 SpecialJudgement.Katu => Result switch
                 {
-                    HitResult.Ok => cached_special_property_pairs[0],
-                    HitResult.Great => cached_special_property_pairs[1],
+                    HitResult.Ok => cached_alternative_property_pairs[0],
+                    HitResult.Great => cached_alternative_property_pairs[1],
                     _ => throw new InvalidEnumArgumentException(nameof(Result), (int)Result, typeof(HitResult)),
                 },
-                SpecialJudgement.Geki => cached_special_property_pairs[2],
+                SpecialJudgement.Geki => cached_alternative_property_pairs[2],
                 _ => throw new InvalidEnumArgumentException(nameof(specialJudgement), (int)specialJudgement, typeof(SpecialJudgement)),
             };
         }
 
         private PropertyPair getCachedRegularPropertyPair()
         {
-            if (!cached_regular_property_pairs.TryGetValue(Result, out var regularPropertyPair))
+            if (!cached_regular_property_pairs.TryGetValue(Result, out var propertyPair))
             {
-                regularPropertyPair = (colours.ForHitResult(Result), Result.GetDescription().ToUpperInvariant());
-                cached_regular_property_pairs.Add(Result, regularPropertyPair);
+                propertyPair = (colours.ForHitResult(Result), Result.GetDescription().ToUpperInvariant());
+                cached_regular_property_pairs.Add(Result, propertyPair);
             }
 
-            return regularPropertyPair;
+            return propertyPair;
         }
     }
 }

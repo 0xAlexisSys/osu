@@ -17,7 +17,7 @@ namespace osu.Game.Skinning
 {
     public partial class LegacyJudgementPiece : CompositeDrawable, IAnimatableJudgement
     {
-        private static readonly ImmutableArray<string> cached_special_texture_paths =
+        private static readonly ImmutableArray<string> cached_alternative_texture_paths =
         [
             @"hit100k", // Katu 100
             @"hit300k", // Katu 300
@@ -50,9 +50,9 @@ namespace osu.Game.Skinning
 
             foreach (string alternativeAnimationName in getAlternativeAnimationNamesForResult())
             {
-                if (createAnimationByName(alternativeAnimationName) is null) continue;
+                if (createAnimationByName.Invoke(alternativeAnimationName) is null) continue;
 
-                Func<Drawable> createAlternativeAnimation = () => createAnimationByName(alternativeAnimationName)!;
+                Func<Drawable> createAlternativeAnimation = () => createAnimationByName.Invoke(alternativeAnimationName)!;
 
                 IAnimatableJudgement alternativePiece = particle is not null
                     ? new LegacyJudgementPieceNew(result, createAlternativeAnimation, particle)
@@ -96,13 +96,13 @@ namespace osu.Game.Skinning
             switch (result)
             {
                 case HitResult.Ok:
-                    yield return cached_special_texture_paths[0];
+                    yield return cached_alternative_texture_paths[0];
 
                     break;
 
                 case HitResult.Great:
-                    yield return cached_special_texture_paths[1];
-                    yield return cached_special_texture_paths[2];
+                    yield return cached_alternative_texture_paths[1];
+                    yield return cached_alternative_texture_paths[2];
 
                     break;
             }
@@ -119,11 +119,11 @@ namespace osu.Game.Skinning
                 SpecialJudgement.None => null,
                 SpecialJudgement.Katu => result switch
                 {
-                    HitResult.Ok => cached_special_texture_paths[0],
-                    HitResult.Great => cached_special_texture_paths[1],
+                    HitResult.Ok => cached_alternative_texture_paths[0],
+                    HitResult.Great => cached_alternative_texture_paths[1],
                     _ => throw new InvalidEnumArgumentException(nameof(result), (int)result, typeof(HitResult)),
                 },
-                SpecialJudgement.Geki => cached_special_texture_paths[2],
+                SpecialJudgement.Geki => cached_alternative_texture_paths[2],
                 _ => throw new InvalidEnumArgumentException(nameof(specialJudgement), (int)specialJudgement, typeof(SpecialJudgement)),
             };
         }

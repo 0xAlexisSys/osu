@@ -472,15 +472,15 @@ namespace osu.Game.Skinning
                         Func<Drawable> createDrawable = () => getJudgementAnimation(resultComponent.Component).AsNonNull();
 
                         var particle = getParticleTexture(resultComponent.Component);
+                        Drawable piece = particle is not null
+                            ? new LegacyJudgementPieceNew(resultComponent.Component, createDrawable, particle)
+                            : new LegacyJudgementPieceOld(resultComponent.Component, createDrawable);
 
-                        IAnimatableJudgement regularPiece;
-
-                        if (particle is not null)
-                            regularPiece = new LegacyJudgementPieceNew(resultComponent.Component, createDrawable, particle);
-                        else
-                            regularPiece = new LegacyJudgementPieceOld(resultComponent.Component, createDrawable);
-
-                        return new LegacyJudgementPiece(resultComponent.Component, regularPiece, animName => this.GetAnimation(animName, true, false), particle);
+                        // [alexis] The miss judgment does not appear if it is part of LegacyJudgementPiece,
+                        //          bizarrely enough. Other judgments appear normally, so this is a real mystery...
+                        return !resultComponent.Component.IsMiss()
+                            ? new LegacyJudgementPiece(resultComponent.Component, (IAnimatableJudgement)piece, animName => this.GetAnimation(animName, true, false), particle)
+                            : piece;
                     }
 
                     return null;

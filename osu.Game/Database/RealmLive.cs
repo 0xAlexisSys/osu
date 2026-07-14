@@ -4,7 +4,6 @@
 using System;
 using System.Diagnostics;
 using osu.Framework.Development;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Statistics;
 using Realms;
 
@@ -134,7 +133,7 @@ namespace osu.Game.Database
         {
             Debug.Assert(ThreadSafety.IsUpdateThread);
 
-            if (dataIsFromUpdateThread && !data.Realm.AsNonNull().IsClosed)
+            if (dataIsFromUpdateThread && !data.Realm!.IsClosed)
             {
                 RealmLiveStatistics.USAGE_UPDATE_IMMEDIATE.Value++;
                 return;

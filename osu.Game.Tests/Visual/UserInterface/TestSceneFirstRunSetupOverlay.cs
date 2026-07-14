@@ -11,7 +11,6 @@ using Moq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
@@ -86,7 +85,7 @@ namespace osu.Game.Tests.Visual.UserInterface
 
             AddUntilStep("step through", () =>
             {
-                if (overlay.CurrentScreen?.IsLoaded != false) overlay.NextButton.AsNonNull().TriggerClick();
+                if (overlay.CurrentScreen?.IsLoaded != false) overlay.NextButton!.TriggerClick();
                 return overlay.State.Value == Visibility.Hidden;
             });
 
@@ -111,7 +110,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                     if (keyboard)
                         InputManager.Key(Key.Enter);
                     else
-                        overlay.NextButton.AsNonNull().TriggerClick();
+                        overlay.NextButton!.TriggerClick();
                 }
 
                 return overlay.State.Value == Visibility.Hidden;
@@ -132,7 +131,7 @@ namespace osu.Game.Tests.Visual.UserInterface
         {
             AddUntilStep("step to last", () =>
             {
-                var nextButton = overlay.NextButton.AsNonNull();
+                var nextButton = overlay.NextButton!;
 
                 if (overlay.CurrentScreen?.IsLoaded != false)
                     nextButton.TriggerClick();
@@ -190,7 +189,7 @@ namespace osu.Game.Tests.Visual.UserInterface
         [Test]
         public void TestResumeViaNotification()
         {
-            AddStep("step to next", () => overlay.NextButton.AsNonNull().TriggerClick());
+            AddStep("step to next", () => overlay.NextButton!.TriggerClick());
 
             AddAssert("is at known screen", () => overlay.CurrentScreen is ScreenUIScale);
 

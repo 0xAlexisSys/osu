@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Localisation;
 using osu.Framework.Logging;
@@ -131,7 +130,7 @@ namespace osu.Game.Screens.Edit.Setup
 
             changeResource(source, applyToAllDifficulties, @"bg",
                 working => working.BeatmapInfo.Metadata.BackgroundFile,
-                (working, name) => working.BeatmapInfo.Metadata.BackgroundFile = name.AsNonNull());
+                (working, name) => working.BeatmapInfo.Metadata.BackgroundFile = name!);
 
             backgroundPreview.UpdateBackground();
             editor?.ApplyToBackground(bg => ((EditorBackgroundScreen)bg).RefreshBackgroundAsync());
@@ -184,7 +183,7 @@ namespace osu.Game.Screens.Edit.Setup
                 working => working.BeatmapInfo.Metadata.AudioFile,
                 (working, name) =>
                 {
-                    working.BeatmapInfo.Metadata.AudioFile = name.AsNonNull();
+                    working.BeatmapInfo.Metadata.AudioFile = name!;
 
                     if (!string.IsNullOrWhiteSpace(artist))
                     {

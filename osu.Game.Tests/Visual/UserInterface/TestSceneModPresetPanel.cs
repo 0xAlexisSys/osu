@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Testing;
@@ -56,16 +55,16 @@ namespace osu.Game.Tests.Visual.UserInterface
                 Origin = Anchor.Centre,
                 Width = 0.5f
             });
-            AddAssert("panel is not active", () => !panel.AsNonNull().Active.Value);
+            AddAssert("panel is not active", () => !panel!.Active.Value);
 
             AddStep("set mods to HR", () => SelectedMods.Value = new[] { new OsuModHardRock() });
-            AddAssert("panel is not active", () => !panel.AsNonNull().Active.Value);
+            AddAssert("panel is not active", () => !panel!.Active.Value);
 
             AddStep("set mods to DT", () => SelectedMods.Value = new[] { new OsuModDoubleTime() });
-            AddAssert("panel is not active", () => !panel.AsNonNull().Active.Value);
+            AddAssert("panel is not active", () => !panel!.Active.Value);
 
             AddStep("set mods to HR+DT", () => SelectedMods.Value = new Mod[] { new OsuModHardRock(), new OsuModDoubleTime() });
-            AddAssert("panel is active", () => panel.AsNonNull().Active.Value);
+            AddAssert("panel is active", () => panel!.Active.Value);
 
             AddStep("set mods to HR+customised DT", () => SelectedMods.Value = new Mod[]
             {
@@ -75,20 +74,20 @@ namespace osu.Game.Tests.Visual.UserInterface
                     SpeedChange = { Value = 1.25 }
                 }
             });
-            AddAssert("panel is not active", () => !panel.AsNonNull().Active.Value);
+            AddAssert("panel is not active", () => !panel!.Active.Value);
 
             AddStep("set mods to HR+DT", () => SelectedMods.Value = new Mod[] { new OsuModHardRock(), new OsuModDoubleTime() });
-            AddAssert("panel is active", () => panel.AsNonNull().Active.Value);
+            AddAssert("panel is active", () => panel!.Active.Value);
 
             AddStep("customise mod in place", () => SelectedMods.Value.OfType<OsuModDoubleTime>().Single().SpeedChange.Value = 1.33);
-            AddAssert("panel is not active", () => !panel.AsNonNull().Active.Value);
+            AddAssert("panel is not active", () => !panel!.Active.Value);
 
             AddStep("set mods to HD+HR+DT", () => SelectedMods.Value = new Mod[] { new OsuModHidden(), new OsuModHardRock(), new OsuModDoubleTime() });
-            AddAssert("panel is not active", () => !panel.AsNonNull().Active.Value);
+            AddAssert("panel is not active", () => !panel!.Active.Value);
 
             // system mods are not included in presets.
             AddStep("set mods to HR+DT+TD", () => SelectedMods.Value = new Mod[] { new OsuModHardRock(), new OsuModDoubleTime(), new OsuModTouchDevice() });
-            AddAssert("panel is active", () => panel.AsNonNull().Active.Value);
+            AddAssert("panel is active", () => panel!.Active.Value);
         }
 
         [Test]
@@ -103,22 +102,22 @@ namespace osu.Game.Tests.Visual.UserInterface
                 Width = 0.5f
             });
 
-            AddStep("activate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("activate panel", () => panel!.TriggerClick());
             assertSelectedModsEquivalentTo(new Mod[] { new OsuModHardRock(), new OsuModDoubleTime() });
 
-            AddStep("deactivate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("deactivate panel", () => panel!.TriggerClick());
             assertSelectedModsEquivalentTo([]);
 
             AddStep("set different mod", () => SelectedMods.Value = new[] { new OsuModHidden() });
-            AddStep("activate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("activate panel", () => panel!.TriggerClick());
             assertSelectedModsEquivalentTo(new Mod[] { new OsuModHardRock(), new OsuModDoubleTime() });
 
             AddStep("set customised mod", () => SelectedMods.Value = new[] { new OsuModDoubleTime { SpeedChange = { Value = 1.25 } } });
-            AddStep("activate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("activate panel", () => panel!.TriggerClick());
             assertSelectedModsEquivalentTo(new Mod[] { new OsuModHardRock(), new OsuModDoubleTime { SpeedChange = { Value = 1.5 } } });
 
             AddStep("set system mod", () => SelectedMods.Value = new[] { new OsuModTouchDevice() });
-            AddStep("activate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("activate panel", () => panel!.TriggerClick());
             assertSelectedModsEquivalentTo(new Mod[] { new OsuModTouchDevice(), new OsuModHardRock(), new OsuModDoubleTime { SpeedChange = { Value = 1.5 } } });
         }
 
@@ -144,17 +143,17 @@ namespace osu.Game.Tests.Visual.UserInterface
             });
 
             AddStep("Add touch device to selected mods", () => SelectedMods.Value = new Mod[] { new OsuModTouchDevice() });
-            AddStep("activate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("activate panel", () => panel!.TriggerClick());
 
             // touch device should be removed due to incompatibility with autopilot.
             assertSelectedModsEquivalentTo(new Mod[] { new OsuModAutopilot() });
 
-            AddStep("deactivate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("deactivate panel", () => panel!.TriggerClick());
             assertSelectedModsEquivalentTo([]);
 
             // just for test purposes, can't/shouldn't happen in reality
             AddStep("Add score v2 to selected mod", () => SelectedMods.Value = new Mod[] { new ModScoreV2() });
-            AddStep("activate panel", () => panel.AsNonNull().TriggerClick());
+            AddStep("activate panel", () => panel!.TriggerClick());
 
             assertSelectedModsEquivalentTo(new Mod[] { new OsuModAutopilot(), new ModScoreV2() });
         }

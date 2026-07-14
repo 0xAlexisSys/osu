@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Platform;
 
 namespace osu.Game.Rulesets
@@ -38,7 +37,7 @@ namespace osu.Game.Rulesets
             List<Ruleset> instances = LoadedAssemblies.Values
                                                       .Select(r => Activator.CreateInstance(r) as Ruleset)
                                                       .Where(r => r is not null)
-                                                      .Select(r => r.AsNonNull())
+                                                      .Select(r => r!)
                                                       .ToList();
 
             // add all legacy rulesets first to ensure they have exclusive choice of primary key.

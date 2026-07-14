@@ -8,7 +8,6 @@ using System.Text;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
@@ -91,7 +90,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddUntilStep("wait for exit", () => !Editor.IsCurrentScreen());
             AddStep("release", () => InputManager.ReleaseButton(MouseButton.Left));
 
-            AddAssert("new beatmap not persisted", () => beatmapManager.QueryBeatmapSet(s => s.ID == editorBeatmap.BeatmapInfo.BeatmapSet.AsNonNull().ID)?.Value.DeletePending == true);
+            AddAssert("new beatmap not persisted", () => beatmapManager.QueryBeatmapSet(s => s.ID == editorBeatmap.BeatmapInfo.BeatmapSet!.ID)?.Value.DeletePending == true);
 
             AddUntilStep("wait for default beatmap", () => Editor.Beatmap.Value is DummyWorkingBeatmap);
         }
@@ -352,7 +351,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddStep("set approach rate", () => EditorBeatmap.Difficulty.ApproachRate = 4);
             AddStep("set combo colours", () =>
             {
-                var beatmapSkin = EditorBeatmap.BeatmapSkin.AsNonNull();
+                var beatmapSkin = EditorBeatmap.BeatmapSkin!;
                 beatmapSkin.ComboColours.Clear();
                 beatmapSkin.ComboColours.AddRange(new[]
                 {
@@ -396,7 +395,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddAssert("created difficulty has objects", () => EditorBeatmap.HitObjects.Count == 2);
             AddAssert("created difficulty has bookmarks", () => EditorBeatmap.Bookmarks.Count == 2);
             AddAssert("approach rate correctly copied", () => EditorBeatmap.Difficulty.ApproachRate == 4);
-            AddAssert("combo colours correctly copied", () => EditorBeatmap.BeatmapSkin.AsNonNull().ComboColours.Count == 2);
+            AddAssert("combo colours correctly copied", () => EditorBeatmap.BeatmapSkin!.ComboColours.Count == 2);
 
             ensureEditorLoaded();
 
@@ -421,7 +420,7 @@ namespace osu.Game.Tests.Visual.Editing
                            && s.Beatmaps.Any(b => b.DifficultyName == originalDifficultyName)
                            && s.Beatmaps.Any(b => b.DifficultyName == copyDifficultyName));
             });
-            AddAssert("old beatmap file not deleted", () => refetchedBeatmapSet.AsNonNull().PerformRead(s => s.Files.Count == 2));
+            AddAssert("old beatmap file not deleted", () => refetchedBeatmapSet!.PerformRead(s => s.Files.Count == 2));
         }
 
         [Test]

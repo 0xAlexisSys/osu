@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics.Audio;
 using osu.Framework.Testing;
 using osu.Game.Beatmaps;
@@ -79,7 +78,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             AddStep("setup mod", () =>
             {
-                ModRateAdjust testedMod = (ModRateAdjust)Activator.CreateInstance(expectedMod).AsNonNull();
+                ModRateAdjust testedMod = (ModRateAdjust)Activator.CreateInstance(expectedMod)!;
                 testedMod.SpeedChange.Value = expectedRate;
                 storyboardMods = new[] { testedMod };
             });
@@ -99,7 +98,7 @@ namespace osu.Game.Tests.Visual.Gameplay
         {
             AddStep("setup mod", () =>
             {
-                ModTimeRamp testedMod = (ModTimeRamp)Activator.CreateInstance(expectedMod).AsNonNull();
+                ModTimeRamp testedMod = (ModTimeRamp)Activator.CreateInstance(expectedMod)!;
                 testedMod.InitialRate.Value = initialRate;
                 testedMod.FinalRate.Value = finalRate;
                 storyboardMods = new[] { testedMod };

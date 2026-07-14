@@ -1,7 +1,6 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Game.Rulesets.Mania.Configuration;
 using osu.Game.Rulesets.Mania.UI;
 using osu.Game.Tests.Visual;
@@ -22,7 +21,7 @@ namespace osu.Game.Rulesets.Mania.Tests
 
         private void changeDirectionTo(ManiaScrollingDirection direction)
         {
-            var rulesetConfig = (ManiaRulesetConfigManager)RulesetConfigs.GetConfigFor(new ManiaRuleset()).AsNonNull();
+            var rulesetConfig = (ManiaRulesetConfigManager)RulesetConfigs.GetConfigFor(new ManiaRuleset())!;
             rulesetConfig.SetValue(ManiaRulesetSetting.ScrollDirection, direction);
         }
     }

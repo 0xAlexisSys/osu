@@ -246,7 +246,7 @@ namespace osu.Game.Tests.Visual.Gameplay
 
             CreateTest();
 
-            AddAssert("score has custom ruleset", () => Player.Score.ScoreInfo.Ruleset.Equals(customRuleset.AsNonNull().RulesetInfo));
+            AddAssert("score has custom ruleset", () => Player.Score.ScoreInfo.Ruleset.Equals(customRuleset!.RulesetInfo));
 
             AddUntilStep("wait for track to start running", () => Beatmap.Value.Track.IsRunning);
 

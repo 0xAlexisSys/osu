@@ -6,7 +6,6 @@
 using System;
 using JetBrains.Annotations;
 using osu.Framework.Allocation;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Logging;
@@ -92,7 +91,7 @@ namespace osu.Game.Screens.Edit
                 try
                 {
                     // fetch a fresh detached reference from database to avoid polluting model instances attached to cached working beatmaps.
-                    var targetBeatmapSet = beatmapManager.QueryBeatmap(b => b.ID == referenceBeatmapInfo.ID).AsNonNull().BeatmapSet.AsNonNull();
+                    var targetBeatmapSet = beatmapManager.QueryBeatmap(b => b.ID == referenceBeatmapInfo.ID)!.BeatmapSet!;
                     var referenceWorkingBeatmap = beatmapManager.GetWorkingBeatmap(referenceBeatmapInfo);
 
                     return createCopy

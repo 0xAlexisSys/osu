@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using osu.Framework.Extensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Logging;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
@@ -578,7 +577,7 @@ namespace osu.Game.Tests.Database
 
                     // change filename
                     var firstFile = new FileInfo(Directory.GetFiles(extractedFolder).First());
-                    firstFile.MoveTo(Path.Combine(firstFile.DirectoryName.AsNonNull(), $"{firstFile.Name}-changed{firstFile.Extension}"));
+                    firstFile.MoveTo(Path.Combine(firstFile.DirectoryName!, $"{firstFile.Name}-changed{firstFile.Extension}"));
 
                     using (var zip = ZipArchive.CreateArchive())
                     {

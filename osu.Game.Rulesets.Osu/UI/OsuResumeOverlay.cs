@@ -3,7 +3,6 @@
 
 using System;
 using osu.Framework.Allocation;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
@@ -55,7 +54,7 @@ namespace osu.Game.Rulesets.Osu.UI
                         // we cannot do this from OsuClickToResumeCursor directly since we're in a different input manager tree than the gameplay one,
                         // so we rely on a dedicated input blocking component that's implanted in there to do that for us.
                         // note this only matters when the user didn't pause while they were holding the same key that they are resuming with.
-                        if (inputBlocker is not null && !drawableOsuRuleset.AsNonNull().KeyBindingInputManager.PressedActions.Contains(action))
+                        if (inputBlocker is not null && !drawableOsuRuleset!.KeyBindingInputManager.PressedActions.Contains(action))
                             inputBlocker.BlockNextPress = true;
 
                         Resume();

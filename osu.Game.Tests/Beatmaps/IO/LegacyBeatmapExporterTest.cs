@@ -8,7 +8,6 @@ using System.Text;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Extensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Testing;
 using osu.Game.Beatmaps;
 using osu.Game.Database;
@@ -231,13 +230,13 @@ namespace osu.Game.Tests.Beatmaps.IO
         private IWorkingBeatmap importBeatmapFromStream(Stream stream)
         {
             var imported = beatmaps.Import(new ImportTask(stream, "filename.osz")).GetResultSafely();
-            return imported.AsNonNull().PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
+            return imported!.PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
         }
 
         private IWorkingBeatmap importBeatmapFromArchives(string filename)
         {
             var imported = beatmaps.Import(new ImportTask(TestResources.OpenResource($@"Archives/{filename}"), filename)).GetResultSafely();
-            return imported.AsNonNull().PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
+            return imported!.PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
         }
     }
 }

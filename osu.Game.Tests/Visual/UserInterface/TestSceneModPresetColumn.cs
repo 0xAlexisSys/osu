@@ -459,7 +459,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                     new OsuModHardRock(),
                     new OsuModDoubleTime()
                 },
-                Ruleset = rulesets.GetRuleset(0).AsNonNull()
+                Ruleset = rulesets.GetRuleset(0)!
             },
             new ModPreset
             {
@@ -472,7 +472,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                         ApproachRate = { Value = 0 }
                     }
                 },
-                Ruleset = rulesets.GetRuleset(0).AsNonNull()
+                Ruleset = rulesets.GetRuleset(0)!
             },
             new ModPreset
             {
@@ -483,7 +483,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                     new OsuModFlashlight(),
                     new OsuModSpinIn()
                 },
-                Ruleset = rulesets.GetRuleset(0).AsNonNull()
+                Ruleset = rulesets.GetRuleset(0)!
             },
             new ModPreset
             {
@@ -494,7 +494,7 @@ namespace osu.Game.Tests.Visual.UserInterface
                     new ManiaModKey4(),
                     new ManiaModFadeIn()
                 },
-                Ruleset = rulesets.GetRuleset(3).AsNonNull()
+                Ruleset = rulesets.GetRuleset(3)!
             }
         };
 

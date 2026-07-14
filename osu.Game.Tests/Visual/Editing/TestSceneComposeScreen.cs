@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Testing;
@@ -73,7 +72,7 @@ namespace osu.Game.Tests.Visual.Editing
             AddAssert("legacy beatmap skin has transformer", () =>
             {
                 var sources = this.ChildrenOfType<BeatmapSkinProvidingContainer>().First().AllSources;
-                return sources.OfType<LegacySkinTransformer>().Count(t => t.Skin == editorBeatmap.BeatmapSkin.AsNonNull().Skin) == 1;
+                return sources.OfType<LegacySkinTransformer>().Count(t => t.Skin == editorBeatmap.BeatmapSkin!.Skin) == 1;
             });
         }
     }

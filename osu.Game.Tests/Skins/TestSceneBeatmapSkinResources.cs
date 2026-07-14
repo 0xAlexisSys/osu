@@ -6,7 +6,6 @@ using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
 using osu.Framework.Extensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Testing;
 using osu.Game.Audio;
 using osu.Game.Beatmaps;
@@ -96,13 +95,13 @@ namespace osu.Game.Tests.Skins
         private IWorkingBeatmap importBeatmapFromStream(Stream stream)
         {
             var imported = beatmaps.Import(new ImportTask(stream, "filename.osz")).GetResultSafely();
-            return imported.AsNonNull().PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
+            return imported!.PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
         }
 
         private IWorkingBeatmap importBeatmapFromArchives(string filename)
         {
             var imported = beatmaps.Import(new ImportTask(TestResources.OpenResource($@"Archives/{filename}"), filename)).GetResultSafely();
-            return imported.AsNonNull().PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
+            return imported!.PerformRead(s => beatmaps.GetWorkingBeatmap(s.Beatmaps[0]));
         }
     }
 }

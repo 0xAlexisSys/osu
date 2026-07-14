@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Game.Database;
 using Realms;
 
@@ -51,7 +50,7 @@ namespace osu.Game.Rulesets.Mods
 
                 var jsonMods = JsonConvert.DeserializeObject<IEnumerable<JsonMod>>(ModsJson);
                 var ruleset = Ruleset.CreateInstance();
-                return jsonMods.AsNonNull().Select(mod => mod.ToMod(ruleset)).ToArray();
+                return jsonMods!.Select(mod => mod.ToMod(ruleset)).ToArray();
             }
             set
             {

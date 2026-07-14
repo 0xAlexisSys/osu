@@ -11,7 +11,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using osu.Framework.Audio.Sample;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
@@ -469,7 +468,7 @@ namespace osu.Game.Skinning
                     if (getJudgementAnimation(resultComponent.Component) is not null)
                     {
                         // TODO: this should be inside the judgement pieces.
-                        Func<Drawable> createDrawable = () => getJudgementAnimation(resultComponent.Component).AsNonNull();
+                        Func<Drawable> createDrawable = () => getJudgementAnimation(resultComponent.Component)!;
 
                         var particle = getParticleTexture(resultComponent.Component);
                         Drawable piece = particle is not null

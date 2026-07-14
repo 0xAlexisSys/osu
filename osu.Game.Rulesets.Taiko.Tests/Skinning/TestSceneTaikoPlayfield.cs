@@ -4,7 +4,6 @@
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Extensions.IEnumerableExtensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Testing;
@@ -67,7 +66,7 @@ namespace osu.Game.Rulesets.Taiko.Tests.Skinning
 
                 this.ChildrenOfType<TaikoPlayfieldAdjustmentContainer>().ForEach(p =>
                 {
-                    var parent = (Container)p.Parent.AsNonNull();
+                    var parent = (Container)p.Parent!;
                     parent.Scale = new Vector2(0.5f + 0.1f * value);
                     parent.Width = 1f / parent.Scale.X;
                     parent.Height = 0.5f / parent.Scale.Y;

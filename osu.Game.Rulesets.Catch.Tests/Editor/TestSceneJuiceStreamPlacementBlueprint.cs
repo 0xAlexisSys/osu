@@ -6,7 +6,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Catch.Edit.Blueprints;
@@ -133,7 +132,7 @@ namespace osu.Game.Rulesets.Catch.Tests.Editor
 
         private float[] getPositions(IEnumerable<double> times)
         {
-            JuiceStream hitObject = lastObject.AsNonNull();
+            JuiceStream hitObject = lastObject!;
             return times
                    .Select(time => (time - hitObject.StartTime) * hitObject.Velocity)
                    .Select(distance => hitObject.EffectiveX + hitObject.Path.PositionAt(distance / hitObject.Distance).X)

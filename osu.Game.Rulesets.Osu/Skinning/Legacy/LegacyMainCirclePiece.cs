@@ -4,7 +4,6 @@
 using System;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
@@ -161,7 +160,7 @@ namespace osu.Game.Rulesets.Osu.Skinning.Legacy
         {
             const double legacy_fade_duration = 240;
 
-            using (BeginAbsoluteSequence(drawableObject.AsNonNull().HitStateUpdateTime))
+            using (BeginAbsoluteSequence(drawableObject!.HitStateUpdateTime))
             {
                 switch (state)
                 {

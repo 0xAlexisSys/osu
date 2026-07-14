@@ -5,7 +5,6 @@ using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Testing;
 using osu.Game.Rulesets.Edit;
 using osu.Game.Rulesets.Mania.Configuration;
@@ -32,7 +31,7 @@ namespace osu.Game.Rulesets.Mania.Tests.Editor
         [BackgroundDependencyLoader]
         private void load()
         {
-            var config = (ManiaRulesetConfigManager)RulesetConfigs.GetConfigFor(Ruleset.Value.CreateInstance()).AsNonNull();
+            var config = (ManiaRulesetConfigManager)RulesetConfigs.GetConfigFor(Ruleset.Value.CreateInstance())!;
             config.BindWith(ManiaRulesetSetting.ScrollDirection, direction);
         }
 

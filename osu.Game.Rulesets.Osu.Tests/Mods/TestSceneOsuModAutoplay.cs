@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Testing;
 using osu.Framework.Utils;
 using osu.Game.Beatmaps;
@@ -110,7 +109,7 @@ namespace osu.Game.Rulesets.Osu.Tests.Mods
                 return spmCalculator is not null;
             });
 
-            AddUntilStep("SPM is correct", () => Precision.AlmostEquals(spmCalculator.AsNonNull().Result.Value, 477, 5));
+            AddUntilStep("SPM is correct", () => Precision.AlmostEquals(spmCalculator!.Result.Value, 477, 5));
         }
     }
 }

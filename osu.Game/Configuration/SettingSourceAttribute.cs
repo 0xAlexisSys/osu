@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Extensions.TypeExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Localisation;
@@ -62,10 +61,10 @@ namespace osu.Game.Configuration
                 switch (property)
                 {
                     case FieldInfo f:
-                        return (LocalisableString)f.GetValue(null).AsNonNull();
+                        return (LocalisableString)f.GetValue(null)!;
 
                     case PropertyInfo p:
-                        return (LocalisableString)p.GetValue(null).AsNonNull();
+                        return (LocalisableString)p.GetValue(null)!;
 
                     default:
                         throw new InvalidOperationException($"Member \"{member}\" was not found in type {declaringType} (must be a static field or property)");

@@ -4,7 +4,6 @@
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Game.Rulesets.Taiko.Configuration;
 using osu.Game.Rulesets.Taiko.UI;
@@ -22,7 +21,7 @@ namespace osu.Game.Rulesets.Taiko.Tests
         [BackgroundDependencyLoader]
         private void load()
         {
-            var config = (TaikoRulesetConfigManager)RulesetConfigs.GetConfigFor(Ruleset.Value.CreateInstance()).AsNonNull();
+            var config = (TaikoRulesetConfigManager)RulesetConfigs.GetConfigFor(Ruleset.Value.CreateInstance())!;
             config.BindWith(TaikoRulesetSetting.TouchControlScheme, controlScheme);
         }
 

@@ -4,7 +4,6 @@
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.LocalisationExtensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
@@ -40,7 +39,7 @@ namespace osu.Game.Overlays
 
         public Bindable<T> Current
         {
-            get => current.AsNonNull();
+            get => current!;
             set
             {
                 current?.UnbindAll();

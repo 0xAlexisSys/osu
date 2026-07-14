@@ -9,7 +9,6 @@ using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
@@ -89,7 +88,7 @@ namespace osu.Game.Screens.Edit.Compose.Components.Timeline
             }
             else
             {
-                placementBlueprint = CreateBlueprintFor(obj.NewValue).AsNonNull();
+                placementBlueprint = CreateBlueprintFor(obj.NewValue)!;
 
                 // just to show the border. using the selection state doesn't seem to backfire.
                 // if it does then we'll probably want to just make `new` object above rather than rely on `CreateBlueprintFor`.

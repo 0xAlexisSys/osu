@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using osu.Framework.Bindables;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Extensions.TypeExtensions;
 using osu.Framework.Graphics;
 using osu.Game.Beatmaps;
@@ -188,7 +187,7 @@ namespace osu.Game.Rulesets.Scoring
                 JudgedHits == MaxHits
                 && (JudgedHits == 0
                     // Last applied result is guaranteed to be non-null when JudgedHits > 0.
-                    || lastAppliedResult.AsNonNull().TimeAbsolute < Clock.CurrentTime);
+                    || lastAppliedResult!.TimeAbsolute < Clock.CurrentTime);
         }
     }
 }

@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using osu.Framework.Extensions.ObjectExtensions;
 
 namespace osu.Game.IO.Serialization.Converters
 {
@@ -63,7 +62,7 @@ namespace osu.Game.IO.Serialization.Converters
                     throw new JsonException("Expected $type token.");
 
                 // Prevent instantiation of types that do not inherit the type targetted by this converter
-                Type type = Type.GetType(lookupTable[(int)tok["$type"]]).AsNonNull();
+                Type type = Type.GetType(lookupTable[(int)tok["$type"]])!;
                 if (!type.IsAssignableTo(typeof(T)))
                     continue;
 

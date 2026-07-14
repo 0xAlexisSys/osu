@@ -9,7 +9,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions;
 using osu.Framework.Extensions.Color4Extensions;
-using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
@@ -177,7 +176,7 @@ namespace osu.Game.Screens.Edit.Components.TernaryButtons
                 }
             }
 
-            public Popover GetPopover() => new ComboColourPalettePopover(ComboColours, SelectedHitObject.Value.AsNonNull(), editorBeatmap);
+            public Popover GetPopover() => new ComboColourPalettePopover(ComboColours, SelectedHitObject.Value!, editorBeatmap);
         }
 
         private partial class ComboColourPalettePopover : OsuPopover
